@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hiram-test.github.io/model/schemas/gate_receipt.schema.json",
+  "title": "Bridge FEM deterministic Gate receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "projectId",
+    "runId",
+    "nodeId",
+    "gateId",
+    "skill",
+    "status",
+    "criterionSummary",
+    "checks",
+    "blockers",
+    "validator",
+    "artifactHashes",
+    "approvals",
+    "evaluatedAt"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "projectId": {"type": "string", "minLength": 1},
+    "runId": {"type": "string", "minLength": 1},
+    "nodeId": {"pattern": "^N(?:0[0-9]|1[0-8])$"},
+    "gateId": {"pattern": "^G(?:-ORCH|[0-9]+[A-Z]?)$"},
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "sha256"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "sha256": {"pattern": "^[a-fA-F0-9]{64}$"}
+      }
+    },
+    "status": {"enum": ["PASS", "PASS_WITH_BOUNDS", "BLOCKED", "NOT_APPLICABLE"]},
+    "criterionSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "executed", "passed", "failed", "unimplemented", "notApplicable"],
+      "properties": {
+        "required": {"type": "integer", "minimum": 0},
+        "executed": {"type": "integer", "minimum": 0},
+        "passed": {"type": "integer", "minimum": 0},
+        "failed": {"type": "integer", "minimum": 0},
+        "unimplemented": {"type": "integer", "minimum": 0},
+        "notApplicable": {"type": "integer", "minimum": 0}
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["criterionId", "mandatory", "status", "checkerId", "checkerVersion", "inputArtifactRefs", "evidenceRefs"],
+        "properties": {
+          "criterionId": {"type": "string", "minLength": 1},
+          "mandatory": {"type": "boolean"},
+          "status": {"enum": ["PASS", "FAIL", "NOT_IMPLEMENTED", "NOT_APPLICABLE"]},
+          "checkerId": {"type": "string", "minLength": 1},
+          "checkerVersion": {"type": "string", "minLength": 1},
+          "inputArtifactRefs": {"type": "array", "items": {"type": "string"}},
+          "threshold": {},
+          "observed": {},
+          "evidenceRefs": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "message": {"type": "string"}
+        }
+      }
+    },
+    "blockers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criticalConflicts", "criticalOrphans", "unapprovedHighSensitivityAssumptions", "blockingIssues"],
+      "properties": {
+        "criticalConflicts": {"type": "array", "items": {"type": "string"}},
+        "criticalOrphans": {"type": "array", "items": {"type": "string"}},
+        "unapprovedHighSensitivityAssumptions": {"type": "array", "items": {"type": "string"}},
+        "blockingIssues": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "bounds": {"type": "array", "items": {"type": "object"}},
+    "notApplicableReason": {"type": "string"},
+    "conditionEvidenceRefs": {"type": "array", "items": {"type": "string"}},
+    "validator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "sha256", "deterministic"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "sha256": {"pattern": "^[a-fA-F0-9]{64}$"},
+        "deterministic": {"const": true}
+      }
+    },
+    "artifactHashes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"pattern": "^[a-fA-F0-9]{64}$"}
+        }
+      }
+    },
+    "approvals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "status", "artifactHash", "approvedAt"],
+        "properties": {
+          "role": {"type": "string", "minLength": 1},
+          "person": {"type": "string"},
+          "status": {"const": "APPROVED"},
+          "artifactHash": {"pattern": "^[a-fA-F0-9]{64}$"},
+          "approvedAt": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "evaluatedAt": {"type": "string", "format": "date-time"}
+  }
+}
