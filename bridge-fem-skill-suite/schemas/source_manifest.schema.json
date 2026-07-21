@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Engineering Source Manifest",
+  "type": "object",
+  "required": [
+    "artifactType",
+    "schemaVersion",
+    "projectId",
+    "runId",
+    "artifactId",
+    "status",
+    "gateId",
+    "data"
+  ],
+  "properties": {
+    "artifactType": {
+      "const": "source_manifest"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^PRJ-"
+    },
+    "runId": {
+      "type": "string",
+      "pattern": "^RUN-"
+    },
+    "artifactId": {
+      "type": "string",
+      "pattern": "^ART-"
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "gateId": {
+      "type": "string"
+    },
+    "inputArtifacts": {
+      "type": "array"
+    },
+    "sourceRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "assumptionRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "issueRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "sources"
+      ],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "sourceId",
+              "pathOrReference",
+              "sha256",
+              "format",
+              "revision",
+              "openStatus"
+            ],
+            "properties": {
+              "sourceId": {
+                "type": "string",
+                "pattern": "^SRC-"
+              },
+              "pathOrReference": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string",
+                "minLength": 32
+              },
+              "format": {
+                "type": "string"
+              },
+              "revision": {
+                "type": "string"
+              },
+              "openStatus": {
+                "enum": [
+                  "OK",
+                  "PARTIAL",
+                  "FAILED"
+                ]
+              },
+              "xrefStatus": {
+                "type": "string"
+              },
+              "declaredUnits": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "quantity": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "basis"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assumptionRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "PASS_WITH_BOUNDS",
+        "BLOCKED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9-]+$"
+    }
+  },
+  "additionalProperties": true
+}

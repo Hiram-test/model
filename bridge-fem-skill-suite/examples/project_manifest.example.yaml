@@ -1,0 +1,21 @@
+project_id: PRJ-EXAMPLE-001
+project_name: 示例桥梁或猫道模型
+run_id: RUN-EXAMPLE-001
+project_stage: preliminary_or_review
+jurisdiction: TO_BE_FILLED
+internal_unit_system: SI_N_m_kg_s_C
+coordinate_convention:
+  global_x: bridge_longitudinal
+  global_y: bridge_transverse
+  global_z: upward
+source_roots:
+  - ./inputs/drawings
+  - ./inputs/design_basis
+  - ./inputs/standards
+solver_targets:
+  - name: TO_BE_SELECTED
+    version: TO_BE_PINNED
+required_approvals:
+  - analysis_lead
+  - independent_checker
+  - approver

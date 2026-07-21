@@ -1,0 +1,29 @@
+rulePackId: RP-EXAMPLE-001
+version: 0.1.0
+status: DRAFT
+sourceStandard:
+  standardId: STD-TO-BE-FROZEN
+  title: TO_BE_FILLED_FROM_OFFICIAL_TEXT
+  version: TO_BE_FILLED
+  sourceId: SRC-STANDARD-001
+  sha256: 0000000000000000000000000000000000000000000000000000000000000000
+rules:
+  - ruleId: RULE-EXAMPLE-001
+    sourceLocator: page_and_clause_TO_BE_FILLED
+    applicability:
+      bridgeFamily: [TO_BE_DEFINED]
+      limitState: TO_BE_DEFINED
+    inputs:
+      - name: demand
+        unitDimension: force_or_moment_TO_BE_DEFINED
+    algorithm:
+      type: deterministic_expression
+      expression: TO_BE_TRANSCRIBED_AND_REVIEWED
+    outputs:
+      - name: decision_metric
+        unit: "1"
+    tests:
+      - testId: TEST-BOUNDARY-001
+        input: TO_BE_FILLED
+        expected: TO_BE_FILLED
+approvals: []

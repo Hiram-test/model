@@ -1,0 +1,123 @@
+version: 1.0.0
+workflow_id: bridge-fem-static-review
+statuses: [PASS, PASS_WITH_BOUNDS, BLOCKED, NOT_APPLICABLE]
+internal_unit_policy: UNIT-POLICY-001
+nodes:
+  - id: N01
+    skill: bridge-analysis-charter
+    requires: [project_request]
+    produces: [analysis_charter, standards_manifest, response_metric_register]
+    gate: G0
+    approvals: [analysis_lead]
+  - id: N02
+    skill: engineering-source-ingestion
+    requires: [analysis_charter, source_files]
+    produces: [source_manifest, revision_register, source_quality_report]
+    gate: G1
+  - id: N03
+    skill: engineering-drawing-data-extraction
+    requires: [analysis_charter, source_manifest]
+    produces: [drawing_entities, extracted_tables, view_register, extraction_issues]
+    gate: G2
+  - id: N04
+    skill: bridge-drawing-registration-reconciliation
+    requires: [drawing_entities, extracted_tables, view_register, revision_register]
+    produces: [evidence_graph, dimension_register, material_register, conflict_register]
+    gate: G3
+    approvals: [drawing_interpreter_on_critical_conflict]
+  - id: N05
+    skill: bridge-structural-semantic-inventory
+    requires: [analysis_charter, evidence_graph]
+    produces: [component_inventory, part_component_map, load_path_graph]
+    gate: G4
+  - id: N06
+    skill: bridge-cad-fem-abstraction
+    requires: [analysis_charter, component_inventory, load_path_graph, evidence_graph]
+    produces: [abstraction_decisions, abstraction_validation_plan]
+    gate: G5
+    approvals: [analysis_lead]
+  - id: N07
+    skill: bridge-fem-topology-geometry-generation
+    requires: [analysis_charter, evidence_graph, abstraction_decisions]
+    produces: [fem_geometry_ir, topology_audit, geometry_overlay_report]
+    gate: G6
+  - id: N08
+    skill: bridge-material-section-mass-properties
+    requires: [analysis_charter, evidence_graph, abstraction_decisions, fem_geometry_ir]
+    produces: [material_library, section_library, mass_ledger, property_audit]
+    gate: G7
+  - id: N09
+    skill: bridge-connections-boundaries-supports
+    requires: [analysis_charter, evidence_graph, abstraction_decisions, fem_geometry_ir, section_library]
+    produces: [connection_ir, boundary_ir, constraint_audit]
+    gate: G8A
+  - id: N10
+    skill: bridge-cable-form-finding-initial-state
+    condition: analysis_charter.requires_initial_state == true
+    requires: [analysis_charter, fem_geometry_ir, material_library, section_library, connection_ir, boundary_ir]
+    produces: [initial_state_ir, form_finding_report, initial_state_scenarios]
+    gate: G8B
+  - id: N11
+    skill: bridge-load-cases-combinations-stages
+    requires: [analysis_charter, standards_manifest, evidence_graph, mass_ledger, boundary_ir]
+    optional_requires: [initial_state_ir]
+    produces: [load_plan, combination_plan, stage_plan, load_ledger]
+    gate: G9
+    approvals: [analysis_lead]
+  - id: N12
+    skill: bridge-elements-mesh-numerical-controls
+    requires: [analysis_charter, abstraction_decisions, fem_geometry_ir, section_library, connection_ir, boundary_ir, load_plan, stage_plan]
+    optional_requires: [initial_state_ir]
+    produces: [fem_model_ir, mesh_plan, convergence_plan, numerical_controls]
+    gate: G10
+  - id: N13
+    skill: bridge-pre-solve-model-verification
+    requires: [analysis_charter, fem_model_ir, load_ledger, convergence_plan]
+    produces: [pre_solve_verification, model_statistics]
+    gate: G11
+  - id: N14
+    skill: bridge-solver-deck-execution
+    requires: [analysis_charter, fem_model_ir, pre_solve_verification]
+    produces: [solver_deck_manifest, solver_run_record, raw_result_manifest]
+    gate: G12
+  - id: N15
+    skill: bridge-solution-verification
+    requires: [analysis_charter, fem_model_ir, solver_run_record, raw_result_manifest, convergence_plan]
+    produces: [solution_verification_report, verified_result_set]
+    gate: G13
+  - id: N16
+    skill: bridge-static-response-code-review
+    requires: [analysis_charter, standards_manifest, abstraction_decisions, verified_result_set]
+    produces: [response_envelopes, design_check_matrix, exception_register]
+    gate: G14
+  - id: N17
+    skill: bridge-independent-check-sensitivity-credibility
+    requires: [analysis_charter, abstraction_decisions, verified_result_set, design_check_matrix]
+    produces: [independent_check_report, sensitivity_report, credibility_assessment]
+    gate: G15
+    approvals: [independent_checker]
+  - id: N18
+    skill: bridge-report-audit-change-control
+    requires: [all_prior_artifacts, gate_ledger]
+    produces: [engineering_report, machine_release_bundle, release_manifest, change_impact_graph]
+    gate: G16
+    approvals: [analysis_lead, checker, approver]
+
+retry_policy:
+  schema_error:
+    max_attempts: 2
+    action: regenerate_same_node_without_changing_engineering_inputs
+  extraction_error:
+    max_attempts: 2
+    action: switch_to_approved_secondary_parser_and_record_toolchain_change
+  solver_nonconvergence:
+    max_attempts: 3
+    action: follow_preapproved_numerical_control_sequence_only
+  critical_conflict:
+    max_attempts: 0
+    action: BLOCKED
+
+change_control:
+  immutable_artifacts: true
+  rerun_from_first_changed_dependency: true
+  always_reevaluate_gates: [G11, G13, G15, G16]

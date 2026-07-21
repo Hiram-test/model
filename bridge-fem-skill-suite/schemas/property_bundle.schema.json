@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/bridge-fem/schemas/bridge_material_section_and_mass_property_bundle.schema.json",
+  "title": "Bridge Material Section and Mass Property Bundle",
+  "type": "object",
+  "required": [
+    "artifactType",
+    "schemaVersion",
+    "projectId",
+    "runId",
+    "artifactId",
+    "status",
+    "gateId",
+    "data"
+  ],
+  "properties": {
+    "artifactType": {
+      "enum": [
+        "material_library",
+        "section_library",
+        "mass_ledger",
+        "property_bundle"
+      ]
+    },
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^PRJ-"
+    },
+    "runId": {
+      "type": "string",
+      "pattern": "^RUN-"
+    },
+    "artifactId": {
+      "type": "string",
+      "pattern": "^ART-"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "createdBy": {
+      "type": "object"
+    },
+    "inputArtifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "artifactId",
+          "sha256"
+        ],
+        "properties": {
+          "artifactId": {
+            "type": "string",
+            "pattern": "^ART-"
+          },
+          "sha256": {
+            "$ref": "#/$defs/sha256"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "gateId": {
+      "const": "G7"
+    },
+    "unitsPolicy": {
+      "type": "string"
+    },
+    "coordinateSystemId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sourceRefs": {
+      "$ref": "#/$defs/sourceRefArray"
+    },
+    "assumptionRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "issueRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approvals": {
+      "type": "array"
+    },
+    "supersedesArtifactId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "materials",
+        "sections",
+        "massItems",
+        "massTotals"
+      ],
+      "properties": {
+        "materials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "materialId",
+              "modelType",
+              "properties"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "sectionId",
+              "sectionType",
+              "properties"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "massItems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "massItemId",
+              "componentId",
+              "mass"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "massTotals": {
+          "type": "object",
+          "required": [
+            "totalMass"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "status": {
+      "enum": [
+        "PASS",
+        "PASS_WITH_BOUNDS",
+        "BLOCKED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "CRITICAL",
+        "MAJOR",
+        "MINOR",
+        "INFO"
+      ]
+    },
+    "quantity": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "basis"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assumptionRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "originalValue": {},
+        "originalUnit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "conversionRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9-]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^(sha256:)?[a-fA-F0-9]{64}$"
+    },
+    "sourceRefArray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "issue": {
+      "type": "object",
+      "required": [
+        "issueId",
+        "severity",
+        "status",
+        "summary"
+      ],
+      "properties": {
+        "issueId": {
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/severity"
+        },
+        "status": {
+          "enum": [
+            "OPEN",
+            "CLOSED",
+            "ACCEPTED",
+            "SUPERSEDED"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 3
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "owner": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

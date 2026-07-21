@@ -1,0 +1,21 @@
+adapterId: SOLVER-ADAPTER-EXAMPLE
+adapterVersion: 0.1.0
+solver:
+  name: TO_BE_SELECTED
+  version: TO_BE_PINNED
+  executableHash: TO_BE_CALCULATED
+features:
+  - featureId: beam_6dof
+    status: SUPPORTED_WITH_LIMITS
+    mapping:
+      solverEntity: TO_BE_FILLED
+      resultFields: TO_BE_FILLED
+    limits:
+      - validation_tests_required
+    testRefs: [G01, G02, G04]
+  - featureId: tension_only_cable_form_finding
+    status: UNSUPPORTED
+    mapping: null
+    limits: []
+    testRefs: [G06, G07]
+validationSuite: [G01, G02, G03, G04]

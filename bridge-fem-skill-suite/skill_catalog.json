@@ -1,0 +1,364 @@
+{
+  "suiteVersion": "1.0.0",
+  "skillCount": 19,
+  "skills": [
+    {
+      "node": "00",
+      "name": "bridge-fem-workflow-orchestrator",
+      "description": "编排桥梁或猫道从原始图纸接入、工程语义化、有限元建模、静力求解、验证、规范复核到发布归档的完整工作流。 当任务需要跨多个 Skill 自动运行、评估质量门、管理条件分支、重试、审批、变更影响和工件追溯时使用。 本 Skill 只负责控制流程和验证数据契约，不代替各专业节点作出具体工程计算结论。",
+      "gate": "G-ORCH",
+      "requires": [
+        "workflow.yaml",
+        "project_manifest"
+      ],
+      "produces": [
+        "run_plan",
+        "gate_ledger",
+        "issue_register"
+      ],
+      "path": "skills/00-bridge-fem-workflow-orchestrator/SKILL.md",
+      "sha256": "6ac554945ca7be88dc795bde33d764f2c5ebf2e0ccc0b8b4ad88d7d8a227072a"
+    },
+    {
+      "node": "01",
+      "name": "bridge-analysis-charter",
+      "description": "在桥梁或猫道建模前冻结模型用途、桥型、分析范围、施工阶段、适用规范、控制响应、验收标准、允许用途和风险等级。 当项目刚启动、分析目标发生变化、规范版本调整或既有模型需要重新界定用途时使用。",
+      "gate": "G0",
+      "requires": [
+        "project_request"
+      ],
+      "produces": [
+        "analysis_charter",
+        "standards_manifest",
+        "response_metric_register"
+      ],
+      "path": "skills/01-bridge-analysis-charter/SKILL.md",
+      "sha256": "b77eed1e0c54d7af8fe75dc35f2aac04f46dc93d7b1a6da78e4091be075f1d90"
+    },
+    {
+      "node": "02",
+      "name": "engineering-source-ingestion",
+      "description": "接收桥梁或猫道项目的 CAD、PDF、图像、表格、设计说明、专项方案、规范和既有模型，建立只读源文件清单、哈希、版本、外部参照、可读性和证据优先级。 当用户上传资料、补充修订图、替换规范或要求从既有项目恢复计算链时使用。",
+      "gate": "G1",
+      "requires": [
+        "analysis_charter",
+        "source_files"
+      ],
+      "produces": [
+        "source_manifest",
+        "revision_register",
+        "source_quality_report"
+      ],
+      "path": "skills/02-engineering-source-ingestion/SKILL.md",
+      "sha256": "2da79355d659893aceac3dd9b077d2a9490a97526adff07acfb71fd48ff2df5d"
+    },
+    {
+      "node": "03",
+      "name": "engineering-drawing-data-extraction",
+      "description": "从桥梁或猫道 CAD、向量 PDF、扫描 PDF 和图像中提取几何实体、文字、尺寸、材料表、构件表、视图、比例、图层、块和来源定位。 当需要把图纸转换为机器可读证据，同时保留 CAD 句柄、PDF 页码区域和识别置信度时使用。",
+      "gate": "G2",
+      "requires": [
+        "analysis_charter",
+        "source_manifest"
+      ],
+      "produces": [
+        "drawing_entities",
+        "extracted_tables",
+        "view_register",
+        "extraction_issues"
+      ],
+      "path": "skills/03-engineering-drawing-data-extraction/SKILL.md",
+      "sha256": "0ac34a4948c720ddaa91a2a33ca9f829436c779ef8764ee26faabe68b255fdf6"
+    },
+    {
+      "node": "04",
+      "name": "bridge-drawing-registration-reconciliation",
+      "description": "对桥梁或猫道多张图纸、多个视图和表格进行坐标配准、单位统一、版本优先级处理、尺寸材料冲突解析、重复对象去重和证据图构建。 当图纸信息分散在总图、构造图、详图、材料表和专项方案中，需要形成唯一可追溯工程事实时使用。",
+      "gate": "G3",
+      "requires": [
+        "drawing_entities",
+        "extracted_tables",
+        "view_register",
+        "revision_register"
+      ],
+      "produces": [
+        "evidence_graph",
+        "dimension_register",
+        "material_register",
+        "conflict_register"
+      ],
+      "path": "skills/04-bridge-drawing-registration-reconciliation/SKILL.md",
+      "sha256": "a00c326a04c80fa0a0671d5d9754eb24d8002a7c680f85f91b8662038b82b7a7"
+    },
+    {
+      "node": "05",
+      "name": "bridge-structural-semantic-inventory",
+      "description": "将已协调的桥梁或猫道图纸事实组织为工程构件组、制造零件映射、结构角色、装配关系和主要传力路径图。 当需要从图纸实体和材料表识别主梁、桥塔、索、支承、连接、附属设施和临时结构，同时保持完整 Part 覆盖时使用。",
+      "gate": "G4",
+      "requires": [
+        "analysis_charter",
+        "evidence_graph"
+      ],
+      "produces": [
+        "component_inventory",
+        "part_component_map",
+        "load_path_graph"
+      ],
+      "path": "skills/05-bridge-structural-semantic-inventory/SKILL.md",
+      "sha256": "e53947cb21673adc7304aa42b62f9be82252e654477f7456d75e50c539369815"
+    },
+    {
+      "node": "06",
+      "name": "bridge-cad-fem-abstraction",
+      "description": "将已完成证据协调和工程构件归并的桥梁、猫道或施工临时结构，转化为面向指定分析目标的有限元工程抽象决策。 当任务需要为每个工程构件组唯一选择显式建模、等效计入、仅计质量/荷载或不纳入，并规定刚度、质量、连接、边界、初始状态和验证目标时使用。 不用于原始 OCR、逐件抄录材料表、无分析目标的几何复刻，也不承担最终设计签认。",
+      "gate": "G5",
+      "requires": [
+        "analysis_charter",
+        "component_inventory",
+        "load_path_graph",
+        "evidence_graph"
+      ],
+      "produces": [
+        "abstraction_decisions",
+        "abstraction_validation_plan"
+      ],
+      "path": "skills/06-bridge-cad-fem-abstraction/SKILL.md",
+      "sha256": "984f4a8fe44fae0541d3dcb465fd22fffd8d0e3b4696a65a461c06af18f6a2bd"
+    },
+    {
+      "node": "07",
+      "name": "bridge-fem-topology-geometry-generation",
+      "description": "根据桥梁 FEM 抽象决策和证据图，生成求解器无关的节点、参考线、中面、实体域、偏心、局部坐标、连接位置和阶段几何。 当需要把工程构件组转化为稳定 ID、可回投图纸、可检查拓扑的参数化有限元几何时使用。",
+      "gate": "G6",
+      "requires": [
+        "analysis_charter",
+        "evidence_graph",
+        "abstraction_decisions"
+      ],
+      "produces": [
+        "fem_geometry_ir",
+        "topology_audit",
+        "geometry_overlay_report"
+      ],
+      "path": "skills/07-bridge-fem-topology-geometry-generation/SKILL.md",
+      "sha256": "bb0eabf6437650e2edbe7850e1d80674e5c183df962c99653022e6294aed2e3c"
+    },
+    {
+      "node": "08",
+      "name": "bridge-material-section-mass-properties",
+      "description": "为桥梁或猫道有限元几何分配材料、截面、等效刚度、密度、线质量、面质量、转动惯量和阶段相关属性，并建立独立属性计算与质量对账。 当需要从图纸、材料表、规范和抽象决策生成可审计的材料库、截面库和质量 ledger 时使用。",
+      "gate": "G7",
+      "requires": [
+        "analysis_charter",
+        "evidence_graph",
+        "abstraction_decisions",
+        "fem_geometry_ir"
+      ],
+      "produces": [
+        "material_library",
+        "section_library",
+        "mass_ledger",
+        "property_audit"
+      ],
+      "path": "skills/08-bridge-material-section-mass-properties/SKILL.md",
+      "sha256": "f378d550b646707e5bde99c056b0f87cc8ea0514262ae1d3cc58f76145d327f9"
+    },
+    {
+      "node": "09",
+      "name": "bridge-connections-boundaries-supports",
+      "description": "为桥梁或猫道有限元模型定义连接、刚臂、MPC、端部释放、弹簧、支座、锚固、基础、接触、间隙、摩擦和土体等效边界，并检查过约束、欠约束和方向错误。 当模型几何和属性已建立，需要把真实连接行为转换为明确自由度关系时使用。",
+      "gate": "G8A",
+      "requires": [
+        "analysis_charter",
+        "evidence_graph",
+        "abstraction_decisions",
+        "fem_geometry_ir",
+        "section_library"
+      ],
+      "produces": [
+        "connection_ir",
+        "boundary_ir",
+        "constraint_audit"
+      ],
+      "path": "skills/09-bridge-connections-boundaries-supports/SKILL.md",
+      "sha256": "e4c396fba088f0303506dc46fca1c451929c030dee57af433b047049fed2c413"
+    },
+    {
+      "node": "10",
+      "name": "bridge-cable-form-finding-initial-state",
+      "description": "为悬索桥、斜拉桥、猫道、临时索系、预应力体系和具有锁定内力的施工阶段建立找形、初张力、初应变、预应力、施工温度和初始平衡状态。 当结构响应依赖线形、垂度、张拉顺序、鞍座/锚固条件、几何非线性或阶段锁定内力时使用。",
+      "gate": "G8B",
+      "requires": [
+        "analysis_charter",
+        "fem_geometry_ir",
+        "material_library",
+        "section_library",
+        "connection_ir",
+        "boundary_ir"
+      ],
+      "produces": [
+        "initial_state_ir",
+        "form_finding_report",
+        "initial_state_scenarios"
+      ],
+      "path": "skills/10-bridge-cable-form-finding-initial-state/SKILL.md",
+      "sha256": "273ddb5d564e9c4e26c127688f16c994f68e1aa56bab79bf30cabbc2ca33f39f"
+    },
+    {
+      "node": "11",
+      "name": "bridge-load-cases-combinations-stages",
+      "description": "根据桥梁或猫道分析章程、正式规范规则、质量 ledger、结构边界和施工方案，建立荷载工况、空间分布、组合、施工阶段、激活拆除事件和重复计入审计。 当需要把自重、恒载、活载、人群、设备、风、温度、沉降、预应力和施工作用转化为可计算 load plan 时使用。",
+      "gate": "G9",
+      "requires": [
+        "analysis_charter",
+        "standards_manifest",
+        "evidence_graph",
+        "mass_ledger",
+        "boundary_ir"
+      ],
+      "produces": [
+        "load_plan",
+        "combination_plan",
+        "stage_plan",
+        "load_ledger"
+      ],
+      "path": "skills/11-bridge-load-cases-combinations-stages/SKILL.md",
+      "sha256": "13ed24ad14b716d7941b4310725a373f882cf5245c0c0591d31377e5e145fac1"
+    },
+    {
+      "node": "12",
+      "name": "bridge-elements-mesh-numerical-controls",
+      "description": "为桥梁或猫道 FEM 中间表示选择单元族、插值阶次、积分、网格分区、局部细化、非线性算法、步长、收敛阈值和网格收敛计划。 当几何、属性、连接、初始状态和荷载已经定义，需要生成可验证的完整 FEM-IR 时使用。",
+      "gate": "G10",
+      "requires": [
+        "analysis_charter",
+        "abstraction_decisions",
+        "fem_geometry_ir",
+        "section_library",
+        "connection_ir",
+        "boundary_ir",
+        "load_plan",
+        "stage_plan"
+      ],
+      "produces": [
+        "fem_model_ir",
+        "mesh_plan",
+        "convergence_plan",
+        "numerical_controls"
+      ],
+      "path": "skills/12-bridge-elements-mesh-numerical-controls/SKILL.md",
+      "sha256": "a1468fcc88f8025f94921316dc958cab6c201d4013a1f7ac0de254f472ca9beb"
+    },
+    {
+      "node": "13",
+      "name": "bridge-pre-solve-model-verification",
+      "description": "在桥梁或猫道有限元求解前，对 FEM-IR 执行单位、ID、拓扑、属性、自由度、约束、荷载、阶段、质量、对称性、刚体模态和简单单位测试。 当完整模型已生成，需要在调用求解器前发现建模错误和输入遗漏时使用。",
+      "gate": "G11",
+      "requires": [
+        "analysis_charter",
+        "fem_model_ir",
+        "load_ledger",
+        "convergence_plan"
+      ],
+      "produces": [
+        "pre_solve_verification",
+        "model_statistics"
+      ],
+      "path": "skills/13-bridge-pre-solve-model-verification/SKILL.md",
+      "sha256": "4569b0f81ec00cb6e097a29b322f4df909dcb77294ecad595b4f7c64e8cc8ce3"
+    },
+    {
+      "node": "14",
+      "name": "bridge-solver-deck-execution",
+      "description": "将求解器无关的桥梁或猫道 FEM-IR 映射为指定软件输入文件，执行静力或阶段分析，固定软件版本、单位、特性映射、命令行、日志、重试和原始结果哈希。 当 G11 已通过，需要调用 Abaqus、ANSYS、MIDAS、SAP2000、OpenSees、SOFiSTiK 或其他批准求解器时使用。",
+      "gate": "G12",
+      "requires": [
+        "analysis_charter",
+        "fem_model_ir",
+        "pre_solve_verification"
+      ],
+      "produces": [
+        "solver_deck_manifest",
+        "solver_run_record",
+        "raw_result_manifest"
+      ],
+      "path": "skills/14-bridge-solver-deck-execution/SKILL.md",
+      "sha256": "54eadc1e1b0cdd7241f6cfbad539ba127a9266f6d6248fadd1fc63eda6a86ddc"
+    },
+    {
+      "node": "15",
+      "name": "bridge-solution-verification",
+      "description": "对桥梁或猫道求解结果执行残差、反力平衡、自由体平衡、能量、收敛、网格、步长、路径、模式和异常结果检查，确认数值方程得到足够可靠的解。 当求解器已完成运行，需要区分数值成功、离散误差和工程可用性时使用。",
+      "gate": "G13",
+      "requires": [
+        "analysis_charter",
+        "fem_model_ir",
+        "solver_run_record",
+        "raw_result_manifest",
+        "convergence_plan"
+      ],
+      "produces": [
+        "solution_verification_report",
+        "verified_result_set"
+      ],
+      "path": "skills/15-bridge-solution-verification/SKILL.md",
+      "sha256": "4829301b3b2a5926e434272506fd388dc627f4831f9c376f8522a5f261327a38"
+    },
+    {
+      "node": "16",
+      "name": "bridge-static-response-code-review",
+      "description": "将已通过解验证的桥梁或猫道有限元结果转换为可审查的响应包络，并按项目冻结的正式规则包执行位移、内力、应力、索力、支承反力、构件与截面验算。 当需要从 verified result set 形成工程判定、定位控制组合、识别模型外局部验算或生成规范复核矩阵时使用。",
+      "gate": "G14",
+      "requires": [
+        "analysis_charter",
+        "standards_manifest",
+        "abstraction_decisions",
+        "verified_result_set"
+      ],
+      "produces": [
+        "response_envelopes",
+        "design_check_matrix",
+        "exception_register"
+      ],
+      "path": "skills/16-bridge-static-response-code-review/SKILL.md",
+      "sha256": "80cbbadc8af005bb0425e1cdb795d7e3b7d4be2b8dd89ca010f7925464a06c1d"
+    },
+    {
+      "node": "17",
+      "name": "bridge-independent-check-sensitivity-credibility",
+      "description": "对桥梁或猫道静力模型执行独立简化计算、第二实现或第二求解器复核，量化关键假定与数值选择的敏感性，并评估模型对既定用途的可信度和允许使用边界。 当主模型已经完成解验证和规范复核，需要形成独立工程保证、参数包络和发布建议时使用。",
+      "gate": "G15",
+      "requires": [
+        "analysis_charter",
+        "abstraction_decisions",
+        "verified_result_set",
+        "design_check_matrix"
+      ],
+      "produces": [
+        "independent_check_report",
+        "sensitivity_report",
+        "credibility_assessment"
+      ],
+      "path": "skills/17-bridge-independent-check-sensitivity-credibility/SKILL.md",
+      "sha256": "def2e88070f0b79edacdf1ea02cf8f20642cc2289c743d689195f6b17e92dd57"
+    },
+    {
+      "node": "18",
+      "name": "bridge-report-audit-change-control",
+      "description": "将桥梁或猫道从资料、抽象、建模、求解、验证到规范复核的全部工件组装为可复现发布包，生成工程报告、机器清单、审计证据和变更影响图，并管理签认、替代与重跑。 当一次分析 run 需要正式发布、归档、审查、交付，或图纸、规范、假定、脚本、求解器和用途发生变化时使用。",
+      "gate": "G16",
+      "requires": [
+        "all_prior_artifacts",
+        "gate_ledger"
+      ],
+      "produces": [
+        "engineering_report",
+        "machine_release_bundle",
+        "release_manifest",
+        "change_impact_graph"
+      ],
+      "path": "skills/18-bridge-report-audit-change-control/SKILL.md",
+      "sha256": "807e7de4066069150a0a858c87df1caece6ecc7e3cc4b1adb832ec2d039cbb59"
+    }
+  ]
+}

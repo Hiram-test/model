@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/bridge-fem/schemas/response_envelopes.schema.json",
+  "title": "Bridge Static Response Envelopes",
+  "type": "object",
+  "required": [
+    "artifactType",
+    "schemaVersion",
+    "projectId",
+    "runId",
+    "artifactId",
+    "status",
+    "gateId",
+    "data"
+  ],
+  "properties": {
+    "artifactType": {
+      "const": "response_envelopes"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^PRJ-"
+    },
+    "runId": {
+      "type": "string",
+      "pattern": "^RUN-"
+    },
+    "artifactId": {
+      "type": "string",
+      "pattern": "^ART-"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "createdBy": {
+      "type": "object"
+    },
+    "inputArtifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "artifactId",
+          "sha256"
+        ],
+        "properties": {
+          "artifactId": {
+            "type": "string",
+            "pattern": "^ART-"
+          },
+          "sha256": {
+            "$ref": "#/$defs/sha256"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "gateId": {
+      "const": "G14"
+    },
+    "unitsPolicy": {
+      "type": "string"
+    },
+    "coordinateSystemId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sourceRefs": {
+      "$ref": "#/$defs/sourceRefArray"
+    },
+    "assumptionRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "issueRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approvals": {
+      "type": "array"
+    },
+    "supersedesArtifactId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "extractionManifestRef",
+        "responses",
+        "envelopes"
+      ],
+      "properties": {
+        "extractionManifestRef": {
+          "type": "string"
+        },
+        "responses": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "responseId",
+              "metricId",
+              "componentId",
+              "quantity",
+              "value",
+              "stageId",
+              "combinationId",
+              "extractionMethod",
+              "resultRef"
+            ],
+            "properties": {
+              "responseId": {
+                "type": "string",
+                "pattern": "^RESP-"
+              },
+              "metricId": {
+                "type": "string"
+              },
+              "componentId": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "string"
+              },
+              "value": {
+                "$ref": "#/$defs/quantity"
+              },
+              "stageId": {
+                "type": "string"
+              },
+              "combinationId": {
+                "type": "string"
+              },
+              "scenarioId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "extractionMethod": {
+                "type": "string"
+              },
+              "resultRef": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "envelopes": {
+          "type": "array",
+          "minItems": 1
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "status": {
+      "enum": [
+        "PASS",
+        "PASS_WITH_BOUNDS",
+        "BLOCKED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "CRITICAL",
+        "MAJOR",
+        "MINOR",
+        "INFO"
+      ]
+    },
+    "quantity": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "basis"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assumptionRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "originalValue": {},
+        "originalUnit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "conversionRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9-]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^(sha256:)?[a-fA-F0-9]{64}$"
+    },
+    "sourceRefArray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "issue": {
+      "type": "object",
+      "required": [
+        "issueId",
+        "severity",
+        "status",
+        "summary"
+      ],
+      "properties": {
+        "issueId": {
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/severity"
+        },
+        "status": {
+          "enum": [
+            "OPEN",
+            "CLOSED",
+            "ACCEPTED",
+            "SUPERSEDED"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 3
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "owner": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

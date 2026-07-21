@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bridge Analysis Charter",
+  "type": "object",
+  "required": [
+    "artifactType",
+    "schemaVersion",
+    "projectId",
+    "runId",
+    "artifactId",
+    "status",
+    "gateId",
+    "data"
+  ],
+  "properties": {
+    "artifactType": {
+      "const": "analysis_charter"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^PRJ-"
+    },
+    "runId": {
+      "type": "string",
+      "pattern": "^RUN-"
+    },
+    "artifactId": {
+      "type": "string",
+      "pattern": "^ART-"
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "gateId": {
+      "type": "string"
+    },
+    "inputArtifacts": {
+      "type": "array"
+    },
+    "sourceRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "assumptionRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "issueRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "modelPurpose",
+        "bridgeFamily",
+        "analysisTypes",
+        "permissibleUse",
+        "acceptanceCriteria",
+        "internalUnitSystem",
+        "requiresInitialState"
+      ],
+      "properties": {
+        "modelPurpose": {
+          "type": "string",
+          "minLength": 10
+        },
+        "bridgeFamily": {
+          "type": "string"
+        },
+        "analysisTypes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "permissibleUse": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "excludedUses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "acceptanceCriteria": {
+          "type": "array",
+          "minItems": 1
+        },
+        "internalUnitSystem": {
+          "type": "string"
+        },
+        "requiresInitialState": {
+          "type": "boolean"
+        },
+        "riskClass": {
+          "enum": [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "CRITICAL"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "quantity": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "basis"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assumptionRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "PASS_WITH_BOUNDS",
+        "BLOCKED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9-]+$"
+    }
+  },
+  "additionalProperties": true
+}

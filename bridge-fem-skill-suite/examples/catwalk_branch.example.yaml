@@ -1,0 +1,44 @@
+branch: suspension_bridge_catwalk
+trigger:
+  requires_initial_state: true
+  geometric_nonlinearity: true
+model_scope:
+  include:
+    - bearing_ropes
+    - portal_bearing_ropes
+    - catwalk_portals
+    - cross_beams
+    - wind_ropes_and_stays_when_structurally_active
+    - anchorages_and_saddles
+  equivalent_or_load_only:
+    - footway_mesh
+    - handrail_mesh
+    - flooring
+    - repetitive_clamps
+form_finding_targets:
+  target_type: coordinates_or_sag_or_tension_TO_BE_SELECTED
+  target_source_refs: [EV-TO-BE-FILLED]
+  construction_temperature: TO_BE_FILLED_WITH_UNIT_AND_SOURCE
+  self_weight_included: true
+  tension_only_elements: true
+  large_displacement: true
+scenarios:
+  - id: ISTATE-LOW
+    basis: lower_bound_of_initial_tension_or_connection_stiffness
+  - id: ISTATE-NOMINAL
+    basis: approved_nominal
+  - id: ISTATE-HIGH
+    basis: upper_bound_of_initial_tension_or_connection_stiffness
+load_patterns:
+  - personnel_uniform
+  - personnel_localized
+  - erection_equipment
+  - flooring_and_mesh_dead_load
+  - construction_wind
+required_checks:
+  - target_geometry_error
+  - residual_force_norm
+  - positive_cable_tension
+  - anchorage_reaction_balance
+  - clearance_and_serviceability
+  - sensitivity_envelope

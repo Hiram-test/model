@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Approved Engineering Rule Pack",
+  "type": "object",
+  "required": ["rulePackId", "version", "status", "sourceStandard", "rules", "approvals"],
+  "properties": {
+    "rulePackId": {"type": "string", "pattern": "^RP-"},
+    "version": {"type": "string"},
+    "status": {"enum": ["DRAFT", "REVIEWED", "APPROVED", "SUPERSEDED", "WITHDRAWN"]},
+    "sourceStandard": {
+      "type": "object",
+      "required": ["standardId", "title", "version", "sourceId", "sha256"],
+      "properties": {
+        "standardId": {"type": "string"},
+        "title": {"type": "string"},
+        "version": {"type": "string"},
+        "sourceId": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}
+      },
+      "additionalProperties": true
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["ruleId", "sourceLocator", "applicability", "inputs", "algorithm", "outputs", "tests"],
+        "properties": {
+          "ruleId": {"type": "string", "pattern": "^RULE-"},
+          "sourceLocator": {"type": "string"},
+          "applicability": {"type": "object"},
+          "inputs": {"type": "array", "minItems": 1},
+          "algorithm": {"type": "object"},
+          "outputs": {"type": "array", "minItems": 1},
+          "tests": {"type": "array", "minItems": 1},
+          "exceptions": {"type": "array"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "approvals": {"type": "array", "minItems": 2}
+  },
+  "additionalProperties": true
+}
