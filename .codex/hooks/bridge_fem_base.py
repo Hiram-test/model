@@ -182,17 +182,28 @@ def normalized_tool_text(payload: Mapping[str, Any]) -> str:
 
 def protected_contract_touched(policy: Mapping[str, Any], text: str) -> list[str]:
     normalized = text.replace("\\", "/").lower()
-    hits = []
+    hits: list[str] = []
     for raw in policy.get("protectedContractFiles", []):
         candidate = str(raw).replace("\\", "/").lower()
         if candidate in normalized:
             hits.append(str(raw))
+    for match in re.findall(r"\.codex/hooks/[a-z0-9_.-]+\.py", normalized):
+        if match not in hits:
+            hits.append(match)
     return hits
 
 
 def contract_snapshot(root: Path, policy: Mapping[str, Any]) -> dict[str, str]:
+    protected = [str(item) for item in policy.get("protectedContractFiles", [])]
+    hook_root = root / ".codex/hooks"
+    if hook_root.is_dir():
+        for path in sorted(hook_root.glob("*.py")):
+            relative = path.relative_to(root).as_posix()
+            if relative not in protected:
+                protected.append(relative)
+
     result: dict[str, str] = {}
-    for relative in policy.get("protectedContractFiles", []):
+    for relative in protected:
         path = resolve_inside(root, relative)
         if not path.is_file():
             raise PolicyError(f"受保护契约文件缺失：{relative}")
