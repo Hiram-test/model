@@ -1,0 +1,47 @@
+name: Bridge FEM Hook checks
+
+on:
+  pull_request:
+    paths:
+      - ".codex/hooks.json"
+      - ".codex/hooks/**"
+      - "docs/bridge-fem-hook-enforcement.md"
+      - ".github/workflows/bridge-fem-hooks.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".codex/hooks.json"
+      - ".codex/hooks/**"
+      - "docs/bridge-fem-hook-enforcement.md"
+      - ".github/workflows/bridge-fem-hooks.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-hooks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate JSON configuration
+        run: |
+          python -m json.tool .codex/hooks.json >/dev/null
+          python -m json.tool .codex/hooks/node_hook_policy.json >/dev/null
+          python -m json.tool .codex/hooks/gate_receipt.schema.json >/dev/null
+
+      - name: Compile Hook modules
+        run: |
+          python -m py_compile \
+            .codex/hooks/bridge_fem_base.py \
+            .codex/hooks/bridge_fem_receipts.py \
+            .codex/hooks/bridge_fem_policy.py \
+            .codex/hooks/bridge_fem_hooks.py \
+            .codex/hooks/bridge_fem_run.py
+
+      - name: Run Hook unit tests
+        run: python -m unittest discover -s .codex/hooks/tests -v
