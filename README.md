@@ -1,6 +1,6 @@
 # Bridge FEM Skill Suite
 
-本仓库保存 Bridge FEM 19 节点 Skill Suite 的可安装源码包、桥梁原始输入资料和经审计的独立工作日志。
+本仓库保存 Bridge FEM 19 节点 Skill Suite 的可安装源码包、桥梁原始输入资料和 Skill Gate 执行复盘。
 
 ## 可安装 Skill
 
@@ -13,12 +13,9 @@
 
 - [`source-inputs/zhaqing-suspension-bridge/`](source-inputs/zhaqing-suspension-bridge/)：扎青吊桥建模使用的原始 DWG 子集。
 
-## 其他独立工作日志
+## Skill Gate 复盘
 
-- [`NEXT_STEPS.md`](NEXT_STEPS.md)：张靖皋猫道 Pro 模型的后续执行入口与优先级。
-- [`docs/zhangjinggao-catwalk-automation-execution-log-2026-07-22.md`](docs/zhangjinggao-catwalk-automation-execution-log-2026-07-22.md)：张靖皋猫道图纸自动化、十九 Skill 与 ANSYS 三维静力执行日志。
-
-上述猫道日志属于另一条已审计工作链，不构成扎青吊桥 CAD 的 Gate 证据。
+- [`docs/skill-gate-fidelity-postmortem-2026-07-22.md`](docs/skill-gate-fidelity-postmortem-2026-07-22.md)：记录一次“Skill 已调用但 Gate 未被忠实执行”的失败。相关试算模型、求解结果和旧执行日志已经撤下，不构成任何工程证据。
 
 ## 扎青吊桥状态声明
 
