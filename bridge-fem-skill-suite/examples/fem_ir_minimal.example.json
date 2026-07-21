@@ -1,0 +1,92 @@
+{
+  "artifactType": "fem_model_ir",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-EXAMPLE-001",
+  "runId": "RUN-EXAMPLE-001",
+  "artifactId": "ART-EXAMPLE-FEMIR",
+  "status": "BLOCKED",
+  "gateId": "G10",
+  "data": {
+    "unitSystem": "SI_N_m_kg_s_C",
+    "coordinateSystems": [
+      {
+        "id": "CS-GLOBAL",
+        "origin": [
+          0,
+          0,
+          0
+        ],
+        "axes": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ]
+      }
+    ],
+    "materials": [],
+    "sections": [],
+    "nodes": [
+      {
+        "id": "NODE-001",
+        "coordinates": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "coordinateSystemId": "CS-GLOBAL"
+      },
+      {
+        "id": "NODE-002",
+        "coordinates": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "coordinateSystemId": "CS-GLOBAL"
+      }
+    ],
+    "elements": [
+      {
+        "id": "ELEM-001",
+        "elementType": "beam_placeholder",
+        "connectivity": [
+          "NODE-001",
+          "NODE-002"
+        ]
+      }
+    ],
+    "connections": [],
+    "boundaryConditions": [],
+    "initialStates": [],
+    "loadCases": [
+      {
+        "id": "LC-001",
+        "name": "placeholder_zero_load"
+      }
+    ],
+    "loadCombinations": [],
+    "stages": [],
+    "outputRequests": [
+      {
+        "id": "OUT-001",
+        "quantity": "displacement",
+        "objectRefs": [
+          "NODE-001"
+        ]
+      }
+    ],
+    "provenanceMap": []
+  }
+}

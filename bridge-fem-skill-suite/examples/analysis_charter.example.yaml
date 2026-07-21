@@ -1,0 +1,23 @@
+artifactType: analysis_charter
+schemaVersion: 1.0.0
+projectId: PRJ-EXAMPLE-001
+runId: RUN-EXAMPLE-001
+artifactId: ART-EXAMPLE-CHARTER
+status: BLOCKED
+gateId: G0
+data:
+  modelPurpose: "示例：建立图纸所示阶段的整体静力模型，提取主构件内力、位移、支反力和索力，并完成经批准规则包内的复核。"
+  bridgeFamily: "TO_BE_FILLED"
+  analysisTypes: ["linear_or_nonlinear_static_TO_BE_SELECTED"]
+  permissibleUse:
+    - "TO_BE_APPROVED"
+  excludedUses:
+    - "未建立局部实体细节时，不用于焊缝热点、孔壁承压、螺栓滑移或局部屈曲结论"
+  acceptanceCriteria:
+    - metricId: METRIC-001
+      description: "TO_BE_FILLED"
+      threshold: "TO_BE_FILLED_FROM_APPROVED_BASIS"
+  internalUnitSystem: "SI_N_m_kg_s_C"
+  requiresInitialState: false
+  riskClass: HIGH
+  standardsManifestStatus: "OFFICIAL_TEXTS_REQUIRED"

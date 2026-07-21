@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bridge Load Plan",
+  "type": "object",
+  "required": [
+    "artifactType",
+    "schemaVersion",
+    "projectId",
+    "runId",
+    "artifactId",
+    "status",
+    "gateId",
+    "data"
+  ],
+  "properties": {
+    "artifactType": {
+      "const": "load_plan"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^PRJ-"
+    },
+    "runId": {
+      "type": "string",
+      "pattern": "^RUN-"
+    },
+    "artifactId": {
+      "type": "string",
+      "pattern": "^ART-"
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "gateId": {
+      "type": "string"
+    },
+    "inputArtifacts": {
+      "type": "array"
+    },
+    "sourceRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "assumptionRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "issueRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "loadCases",
+        "combinations",
+        "stages",
+        "loadLedger"
+      ],
+      "properties": {
+        "loadCases": {
+          "type": "array",
+          "minItems": 1
+        },
+        "combinations": {
+          "type": "array"
+        },
+        "stages": {
+          "type": "array"
+        },
+        "loadLedger": {
+          "type": "array"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "quantity": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "basis"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assumptionRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "PASS_WITH_BOUNDS",
+        "BLOCKED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9-]+$"
+    }
+  },
+  "additionalProperties": true
+}

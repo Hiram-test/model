@@ -1,0 +1,395 @@
+{
+  "packageId": "bridge-fem-skill-suite",
+  "version": "1.0.0",
+  "releaseDate": "2026-07-21",
+  "skillCount": 19,
+  "workflowNodeCount": 18,
+  "schemaCount": 25,
+  "fileCount": 76,
+  "excludedFromManifest": [
+    "PACKAGE_MANIFEST.json",
+    "tests/package_integrity_report.txt"
+  ],
+  "files": [
+    {
+      "path": "ALL_SKILLS.md",
+      "bytes": 141246,
+      "sha256": "d35d70926e9c7267bb24742478807c43d42390592c479f7c6173f8bff75b1e1c"
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "bytes": 3669,
+      "sha256": "8ba756368f6749e157891ad81c7217cd47811064cc32bc4f946e42dca956d3aa"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 582,
+      "sha256": "761a54e3b59098da129d44f63e11a53b58c3df4852e446640f49e57e6b5ecf8a"
+    },
+    {
+      "path": "CONTROL_MATRIX.md",
+      "bytes": 3278,
+      "sha256": "09b4799606937fecc3056b640935f9e217d0391febb25759ca021c615bf93f46"
+    },
+    {
+      "path": "FIRST_PROJECT_RUNBOOK.md",
+      "bytes": 2682,
+      "sha256": "05d8f38568f23e43fd1a320d6268dd09a289b32d6e8203c7afbce51c7db57af2"
+    },
+    {
+      "path": "IMPLEMENTATION_BLUEPRINT.md",
+      "bytes": 11027,
+      "sha256": "bd3992df103cb913ba352773a85eab4ed35fc3f6f6049dd061852018f5856ad3"
+    },
+    {
+      "path": "MIGRATION_FROM_CURRENT_SKILL.md",
+      "bytes": 2096,
+      "sha256": "a7f3d1c6eb6a0c8317ce9bee17d73a59f8d4e62272dc2b6e2c87ec8f4519c19d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5451,
+      "sha256": "af073ee1232bdc0ee15cc2b612ea8bf218094b1ee94625c97da4df9243428612"
+    },
+    {
+      "path": "SKILL_INDEX.md",
+      "bytes": 3801,
+      "sha256": "20545c96e6cc5f763588adcff410013899514ec68dcbaaaaf309abcd47d40c4c"
+    },
+    {
+      "path": "WORKFLOW_DIAGRAM.md",
+      "bytes": 643,
+      "sha256": "7286cbbaba53e805ff8f0c2a9c631539473436e8fc51288d17ef7990617123ff"
+    },
+    {
+      "path": "common/ARTIFACT_CONTRACT.md",
+      "bytes": 1511,
+      "sha256": "3bfaf6b19dd0d0bf50fcaba6eab9f991370da23574f0e6ccd807561682cf8b0a"
+    },
+    {
+      "path": "common/ASSUMPTION_POLICY.md",
+      "bytes": 993,
+      "sha256": "a54f9fe748fd8b88e2e97c51211aaac4ac9e9c42406aa54fdf5d90a9b83693c3"
+    },
+    {
+      "path": "common/ID_AND_UNITS_RULES.md",
+      "bytes": 1739,
+      "sha256": "e2636d56489d6b7009b6982a170756024b978aaec8f7b155b13ecc7549a54ee8"
+    },
+    {
+      "path": "common/PARSER_ADAPTER_CONTRACT.md",
+      "bytes": 1294,
+      "sha256": "5a1395f0c1ab70eb3b1afddce24981a5e457522ab9909f50c9c016e8bf421c30"
+    },
+    {
+      "path": "common/SKILL_QUALITY_STANDARD.md",
+      "bytes": 2171,
+      "sha256": "722a2fd94c59ef7627ffc689229d1bf76968d3106256882f6e6b78a766497c61"
+    },
+    {
+      "path": "common/SOLVER_ADAPTER_CONTRACT.md",
+      "bytes": 1363,
+      "sha256": "6f6954f8367762ec91df673c2407c1500f3b14540bca8e7101079a0d2708b798"
+    },
+    {
+      "path": "common/STATUS_AND_GATES.md",
+      "bytes": 1006,
+      "sha256": "0d0422d49119f177c4bfedf310ba2e77dd9b4f763ec865ba365bffb99217db68"
+    },
+    {
+      "path": "examples/analysis_charter.example.yaml",
+      "bytes": 878,
+      "sha256": "9dc6c0a13eb62aa96e6dec00199bb853e161801f55db7348323145193f1df5ba"
+    },
+    {
+      "path": "examples/catwalk_branch.example.yaml",
+      "bytes": 1226,
+      "sha256": "ecfe62281d13e1498d6652801b4b10c8b204e6ad7c6a56c8bce32a7e44d813f9"
+    },
+    {
+      "path": "examples/fem_ir_minimal.example.json",
+      "bytes": 1638,
+      "sha256": "1e2d9ec371258c91f4aecdd5738003d330926906910e1d9388da12f487f99f26"
+    },
+    {
+      "path": "examples/project_manifest.example.yaml",
+      "bytes": 525,
+      "sha256": "f1450837d8e08f502a1467495e0086816724755140dba8b429f85d906f2c1f97"
+    },
+    {
+      "path": "examples/rule_pack.example.yaml",
+      "bytes": 809,
+      "sha256": "ff4cf5342956c60ac6bc7b319bcb790ffbc3fc7619ba8fd55293cd2846d66913"
+    },
+    {
+      "path": "examples/solver_capability.example.yaml",
+      "bytes": 537,
+      "sha256": "7f64d24177772a243798047c5c30e2d329b33c6f8d7c750a0621c8e8f0a2e991"
+    },
+    {
+      "path": "references/official_sources.md",
+      "bytes": 1325,
+      "sha256": "ab1c97dab5363613d8438fccc6bf44a17f3f727a6eebf2875941f493a804bbcc"
+    },
+    {
+      "path": "schemas/README.md",
+      "bytes": 1461,
+      "sha256": "7ba0f7f3d80d28ce910ceb07dbc2b80b44df9e4d30cca8d77d909b1eb5e9d8c2"
+    },
+    {
+      "path": "schemas/abstraction_decisions.schema.json",
+      "bytes": 3909,
+      "sha256": "5cceff3cd8314b5751fe8faead2b6bb1aa312e384e3a1d6dc042f844fb23383c"
+    },
+    {
+      "path": "schemas/analysis_charter.schema.json",
+      "bytes": 3301,
+      "sha256": "24915a853f1491f80fa49bda4aba067f3e40f2277b3c2e699bd4563a84e46e9a"
+    },
+    {
+      "path": "schemas/artifact_envelope.schema.json",
+      "bytes": 3647,
+      "sha256": "303e385cbb68e82bfc0b6211de2ebfd75df40f2e7696cfdbd0d1b4280856cb20"
+    },
+    {
+      "path": "schemas/component_inventory.schema.json",
+      "bytes": 3376,
+      "sha256": "805375975d0dbebd4eafc6489033f5d8ef99566cdd57fe0530787afdac9bff43"
+    },
+    {
+      "path": "schemas/connection_boundary_ir.schema.json",
+      "bytes": 5518,
+      "sha256": "4b0f6aae603605822507108cf556d58384624cbb2c9dad71eda655bf0c6a6fd4"
+    },
+    {
+      "path": "schemas/credibility_assessment.schema.json",
+      "bytes": 6824,
+      "sha256": "aa1839e6e06168b244342ba83ab6158a03d0646059500f63fcc4f4a5821eb926"
+    },
+    {
+      "path": "schemas/design_check_matrix.schema.json",
+      "bytes": 6658,
+      "sha256": "578a126eaa24dcdd5c093c912fdc6aec54f22cc6690cbb96f175b0625e47259e"
+    },
+    {
+      "path": "schemas/drawing_entities.schema.json",
+      "bytes": 5869,
+      "sha256": "aaf36ba569054a2b59d851d57da6cda77e5b1ae89729d5114809326b7809fa4d"
+    },
+    {
+      "path": "schemas/evidence_graph.schema.json",
+      "bytes": 3208,
+      "sha256": "65d7496af5c7f01684007ab804812131b2511e9c16ab8a605cfb5c81bf91c752"
+    },
+    {
+      "path": "schemas/fem_geometry_ir.schema.json",
+      "bytes": 5972,
+      "sha256": "33d209ecefd4c8bef3f6650c65e86c77e3576d23199147e951afc946bf24a097"
+    },
+    {
+      "path": "schemas/fem_ir.schema.json",
+      "bytes": 3387,
+      "sha256": "3d9c04581fb4f2790e6aa46fbdfb11faed90f2cbdc5525dcd91febd435b7ece8"
+    },
+    {
+      "path": "schemas/gate_ledger.schema.json",
+      "bytes": 5776,
+      "sha256": "8f46f326a2816cd76e1b008a9a1bc99fc02bdefce8a234d39dafaf208b808eed"
+    },
+    {
+      "path": "schemas/initial_state_ir.schema.json",
+      "bytes": 5193,
+      "sha256": "8654671cdf33fcf3b776d0fd655effd45b9b15b2e5ac27bf9841369d0596a71a"
+    },
+    {
+      "path": "schemas/load_plan.schema.json",
+      "bytes": 2474,
+      "sha256": "f6e646964fee5b3588034cf4e28ca70b8e5b40dc756586f8caa4df7ff293463a"
+    },
+    {
+      "path": "schemas/pre_solve_verification.schema.json",
+      "bytes": 5123,
+      "sha256": "b7543a94c023091dee0512a0f790ff29614af9ef5e5f08166d03a7974d2f7f8b"
+    },
+    {
+      "path": "schemas/property_bundle.schema.json",
+      "bytes": 5706,
+      "sha256": "64d3caff1a3fec2d835da72b207c7e473fd44abe7db9de8f687792f0611d1c3f"
+    },
+    {
+      "path": "schemas/release_manifest.schema.json",
+      "bytes": 6645,
+      "sha256": "25045eac7fd5910c2c88c8ecf220d2bca95d5b260461809103d656b7f721268b"
+    },
+    {
+      "path": "schemas/response_envelopes.schema.json",
+      "bytes": 6124,
+      "sha256": "3045978e793365352e9dd3e60248441c149f16da24387515a33dbe274a7c8e75"
+    },
+    {
+      "path": "schemas/rule_pack.schema.json",
+      "bytes": 1627,
+      "sha256": "974389fb26f6f9a59c2f6aec1766315231fde0eb0b24bba0e29e0f76b489ee77"
+    },
+    {
+      "path": "schemas/solution_verification.schema.json",
+      "bytes": 5181,
+      "sha256": "35d28bccfc12c919fdcc2f3ae96d8cd0a0f5a18f0a7a7ac4baa7e4dba7d71f28"
+    },
+    {
+      "path": "schemas/solver_capability.schema.json",
+      "bytes": 1256,
+      "sha256": "6acfba18e93037bc54204b6ce5b0f53e2fe9e48afa51df309f8f6080257ab4e6"
+    },
+    {
+      "path": "schemas/solver_run_record.schema.json",
+      "bytes": 2797,
+      "sha256": "95d3c2fcde4504e3c468035d95f5a61cd99d9fb39ed3088f578569eecb8edd61"
+    },
+    {
+      "path": "schemas/source_manifest.schema.json",
+      "bytes": 3450,
+      "sha256": "fa33f706576754725824bb19c1dd97dc7a69a9e081208a29264b465039df822a"
+    },
+    {
+      "path": "schemas/stage_plan.schema.json",
+      "bytes": 5620,
+      "sha256": "e91285f9ff79d53f68372ab9b2105be342d570108061787ffd55f9d35162c967"
+    },
+    {
+      "path": "schemas/verification_report.schema.json",
+      "bytes": 2478,
+      "sha256": "51528d687432c0de8bbbc19016db8f463c98d3bc59dd83c32c019b4679dbf003"
+    },
+    {
+      "path": "skill_catalog.json",
+      "bytes": 16446,
+      "sha256": "47fd12802456271b0b56de628f715ec0ca8a0872a937029a803c853adfc3ec8a"
+    },
+    {
+      "path": "skills/00-bridge-fem-workflow-orchestrator/SKILL.md",
+      "bytes": 6686,
+      "sha256": "6ac554945ca7be88dc795bde33d764f2c5ebf2e0ccc0b8b4ad88d7d8a227072a"
+    },
+    {
+      "path": "skills/01-bridge-analysis-charter/SKILL.md",
+      "bytes": 6081,
+      "sha256": "b77eed1e0c54d7af8fe75dc35f2aac04f46dc93d7b1a6da78e4091be075f1d90"
+    },
+    {
+      "path": "skills/02-engineering-source-ingestion/SKILL.md",
+      "bytes": 5067,
+      "sha256": "2da79355d659893aceac3dd9b077d2a9490a97526adff07acfb71fd48ff2df5d"
+    },
+    {
+      "path": "skills/03-engineering-drawing-data-extraction/SKILL.md",
+      "bytes": 5295,
+      "sha256": "0ac34a4948c720ddaa91a2a33ca9f829436c779ef8764ee26faabe68b255fdf6"
+    },
+    {
+      "path": "skills/04-bridge-drawing-registration-reconciliation/SKILL.md",
+      "bytes": 5363,
+      "sha256": "a00c326a04c80fa0a0671d5d9754eb24d8002a7c680f85f91b8662038b82b7a7"
+    },
+    {
+      "path": "skills/05-bridge-structural-semantic-inventory/SKILL.md",
+      "bytes": 5373,
+      "sha256": "e53947cb21673adc7304aa42b62f9be82252e654477f7456d75e50c539369815"
+    },
+    {
+      "path": "skills/06-bridge-cad-fem-abstraction/SKILL.md",
+      "bytes": 13541,
+      "sha256": "984f4a8fe44fae0541d3dcb465fd22fffd8d0e3b4696a65a461c06af18f6a2bd"
+    },
+    {
+      "path": "skills/07-bridge-fem-topology-geometry-generation/SKILL.md",
+      "bytes": 5335,
+      "sha256": "bb0eabf6437650e2edbe7850e1d80674e5c183df962c99653022e6294aed2e3c"
+    },
+    {
+      "path": "skills/08-bridge-material-section-mass-properties/SKILL.md",
+      "bytes": 5059,
+      "sha256": "f378d550b646707e5bde99c056b0f87cc8ea0514262ae1d3cc58f76145d327f9"
+    },
+    {
+      "path": "skills/09-bridge-connections-boundaries-supports/SKILL.md",
+      "bytes": 4983,
+      "sha256": "e4c396fba088f0303506dc46fca1c451929c030dee57af433b047049fed2c413"
+    },
+    {
+      "path": "skills/10-bridge-cable-form-finding-initial-state/SKILL.md",
+      "bytes": 5938,
+      "sha256": "273ddb5d564e9c4e26c127688f16c994f68e1aa56bab79bf30cabbc2ca33f39f"
+    },
+    {
+      "path": "skills/11-bridge-load-cases-combinations-stages/SKILL.md",
+      "bytes": 6018,
+      "sha256": "13ed24ad14b716d7941b4310725a373f882cf5245c0c0591d31377e5e145fac1"
+    },
+    {
+      "path": "skills/12-bridge-elements-mesh-numerical-controls/SKILL.md",
+      "bytes": 5890,
+      "sha256": "a1468fcc88f8025f94921316dc958cab6c201d4013a1f7ac0de254f472ca9beb"
+    },
+    {
+      "path": "skills/13-bridge-pre-solve-model-verification/SKILL.md",
+      "bytes": 4993,
+      "sha256": "4569b0f81ec00cb6e097a29b322f4df909dcb77294ecad595b4f7c64e8cc8ce3"
+    },
+    {
+      "path": "skills/14-bridge-solver-deck-execution/SKILL.md",
+      "bytes": 5155,
+      "sha256": "54eadc1e1b0cdd7241f6cfbad539ba127a9266f6d6248fadd1fc63eda6a86ddc"
+    },
+    {
+      "path": "skills/15-bridge-solution-verification/SKILL.md",
+      "bytes": 5371,
+      "sha256": "4829301b3b2a5926e434272506fd388dc627f4831f9c376f8522a5f261327a38"
+    },
+    {
+      "path": "skills/16-bridge-static-response-code-review/SKILL.md",
+      "bytes": 14495,
+      "sha256": "80cbbadc8af005bb0425e1cdb795d7e3b7d4be2b8dd89ca010f7925464a06c1d"
+    },
+    {
+      "path": "skills/17-bridge-independent-check-sensitivity-credibility/SKILL.md",
+      "bytes": 13165,
+      "sha256": "def2e88070f0b79edacdf1ea02cf8f20642cc2289c743d689195f6b17e92dd57"
+    },
+    {
+      "path": "skills/18-bridge-report-audit-change-control/SKILL.md",
+      "bytes": 14816,
+      "sha256": "807e7de4066069150a0a858c87df1caece6ecc7e3cc4b1adb832ec2d039cbb59"
+    },
+    {
+      "path": "tests/benchmark_case_matrix.yaml",
+      "bytes": 3462,
+      "sha256": "aa9e600b8fdae94e35d2ee4e4ec91ed6535f4b86d5c20fe148183cf60500bae0"
+    },
+    {
+      "path": "tests/golden_checks.md",
+      "bytes": 3566,
+      "sha256": "ff72ef2d00aa2aeefb5a66f3ff884eab5a712bbfebda19c71c8f00eaf4318051"
+    },
+    {
+      "path": "tests/lint_report.json",
+      "bytes": 245,
+      "sha256": "98172be512b72cbc33d2cdcb35304bd2970be1572a47c73ea577d3c5600fa06b"
+    },
+    {
+      "path": "tests/lint_report.txt",
+      "bytes": 157,
+      "sha256": "13879f221bef41b4862c7fabfa53e754c3b3cae33db1b3aed1d0d1a7c5053a57"
+    },
+    {
+      "path": "tests/lint_skill_package.py",
+      "bytes": 14043,
+      "sha256": "f095fb1a7cd4527ce113adac2438477d37990776d143e97210fdf4b5c383b787"
+    },
+    {
+      "path": "workflow.yaml",
+      "bytes": 5217,
+      "sha256": "a7e6f132378c9b4aaeea25efbddd952e8a8a320d87ff730be749662eb3d62da2"
+    }
+  ]
+}

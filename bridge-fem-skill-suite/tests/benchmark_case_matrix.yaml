@@ -1,0 +1,95 @@
+version: 1.0.0
+cases:
+  - id: G01
+    name: simply_supported_beam
+    physics: [linear_static, beam]
+    reference: analytic
+    required_metrics: [reaction_left, reaction_right, midspan_displacement, max_moment]
+    invariants: [force_balance, moment_balance, unit_equivalence, load_scaling]
+  - id: G02
+    name: continuous_beam
+    physics: [linear_static, beam, imposed_displacement]
+    reference: analytic_or_independent_solver
+    required_metrics: [support_moment, span_moment, displacement]
+    invariants: [mesh_convergence, sign_consistency]
+  - id: G03
+    name: planar_truss
+    physics: [linear_static, truss]
+    reference: analytic
+    required_metrics: [member_axial_force, support_reaction]
+    invariants: [mechanism_detection, tension_compression_sign]
+  - id: G04
+    name: portal_frame
+    physics: [linear_and_second_order_static, frame, springs]
+    reference: independent_solver
+    required_metrics: [sway, base_reaction, column_moment]
+    invariants: [symmetry, rigid_body_transform]
+  - id: G05
+    name: shell_patch
+    physics: [linear_static, shell]
+    reference: patch_test
+    required_metrics: [membrane_resultant, bending_resultant]
+    invariants: [orientation, integration_layer, mesh_distortion]
+  - id: G06
+    name: cable_catenary
+    physics: [geometric_nonlinearity, tension_only, form_finding]
+    reference: analytic_catenary
+    required_metrics: [sag, horizontal_force, end_tension, reaction]
+    invariants: [positive_tension, force_balance, target_geometry]
+  - id: G07
+    name: catwalk_single_span
+    physics: [geometric_nonlinearity, tension_only, staged_static]
+    reference: reduced_order_model
+    required_metrics: [initial_sag, cable_tension, deck_displacement, anchorage_reaction]
+    invariants: [initial_equilibrium, scenario_envelope, no_duplicate_self_weight]
+  - id: G08
+    name: cable_stayed_beam
+    physics: [geometric_nonlinearity, prestress]
+    reference: independent_solver
+    required_metrics: [cable_force, girder_displacement, tower_displacement]
+    invariants: [prestress_trace, equilibrium]
+  - id: G09
+    name: bearing_gap_friction
+    physics: [contact, gap, friction]
+    reference: analytic_piecewise
+    required_metrics: [contact_force, sliding_displacement, uplift_state]
+    invariants: [path_dependence, active_set_consistency]
+  - id: G10
+    name: staged_activation_removal
+    physics: [staged_static, state_transfer]
+    reference: independent_step_calculation
+    required_metrics: [stage_reaction, cumulative_displacement, lock_in_force]
+    invariants: [state_inheritance, load_accounting]
+negative_tests:
+  - id: X01
+    injected_fault: missing_critical_source
+    expected_gate: G1
+    expected_status: BLOCKED
+  - id: X02
+    injected_fault: conflicting_control_dimension
+    expected_gate: G3
+    expected_status: BLOCKED
+  - id: X03
+    injected_fault: duplicate_mass
+    expected_gate: G7
+    expected_status: BLOCKED
+  - id: X04
+    injected_fault: support_overconstraint
+    expected_gate: G11
+    expected_status: BLOCKED
+  - id: X05
+    injected_fault: result_sign_mapping_error
+    expected_gate: G13
+    expected_status: BLOCKED
+  - id: X06
+    injected_fault: missing_rule_reference
+    expected_gate: G14
+    expected_status: BLOCKED
+  - id: X07
+    injected_fault: decision_flip_within_bounds
+    expected_gate: G15
+    expected_status: BLOCKED
+  - id: X08
+    injected_fault: report_value_tamper
+    expected_gate: G16
+    expected_status: BLOCKED

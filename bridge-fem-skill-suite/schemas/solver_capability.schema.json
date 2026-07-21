@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Solver Adapter Capability Matrix",
+  "type": "object",
+  "required": ["adapterId", "adapterVersion", "solver", "features", "validationSuite"],
+  "properties": {
+    "adapterId": {"type": "string"},
+    "adapterVersion": {"type": "string"},
+    "solver": {
+      "type": "object",
+      "required": ["name", "version", "executableHash"],
+      "properties": {
+        "name": {"type": "string"},
+        "version": {"type": "string"},
+        "executableHash": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["featureId", "status", "mapping", "testRefs"],
+        "properties": {
+          "featureId": {"type": "string"},
+          "status": {"enum": ["SUPPORTED_EXACT", "SUPPORTED_APPROVED_EQUIVALENT", "SUPPORTED_WITH_LIMITS", "UNSUPPORTED"]},
+          "mapping": {"type": ["object", "null"]},
+          "limits": {"type": "array"},
+          "testRefs": {"type": "array"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "validationSuite": {"type": "array", "minItems": 1}
+  },
+  "additionalProperties": true
+}
