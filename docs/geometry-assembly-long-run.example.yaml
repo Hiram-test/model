@@ -1,0 +1,281 @@
+version: 0.1.0
+workflow_id: bridge-geometry-assembly-long-run
+mode: AUTONOMOUS_LONG_RUN
+scope: GEOMETRY_ONLY
+
+orchestrator:
+  type: DETERMINISTIC_STATE_MACHINE
+  state_file: .bridge-geometry/current.json
+  progress_file: .bridge-geometry/runs/${runId}/assembly_progress.json
+  checkpoint_after_each_work_package: true
+  resume_from_files_not_conversation: true
+  continue_independent_work_when_one_package_blocked: true
+
+roles:
+  planner:
+    kind: AGENT
+    may_write:
+      - assembly_plan
+      - component_manifest
+      - subassembly_graph
+      - interface_contracts
+      - acceptance_plan
+    may_not_write:
+      - geometry
+      - gate_status
+  builder:
+    kind: AGENT
+    one_work_package_at_a_time: true
+    may_write:
+      - current_component_geometry
+      - parametric_history
+      - repair_record
+    may_not_write:
+      - accepted_source_facts
+      - global_coordinate_system
+      - gate_status
+      - unrelated_components
+  visual_judge:
+    kind: INDEPENDENT_MULTIMODAL_AGENT
+    blind_to_builder_reasoning: true
+    reads:
+      - source_views
+      - fixed_camera_renders
+      - dimension_annotations
+      - overlay_reports
+      - kernel_measurement_summary
+    writes:
+      - structured_visual_issues
+  gate_evaluator:
+    kind: DETERMINISTIC_TOOL
+    independent_from_builder: true
+
+representations:
+  levels:
+    MISSING: 0
+    PROXY: 10
+    REFERENCE_SKELETON: 20
+    DESIGN_COARSE: 30
+    DESIGN_REFINED: 40
+    VERIFIED: 50
+  monotonic_refinement: true
+  separate_objects:
+    - displayProxy
+    - designGeometry
+    - analysisGeometry
+  proxy_rules:
+    explicit_registry_required: true
+    required_fields:
+      - componentId
+      - purpose
+      - knownDeviations
+      - missingSourceFacts
+      - targetLevel
+      - refineByStage
+      - exportAllowed
+    may_satisfy_design_gate: false
+    may_overwrite_design_geometry: false
+    final_allowed_count: 0
+
+immutability:
+  accepted_snapshots_read_only: true
+  in_place_overwrite_forbidden: true
+  revisions_require:
+    - supersedes
+    - change_reason
+    - geometry_delta
+    - affected_dependencies
+    - new_snapshot_hash
+  reject_representation_downgrade: true
+
+work_package_loop:
+  max_repairs: 3
+  sequence:
+    - load_frozen_packet
+    - build_or_refine_current_component
+    - execute_in_cad_kernel
+    - run_kernel_validity_checks
+    - run_interface_coordinate_checks
+    - render_fixed_multiviews
+    - generate_drawing_overlays
+    - run_independent_visual_review
+    - aggregate_structured_issues
+    - repair_current_component_only
+    - repeat_until_pass_or_budget_exhausted
+    - freeze_accepted_snapshot
+
+stages:
+  - id: S00
+    name: initialize_run
+    produces:
+      - assembly_run.json
+      - assembly_progress.json
+      - component_manifest.json
+      - subassembly_graph.json
+      - representation_registry.json
+      - proxy_ledger.json
+
+  - id: S01
+    name: global_reference_and_registration
+    requires: [S00]
+    gate:
+      - global_datum_defined
+      - physical_meaning_of_elevations_defined
+      - view_transforms_validated
+      - control_point_residuals_within_tolerance
+
+  - id: S02
+    name: component_and_interface_contracts
+    requires: [S01]
+    gate:
+      - every_component_has_stable_id
+      - every_component_has_parent_or_root_status
+      - every_required_connection_has_interface_contract
+      - every_work_package_has_source_scope_and_acceptance_checks
+
+  - id: S03
+    name: foundations_and_anchorages
+    requires: [S02]
+    packages:
+      - left_foundation
+      - right_foundation
+      - left_anchorage
+      - right_anchorage
+    exit:
+      - anchorage_design_geometry_not_proxy
+      - cable_anchor_points_verified
+      - foundation_anchorage_interfaces_pass
+
+  - id: S04
+    name: towers_and_saddles
+    requires: [S03]
+    packages:
+      - left_tower
+      - right_tower
+      - left_saddle
+      - right_saddle
+    exit:
+      - tower_elevation_chain_pass
+      - saddle_centers_and_local_axes_pass
+      - tower_foundation_interfaces_pass
+
+  - id: S05
+    name: deck_load_bearing_skeleton
+    requires: [S04]
+    packages:
+      - deck_reference_surfaces
+      - crossbeams
+      - longitudinal_beams
+      - tower_end_support_interfaces
+    exit:
+      - deck_datum_semantics_are_distinct
+      - beam_interfaces_pass
+      - no_unapproved_global_z_zero_assumption
+
+  - id: S06
+    name: main_cables_and_cable_planes
+    requires: [S03, S04, S05]
+    exit:
+      - cable_plane_positions_verified
+      - anchor_saddle_curve_continuity_pass
+      - multiview_cable_overlay_pass
+
+  - id: S07
+    name: suspenders_wind_cables_and_transverse_system
+    requires: [S05, S06]
+    exit:
+      - every_cable_end_has_verified_interface
+      - hanger_lower_points_match_real_connection_surfaces
+      - no_floating_or_wrongly_attached_cables
+
+  - id: S08
+    name: deck_panels_and_secondary_components
+    requires: [S05, S07]
+    exit:
+      - repeated_instances_have_stable_ids
+      - panel_support_interfaces_pass
+      - no_continuous_box_substitution_for_modular_panels
+
+  - id: S09
+    name: full_assembly_closure
+    requires: [S03, S04, S05, S06, S07, S08]
+    exit:
+      - every_component_has_unique_parent
+      - all_required_interfaces_closed
+      - no_unexplained_gaps_penetrations_or_floating_components
+      - global_geometry_invariants_pass
+
+  - id: S10
+    name: proxy_retirement_and_regression_repair
+    requires: [S09]
+    exit:
+      - proxy_count_zero
+      - no_representation_downgrade
+      - all_regressions_closed
+
+  - id: S11
+    name: final_multiview_acceptance_and_freeze
+    requires: [S10]
+    exit:
+      - plan_overlay_pass
+      - elevation_overlay_pass
+      - cross_section_overlay_pass
+      - critical_detail_overlays_pass
+      - independent_visual_review_pass
+      - every_component_verified
+      - geometry_release_candidate_frozen
+
+component_gate_receipt:
+  required_fields:
+    - componentId
+    - revision
+    - representationLevel
+    - sourceCoverage
+    - interfaceChecks
+    - kernelChecks
+    - overlayChecks
+    - visualReview
+    - regressionCheck
+    - artifactHashes
+    - validatorIdentity
+    - status
+  pass_requires:
+    - representationLevel_is_VERIFIED
+    - no_unimplemented_mandatory_check
+    - no_open_critical_or_major_issue
+    - creator_is_not_validator
+
+hook_extensions:
+  pre_geometry_write:
+    - protect_accepted_snapshots
+    - require_active_work_package
+    - require_proxy_registration_for_box_primitives
+  post_geometry_write:
+    - scan_proxy_primitives
+    - validate_representation_monotonicity
+    - compute_geometry_delta
+    - run_kernel_and_interface_checks
+  before_stage_transition:
+    - require_all_component_receipts
+    - require_stage_exit_conditions
+  before_final_export:
+    - require_proxy_count_zero
+    - require_all_components_verified
+    - require_all_critical_overlays_pass
+    - require_no_regression
+  before_fem_entry:
+    - require_S11_pass
+
+evaluation_suite:
+  required_regressions:
+    - accepted_anchorage_replaced_by_box
+    - deck_datum_semantics_collapsed_to_z_zero
+    - bridge_width_used_as_cable_plane_coordinate
+    - hanger_lower_end_attached_to_deck_top_instead_of_interface
+    - global_dimensions_pass_but_local_assembly_wrong
+    - proxy_written_as_design_geometry
+    - overlay_checks_only_span_and_width
+    - visual_shape_passes_but_dimensions_fail
+    - bounding_box_passes_but_contour_steps_fail
+    - post_compaction_reinvention_of_frozen_component
+  primary_metric: invalid_geometry_release_rate
