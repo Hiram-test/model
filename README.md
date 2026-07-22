@@ -25,10 +25,17 @@
 
 - [`source-inputs/zhaqing-suspension-bridge/`](source-inputs/zhaqing-suspension-bridge/)：扎青吊桥建模使用的原始 DWG 子集。
 
+## 扎青吊桥 CAD 参考模型
+
+- [`deliverables/README.md`](deliverables/README.md)：v0.2 FreeCAD、STEP、预览、米制 IR 和验证报告的用途与限制。
+- [`deliverables/Zhaqing_Suspension_Bridge_CAD_Reference_v0.2.FCStd`](deliverables/Zhaqing_Suspension_Bridge_CAD_Reference_v0.2.FCStd)：包含 N07 分析参考层以及索鞍、主锚、风锚、塔和基础的只读详图参考层。
+- [`deliverables/cad_detail_preview.png`](deliverables/cad_detail_preview.png)：新增参考对象的立面、平面和三维预览。
+
 ## Skill Gate 复盘
 
 - [`docs/skill-gate-fidelity-postmortem-2026-07-22.md`](docs/skill-gate-fidelity-postmortem-2026-07-22.md)：记录一次“Skill 已调用但 Gate 未被忠实执行”的失败。相关试算模型、求解结果和旧执行日志已经撤下，不构成任何工程证据。
+- [`docs/zhaqing-model-omission-conclusion.md`](docs/zhaqing-model-omission-conclusion.md)：只保留本次模型漏项的四条根因和一条流程结论。
 
 ## 扎青吊桥状态声明
 
-旧 CAD-001、CAD-002 模型及其自报任务包、Gate 台账和派生截图已经撤下。仓库当前不发布任何扎青吊桥 CAD 或 FEM 成果；新的模型必须由已安装 Skill 在全新 run 中按原生契约生成，并由独立 Gate 校验器判定。
+旧 CAD-001、CAD-002 模型及其自报任务包、Gate 台账和派生截图已经撤下。仓库当前发布的是 N00–N07 几何审查范围内的 CAD 参考模型；它不是制造级 CAD、完整 FEM、求解结果或工程签认成果。新增详图对象均为 `AnalysisParticipation=NONE`，其中尚未唯一配准的半径、截面和全局放置继续保留 `UNRESOLVED_PLACEMENT` 状态。

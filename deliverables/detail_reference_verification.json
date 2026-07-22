@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "PASS",
+  "modelPurpose": "GEOMETRY_REVIEW_ONLY",
+  "runId": "RUN-ZHAQING-GEOMETRY-REBUILD-20260722-005",
+  "freecadVersion": "1.1.1",
+  "sourceBaseline": {
+    "fcstd": "deliverables/Zhaqing_Suspension_Bridge_Analysis_Reference_v0.1.FCStd",
+    "fcstdSha256": "2f7beaceceb07cd613945332fffff1aa83d332687b218196dedbdb24760c2a6f",
+    "ir": "deliverables/zhaqing_n07_fem_geometry_ir.json",
+    "irSha256": "ac0196c0546af8fc62e37bb896946045230a8f5c052eba3bcb40ada9266af267"
+  },
+  "outputs": {
+    "fcstd": "deliverables/Zhaqing_Suspension_Bridge_CAD_Reference_v0.2.FCStd",
+    "fcstdSha256": "be4e012819c0141ee8003a8ffcad3e0adb780b1e64e9b38ad26b5115376cf12a",
+    "step": "deliverables/Zhaqing_Suspension_Bridge_CAD_Reference_v0.2.step",
+    "stepSha256": "3d8df44470b16fdeeefeafb746d6817a23b4e65f09a6ae460fcf55e091b0e892"
+  },
+  "counts": {
+    "detailObjects": 32,
+    "saddleRadiusWitnessArcs": 12,
+    "mainAnchorDetailObjects": 4,
+    "windAnchorEnvelopes": 4,
+    "towerAndFoundationDetailObjects": 12,
+    "stepExportObjects": 797,
+    "stepImportedShapeObjects": 29
+  },
+  "dimensionWitnesses": {
+    "saddleRadii_mm": [
+      1420.0,
+      1420.0,
+      1420.0,
+      1420.0,
+      1450.0,
+      1450.0,
+      1450.0,
+      1450.0,
+      1560.0,
+      1560.0,
+      1560.0,
+      1560.0
+    ],
+    "mainAnchorInterfaceSpacings_m": [
+      4.7,
+      4.7
+    ],
+    "mainAnchorEnvelope_m": [
+      10.5,
+      7.2,
+      7.0
+    ],
+    "windAnchorVerticalControlDifference_m": 3.0,
+    "towerFoundationControlZ_m": -4.5,
+    "towerPileBottomZ_m": -11.0,
+    "towerMinimumRockEmbedment_m": 2.0
+  },
+  "roundTrip": {
+    "fcstdBoundingBox_mm": {
+      "xmin_mm": -29982.559848834,
+      "xmax_mm": 110670.921000987,
+      "ymin_mm": -16103.735687775,
+      "ymax_mm": 16103.735687775,
+      "zmin_mm": -11000.0,
+      "zmax_mm": 9816.0
+    },
+    "stepBoundingBox_mm": {
+      "xmin_mm": -29982.55984883,
+      "xmax_mm": 110670.921001,
+      "ymin_mm": -16103.73568778,
+      "ymax_mm": 16103.73568778,
+      "zmin_mm": -11000.0,
+      "zmax_mm": 9816.0
+    },
+    "stepBoundingBoxMaxError_mm": 1.2994860298931599e-08,
+    "tolerance_mm": 0.001
+  },
+  "checks": {
+    "detailObjectCount": true,
+    "detailShapesValid": true,
+    "saddleRadiusWitnesses": true,
+    "mainAnchorHoleSpacing": true,
+    "stepNonempty": true,
+    "stepShapesValid": true,
+    "stepBoundingBoxRoundTrip": true
+  },
+  "invalidDetailObjects": [],
+  "invalidStepObjects": [],
+  "engineeringBounds": [
+    "索鞍R1420/R1450/R1560只作为原图半径见证，尚未接受为接触中心线。",
+    "主锚局部包络尺寸已接受，但当前全局放置和朝向只用于参考。",
+    "风锚上下标高已接受，X/Y和平面尺寸子视图归属仍为有界候选。",
+    "塔轴和控制标高已接受，1.50m候选截面及6.50m控制面范围不构成截面刚度或基础实体。",
+    "所有新增对象AnalysisParticipation均为NONE。"
+  ]
+}
