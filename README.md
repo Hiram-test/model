@@ -16,7 +16,8 @@
 ## Skill Gate 复盘
 
 - [`docs/skill-gate-fidelity-postmortem-2026-07-22.md`](docs/skill-gate-fidelity-postmortem-2026-07-22.md)：记录一次“Skill 已调用但 Gate 未被忠实执行”的失败。相关试算模型、求解结果和旧执行日志已经撤下，不构成任何工程证据。
+- [`docs/zhaqing-box-geometry-task-scope-postmortem-2026-07-22.md`](docs/zhaqing-box-geometry-task-scope-postmortem-2026-07-22.md)：记录扎青吊桥 `STRICT-010` 的盒子化几何、尺寸与装配坐标错误，以及单次长任务如何放大目标降级风险。
 
 ## 扎青吊桥状态声明
 
-旧 CAD-001、CAD-002 模型及其自报任务包、Gate 台账和派生截图已经撤下。仓库当前不发布任何扎青吊桥 CAD 或 FEM 成果；新的模型必须由已安装 Skill 在全新 run 中按原生契约生成，并由独立 Gate 校验器判定。
+旧 CAD-001、CAD-002 与 `STRICT-010` 模型及其自报任务包、Gate 台账和派生截图均已撤回或判定失效。仓库当前不发布任何扎青吊桥 CAD 或 FEM 成果；新的模型必须由已安装 Skill 在全新 run 中按原生契约生成，并由独立 Gate 校验器判定。
