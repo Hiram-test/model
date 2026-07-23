@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Render scan DXFs visibly and export source-located geometry records.
+"""Export source-located DXF geometry and run a diagnostic generic render.
 
-The first scanner intentionally performs a broad fidelity scan. This second
-N03 adapter fixes the display policy to black-on-white, verifies that critical
-model-space images contain actual ink, and serializes geometry needed by N04
-without interpreting any entity as an engineering component.
+The first scanner intentionally performs a broad fidelity scan. This N03
+adapter serializes the geometry needed by N04 without interpreting any entity
+as an engineering component. The ezdxf drawing add-on render is retained as a
+diagnostic only: legacy CAD plot/color combinations can produce a blank image
+even when entity export is complete. Blank generic renders therefore request
+the independent ``manual_render_geometry.py`` fallback; they do not erase or
+invalidate successfully exported source-located geometry.
 """
 from __future__ import annotations
 
@@ -192,6 +195,7 @@ def main() -> int:
     unsupported_counts: Counter[str] = Counter()
     entity_counts: Counter[str] = Counter()
     failures = []
+    geometry_record_count = 0
 
     with gzip.open(geometry_path, "wt", encoding="utf-8") as stream:
         for dxf_path in sorted(args.converted_dir.glob("*.dxf"), key=lambda p: p.name):
@@ -208,6 +212,7 @@ def main() -> int:
                 for entity in direct_entities:
                     kind = entity.dxftype()
                     entity_counts[kind] += 1
+                    geometry_record_count += 1
                     payload, supported = geometry(entity)
                     if not supported:
                         unsupported_counts[kind] += 1
@@ -220,14 +225,38 @@ def main() -> int:
                     render.update({"sourceRelpath": source_relpath, "derivedDxf": dxf_path.name, "layout": layout.name, "directEntityCount": len(direct_entities), "criticalRender": layout.name.lower() == "model"})
                     render_records.append(render)
                     if render["criticalRender"] and render["nonWhitePixelCount"] == 0:
-                        failures.append({"dxf": dxf_path.name, "layout": layout.name, "stage": "render", "error": "critical model-space render is blank"})
+                        failures.append({"dxf": dxf_path.name, "layout": layout.name, "stage": "generic_render", "error": "critical model-space render is blank"})
                 except Exception as exc:
-                    failures.append({"dxf": dxf_path.name, "layout": layout.name, "stage": "render", "error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc()})
+                    failures.append({"dxf": dxf_path.name, "layout": layout.name, "stage": "generic_render", "error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc()})
 
-    report = {"adapterRole": "N03_GEOMETRY_EXPORT_AND_RENDER_HEALTH", "gateAuthority": False, "ezdxfVersion": getattr(ezdxf, "__version__", "unknown"), "dxfCount": len(list(args.converted_dir.glob("*.dxf"))), "entityCounts": dict(sorted(entity_counts.items())), "unsupportedGeometryCounts": dict(sorted(unsupported_counts.items())), "geometryJsonlGz": geometry_path.name, "geometryJsonlGzSha256": sha256_file(geometry_path), "renders": render_records, "criticalBlankRenderCount": sum(1 for x in failures if x.get("error") == "critical model-space render is blank"), "failures": failures}
+    dxf_count = len(list(args.converted_dir.glob("*.dxf")))
+    expected_dxf_count = len(by_dxf)
+    hard_failures = [item for item in failures if item.get("stage") == "read"]
+    generic_render_warnings = [item for item in failures if item.get("stage") == "generic_render"]
+    geometry_export_ok = dxf_count == expected_dxf_count and geometry_record_count > 0 and not hard_failures
+    report = {
+        "adapterRole": "N03_SOURCE_LOCATED_GEOMETRY_EXPORT_WITH_DIAGNOSTIC_RENDER",
+        "gateAuthority": False,
+        "ezdxfVersion": getattr(ezdxf, "__version__", "unknown"),
+        "dxfCount": dxf_count,
+        "expectedDxfCount": expected_dxf_count,
+        "geometryRecordCount": geometry_record_count,
+        "geometryExportOk": geometry_export_ok,
+        "unsupportedGeometryCounts": dict(sorted(unsupported_counts.items())),
+        "entityCounts": dict(sorted(entity_counts.items())),
+        "geometryJsonlGz": geometry_path.name,
+        "geometryJsonlGzSha256": sha256_file(geometry_path),
+        "renders": render_records,
+        "criticalBlankRenderCount": sum(1 for item in generic_render_warnings if item.get("error") == "critical model-space render is blank"),
+        "fallbackRenderRequired": bool(generic_render_warnings),
+        "genericRenderWarnings": generic_render_warnings,
+        "hardFailures": hard_failures,
+        "failures": failures,
+        "separationOfResponsibilities": "This adapter gates source-located geometry export. manual_render_geometry.py separately gates visible model-space evidence.",
+    }
     (output_dir / "geometry_export_report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"dxfCount": report["dxfCount"], "geometryRecords": sum(entity_counts.values()), "criticalBlankRenderCount": report["criticalBlankRenderCount"], "failureCount": len(failures)}, ensure_ascii=False, indent=2))
-    return 2 if failures else 0
+    print(json.dumps({"dxfCount": dxf_count, "geometryRecords": geometry_record_count, "geometryExportOk": geometry_export_ok, "genericRenderWarningCount": len(generic_render_warnings), "hardFailureCount": len(hard_failures)}, ensure_ascii=False, indent=2))
+    return 0 if geometry_export_ok else 2
 
 
 if __name__ == "__main__":
