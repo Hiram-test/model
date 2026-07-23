@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
-"""Run the independent FCStd/STEP validator with a contract-derived hanger check.
+"""Run the independent FCStd/STEP validator with contract-derived checks.
 
-The original validator used ``length > 900 mm`` as a coarse smoke test. A later,
-explicitly registered 20 mm display gap for the omitted hanger clamp makes the
-shortest centre hanger about 887.94 mm. There is no drawing or Skill basis for
-900 mm, so this adapter removes that magic threshold and replaces it with a
-stronger deterministic check for every one of the 50 hangers:
+The base validator intentionally contains broad smoke tests. Two of those tests
+became invalid after evidence-driven geometry corrections:
 
-``actual solid length == cable_axis_z(x) - equivalent cable radius
-                       - registered clamp display gap``
+* a hanger was required to be longer than an unsupported 900 mm magic value;
+* a main cable was required to descend to the old, assumed -1200 mm anchor
+  elevation even after SGT-26 established a different display interface.
 
-All other checks—including STEP geometry reimport, metadata, object counts,
-bounding boxes and shape validity—come from ``validate_freecad_model.py``.
-This adapter cannot change the engineering release status; G3–G6 remain
-``BLOCKED`` while the upstream evidence and interface assumptions are open.
+This adapter retains every other base check, but replaces those two assumptions
+with deterministic checks derived from ``frozen_model_contract.json`` and the
+actual post-correction object manifest. It cannot change the engineering release
+status: G3-G6 remain BLOCKED while drawing conflicts and local interfaces remain
+open.
 """
 from __future__ import annotations
 
@@ -49,18 +48,38 @@ def main_cable_z(geometry: dict[str, Any], x_mm: float) -> float:
     return mid + 4.0 * rise * u * u
 
 
+def close(a: float, b: float, tolerance: float = 1e-4) -> bool:
+    return abs(float(a) - float(b)) <= tolerance
+
+
+def vector_close(actual: Any, expected: Any, tolerance: float = 1e-4) -> bool:
+    return (
+        isinstance(actual, list)
+        and isinstance(expected, list)
+        and len(actual) == len(expected)
+        and all(close(a, b, tolerance) for a, b in zip(actual, expected))
+    )
+
+
+def load_manifest() -> list[dict[str, Any]]:
+    manifest_path = base.OUTPUT_DIR / "object_manifest.json"
+    if not manifest_path.exists():
+        raise FileNotFoundError(manifest_path)
+    value = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if not isinstance(value, list):
+        raise ValueError("object_manifest.json must contain an array")
+    return value
+
+
 def contract_hanger_check() -> dict[str, Any]:
     """Recompute every display hanger length from frozen inputs and gap report."""
     params = json.loads(base.PARAMS_PATH.read_text(encoding="utf-8"))
     geometry = params["geometry"]
-    manifest_path = base.OUTPUT_DIR / "object_manifest.json"
+    manifest = load_manifest()
     gap_report_path = base.OUTPUT_DIR / "hanger_clamp_gap_report.json"
-    if not manifest_path.exists():
-        raise FileNotFoundError(manifest_path)
     if not gap_report_path.exists():
         raise FileNotFoundError(gap_report_path)
 
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     gap_report = json.loads(gap_report_path.read_text(encoding="utf-8"))
     changes = gap_report.get("changes", [])
     if len(changes) != 50:
@@ -111,45 +130,160 @@ def contract_hanger_check() -> dict[str, Any]:
     }
 
 
+def contract_main_cable_check() -> dict[str, Any]:
+    """Check both cable side-span interfaces against the reconciled contract."""
+    params = json.loads(base.PARAMS_PATH.read_text(encoding="utf-8"))
+    geometry = params["geometry"]
+    manifest = load_manifest()
+    cable_rows = {
+        str(row.get("name")): row
+        for row in manifest
+        if str(row.get("name", "")).startswith("MainCable_")
+    }
+    anchor = geometry["mainAnchor"]
+    cable = geometry["mainCable"]
+    side_span = float(geometry["sideSpan"])
+    span = float(geometry["span"])
+    tower_y = float(geometry["cablePlaneY"])
+    anchor_y = float(anchor["anchorCablePlaneY"])
+    anchor_z = float(anchor["topZ"])
+    radius = float(cable["equivalentDiameter"]) / 2.0
+
+    results: dict[str, Any] = {}
+    all_ok = len(cable_rows) == 2
+    for side_name, sign in (("L", 1.0), ("R", -1.0)):
+        name = f"MainCable_{side_name}"
+        row = cable_rows.get(name)
+        expected_control = {
+            "leftAnchorPointMm": [-side_span, sign * anchor_y, anchor_z],
+            "leftTowerPointMm": [0.0, sign * tower_y, float(cable["towerZ"])],
+            "rightTowerPointMm": [span, sign * tower_y, float(cable["towerZ"])],
+            "rightAnchorPointMm": [span + side_span, sign * anchor_y, anchor_z],
+        }
+        if row is None:
+            results[name] = {"missing": True, "expected": expected_control}
+            all_ok = False
+            continue
+        actual_control = row.get("geometryControl") or {}
+        bbox = row.get("bbox") or {}
+        bbox_min = bbox.get("min") or []
+        bbox_max = bbox.get("max") or []
+        control_ok = all(
+            vector_close(actual_control.get(key), value)
+            for key, value in expected_control.items()
+        )
+        # Cylindrical solids extend roughly one radius beyond centreline control
+        # points. This envelope check ties the manifest to the actual saved BRep.
+        envelope_ok = (
+            len(bbox_min) == 3
+            and len(bbox_max) == 3
+            and float(bbox_min[0]) <= -side_span + radius + 1e-3
+            and float(bbox_max[0]) >= span + side_span - radius - 1e-3
+            and float(bbox_min[2]) <= anchor_z + radius + 1e-3
+            and float(bbox_max[2]) >= float(cable["towerZ"]) - radius - 1e-3
+        )
+        representation_ok = row.get("representation") == "SEGMENTED_CIRCULAR_SOLID_WITH_SIDE_SPLAY"
+        row_ok = control_ok and envelope_ok and representation_ok
+        all_ok = all_ok and row_ok
+        results[name] = {
+            "expectedControl": expected_control,
+            "actualControl": actual_control,
+            "bbox": bbox,
+            "controlOk": control_ok,
+            "envelopeOk": envelope_ok,
+            "representation": row.get("representation"),
+            "representationOk": representation_ok,
+        }
+
+    return {
+        "checkId": "MAIN_CABLE_ANCHOR_SPLAY_MATCH_CONTRACT",
+        "status": "PASS" if all_ok else "FAIL",
+        "details": {
+            "cableCount": len(cable_rows),
+            "anchorCablePlaneYmm": anchor_y,
+            "towerCablePlaneYmm": tower_y,
+            "anchorTopZmm": anchor_z,
+            "results": results,
+            "toleranceMm": 1e-4,
+        },
+    }
+
+
 def corrected_validation() -> tuple[dict[str, Any], dict[str, Any]]:
-    """Run base validation, replacing only the unsupported hanger threshold."""
+    """Run base validation and replace only source-unsupported smoke tests."""
     report, gate_receipt = base.validate()
-    replacement = contract_hanger_check()
-    old_ids = {"HANGER_POSITIVE_LENGTHS", "HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT"}
-    replaced = False
-    new_checks = []
+    replacements = {
+        "HANGER_POSITIVE_LENGTHS": contract_hanger_check(),
+        "HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT": contract_hanger_check(),
+        "MAIN_CABLE_CONTROL_RANGE": contract_main_cable_check(),
+        "MAIN_CABLE_ANCHOR_SPLAY_MATCH_CONTRACT": contract_main_cable_check(),
+    }
+    replacement_groups = {
+        "hanger": {"HANGER_POSITIVE_LENGTHS", "HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT"},
+        "mainCable": {"MAIN_CABLE_CONTROL_RANGE", "MAIN_CABLE_ANCHOR_SPLAY_MATCH_CONTRACT"},
+    }
+    inserted = {key: False for key in replacement_groups}
+    new_checks: list[dict[str, Any]] = []
     for check in report.get("checks", []):
-        if check.get("checkId") in old_ids:
-            if not replaced:
-                new_checks.append(replacement)
-                replaced = True
-        else:
+        check_id = check.get("checkId")
+        group_name = next(
+            (name for name, ids in replacement_groups.items() if check_id in ids),
+            None,
+        )
+        if group_name is None:
             new_checks.append(check)
-    if not replaced:
-        raise RuntimeError("base validator did not expose a hanger length check")
+            continue
+        if not inserted[group_name]:
+            replacement_id = (
+                "HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT"
+                if group_name == "hanger"
+                else "MAIN_CABLE_ANCHOR_SPLAY_MATCH_CONTRACT"
+            )
+            new_checks.append(replacements[replacement_id])
+            inserted[group_name] = True
+    missing_groups = [name for name, value in inserted.items() if not value]
+    if missing_groups:
+        raise RuntimeError(f"base validator did not expose replaceable checks: {missing_groups}")
     report["checks"] = new_checks
 
+    removed_issue_ids = {
+        "TECH-HANGER_POSITIVE_LENGTHS",
+        "TECH-HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT",
+        "TECH-MAIN_CABLE_CONTROL_RANGE",
+        "TECH-MAIN_CABLE_ANCHOR_SPLAY_MATCH_CONTRACT",
+    }
     report["issues"] = [
         issue for issue in report.get("issues", [])
-        if issue.get("issueId") not in {
-            "TECH-HANGER_POSITIVE_LENGTHS",
-            "TECH-HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT",
-        }
+        if issue.get("issueId") not in removed_issue_ids
     ]
-    if replacement["status"] != "PASS":
-        report["issues"].append({
-            "issueId": "TECH-HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT",
-            "severity": "CRITICAL",
-            "ownerNode": "N07",
-            "details": replacement["details"],
-        })
+    active_replacements = [
+        replacements["HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT"],
+        replacements["MAIN_CABLE_ANCHOR_SPLAY_MATCH_CONTRACT"],
+    ]
+    for replacement in active_replacements:
+        if replacement["status"] != "PASS":
+            report["issues"].append({
+                "issueId": f"TECH-{replacement['checkId']}",
+                "severity": "CRITICAL",
+                "ownerNode": "N07",
+                "details": replacement["details"],
+            })
 
     technical_pass = all(item.get("status") == "PASS" for item in new_checks)
     report["technicalStatus"] = "PASS" if technical_pass else "FAIL"
-    report["hangerValidationPolicy"] = {
-        "replacedCheck": "HANGER_POSITIVE_LENGTHS (>900 mm magic threshold)",
-        "activeCheck": replacement["checkId"],
-        "reason": "No source, charter or Skill threshold supports 900 mm; all 50 values are recomputed from the frozen contract.",
+    report["contractValidationPolicy"] = {
+        "replacedChecks": [
+            {
+                "old": "HANGER_POSITIVE_LENGTHS (>900 mm magic threshold)",
+                "active": "HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT",
+                "reason": "All 50 values are recomputed from the frozen cable axis, equivalent radius and registered clamp gap.",
+            },
+            {
+                "old": "MAIN_CABLE_CONTROL_RANGE (old -1200 mm anchor assumption)",
+                "active": "MAIN_CABLE_ANCHOR_SPLAY_MATCH_CONTRACT",
+                "reason": "SGT-26 now controls the anchorage top elevation and 470 cm anchor cable spacing.",
+            },
+        ]
     }
     gate_receipt["technicalGeometryValidation"] = report["technicalStatus"]
     return report, gate_receipt
@@ -169,7 +303,10 @@ def main() -> int:
             "engineeringReleaseStatus": report["engineeringReleaseStatus"],
             "checks": len(report["checks"]),
             "failedChecks": failed,
-            "hangerCheck": "HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT",
+            "activeContractChecks": [
+                "HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT",
+                "MAIN_CABLE_ANCHOR_SPLAY_MATCH_CONTRACT",
+            ],
         }, ensure_ascii=False, indent=2))
         return 0 if report["technicalStatus"] == "PASS" else 1
     except Exception as exc:
