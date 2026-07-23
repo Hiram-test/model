@@ -63,19 +63,29 @@ def save_view(view, name: str, width: int = 2400, height: int = 1400) -> dict:
 
 def main() -> int:
     RENDER_DIR.mkdir(parents=True, exist_ok=True)
+    if not FCSTD_PATH.exists():
+        raise FileNotFoundError(FCSTD_PATH)
     doc = App.openDocument(str(FCSTD_PATH))
-    Gui.activeDocument().activeView().setAnimationEnabled(False)
+    if Gui.activeDocument() is None:
+        raise RuntimeError("FreeCADGui 未创建活动文档；检查 Xvfb/xcb 初始化")
     for obj in doc.Objects:
         if hasattr(obj, "ViewObject") and obj.TypeId == "Part::Feature":
             set_display(obj)
     Gui.updateGui()
     view = Gui.activeDocument().activeView()
-    view.setCameraType("Perspective")
 
     results = {}
+    # 旧版 FreeCAD 的 activeView 不一定提供 setAnimationEnabled，故不调用该非必要接口。
+    try:
+        view.setCameraType("Perspective")
+    except Exception:
+        pass
     view.viewAxonometric()
     results["axonometric"] = save_view(view, "01-axonometric.png")
-    view.setCameraType("Orthographic")
+    try:
+        view.setCameraType("Orthographic")
+    except Exception:
+        pass
     view.viewFront()
     results["elevation"] = save_view(view, "02-elevation.png")
     view.viewTop()
@@ -87,7 +97,7 @@ def main() -> int:
         "generatedAtUtc": utc_now(),
         "freecadVersion": ".".join(App.Version()[:3]),
         "renders": results,
-        "note": "图片来自 FCStd BRep 的 FreeCAD GUI 视图，不用于尺寸量测。"
+        "note": "图片来自修正后 FCStd BRep 的 FreeCAD GUI 视图，不用于尺寸量测。"
     }
     (RENDER_DIR / "render_report.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
