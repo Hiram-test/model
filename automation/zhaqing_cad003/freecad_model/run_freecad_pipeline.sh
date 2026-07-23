@@ -24,6 +24,8 @@ export ZHAQING_PARAMS="$OUT_DIR/frozen_model_contract.json"
   printf 'freecad_cmd=%s\nfreecad_gui=%s\n' "$FREECAD_CMD" "$FREECAD_GUI"
   "$FREECAD_CMD" --version || true
   "$FREECAD_GUI" --version || true
+  # 当前激活的合同校验适配器先用系统 Python 编译，避免到 STEP 回读后才发现语法问题。
+  python3 -m py_compile "$MODEL_DIR/validate_freecad_model_contract.py"
 } 2>&1 | tee "$OUT_DIR/logs/00-environment.log"
 
 # Step 1: 从 N03 CSV 按 source+handle 冻结合同；禁止建模脚本自行解释 CSV。
@@ -51,8 +53,9 @@ python3 "$MODEL_DIR/freeze_model_contract.py" \
 "$FREECAD_CMD" "$MODEL_DIR/export_compound_step.py" \
   2>&1 | tee "$OUT_DIR/logs/05-compound-step-export.log"
 
-# Step 6: 使用独立脚本重新打开修正后的 FCStd 和 Compound STEP，不复用建模器内存状态。
-"$FREECAD_CMD" "$MODEL_DIR/validate_freecad_model.py" \
+# Step 6: 新进程重开 FCStd/STEP；吊杆长度按冻结合同和已登记显示间隙逐根复算，
+# 不再使用与来源无关的“>900 mm”魔法阈值。
+"$FREECAD_CMD" "$MODEL_DIR/validate_freecad_model_contract.py" \
   2>&1 | tee "$OUT_DIR/logs/06-independent-validation.log"
 
 # Step 7: 独立执行 OpenCASCADE 公共体积审计；锚固端未闭合接口不伪装成已通过。
@@ -61,7 +64,7 @@ python3 "$MODEL_DIR/freeze_model_contract.py" \
 
 # Step 8: 在 Xvfb 虚拟显示中使用 FreeCAD GUI 保存四个视图。
 # 强制 Qt 使用 X11/xcb；顶层 workflow 的 offscreen 设置可能无法初始化 Coin3D 视图。
-# timeout 防止 GUI 插件异常时无限挂起。
+# timeout 防止 GUI 插件异常时无限挂起；渲染脚本还会逐图执行非白像素门禁。
 QT_QPA_PLATFORM=xcb timeout 180s xvfb-run -a "$FREECAD_GUI" "$MODEL_DIR/render_freecad_model.py" \
   2>&1 | tee "$OUT_DIR/logs/08-freecad-render.log"
 
@@ -73,6 +76,7 @@ cp "$MODEL_DIR/repair_assembly_interfaces.py" "$OUT_DIR/process_sources/"
 cp "$MODEL_DIR/adjust_hanger_clamp_gaps.py" "$OUT_DIR/process_sources/"
 cp "$MODEL_DIR/export_compound_step.py" "$OUT_DIR/process_sources/"
 cp "$MODEL_DIR/validate_freecad_model.py" "$OUT_DIR/process_sources/"
+cp "$MODEL_DIR/validate_freecad_model_contract.py" "$OUT_DIR/process_sources/"
 cp "$MODEL_DIR/audit_forbidden_penetrations.py" "$OUT_DIR/process_sources/"
 cp "$MODEL_DIR/render_freecad_model.py" "$OUT_DIR/process_sources/"
 cp "$MODEL_DIR/run_freecad_pipeline.sh" "$OUT_DIR/process_sources/"
@@ -92,6 +96,7 @@ test -s "$OUT_DIR/renders/01-axonometric.png"
 test -s "$OUT_DIR/renders/02-elevation.png"
 test -s "$OUT_DIR/renders/03-plan.png"
 test -s "$OUT_DIR/renders/04-cross-section.png"
+test -s "$OUT_DIR/renders/render_report.json"
 
 find "$OUT_DIR" -type f ! -name 'SHA256SUMS.txt' ! -name 'Zhaqing_CAD-003-delivery.zip' -print0 \
   | sort -z \
