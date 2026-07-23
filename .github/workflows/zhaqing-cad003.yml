@@ -150,7 +150,9 @@ jobs:
               automation/zhaqing_cad003/manual_render_geometry.py \
               automation/zhaqing_cad003/freecad_model/freeze_model_contract.py \
               automation/zhaqing_cad003/freecad_model/build_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/repair_assembly_interfaces.py \
               automation/zhaqing_cad003/freecad_model/validate_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/audit_forbidden_penetrations.py \
               automation/zhaqing_cad003/freecad_model/render_freecad_model.py
             bash -n automation/zhaqing_cad003/freecad_model/run_freecad_pipeline.sh
             python -m json.tool automation/zhaqing_cad003/freecad_model/source_facts.json >/dev/null
@@ -162,6 +164,7 @@ jobs:
         if: steps.compile.outcome == 'success'
         continue-on-error: true
         run: |
+          set +e
           set -o pipefail
           python automation/zhaqing_cad003/scan_drawings.py \
             --source-dir source-inputs/zhaqing-suspension-bridge/drawings \
@@ -171,11 +174,12 @@ jobs:
           echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: N03 export complete source-located geometry
+      - name: N03 export source-located geometry and record legacy render health
         id: geometry
         if: steps.scan.outputs.exit_code != '' && steps.scan.outputs.exit_code == '0'
         continue-on-error: true
         run: |
+          set +e
           set -o pipefail
           python automation/zhaqing_cad003/render_and_export_dxf.py \
             --scan-report build/zhaqing-cad003/scan/scan_report.json \
@@ -186,11 +190,12 @@ jobs:
           echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: N03 verify all twelve model-space drawings are visibly rendered
+      - name: N03 render all twelve model spaces from serialized geometry
         id: manual-render
-        if: steps.geometry.outputs.exit_code != '' && steps.geometry.outputs.exit_code == '0'
+        if: steps.scan.outputs.exit_code != '' && steps.scan.outputs.exit_code == '0'
         continue-on-error: true
         run: |
+          set +e
           set -o pipefail
           python automation/zhaqing_cad003/manual_render_geometry.py \
             --geometry-jsonl-gz build/zhaqing-cad003/scan/n03_geometry/geometry_entities.jsonl.gz \
@@ -200,11 +205,12 @@ jobs:
           echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: N04-N07 build FCStd, export STEP, reimport STEP, and render four views
+      - name: N04-N07 build FCStd, repair interfaces, export and reimport STEP, and render four views
         id: freecad-pipeline
         if: steps.manual-render.outputs.exit_code != '' && steps.manual-render.outputs.exit_code == '0'
         continue-on-error: true
         run: |
+          set +e
           set -o pipefail
           FREECAD_CMD="$(command -v FreeCADCmd || command -v freecadcmd)"
           FREECAD_GUI="$(command -v FreeCAD || command -v freecad)"
@@ -265,6 +271,17 @@ jobs:
           test "${{ steps.python-dependencies.outcome }}" = "success"
           test "${{ steps.compile.outcome }}" = "success"
           test -n "${{ steps.scan.outputs.exit_code }}" && test "${{ steps.scan.outputs.exit_code }}" = "0"
-          test -n "${{ steps.geometry.outputs.exit_code }}" && test "${{ steps.geometry.outputs.exit_code }}" = "0"
+          test -n "${{ steps.geometry.outputs.exit_code }}"
+          test -s build/zhaqing-cad003/scan/n03_geometry/geometry_entities.jsonl.gz
+          test "$(gzip -cd build/zhaqing-cad003/scan/n03_geometry/geometry_entities.jsonl.gz | wc -l)" -gt 0
           test -n "${{ steps.manual-render.outputs.exit_code }}" && test "${{ steps.manual-render.outputs.exit_code }}" = "0"
+          python - <<'PY'
+          import json
+          geometry = json.load(open('build/zhaqing-cad003/scan/n03_geometry/geometry_export_report.json', encoding='utf-8'))
+          manual = json.load(open('build/zhaqing-cad003/scan/n03_manual_render/manual_render_report.json', encoding='utf-8'))
+          assert geometry['dxfCount'] == 12, geometry['dxfCount']
+          assert manual['sourceDrawingCount'] == 12, manual['sourceDrawingCount']
+          assert manual['successfulRenderCount'] == 12, manual['successfulRenderCount']
+          assert not manual['failures'], manual['failures']
+          PY
           test -n "${{ steps.freecad-pipeline.outputs.exit_code }}" && test "${{ steps.freecad-pipeline.outputs.exit_code }}" = "0"
