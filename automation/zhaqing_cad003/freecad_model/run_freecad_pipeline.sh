@@ -41,8 +41,9 @@ python3 "$MODEL_DIR/freeze_model_contract.py" \
   2>&1 | tee "$OUT_DIR/logs/03-independent-validation.log"
 
 # Step 4: 在 Xvfb 虚拟显示中使用 FreeCAD GUI 保存四个视图。
+# 强制 Qt 使用 X11/xcb；顶层 workflow 的 offscreen 设置可能无法初始化 Coin3D 视图。
 # timeout 防止 GUI 插件异常时无限挂起。
-timeout 180s xvfb-run -a "$FREECAD_GUI" "$MODEL_DIR/render_freecad_model.py" \
+QT_QPA_PLATFORM=xcb timeout 180s xvfb-run -a "$FREECAD_GUI" "$MODEL_DIR/render_freecad_model.py" \
   2>&1 | tee "$OUT_DIR/logs/04-freecad-render.log"
 
 # Step 5: 把本次实际使用的脚本和事实清单复制到交付物，便于逐行复核。
@@ -52,6 +53,7 @@ cp "$MODEL_DIR/build_freecad_model.py" "$OUT_DIR/process_sources/"
 cp "$MODEL_DIR/validate_freecad_model.py" "$OUT_DIR/process_sources/"
 cp "$MODEL_DIR/render_freecad_model.py" "$OUT_DIR/process_sources/"
 cp "$MODEL_DIR/run_freecad_pipeline.sh" "$OUT_DIR/process_sources/"
+cp "$MODEL_DIR/README.md" "$OUT_DIR/process_sources/"
 
 # Step 6: 文件级终检。工程 Gate 可以是 BLOCKED，但技术文件不得缺失或为空。
 test -s "$OUT_DIR/Zhaqing_CAD-003.FCStd"
