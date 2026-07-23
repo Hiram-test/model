@@ -140,10 +140,16 @@ jobs:
             python3 -m py_compile \
               automation/zhaqing_cad003/manual_render_geometry.py \
               automation/zhaqing_cad003/freecad_model/freeze_model_contract.py \
+              automation/zhaqing_cad003/freecad_model/reconcile_anchor_wind_contract.py \
               automation/zhaqing_cad003/freecad_model/build_freecad_model.py \
               automation/zhaqing_cad003/freecad_model/repair_assembly_interfaces.py \
+              automation/zhaqing_cad003/freecad_model/adjust_hanger_clamp_gaps.py \
+              automation/zhaqing_cad003/freecad_model/correct_anchor_wind_geometry.py \
+              automation/zhaqing_cad003/freecad_model/export_compound_step.py \
               automation/zhaqing_cad003/freecad_model/validate_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/validate_freecad_model_contract.py \
               automation/zhaqing_cad003/freecad_model/audit_forbidden_penetrations.py \
+              automation/zhaqing_cad003/freecad_model/audit_anchor_wind_geometry.py \
               automation/zhaqing_cad003/freecad_model/render_freecad_model.py
             bash -n automation/zhaqing_cad003/freecad_model/run_freecad_pipeline.sh
             python3 -m json.tool automation/zhaqing_cad003/freecad_model/source_facts.json >/dev/null
@@ -169,7 +175,7 @@ jobs:
           echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Build FCStd, export STEP, repair interfaces, reimport, audit, and render
+      - name: Reconcile anchors and wind cables, build FCStd/STEP, independently audit, and render
         id: freecad-pipeline
         if: steps.manual-render.outputs.exit_code != '' && steps.manual-render.outputs.exit_code == '0'
         continue-on-error: true
