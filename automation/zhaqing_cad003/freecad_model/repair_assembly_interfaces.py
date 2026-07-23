@@ -16,7 +16,6 @@ import hashlib
 import json
 import math
 import os
-import re
 import sys
 import traceback
 from datetime import datetime, timezone
@@ -91,6 +90,54 @@ def main_cable_z(g: dict[str, Any], x: float) -> float:
     return mid + 4.0 * rise * u * u
 
 
+def main_cable_slope(g: dict[str, Any], x: float) -> float:
+    """Return dz/dx of the accepted main-span parabola at ``x``.
+
+    ``z = mid + 4*rise*(x/span - 1/2)^2``; therefore
+    ``dz/dx = 8*rise*(x/span - 1/2)/span``.  The slope is dimensionless
+    because both x and z use millimetres.
+    """
+    span = g["span"]
+    rise = g["mainCable"]["mainspanRise"]
+    return 8.0 * rise * (x / span - 0.5) / span
+
+
+def hanger_tangent_top_z(
+    g: dict[str, Any],
+    x: float,
+    cable_radius: float,
+    hanger_radius: float,
+    visual_gap: float,
+) -> tuple[float, dict[str, float]]:
+    """Conservatively stop a vertical hanger below a sloping cable cylinder.
+
+    Ending the hanger at ``cable_axis_z - cable_radius`` is only tangent when
+    the cable is horizontal and the hanger has zero radius.  For a local cable
+    slope ``s``, the cable's circular envelope projected onto global vertical
+    requires ``Rc*sqrt(1+s^2)`` clearance; the hanger top disk extends ``Rh``
+    in x and introduces an additional ``|s|*Rh``.  A 1 mm display gap keeps the
+    omitted clamp/interface visually and topologically explicit.
+
+    The formula is deliberately conservative and affects only DISPLAY solid
+    geometry.  The accepted cable/hanger reference relationship remains in the
+    frozen contract and object evidence metadata.
+    """
+    slope = main_cable_slope(g, x)
+    cable_axis_z = main_cable_z(g, x)
+    projected_cable_clearance = cable_radius * math.sqrt(1.0 + slope * slope)
+    hanger_footprint_clearance = abs(slope) * hanger_radius
+    total_clearance = projected_cable_clearance + hanger_footprint_clearance + visual_gap
+    return cable_axis_z - total_clearance, {
+        "xMm": x,
+        "slopeDzDx": slope,
+        "cableAxisZMm": cable_axis_z,
+        "projectedCableClearanceMm": projected_cable_clearance,
+        "hangerFootprintClearanceMm": hanger_footprint_clearance,
+        "visualGapMm": visual_gap,
+        "totalClearanceMm": total_clearance,
+    }
+
+
 def shape_summary(shape: Part.Shape) -> dict[str, Any]:
     box = shape.BoundBox
     return {
@@ -140,6 +187,7 @@ def repair() -> dict[str, Any]:
     doc = App.openDocument(str(FCSTD_PATH))
     event("stage_start", stageId="08", title="assembly_interface_repair", purpose="消除显示实体中的非设计体积穿透")
     changes: list[dict[str, Any]] = []
+    hanger_tangent_records: list[dict[str, Any]] = []
 
     cross = g["crossbeam"]
     girder = g["longGirder"]
@@ -249,15 +297,32 @@ def repair() -> dict[str, Any]:
             obj = doc.getObject(f"Saddle_T{tower_index}_{side_name}")
             changes.append(set_shape(obj, Part.makeCompound([base, left_rail, right_rail]), "U_CHANNEL_DISPLAY_ENVELOPE"))
 
-    # 6. 吊杆止于主缆下表面，不再插到主缆中心线。
+    # 6. 吊杆显示实体在主缆局部切线包络下方终止。
+    # 索夹和销轴未在当前图纸证据中闭合，因此不以两个圆柱公共体积伪装连接；
+    # 冻结合同中的吊点参考关系保留，显示实体留 1 mm 明确净空。
     cable_radius = cable["equivalentDiameter"] / 2.0
     hanger_radius = g["hanger"]["diameter"] / 2.0
+    visual_gap = 1.0
     for side_name, y in (("L", g["cablePlaneY"]), ("R", -g["cablePlaneY"])):
         for index, x in enumerate(g["hangerStations"], 1):
+            top_z, tangent = hanger_tangent_top_z(g, x, cable_radius, hanger_radius, visual_gap)
             p1 = App.Vector(x, y, 0.0)
-            p2 = App.Vector(x, y, main_cable_z(g, x) - cable_radius)
+            p2 = App.Vector(x, y, top_z)
             obj = doc.getObject(f"Hanger_{side_name}_{index:02d}")
-            changes.append(set_shape(obj, cylinder_between(p1, p2, hanger_radius), "CIRCULAR_SOLID_SURFACE_TERMINATED"))
+            obj.EvidenceStatus = "ACCEPTED_ROD_WITH_BOUNDED_CLAMP_INTERFACE"
+            existing_assumptions = json.loads(getattr(obj, "AssumptionRefsJson", "[]"))
+            if "A-CAD-DISPLAY-001" not in existing_assumptions:
+                existing_assumptions.append("A-CAD-DISPLAY-001")
+            obj.AssumptionRefsJson = json.dumps(sorted(existing_assumptions), ensure_ascii=False)
+            change = set_shape(
+                obj,
+                cylinder_between(p1, p2, hanger_radius),
+                "CIRCULAR_SOLID_TANGENT_CLEARANCE_CLAMP_OMITTED",
+            )
+            tangent_record = {"object": obj.Name, "side": side_name, "index": index, **tangent, "topZMm": top_z}
+            change["tangentTermination"] = tangent_record
+            changes.append(change)
+            hanger_tangent_records.append(tangent_record)
 
     doc.recompute()
     stage_path = OUTPUT_DIR / "stages" / "08_assembly_interface_repair.FCStd"
@@ -276,11 +341,17 @@ def repair() -> dict[str, Any]:
     manifest = rebuild_manifest(doc)
     (OUTPUT_DIR / "object_manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     report = {
-        "schemaVersion": "1.0.0",
+        "schemaVersion": "1.1.0",
         "generatedAtUtc": utc_now(),
         "status": "PASS",
         "changedObjects": len(changes),
         "changes": changes,
+        "hangerTangentTermination": {
+            "method": "z_top = z_axis - Rc*sqrt(1+s^2) - |s|*Rh - visual_gap",
+            "visualGapMm": visual_gap,
+            "records": hanger_tangent_records,
+            "scope": "DISPLAY solids only; clamp geometry omitted and reference relationship retained",
+        },
         "stageSnapshot": {"path": str(stage_path.relative_to(OUTPUT_DIR)), "sha256": sha256_file(stage_path)},
         "finalFcstd": {"sha256": sha256_file(FCSTD_PATH), "bytes": FCSTD_PATH.stat().st_size},
         "finalStep": {"sha256": sha256_file(STEP_PATH), "bytes": STEP_PATH.stat().st_size},
@@ -295,6 +366,7 @@ def repair() -> dict[str, Any]:
         "scriptSha256": sha256_file(Path(__file__)),
         "reportSha256": sha256_file(OUTPUT_DIR / "assembly_interface_repair_report.json"),
         "changedObjects": len(changes),
+        "hangerInterfaceMethod": report["hangerTangentTermination"]["method"],
     }
     artifact_manifest.setdefault("files", {})[FCSTD_PATH.name] = {"sha256": sha256_file(FCSTD_PATH), "bytes": FCSTD_PATH.stat().st_size}
     artifact_manifest["files"][STEP_PATH.name] = {"sha256": sha256_file(STEP_PATH), "bytes": STEP_PATH.stat().st_size}
@@ -306,8 +378,10 @@ def repair() -> dict[str, Any]:
             "\n## 08 装配接口修正\n\n"
             "独立复核发现，初次显示包络若直接相交，会重现 CAD-001 中‘用公共体积表达连接’的问题。"
             "本阶段保留早期快照作为失败经验，同时修正最终 FCStd/STEP：横梁在纵梁处断开、塔区桥面缩回柱面、"
-            "柱梁和梁鞍采用端面接触、索鞍中央留出主缆通道、吊杆止于主缆下表面。"
-            f"共修改 `{len(changes)}` 个对象，详细前后包围盒和体积见 `assembly_interface_repair_report.json`。\n"
+            "柱梁和梁鞍采用端面接触、索鞍中央留出主缆通道。吊杆端部不是简单减去一个主缆半径，"
+            "而是按主缆局部坡度、主缆半径和吊杆半径计算切线包络，并留 1 mm 显式显示净空；"
+            "缺失索夹不再用公共体积冒充。"
+            f"共修改 `{len(changes)}` 个对象，详细前后包围盒、体积和 50 根吊杆切线计算见 `assembly_interface_repair_report.json`。\n"
         )
 
     event(
@@ -330,6 +404,7 @@ def main() -> int:
             "changedObjects": report["changedObjects"],
             "finalFcstd": report["finalFcstd"],
             "finalStep": report["finalStep"],
+            "hangerTangentMethod": report["hangerTangentTermination"]["method"],
         }, ensure_ascii=False, indent=2))
         return 0
     except Exception as exc:
