@@ -7,8 +7,10 @@
 - 模型总体范围、主缆/吊杆/风缆的基本几何不变量；
 - STEP 重新导入、非空实体和 FCStd/STEP 包围盒一致性。
 
-技术校验通过并不覆盖未闭合的图纸配准、Part 覆盖和风缆锚点问题，
-所以 G3-G6 的工程状态仍可为 BLOCKED。
+FreeCAD 0.19 的 ``Import.insert`` 会走 OCAF/STEPCAF 装配导入路径；本项目的多实体
+STEP 在 Ubuntu 22.04 实跑中于 100% 后发生 SIGSEGV。这里改用 ``Part.insert``，
+只回读几何拓扑，不恢复名称/颜色/装配标签，恰好符合本校验器的目标，并把该工具
+选择写入报告。技术校验通过仍不能覆盖上游 G3-G5 的工程阻断。
 """
 from __future__ import annotations
 
@@ -23,7 +25,7 @@ from pathlib import Path
 from typing import Any
 
 import FreeCAD as App
-import Import
+import Part
 
 
 PARAMS_PATH = Path(os.environ.get("ZHAQING_PARAMS", "frozen_model_contract.json")).resolve()
@@ -203,8 +205,10 @@ def validate() -> tuple[dict[str, Any], dict[str, Any]]:
         for obj in main_cables
     })
 
+    # FreeCAD 0.19 的 Import.insert 使用 OCAF/STEPCAF，实跑在本多实体 STEP 上崩溃。
+    # Part.insert 只恢复几何 Part::Feature，避免颜色/名称装配恢复路径，并满足本检查目标。
     step_doc = App.newDocument("Zhaqing_STEP_RoundTrip")
-    Import.insert(str(STEP_PATH), step_doc.Name)
+    Part.insert(str(STEP_PATH), step_doc.Name)
     step_doc.recompute()
     step_objects = [obj for obj in step_doc.Objects if hasattr(obj, "Shape") and not obj.Shape.isNull()]
     step_valid = [obj.Name for obj in step_objects if obj.Shape.isValid()]
@@ -212,7 +216,8 @@ def validate() -> tuple[dict[str, Any], dict[str, Any]]:
     step_bbox = aggregate_bbox(step_objects)
     delta = bbox_delta(fc_bbox, step_bbox)
     add_check(checks, "STEP_REIMPORT_NONEMPTY", bool(step_objects), {
-        "objects": len(step_objects), "valid": len(step_valid), "invalid": step_invalid
+        "objects": len(step_objects), "valid": len(step_valid), "invalid": step_invalid,
+        "reader": "Part.insert (geometry-only, non-OCAF assembly path)"
     })
     add_check(checks, "STEP_REIMPORT_VALID", not step_invalid, step_invalid)
     add_check(checks, "STEP_FCSTD_BBOX_MATCH", delta <= 0.5, {
@@ -238,6 +243,7 @@ def validate() -> tuple[dict[str, Any], dict[str, Any]]:
         "technicalStatus": "PASS" if technical_pass else "FAIL",
         "engineeringReleaseStatus": params["engineeringReleaseStatus"],
         "freecadVersion": ".".join(App.Version()[:3]),
+        "stepReader": "Part.insert geometry-only path; Import.insert OCAF path excluded after reproducible SIGSEGV in run 29984424279",
         "files": {
             "fcstd": {"path": str(FCSTD_PATH), "sha256": sha256_file(FCSTD_PATH), "bytes": FCSTD_PATH.stat().st_size},
             "step": {"path": str(STEP_PATH), "sha256": sha256_file(STEP_PATH), "bytes": STEP_PATH.stat().st_size},
@@ -299,6 +305,7 @@ def write_markdown(report: dict[str, Any]) -> None:
         f"- 技术状态：`{report['technicalStatus']}`",
         f"- 工程发布状态：`{report['engineeringReleaseStatus']}`",
         f"- FreeCAD：`{report['freecadVersion']}`",
+        f"- STEP 读取器：`{report['stepReader']}`",
         f"- DISPLAY 对象：{report['statistics']['displayObjects']}",
         f"- STEP 回读对象：{report['statistics']['stepObjects']}",
         "",
