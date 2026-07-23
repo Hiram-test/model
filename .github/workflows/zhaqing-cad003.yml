@@ -14,7 +14,6 @@ on:
 permissions:
   contents: read
 
-# 同一 PR 的旧运行会被新提交取消；失败运行仍会先上传已生成的证据。
 concurrency:
   group: zhaqing-cad003-${{ github.ref }}
   cancel-in-progress: true
@@ -22,7 +21,9 @@ concurrency:
 jobs:
   build-cad003:
     name: N02-N07 source-bound FreeCAD and STEP build
-    runs-on: ubuntu-24.04
+    # Ubuntu 24.04 hosted runner currently has no FreeCAD apt candidate. 22.04
+    # provides the distro package and remains an isolated disposable VM.
+    runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
       PYTHONHASHSEED: '0'
@@ -43,14 +44,11 @@ jobs:
       - name: Initialize append-only evidence directories
         run: |
           set -euxo pipefail
-          mkdir -p \
-            build/zhaqing-cad003/scan/provenance \
-            build/zhaqing-cad003/run/process/logs
+          mkdir -p build/zhaqing-cad003/scan/provenance build/zhaqing-cad003/run/process/logs
           git rev-parse HEAD > build/zhaqing-cad003/scan/provenance/source-commit.txt
           printf '%s\n' "${{ github.event_name }}" > build/zhaqing-cad003/scan/provenance/event-name.txt
           printf '%s\n' "${{ github.sha }}" > build/zhaqing-cad003/scan/provenance/event-sha.txt
 
-      # 该步骤同时安装 FreeCADCmd。apt 输出保存到工件，便于复盘包版本或镜像变化。
       - name: Install Ubuntu, FreeCAD, and converter build dependencies
         id: dependencies
         continue-on-error: true
@@ -59,12 +57,14 @@ jobs:
           {
             set -eux
             sudo apt-get update
-            apt-cache policy freecad || true
+            sudo apt-get install -y --no-install-recommends software-properties-common
+            sudo add-apt-repository -y universe
+            sudo apt-get update
+            apt-cache policy freecad
             sudo apt-get install -y --no-install-recommends \
               build-essential autoconf automake libtool pkg-config \
               bison flex gettext git ca-certificates \
-              libpcre2-dev libxml2-dev \
-              fonts-noto-cjk fontconfig \
+              libpcre2-dev libxml2-dev fonts-noto-cjk fontconfig \
               freecad xvfb libgl1-mesa-dri
             fc-cache -f
             command -v FreeCADCmd || command -v freecadcmd
@@ -173,7 +173,7 @@ jobs:
 
       - name: N03 export complete source-located geometry
         id: geometry
-        if: steps.scan.outputs.exit_code == '0'
+        if: steps.scan.outputs.exit_code != '' && steps.scan.outputs.exit_code == '0'
         continue-on-error: true
         run: |
           set -o pipefail
@@ -186,11 +186,9 @@ jobs:
           echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
           exit 0
 
-      # 老 DWG 的颜色/打印样式可能使通用渲染器得到白图；这里直接从序列化几何重画，
-      # 并逐图检查非白像素，避免“解析成功但证据图为空”。
       - name: N03 verify all twelve model-space drawings are visibly rendered
         id: manual-render
-        if: steps.geometry.outputs.exit_code == '0'
+        if: steps.geometry.outputs.exit_code != '' && steps.geometry.outputs.exit_code == '0'
         continue-on-error: true
         run: |
           set -o pipefail
@@ -204,13 +202,12 @@ jobs:
 
       - name: N04-N07 run source-bound FreeCAD model and independent STEP validation
         id: freecad-pipeline
-        if: steps.manual-render.outputs.exit_code == '0'
+        if: steps.manual-render.outputs.exit_code != '' && steps.manual-render.outputs.exit_code == '0'
         continue-on-error: true
         run: |
           set -o pipefail
           bash automation/zhaqing_cad003/run_vm_freecad_pipeline.sh \
-            build/zhaqing-cad003/scan \
-            build/zhaqing-cad003/run \
+            build/zhaqing-cad003/scan build/zhaqing-cad003/run \
             2>&1 | tee build/zhaqing-cad003/run/process/logs/00-pipeline-console.log
           status=${PIPESTATUS[0]}
           echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
@@ -255,7 +252,6 @@ jobs:
           retention-days: 30
           compression-level: 6
 
-      # 所有证据先上传，再由最后一步使工作流失败。这样错误过程不会消失。
       - name: Enforce all deterministic stages after evidence upload
         if: always()
         run: |
@@ -263,7 +259,7 @@ jobs:
           test "${{ steps.converter.outcome }}" = "success"
           test "${{ steps.python-dependencies.outcome }}" = "success"
           test "${{ steps.compile.outcome }}" = "success"
-          test "${{ steps.scan.outputs.exit_code }}" = "0"
-          test "${{ steps.geometry.outputs.exit_code }}" = "0"
-          test "${{ steps.manual-render.outputs.exit_code }}" = "0"
-          test "${{ steps.freecad-pipeline.outputs.exit_code }}" = "0"
+          test -n "${{ steps.scan.outputs.exit_code }}" && test "${{ steps.scan.outputs.exit_code }}" = "0"
+          test -n "${{ steps.geometry.outputs.exit_code }}" && test "${{ steps.geometry.outputs.exit_code }}" = "0"
+          test -n "${{ steps.manual-render.outputs.exit_code }}" && test "${{ steps.manual-render.outputs.exit_code }}" = "0"
+          test -n "${{ steps.freecad-pipeline.outputs.exit_code }}" && test "${{ steps.freecad-pipeline.outputs.exit_code }}" = "0"
