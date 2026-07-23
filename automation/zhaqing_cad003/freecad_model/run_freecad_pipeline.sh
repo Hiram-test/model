@@ -63,6 +63,7 @@ PY
     "$MODEL_DIR/export_compound_step.py" \
     "$MODEL_DIR/validate_freecad_model.py" \
     "$MODEL_DIR/validate_freecad_model_contract.py" \
+    "$MODEL_DIR/validate_freecad_model_contract_direct_step.py" \
     "$MODEL_DIR/audit_forbidden_penetrations.py" \
     "$MODEL_DIR/audit_anchor_wind_geometry.py" \
     "$MODEL_DIR/render_freecad_model.py"
@@ -121,11 +122,13 @@ test -s "$OUT_DIR/stages/10_anchor_wind_geometry_reconciliation.FCStd"
   2>&1 | tee "$OUT_DIR/logs/08-compound-step-export.log"
 assert_json_equals "$OUT_DIR/compound_step_export_report.json" "status" "PASS"
 
-# Step 9: 新进程重开 FCStd/STEP；吊杆和主缆锚端均按修订后的冻结合同复算。
+# Step 9: 新进程重开 FCStd，并把 STEP 直接读成一个 TopoShape，而不是让 FreeCAD 0.19
+# 展开 675 个 solids 为数百个文档对象；随后仍执行有效性、体积和包围盒回读检查。
 PYTHONPATH="$MODEL_DIR${PYTHONPATH:+:$PYTHONPATH}" \
-  "$FREECAD_CMD" "$MODEL_DIR/validate_freecad_model_contract.py" \
+  "$FREECAD_CMD" "$MODEL_DIR/validate_freecad_model_contract_direct_step.py" \
   2>&1 | tee "$OUT_DIR/logs/09-independent-validation.log"
 assert_json_equals "$OUT_DIR/validation_report.json" "technicalStatus" "PASS"
+assert_json_equals "$OUT_DIR/validation_report.json" "directStepReaderApplied" "True"
 assert_json_equals "$OUT_DIR/gate_receipt.json" "technicalGeometryValidation" "PASS"
 
 # Step 10: 独立执行 OpenCASCADE 公共体积审计；未闭合的局部硬件接口不伪装成已通过。
@@ -157,6 +160,7 @@ for file in \
   export_compound_step.py \
   validate_freecad_model.py \
   validate_freecad_model_contract.py \
+  validate_freecad_model_contract_direct_step.py \
   audit_forbidden_penetrations.py \
   audit_anchor_wind_geometry.py \
   render_freecad_model.py \
