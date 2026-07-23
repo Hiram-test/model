@@ -1,6 +1,12 @@
 name: Zhaqing bridge CalculiX and Abaqus-compatible INP analysis
 
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/zhaqing-calculix.yml'
+      - 'automation/zhaqing_calculix/**'
   push:
     branches:
       - agent/zhaqing-freecad-cad003
