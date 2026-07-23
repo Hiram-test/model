@@ -1,0 +1,201 @@
+name: Zhaqing CAD-003 anchorage and wind-cable correction
+
+on:
+  push:
+    branches:
+      - agent/zhaqing-freecad-cad003
+    paths:
+      - '.github/workflows/zhaqing-cad003-anchor-wind.yml'
+      - 'automation/zhaqing_cad003/freecad_model/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  correct-and-audit:
+    name: Reconcile SGT-26/32/33, rebuild FCStd/STEP, and audit
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    env:
+      PYTHONHASHSEED: '0'
+      MPLBACKEND: Agg
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+      FROZEN_SCAN_RUN_ID: '29983479194'
+      FROZEN_SCAN_ARTIFACT: 'zhaqing-cad003-freecad-step-277442f35d795d34aeb82706a1af18b32d2a9ed0'
+
+    steps:
+      - name: Checkout immutable correction scripts and source DWGs
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Initialize append-only process directories
+        run: |
+          set -euxo pipefail
+          mkdir -p build/zhaqing-cad003/anchor-wind/logs build/zhaqing-cad003/anchor-wind/provenance
+          git rev-parse HEAD > build/zhaqing-cad003/anchor-wind/provenance/source-commit.txt
+
+      - name: Download frozen N02-N03 evidence
+        id: download
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FROZEN_SCAN_ARTIFACT }}
+          path: recovered-zhaqing-cad003
+          github-token: ${{ github.token }}
+          repository: Hiram-test/model
+          run-id: ${{ env.FROZEN_SCAN_RUN_ID }}
+
+      - name: Verify current DWGs match the frozen manifest
+        id: hashes
+        if: steps.download.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set +e
+          python3 - <<'PY' 2>&1 | tee build/zhaqing-cad003/anchor-wind/logs/01-source-hash-check.log
+          import hashlib, json
+          from pathlib import Path
+
+          root = Path.cwd()
+          scan = root / 'recovered-zhaqing-cad003' / 'scan'
+          report = json.loads((scan / 'scan_report.json').read_text(encoding='utf-8'))
+          source_dir = root / 'source-inputs/zhaqing-suspension-bridge/drawings'
+          rows = []
+          for item in report['drawings']:
+              source = source_dir / Path(item['source_relpath']).name
+              h = hashlib.sha256()
+              with source.open('rb') as stream:
+                  for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+                      h.update(chunk)
+              rows.append({
+                  'file': source.name,
+                  'expected': item['source_sha256'],
+                  'actual': h.hexdigest(),
+              })
+          result = {
+              'drawingCount': len(rows),
+              'allHashesMatch': len(rows) == 12 and all(r['expected'] == r['actual'] for r in rows),
+              'files': rows,
+          }
+          out = root / 'build/zhaqing-cad003/anchor-wind/provenance/source-hash-comparison.json'
+          out.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+          print(json.dumps(result, ensure_ascii=False, indent=2))
+          raise SystemExit(0 if result['allHashesMatch'] else 2)
+          PY
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Install FreeCAD, Xvfb, and Python dependencies
+        id: dependencies
+        if: steps.hashes.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          {
+            set -eux
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends software-properties-common
+            sudo add-apt-repository -y universe
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends \
+              freecad xvfb xauth libgl1-mesa-dri libglu1-mesa \
+              fonts-noto-cjk fontconfig zip python3-pip
+            python3 -m pip install --user -r automation/zhaqing_cad003/requirements-scan.txt
+            command -v FreeCADCmd || command -v freecadcmd
+            command -v FreeCAD || command -v freecad
+          } 2>&1 | tee build/zhaqing-cad003/anchor-wind/logs/02-dependency-install.log
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Compile every active contract, geometry, audit, and render script
+        id: compile
+        if: steps.dependencies.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          {
+            set -eux
+            python3 -m py_compile \
+              automation/zhaqing_cad003/freecad_model/freeze_model_contract.py \
+              automation/zhaqing_cad003/freecad_model/reconcile_anchor_wind_contract.py \
+              automation/zhaqing_cad003/freecad_model/add_contract_compatibility_aliases.py \
+              automation/zhaqing_cad003/freecad_model/build_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/repair_assembly_interfaces.py \
+              automation/zhaqing_cad003/freecad_model/adjust_hanger_clamp_gaps.py \
+              automation/zhaqing_cad003/freecad_model/correct_anchor_wind_geometry.py \
+              automation/zhaqing_cad003/freecad_model/export_compound_step.py \
+              automation/zhaqing_cad003/freecad_model/validate_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/validate_freecad_model_contract.py \
+              automation/zhaqing_cad003/freecad_model/audit_forbidden_penetrations.py \
+              automation/zhaqing_cad003/freecad_model/audit_anchor_wind_geometry.py \
+              automation/zhaqing_cad003/freecad_model/render_freecad_model.py
+            bash -n automation/zhaqing_cad003/freecad_model/run_freecad_pipeline.sh
+          } 2>&1 | tee build/zhaqing-cad003/anchor-wind/logs/03-script-compile.log
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Run reconciled FreeCAD and STEP pipeline
+        id: pipeline
+        if: steps.compile.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          export FREECAD_CMD="$(command -v FreeCADCmd || command -v freecadcmd)"
+          export FREECAD_GUI="$(command -v FreeCAD || command -v freecad)"
+          export ZHAQING_SCAN_DIR="$GITHUB_WORKSPACE/recovered-zhaqing-cad003/scan"
+          export ZHAQING_OUT="$GITHUB_WORKSPACE/build/zhaqing-cad003/anchor-wind/model"
+          bash automation/zhaqing_cad003/freecad_model/run_freecad_pipeline.sh \
+            2>&1 | tee build/zhaqing-cad003/anchor-wind/logs/04-pipeline-console.log
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Preserve VM environment and outcomes
+        if: always()
+        run: |
+          set +e
+          {
+            uname -a
+            cat /etc/os-release
+            python3 --version
+            FreeCADCmd --version 2>&1 || freecadcmd --version 2>&1 || true
+            dpkg-query -W freecad freecad-python3 2>&1 || true
+          } > build/zhaqing-cad003/anchor-wind/provenance/environment.txt 2>&1
+          {
+            printf 'download=%s\n' "${{ steps.download.outcome }}"
+            printf 'hash_exit=%s\n' "${{ steps.hashes.outputs.exit_code }}"
+            printf 'dependencies_exit=%s\n' "${{ steps.dependencies.outputs.exit_code }}"
+            printf 'compile_exit=%s\n' "${{ steps.compile.outputs.exit_code }}"
+            printf 'pipeline_exit=%s\n' "${{ steps.pipeline.outputs.exit_code }}"
+          } > build/zhaqing-cad003/anchor-wind/provenance/step-outcomes.txt
+          true
+
+      - name: Upload complete correction evidence before final status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zhaqing-cad003-anchor-wind-${{ github.sha }}
+          path: build/zhaqing-cad003/anchor-wind
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
+
+      - name: Enforce frozen source, script, model, STEP, audit, and render status
+        if: always()
+        run: |
+          test "${{ steps.download.outcome }}" = "success"
+          test "${{ steps.hashes.outputs.exit_code }}" = "0"
+          test "${{ steps.dependencies.outputs.exit_code }}" = "0"
+          test "${{ steps.compile.outputs.exit_code }}" = "0"
+          test "${{ steps.pipeline.outputs.exit_code }}" = "0"
