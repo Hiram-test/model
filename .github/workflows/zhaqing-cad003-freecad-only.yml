@@ -1,0 +1,232 @@
+name: Zhaqing CAD-003 FreeCAD-only VM from frozen N03 evidence
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/zhaqing-cad003-freecad-only.yml'
+      - 'automation/zhaqing_cad003/freecad_model/**'
+      - 'automation/zhaqing_cad003/manual_render_geometry.py'
+      - 'source-inputs/zhaqing-suspension-bridge/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+# 每次运行固定自己的提交与上游工件哈希；不让后续提交取消正在建模的 VM。
+jobs:
+  build-from-frozen-evidence:
+    name: Hash-check N03 evidence then build FCStd and STEP
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    env:
+      PYTHONHASHSEED: '0'
+      MPLBACKEND: Agg
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+      # run 30 已保存 12 张 DWG、DXF、CSV 和 10,100 条 source-located 几何记录。
+      FROZEN_SCAN_RUN_ID: '29983479194'
+      FROZEN_SCAN_ARTIFACT: 'zhaqing-cad003-freecad-step-277442f35d795d34aeb82706a1af18b32d2a9ed0'
+
+    steps:
+      - name: Checkout current immutable scripts and source drawings
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Initialize process record before any fallible action
+        run: |
+          set -euxo pipefail
+          mkdir -p build/zhaqing-cad003/freecad-only/logs build/zhaqing-cad003/freecad-only/provenance
+          git rev-parse HEAD > build/zhaqing-cad003/freecad-only/provenance/current-commit.txt
+          printf '%s\n' "$FROZEN_SCAN_RUN_ID" > build/zhaqing-cad003/freecad-only/provenance/upstream-run-id.txt
+          printf '%s\n' "$FROZEN_SCAN_ARTIFACT" > build/zhaqing-cad003/freecad-only/provenance/upstream-artifact-name.txt
+
+      - name: Download immutable N02-N03 evidence from successful conversion run
+        id: download
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FROZEN_SCAN_ARTIFACT }}
+          path: recovered-zhaqing-cad003
+          github-token: ${{ github.token }}
+          repository: Hiram-test/model
+          run-id: ${{ env.FROZEN_SCAN_RUN_ID }}
+
+      - name: Verify all current DWG hashes equal the frozen source manifest
+        id: source-hash-check
+        if: steps.download.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set +e
+          python3 - <<'PY' 2>&1 | tee build/zhaqing-cad003/freecad-only/logs/01-source-hash-check.log
+          import hashlib, json
+          from pathlib import Path
+
+          root = Path.cwd()
+          scan = root / 'recovered-zhaqing-cad003' / 'scan'
+          report_path = scan / 'scan_report.json'
+          if not report_path.exists():
+              raise FileNotFoundError(report_path)
+          report = json.loads(report_path.read_text(encoding='utf-8'))
+          source_dir = root / 'source-inputs' / 'zhaqing-suspension-bridge' / 'drawings'
+          results = []
+          for item in report.get('drawings', []):
+              rel = Path(item['source_relpath'])
+              source = source_dir / rel.name
+              if not source.exists():
+                  raise FileNotFoundError(source)
+              h = hashlib.sha256()
+              with source.open('rb') as stream:
+                  for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+                      h.update(chunk)
+              actual = h.hexdigest()
+              expected = item['source_sha256']
+              results.append({'file': source.name, 'actual': actual, 'expected': expected, 'match': actual == expected})
+          output = {
+              'upstreamRunId': 29983479194,
+              'expectedDrawingCount': 12,
+              'observedDrawingCount': len(results),
+              'allHashesMatch': len(results) == 12 and all(x['match'] for x in results),
+              'files': results,
+          }
+          out = root / 'build/zhaqing-cad003/freecad-only/provenance/source-hash-comparison.json'
+          out.write_text(json.dumps(output, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(output, ensure_ascii=False, indent=2))
+          if not output['allHashesMatch']:
+              raise SystemExit(2)
+          PY
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Install FreeCAD, Xvfb, and Python render dependencies
+        id: dependencies
+        if: steps.source-hash-check.outputs.exit_code != '' && steps.source-hash-check.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          {
+            set -eux
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends software-properties-common
+            sudo add-apt-repository -y universe
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends \
+              freecad xvfb xauth libgl1-mesa-dri libglu1-mesa \
+              fonts-noto-cjk fontconfig zip python3-pip
+            python3 -m pip install --user -r automation/zhaqing_cad003/requirements-scan.txt
+            command -v FreeCADCmd || command -v freecadcmd
+            command -v FreeCAD || command -v freecad
+            command -v xvfb-run
+          } 2>&1 | tee build/zhaqing-cad003/freecad-only/logs/02-dependency-install.log
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Compile and lint all current model adapters
+        id: compile
+        if: steps.dependencies.outputs.exit_code != '' && steps.dependencies.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          {
+            set -eux
+            python3 -m py_compile \
+              automation/zhaqing_cad003/manual_render_geometry.py \
+              automation/zhaqing_cad003/freecad_model/freeze_model_contract.py \
+              automation/zhaqing_cad003/freecad_model/build_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/repair_assembly_interfaces.py \
+              automation/zhaqing_cad003/freecad_model/validate_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/audit_forbidden_penetrations.py \
+              automation/zhaqing_cad003/freecad_model/render_freecad_model.py
+            bash -n automation/zhaqing_cad003/freecad_model/run_freecad_pipeline.sh
+            python3 -m json.tool automation/zhaqing_cad003/freecad_model/source_facts.json >/dev/null
+          } 2>&1 | tee build/zhaqing-cad003/freecad-only/logs/03-script-compile.log
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      # 通用 ezdxf 后端对白图敏感，因此必须直接从序列化几何重画并逐图检查非白像素。
+      - name: Independently render and verify all twelve frozen model spaces
+        id: manual-render
+        if: steps.compile.outputs.exit_code != '' && steps.compile.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          python3 automation/zhaqing_cad003/manual_render_geometry.py \
+            --geometry-jsonl-gz recovered-zhaqing-cad003/scan/n03_geometry/geometry_entities.jsonl.gz \
+            --output-dir build/zhaqing-cad003/freecad-only/n03_manual_render \
+            2>&1 | tee build/zhaqing-cad003/freecad-only/logs/04-manual-render.log
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Build FCStd, export STEP, repair interfaces, reimport, audit, and render
+        id: freecad-pipeline
+        if: steps.manual-render.outputs.exit_code != '' && steps.manual-render.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          FREECAD_CMD="$(command -v FreeCADCmd || command -v freecadcmd)"
+          FREECAD_GUI="$(command -v FreeCAD || command -v freecad)"
+          export FREECAD_CMD FREECAD_GUI
+          export ZHAQING_SCAN_DIR="$GITHUB_WORKSPACE/recovered-zhaqing-cad003/scan"
+          export ZHAQING_OUT="$GITHUB_WORKSPACE/build/zhaqing-cad003/freecad-only/model"
+          bash automation/zhaqing_cad003/freecad_model/run_freecad_pipeline.sh \
+            2>&1 | tee build/zhaqing-cad003/freecad-only/logs/05-freecad-pipeline-console.log
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Preserve environment and step outcomes
+        if: always()
+        run: |
+          set +e
+          mkdir -p build/zhaqing-cad003/freecad-only/provenance
+          {
+            uname -a
+            cat /etc/os-release
+            python3 --version
+            command -v FreeCADCmd || command -v freecadcmd || true
+            FreeCADCmd --version 2>&1 || freecadcmd --version 2>&1 || true
+            command -v FreeCAD || command -v freecad || true
+            dpkg-query -W freecad freecad-python3 2>&1 || true
+          } > build/zhaqing-cad003/freecad-only/provenance/final-environment.txt 2>&1
+          {
+            printf 'download_outcome=%s\n' "${{ steps.download.outcome }}"
+            printf 'source_hash_exit_code=%s\n' "${{ steps.source-hash-check.outputs.exit_code }}"
+            printf 'dependencies_exit_code=%s\n' "${{ steps.dependencies.outputs.exit_code }}"
+            printf 'compile_exit_code=%s\n' "${{ steps.compile.outputs.exit_code }}"
+            printf 'manual_render_exit_code=%s\n' "${{ steps.manual-render.outputs.exit_code }}"
+            printf 'freecad_pipeline_exit_code=%s\n' "${{ steps.freecad-pipeline.outputs.exit_code }}"
+          } > build/zhaqing-cad003/freecad-only/provenance/step-outcomes.txt
+          true
+
+      - name: Upload complete FreeCAD-only VM evidence before final status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zhaqing-cad003-freecad-only-${{ github.sha }}
+          path: build/zhaqing-cad003/freecad-only
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
+
+      - name: Enforce every hash, render, FreeCAD, STEP, and audit stage
+        if: always()
+        run: |
+          test "${{ steps.download.outcome }}" = "success"
+          test -n "${{ steps.source-hash-check.outputs.exit_code }}" && test "${{ steps.source-hash-check.outputs.exit_code }}" = "0"
+          test -n "${{ steps.dependencies.outputs.exit_code }}" && test "${{ steps.dependencies.outputs.exit_code }}" = "0"
+          test -n "${{ steps.compile.outputs.exit_code }}" && test "${{ steps.compile.outputs.exit_code }}" = "0"
+          test -n "${{ steps.manual-render.outputs.exit_code }}" && test "${{ steps.manual-render.outputs.exit_code }}" = "0"
+          test -n "${{ steps.freecad-pipeline.outputs.exit_code }}" && test "${{ steps.freecad-pipeline.outputs.exit_code }}" = "0"
