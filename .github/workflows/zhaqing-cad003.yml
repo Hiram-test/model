@@ -14,18 +14,16 @@ on:
 permissions:
   contents: read
 
-# 不设置跨提交 concurrency。每个 run 都固定 checkout 自己的提交快照；后续提交
-# 不能中途杀掉正在建模的虚拟机，失败/成功过程均可完整保留。
+# 不设置跨提交 concurrency。每个 run 固定 checkout 自己的提交快照；后续提交
+# 不会杀掉正在进行的建模，成功和失败过程均可完整保留。
 jobs:
   build-cad003:
     name: N02-N07 source-bound FreeCAD and STEP build
-    # Ubuntu 24.04 hosted runner当前无 FreeCAD apt candidate；22.04 提供发行版包。
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
       PYTHONHASHSEED: '0'
       MPLBACKEND: Agg
-      QT_QPA_PLATFORM: offscreen
       LC_ALL: C.UTF-8
       LANG: C.UTF-8
       LIBREDWG_VERSION: '0.13.4'
@@ -41,12 +39,14 @@ jobs:
       - name: Initialize append-only evidence directories
         run: |
           set -euxo pipefail
-          mkdir -p build/zhaqing-cad003/scan/provenance build/zhaqing-cad003/run/process/logs
+          mkdir -p \
+            build/zhaqing-cad003/scan/provenance \
+            build/zhaqing-cad003/freecad/logs
           git rev-parse HEAD > build/zhaqing-cad003/scan/provenance/source-commit.txt
           printf '%s\n' "${{ github.event_name }}" > build/zhaqing-cad003/scan/provenance/event-name.txt
           printf '%s\n' "${{ github.sha }}" > build/zhaqing-cad003/scan/provenance/event-sha.txt
 
-      - name: Install Ubuntu, FreeCAD, and converter build dependencies
+      - name: Install Ubuntu, FreeCAD, Xvfb, and converter build dependencies
         id: dependencies
         continue-on-error: true
         run: |
@@ -57,14 +57,16 @@ jobs:
             sudo apt-get install -y --no-install-recommends software-properties-common
             sudo add-apt-repository -y universe
             sudo apt-get update
-            apt-cache policy freecad
+            apt-cache policy freecad freecad-python3
             sudo apt-get install -y --no-install-recommends \
               build-essential autoconf automake libtool pkg-config \
-              bison flex gettext git ca-certificates \
+              bison flex gettext git ca-certificates zip \
               libpcre2-dev libxml2-dev fonts-noto-cjk fontconfig \
-              freecad xvfb libgl1-mesa-dri
+              freecad xvfb xauth libgl1-mesa-dri libglu1-mesa
             fc-cache -f
             command -v FreeCADCmd || command -v freecadcmd
+            command -v FreeCAD || command -v freecad
+            command -v xvfb-run
           } 2>&1 | tee build/zhaqing-cad003/scan/provenance/apt-and-freecad-install.log
           exit ${PIPESTATUS[0]}
 
@@ -134,7 +136,7 @@ jobs:
           } 2>&1 | tee build/zhaqing-cad003/scan/provenance/python-install.log
           exit ${PIPESTATUS[0]}
 
-      - name: Compile every adapter before execution
+      - name: Compile and lint every adapter before execution
         id: compile
         if: steps.python-dependencies.outcome == 'success'
         continue-on-error: true
@@ -146,11 +148,12 @@ jobs:
               automation/zhaqing_cad003/scan_drawings.py \
               automation/zhaqing_cad003/render_and_export_dxf.py \
               automation/zhaqing_cad003/manual_render_geometry.py \
-              automation/zhaqing_cad003/compile_model_contract.py \
-              automation/zhaqing_cad003/build_freecad_model.py \
-              automation/zhaqing_cad003/validate_freecad_model.py \
-              automation/zhaqing_cad003/generate_run_report.py
-            bash -n automation/zhaqing_cad003/run_vm_freecad_pipeline.sh
+              automation/zhaqing_cad003/freecad_model/freeze_model_contract.py \
+              automation/zhaqing_cad003/freecad_model/build_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/validate_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/render_freecad_model.py
+            bash -n automation/zhaqing_cad003/freecad_model/run_freecad_pipeline.sh
+            python -m json.tool automation/zhaqing_cad003/freecad_model/source_facts.json >/dev/null
           } 2>&1 | tee build/zhaqing-cad003/scan/provenance/script-compile.log
           exit ${PIPESTATUS[0]}
 
@@ -197,15 +200,19 @@ jobs:
           echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: N04-N07 run source-bound FreeCAD model and independent STEP validation
+      - name: N04-N07 build FCStd, export STEP, reimport STEP, and render four views
         id: freecad-pipeline
         if: steps.manual-render.outputs.exit_code != '' && steps.manual-render.outputs.exit_code == '0'
         continue-on-error: true
         run: |
           set -o pipefail
-          bash automation/zhaqing_cad003/run_vm_freecad_pipeline.sh \
-            build/zhaqing-cad003/scan build/zhaqing-cad003/run \
-            2>&1 | tee build/zhaqing-cad003/run/process/logs/00-pipeline-console.log
+          FREECAD_CMD="$(command -v FreeCADCmd || command -v freecadcmd)"
+          FREECAD_GUI="$(command -v FreeCAD || command -v freecad)"
+          export FREECAD_CMD FREECAD_GUI
+          export ZHAQING_SCAN_DIR="$GITHUB_WORKSPACE/build/zhaqing-cad003/scan"
+          export ZHAQING_OUT="$GITHUB_WORKSPACE/build/zhaqing-cad003/freecad"
+          bash automation/zhaqing_cad003/freecad_model/run_freecad_pipeline.sh \
+            2>&1 | tee build/zhaqing-cad003/freecad/logs/00-pipeline-console.log
           status=${PIPESTATUS[0]}
           echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
           exit 0
@@ -214,7 +221,7 @@ jobs:
         if: always()
         run: |
           set +e
-          mkdir -p build/zhaqing-cad003/scan/provenance build/zhaqing-cad003/run/process
+          mkdir -p build/zhaqing-cad003/scan/provenance build/zhaqing-cad003/freecad/logs
           git status --short > build/zhaqing-cad003/scan/provenance/git-status.txt
           git log -1 --format=fuller > build/zhaqing-cad003/scan/provenance/checkout-commit.txt
           {
@@ -223,6 +230,7 @@ jobs:
             python --version 2>&1
             command -v FreeCADCmd || command -v freecadcmd || true
             FreeCADCmd --version 2>&1 || freecadcmd --version 2>&1 || true
+            command -v FreeCAD || command -v freecad || true
             dpkg-query -W freecad freecad-python3 2>&1 || true
             command -v dwg2dxf || true
             command -v dwgread || true
