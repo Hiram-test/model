@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Run the independent FCStd/STEP validator with a contract-derived hanger check.
 
-The original validator used ``length > 900 mm`` as a coarse smoke test.  A later,
+The original validator used ``length > 900 mm`` as a coarse smoke test. A later,
 explicitly registered 20 mm display gap for the omitted hanger clamp makes the
-shortest centre hanger about 887.94 mm.  There is no drawing or Skill basis for
+shortest centre hanger about 887.94 mm. There is no drawing or Skill basis for
 900 mm, so this adapter removes that magic threshold and replaces it with a
 stronger deterministic check for every one of the 50 hangers:
 
@@ -24,6 +24,13 @@ import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+# FreeCADCmd executes an absolute script path without consistently adding that
+# script's directory to sys.path. Resolve it explicitly so this adapter remains
+# standalone and can always load the adjacent independent base validator.
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
 
 import validate_freecad_model as base
 
@@ -104,7 +111,7 @@ def contract_hanger_check() -> dict[str, Any]:
 
 
 def corrected_validation() -> tuple[dict[str, Any], dict[str, Any]]:
-    """Run base validation, replace only the unsupported hanger threshold check."""
+    """Run base validation, replacing only the unsupported hanger threshold."""
     report, gate_receipt = base.validate()
     replacement = contract_hanger_check()
     old_ids = {"HANGER_POSITIVE_LENGTHS", "HANGER_DISPLAY_LENGTHS_MATCH_CONTRACT"}
@@ -141,7 +148,7 @@ def corrected_validation() -> tuple[dict[str, Any], dict[str, Any]]:
     report["hangerValidationPolicy"] = {
         "replacedCheck": "HANGER_POSITIVE_LENGTHS (>900 mm magic threshold)",
         "activeCheck": replacement["checkId"],
-        "reason": "No source, charter or Skill threshold supports 900 mm; all 50 values are now recomputed from the frozen contract.",
+        "reason": "No source, charter or Skill threshold supports 900 mm; all 50 values are recomputed from the frozen contract.",
     }
     gate_receipt["technicalGeometryValidation"] = report["technicalStatus"]
     return report, gate_receipt
@@ -172,8 +179,10 @@ def main() -> int:
             "message": str(exc),
             "traceback": traceback.format_exc(),
         }
-        (base.OUTPUT_DIR / "logs").mkdir(parents=True, exist_ok=True)
-        (base.OUTPUT_DIR / "logs" / "contract-validation-failure.json").write_text(
+        # Use a fallback path if the adjacent base module itself failed to load.
+        output_dir = getattr(base, "OUTPUT_DIR", Path(os.environ.get("ZHAQING_OUT", ".")).resolve())
+        (output_dir / "logs").mkdir(parents=True, exist_ok=True)
+        (output_dir / "logs" / "contract-validation-failure.json").write_text(
             json.dumps(error, ensure_ascii=False, indent=2), encoding="utf-8"
         )
         print(json.dumps(error, ensure_ascii=False, indent=2), file=sys.stderr)
