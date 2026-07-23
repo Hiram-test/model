@@ -36,6 +36,7 @@ jobs:
       MPLBACKEND: Agg
       LC_ALL: C.UTF-8
       LANG: C.UTF-8
+      LIBREDWG_VERSION: '0.13.4'
     steps:
       - name: Checkout immutable source snapshot
         uses: actions/checkout@v4
@@ -43,14 +44,36 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
 
-      - name: Install approved system converters
+      - name: Initialize evidence directory before any fallible tool install
+        run: |
+          set -euxo pipefail
+          mkdir -p build/zhaqing-cad003/scan/provenance
+          git rev-parse HEAD > build/zhaqing-cad003/scan/provenance/source-commit.txt
+          printf '%s\n' "${{ github.event_name }}" > build/zhaqing-cad003/scan/provenance/event-name.txt
+          printf '%s\n' "${{ github.sha }}" > build/zhaqing-cad003/scan/provenance/event-sha.txt
+
+      - name: Build pinned LibreDWG converter from official source
+        id: converter
         run: |
           set -euxo pipefail
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            libredwg-tools \
-            fonts-noto-cjk \
-            fontconfig
+            build-essential autoconf automake libtool pkg-config \
+            bison flex gettext git ca-certificates \
+            libpcre2-dev libxml2-dev \
+            fonts-noto-cjk fontconfig
+          rm -rf /tmp/libredwg
+          git clone --depth 1 --branch "${LIBREDWG_VERSION}" \
+            https://github.com/LibreDWG/libredwg.git /tmp/libredwg
+          git -C /tmp/libredwg rev-parse HEAD | tee build/zhaqing-cad003/scan/provenance/libredwg-commit.txt
+          (
+            cd /tmp/libredwg
+            sh ./autogen.sh
+            ./configure --disable-bindings --disable-docs --prefix=/usr/local
+            make -j2
+            sudo make install
+          ) 2>&1 | tee build/zhaqing-cad003/scan/provenance/libredwg-build.log
+          sudo ldconfig
           fc-cache -f
           command -v dwg2dxf
           command -v dwgread
@@ -67,14 +90,13 @@ jobs:
           set -euxo pipefail
           python -m pip install --upgrade pip
           python -m pip install -r automation/zhaqing_cad003/requirements-scan.txt
-          python -m pip freeze | sort > scan-python-freeze.txt
+          python -m pip freeze | sort > build/zhaqing-cad003/scan/provenance/scan-python-freeze.txt
           {
             uname -a
             python --version
             dwg2dxf --version || true
             dwgread --version || true
-            dpkg-query -W libredwg-tools || true
-          } > scan-environment.txt 2>&1
+          } > build/zhaqing-cad003/scan/provenance/scan-environment.txt 2>&1
 
       - name: Compile scanner before execution
         run: python -m py_compile automation/zhaqing_cad003/scan_drawings.py
@@ -84,7 +106,6 @@ jobs:
         continue-on-error: true
         run: |
           set -o pipefail
-          mkdir -p build/zhaqing-cad003/scan
           python automation/zhaqing_cad003/scan_drawings.py \
             --source-dir source-inputs/zhaqing-suspension-bridge/drawings \
             --output-dir build/zhaqing-cad003/scan \
@@ -93,14 +114,19 @@ jobs:
           echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Preserve environment and source commit
+      - name: Preserve final provenance even after prior failure
         if: always()
         run: |
-          set -euxo pipefail
+          set +e
           mkdir -p build/zhaqing-cad003/scan/provenance
-          cp scan-python-freeze.txt scan-environment.txt build/zhaqing-cad003/scan/provenance/
-          git rev-parse HEAD > build/zhaqing-cad003/scan/provenance/source-commit.txt
           git status --short > build/zhaqing-cad003/scan/provenance/git-status.txt
+          git log -1 --format=fuller > build/zhaqing-cad003/scan/provenance/checkout-commit.txt
+          command -v dwg2dxf > build/zhaqing-cad003/scan/provenance/dwg2dxf-path.txt 2>&1
+          command -v dwgread > build/zhaqing-cad003/scan/provenance/dwgread-path.txt 2>&1
+          printf 'converter_outcome=%s\n' "${{ steps.converter.outcome }}" > build/zhaqing-cad003/scan/provenance/step-outcomes.txt
+          printf 'scan_outcome=%s\n' "${{ steps.scan.outcome }}" >> build/zhaqing-cad003/scan/provenance/step-outcomes.txt
+          printf 'scan_exit_code=%s\n' "${{ steps.scan.outputs.exit_code }}" >> build/zhaqing-cad003/scan/provenance/step-outcomes.txt
+          true
 
       - name: Upload immutable scan evidence
         if: always()
@@ -115,4 +141,5 @@ jobs:
       - name: Enforce scan result after evidence upload
         if: always()
         run: |
+          test "${{ steps.converter.outcome }}" = "success"
           test "${{ steps.scan.outputs.exit_code }}" = "0"
