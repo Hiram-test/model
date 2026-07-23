@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import sys
 import traceback
 from datetime import datetime, timezone
@@ -179,7 +180,6 @@ def main() -> int:
             "message": str(exc),
             "traceback": traceback.format_exc(),
         }
-        # Use a fallback path if the adjacent base module itself failed to load.
         output_dir = getattr(base, "OUTPUT_DIR", Path(os.environ.get("ZHAQING_OUT", ".")).resolve())
         (output_dir / "logs").mkdir(parents=True, exist_ok=True)
         (output_dir / "logs" / "contract-validation-failure.json").write_text(
