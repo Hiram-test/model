@@ -55,6 +55,7 @@ PY
   python3 -m py_compile \
     "$MODEL_DIR/freeze_model_contract.py" \
     "$MODEL_DIR/reconcile_anchor_wind_contract.py" \
+    "$MODEL_DIR/add_contract_compatibility_aliases.py" \
     "$MODEL_DIR/build_freecad_model.py" \
     "$MODEL_DIR/repair_assembly_interfaces.py" \
     "$MODEL_DIR/adjust_hanger_clamp_gaps.py" \
@@ -83,65 +84,72 @@ python3 "$MODEL_DIR/reconcile_anchor_wind_contract.py" \
 assert_json_equals "$OUT_DIR/anchor_wind_contract_reconciliation.json" "status" "PASS_WITH_BLOCKED_CONFLICTS"
 assert_json_equals "$ZHAQING_PARAMS" "engineeringReleaseStatus" "BLOCKED"
 
-# Step 3: FreeCADCmd 逐阶段生成初次 FCStd 快照和候选 STEP。
-# 初次阶段仍被保留，用于展示错误外包络如何在后续专项步骤中被纠正。
+# Step 3: 原候选建模器仍读取几个旧字段名来写 sourceRef。只建立正确值的兼容别名，
+# 不恢复已否决的 310 cm 高度、13/27 号或单块风缆锚座解释。
+python3 "$MODEL_DIR/add_contract_compatibility_aliases.py" \
+  2>&1 | tee "$OUT_DIR/logs/03-contract-compatibility-aliases.log"
+assert_json_equals "$OUT_DIR/contract_compatibility_alias_report.json" "status" "PASS"
+
+# Step 4: FreeCADCmd 逐阶段生成初次 FCStd 快照和候选 STEP。
+# 初次阶段仍被保留，用于展示候选外包络如何在后续专项步骤中被纠正。
 "$FREECAD_CMD" "$MODEL_DIR/build_freecad_model.py" \
-  2>&1 | tee "$OUT_DIR/logs/03-freecad-build.log"
+  2>&1 | tee "$OUT_DIR/logs/04-freecad-build.log"
 test -s "$OUT_DIR/Zhaqing_CAD-003.FCStd"
 test -s "$OUT_DIR/Zhaqing_CAD-003-display.step"
 test -s "$OUT_DIR/artifact_manifest.json"
 
-# Step 4: 修正横梁、纵梁、塔柱、索鞍等已知装配穿透。
+# Step 5: 修正横梁、纵梁、塔柱、索鞍等已知装配穿透。
 "$FREECAD_CMD" "$MODEL_DIR/repair_assembly_interfaces.py" \
-  2>&1 | tee "$OUT_DIR/logs/04-assembly-interface-repair.log"
+  2>&1 | tee "$OUT_DIR/logs/05-assembly-interface-repair.log"
 assert_json_equals "$OUT_DIR/assembly_interface_repair_report.json" "status" "PASS"
 
-# Step 5: 吊杆不靠实体互穿连接主缆；保留未建索夹的 20 mm 显示间隙。
+# Step 6: 吊杆不靠实体互穿连接主缆；保留未建索夹的 20 mm 显示间隙。
 "$FREECAD_CMD" "$MODEL_DIR/adjust_hanger_clamp_gaps.py" \
-  2>&1 | tee "$OUT_DIR/logs/05-hanger-clamp-display-gap.log"
+  2>&1 | tee "$OUT_DIR/logs/06-hanger-clamp-display-gap.log"
 assert_json_equals "$OUT_DIR/hanger_clamp_gap_report.json" "status" "PASS"
 
-# Step 6: 按专项协调合同重建锚碇轮廓、主缆锚端横向散开、风缆 B 点及风缆锚座。
+# Step 7: 按专项协调合同重建锚碇轮廓、主缆锚端横向散开、风缆 B 点及风缆锚座。
 # 原 01–08B 快照不删除；新增 stage 10 记录复核前后差异。
 "$FREECAD_CMD" "$MODEL_DIR/correct_anchor_wind_geometry.py" \
-  2>&1 | tee "$OUT_DIR/logs/06-anchor-wind-geometry-correction.log"
+  2>&1 | tee "$OUT_DIR/logs/07-anchor-wind-geometry-correction.log"
 assert_json_equals "$OUT_DIR/anchor_wind_geometry_correction_report.json" "status" "PASS_WITH_ENGINEERING_BLOCKERS"
 test -s "$OUT_DIR/stages/10_anchor_wind_geometry_reconciliation.FCStd"
 
-# Step 7: 将最终全部 DISPLAY 对象封装为一个顶层 Compound STEP。
+# Step 8: 将最终全部 DISPLAY 对象封装为一个顶层 Compound STEP。
 # FreeCAD 0.19 回读数百个顶层 free shapes 时可能段错误；对象身份由 FCStd 和 sidecar manifest 保留。
 "$FREECAD_CMD" "$MODEL_DIR/export_compound_step.py" \
-  2>&1 | tee "$OUT_DIR/logs/07-compound-step-export.log"
+  2>&1 | tee "$OUT_DIR/logs/08-compound-step-export.log"
 assert_json_equals "$OUT_DIR/compound_step_export_report.json" "status" "PASS"
 
-# Step 8: 新进程重开 FCStd/STEP；吊杆和主缆锚端均按修订后的冻结合同复算。
+# Step 9: 新进程重开 FCStd/STEP；吊杆和主缆锚端均按修订后的冻结合同复算。
 PYTHONPATH="$MODEL_DIR${PYTHONPATH:+:$PYTHONPATH}" \
   "$FREECAD_CMD" "$MODEL_DIR/validate_freecad_model_contract.py" \
-  2>&1 | tee "$OUT_DIR/logs/08-independent-validation.log"
+  2>&1 | tee "$OUT_DIR/logs/09-independent-validation.log"
 assert_json_equals "$OUT_DIR/validation_report.json" "technicalStatus" "PASS"
 assert_json_equals "$OUT_DIR/gate_receipt.json" "technicalGeometryValidation" "PASS"
 
-# Step 9: 独立执行 OpenCASCADE 公共体积审计；未闭合的局部硬件接口不伪装成已通过。
+# Step 10: 独立执行 OpenCASCADE 公共体积审计；未闭合的局部硬件接口不伪装成已通过。
 "$FREECAD_CMD" "$MODEL_DIR/audit_forbidden_penetrations.py" \
-  2>&1 | tee "$OUT_DIR/logs/09-forbidden-penetration-audit.log"
+  2>&1 | tee "$OUT_DIR/logs/10-forbidden-penetration-audit.log"
 assert_json_equals "$OUT_DIR/forbidden_penetration_audit.json" "status" "PASS"
 
-# Step 10: 新进程专项验证锚碇台阶、横向槽、索面散开以及四条风缆/锚座控制坐标。
+# Step 11: 新进程专项验证锚碇台阶、横向槽、索面散开以及四条风缆/锚座控制坐标。
 "$FREECAD_CMD" "$MODEL_DIR/audit_anchor_wind_geometry.py" \
-  2>&1 | tee "$OUT_DIR/logs/10-anchor-wind-geometry-audit.log"
+  2>&1 | tee "$OUT_DIR/logs/11-anchor-wind-geometry-audit.log"
 assert_json_equals "$OUT_DIR/anchor_wind_geometry_audit.json" "status" "PASS"
 assert_json_equals "$OUT_DIR/anchor_wind_geometry_audit.json" "engineeringReleaseStatus" "BLOCKED"
 
-# Step 11: 在 Xvfb 虚拟显示中保存四个最终视图，并逐图执行非白像素门禁。
+# Step 12: 在 Xvfb 虚拟显示中保存四个最终视图，并逐图执行非白像素门禁。
 QT_QPA_PLATFORM=xcb timeout 180s xvfb-run -a "$FREECAD_GUI" "$MODEL_DIR/render_freecad_model.py" \
-  2>&1 | tee "$OUT_DIR/logs/11-freecad-render.log"
+  2>&1 | tee "$OUT_DIR/logs/12-freecad-render.log"
 assert_json_equals "$OUT_DIR/renders/render_report.json" "status" "PASS"
 
-# Step 12: 把本次实际使用的脚本和事实清单复制到交付物，便于逐行复核。
+# Step 13: 把本次实际使用的脚本和事实清单复制到交付物，便于逐行复核。
 for file in \
   source_facts.json \
   freeze_model_contract.py \
   reconcile_anchor_wind_contract.py \
+  add_contract_compatibility_aliases.py \
   build_freecad_model.py \
   repair_assembly_interfaces.py \
   adjust_hanger_clamp_gaps.py \
@@ -157,13 +165,14 @@ for file in \
   cp "$MODEL_DIR/$file" "$OUT_DIR/process_sources/$file"
 done
 
-# Step 13: 文件级终检。工程 Gate 可以是 BLOCKED，但技术文件不得缺失或为空。
+# Step 14: 文件级终检。工程 Gate 可以是 BLOCKED，但技术文件不得缺失或为空。
 for required in \
   Zhaqing_CAD-003.FCStd \
   Zhaqing_CAD-003-display.step \
   Zhaqing_CAD-003-STEP-roundtrip.FCStd \
   frozen_model_contract.json \
   anchor_wind_contract_reconciliation.json \
+  contract_compatibility_alias_report.json \
   assembly_interface_repair_report.json \
   hanger_clamp_gap_report.json \
   anchor_wind_geometry_correction_report.json \
@@ -185,7 +194,7 @@ find "$OUT_DIR" -type f ! -name 'SHA256SUMS.txt' ! -name 'Zhaqing_CAD-003-delive
   | xargs -0 sha256sum > "$OUT_DIR/SHA256SUMS.txt"
 find "$OUT_DIR" -type f -printf '%P\t%s bytes\n' | sort > "$OUT_DIR/FILE_INVENTORY.txt"
 
-# Step 14: 生成单一下载包，排除自身，保留目录结构、脚本、日志和全部阶段快照。
+# Step 15: 生成单一下载包，排除自身，保留目录结构、脚本、日志和全部阶段快照。
 (
   cd "$OUT_DIR"
   zip -q -r "Zhaqing_CAD-003-delivery.zip" . -x "Zhaqing_CAD-003-delivery.zip"
