@@ -37,6 +37,7 @@ jobs:
       LC_ALL: C.UTF-8
       LANG: C.UTF-8
       LIBREDWG_VERSION: '0.13.4'
+      LIBREDWG_COMMIT: 'e3774bd4020fcfebb68150361db74b8b34d170fe'
     steps:
       - name: Checkout immutable source snapshot
         uses: actions/checkout@v4
@@ -52,8 +53,7 @@ jobs:
           printf '%s\n' "${{ github.event_name }}" > build/zhaqing-cad003/scan/provenance/event-name.txt
           printf '%s\n' "${{ github.sha }}" > build/zhaqing-cad003/scan/provenance/event-sha.txt
 
-      - name: Build pinned LibreDWG converter from official source
-        id: converter
+      - name: Install system dependencies
         run: |
           set -euxo pipefail
           sudo apt-get update
@@ -62,21 +62,43 @@ jobs:
             bison flex gettext git ca-certificates \
             libpcre2-dev libxml2-dev \
             fonts-noto-cjk fontconfig
-          rm -rf /tmp/libredwg
-          git clone --depth 1 --branch "${LIBREDWG_VERSION}" \
-            https://github.com/LibreDWG/libredwg.git /tmp/libredwg
-          git -C /tmp/libredwg rev-parse HEAD | tee build/zhaqing-cad003/scan/provenance/libredwg-commit.txt
-          (
-            cd /tmp/libredwg
-            sh ./autogen.sh
-            ./configure --disable-bindings --disable-docs --prefix=/usr/local
-            make -j2
-            sudo make install
-          ) 2>&1 | tee build/zhaqing-cad003/scan/provenance/libredwg-build.log
-          sudo ldconfig
           fc-cache -f
-          command -v dwg2dxf
-          command -v dwgread
+
+      - name: Restore pinned LibreDWG build cache
+        id: libredwg-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/zhaqing/libredwg/${{ env.LIBREDWG_COMMIT }}
+          key: libredwg-${{ runner.os }}-${{ runner.arch }}-${{ env.LIBREDWG_COMMIT }}
+
+      - name: Build pinned LibreDWG converter from official source
+        id: converter
+        run: |
+          set -euxo pipefail
+          prefix="$HOME/.cache/zhaqing/libredwg/${LIBREDWG_COMMIT}"
+          mkdir -p "$prefix"
+          if [[ ! -x "$prefix/bin/dwg2dxf" || ! -x "$prefix/bin/dwgread" ]]; then
+            rm -rf /tmp/libredwg
+            git init /tmp/libredwg
+            git -C /tmp/libredwg remote add origin https://github.com/LibreDWG/libredwg.git
+            git -C /tmp/libredwg fetch --depth 1 origin "$LIBREDWG_COMMIT"
+            git -C /tmp/libredwg checkout --detach FETCH_HEAD
+            test "$(git -C /tmp/libredwg rev-parse HEAD)" = "$LIBREDWG_COMMIT"
+            (
+              cd /tmp/libredwg
+              sh ./autogen.sh
+              ./configure --disable-bindings --disable-docs --prefix="$prefix"
+              make -j2
+              make install
+            ) 2>&1 | tee build/zhaqing-cad003/scan/provenance/libredwg-build.log
+          else
+            printf 'restored from Actions cache\n' | tee build/zhaqing-cad003/scan/provenance/libredwg-build.log
+          fi
+          printf '%s\n' "$LIBREDWG_COMMIT" > build/zhaqing-cad003/scan/provenance/libredwg-commit.txt
+          echo "$prefix/bin" >> "$GITHUB_PATH"
+          echo "LD_LIBRARY_PATH=$prefix/lib:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
+          "$prefix/bin/dwg2dxf" --version
+          "$prefix/bin/dwgread" --version
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -98,10 +120,13 @@ jobs:
             dwgread --version || true
           } > build/zhaqing-cad003/scan/provenance/scan-environment.txt 2>&1
 
-      - name: Compile scanner before execution
-        run: python -m py_compile automation/zhaqing_cad003/scan_drawings.py
+      - name: Compile adapters before execution
+        run: |
+          set -euxo pipefail
+          python -m py_compile automation/zhaqing_cad003/scan_drawings.py
+          python -m py_compile automation/zhaqing_cad003/render_and_export_dxf.py
 
-      - name: Scan, convert, and render every source DWG
+      - name: Scan and convert every source DWG
         id: scan
         continue-on-error: true
         run: |
@@ -110,6 +135,21 @@ jobs:
             --source-dir source-inputs/zhaqing-suspension-bridge/drawings \
             --output-dir build/zhaqing-cad003/scan \
             2>&1 | tee build/zhaqing-cad003/scan/runner.log
+          status=${PIPESTATUS[0]}
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Export complete geometry and verified black-on-white renders
+        id: geometry
+        if: steps.scan.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python automation/zhaqing_cad003/render_and_export_dxf.py \
+            --scan-report build/zhaqing-cad003/scan/scan_report.json \
+            --converted-dir build/zhaqing-cad003/scan/converted_dxf \
+            --output-dir build/zhaqing-cad003/scan/n03_geometry \
+            2>&1 | tee build/zhaqing-cad003/scan/n03-geometry-runner.log
           status=${PIPESTATUS[0]}
           echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
           exit 0
@@ -126,6 +166,8 @@ jobs:
           printf 'converter_outcome=%s\n' "${{ steps.converter.outcome }}" > build/zhaqing-cad003/scan/provenance/step-outcomes.txt
           printf 'scan_outcome=%s\n' "${{ steps.scan.outcome }}" >> build/zhaqing-cad003/scan/provenance/step-outcomes.txt
           printf 'scan_exit_code=%s\n' "${{ steps.scan.outputs.exit_code }}" >> build/zhaqing-cad003/scan/provenance/step-outcomes.txt
+          printf 'geometry_outcome=%s\n' "${{ steps.geometry.outcome }}" >> build/zhaqing-cad003/scan/provenance/step-outcomes.txt
+          printf 'geometry_exit_code=%s\n' "${{ steps.geometry.outputs.exit_code }}" >> build/zhaqing-cad003/scan/provenance/step-outcomes.txt
           true
 
       - name: Upload immutable scan evidence
@@ -143,3 +185,4 @@ jobs:
         run: |
           test "${{ steps.converter.outcome }}" = "success"
           test "${{ steps.scan.outputs.exit_code }}" = "0"
+          test "${{ steps.geometry.outputs.exit_code }}" = "0"
