@@ -1,0 +1,168 @@
+name: Zhaqing L3 nonlinear prestressed eccentric model
+
+on:
+  push:
+    branches:
+      - agent/zhaqing-freecad-cad003
+    paths:
+      - '.github/workflows/zhaqing-advanced-nonlinear.yml'
+      - 'automation/zhaqing_advanced/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/zhaqing-advanced-nonlinear.yml'
+      - 'automation/zhaqing_advanced/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  calibrate-solve-compare:
+    name: Calibrate prestress, solve L3 cases, and compare L2
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    env:
+      OUT: build/zhaqing-advanced
+      CAD_RUN_ID: '29990579492'
+      CAD_ARTIFACT: 'zhaqing-cad003-freecad-only-04a45a7b55742996d19089332ccedda068853e92'
+      BASELINE_RUN_ID: '30068283053'
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23'
+
+    steps:
+      - name: Checkout immutable model scripts
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Initialize append-only evidence directories
+        run: |
+          set -euxo pipefail
+          mkdir -p "$OUT/provenance" "$OUT/logs"
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt"
+
+      - name: Download corrected CAD contract
+        id: cad
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CAD_ARTIFACT }}
+          path: recovered-cad
+          github-token: ${{ github.token }}
+          repository: Hiram-test/model
+          run-id: ${{ env.CAD_RUN_ID }}
+
+      - name: Download validated L2 S4 baseline results
+        id: baseline
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.BASELINE_ARTIFACT }}
+          path: recovered-baseline
+          github-token: ${{ github.token }}
+          repository: Hiram-test/model
+          run-id: ${{ env.BASELINE_RUN_ID }}
+
+      - name: Install CalculiX and decode deterministic bundle
+        id: setup
+        if: steps.cad.outcome == 'success' && steps.baseline.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set +e
+          {
+            set -eux
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends software-properties-common gzip tar zip
+            sudo add-apt-repository -y universe
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends calculix-ccx
+            command -v ccx
+            mkdir -p "$OUT/scripts"
+            cat automation/zhaqing_advanced/advanced_bundle.part* | base64 -d > "$OUT/scripts/advanced_bundle.tar.gz"
+            test "$(sha256sum "$OUT/scripts/advanced_bundle.tar.gz" | awk '{print $1}')" = "a5ecf520b3ff1ef7e931cdf04c30cea00e09f7de3df47d8a5fb6f801a5d89f9b"
+            tar -xzf "$OUT/scripts/advanced_bundle.tar.gz" -C "$OUT/scripts"
+            python3 -m py_compile "$OUT/scripts/base_generator.py" "$OUT/scripts/advanced_generator.py" "$OUT/scripts/run_advanced_pipeline.py"
+          } 2>&1 | tee "$OUT/logs/01-setup.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Run inverse calibration, advanced solves, and L2 comparison
+        id: analysis
+        if: steps.setup.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          contract="$(find recovered-cad -name frozen_model_contract.json -type f | head -1)"
+          test -s "$contract"
+          python3 "$OUT/scripts/run_advanced_pipeline.py" \
+            --contract "$contract" \
+            --baseline-root recovered-baseline \
+            --output "$OUT/analysis" \
+            --ccx "$(command -v ccx)" \
+            2>&1 | tee "$OUT/logs/02-advanced-pipeline.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Preserve environment and execution outcomes
+        if: always()
+        run: |
+          set +e
+          {
+            uname -a
+            cat /etc/os-release
+            python3 --version
+            ccx 2>&1 | head -40 || true
+            dpkg-query -W calculix-ccx 2>&1 || true
+          } > "$OUT/provenance/environment.txt" 2>&1
+          {
+            printf 'cad_download=%s\n' "${{ steps.cad.outcome }}"
+            printf 'baseline_download=%s\n' "${{ steps.baseline.outcome }}"
+            printf 'setup_exit=%s\n' "${{ steps.setup.outputs.exit_code }}"
+            printf 'analysis_exit=%s\n' "${{ steps.analysis.outputs.exit_code }}"
+          } > "$OUT/provenance/step-outcomes.txt"
+          true
+
+      - name: Upload complete L3 analysis evidence before final gate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zhaqing-l3-advanced-${{ github.sha }}
+          path: build/zhaqing-advanced
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
+
+      - name: Enforce calibration, solver, comparison, and package status
+        if: always()
+        run: |
+          test "${{ steps.cad.outcome }}" = "success"
+          test "${{ steps.baseline.outcome }}" = "success"
+          test "${{ steps.setup.outputs.exit_code }}" = "0"
+          test "${{ steps.analysis.outputs.exit_code }}" = "0"
+          test -s "$OUT/analysis/package/DELIVERY_MANIFEST.json"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('build/zhaqing-advanced/analysis/package')
+          delivery = json.loads((root/'DELIVERY_MANIFEST.json').read_text())
+          comparison = json.loads((root/'comparison_summary.json').read_text())
+          receipt = json.loads((root/'advanced_generation_receipt.json').read_text())
+          assert delivery['status'] == 'PASS', delivery
+          assert comparison['status'] == 'PASS', comparison['status']
+          assert comparison['caseCount'] == 13, comparison['caseCount']
+          assert receipt['status'] == 'PASS', receipt
+          assert receipt['deckShellElementCount'] == 984
+          assert receipt['rigidOffsetConstraintCount'] == 465
+          assert receipt['allFilesHaveNLGEOM'] is True
+          assert receipt['allFilesHaveThermalPrestrain'] is True
+          assert (root/delivery['inpOnlyZip']['path']).stat().st_size > 100000
+          assert (root/delivery['fullZip']['path']).stat().st_size > 1000000
+          print(json.dumps({'status':'PASS','selectedPrestressScale':delivery['selectedPrestressScale'],'caseCount':delivery['caseCount']}, indent=2))
+          PY
