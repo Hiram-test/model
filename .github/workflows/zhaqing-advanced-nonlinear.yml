@@ -82,7 +82,7 @@ jobs:
             command -v ccx
             mkdir -p "$OUT/scripts"
             cat automation/zhaqing_advanced/advanced_bundle.part* | base64 -d > "$OUT/scripts/advanced_bundle.tar.gz"
-            test "$(sha256sum "$OUT/scripts/advanced_bundle.tar.gz" | awk '{print $1}')" = "a5ecf520b3ff1ef7e931cdf04c30cea00e09f7de3df47d8a5fb6f801a5d89f9b"
+            test "$(sha256sum "$OUT/scripts/advanced_bundle.tar.gz" | awk '{print $1}')" = "314d94555d5b7ca83d86d5bd841067a73d2bb4eb1750cae391cd5f3e1277ed9b"
             tar -xzf "$OUT/scripts/advanced_bundle.tar.gz" -C "$OUT/scripts"
             python3 -m py_compile "$OUT/scripts/base_generator.py" "$OUT/scripts/advanced_generator.py" "$OUT/scripts/run_advanced_pipeline.py"
           } 2>&1 | tee "$OUT/logs/01-setup.log"
@@ -159,9 +159,15 @@ jobs:
           assert comparison['caseCount'] == 13, comparison['caseCount']
           assert receipt['status'] == 'PASS', receipt
           assert receipt['deckShellElementCount'] == 984
-          assert receipt['rigidOffsetConstraintCount'] == 465
+          assert receipt['rigidOffsetConstraintCount'] == 0
+          assert receipt['beamSectionOffsetCount'] == 2
           assert receipt['allFilesHaveNLGEOM'] is True
+          assert receipt['allFilesHaveRequiredNLGEOMSequence'] is True
+          assert receipt['deadCaseUsesSingleEquilibriumStep'] is True
+          assert receipt['variableCasesInheritPermanentState'] is True
           assert receipt['allFilesHaveThermalPrestrain'] is True
+          assert receipt['allFilesHaveBeamSectionOffsets'] is True
+          assert receipt['allFilesOmitRigidEccentricEquations'] is True
           assert (root/delivery['inpOnlyZip']['path']).stat().st_size > 100000
           assert (root/delivery['fullZip']['path']).stat().st_size > 1000000
           print(json.dumps({'status':'PASS','selectedPrestressScale':delivery['selectedPrestressScale'],'caseCount':delivery['caseCount']}, indent=2))
