@@ -24,6 +24,12 @@ param(
     # 指定只读快照复核使用的临时目录，该目录必须位于源目录之外。
     [Parameter(Mandatory = $true)]
     [string]$VerificationRoot,
+    # 指定上传器生成单个临时资产时使用的目录，用于网络失败后的自动续传。
+    [Parameter(Mandatory = $true)]
+    [string]$UploadTemporaryRoot,
+    # 指定上传器异常退出后的最大自动续传次数，默认十次可覆盖短时网络波动。
+    [Parameter(Mandatory = $false)]
+    [int]$UploadRetryLimit = 10,
     # 指定是否在 Release 发布成功后执行本地精简；未提供时只完成云端发布。
     [Parameter(Mandatory = $false)]
     [switch]$EnableLocalPrune
@@ -76,6 +82,11 @@ if ([string]::IsNullOrWhiteSpace($BranchName)) {
     # 抛出分支缺失错误，避免无目标推送。
     throw 'Git 分支名称不能为空。'
 }
+# 验证上传自动续传次数不小于零。
+if ($UploadRetryLimit -lt 0) {
+    # 抛出包含实际配置的错误，避免形成无限或语义不明的重试。
+    throw "上传自动续传次数不能小于零：$UploadRetryLimit"
+}
 
 # 将源目录解析为规范化绝对路径，供后续边界检查使用。
 $resolvedSourceRoot = (Resolve-Path -LiteralPath $SourceRoot).Path.TrimEnd('\')
@@ -85,12 +96,19 @@ $resolvedArchiveDirectory = (Resolve-Path -LiteralPath $ArchiveDirectory).Path.T
 $resolvedRepositoryWorktree = (Resolve-Path -LiteralPath $RepositoryWorktree).Path.TrimEnd('\')
 # 验证快照复核目录没有落在源目录内部，防止复核文件混入源快照。
 $verificationFullPath = [System.IO.Path]::GetFullPath($VerificationRoot).TrimEnd('\')
+# 将上传临时目录转换为规范化绝对路径，供续传脚本使用。
+$uploadTemporaryFullPath = [System.IO.Path]::GetFullPath($UploadTemporaryRoot).TrimEnd('\')
 # 构造源目录边界前缀，附加分隔符可防止相似名称目录通过前缀判断。
 $sourceBoundaryPrefix = $resolvedSourceRoot + [System.IO.Path]::DirectorySeparatorChar
 # 拒绝把快照复核目录放在源目录内部。
 if ($verificationFullPath.StartsWith($sourceBoundaryPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
     # 抛出路径边界错误，避免验证过程改变待验证对象。
     throw "快照复核目录不能位于源目录内部：$verificationFullPath"
+}
+# 拒绝把上传临时目录放在源目录内部，防止临时资产进入冻结快照。
+if ($uploadTemporaryFullPath.StartsWith($sourceBoundaryPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+    # 抛出路径边界错误，避免上传过程改变待验证对象。
+    throw "上传临时目录不能位于源目录内部：$uploadTemporaryFullPath"
 }
 # 在快照复核目录不存在时创建该目录。
 if (-not (Test-Path -LiteralPath $verificationFullPath -PathType Container)) {
@@ -112,6 +130,8 @@ $releaseAssetsPath = Join-Path $resolvedArchiveDirectory 'release-assets.csv'
 $uploadProgressPath = Join-Path $resolvedArchiveDirectory 'release-upload-progress.json'
 # 定义源目录增量协调脚本路径。
 $reconcileScriptPath = Join-Path $resolvedArchiveDirectory 'tools\Reconcile-ArchiveManifest.ps1'
+# 定义可断点续传的 Release 上传脚本路径。
+$uploadScriptPath = Join-Path $resolvedArchiveDirectory 'tools\Upload-ArchiveRelease.ps1'
 # 定义恢复脚本路径。
 $restoreScriptPath = Join-Path $resolvedArchiveDirectory 'tools\Restore-Zhangjinggao.ps1'
 # 定义本地保留计划的临时输出路径，该文件在发布后复制到恢复目录。
@@ -131,6 +151,8 @@ $requiredInputPaths = @(
     $packageSummaryPath,
     # 要求增量协调脚本存在。
     $reconcileScriptPath,
+    # 要求可断点续传的上传脚本存在。
+    $uploadScriptPath,
     # 要求恢复脚本存在。
     $restoreScriptPath
 )
@@ -770,17 +792,51 @@ while ($true) {
 }
 # 等待两秒，确保上传器退出前写入的 CSV 和 JSON 已刷新到磁盘。
 Start-Sleep -Seconds 2
-# 验证上传器最终进度文件存在。
-if (-not (Test-Path -LiteralPath $uploadProgressPath -PathType Leaf)) {
-    # 抛出缺失进度文件错误。
-    throw "上传器未生成最终进度文件：$uploadProgressPath"
-}
-# 读取上传器最终进度。
-$uploadProgress = Get-Content -LiteralPath $uploadProgressPath -Encoding UTF8 -Raw | ConvertFrom-Json
-# 验证最终进度对象明确标记全部资产完成。
-if (($uploadProgress.PSObject.Properties.Name -notcontains 'AllAssetsCompleted') -or (-not [bool]$uploadProgress.AllAssetsCompleted)) {
-    # 抛出包含当前进度内容的错误，禁止继续发布或删除。
-    throw "上传器没有完成全部资产：$($uploadProgress | ConvertTo-Json -Compress)"
+# 初始化上传器最终进度变量。
+$uploadProgress = $null
+# 初始化上传完成标记。
+$uploadCompleted = $false
+# 初始化自动续传尝试次数。
+$uploadRetryAttempt = 0
+# 持续检查上传进度，并在未完成时按上限自动续传。
+while (-not $uploadCompleted) {
+    # 当进度文件存在时读取当前上传状态。
+    if (Test-Path -LiteralPath $uploadProgressPath -PathType Leaf) {
+        # 读取并解析当前上传进度 JSON。
+        $uploadProgress = Get-Content -LiteralPath $uploadProgressPath -Encoding UTF8 -Raw | ConvertFrom-Json
+        # 判断进度对象是否明确标记全部计划资产完成。
+        $uploadCompleted = ($uploadProgress.PSObject.Properties.Name -contains 'AllAssetsCompleted') -and [bool]$uploadProgress.AllAssetsCompleted
+    }
+    # 若已经全部完成则结束自动续传循环。
+    if ($uploadCompleted) {
+        # 跳出自动续传循环。
+        break
+    }
+    # 当已达到允许的最大续传次数时停止并保留全部源文件。
+    if ($uploadRetryAttempt -ge $UploadRetryLimit) {
+        # 将当前进度转换为紧凑 JSON；无进度文件时记录空值。
+        $progressText = if ($null -ne $uploadProgress) { $uploadProgress | ConvertTo-Json -Compress } else { 'null' }
+        # 抛出包含重试次数和当前进度的错误。
+        throw "上传器在 $UploadRetryLimit 次自动续传后仍未完成：$progressText"
+    }
+    # 增加本次自动续传尝试编号。
+    $uploadRetryAttempt++
+    # 写入当前自动续传状态。
+    Write-FinalizerStatus -Stage 'RETRYING_UPLOAD' -Message "上传尚未完成，开始第 $uploadRetryAttempt / $UploadRetryLimit 次断点续传。" -Data $uploadProgress
+    # 调用可断点续传上传脚本，远端大小和摘要一致的资产会被直接跳过。
+    try {
+        # 顺序执行剩余资产上传，复用同一计划、Release 和临时目录。
+        & $uploadScriptPath -SourceRoot $resolvedSourceRoot -PlanPath $packagePlanPath -Repository $Repository -ReleaseTag $ReleaseTag -ReleaseTarget $BranchName -TemporaryRoot $uploadTemporaryFullPath
+    }
+    # 捕获单次网络或 GitHub API 异常，并在次数允许时继续重试。
+    catch {
+        # 写入本次续传失败状态和异常消息。
+        Write-FinalizerStatus -Stage 'UPLOAD_RETRY_FAILED' -Message "第 $uploadRetryAttempt 次断点续传失败，将按上限继续尝试。" -Data @{ Error = $_.Exception.Message }
+        # 等待固定轮询间隔，避免短时故障期间高频重试。
+        Start-Sleep -Seconds $uploaderPollSeconds
+    }
+    # 每次续传调用结束后清空内存进度，下一轮必须重新读取磁盘结果。
+    $uploadProgress = $null
 }
 
 # 写入远端数据资产校验阶段状态。
