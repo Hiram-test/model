@@ -281,8 +281,10 @@ foreach ($assetGroup in $assetGroups) {
     $remoteAsset = $remoteAssets | Where-Object name -eq $assetName | Select-Object -First 1
     # 查找当前资产是否已有本地哈希记录。
     $existingRecord = $assetRecords | Where-Object AssetName -eq $assetName | Select-Object -First 1
-    # 当远端资产和本地记录同时存在且大小一致时直接跳过。
-    if (($null -ne $remoteAsset) -and ($null -ne $existingRecord) -and ([int64]$remoteAsset.size -eq [int64]$existingRecord.Length)) {
+    # 构造既有本地资产记录对应的 GitHub 服务端摘要格式。
+    $expectedExistingDigest = if ($null -ne $existingRecord) { 'sha256:' + ([string]$existingRecord.SHA256).ToLowerInvariant() } else { '' }
+    # 当远端资产和本地记录的大小与 SHA-256 同时一致时直接跳过。
+    if (($null -ne $remoteAsset) -and ($null -ne $existingRecord) -and ([int64]$remoteAsset.size -eq [int64]$existingRecord.Length) -and (([string]$remoteAsset.digest).ToLowerInvariant() -eq $expectedExistingDigest)) {
         # 将全部已完成资产数增加一。
         $completedAssetCount++
         # 继续处理下一个计划资产。
@@ -292,6 +294,11 @@ foreach ($assetGroup in $assetGroups) {
     if (($null -ne $remoteAsset) -and ($null -eq $existingRecord)) {
         # 抛出远端状态不明错误，要求人工核查该资产。
         throw "远端已存在但本地无哈希记录的资产：$assetName"
+    }
+    # 若远端资产和本地记录同时存在但大小或摘要不一致，则停止以避免覆盖损坏证据。
+    if (($null -ne $remoteAsset) -and ($null -ne $existingRecord)) {
+        # 抛出远端资产校验不一致错误，要求人工核查后再继续。
+        throw "远端资产与本地记录不一致：$assetName"
     }
     # 读取当前资产的包类型，组内所有成员必须一致。
     $packageTypes = @($assetGroup.Group | Select-Object -ExpandProperty PackageType -Unique)
@@ -344,10 +351,12 @@ foreach ($assetGroup in $assetGroups) {
     $remoteAssets = @(Get-RemoteReleaseAssets)
     # 查找刚上传的远端资产记录。
     $uploadedRemoteAsset = $remoteAssets | Where-Object name -eq $assetName | Select-Object -First 1
-    # 验证远端资产存在且字节数与本地完全一致。
-    if (($null -eq $uploadedRemoteAsset) -or ([int64]$uploadedRemoteAsset.size -ne $assetLength)) {
-        # 抛出远端大小校验失败错误，并保留本地临时资产。
-        throw "远端资产大小校验失败：$assetName"
+    # 构造当前本地资产对应的 GitHub 服务端摘要格式。
+    $expectedUploadedDigest = 'sha256:' + $assetSha256
+    # 验证远端资产存在且字节数与 SHA-256 均与本地完全一致。
+    if (($null -eq $uploadedRemoteAsset) -or ([int64]$uploadedRemoteAsset.size -ne $assetLength) -or (([string]$uploadedRemoteAsset.digest).ToLowerInvariant() -ne $expectedUploadedDigest)) {
+        # 抛出远端大小或摘要校验失败错误，并保留本地临时资产。
+        throw "远端资产大小或 SHA-256 校验失败：$assetName"
     }
     # 创建当前资产完成记录。
     $assetRecord = [PSCustomObject][ordered]@{
@@ -420,5 +429,6 @@ if ($allAssetsCompleted -and $PublishOnSuccess.IsPresent) {
 
 # 输出最终摘要对象，便于调用方确认完成度。
 $finalSummary
+
 
 
