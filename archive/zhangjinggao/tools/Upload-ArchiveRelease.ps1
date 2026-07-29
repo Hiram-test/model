@@ -21,6 +21,12 @@ param(
     # 指定本次最多处理的资产数，零表示处理全部剩余资产。
     [Parameter(Mandatory = $false)]
     [int]$MaximumAssets = 0,
+    # 指定并行工作器从零开始的编号，单工作器模式固定为零。
+    [Parameter(Mandatory = $false)]
+    [int]$WorkerIndex = 0,
+    # 指定并行工作器总数，默认一个工作器顺序处理全部资产。
+    [Parameter(Mandatory = $false)]
+    [int]$WorkerCount = 1,
     # 指定全部上传成功后是否立即发布草稿 Release。
     [Parameter(Mandatory = $false)]
     [switch]$PublishOnSuccess
@@ -51,6 +57,16 @@ if ($MaximumAssets -lt 0) {
     # 抛出包含实际值的错误，说明限制参数无效。
     throw "MaximumAssets 不能小于零：$MaximumAssets"
 }
+# 验证并行工作器总数至少为一。
+if ($WorkerCount -lt 1) {
+    # 抛出包含实际值的错误，说明工作器总数无效。
+    throw "WorkerCount 必须至少为一：$WorkerCount"
+}
+# 验证工作器编号处于零到总数减一的闭开区间。
+if (($WorkerIndex -lt 0) -or ($WorkerIndex -ge $WorkerCount)) {
+    # 抛出包含实际编号和总数的错误。
+    throw "WorkerIndex 超出范围：$WorkerIndex / $WorkerCount"
+}
 
 # 将源目录解析为规范化绝对路径，保证路径拼接和 tar 工作目录稳定。
 $resolvedSourceRoot = (Resolve-Path -LiteralPath $SourceRoot).Path.TrimEnd('\')
@@ -65,10 +81,14 @@ $resolvedTemporaryRoot = (Resolve-Path -LiteralPath $TemporaryRoot).Path.TrimEnd
 $resolvedPlanPath = (Resolve-Path -LiteralPath $PlanPath).Path
 # 解析分卷计划父目录，用于保存资产哈希和进度文件。
 $planDirectory = Split-Path -Parent $resolvedPlanPath
-# 定义资产哈希清单路径，记录每个远端资产的大小和 SHA-256。
-$releaseAssetsPath = Join-Path $planDirectory 'release-assets.csv'
-# 定义上传进度路径，供后台任务轮询。
-$uploadProgressPath = Join-Path $planDirectory 'release-upload-progress.json'
+# 根据并行工作器配置生成独立状态文件后缀，单工作器模式保持原文件名兼容。
+$workerSuffix = if ($WorkerCount -gt 1) { '.worker-{0:d2}' -f $WorkerIndex } else { '' }
+# 定义全局资产哈希清单路径，用于读取并跳过单工作器阶段已经完成的资产。
+$baseReleaseAssetsPath = Join-Path $planDirectory 'release-assets.csv'
+# 定义当前工作器资产哈希清单路径，避免并行写入同一个 CSV。
+$releaseAssetsPath = Join-Path $planDirectory ('release-assets' + $workerSuffix + '.csv')
+# 定义当前工作器上传进度路径，供后台任务独立轮询。
+$uploadProgressPath = Join-Path $planDirectory ('release-upload-progress' + $workerSuffix + '.json')
 
 # 验证 GitHub CLI 已安装并可调用。
 $ghCommand = Get-Command gh -ErrorAction Stop
@@ -249,10 +269,30 @@ if ($releaseViewExitCode -ne 0) {
 
 # 导入完整分卷计划。
 $planRows = @(Import-Csv -LiteralPath $resolvedPlanPath)
-# 按资产名称分组并排序，保证上传顺序稳定。
-$assetGroups = @($planRows | Group-Object AssetName | Sort-Object Name)
+# 按资产名称分组并排序，生成全部资产的稳定顺序。
+$allAssetGroups = @($planRows | Group-Object AssetName | Sort-Object Name)
+# 初始化当前工作器资产组列表。
+$workerAssetGroups = [System.Collections.Generic.List[object]]::new()
+# 按稳定序号取模分配资产，保证不同工作器之间没有名称重叠。
+for ($assetIndex = 0; $assetIndex -lt $allAssetGroups.Count; $assetIndex++) {
+    # 判断当前资产序号是否属于本工作器。
+    if (($assetIndex % $WorkerCount) -eq $WorkerIndex) {
+        # 将当前资产组加入本工作器列表。
+        $workerAssetGroups.Add($allAssetGroups[$assetIndex])
+    }
+}
+# 将本工作器资产组列表转换为数组，供后续循环处理。
+$assetGroups = @($workerAssetGroups)
 # 初始化已完成资产记录列表。
 $assetRecords = [System.Collections.Generic.List[object]]::new()
+# 在并行模式下导入全局资产记录，以跳过并行启动前已经完成的资产。
+if (($WorkerCount -gt 1) -and (Test-Path -LiteralPath $baseReleaseAssetsPath -PathType Leaf)) {
+    # 将全局既有资产记录逐条加入内存列表。
+    foreach ($baseRecord in (Import-Csv -LiteralPath $baseReleaseAssetsPath)) {
+        # 保留全局既有资产记录。
+        $assetRecords.Add($baseRecord)
+    }
+}
 # 若存在之前的资产记录，则导入以支持断点续传。
 if (Test-Path -LiteralPath $releaseAssetsPath -PathType Leaf) {
     # 将既有资产记录逐条加入内存列表。
@@ -383,6 +423,10 @@ foreach ($assetGroup in $assetGroups) {
     $completedAssetCount++
     # 构造当前上传进度对象。
     $uploadProgress = [ordered]@{
+        # 记录当前工作器编号。
+        WorkerIndex = $WorkerIndex
+        # 记录并行工作器总数。
+        WorkerCount = $WorkerCount
         # 记录计划资产总数。
         TotalAssets = $assetGroups.Count
         # 记录已经确认完成的资产数。
@@ -402,6 +446,10 @@ foreach ($assetGroup in $assetGroups) {
 $allAssetsCompleted = ($completedAssetCount -eq $assetGroups.Count)
 # 构造本次运行最终摘要对象。
 $finalSummary = [ordered]@{
+    # 记录当前工作器编号。
+    WorkerIndex = $WorkerIndex
+    # 记录并行工作器总数。
+    WorkerCount = $WorkerCount
     # 记录计划资产总数。
     TotalAssets = $assetGroups.Count
     # 记录已经确认完成的资产数。
@@ -429,6 +477,7 @@ if ($allAssetsCompleted -and $PublishOnSuccess.IsPresent) {
 
 # 输出最终摘要对象，便于调用方确认完成度。
 $finalSummary
+
 
 
 
