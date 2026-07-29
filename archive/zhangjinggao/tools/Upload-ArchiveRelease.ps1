@@ -141,8 +141,8 @@ function New-TarAsset {
     $tarListEncoding = [System.Text.Encoding]::GetEncoding(936)
     # 将成员路径以 GBK 写入 tar 文件列表，确保中文路径能够被 Windows bsdtar 正确定位。
     [System.IO.File]::WriteAllText($listPath, $listContent, $tarListEncoding)
-    # 使用系统 tar 从源目录创建未压缩分卷，避免额外磁盘峰值和恢复依赖。
-    & $tarCommand.Source -cf $assetPath -C $resolvedSourceRoot -T $listPath
+    # 使用系统 tar 自动选择 Zstandard 压缩格式，降低约七十七 GiB 数据的网络传输量。
+    & $tarCommand.Source -acf $assetPath -C $resolvedSourceRoot -T $listPath
     # 保存 tar 命令退出码，供清理文件列表后检查。
     $tarExitCode = $LASTEXITCODE
     # 删除仅用于创建当前 TAR 的临时文件列表。
@@ -429,6 +429,7 @@ if ($allAssetsCompleted -and $PublishOnSuccess.IsPresent) {
 
 # 输出最终摘要对象，便于调用方确认完成度。
 $finalSummary
+
 
 
 

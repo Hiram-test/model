@@ -103,8 +103,8 @@ foreach ($entry in $manifestEntries) {
         # 将新 TAR 分卷累计字节数重置为零。
         $currentTarBytes = [int64]0
     }
-    # 生成当前普通 TAR 分卷资产名称。
-    $tarAssetName = 'archive-{0:d4}.tar' -f $tarAssetNumber
+    # 生成当前普通 Zstandard 压缩 TAR 分卷资产名称。
+    $tarAssetName = 'archive-{0:d4}.tar.zst' -f $tarAssetNumber
     # 添加当前普通文件在 TAR 分卷中的成员映射记录。
     $planRows.Add([PSCustomObject][ordered]@{
         # 记录 GitHub Release 资产文件名。
@@ -151,4 +151,5 @@ $summary = [ordered]@{
 $summary | ConvertTo-Json | Set-Content -LiteralPath ([System.IO.Path]::ChangeExtension($PlanPath, '.summary.json')) -Encoding utf8
 # 输出摘要对象，便于调用方直接读取计划结果。
 $summary
+
 
