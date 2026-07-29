@@ -30,3 +30,7 @@ CSV 和 JSON 格式本身不支持注释，因此字段含义统一在本文档�
 ## 本地保留策略
 
 远端完整归档验证前不删除任何源文件。验证后本地至少保留恢复脚本、全部清单、项目说明、脚本、配置和有限元输入文件；大型可再生成结果、缓存和重复输出才进入候选清理范围。
+
+`Finalize-ZhangjinggaoArchive.ps1` 仅在全部计划资产的远端大小与 SHA-256 一致、源目录连续快照无变化、恢复辅助文件上传校验成功、候选删除文件逐文件 SHA-256 与基线一致后发布 Release。启用本地精简时，脚本会在源目录的 `.archive-recovery` 中保留恢复工具包。
+
+`local-retention-plan.csv` 的 `Action` 表示保留或删除计划，`RelativePath` 表示相对源目录路径，`Length` 表示字节数，`LastWriteTimeUtc` 表示冻结修改时间，`SHA256` 表示冻结内容摘要，`Reason` 表示分类原因。`prune-summary.json` 记录公开 Release URL、计划保留数量与容量、实际删除数量与容量、删除失败数量和完成时间；`prune-failures.csv` 仅在文件占用或最后时刻变化等异常发生时生成。
