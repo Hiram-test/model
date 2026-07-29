@@ -135,8 +135,12 @@ function New-TarAsset {
     $listPath = Join-Path $resolvedTemporaryRoot ($AssetName + '.files.txt')
     # 将 Windows 路径分隔符转换为 tar 更稳定支持的正斜杠。
     $relativePaths = @($Members | ForEach-Object { ([string]$_.RelativePath).Replace('\','/') })
-    # 将成员路径以无 BOM UTF-8 写入 tar 文件列表。
-    [System.IO.File]::WriteAllLines($listPath, $relativePaths, [System.Text.UTF8Encoding]::new($false))
+    # 将成员路径以换行符连接且不添加末尾空行，避免 Windows bsdtar 把空行解释为空目录。
+    $listContent = $relativePaths -join "`n"
+    # 获取简体中文 Windows 代码页编码，匹配当前 Windows bsdtar 对文件列表的读取方式。
+    $tarListEncoding = [System.Text.Encoding]::GetEncoding(936)
+    # 将成员路径以 GBK 写入 tar 文件列表，确保中文路径能够被 Windows bsdtar 正确定位。
+    [System.IO.File]::WriteAllText($listPath, $listContent, $tarListEncoding)
     # 使用系统 tar 从源目录创建未压缩分卷，避免额外磁盘峰值和恢复依赖。
     & $tarCommand.Source -cf $assetPath -C $resolvedSourceRoot -T $listPath
     # 保存 tar 命令退出码，供清理文件列表后检查。
@@ -416,4 +420,5 @@ if ($allAssetsCompleted -and $PublishOnSuccess.IsPresent) {
 
 # 输出最终摘要对象，便于调用方确认完成度。
 $finalSummary
+
 
