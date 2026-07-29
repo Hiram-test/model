@@ -69,14 +69,14 @@ foreach ($entry in $manifestEntries) {
             $remainingBytes = $fileLength - $sourceOffset
             # 选择目标分卷大小和剩余字节数中的较小值作为当前分片长度。
             $partLength = [int64][Math]::Min($TargetAssetBytes, $remainingBytes)
-            # 生成仅含 ASCII 的分片资产名称，避免 Release 接口编码差异。
-            $assetName = 'large-{0:d4}-part-{1:d3}.part' -f $largeFileNumber, $partNumber
+            # 生成仅含 ASCII 的 Zstandard 压缩分片资产名称，避免 Release 接口编码差异。
+            $assetName = 'large-{0:d4}-part-{1:d3}.part.tar.zst' -f $largeFileNumber, $partNumber
             # 添加当前大型文件分片的完整恢复映射记录。
             $planRows.Add([PSCustomObject][ordered]@{
                 # 记录 GitHub Release 资产文件名。
                 AssetName = $assetName
-                # 标记当前资产为原始字节分片，恢复时需要顺序拼接。
-                PackageType = 'PART'
+                # 标记当前资产为压缩字节分片，恢复时需要解包后顺序拼接。
+                PackageType = 'PART_ZST'
                 # 记录源文件相对张靖皋大桥根目录的路径。
                 RelativePath = [string]$entry.RelativePath
                 # 记录当前分片在源文件中的起始字节偏移。
@@ -130,8 +130,8 @@ $planRows | Export-Csv -LiteralPath $PlanPath -NoTypeInformation -Encoding utf8
 $assetCount = @($planRows | Select-Object -ExpandProperty AssetName -Unique).Count
 # 统计普通 TAR 资产数量。
 $tarAssetCount = @($planRows | Where-Object PackageType -eq 'TAR' | Select-Object -ExpandProperty AssetName -Unique).Count
-# 统计大型文件字节分片资产数量。
-$partAssetCount = @($planRows | Where-Object PackageType -eq 'PART' | Select-Object -ExpandProperty AssetName -Unique).Count
+# 统计大型文件压缩字节分片资产数量。
+$partAssetCount = @($planRows | Where-Object PackageType -eq 'PART_ZST' | Select-Object -ExpandProperty AssetName -Unique).Count
 # 构造分卷计划摘要对象，便于调用方执行质量门检查。
 $summary = [ordered]@{
     # 记录参与分卷计划的源文件数量。
@@ -151,5 +151,6 @@ $summary = [ordered]@{
 $summary | ConvertTo-Json | Set-Content -LiteralPath ([System.IO.Path]::ChangeExtension($PlanPath, '.summary.json')) -Encoding utf8
 # 输出摘要对象，便于调用方直接读取计划结果。
 $summary
+
 
 

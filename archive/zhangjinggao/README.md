@@ -21,7 +21,7 @@ CSV 和 JSON 格式本身不支持注释，因此字段含义统一在本文档�
 
 ## 恢复原则
 
-1. 下载 Release 中全部 `archive-*.tar.zst`、`large-*.part` 和清单文件。
+1. 下载 Release 中全部 `archive-*.tar.zst`、`large-*.part.tar.zst` 和清单文件。
 2. 解开所有 TAR 分卷。
 3. 按 `package-members.csv` 中的偏移顺序拼接大型文件分片。
 4. 使用 `archive-manifest.csv` 对恢复文件执行 SHA-256 校验。

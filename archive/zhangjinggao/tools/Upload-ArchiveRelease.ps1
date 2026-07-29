@@ -252,6 +252,43 @@ function New-PartAsset {
     return $assetPath
 }
 
+# 定义创建 Zstandard 压缩大型文件分片的函数。
+function New-CompressedPartAsset {
+    # 声明函数参数块，用于接收压缩资产名称和唯一成员记录。
+    param(
+        # 指定当前大型文件压缩分片的 Release 资产名称。
+        [Parameter(Mandatory = $true)]
+        [string]$AssetName,
+        # 指定当前压缩分片对应的唯一成员记录。
+        [Parameter(Mandatory = $true)]
+        [object]$Member
+    )
+    # 使用压缩资产名称加 raw 后缀生成唯一临时原始分片名称。
+    $rawPartName = $AssetName + '.raw'
+    # 调用原始分片函数生成精确字节范围的临时文件。
+    $rawPartPath = New-PartAsset -AssetName $rawPartName -Member $Member
+    # 拼接当前压缩资产的临时完整路径。
+    $assetPath = Join-Path $resolvedTemporaryRoot $AssetName
+    # 使用系统 tar 将原始分片包装为 Zstandard 压缩 TAR。
+    & $tarCommand.Source -acf $assetPath -C $resolvedTemporaryRoot $rawPartName
+    # 保存压缩命令退出码。
+    $tarExitCode = $LASTEXITCODE
+    # 当压缩失败时保留原始分片用于诊断并停止。
+    if ($tarExitCode -ne 0) {
+        # 若失败压缩资产存在则删除不完整文件。
+        if (Test-Path -LiteralPath $assetPath -PathType Leaf) {
+            # 删除可重新生成的不完整压缩资产。
+            Remove-VerifiedTemporaryFile -Path $assetPath
+        }
+        # 抛出包含资产名称和退出码的错误。
+        throw "创建大型压缩分片失败：$AssetName，退出码：$tarExitCode"
+    }
+    # 删除已经成功压缩且可由源文件重新生成的临时原始分片。
+    Remove-VerifiedTemporaryFile -Path $rawPartPath
+    # 返回成功创建的 Zstandard 压缩分片路径。
+    return $assetPath
+}
+
 # 检查目标 Release 是否已经存在。
 & $ghCommand.Source release view $ReleaseTag --repo $Repository *> $null
 # 保存 Release 查询退出码，供后续决定是否创建。
@@ -354,15 +391,15 @@ foreach ($assetGroup in $assetGroups) {
         # 创建包含当前组全部普通文件的 TAR 资产。
         $assetPath = New-TarAsset -AssetName $assetName -Members @($assetGroup.Group)
     }
-    # 处理大型文件字节分片类型。
-    elseif ($packageType -eq 'PART') {
+    # 处理大型文件 Zstandard 压缩字节分片类型。
+    elseif ($packageType -eq 'PART_ZST') {
         # 验证每个分片资产仅对应一条成员记录。
         if ($assetGroup.Count -ne 1) {
             # 抛出包含资产名称的分片计划错误。
             throw "大型文件分片资产对应多条成员记录：$assetName"
         }
-        # 创建当前大型文件字节分片资产。
-        $assetPath = New-PartAsset -AssetName $assetName -Member $assetGroup.Group[0]
+        # 创建当前大型文件 Zstandard 压缩字节分片资产。
+        $assetPath = New-CompressedPartAsset -AssetName $assetName -Member $assetGroup.Group[0]
     }
     # 拒绝任何未知包类型，避免不可恢复资产进入 Release。
     else {
@@ -477,6 +514,7 @@ if ($allAssetsCompleted -and $PublishOnSuccess.IsPresent) {
 
 # 输出最终摘要对象，便于调用方确认完成度。
 $finalSummary
+
 
 
 

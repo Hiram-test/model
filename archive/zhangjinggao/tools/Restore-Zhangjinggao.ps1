@@ -66,8 +66,8 @@ foreach ($tarAsset in $tarAssets) {
     }
 }
 
-# 筛选大型文件分片记录并按目标路径和字节偏移排序。
-$largePartGroups = @($packageMembers | Where-Object PackageType -eq 'PART' | Group-Object RelativePath)
+# 筛选原始或压缩大型文件分片记录并按目标路径分组。
+$largePartGroups = @($packageMembers | Where-Object { $_.PackageType -in @('PART','PART_ZST') } | Group-Object RelativePath)
 # 逐个重建被拆分的大型文件。
 foreach ($largePartGroup in $largePartGroups) {
     # 读取当前目标文件的相对路径。
@@ -88,11 +88,34 @@ foreach ($largePartGroup in $largePartGroups) {
         # 按源文件偏移升序处理每个分片，保证字节顺序正确。
         foreach ($part in ($largePartGroup.Group | Sort-Object {[int64]$_.SourceOffset})) {
             # 拼接当前分片资产的本地完整路径。
-            $partPath = Join-Path $resolvedAssetDirectory $part.AssetName
+            $partAssetPath = Join-Path $resolvedAssetDirectory $part.AssetName
             # 验证当前分片资产存在，防止生成截断文件。
-            if (-not (Test-Path -LiteralPath $partPath -PathType Leaf)) {
+            if (-not (Test-Path -LiteralPath $partAssetPath -PathType Leaf)) {
                 # 抛出包含缺失分片名称的错误，方便重新下载。
                 throw "缺少大型文件分片：$($part.AssetName)"
+            }
+            # 默认直接使用原始分片资产作为读取路径。
+            $partPath = $partAssetPath
+            # 判断当前分片是否采用 Zstandard 压缩 TAR 包装。
+            $isCompressedPart = ([string]$part.PackageType -eq 'PART_ZST')
+            # 对压缩分片先解包出临时原始字节文件。
+            if ($isCompressedPart) {
+                # 使用资产名称加 raw 后缀推导压缩包内的唯一成员名称。
+                $rawPartName = ([string]$part.AssetName) + '.raw'
+                # 使用系统 tar 将当前压缩分片解包到资产目录。
+                & tar.exe -xf $partAssetPath -C $resolvedAssetDirectory
+                # 检查 tar 解包退出码。
+                if ($LASTEXITCODE -ne 0) {
+                    # 抛出包含资产名称和退出码的解包错误。
+                    throw "大型压缩分片解包失败：$($part.AssetName)，退出码：$LASTEXITCODE"
+                }
+                # 将读取路径切换为刚解包的原始字节文件。
+                $partPath = Join-Path $resolvedAssetDirectory $rawPartName
+                # 验证解包后的原始分片存在。
+                if (-not (Test-Path -LiteralPath $partPath -PathType Leaf)) {
+                    # 抛出缺失解包成员错误。
+                    throw "大型压缩分片缺少预期成员：$rawPartName"
+                }
             }
             # 打开当前分片为只读流，准备顺序复制到目标文件。
             $partStream = [System.IO.File]::OpenRead($partPath)
@@ -105,6 +128,20 @@ foreach ($largePartGroup in $largePartGroups) {
             finally {
                 # 释放当前分片读取流及其文件句柄。
                 $partStream.Dispose()
+            }
+            # 对压缩分片在复制完成后删除可重新解包的临时原始字节文件。
+            if ($isCompressedPart) {
+                # 解析临时原始分片绝对路径，用于删除范围校验。
+                $resolvedRawPartPath = (Resolve-Path -LiteralPath $partPath).Path
+                # 构造资产目录内部路径前缀。
+                $assetDirectoryPrefix = $resolvedAssetDirectory + [System.IO.Path]::DirectorySeparatorChar
+                # 验证临时原始分片严格位于资产目录内部。
+                if (-not $resolvedRawPartPath.StartsWith($assetDirectoryPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+                    # 路径越界时拒绝删除。
+                    throw "拒绝删除资产目录外的临时原始分片：$resolvedRawPartPath"
+                }
+                # 删除已经复制到目标文件且可由压缩资产重建的临时原始分片。
+                Remove-Item -LiteralPath $resolvedRawPartPath -Force
             }
         }
     }
@@ -151,4 +188,5 @@ if ($verificationFailures.Count -gt 0) {
 
 # 输出成功消息，明确全部可校验文件已经通过 SHA-256。
 Write-Output "恢复完成并通过 SHA-256 校验：$resolvedRestoreRoot"
+
 
