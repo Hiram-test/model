@@ -624,7 +624,7 @@ function New-AndVerifyLocalRetentionPlan {
         # 每验证固定数量文件时输出一次进度。
         if (($verifiedDeleteCount % $hashProgressInterval) -eq 0) {
             # 输出包含完成数量和总数量的哈希进度。
-            Write-Output ("已完整哈希验证候选删除文件：{0} / {1}" -f $verifiedDeleteCount, $deleteCandidates.Count)
+            Write-Host ("已完整哈希验证候选删除文件：{0} / {1}" -f $verifiedDeleteCount, $deleteCandidates.Count)
         }
     }
     # 返回保留计划、候选删除列表和容量摘要。
@@ -741,7 +741,7 @@ function Invoke-VerifiedLocalPrune {
         # 判断当前处理数量是否达到进度输出间隔。
         if (($processedDeleteCount % $deleteProgressInterval) -eq 0) {
             # 输出成功、失败和总候选数量。
-            Write-Output ("本地精简进度：已删 {0}，保留失败 {1}，总候选 {2}" -f $deletedFileCount, $deletionFailures.Count, @($VerifiedPlan.DeleteCandidates).Count)
+            Write-Host ("本地精简进度：已删 {0}，保留失败 {1}，总候选 {2}" -f $deletedFileCount, $deletionFailures.Count, @($VerifiedPlan.DeleteCandidates).Count)
         }
     }
     # 定义删除失败 CSV 路径。
