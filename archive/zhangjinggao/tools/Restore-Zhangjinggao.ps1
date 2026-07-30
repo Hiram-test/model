@@ -32,6 +32,8 @@ $resolvedRestoreRoot = (Resolve-Path -LiteralPath $RestoreRoot).Path.TrimEnd('\'
 $packageMembersPath = Join-Path $resolvedAssetDirectory 'package-members.csv'
 # 定义完整文件哈希清单路径，用于恢复后的逐文件验证。
 $archiveManifestPath = Join-Path $resolvedAssetDirectory 'archive-manifest.csv'
+# 定义增量归档删除清单路径，用于清除基础分卷中已被当前快照删除或移动的旧文件。
+$deltaDeletionsPath = Join-Path $resolvedAssetDirectory 'delta-deletions.csv'
 
 # 验证分卷成员清单存在，缺失时无法可靠恢复大型文件。
 if (-not (Test-Path -LiteralPath $packageMembersPath -PathType Leaf)) {
@@ -149,6 +151,43 @@ foreach ($largePartGroup in $largePartGroups) {
     finally {
         # 释放目标文件写入流并将缓冲数据刷新到磁盘。
         $targetStream.Dispose()
+    }
+}
+
+# 仅在增量删除清单存在时清除基础分卷恢复出的旧路径。
+if (Test-Path -LiteralPath $deltaDeletionsPath -PathType Leaf) {
+    # 导入增量删除记录并转换为数组，确保单行清单也能稳定迭代。
+    $deltaDeletions = @(Import-Csv -LiteralPath $deltaDeletionsPath)
+    # 构造恢复根目录内部路径前缀，附加分隔符防止相似目录名通过边界判断。
+    $restoreRootPrefix = $resolvedRestoreRoot + [System.IO.Path]::DirectorySeparatorChar
+    # 逐项处理当前快照中已经不存在的基础归档文件。
+    foreach ($deltaDeletion in $deltaDeletions) {
+        # 读取待删除旧文件的源目录相对路径。
+        $deletedRelativePath = [string]$deltaDeletion.RelativePath
+        # 拒绝绝对路径，确保删除目标只能由恢复根目录派生。
+        if ([System.IO.Path]::IsPathRooted($deletedRelativePath)) {
+            # 抛出包含异常路径的错误并停止恢复。
+            throw "增量删除清单包含绝对路径：$deletedRelativePath"
+        }
+        # 将相对路径拆分为目录段，用于拒绝父目录跳转。
+        $deletedPathSegments = @($deletedRelativePath -split '[\\/]')
+        # 拒绝任何父目录跳转段，防止删除范围逃逸。
+        if ($deletedPathSegments -contains '..') {
+            # 抛出包含异常路径的错误并停止恢复。
+            throw "增量删除清单包含父目录跳转：$deletedRelativePath"
+        }
+        # 拼接并规范化恢复目录内的旧文件绝对路径。
+        $deletedRestoredPath = [System.IO.Path]::GetFullPath((Join-Path $resolvedRestoreRoot $deletedRelativePath))
+        # 验证旧文件路径严格位于恢复根目录内部。
+        if (-not $deletedRestoredPath.StartsWith($restoreRootPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+            # 抛出路径越界错误，拒绝删除恢复目录外的任何对象。
+            throw "拒绝删除恢复目录外的增量旧文件：$deletedRestoredPath"
+        }
+        # 仅在旧路径仍以普通文件形式存在时执行删除。
+        if (Test-Path -LiteralPath $deletedRestoredPath -PathType Leaf) {
+            # 删除基础分卷中存在、但当前快照已经删除或移动的旧文件。
+            Remove-Item -LiteralPath $deletedRestoredPath -Force
+        }
     }
 }
 

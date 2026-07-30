@@ -126,6 +126,8 @@ $packagePlanPath = Join-Path $resolvedArchiveDirectory 'package-members.csv'
 $packageSummaryPath = Join-Path $resolvedArchiveDirectory 'package-members.summary.json'
 # 定义已上传资产哈希记录路径。
 $releaseAssetsPath = Join-Path $resolvedArchiveDirectory 'release-assets.csv'
+# 定义当前快照相对基础分卷的删除清单路径。
+$deltaDeletionsPath = Join-Path $resolvedArchiveDirectory 'delta-deletions.csv'
 # 定义上传器最终进度路径。
 $uploadProgressPath = Join-Path $resolvedArchiveDirectory 'release-upload-progress.json'
 # 定义源目录增量协调脚本路径。
@@ -149,6 +151,8 @@ $requiredInputPaths = @(
     $packagePlanPath,
     # 要求 Release 分卷计划摘要存在。
     $packageSummaryPath,
+    # 要求增量删除清单存在，以便恢复脚本清除基础分卷中的旧路径。
+    $deltaDeletionsPath,
     # 要求增量协调脚本存在。
     $reconcileScriptPath,
     # 要求可断点续传的上传脚本存在。
@@ -370,6 +374,8 @@ function Publish-AndVerifySupportAssets {
         $packageSummaryPath,
         # 上传远端资产摘要。
         $releaseAssetsPath,
+        # 上传当前快照相对基础分卷的删除清单。
+        $deltaDeletionsPath,
         # 上传恢复脚本。
         $restoreScriptPath,
         # 上传源清单构建脚本。
@@ -521,14 +527,16 @@ function New-AndVerifyLocalRetentionPlan {
         }
         # 将当前文件长度转换为 64 位整数。
         $fileLength = [int64]$manifestRow.Length
+        # 判断当前文件是否位于用户指定不得修改或精简的 _github\doc 当前内容中。
+        $isProtectedDocPath = $relativePath.StartsWith('_github\doc\', [System.StringComparison]::OrdinalIgnoreCase)
         # 判断当前文件类型是否属于本地最小工程输入集合。
         $isRetainedType = $retainedExtensions.Contains($extension) -or $retainedFileNames.Contains($leafName)
-        # 仅保留非排除目录、允许类型且不超过五十 MiB 的文件。
-        $shouldKeep = (-not $hasExcludedSegment) -and $isRetainedType -and ($fileLength -le $maximumRetainedFileBytes)
+        # 无条件保留 _github\doc 当前内容；其他文件仅保留非排除目录、允许类型且不超过五十 MiB 的轻量输入。
+        $shouldKeep = $isProtectedDocPath -or ((-not $hasExcludedSegment) -and $isRetainedType -and ($fileLength -le $maximumRetainedFileBytes))
         # 根据分类结果生成稳定操作名称。
         $action = if ($shouldKeep) { 'KEEP' } else { 'DELETE' }
         # 根据分类结果生成可审计原因。
-        $reason = if ($shouldKeep) { '轻量脚本、配置、文本或有限元输入' } elseif ($hasExcludedSegment) { '依赖、缓存、输出或版本库内容，可从完整归档恢复' } elseif ($fileLength -gt $maximumRetainedFileBytes) { '文件超过五十 MiB，本地最小集不保留' } else { '非最小工程输入类型，可从完整归档恢复' }
+        $reason = if ($isProtectedDocPath) { '用户指定以当前 _github\doc 内容为准并禁止本地精简' } elseif ($shouldKeep) { '轻量脚本、配置、文本或有限元输入' } elseif ($hasExcludedSegment) { '依赖、缓存、输出或版本库内容，可从完整归档恢复' } elseif ($fileLength -gt $maximumRetainedFileBytes) { '文件超过五十 MiB，本地最小集不保留' } else { '非最小工程输入类型，可从完整归档恢复' }
         # 构造当前保留计划记录。
         $retentionRecord = [PSCustomObject][ordered]@{
             # 记录计划动作。
@@ -666,6 +674,8 @@ function Invoke-VerifiedLocalPrune {
         $packageSummaryPath,
         # 复制远端资产哈希记录。
         $releaseAssetsPath,
+        # 复制当前快照相对基础分卷的删除清单。
+        $deltaDeletionsPath,
         # 复制本地保留计划。
         $retentionPlanPath,
         # 复制完整恢复脚本。
