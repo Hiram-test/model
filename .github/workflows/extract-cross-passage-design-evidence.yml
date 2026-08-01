@@ -1,0 +1,85 @@
+name: Extract cross-passage design evidence # 定义横向通道设计依据提取工作流
+on: # 定义触发条件
+  pull_request: # 在拉取请求中触发
+    paths: # 限定触发文件
+      - ".github/workflows/extract-cross-passage-design-evidence.yml" # 监听本工作流文件
+  workflow_dispatch: # 保留人工重跑入口
+permissions: # 限制令牌权限
+  contents: read # 仅允许读取当前仓库 Release 资产
+jobs: # 定义任务集合
+  extract-evidence: # 定义唯一提取任务
+    runs-on: ubuntu-24.04 # 使用固定 Ubuntu runner
+    timeout-minutes: 45 # 限制最大运行时间
+    steps: # 定义执行步骤
+      - name: Check out audit branch # 检出当前审计分支
+        uses: actions/checkout@v4 # 使用官方检出动作
+      - name: Install archive and PDF tools # 安装 Zstandard 与 PDF 文本提取工具
+        shell: bash # 使用严格 Bash
+        run: | # 开始安装命令
+          set -euo pipefail # 启用严格错误处理
+          sudo apt-get update # 更新 Ubuntu 软件索引
+          sudo apt-get install -y zstd poppler-utils # 安装 tar.zst 解压与 PDF 检查工具
+      - name: Download archive containing authoritative evidence # 下载包含原始图纸和权威站位表的归档分卷
+        shell: bash # 使用严格 Bash
+        env: # 定义运行环境
+          GH_TOKEN: ${{ github.token }} # 使用模型仓库自身令牌读取 Release 资产
+        run: | # 开始下载命令
+          set -euo pipefail # 启用严格错误处理
+          rm -rf cross-passage-design-evidence archive-0050.tar.zst # 清理旧结果与旧分卷
+          mkdir -p cross-passage-design-evidence/extracted cross-passage-design-evidence/selected cross-passage-design-evidence/text # 创建提取、精选与文本目录
+          gh api -H "Accept: application/octet-stream" repos/Hiram-test/model/releases/assets/494561944 > archive-0050.tar.zst # 下载 archive-0050 分卷
+          test -s archive-0050.tar.zst # 验证归档文件非空
+      - name: Extract drawings and authoritative station files # 从分卷中只提取横向通道相关依据
+        shell: bash # 使用严格 Bash
+        run: | # 开始提取命令
+          set -euo pipefail # 启用严格错误处理
+          cd cross-passage-design-evidence/extracted # 进入提取目录
+          unzstd -c ../../archive-0050.tar.zst | tar -xvf - --wildcards --no-anchored '*00张靖皋长江大桥南航道桥猫道图纸1225.pdf' '*张靖皋长江大桥南航道桥 猫道结构复核计算报告0324.pdf' '*passage_station_authoritative_map.csv' '*resolved_dedicated_stations.csv' '*passage_station_mass_map_audit.json' '*crosspassage_cp_group_audit.csv' '*Catwalk_CrossPassages_V1.1_Model_Package.zip' # 提取设计图纸、复核报告、权威站位表和相关审计文件
+      - name: Deduplicate evidence and extract PDF text # 按哈希去重并生成便于比对的文本证据
+        shell: bash # 使用 Bash 包装 Python 与 PDF 工具
+        run: | # 开始整理程序
+          set -euo pipefail # 启用严格错误处理
+          python - <<'PY' # 启动内嵌 Python 程序
+          from __future__ import annotations  # 启用现代类型注解行为
+          import hashlib  # 导入哈希计算模块
+          import json  # 导入 JSON 输出模块
+          from pathlib import Path  # 导入路径处理模块
+          import shutil  # 导入文件复制模块
+
+          root = Path("cross-passage-design-evidence")  # 定义证据根目录
+          extracted = root / "extracted"  # 定义原始提取目录
+          selected = root / "selected"  # 定义去重精选目录
+          selected.mkdir(parents=True, exist_ok=True)  # 确保精选目录存在
+          seen: dict[str, str] = {}  # 初始化哈希到精选文件名的映射
+          inventory: list[dict[str, object]] = []  # 初始化证据清单
+          for path in sorted(item for item in extracted.rglob("*") if item.is_file()):  # 遍历全部提取文件
+              data = path.read_bytes()  # 读取文件原始字节
+              digest = hashlib.sha256(data).hexdigest()  # 计算 SHA-256 摘要
+              suffix = path.suffix.lower()  # 读取文件扩展名
+              if digest not in seen:  # 判断当前内容是否首次出现
+                  target_name = path.name  # 默认使用原始文件名
+                  target = selected / target_name  # 构造精选文件目标路径
+                  counter = 2  # 初始化重名文件序号
+                  while target.exists():  # 检查目标文件名是否冲突
+                      target = selected / f"{path.stem}_{counter}{path.suffix}"  # 为重名文件增加序号
+                      counter += 1  # 增加下一次序号
+                  shutil.copy2(path, target)  # 复制唯一内容到精选目录
+                  seen[digest] = target.name  # 记录哈希对应精选文件名
+              inventory.append({"source_path": str(path.relative_to(extracted)), "selected_file": seen[digest], "size": len(data), "sha256": digest, "extension": suffix})  # 保存原始路径与去重映射
+          (root / "evidence-inventory.json").write_text(json.dumps({"schema": "catwalk.cross-passage-design-evidence", "schema_version": "1.0.0", "file_count_extracted": len(inventory), "unique_content_count": len(seen), "files": inventory}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # 写入机器可读证据清单
+          PY
+          for pdf in cross-passage-design-evidence/selected/*.pdf; do # 遍历精选 PDF 文件
+            test -e "$pdf" || continue # 在没有 PDF 时安全跳过
+            base="$(basename "$pdf" .pdf)" # 取得 PDF 基础文件名
+            pdfinfo "$pdf" > "cross-passage-design-evidence/text/${base}.pdfinfo.txt" # 提取 PDF 页数、尺寸和元数据
+            pdftotext -layout "$pdf" "cross-passage-design-evidence/text/${base}.txt" || true # 提取保留布局的 PDF 文本
+          done # 完成 PDF 文本提取循环
+          find cross-passage-design-evidence -type f -printf '%p\t%s bytes\n' | sort > cross-passage-design-evidence/file-list.txt # 写入完整文件清单
+      - name: Upload design evidence # 上传原始图纸、站位表和文本证据
+        uses: actions/upload-artifact@v4 # 使用官方 artifact 上传动作
+        with: # 定义上传参数
+          name: cross-passage-design-evidence-${{ github.run_id }} # 使用运行 ID 命名证据包
+          path: cross-passage-design-evidence/ # 上传完整证据目录
+          if-no-files-found: error # 缺少结果时使工作流失败
+          retention-days: 30 # 保留证据三十天
+          compression-level: 6 # 使用中等压缩率
