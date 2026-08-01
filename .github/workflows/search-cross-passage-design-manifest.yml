@@ -1,0 +1,102 @@
+name: Search cross-passage design manifest # 定义完整归档文件清单检索工作流
+on: # 定义触发条件
+  pull_request: # 在拉取请求中触发
+    paths: # 限定触发文件
+      - ".github/workflows/search-cross-passage-design-manifest.yml" # 监听本工作流文件
+  workflow_dispatch: # 保留人工重跑入口
+permissions: # 限制令牌权限
+  contents: read # 仅允许读取当前仓库 Release 资产
+jobs: # 定义任务集合
+  search-manifest: # 定义唯一检索任务
+    runs-on: ubuntu-24.04 # 使用固定 Ubuntu runner
+    timeout-minutes: 20 # 限制最大运行时间
+    steps: # 定义执行步骤
+      - name: Check out audit branch # 检出当前审计分支
+        uses: actions/checkout@v4 # 使用官方检出动作
+      - name: Download archive file manifests # 下载完整归档的文件成员清单
+        shell: bash # 使用严格 Bash
+        env: # 定义运行环境
+          GH_TOKEN: ${{ github.token }} # 使用模型仓库自身令牌读取 Release 资产
+        run: | # 开始下载命令
+          set -euo pipefail # 启用严格错误处理
+          rm -rf design-manifest-search # 清理旧结果目录
+          mkdir -p design-manifest-search/input design-manifest-search/output # 创建输入与输出目录
+          gh api -H "Accept: application/octet-stream" repos/Hiram-test/model/releases/assets/494893508 > design-manifest-search/input/package-members.csv # 下载包成员清单
+          gh api -H "Accept: application/octet-stream" repos/Hiram-test/model/releases/assets/494893308 > design-manifest-search/input/archive-manifest.csv # 下载归档映射清单
+          gh api -H "Accept: application/octet-stream" repos/Hiram-test/model/releases/assets/494893292 > design-manifest-search/input/README.md # 下载完整归档说明
+      - name: Search filenames and paths for design evidence # 按工程关键词和文件类型检索清单
+        shell: bash # 使用 Bash 包装 Python 程序
+        run: | # 开始检索程序
+          set -euo pipefail # 启用严格错误处理
+          python - <<'PY' # 启动内嵌 Python 程序
+          from __future__ import annotations  # 启用现代类型注解行为
+          import csv  # 导入 CSV 解析与写出模块
+          import json  # 导入 JSON 报告输出模块
+          from pathlib import Path  # 导入路径处理模块
+          import re  # 导入正则表达式模块
+
+          root = Path("design-manifest-search")  # 定义检索结果根目录
+          output = root / "output"  # 定义输出目录
+          output.mkdir(parents=True, exist_ok=True)  # 确保输出目录存在
+          keywords = [  # 定义与横向通道设计证据相关的关键词
+              "横向通道",  # 检索正式中文术语
+              "横向天桥",  # 检索常见同义术语
+              "猫道",  # 检索猫道总图与施工图
+              "通道",  # 检索可能简写的文件名
+              "天桥",  # 检索横向天桥文件
+              "附件2-3",  # 检索当前 STEP 对应附件名称
+              "附件2_3",  # 检索下划线版本附件名称
+              "attachment2-3",  # 检索英文附件名称
+              "cross passage",  # 检索英文横向通道名称
+              "cross-passage",  # 检索英文连字符名称
+              "catwalk",  # 检索英文猫道名称
+          ]  # 完成关键词列表
+          design_extensions = {".dwg", ".dxf", ".pdf", ".xlsx", ".xls", ".docx", ".doc", ".pptx", ".csv", ".txt", ".step", ".stp", ".db"}  # 定义可能包含设计依据的文件类型
+          source_paths = [root / "input" / "package-members.csv", root / "input" / "archive-manifest.csv"]  # 定义待检索清单文件
+          all_rows: list[dict[str, str]] = []  # 初始化全部规范化记录列表
+          source_headers: dict[str, list[str]] = {}  # 初始化各清单表头记录
+          for source_path in source_paths:  # 遍历两个清单文件
+              with source_path.open("r", encoding="utf-8-sig", errors="replace", newline="") as stream:  # 以兼容 BOM 的 UTF-8 方式打开清单
+                  reader = csv.DictReader(stream)  # 创建字典式 CSV 读取器
+                  source_headers[source_path.name] = list(reader.fieldnames or [])  # 保存当前清单表头
+                  for row_index, row in enumerate(reader, start=2):  # 遍历清单数据行并记录原始行号
+                      text = " | ".join(str(value or "") for value in row.values())  # 合并当前行所有字段用于检索
+                      path_candidates = [str(value or "") for key, value in row.items() if key and any(token in key.lower() for token in ("path", "name", "file", "member", "relative"))]  # 提取疑似路径字段
+                      path_text = max(path_candidates, key=len, default=text)  # 选择最长路径字段作为主要文件路径
+                      suffix = Path(path_text.replace("\\", "/")).suffix.lower()  # 提取文件扩展名
+                      matched_keywords = [keyword for keyword in keywords if keyword.lower() in text.lower()]  # 记录当前行命中的关键词
+                      is_design_file = suffix in design_extensions  # 判断当前行是否为设计资料文件类型
+                      if matched_keywords or ("猫道" in text and is_design_file):  # 保留命中关键词或猫道设计文件类型的记录
+                          normalized = {"source_manifest": source_path.name, "source_row": str(row_index), "matched_keywords": ";".join(matched_keywords), "detected_extension": suffix, "candidate_path": path_text}  # 创建规范化检索结果
+                          normalized.update({str(key): str(value or "") for key, value in row.items()})  # 附加原清单全部字段
+                          all_rows.append(normalized)  # 保存命中记录
+          exact_rows = [row for row in all_rows if any(keyword in row["matched_keywords"].split(";") for keyword in ("横向通道", "横向天桥", "cross passage", "cross-passage"))]  # 提取直接命中横向通道术语的记录
+          catwalk_design_rows = [row for row in all_rows if "猫道" in row["matched_keywords"].split(";") and row["detected_extension"] in design_extensions]  # 提取猫道相关设计文件
+          fieldnames = sorted({key for row in all_rows for key in row.keys()})  # 汇总输出 CSV 的全部字段
+          with (output / "all-keyword-matches.csv").open("w", encoding="utf-8-sig", newline="") as stream:  # 创建全部关键词命中表
+              writer = csv.DictWriter(stream, fieldnames=fieldnames)  # 创建 CSV 写入器
+              writer.writeheader()  # 写入表头
+              writer.writerows(all_rows)  # 写入全部命中记录
+          with (output / "exact-cross-passage-matches.csv").open("w", encoding="utf-8-sig", newline="") as stream:  # 创建直接横向通道命中表
+              writer = csv.DictWriter(stream, fieldnames=fieldnames)  # 创建 CSV 写入器
+              writer.writeheader()  # 写入表头
+              writer.writerows(exact_rows)  # 写入直接命中记录
+          with (output / "catwalk-design-files.csv").open("w", encoding="utf-8-sig", newline="") as stream:  # 创建猫道设计资料候选表
+              writer = csv.DictWriter(stream, fieldnames=fieldnames)  # 创建 CSV 写入器
+              writer.writeheader()  # 写入表头
+              writer.writerows(catwalk_design_rows)  # 写入猫道设计资料候选记录
+          report = {"schema": "catwalk.cross-passage-design-manifest-search", "schema_version": "1.0.0", "source_headers": source_headers, "all_keyword_match_count": len(all_rows), "exact_cross_passage_match_count": len(exact_rows), "catwalk_design_file_count": len(catwalk_design_rows), "exact_cross_passage_matches": exact_rows[:200], "catwalk_design_files": catwalk_design_rows[:500]}  # 创建机器可读检索报告
+          (output / "search-report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # 写入 JSON 报告
+          summary_lines = [f"all_keyword_match_count={len(all_rows)}", f"exact_cross_passage_match_count={len(exact_rows)}", f"catwalk_design_file_count={len(catwalk_design_rows)}"]  # 创建文本摘要
+          summary_lines.extend(f"EXACT\t{row['candidate_path']}" for row in exact_rows[:200])  # 添加直接横向通道命中路径
+          summary_lines.extend(f"CATWALK\t{row['candidate_path']}" for row in catwalk_design_rows[:300])  # 添加猫道设计候选路径
+          (output / "search-summary.txt").write_text("\n".join(summary_lines) + "\n", encoding="utf-8")  # 写入文本摘要
+          print(json.dumps(report, ensure_ascii=False, indent=2))  # 将完整报告输出到 Actions 日志
+          PY
+      - name: Upload manifest search evidence # 上传清单检索证据
+        uses: actions/upload-artifact@v4 # 使用官方 artifact 上传动作
+        with: # 定义上传参数
+          name: cross-passage-design-manifest-search-${{ github.run_id }} # 使用运行 ID 命名证据包
+          path: design-manifest-search/ # 上传输入清单与检索输出
+          if-no-files-found: error # 缺少结果时使任务失败
+          retention-days: 30 # 保留证据三十天
