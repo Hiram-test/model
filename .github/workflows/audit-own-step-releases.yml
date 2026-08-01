@@ -1,0 +1,133 @@
+name: Audit own STEP Releases # 定义模型仓库自审计工作流名称
+on: # 定义触发条件
+  pull_request: # 在拉取请求中触发以便读取运行证据
+    paths: # 仅在本文件变化时运行
+      - ".github/workflows/audit-own-step-releases.yml" # 绑定自审计工作流文件
+  workflow_dispatch: # 保留人工重跑入口
+permissions: # 限制令牌权限
+  contents: read # 允许读取当前仓库 Release 与草稿元数据
+jobs: # 定义任务集合
+  audit: # 定义唯一审计任务
+    runs-on: ubuntu-24.04 # 使用固定 Ubuntu runner
+    timeout-minutes: 30 # 限制最大运行时间
+    steps: # 定义执行步骤
+      - name: Check out audit branch # 检出当前审计分支
+        uses: actions/checkout@v4 # 使用官方检出动作
+      - name: Inspect published and draft releases # 查询当前仓库全部可见 Release 与 STEP 资产
+        shell: bash # 使用 Bash 包装 Python 程序
+        env: # 定义运行环境
+          GH_TOKEN: ${{ github.token }} # 使用当前模型仓库自身令牌以读取草稿 Release
+          SOURCE_REPOSITORY: Hiram-test/model # 固定被审计仓库
+        run: | # 开始审计脚本
+          set -euo pipefail # 启用严格错误处理
+          rm -rf own-step-release-audit own-downloads # 清理历史临时目录
+          mkdir -p own-step-release-audit own-downloads # 创建证据与下载目录
+          python - <<'PY' # 启动内嵌 Python 程序
+          from __future__ import annotations  # 启用现代注解行为
+          import hashlib  # 导入哈希模块
+          import io  # 导入内存字节流模块
+          import json  # 导入 JSON 模块
+          import os  # 导入环境变量模块
+          from pathlib import Path  # 导入路径模块
+          import subprocess  # 导入子进程模块
+          import tarfile  # 导入 TAR 归档模块
+          import zipfile  # 导入 ZIP 归档模块
+
+          repository = os.environ["SOURCE_REPOSITORY"]  # 读取目标仓库名称
+          output_dir = Path("own-step-release-audit")  # 定义输出目录
+          download_dir = Path("own-downloads")  # 定义下载目录
+          output_dir.mkdir(parents=True, exist_ok=True)  # 创建输出目录
+          download_dir.mkdir(parents=True, exist_ok=True)  # 创建下载目录
+
+          def gh_json(endpoint: str) -> object:  # 定义 GitHub JSON 查询函数
+              process = subprocess.run(["gh", "api", endpoint], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)  # 调用 GitHub API 并捕获响应
+              return json.loads(process.stdout)  # 解析 JSON 响应
+
+          def sha(data: bytes) -> str:  # 定义内容摘要函数
+              return hashlib.sha256(data).hexdigest()  # 返回 SHA-256 摘要
+
+          def download_asset(asset_id: int, destination: Path) -> bytes:  # 定义资产下载函数
+              with destination.open("wb") as stream:  # 创建二进制目标文件
+                  subprocess.run(["gh", "api", "-H", "Accept: application/octet-stream", f"repos/{repository}/releases/assets/{asset_id}"], check=True, stdout=stream, stderr=subprocess.PIPE)  # 下载原始资产字节
+              return destination.read_bytes()  # 返回已下载字节
+
+          def inspect_zip(data: bytes, base: dict[str, object], depth: int = 0) -> list[dict[str, object]]:  # 定义递归 ZIP 扫描函数
+              found: list[dict[str, object]] = []  # 初始化发现列表
+              if depth >= 4:  # 限制嵌套归档深度
+                  return found  # 超过深度时停止
+              with zipfile.ZipFile(io.BytesIO(data)) as archive:  # 从内存打开 ZIP
+                  for info in archive.infolist():  # 遍历 ZIP 成员
+                      if info.is_dir():  # 判断是否为目录
+                          continue  # 跳过目录
+                      member_data = archive.read(info)  # 读取成员字节
+                      lower = info.filename.lower()  # 生成小写成员名
+                      if lower.endswith((".step", ".stp")):  # 判断是否为 STEP 文件
+                          found.append({**base, "member": info.filename, "size": len(member_data), "sha256": sha(member_data), "container_depth": depth + 1})  # 保存 STEP 成员记录
+                      elif lower.endswith(".zip"):  # 判断是否为嵌套 ZIP
+                          found.extend(inspect_zip(member_data, {**base, "container": info.filename}, depth + 1))  # 递归扫描嵌套 ZIP
+              return found  # 返回 ZIP 内全部 STEP 记录
+
+          releases = gh_json(f"repos/{repository}/releases?per_page=100")  # 查询当前仓库全部可见 Release 包括草稿
+          if not isinstance(releases, list):  # 验证 API 响应结构
+              raise RuntimeError("unexpected releases response")  # 结构异常时中止
+          direct_suffixes = (".step", ".stp")  # 定义直接 STEP 扩展名
+          archive_suffixes = (".zip", ".tar", ".tar.gz", ".tgz", ".gz")  # 定义可检查归档扩展名
+          release_rows: list[dict[str, object]] = []  # 初始化 Release 汇总列表
+          asset_rows: list[dict[str, object]] = []  # 初始化候选资产列表
+          step_rows: list[dict[str, object]] = []  # 初始化实际 STEP 文件列表
+
+          for release in releases:  # 遍历全部可见 Release
+              tag = str(release.get("tag_name") or "")  # 读取 Release 标签
+              name = str(release.get("name") or "")  # 读取 Release 名称
+              matched_assets: list[str] = []  # 初始化当前 Release 候选资产名
+              for asset in release.get("assets") or []:  # 遍历当前 Release 资产
+                  asset_name = str(asset.get("name") or "")  # 读取资产名
+                  lower = asset_name.lower()  # 生成小写资产名
+                  direct = lower.endswith(direct_suffixes)  # 判断是否为直接 STEP 资产
+                  archive_candidate = "step" in lower and lower.endswith(archive_suffixes)  # 判断是否为名称含 STEP 的归档资产
+                  if not (direct or archive_candidate):  # 检查是否与 STEP 相关
+                      continue  # 跳过无关资产
+                  matched_assets.append(asset_name)  # 保存候选资产名
+                  asset_id = int(asset["id"])  # 读取资产 ID
+                  asset_record = {"release_id": int(release["id"]), "release_tag": tag, "release_name": name, "draft": bool(release.get("draft")), "prerelease": bool(release.get("prerelease")), "published_at": release.get("published_at"), "asset_id": asset_id, "asset_name": asset_name, "asset_size": int(asset.get("size") or 0), "asset_created_at": asset.get("created_at"), "asset_updated_at": asset.get("updated_at"), "direct_step": direct, "candidate_archive": archive_candidate}  # 创建候选资产记录
+                  asset_rows.append(asset_record)  # 保存候选资产记录
+                  destination = download_dir / f"{asset_id}__{Path(asset_name).name}"  # 构造唯一下载路径
+                  data = download_asset(asset_id, destination)  # 下载候选资产
+                  asset_record["downloaded_sha256"] = sha(data)  # 记录资产整体哈希
+                  base = {"release_id": int(release["id"]), "release_tag": tag, "release_name": name, "draft": bool(release.get("draft")), "prerelease": bool(release.get("prerelease")), "published_at": release.get("published_at"), "asset_id": asset_id, "asset_name": asset_name}  # 创建 STEP 来源字段
+                  if direct:  # 处理直接 STEP 文件
+                      step_rows.append({**base, "member": None, "size": len(data), "sha256": sha(data), "container_depth": 0})  # 保存直接 STEP 记录
+                  elif zipfile.is_zipfile(destination):  # 判断是否为 ZIP 归档
+                      step_rows.extend(inspect_zip(data, base))  # 展开并保存 ZIP 内 STEP 文件
+                  elif tarfile.is_tarfile(destination):  # 判断是否为 TAR 归档
+                      with tarfile.open(destination, "r:*") as archive:  # 打开 TAR 归档
+                          for info in archive.getmembers():  # 遍历 TAR 成员
+                              if not info.isfile() or not info.name.lower().endswith(direct_suffixes):  # 过滤非 STEP 成员
+                                  continue  # 跳过无关成员
+                              stream = archive.extractfile(info)  # 获取成员字节流
+                              if stream is None:  # 判断成员是否可读取
+                                  continue  # 跳过不可读取成员
+                              member_data = stream.read()  # 读取成员字节
+                              step_rows.append({**base, "member": info.name, "size": len(member_data), "sha256": sha(member_data), "container_depth": 1})  # 保存 TAR 内 STEP 记录
+                  else:  # 处理无法展开的候选归档
+                      asset_record["inspection_warning"] = "candidate archive was not readable as ZIP or TAR"  # 写入格式警告
+              if matched_assets:  # 判断当前 Release 是否包含候选资产
+                  release_rows.append({"release_id": int(release["id"]), "tag": tag, "name": name, "draft": bool(release.get("draft")), "prerelease": bool(release.get("prerelease")), "published_at": release.get("published_at"), "candidate_assets": matched_assets})  # 保存 Release 摘要
+
+          unique_hashes = sorted({str(row["sha256"]) for row in step_rows})  # 按内容哈希去重 STEP 文件
+          report = {"schema": "catwalk.own-repository-step-release-audit", "schema_version": "1.0.0", "repository": repository, "release_count_total_visible": len(releases), "draft_release_count_visible": sum(1 for row in releases if row.get("draft")), "release_count_with_step_candidates": len(release_rows), "candidate_asset_count": len(asset_rows), "discovered_step_file_count": len(step_rows), "unique_step_version_count_by_sha256": len(unique_hashes), "unique_step_sha256": unique_hashes, "releases": release_rows, "candidate_assets": asset_rows, "step_files": step_rows}  # 创建最终报告
+          (output_dir / "own-step-release-audit.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # 写入 JSON 报告
+          summary = [f"release_count_total_visible={report['release_count_total_visible']}", f"draft_release_count_visible={report['draft_release_count_visible']}", f"release_count_with_step_candidates={report['release_count_with_step_candidates']}", f"candidate_asset_count={report['candidate_asset_count']}", f"discovered_step_file_count={report['discovered_step_file_count']}", f"unique_step_version_count_by_sha256={report['unique_step_version_count_by_sha256']}"]  # 创建文本摘要
+          (output_dir / "summary.txt").write_text("\n".join(summary) + "\n", encoding="utf-8")  # 写入文本摘要
+          print(json.dumps(report, ensure_ascii=False, indent=2))  # 输出完整报告到 Actions 日志
+          PY
+      - name: Publish own-repository summary # 发布仓库自审计摘要
+        shell: bash # 使用 Bash 输出摘要
+        run: cat own-step-release-audit/summary.txt >> "$GITHUB_STEP_SUMMARY" # 将摘要写入 Actions 页面
+      - name: Upload own-repository audit # 上传机器可读证据
+        uses: actions/upload-artifact@v4 # 使用官方 artifact 动作
+        with: # 定义上传参数
+          name: own-step-release-audit-${{ github.run_id }} # 使用运行 ID 命名 artifact
+          path: own-step-release-audit/ # 上传完整证据目录
+          if-no-files-found: error # 缺少证据时失败
+          retention-days: 30 # 保留证据三十天
