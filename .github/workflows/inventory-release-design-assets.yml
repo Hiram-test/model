@@ -1,0 +1,87 @@
+name: Inventory Release design assets # 定义一次性设计资料盘点工作流
+on: # 定义工作流触发条件
+  pull_request: # 在拉取请求中触发以生成可读取运行证据
+    paths: # 限定触发文件
+      - ".github/workflows/inventory-release-design-assets.yml" # 监听本工作流文件
+  workflow_dispatch: # 保留人工重跑入口
+permissions: # 限制令牌权限
+  contents: read # 仅允许读取当前仓库 Release 元数据
+jobs: # 定义任务集合
+  inventory: # 定义唯一盘点任务
+    runs-on: ubuntu-24.04 # 使用固定 Ubuntu runner
+    timeout-minutes: 15 # 限制最大运行时间
+    steps: # 定义任务步骤
+      - name: Check out audit branch # 检出当前审计分支
+        uses: actions/checkout@v4 # 使用官方检出动作
+      - name: Query every visible Release asset # 查询当前仓库所有可见 Release 资产
+        shell: bash # 使用 Bash 包装 Python 程序
+        env: # 定义运行环境
+          GH_TOKEN: ${{ github.token }} # 使用仓库自身令牌读取已发布及草稿 Release
+        run: | # 开始盘点脚本
+          set -euo pipefail # 启用严格错误处理
+          rm -rf design-asset-inventory # 清理旧结果目录
+          mkdir -p design-asset-inventory # 创建结果目录
+          python - <<'PY' # 启动内嵌 Python 程序
+          from __future__ import annotations  # 启用现代类型注解行为
+          import json  # 导入 JSON 读写模块
+          from pathlib import Path  # 导入路径处理模块
+          import subprocess  # 导入子进程调用模块
+
+          process = subprocess.run(  # 调用 GitHub API 查询全部 Release
+              ["gh", "api", "repos/Hiram-test/model/releases?per_page=100"],  # 指定 Release API 端点
+              check=True,  # API 请求失败时立即中止
+              stdout=subprocess.PIPE,  # 捕获标准输出
+              stderr=subprocess.PIPE,  # 捕获标准错误
+              text=True,  # 以文本方式返回响应
+          )  # 完成 API 调用
+          releases = json.loads(process.stdout)  # 解析 Release JSON 响应
+          rows: list[dict[str, object]] = []  # 初始化资产记录列表
+          for release in releases:  # 遍历每个可见 Release
+              for asset in release.get("assets") or []:  # 遍历当前 Release 的每个资产
+                  rows.append({  # 保存完整资产元数据
+                      "release_id": release.get("id"),  # 记录 Release 唯一 ID
+                      "release_tag": release.get("tag_name"),  # 记录 Release 标签
+                      "release_name": release.get("name"),  # 记录 Release 显示名称
+                      "draft": bool(release.get("draft")),  # 记录是否为草稿 Release
+                      "prerelease": bool(release.get("prerelease")),  # 记录是否为预发布 Release
+                      "published_at": release.get("published_at"),  # 记录发布时间
+                      "asset_id": asset.get("id"),  # 记录资产唯一 ID
+                      "asset_name": asset.get("name"),  # 记录资产文件名
+                      "asset_size": asset.get("size"),  # 记录资产字节数
+                      "asset_created_at": asset.get("created_at"),  # 记录资产创建时间
+                      "asset_updated_at": asset.get("updated_at"),  # 记录资产更新时间
+                      "content_type": asset.get("content_type"),  # 记录资产 MIME 类型
+                  })  # 完成单条资产记录
+          report = {  # 创建机器可读盘点报告
+              "schema": "catwalk.release-design-asset-inventory",  # 定义报告模式名称
+              "schema_version": "1.0.0",  # 定义报告模式版本
+              "release_count": len(releases),  # 写入可见 Release 数量
+              "asset_count": len(rows),  # 写入全部资产数量
+              "releases": [  # 写入 Release 级摘要
+                  {  # 开始 Release 摘要字段
+                      "id": release.get("id"),  # 写入 Release ID
+                      "tag": release.get("tag_name"),  # 写入标签
+                      "name": release.get("name"),  # 写入名称
+                      "draft": bool(release.get("draft")),  # 写入草稿状态
+                      "prerelease": bool(release.get("prerelease")),  # 写入预发布状态
+                      "published_at": release.get("published_at"),  # 写入发布时间
+                      "asset_count": len(release.get("assets") or []),  # 写入当前 Release 资产数量
+                  }  # 结束 Release 摘要字段
+                  for release in releases  # 遍历全部 Release 生成摘要
+              ],  # 完成 Release 摘要列表
+              "assets": rows,  # 写入完整资产列表
+          }  # 完成盘点报告
+          root = Path("design-asset-inventory")  # 定义结果根目录
+          (root / "asset-inventory.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # 写入 JSON 盘点报告
+          summary = [f"release_count={len(releases)}", f"asset_count={len(rows)}"]  # 创建文本摘要头部
+          summary.extend(f"{row['release_tag']}\t{row['asset_name']}\t{row['asset_size']}" for row in rows)  # 添加每个资产的标签、名称和大小
+          (root / "asset-inventory.txt").write_text("\n".join(summary) + "\n", encoding="utf-8")  # 写入便于阅读的文本清单
+          print(json.dumps(report, ensure_ascii=False, indent=2))  # 将完整报告打印到 Actions 日志
+          PY
+      - name: Upload Release asset inventory # 上传盘点结果
+        uses: actions/upload-artifact@v4 # 使用官方 artifact 上传动作
+        with: # 定义上传参数
+          name: release-design-asset-inventory-${{ github.run_id }} # 使用运行 ID 命名证据包
+          path: design-asset-inventory/ # 上传完整结果目录
+          if-no-files-found: error # 缺少结果时使工作流失败
+          retention-days: 30 # 保留证据三十天
