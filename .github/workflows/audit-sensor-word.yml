@@ -1,51 +1,52 @@
-name: Audit sensor Word files # Define the temporary audit workflow name.
-on: # Define the event that starts the audit.
-  push: # Run when the audit branch receives this workflow file.
-    branches: [audit/release-inventory-20260803] # Restrict execution to the isolated audit branch.
-    paths: [.github/workflows/audit-sensor-word.yml] # Run only for this workflow-file commit.
-permissions: # Declare the minimum repository permissions required.
-  contents: write # Permit committing the generated audit result to the audit branch.
-jobs: # Define the audit job collection.
-  audit: # Define the single audit job.
-    runs-on: ubuntu-latest # Use GitHub's Ubuntu runner.
-    steps: # Define the ordered audit steps.
-      - uses: actions/checkout@v4 # Check out the isolated audit branch.
-      - name: Inspect release manifest # Download and search the complete-archive manifests.
-        env: # Supply authentication to GitHub CLI.
-          GH_TOKEN: ${{ github.token }} # Use the workflow-scoped repository token.
-        shell: bash # Execute the audit with Bash.
-        run: | # Begin the audit script.
-          set -euo pipefail # Stop on errors, unset variables, or failed pipelines.
-          gh release download zhangjinggao-full-20260729 --pattern archive-manifest.csv --pattern package-members.csv --clobber # Download the two release inventory files.
-          python - <<'PY' # Run a small manifest-filtering program.
-          import csv, json, os, re # Load CSV, JSON, filesystem, and regular-expression utilities.
-          keywords = ('传感器', '参数', '测点', '设备', '仪器', '监测', '采集') # Define broad Chinese search terms for likely sensor-parameter documents.
-          word_ext = ('.doc', '.docx') # Restrict candidates to Microsoft Word formats.
-          exact = [] # Store paths containing both sensor and parameter wording.
-          broad = [] # Store broader Word candidates containing any related keyword.
-          with open('archive-manifest.csv', 'r', encoding='utf-8-sig', newline='') as handle: # Open the release-wide source-file manifest.
-              for row in csv.DictReader(handle): # Iterate through every archived source path.
-                  path = (row.get('RelativePath') or '').strip() # Read and normalize the relative file path.
-                  lower = path.lower() # Produce a lowercase form for extension matching.
-                  if not lower.endswith(word_ext): # Ignore non-Word files.
-                      continue # Move to the next manifest row.
-                  item = dict(row) # Preserve all manifest metadata for a matching row.
-                  if '传感器' in path and '参数' in path: # Detect the strongest filename match.
-                      exact.append(item) # Record the exact filename-level match.
-                  elif any(term in path for term in keywords): # Detect broader sensor-document candidates.
-                      broad.append(item) # Record the broader filename-level match.
-          members = [] # Store package locations for every selected source path.
-          selected = {item.get('RelativePath') for item in exact + broad} # Build the set of selected archive-relative paths.
-          with open('package-members.csv', 'r', encoding='utf-8-sig', newline='') as handle: # Open the mapping from source paths to release assets.
-              for row in csv.DictReader(handle): # Iterate through every package-member mapping.
-                  if row.get('RelativePath') in selected: # Keep mappings only for selected Word documents.
-                      members.append(dict(row)) # Record the asset and source-path relationship.
-          result = {'exact_matches': exact, 'broad_candidates': broad, 'package_matches': members} # Assemble the complete audit result.
-          with open('sensor-word-release-matches.json', 'w', encoding='utf-8') as handle: # Open the result file for writing.
-              json.dump(result, handle, ensure_ascii=False, indent=2) # Write readable Unicode JSON.
-          PY # End the manifest-filtering program.
-          git config user.name github-actions[bot] # Configure the automated commit author name.
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com # Configure the automated commit author email.
-          git add sensor-word-release-matches.json # Stage the generated audit result.
-          git commit -m 'Audit sensor parameter Word files in release' # Commit the audit result on the isolated branch.
-          git push # Push the result commit to the isolated branch.
+name: Audit sensor Word files
+on:
+  push:
+    branches:
+      - audit/release-inventory-20260803
+    paths:
+      - .github/workflows/audit-sensor-word.yml
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect release manifest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release download zhangjinggao-full-20260729 --pattern archive-manifest.csv --pattern package-members.csv --clobber
+          cat > /tmp/filter.py <<'PY'
+          import csv
+          import json
+          keywords = ('传感器', '参数', '测点', '设备', '仪器', '监测', '采集')
+          word_ext = ('.doc', '.docx')
+          exact = []
+          broad = []
+          with open('archive-manifest.csv', 'r', encoding='utf-8-sig', newline='') as handle:
+              for row in csv.DictReader(handle):
+                  path = (row.get('RelativePath') or '').strip()
+                  if not path.lower().endswith(word_ext):
+                      continue
+                  if '传感器' in path and '参数' in path:
+                      exact.append(dict(row))
+                  elif any(term in path for term in keywords):
+                      broad.append(dict(row))
+          selected = {item.get('RelativePath') for item in exact + broad}
+          members = []
+          with open('package-members.csv', 'r', encoding='utf-8-sig', newline='') as handle:
+              for row in csv.DictReader(handle):
+                  if row.get('RelativePath') in selected:
+                      members.append(dict(row))
+          with open('sensor-word-release-matches.json', 'w', encoding='utf-8') as handle:
+              json.dump({'exact_matches': exact, 'broad_candidates': broad, 'package_matches': members}, handle, ensure_ascii=False, indent=2)
+          PY
+          python /tmp/filter.py
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add sensor-word-release-matches.json
+          git commit -m 'Audit sensor parameter Word files in release'
+          git push
