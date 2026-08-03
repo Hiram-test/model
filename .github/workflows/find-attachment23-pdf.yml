@@ -1,0 +1,56 @@
+name: Find attachment 2-3 PDF
+on:
+  push:
+    branches:
+      - audit/release-inventory-20260803
+    paths:
+      - .github/workflows/find-attachment23-pdf.yml
+permissions:
+  contents: write
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/release-inventory-20260803
+      - name: Download manifest and locate PDF
+        run: |
+          set -euo pipefail
+          curl -fL 'https://github.com/Hiram-test/model/releases/download/zhangjinggao-full-20260729/archive-manifest.csv' -o archive-manifest.csv
+          python - <<'PY'
+          import csv
+          import json
+          import re
+          from pathlib import Path
+          source = Path('archive-manifest.csv')
+          raw = source.read_bytes()
+          text = raw.decode('utf-8-sig', errors='replace')
+          rows = list(csv.DictReader(text.splitlines()))
+          exact_pattern = re.compile(r'(附件\s*2\s*[-－—_至]\s*3|attachment\s*2\s*[-_–—]\s*3)', re.IGNORECASE)
+          exact = []
+          broad = []
+          for row in rows:
+              joined = ' | '.join(str(value or '') for value in row.values())
+              lowered = joined.lower()
+              if '.pdf' not in lowered:
+                  continue
+              if exact_pattern.search(joined):
+                  exact.append(row)
+              elif '附件' in joined and '2' in joined and '3' in joined:
+                  broad.append(row)
+          result = {'headers': list(rows[0].keys()) if rows else [], 'exact_matches': exact, 'broad_candidates': broad}
+          Path('attachment23-pdf-matches.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+          PY
+          rm -f archive-manifest.csv
+      - name: Commit result
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add attachment23-pdf-matches.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m 'Locate attachment 2-3 PDF in release archive'
+          git push origin HEAD:audit/release-inventory-20260803
