@@ -1,0 +1,33 @@
+name: Extract attachment 2-3 report
+on:
+  push:
+    branches: [audit/release-inventory-20260803]
+    paths: [.github/workflows/extract-attachment23-report.yml]
+permissions:
+  contents: write
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and extract report
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release download zhangjinggao-full-20260729 --pattern archive-0001.tar.zst --clobber
+          mkdir -p attachment23_extract
+          tar --zstd -xf archive-0001.tar.zst -C attachment23_extract '01_设计资料与规范/附件2-3：猫道结构抗风性能试验报告.pdf'
+          mv 'attachment23_extract/01_设计资料与规范/附件2-3：猫道结构抗风性能试验报告.pdf' attachment23_report.pdf
+          sudo apt-get update -y
+          sudo apt-get install -y poppler-utils
+          pdfinfo attachment23_report.pdf > attachment23_pdfinfo.txt
+          pdftotext -layout attachment23_report.pdf attachment23_report_layout.txt
+          pdftotext attachment23_report.pdf attachment23_report_plain.txt
+          pdfimages -list attachment23_report.pdf > attachment23_images.txt
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add attachment23_report.pdf attachment23_pdfinfo.txt attachment23_report_layout.txt attachment23_report_plain.txt attachment23_images.txt
+          git commit -m 'Extract attachment 2-3 wind test report for analysis'
+          git push
