@@ -12,7 +12,7 @@ permissions:
   actions: read
 jobs:
   solve:
-    name: Solve completed-state cable prestress on validated L2 topology
+    name: Diagnose completed-state cable prestress on validated L2 topology
     runs-on: ubuntu-22.04
     timeout-minutes: 45
     steps:
@@ -27,20 +27,20 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline
-      - name: Execute prestress inverse calibration
+      - name: Execute two-point prestress diagnostic
         id: calibration
         continue-on-error: true
-        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && python3 automation/zhaqing_calculix/prestress_l2_calibrate.py "$BASE" build/zhaqing-prestress
+        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && python3 automation/zhaqing_calculix/prestress_l2_diagnose.py "$BASE" build/zhaqing-prestress
       - name: Upload complete nonlinear evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: zhaqing-l2-prestress-${{ github.sha }}
+          name: zhaqing-l2-prestress-diagnostic-${{ github.sha }}
           path: build/zhaqing-prestress
           if-no-files-found: error
           retention-days: 30
           compression-level: 6
-      - name: Publish calibration receipt back to branch
+      - name: Publish calibration diagnostics back to branch
         if: always()
         run: |
           set -e
@@ -49,8 +49,6 @@ jobs:
           if test -s build/zhaqing-prestress/scale_0p00000000/solver.stdout.log; then cp build/zhaqing-prestress/scale_0p00000000/solver.stdout.log automation/zhaqing_calculix/prestress_result/scale0_solver.log; fi
           if test -s build/zhaqing-prestress/scale_1p00000000/solver.stdout.log; then cp build/zhaqing-prestress/scale_1p00000000/solver.stdout.log automation/zhaqing_calculix/prestress_result/scale1_solver.log; fi
           if test -s build/zhaqing-prestress/scale_1p00000000/model.inp; then cp build/zhaqing-prestress/scale_1p00000000/model.inp automation/zhaqing_calculix/prestress_result/scale1_model.inp; fi
-          if test -s build/zhaqing-prestress/SELECTED_MODEL.inp; then cp build/zhaqing-prestress/SELECTED_MODEL.inp automation/zhaqing_calculix/prestress_result/SELECTED_MODEL.inp; fi
-          if test -s build/zhaqing-prestress/SELECTED_MODEL.dat; then cp build/zhaqing-prestress/SELECTED_MODEL.dat automation/zhaqing_calculix/prestress_result/SELECTED_MODEL.dat; fi
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add automation/zhaqing_calculix/prestress_result
