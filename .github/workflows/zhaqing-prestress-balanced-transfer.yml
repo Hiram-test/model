@@ -6,6 +6,7 @@ on: # Define branch, child-PR and manual execution triggers for the isolated dia
     paths: # Trigger only this workflow and its direct source dependencies.
       - '.github/workflows/zhaqing-prestress-balanced-transfer.yml' # Re-run when this workflow changes.
       - 'automation/zhaqing_prestress/balanced_transfer_v2.py' # Re-run when the balanced-transfer diagnostic changes.
+      - 'automation/zhaqing_prestress/balanced_transfer_controlled.py' # Re-run when the narrowly controlled transfer wrapper changes.
       - 'automation/zhaqing_prestress/prestress_isolation.py' # Re-run when the shared baseline parser or CalculiX runner changes.
       - 'automation/zhaqing_prestress/elementwise_prestress.py' # Re-run when mechanics-derived prestress targets change.
       - 'automation/zhaqing_prestress/initial_stress_prestress.py' # Re-run when global initial-stress tensor conversion changes.
@@ -15,6 +16,7 @@ on: # Define branch, child-PR and manual execution triggers for the isolated dia
     paths: # Trigger the child-PR calculation only for this diagnostic and its direct dependencies.
       - '.github/workflows/zhaqing-prestress-balanced-transfer.yml' # Validate workflow changes inside the child PR.
       - 'automation/zhaqing_prestress/balanced_transfer_v2.py' # Validate balanced-transfer implementation changes inside the child PR.
+      - 'automation/zhaqing_prestress/balanced_transfer_controlled.py' # Validate the minimal residual-control wrapper inside the child PR.
       - 'automation/zhaqing_prestress/prestress_isolation.py' # Validate shared baseline-parser and solver-runner changes inside the child PR.
       - 'automation/zhaqing_prestress/elementwise_prestress.py' # Validate prestress-target changes inside the child PR.
       - 'automation/zhaqing_prestress/initial_stress_prestress.py' # Validate native-stress tensor conversion changes inside the child PR.
@@ -56,13 +58,13 @@ jobs: # Define one deterministic balanced-transfer nonlinear diagnostic job.
           command -v ccx # Require the solver executable on PATH.
       - name: Run balanced prestress transfer # Establish exact free-DOF prestress balance and then ramp to the unchanged verified permanent-load state.
         shell: bash # Execute syntax validation and nonlinear solution under strict Bash semantics.
-        run: | # Locate the verified baseline and run the single scale-1.18 diagnostic.
+        run: | # Locate the verified baseline and run the single scale-1.18 diagnostic with the minimal FIELD adjustment.
           set -euxo pipefail # Fail on missing inputs, syntax errors or an unqualified nonlinear result.
           mkdir -p "$OUT" # Create the numerical evidence root before solver execution.
           base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact verified PR9 L2 dead-load deck.
           test -s "$base" # Require a nonempty immutable baseline input.
-          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/initial_stress_prestress.py automation/zhaqing_prestress/balanced_transfer_v2.py # Reject Python syntax errors before launching CalculiX.
-          python3 automation/zhaqing_prestress/balanced_transfer_v2.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute the balanced native-prestress initialization and transfer to verified permanent loads.
+          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/initial_stress_prestress.py automation/zhaqing_prestress/balanced_transfer_v2.py automation/zhaqing_prestress/balanced_transfer_controlled.py # Reject Python syntax errors before launching CalculiX.
+          python3 automation/zhaqing_prestress/balanced_transfer_controlled.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute the physically balanced transfer while changing only Rn from 0.005 to 0.0051 in step two.
       - name: Preserve provenance # Record exact source and solver environment after success or failure.
         if: always() # Preserve provenance for rejected nonlinear diagnostics as well as successful ones.
         shell: bash # Use deterministic text diagnostics for environment evidence.
