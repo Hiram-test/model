@@ -1,5 +1,5 @@
 name: Zhaqing balanced prestress load transfer # Validate an exactly balanced native-prestress initialization before transfer to verified permanent loads.
-on: # Define branch and manual execution triggers for the isolated diagnostic.
+on: # Define branch, child-PR and manual execution triggers for the isolated diagnostic.
   push: # Run automatically when the dedicated research branch changes this diagnostic.
     branches: # Restrict automatic execution to the reversible prestress branch.
       - agent/zhaqing-prestress-isolation # Execute only the dedicated Zhaqing prestress branch.
@@ -9,6 +9,15 @@ on: # Define branch and manual execution triggers for the isolated diagnostic.
       - 'automation/zhaqing_prestress/prestress_isolation.py' # Re-run when the shared baseline parser or CalculiX runner changes.
       - 'automation/zhaqing_prestress/elementwise_prestress.py' # Re-run when mechanics-derived prestress targets change.
       - 'automation/zhaqing_prestress/initial_stress_prestress.py' # Re-run when global initial-stress tensor conversion changes.
+  pull_request: # Run the same diagnostic on the child PR so its evidence is visible through PR workflow inspection.
+    branches: # Restrict the comparison base to the original Zhaqing PR9 head branch.
+      - agent/zhaqing-freecad-cad003 # Compare only the isolated prestress intervention against the frozen PR9 branch.
+    paths: # Trigger the child-PR calculation only for this diagnostic and its direct dependencies.
+      - '.github/workflows/zhaqing-prestress-balanced-transfer.yml' # Validate workflow changes inside the child PR.
+      - 'automation/zhaqing_prestress/balanced_transfer_v2.py' # Validate balanced-transfer implementation changes inside the child PR.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Validate shared baseline-parser and solver-runner changes inside the child PR.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Validate prestress-target changes inside the child PR.
+      - 'automation/zhaqing_prestress/initial_stress_prestress.py' # Validate native-stress tensor conversion changes inside the child PR.
   workflow_dispatch: # Permit an explicit rerun without source mutation.
 permissions: # Grant only read access required for source checkout and verified artifact recovery.
   contents: read # Allow checkout of the tested source revision.
@@ -72,4 +81,3 @@ jobs: # Define one deterministic balanced-transfer nonlinear diagnostic job.
           if-no-files-found: error # Treat missing numerical evidence as an explicit workflow error.
           retention-days: 30 # Retain the diagnostic for downstream AFEM integration and audit.
           compression-level: 6 # Use moderate compression for CalculiX field-result files.
-# Trigger revision after workflow registration so GitHub evaluates the push event with this workflow already present. # Preserve execution provenance for the first balanced-transfer run.
