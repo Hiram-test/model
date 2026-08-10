@@ -1,56 +1,113 @@
-name: Zhaqing NLGEOM internal-node mapping # Map the mixed-MPC common node back to the validated source element topology.
-on: # Reuse the reliable PR9 branch-push execution route.
-  push: # Execute this mapping job when its workflow definition changes.
-    branches: # Restrict diagnostic work to the temporary PR9 branch.
-      - agent/zhaqing-freecad-cad003 # Keep the repository main branch outside the numerical diagnosis.
-    paths: # Trigger only on this exact temporary mapping workflow.
-      - '.github/workflows/zhaqing-calculix.yml' # Re-run when the mapping procedure changes.
-  workflow_dispatch: # Retain an explicit rerun entry point for audit.
-permissions: # Grant only access required to retrieve the baseline and publish mapping evidence.
-  contents: write # Permit publication of the small node-to-element mapping report back to the temporary branch.
-  actions: read # Permit retrieval of the immutable validated PR9 L2 baseline artifact.
-jobs: # Define one deterministic mapping job.
-  map-node: # Reproduce the first failed nonlinear expansion and inspect its automatically generated .12d map.
-    runs-on: ubuntu-22.04 # Match the CalculiX version family used in all preceding bridge runs.
-    timeout-minutes: 20 # Bound the single control solve and mapping extraction.
-    steps: # Execute checkout, solver installation, baseline retrieval, mapping solve, and report publication.
-      - name: Checkout mapping commit # Materialize the exact temporary branch state.
+name: Zhaqing SPRINGA-hanger NLGEOM control # Test the local hanger-interface repair without any prestress or thermal field.
+on: # Reuse the reliable PR9 branch push route for the control solve.
+  push: # Execute whenever this temporary control workflow changes.
+    branches: # Restrict the experiment to the existing PR9 branch.
+      - agent/zhaqing-freecad-cad003 # Keep repository main isolated from the nonlinear repair.
+    paths: # Trigger only on the local control workflow or generator.
+      - '.github/workflows/zhaqing-calculix.yml' # Re-run when the exact solver workflow changes.
+      - 'automation/zhaqing_calculix/spring_hanger_control_generate.py' # Re-run when the native SPRINGA hanger replacement changes.
+  workflow_dispatch: # Retain explicit rerun capability for numerical audit.
+permissions: # Grant only baseline-read and result-publication access.
+  contents: write # Permit one result commit back to the temporary branch.
+  actions: read # Permit retrieval of the immutable successful PR9 baseline artifact.
+jobs: # Define one deterministic local-interface control solve.
+  solve: # Replace only hangers by native axial springs and test pure NLGEOM convergence.
+    runs-on: ubuntu-22.04 # Match the validated baseline CalculiX environment.
+    timeout-minutes: 30 # Bound installation and the single nonlinear control solve.
+    steps: # Execute checkout, solver installation, baseline retrieval, control solve, parse, and publication.
+      - name: Checkout exact repair commit # Materialize the branch revision containing the SPRINGA hanger generator.
         uses: actions/checkout@v4 # Use GitHub's standard checkout action.
-        with: # Retain credentials only for publishing the mapping evidence.
-          fetch-depth: 1 # Fetch only the current deterministic branch commit.
-          persist-credentials: true # Permit one small evidence commit after the solve.
-      - name: Install CalculiX # Install the same packaged solver used by the prior successful and diagnostic runs.
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx # Install ccx and its sparse-solver dependencies.
-      - name: Download validated L2 baseline # Recover the exact already-solved PR9 mother model.
-        env: # Scope the GitHub token to artifact access.
-          GH_TOKEN: ${{ github.token }} # Authenticate same-repository artifact retrieval.
-        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline # Download the immutable LC01 baseline package.
-      - name: Reproduce pure NLGEOM expansion and extract node 1258 map # Generate the no-prestress control and read CalculiX's source-to-expanded topology file.
-        run: | # Execute the single mapping solve and extraction in one isolated directory.
-          set +e # Allow the known nonlinear failure so the automatically generated .12d file can still be inspected.
-          mkdir -p build/zhaqing-map # Create a clean mapping working directory.
+        with: # Retain credentials only for publishing the numerical receipt.
+          fetch-depth: 1 # Fetch only the exact revision required by this deterministic run.
+          persist-credentials: true # Permit the final result commit to the same temporary branch.
+      - name: Install CalculiX # Install the same packaged solver family used by the PR9 baseline.
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx # Install ccx and sparse-solver dependencies.
+      - name: Download validated L2 baseline # Recover the exact already-solved mother model.
+        env: # Scope the GitHub token to artifact retrieval.
+          GH_TOKEN: ${{ github.token }} # Authenticate same-repository GitHub CLI access.
+        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline # Download immutable LC01 baseline evidence.
+      - name: Generate and solve SPRINGA hanger control # Change only the fifty hanger element formulation and activate NLGEOM.
+        id: solver # Preserve the native CalculiX status for machine-readable parsing.
+        continue-on-error: true # Retain failed result evidence for diagnosis if another interface remains.
+        run: | # Generate and execute the control model in an isolated directory.
+          set +e # Capture the raw solver outcome instead of terminating before evidence publication.
+          mkdir -p build/zhaqing-spring-control # Create a clean numerical working directory.
           BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" # Locate the immutable validated mother input deck.
-          test -s "$BASE" || exit 90 # Refuse the mapping run when the baseline deck is missing.
-          python3 automation/zhaqing_calculix/nlgeom_control_generate.py "$BASE" build/zhaqing-map/ZQ_MAP.inp || exit 91 # Generate the identical pure-NLGEOM topology control used to expose node 1258.
-          cd build/zhaqing-map # Enter the isolated mapping directory.
-          ccx -i ZQ_MAP > ZQ_MAP.stdout.log 2>&1 # Run CalculiX until the known first-increment failure while retaining the expanded topology evidence.
-          test -s ZQ_MAP.12d || exit 92 # Require the official CalculiX 1D/2D source-to-3D expansion map.
-          grep -n -B 8 -A 8 -w '1258' ZQ_MAP.12d > node1258_map.txt || true # Extract every source element topology block whose generated representation contains internal node 1258.
-          grep -n -B 8 -A 8 -w '1040' ZQ_MAP.12d > node1040_map.txt || true # Extract every topology block containing the repeated maximum-residual internal node 1040.
-          grep -n -B 8 -A 8 -w '1007' ZQ_MAP.12d > node1007_map.txt || true # Extract the alternate repeated maximum-residual internal node 1007 for cross-checking.
-          cp ZQ_MAP.12d topology_map_full.12d # Preserve the complete official expansion map as fallback if one node lies in a neighboring block.
-          exit 0 # Continue to publication after mapping extraction regardless of expected nonlinear solve status.
-      - name: Publish internal-node mapping # Commit the small mapping excerpts and full .12d evidence to a stable temporary path.
-        if: always() # Publish any mapping evidence generated before a numerical failure.
-        run: | # Copy mapping evidence and commit it atomically to the temporary branch.
-          set -e # Stop publication if the required .12d mapping file was not generated.
-          mkdir -p automation/zhaqing_calculix/nlgeom_node_map # Create the stable internal-node mapping directory.
-          cp build/zhaqing-map/node1258_map.txt automation/zhaqing_calculix/nlgeom_node_map/node1258_map.txt # Publish the mixed-MPC common-node mapping excerpt.
-          cp build/zhaqing-map/node1040_map.txt automation/zhaqing_calculix/nlgeom_node_map/node1040_map.txt # Publish the primary residual-node mapping excerpt.
-          cp build/zhaqing-map/node1007_map.txt automation/zhaqing_calculix/nlgeom_node_map/node1007_map.txt # Publish the alternate residual-node mapping excerpt.
-          cp build/zhaqing-map/topology_map_full.12d automation/zhaqing_calculix/nlgeom_node_map/topology_map_full.12d # Publish the complete source-to-expanded topology map for independent verification.
+          test -s "$BASE" || exit 90 # Refuse the control solve when the mother model is missing.
+          python3 automation/zhaqing_calculix/spring_hanger_control_generate.py "$BASE" build/zhaqing-spring-control/ZQ_SPRING_CONTROL.inp || exit 91 # Replace only T3D2 hangers by equivalent native SPRINGA elements with EA/L stiffness.
+          cd build/zhaqing-spring-control # Enter the isolated CalculiX working directory.
+          ccx -i ZQ_SPRING_CONTROL > ZQ_SPRING_CONTROL.stdout.log 2>&1 # Execute the geometrically nonlinear dead-load control and retain complete diagnostics.
+          code=$? # Capture the native CalculiX process status immediately after execution.
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT" # Expose the raw solver status to the result parser.
+          exit 0 # Continue to result parsing and publication regardless of numerical outcome.
+      - name: Parse SPRINGA hanger control # Extract nonlinear step completion, bridge response, and any remaining mixed-MPC dependency.
+        if: always() # Parse all available numerical evidence after either success or failure.
+        env: # Supply the exact native solver exit code to the parser.
+          SOLVER_EXIT: ${{ steps.solver.outputs.exit_code }} # Preserve the raw ccx status in the final receipt.
+        run: | # Execute a documented deterministic parser over STA, DAT, and console output.
+          python3 - <<'PY' # Start the inline parser.
+          from pathlib import Path  # Resolve numerical evidence paths portably.
+          import json  # Serialize the machine-readable control receipt.
+          import os  # Read the native CalculiX exit code from the workflow environment.
+          import re  # Parse displacement, residual, and cascade diagnostics from text output.
+          root = Path('build/zhaqing-spring-control')  # Resolve the isolated SPRINGA control result directory.
+          dat = root / 'ZQ_SPRING_CONTROL.dat'  # Locate requested text results when available.
+          sta = root / 'ZQ_SPRING_CONTROL.sta'  # Locate nonlinear increment history when available.
+          log = root / 'ZQ_SPRING_CONTROL.stdout.log'  # Locate the complete CalculiX console trace.
+          uz = None  # Initialize the bridge midspan vertical displacement until parsed from a result table.
+          if dat.exists():  # Parse nodal displacements only when CalculiX generated a DAT file.
+              active = False  # Track whether the current rows belong to a displacement table.
+              for line in dat.read_text(errors='ignore').splitlines():  # Scan all printed states so the final available value is retained.
+                  if 'displacements (vx,vy,vz)' in line.lower():  # Detect a standard CalculiX displacement table heading.
+                      active = True  # Enable displacement-row parsing.
+                      continue  # Advance directly to the first possible numeric row.
+                  if active and line.strip().lower().startswith('forces ('):  # Detect the reaction-force table that follows a displacement table.
+                      active = False  # Stop interpreting subsequent rows as displacements.
+                  if active:  # Parse numeric rows only inside an active displacement table.
+                      match = re.match(r'\s*(\d+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$', line)  # Match one node and three global displacement components.
+                      if match and int(match.group(1)) == 291:  # Select the validated bridge-deck centerline midspan monitor node.
+                          uz = float(match.group(4))  # Store the final available vertical displacement in millimetres.
+          accepted = []  # Accumulate normalized times of accepted nonlinear increments.
+          if sta.exists():  # Parse status history only when a status file exists.
+              for line in sta.read_text(errors='ignore').splitlines():  # Scan every chronological increment attempt.
+                  fields = line.split()  # Tokenize the compact CalculiX status row.
+                  if len(fields) >= 7 and fields[0] == '1' and not fields[2].endswith('U'):  # Retain only accepted increments from step one.
+                      try:  # Guard numeric conversion against headers and diagnostic rows.
+                          accepted.append(float(fields[5]))  # Store normalized accepted step time.
+                      except ValueError:  # Ignore nonnumeric status rows without altering valid evidence.
+                          pass  # Continue scanning remaining status history.
+          text = log.read_text(errors='ignore') if log.exists() else ''  # Load the complete solver trace or an empty fallback after early failure.
+          residuals = re.findall(r'largest residual force=\s*([-+0-9.Ee]+)\s+in node\s+(\d+)\s+and dof\s+(\d+)', text, re.I)  # Collect all maximum nonlinear force residual reports.
+          last_residual = {'forceN': float(residuals[-1][0]), 'node': int(residuals[-1][1]), 'dof': int(residuals[-1][2])} if residuals else None  # Preserve the final residual magnitude and location.
+          mpc_match = re.search(r'linear MPCs and\s+nonlinear MPCs depend on each other\s+common node:\s*(\d+)\s+in direction\s*(\d+)', text, re.I)  # Detect any remaining mixed-dimensional MPC cascade dependency.
+          mpc = {'node': int(mpc_match.group(1)), 'dof': int(mpc_match.group(2))} if mpc_match else None  # Preserve the common internal node when present.
+          final_step_time = max(accepted) if accepted else None  # Record the furthest accepted normalized step time.
+          exit_code = int(os.environ.get('SOLVER_EXIT') or 999)  # Normalize the native solver status to an integer.
+          converged = exit_code == 0 and final_step_time is not None and final_step_time >= 0.999999 and '*ERROR' not in text.upper()  # Require clean process exit, full step completion, and no fatal CalculiX error.
+          result = {'status': 'PASS' if converged else 'FAIL', 'solverExitCode': exit_code, 'converged': converged, 'finalStepTime': final_step_time, 'midspanU3Mm': uz, 'lastResidual': last_residual, 'mixedMpcDependency': mpc, 'hangerFormulation': 'SPRINGA', 'prestress': False}  # Assemble the complete local-interface control receipt.
+          (root / 'solve_summary.json').write_text(json.dumps(result, indent=2))  # Persist the receipt beside raw numerical evidence.
+          print(json.dumps(result, indent=2))  # Mirror the same receipt into the Actions log.
+          PY # End the inline parser.
+      - name: Upload SPRINGA control evidence # Preserve the generated model and all raw CalculiX result files.
+        if: always() # Archive evidence after both successful and failed controls.
+        uses: actions/upload-artifact@v4 # Store the complete numerical directory as an immutable Actions artifact.
+        with: # Configure deterministic artifact identity and retention.
+          name: zhaqing-spring-hanger-control-${{ github.sha }} # Bind the evidence package to the exact repair implementation commit.
+          path: build/zhaqing-spring-control # Upload all solver files without filtering failure diagnostics.
+          if-no-files-found: error # Treat absence of numerical evidence as infrastructure failure.
+          retention-days: 30 # Retain control evidence for final prestress-model audit.
+          compression-level: 6 # Apply standard compression to mixed ASCII and FRD files.
+      - name: Publish SPRINGA control result # Make the control receipt directly readable from the temporary branch.
+        if: always() # Publish any numerical evidence generated by the control.
+        run: | # Copy small result files and commit them atomically.
+          set -e # Stop publication when required receipt or generated input is missing.
+          mkdir -p automation/zhaqing_calculix/spring_hanger_control_result # Create a stable local-interface result directory.
+          cp build/zhaqing-spring-control/solve_summary.json automation/zhaqing_calculix/spring_hanger_control_result/solve_summary.json # Publish the machine-readable nonlinear control receipt.
+          cp build/zhaqing-spring-control/ZQ_SPRING_CONTROL.inp automation/zhaqing_calculix/spring_hanger_control_result/ZQ_SPRING_CONTROL.inp # Publish the exact local-interface control model.
+          if test -s build/zhaqing-spring-control/ZQ_SPRING_CONTROL.sta; then cp build/zhaqing-spring-control/ZQ_SPRING_CONTROL.sta automation/zhaqing_calculix/spring_hanger_control_result/ZQ_SPRING_CONTROL.sta; fi # Publish increment history when available.
+          cp build/zhaqing-spring-control/ZQ_SPRING_CONTROL.stdout.log automation/zhaqing_calculix/spring_hanger_control_result/ZQ_SPRING_CONTROL.stdout.log # Publish the complete solver trace for independent review.
           git config user.name github-actions # Identify the automated numerical evidence publisher.
           git config user.email github-actions@github.com # Use GitHub Actions' conventional non-personal identity.
-          git add automation/zhaqing_calculix/nlgeom_node_map # Stage only the newly generated mapping evidence.
-          git diff --cached --quiet || git commit -m "publish Zhaqing NLGEOM internal-node map" # Create a mapping commit only when evidence changed.
-          git push origin HEAD:agent/zhaqing-freecad-cad003 # Publish the mapping evidence back to the same temporary PR9 branch.
+          git add automation/zhaqing_calculix/spring_hanger_control_result # Stage only the local-interface control evidence.
+          git diff --cached --quiet || git commit -m "publish Zhaqing SPRINGA hanger control result" # Create an evidence commit only when numerical result changed.
+          git push origin HEAD:agent/zhaqing-freecad-cad003 # Publish the control receipt atomically back to the temporary PR9 branch.
