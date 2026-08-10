@@ -1,110 +1,45 @@
-name: Verify delegated Zhaqing S4 static-shell analysis
-
+name: Solve Zhaqing L2 completed-state prestress
 on:
   pull_request:
     branches:
       - main
     paths:
       - '.github/workflows/zhaqing-calculix-static-shell-pr.yml'
-      - '.github/workflows/zhaqing-calculix-static-shell.yml'
-      - 'automation/zhaqing_calculix/**'
+      - 'automation/zhaqing_calculix/prestress_l2_calibrate.py'
+      - 'automation/zhaqing_calculix/prestress_trigger.txt'
   workflow_dispatch:
-
 permissions:
   contents: read
-  actions: write
-
+  actions: read
 jobs:
-  dispatch-and-verify:
-    name: Dispatch S4 static solver and verify downloadable packages
+  calibrate:
     runs-on: ubuntu-22.04
-    timeout-minutes: 55
-
+    timeout-minutes: 45
     steps:
-      - name: Checkout immutable PR snapshot
+      - name: Checkout exact PR head
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
           persist-credentials: false
-
-      - name: Dispatch branch workflow and wait for its exact head SHA
-        id: delegated
+      - name: Install CalculiX
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx
+      - name: Download validated L2 baseline
         env:
           GH_TOKEN: ${{ github.token }}
-          HEAD_BRANCH: ${{ github.head_ref }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-        run: |
-          set -euxo pipefail
-          workflow='zhaqing-calculix-static-shell.yml'
-          started_epoch=$(date -u +%s)
-          gh api --method POST \
-            "repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow}/dispatches" \
-            -f ref="$HEAD_BRANCH"
-
-          run_id=''
-          for attempt in $(seq 1 60); do
-            runs_json=$(gh api \
-              "repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow}/runs?branch=${HEAD_BRANCH}&event=workflow_dispatch&per_page=20")
-            run_id=$(jq -r --arg sha "$HEAD_SHA" --argjson started "$started_epoch" '
-              [.workflow_runs[]
-               | select(.head_sha == $sha)
-               | select((.created_at | fromdateiso8601) >= $started)]
-              | sort_by(.created_at)
-              | last
-              | .id // empty' <<<"$runs_json")
-            if [[ -n "$run_id" ]]; then break; fi
-            sleep 5
-          done
-          test -n "$run_id"
-          echo "delegated_run_id=$run_id" >> "$GITHUB_OUTPUT"
-          gh run watch "$run_id" --repo "$GITHUB_REPOSITORY" --exit-status
-
-      - name: Download and inspect the delegated static-shell artifact
-        env:
-          GH_TOKEN: ${{ github.token }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          RUN_ID: ${{ steps.delegated.outputs.delegated_run_id }}
-        run: |
-          set -euxo pipefail
-          mkdir -p delegated
-          artifact_name="zhaqing-calculix-s4-static-${HEAD_SHA}"
-          gh run download "$RUN_ID" \
-            --repo "$GITHUB_REPOSITORY" \
-            --name "$artifact_name" \
-            --dir delegated
-          inp_zip=$(find delegated -type f -name 'Zhaqing_Abaqus_CalculiX_S4_static_INP_only.zip' -print -quit)
-          full_zip=$(find delegated -type f -name 'Zhaqing_CalculiX_Abaqus_S4_static_INP_and_results.zip' -print -quit)
-          summary=$(find delegated -type f -name 'static_shell_analysis_summary.json' -print -quit)
-          gate=$(find delegated -type f -name 'deck_shell_generation_gate.json' -print -quit)
-          test -s "$inp_zip"
-          test -s "$full_zip"
-          test -s "$summary"
-          test -s "$gate"
-          python3 - "$summary" "$gate" <<'PY'
-          import json, sys
-          from pathlib import Path
-          summary = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
-          gate = json.loads(Path(sys.argv[2]).read_text(encoding='utf-8'))
-          assert summary['status'] == 'PASS'
-          assert summary['staticCaseCount'] == 9
-          assert all(case['solverExitCode'] == 0 for case in summary['cases'])
-          assert all(case['convergedByLogScreen'] for case in summary['cases'])
-          assert gate['status'] == 'PASS'
-          assert gate['deckShellElementType'] == 'S4'
-          assert gate['deckShellElementCount'] == 492
-          assert gate['deckShellNodeCount'] == 581
-          assert abs(gate['deckShellAreaMm2'] - 451000000.0) < 1e-6
-          assert abs(gate['deckMassClosureTonne']) < 1e-12
-          assert gate['oldDeckBracingRemoved'] is True
-          print(json.dumps({'status':'PASS','staticCases':9,'shellElements':492}, indent=2))
-          PY
-          sha256sum "$inp_zip" "$full_zip" | tee delegated/DELIVERY_SHA256SUMS.txt
-
-      - name: Re-upload verified delegated packages with PR-run retention
+        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline
+      - name: Run completed-state prestress calibration
+        id: calibration
+        continue-on-error: true
+        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && python3 automation/zhaqing_calculix/prestress_l2_calibrate.py "$BASE" build/zhaqing-prestress
+      - name: Upload complete calibration evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: verified-zhaqing-s4-static-shell-${{ github.event.pull_request.head.sha || github.sha }}
-          path: delegated
+          name: zhaqing-l2-completed-prestress-${{ github.event.pull_request.head.sha || github.sha }}
+          path: build/zhaqing-prestress
           if-no-files-found: error
           retention-days: 30
           compression-level: 6
+      - name: Enforce calibrated completed state
+        if: always()
+        run: test -s build/zhaqing-prestress/calibration_summary.json && grep -q '"status": "PASS"' build/zhaqing-prestress/calibration_summary.json && test -s build/zhaqing-prestress/SELECTED_MODEL.inp && test -s build/zhaqing-prestress/SELECTED_MODEL.dat && test "${{ steps.calibration.outcome }}" = "success"
