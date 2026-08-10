@@ -6,6 +6,7 @@ on: # Define branch, child-PR and manual execution triggers for the isolated dia
     paths: # Trigger only this workflow and its direct source dependencies.
       - '.github/workflows/zhaqing-prestress-balanced-transfer.yml' # Re-run when this workflow changes.
       - 'automation/zhaqing_prestress/balanced_thermal_transfer.py' # Re-run when the constitutive prestress transfer changes.
+      - 'automation/zhaqing_prestress/balanced_thermal_transfer_v2.py' # Re-run when the zero thermal initial-state correction changes.
       - 'automation/zhaqing_prestress/balanced_transfer_v2.py' # Re-run when shared verified-load and support parsing changes.
       - 'automation/zhaqing_prestress/prestress_isolation.py' # Re-run when the shared baseline parser or CalculiX runner changes.
       - 'automation/zhaqing_prestress/elementwise_prestress.py' # Re-run when mechanics-derived prestress targets change.
@@ -15,6 +16,7 @@ on: # Define branch, child-PR and manual execution triggers for the isolated dia
     paths: # Trigger the child-PR calculation only for this diagnostic and its direct dependencies.
       - '.github/workflows/zhaqing-prestress-balanced-transfer.yml' # Validate workflow changes inside the child PR.
       - 'automation/zhaqing_prestress/balanced_thermal_transfer.py' # Validate constitutive prestress-transfer changes inside the child PR.
+      - 'automation/zhaqing_prestress/balanced_thermal_transfer_v2.py' # Validate zero thermal initial-state correction changes inside the child PR.
       - 'automation/zhaqing_prestress/balanced_transfer_v2.py' # Validate shared support/load parser changes inside the child PR.
       - 'automation/zhaqing_prestress/prestress_isolation.py' # Validate shared baseline-parser and solver-runner changes inside the child PR.
       - 'automation/zhaqing_prestress/elementwise_prestress.py' # Validate mechanics-derived prestress-target changes inside the child PR.
@@ -56,13 +58,13 @@ jobs: # Define one deterministic constitutive-prestress nonlinear diagnostic job
           command -v ccx # Require the solver executable on PATH.
       - name: Run balanced constitutive prestress transfer # Build cable tension by proportional contraction and balancing loads, then transfer to unchanged verified permanent loading.
         shell: bash # Execute syntax validation and nonlinear solution under strict Bash semantics.
-        run: | # Locate the verified baseline and run the scale-1.18 constitutive prestress diagnostic.
+        run: | # Locate the verified baseline and run the scale-1.18 constitutive prestress diagnostic with explicit zero thermal initial state.
           set -euxo pipefail # Fail on missing inputs, syntax errors or an unqualified nonlinear result.
           mkdir -p "$OUT" # Create the numerical evidence root before solver execution.
           base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact verified PR9 L2 dead-load deck.
           test -s "$base" # Require a nonempty immutable baseline input.
-          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/balanced_transfer_v2.py automation/zhaqing_prestress/balanced_thermal_transfer.py # Reject Python syntax errors before launching CalculiX.
-          python3 automation/zhaqing_prestress/balanced_thermal_transfer.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute zero-to-prestress constitutive loading followed by prestress-to-dead-load transfer.
+          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/balanced_transfer_v2.py automation/zhaqing_prestress/balanced_thermal_transfer.py automation/zhaqing_prestress/balanced_thermal_transfer_v2.py # Reject Python syntax errors before launching CalculiX.
+          python3 automation/zhaqing_prestress/balanced_thermal_transfer_v2.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute zero-to-prestress constitutive loading followed by prestress-to-dead-load transfer with a valid thermal reference state.
       - name: Preserve provenance # Record exact source and solver environment after success or failure.
         if: always() # Preserve provenance for rejected nonlinear diagnostics as well as successful ones.
         shell: bash # Use deterministic text diagnostics for environment evidence.
