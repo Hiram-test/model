@@ -1,5 +1,4 @@
-name: Zhaqing bridge CalculiX and Abaqus-compatible INP analysis
-
+name: Zhaqing L2 completed-state prestress solve
 on:
   pull_request:
     branches:
@@ -14,243 +13,39 @@ on:
       - '.github/workflows/zhaqing-calculix.yml'
       - 'automation/zhaqing_calculix/**'
   workflow_dispatch:
-
 permissions:
   contents: read
   actions: read
-
 jobs:
   solve:
-    name: Generate common-keyword INP files and solve with CalculiX
+    name: Solve completed-state cable prestress on validated L2 topology
     runs-on: ubuntu-22.04
-    timeout-minutes: 60
-    env:
-      CAD_RUN_ID: '29990579492'
-      CAD_ARTIFACT: 'zhaqing-cad003-freecad-only-04a45a7b55742996d19089332ccedda068853e92'
-      OUT: build/zhaqing-calculix
-
+    timeout-minutes: 45
     steps:
-      - name: Checkout immutable generator snapshot
+      - name: Checkout exact calibration commit
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
           persist-credentials: false
-
-      - name: Initialize append-only evidence directories
-        run: |
-          set -euxo pipefail
-          mkdir -p "$OUT/provenance" "$OUT/package/results/raw" "$OUT/logs"
-          git rev-parse HEAD > "$OUT/provenance/source-commit.txt"
-          printf '%s\n' "$CAD_RUN_ID" > "$OUT/provenance/source-cad-run.txt"
-          printf '%s\n' "$CAD_ARTIFACT" > "$OUT/provenance/source-cad-artifact.txt"
-
-      - name: Download corrected CAD contract and validation evidence
-        id: cad
+      - name: Install CalculiX
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx
+      - name: Download validated PR9 L2 baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline
+      - name: Execute prestress inverse calibration
+        id: calibration
         continue-on-error: true
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ env.CAD_ARTIFACT }}
-          path: recovered-cad003
-          github-token: ${{ github.token }}
-          repository: Hiram-test/model
-          run-id: ${{ env.CAD_RUN_ID }}
-
-      - name: Install CalculiX solver
-        id: dependencies
-        if: steps.cad.outcome == 'success'
-        continue-on-error: true
-        run: |
-          set +e
-          {
-            set -eux
-            sudo apt-get update
-            sudo apt-get install -y --no-install-recommends software-properties-common zip gzip
-            sudo add-apt-repository -y universe
-            sudo apt-get update
-            sudo apt-get install -y --no-install-recommends calculix-ccx
-            command -v ccx
-            dpkg-query -W calculix-ccx
-            ccx 2>&1 | head -40 || true
-          } 2>&1 | tee "$OUT/logs/01-install-calculix.log"
-          status=${PIPESTATUS[0]}
-          set -e
-          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
-          exit 0
-
-      - name: Decode and run the deterministic model generator
-        id: generate
-        if: steps.dependencies.outputs.exit_code == '0'
-        continue-on-error: true
-        run: |
-          set +e
-          {
-            set -eux
-            base64 -d automation/zhaqing_calculix/generator.py.gz.b64 | gzip -dc > "$OUT/generate_zhaqing_calculix.py"
-            python3 -m py_compile "$OUT/generate_zhaqing_calculix.py"
-            test -s recovered-cad003/model/frozen_model_contract.json
-            python3 "$OUT/generate_zhaqing_calculix.py" \
-              --contract recovered-cad003/model/frozen_model_contract.json \
-              --output "$OUT/package"
-            cp "$OUT/generate_zhaqing_calculix.py" "$OUT/package/"
-            test "$(find "$OUT/package/flat" -maxdepth 1 -name '*.inp' | wc -l)" -eq 10
-          } 2>&1 | tee "$OUT/logs/02-generate-inp.log"
-          status=${PIPESTATUS[0]}
-          set -e
-          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
-          exit 0
-
-      - name: Solve every static and modal case with CalculiX
-        id: solve
-        if: steps.generate.outputs.exit_code == '0'
-        continue-on-error: true
-        run: |
-          set +e
-          result_csv="$GITHUB_WORKSPACE/$OUT/package/results/solver_exit_codes.csv"
-          printf 'case_id,exit_code,dat_bytes,frd_bytes,sta_bytes,cvg_bytes\n' > "$result_csv"
-          overall=0
-          cd "$OUT/package/flat"
-          for inp in LC*.inp MODAL_20.inp; do
-            stem="${inp%.inp}"
-            echo "===== $stem =====" | tee "$GITHUB_WORKSPACE/$OUT/package/results/raw/$stem.stdout.log"
-            timeout 360s ccx -i "$stem" 2>&1 | tee -a "$GITHUB_WORKSPACE/$OUT/package/results/raw/$stem.stdout.log"
-            code=${PIPESTATUS[0]}
-            if [[ $code -ne 0 ]]; then overall=1; fi
-            dat=0; frd=0; sta=0; cvg=0
-            for ext in dat frd sta cvg eig mpc nam; do
-              if [[ -f "$stem.$ext" ]]; then
-                size=$(stat -c %s "$stem.$ext")
-                cp "$stem.$ext" "$GITHUB_WORKSPACE/$OUT/package/results/raw/"
-                case "$ext" in
-                  dat) dat=$size;; frd) frd=$size;; sta) sta=$size;; cvg) cvg=$size;;
-                esac
-              fi
-            done
-            printf '%s,%s,%s,%s,%s,%s\n' "$stem" "$code" "$dat" "$frd" "$sta" "$cvg" >> "$result_csv"
-          done
-          cd "$GITHUB_WORKSPACE"
-          echo "overall_exit_code=$overall" >> "$GITHUB_OUTPUT"
-          exit 0
-
-      - name: Parse solver evidence and build analysis summary
-        id: summarize
-        if: always() && steps.generate.outputs.exit_code == '0'
-        continue-on-error: true
-        run: |
-          set +e
-          python3 - <<'PY' 2>&1 | tee "$OUT/logs/04-summarize-results.log"
-          from __future__ import annotations
-          import csv, json, math, re
-          from pathlib import Path
-
-          root = Path('build/zhaqing-calculix/package')
-          raw = root / 'results/raw'
-          rows = list(csv.DictReader((root / 'results/solver_exit_codes.csv').open(encoding='utf-8')))
-          summaries = []
-          number = re.compile(r'[-+]?\d+(?:\.\d*)?(?:[Ee][-+]?\d+)?')
-          for row in rows:
-              case = row['case_id']
-              stdout_path = raw / f'{case}.stdout.log'
-              dat_path = raw / f'{case}.dat'
-              stdout = stdout_path.read_text(encoding='utf-8', errors='replace') if stdout_path.exists() else ''
-              dat = dat_path.read_text(encoding='utf-8', errors='replace') if dat_path.exists() else ''
-              lower = (stdout + '\n' + dat).lower()
-              converged = int(row['exit_code']) == 0 and not any(token in lower for token in [
-                  '*error', 'error in', 'divergence allowed', 'no convergence', 'singular matrix', 'nan'
-              ])
-              displacement_candidates = []
-              capture = False
-              for line in dat.splitlines():
-                  ll = line.lower()
-                  if 'displacements' in ll:
-                      capture = True
-                      continue
-                  if capture and (not line.strip() or 'stresses' in ll or 'forces' in ll):
-                      capture = False
-                  if capture:
-                      vals = number.findall(line)
-                      if len(vals) >= 4:
-                          try:
-                              node = int(float(vals[0])); comps = [float(x) for x in vals[1:4]]
-                              displacement_candidates.append((node, *comps, math.sqrt(sum(x*x for x in comps))))
-                          except Exception:
-                              pass
-              max_u = max(displacement_candidates, key=lambda x: x[4]) if displacement_candidates else None
-              summaries.append({
-                  'caseId': case,
-                  'solverExitCode': int(row['exit_code']),
-                  'convergedByLogScreen': converged,
-                  'datBytes': int(row['dat_bytes']),
-                  'frdBytes': int(row['frd_bytes']),
-                  'maximumParsedMonitorDisplacement': (
-                      {'node': max_u[0], 'u1Mm': max_u[1], 'u2Mm': max_u[2], 'u3Mm': max_u[3], 'magnitudeMm': max_u[4]}
-                      if max_u else None
-                  ),
-                  'logTail': stdout.splitlines()[-30:],
-              })
-          status = 'PASS' if rows and all(item['convergedByLogScreen'] for item in summaries) else 'FAIL'
-          report = {
-              'schemaVersion': '1.0.0',
-              'status': status,
-              'solver': 'CalculiX ccx from Ubuntu 22.04 calculix-ccx package',
-              'caseCount': len(summaries),
-              'cases': summaries,
-              'engineeringReleaseStatus': 'BLOCKED',
-              'note': 'Screening analysis only; no calibrated cable fabrication-state prestress.',
-          }
-          (root / 'results/analysis_summary.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
-          with (root / 'results/analysis_summary.csv').open('w', encoding='utf-8-sig', newline='') as f:
-              w = csv.writer(f)
-              w.writerow(['case_id','exit_code','converged','dat_bytes','frd_bytes','max_parsed_monitor_u_mm'])
-              for item in summaries:
-                  m = item['maximumParsedMonitorDisplacement']
-                  w.writerow([item['caseId'],item['solverExitCode'],item['convergedByLogScreen'],item['datBytes'],item['frdBytes'],m['magnitudeMm'] if m else ''])
-          print(json.dumps({'status': status, 'caseCount': len(summaries), 'failed': [x['caseId'] for x in summaries if not x['convergedByLogScreen']]}, ensure_ascii=False, indent=2))
-          raise SystemExit(0 if status == 'PASS' else 2)
-          PY
-          status=${PIPESTATUS[0]}
-          set -e
-          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
-          exit 0
-
-      - name: Preserve solver environment and build downloadable zip
-        if: always()
-        run: |
-          set +e
-          {
-            uname -a
-            cat /etc/os-release
-            command -v ccx || true
-            dpkg-query -W calculix-ccx 2>&1 || true
-            python3 --version
-          } > "$OUT/provenance/environment.txt" 2>&1
-          {
-            printf 'cad_download=%s\n' "${{ steps.cad.outcome }}"
-            printf 'dependencies_exit=%s\n' "${{ steps.dependencies.outputs.exit_code }}"
-            printf 'generate_exit=%s\n' "${{ steps.generate.outputs.exit_code }}"
-            printf 'solver_overall_exit=%s\n' "${{ steps.solve.outputs.overall_exit_code }}"
-            printf 'summary_exit=%s\n' "${{ steps.summarize.outputs.exit_code }}"
-          } > "$OUT/provenance/step-outcomes.txt"
-          cp "$OUT/provenance/environment.txt" "$OUT/package/results/solver_environment.txt" || true
-          cp "$OUT/provenance/step-outcomes.txt" "$OUT/package/results/step_outcomes.txt" || true
-          (cd "$OUT/package" && zip -q -r Zhaqing_CalculiX_Abaqus_INP_and_results.zip . -x Zhaqing_CalculiX_Abaqus_INP_and_results.zip)
-          true
-
-      - name: Upload INP package and complete CalculiX evidence before final gate
+        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && python3 automation/zhaqing_calculix/prestress_l2_calibrate.py "$BASE" build/zhaqing-prestress
+      - name: Upload complete nonlinear evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: zhaqing-calculix-abaqus-${{ github.sha }}
-          path: build/zhaqing-calculix
+          name: zhaqing-l2-prestress-${{ github.event.pull_request.head.sha || github.sha }}
+          path: build/zhaqing-prestress
           if-no-files-found: error
           retention-days: 30
           compression-level: 6
-
-      - name: Enforce generator and solver status
+      - name: Enforce calibrated completed state
         if: always()
-        run: |
-          test "${{ steps.cad.outcome }}" = "success"
-          test "${{ steps.dependencies.outputs.exit_code }}" = "0"
-          test "${{ steps.generate.outputs.exit_code }}" = "0"
-          test "${{ steps.solve.outputs.overall_exit_code }}" = "0"
-          test "${{ steps.summarize.outputs.exit_code }}" = "0"
-          test -s "$OUT/package/Zhaqing_CalculiX_Abaqus_INP_and_results.zip"
+        run: test -s build/zhaqing-prestress/calibration_summary.json && grep -q '"status": "PASS"' build/zhaqing-prestress/calibration_summary.json && test -s build/zhaqing-prestress/SELECTED_MODEL.inp && test -s build/zhaqing-prestress/SELECTED_MODEL.dat && test "${{ steps.calibration.outcome }}" = "success"
