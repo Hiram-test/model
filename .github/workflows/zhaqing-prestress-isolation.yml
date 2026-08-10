@@ -1,0 +1,96 @@
+name: Zhaqing L2 prestress isolation calibration # Identify the isolated prestress validation workflow.
+on: # Define explicit branch and manual workflow triggers.
+  push: # Run automatically whenever the isolation branch changes relevant files.
+    branches: # Restrict automatic execution to the reversible research branch.
+      - agent/zhaqing-prestress-isolation # Execute only the dedicated prestress-isolation branch.
+    paths: # Avoid unrelated repository changes triggering expensive finite-element solves.
+      - '.github/workflows/zhaqing-prestress-isolation.yml' # Re-run when this workflow changes.
+      - 'automation/zhaqing_prestress/**' # Re-run when the prestress calibration implementation changes.
+  workflow_dispatch: # Permit an explicit manual rerun without changing source files.
+permissions: # Grant only the read permissions required to recover the verified baseline artifact.
+  contents: read # Allow checkout of the immutable repository source.
+  actions: read # Allow download of the earlier verified L2 GitHub Actions artifact.
+jobs: # Define the single auditable nonlinear calibration job.
+  calibrate: # Keep generation, solution, selection and packaging in one deterministic job.
+    runs-on: ubuntu-22.04 # Match the CalculiX-compatible Linux environment used by the PR9 numerical workflows.
+    timeout-minutes: 90 # Bound the complete twelve-case nonlinear calibration sweep.
+    env: # Freeze external provenance identifiers and output locations.
+      BASELINE_RUN_ID: '30068283053' # Use the successful verified PR9 L2 static-shell Actions run.
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23' # Use the exact immutable verified L2 result package.
+      OUT: 'build/zhaqing-prestress-isolation' # Keep all generated decks, results and receipts under one artifact root.
+    steps: # Execute baseline recovery, solver setup, calibration and evidence preservation in order.
+      - name: Checkout isolation implementation # Recover the exact branch revision being validated.
+        uses: actions/checkout@v4 # Use the maintained GitHub checkout action.
+        with: # Freeze checkout behavior for provenance clarity.
+          fetch-depth: 1 # Fetch only the tested commit because repository history is not required at runtime.
+          persist-credentials: false # Prevent later solver commands from inheriting repository write credentials.
+      - name: Recover verified PR9 L2 baseline # Download the successful static-shell artifact rather than regenerating the baseline.
+        uses: actions/download-artifact@v4 # Use GitHub's artifact downloader for immutable prior-run evidence.
+        with: # Identify the exact upstream artifact and repository.
+          name: ${{ env.BASELINE_ARTIFACT }} # Select the verified L2 artifact by its frozen name.
+          path: recovered-baseline # Extract the upstream package into an isolated working directory.
+          github-token: ${{ github.token }} # Authenticate the cross-run artifact download with the workflow token.
+          repository: Hiram-test/model # Read the artifact from the same bridge-model repository.
+          run-id: ${{ env.BASELINE_RUN_ID }} # Pin the exact successful baseline workflow run.
+      - name: Install CalculiX solver # Install the same open-source nonlinear solver family used by the original PR9 calculation.
+        shell: bash # Execute solver installation with strict Bash error handling.
+        run: | # Install CalculiX and record the resolved executable version.
+          set -euxo pipefail # Stop immediately on package, shell or pipeline failures.
+          sudo apt-get update # Refresh the Ubuntu package index before installing solver dependencies.
+          sudo apt-get install -y --no-install-recommends software-properties-common # Install the repository-management helper required for Universe.
+          sudo add-apt-repository -y universe # Enable Ubuntu Universe where calculix-ccx is distributed.
+          sudo apt-get update # Refresh package metadata after enabling Universe.
+          sudo apt-get install -y --no-install-recommends calculix-ccx # Install the CalculiX CCX finite-element solver.
+          command -v ccx # Fail early unless the executable is available on PATH.
+          ccx 2>&1 | head -40 || true # Preserve the solver banner without failing on its no-input exit status.
+      - name: Run prestress isolation calibration # Modify only initial cable/hanger strain and nonlinear equilibrium while freezing the L2 bridge model.
+        shell: bash # Execute generation and nonlinear solves under strict Bash semantics.
+        run: | # Locate the verified deck, validate the script and run all bounded calibration trials.
+          set -euxo pipefail # Stop if baseline discovery, syntax validation or solver calibration fails.
+          mkdir -p "$OUT" # Create the append-only result root before any numerical execution.
+          base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact verified dead-load L2 input deck inside the recovered artifact.
+          test -s "$base" # Require a nonempty verified L2 baseline before modifying any initial state.
+          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py # Reject Python syntax errors before launching expensive solver trials.
+          python3 automation/zhaqing_prestress/prestress_isolation.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Run twelve nonlinear final-state-equivalent prestress trials and select the best converged positive scale.
+      - name: Preserve execution provenance # Record the exact source commit, platform and solver package for reproducibility.
+        if: always() # Preserve provenance even when the numerical gate fails.
+        shell: bash # Use Bash to collect deterministic environment metadata.
+        run: | # Write small text provenance files into the uploaded evidence package.
+          set +e # Continue collecting metadata even if an individual diagnostic command fails.
+          mkdir -p "$OUT/provenance" # Ensure the provenance directory exists after any upstream failure.
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt" # Record the exact tested repository commit SHA.
+          uname -a > "$OUT/provenance/environment.txt" # Record the runner kernel and architecture.
+          cat /etc/os-release >> "$OUT/provenance/environment.txt" # Append the exact Ubuntu release metadata.
+          python3 --version >> "$OUT/provenance/environment.txt" 2>&1 # Append the Python interpreter version used by the generator.
+          dpkg-query -W calculix-ccx >> "$OUT/provenance/environment.txt" 2>&1 || true # Append the installed CalculiX package version when available.
+      - name: Upload complete prestress evidence # Preserve every generated INP, nonlinear result, convergence trace and selection receipt.
+        if: always() # Upload partial evidence even if the final calibration gate fails.
+        uses: actions/upload-artifact@v4 # Use GitHub's immutable workflow artifact storage.
+        with: # Define a commit-specific evidence package.
+          name: zhaqing-prestress-isolation-${{ github.sha }} # Bind the artifact name to the exact tested source commit.
+          path: build/zhaqing-prestress-isolation # Upload the full calibration result root without filtering failed trials.
+          if-no-files-found: error # Treat missing numerical evidence as an explicit workflow error.
+          retention-days: 30 # Retain the research artifact long enough for downstream AFEM integration.
+          compression-level: 6 # Use moderate deterministic ZIP compression for solver outputs.
+      - name: Enforce prestressed equilibrium gate # Require a real positive-prestress converged final state before accepting the model.
+        if: always() # Evaluate the gate after evidence upload so failures remain inspectable.
+        shell: bash # Use Python assertions inside a strict Bash step.
+        run: | # Validate convergence, selected scale and packaged selected input model.
+          set -euxo pipefail # Propagate every receipt or file-integrity failure to the workflow conclusion.
+          test -s "$OUT/prestress_calibration_summary.json" # Require the machine-readable calibration receipt.
+          python3 - <<'PY' # Validate the final selected equilibrium using the generated receipt only.
+          import json  # Parse the deterministic calibration receipt.
+          from pathlib import Path  # Resolve packaged numerical evidence paths safely.
+          root = Path('build/zhaqing-prestress-isolation')  # Point to the workflow's complete prestress evidence root.
+          summary = json.loads((root / 'prestress_calibration_summary.json').read_text(encoding='utf-8'))  # Read the persisted calibration decision.
+          assert summary['status'] == 'PASS', summary['status']  # Require at least one clean positive-prestress nonlinear equilibrium.
+          selected = summary['selected']  # Extract the objectively selected final-state candidate.
+          assert selected['scale'] > 0.0, selected  # Reject a zero-prestress control as the accepted bridge initial state.
+          assert selected['cleanConvergence'] is True, selected  # Require clean CalculiX completion for the selected candidate.
+          assert selected['rmsCenterlineU3Mm'] is not None, selected  # Require a completed-geometry displacement objective from the final state.
+          best_dir = root / 'best'  # Resolve the packaged selected-model directory.
+          assert any(best_dir.glob('*.inp')), list(best_dir.glob('*'))  # Require the selected prestressed CalculiX input deck to be packaged.
+          assert any(best_dir.glob('*.dat')), list(best_dir.glob('*'))  # Require the selected nonlinear text result file to be packaged.
+          assert any(best_dir.glob('*.frd')), list(best_dir.glob('*'))  # Require the selected nonlinear field-result file to be packaged.
+          print(json.dumps({'status': summary['status'], 'selected': selected, 'zeroPrestressControl': summary['zeroPrestressControl']}, ensure_ascii=False, indent=2))  # Surface the final calibration comparison in the Actions log.
+          PY # End the deterministic receipt-validation program.
