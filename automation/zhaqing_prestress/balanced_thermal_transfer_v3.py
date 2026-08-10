@@ -15,6 +15,7 @@ def corrected_build_deck(base_text: str) -> tuple[str, int, dict]:  # Add only a
     audit["mechanicalResidualToleranceRelativeIncrease"] = 0.06  # Record the six-percent tolerance change explicitly for auditability.
     audit["displacementCorrectionCriterionChanged"] = False  # Confirm that the displacement-correction convergence requirement remains unchanged.
     audit["prestressMechanicsChangedFromV2"] = False  # Confirm that cable target strain, balancing loads, mesh, supports, and permanent loads remain unchanged from v2.
+    audit["rerunTrigger"] = "workflow-present-before-source-update"  # Record that this source update intentionally triggers the already-installed final workflow.
     return deck, midspan_node, audit  # Return the otherwise identical full bridge deck and updated convergence audit.
 previous.model.build_deck = corrected_build_deck  # Replace only the model constructor consumed by the existing persisted-evidence main routine.
 if __name__ == "__main__": raise SystemExit(previous.model.main())  # Execute the same full nonlinear qualification and receipt generation with the narrow Rn correction.
