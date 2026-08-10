@@ -1,56 +1,114 @@
-name: Zhaqing L2 completed-state prestress solve
+name: Zhaqing force-found completed-state prestress solve
 on:
   push:
     branches:
       - agent/zhaqing-freecad-cad003
     paths:
       - '.github/workflows/zhaqing-calculix.yml'
-      - 'automation/zhaqing_calculix/**'
   workflow_dispatch:
 permissions:
   contents: write
   actions: read
 jobs:
   solve:
-    name: Diagnose completed-state cable prestress on validated L2 topology
+    name: Solve force-found completed-state prestress on validated L2 topology
     runs-on: ubuntu-22.04
     timeout-minutes: 45
     steps:
-      - name: Checkout exact calibration commit
+      - name: Checkout result branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
           persist-credentials: true
+      - name: Recover force-found generator
+        run: git fetch --depth=1 origin agent/zhaqing-prestress-calibration-run && git show FETCH_HEAD:automation/zhaqing_prestress_fix/run_prestress_calibration.py > /tmp/zhaqing_forcefound.py
       - name: Install CalculiX
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx
       - name: Download validated PR9 L2 baseline
         env:
           GH_TOKEN: ${{ github.token }}
         run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline
-      - name: Execute two-point prestress diagnostic
-        id: calibration
+      - name: Generate and solve force-found model
+        id: solver
         continue-on-error: true
-        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && python3 automation/zhaqing_calculix/prestress_l2_diagnose.py "$BASE" build/zhaqing-prestress
-      - name: Upload complete nonlinear evidence
+        run: |
+          set +e
+          mkdir -p build/zhaqing-forcefound
+          BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)"
+          test -s "$BASE" || exit 90
+          python3 /tmp/zhaqing_forcefound.py "$BASE" build/zhaqing-forcefound/ZQ_PRESTRESS.inp || exit 91
+          cd build/zhaqing-forcefound
+          ccx -i ZQ_PRESTRESS > ZQ_PRESTRESS.stdout.log 2>&1
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Parse force-found solve
+        if: always()
+        env:
+          SOLVER_EXIT: ${{ steps.solver.outputs.exit_code }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          import os
+          import re
+          root = Path('build/zhaqing-forcefound')
+          dat = root / 'ZQ_PRESTRESS.dat'
+          sta = root / 'ZQ_PRESTRESS.sta'
+          log = root / 'ZQ_PRESTRESS.stdout.log'
+          uz = None
+          if dat.exists():
+              active = False
+              for line in dat.read_text(errors='ignore').splitlines():
+                  if 'displacements (vx,vy,vz)' in line.lower():
+                      active = True
+                      continue
+                  if active and line.strip().lower().startswith('forces ('):
+                      active = False
+                  if active:
+                      m = re.match(r'\s*(\d+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$', line)
+                      if m and int(m.group(1)) == 291:
+                          uz = float(m.group(4))
+          accepted = []
+          if sta.exists():
+              for line in sta.read_text(errors='ignore').splitlines():
+                  f = line.split()
+                  if len(f) >= 7 and f[0] == '1' and 'U' not in f[2]:
+                      try:
+                          accepted.append(float(f[5]))
+                      except ValueError:
+                          pass
+          text = log.read_text(errors='ignore') if log.exists() else ''
+          residuals = re.findall(r'largest residual force=\s*([-+0-9.Ee]+)\s+in node\s+(\d+)\s+and dof\s+(\d+)', text, re.I)
+          last = {'forceN': float(residuals[-1][0]), 'node': int(residuals[-1][1]), 'dof': int(residuals[-1][2])} if residuals else None
+          final_time = max(accepted) if accepted else None
+          code = int(os.environ.get('SOLVER_EXIT') or 999)
+          converged = code == 0 and final_time is not None and final_time >= 0.999999 and '*ERROR' not in text.upper()
+          result = {'status': 'PASS' if converged else 'FAIL', 'solverExitCode': code, 'converged': converged, 'finalStepTime': final_time, 'midspanU3Mm': uz, 'lastResidual': last, 'HMainCableN': 716150.2048515677}
+          (root / 'solve_summary.json').write_text(json.dumps(result, indent=2))
+          print(json.dumps(result, indent=2))
+          PY
+      - name: Upload force-found evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: zhaqing-l2-prestress-diagnostic-${{ github.sha }}
-          path: build/zhaqing-prestress
+          name: zhaqing-forcefound-prestress-${{ github.sha }}
+          path: build/zhaqing-forcefound
           if-no-files-found: error
           retention-days: 30
           compression-level: 6
-      - name: Publish calibration diagnostics back to branch
+      - name: Publish force-found result to branch
         if: always()
         run: |
           set -e
-          mkdir -p automation/zhaqing_calculix/prestress_result
-          cp build/zhaqing-prestress/calibration_summary.json automation/zhaqing_calculix/prestress_result/calibration_summary.json
-          if test -s build/zhaqing-prestress/scale_0p00000000/solver.stdout.log; then cp build/zhaqing-prestress/scale_0p00000000/solver.stdout.log automation/zhaqing_calculix/prestress_result/scale0_solver.log; fi
-          if test -s build/zhaqing-prestress/scale_1p00000000/solver.stdout.log; then cp build/zhaqing-prestress/scale_1p00000000/solver.stdout.log automation/zhaqing_calculix/prestress_result/scale1_solver.log; fi
-          if test -s build/zhaqing-prestress/scale_1p00000000/model.inp; then cp build/zhaqing-prestress/scale_1p00000000/model.inp automation/zhaqing_calculix/prestress_result/scale1_model.inp; fi
+          mkdir -p automation/zhaqing_calculix/prestress_forcefound_result
+          cp build/zhaqing-forcefound/solve_summary.json automation/zhaqing_calculix/prestress_forcefound_result/solve_summary.json
+          cp build/zhaqing-forcefound/ZQ_PRESTRESS.inp automation/zhaqing_calculix/prestress_forcefound_result/ZQ_PRESTRESS.inp
+          if test -s build/zhaqing-forcefound/ZQ_PRESTRESS.dat; then cp build/zhaqing-forcefound/ZQ_PRESTRESS.dat automation/zhaqing_calculix/prestress_forcefound_result/ZQ_PRESTRESS.dat; fi
+          if test -s build/zhaqing-forcefound/ZQ_PRESTRESS.sta; then cp build/zhaqing-forcefound/ZQ_PRESTRESS.sta automation/zhaqing_calculix/prestress_forcefound_result/ZQ_PRESTRESS.sta; fi
+          cp build/zhaqing-forcefound/ZQ_PRESTRESS.stdout.log automation/zhaqing_calculix/prestress_forcefound_result/ZQ_PRESTRESS.stdout.log
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add automation/zhaqing_calculix/prestress_result
-          git diff --cached --quiet || git commit -m "publish Zhaqing prestress diagnostics"
+          git add automation/zhaqing_calculix/prestress_forcefound_result
+          git diff --cached --quiet || git commit -m "publish Zhaqing force-found prestress result"
           git push origin HEAD:agent/zhaqing-freecad-cad003
