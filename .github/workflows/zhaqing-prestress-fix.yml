@@ -6,6 +6,12 @@ on: # Define both automatic and manual execution paths for this calibration work
     paths: # Avoid spending solver time on unrelated repository changes.
       - '.github/workflows/zhaqing-prestress-fix.yml' # Trigger when this solver workflow itself changes.
       - 'automation/zhaqing_prestress_fix/**' # Trigger when the prestress calibration implementation changes.
+  pull_request: # Run the same calibration when the repair branch is reviewed against the PR9 model branch.
+    branches: # Limit pull-request execution to the branch that owns the validated PR9 L2 model.
+      - agent/zhaqing-freecad-cad003 # Keep the numerical experiment scoped to the existing Zhaqing bridge development line.
+    paths: # Trigger only when the calibration workflow or implementation changes.
+      - '.github/workflows/zhaqing-prestress-fix.yml' # Re-evaluate workflow changes before accepting any solver evidence.
+      - 'automation/zhaqing_prestress_fix/**' # Re-evaluate every change to the prestress inverse-calibration implementation.
   workflow_dispatch: {} # Allow an explicit rerun without changing repository content.
 permissions: # Give the job only the permissions required to retrieve the validated baseline artifact.
   contents: read # Permit checkout of the immutable branch contents.
