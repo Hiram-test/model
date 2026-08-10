@@ -1,0 +1,106 @@
+name: Zhaqing L2 controlled prestress 0.5 percent increments # Qualify the calibrated prestress state without automatic nonlinear increment growth.
+on: # Define branch, child-PR and manual triggers for the conservative solve.
+  push: # Run automatically when the dedicated prestress branch changes this conservative experiment.
+    branches: # Restrict push execution to the reversible prestress branch.
+      - agent/zhaqing-prestress-isolation # Execute only the dedicated Zhaqing prestress branch.
+    paths: # Trigger only the conservative workflow and its direct numerical dependencies.
+      - '.github/workflows/zhaqing-prestress-controlled-lowstep.yml' # Re-run when this workflow changes.
+      - 'automation/zhaqing_prestress/controlled_equilibrium_lowstep.py' # Re-run when the fixed-increment wrapper changes.
+      - 'automation/zhaqing_prestress/controlled_equilibrium.py' # Re-run when the controlled-equilibrium audit changes.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Re-run when the element-wise prestress field changes.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Re-run when the shared L2 parser or CalculiX runner changes.
+  pull_request: # Validate the conservative prestress addition relative to the original PR9 head branch.
+    branches: # Freeze the comparison base to the existing Zhaqing PR9 implementation.
+      - agent/zhaqing-freecad-cad003 # Compare only the prestress intervention against PR9.
+    paths: # Trigger the child PR only for this conservative numerical chain.
+      - '.github/workflows/zhaqing-prestress-controlled-lowstep.yml' # Validate conservative-workflow edits in the child PR.
+      - 'automation/zhaqing_prestress/controlled_equilibrium_lowstep.py' # Validate fixed-increment wrapper edits in the child PR.
+      - 'automation/zhaqing_prestress/controlled_equilibrium.py' # Validate controlled-equilibrium audit edits in the child PR.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Validate prestress-field edits in the child PR.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Validate shared parser and solver-runner edits in the child PR.
+  workflow_dispatch: # Permit explicit reruns without source changes.
+permissions: # Grant only read access required for source and upstream numerical evidence.
+  contents: read # Allow checkout of the tested commit.
+  actions: read # Allow recovery of the successful verified PR9 L2 artifact.
+jobs: # Define one conservative nonlinear solve and evidence job.
+  solve: # Generate, solve, audit and package the fixed-increment prestressed completed state.
+    runs-on: ubuntu-22.04 # Match the CalculiX-compatible runner family used by PR9.
+    timeout-minutes: 60 # Bound the two-hundred-increment nonlinear solution and packaging process.
+    env: # Freeze the verified upstream artifact and output location.
+      BASELINE_RUN_ID: '30068283053' # Recover the successful verified PR9 L2 static-shell run.
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23' # Pin the exact immutable L2 artifact name.
+      OUT: 'build/zhaqing-prestress-controlled-lowstep' # Store all conservative-solve inputs, outputs and receipts under one root.
+    steps: # Execute source recovery, solver installation, conservative solve and evidence gating sequentially.
+      - name: Checkout tested source # Recover exactly the commit being validated.
+        uses: actions/checkout@v4 # Use the maintained GitHub checkout action.
+        with: # Freeze checkout behavior for reproducibility and least privilege.
+          fetch-depth: 1 # Fetch only the tested revision.
+          persist-credentials: false # Prevent numerical commands from inheriting repository write credentials.
+      - name: Recover verified PR9 L2 baseline # Reuse the successful baseline without regenerating topology, mesh, supports or permanent loads.
+        uses: actions/download-artifact@v4 # Recover immutable prior-run evidence through GitHub Actions.
+        with: # Pin the exact upstream package and repository.
+          name: ${{ env.BASELINE_ARTIFACT }} # Select the frozen verified L2 artifact.
+          path: recovered-baseline # Extract the artifact into an isolated working directory.
+          github-token: ${{ github.token }} # Authenticate the cross-run artifact read.
+          repository: Hiram-test/model # Read from the same bridge-model repository.
+          run-id: ${{ env.BASELINE_RUN_ID }} # Pin the exact successful baseline workflow run.
+      - name: Install CalculiX # Install the nonlinear finite-element solver used by the PR9 numerical workflows.
+        shell: bash # Use strict Bash semantics for package installation.
+        run: | # Enable Universe, install ccx and verify the resolved executable.
+          set -euxo pipefail # Stop immediately on package or shell failures.
+          sudo apt-get update # Refresh Ubuntu package metadata.
+          sudo apt-get install -y --no-install-recommends software-properties-common # Install repository-management support.
+          sudo add-apt-repository -y universe # Enable the repository containing calculix-ccx.
+          sudo apt-get update # Refresh metadata after enabling Universe.
+          sudo apt-get install -y --no-install-recommends calculix-ccx # Install CalculiX CrunchiX.
+          command -v ccx # Require the solver executable on PATH.
+      - name: Run fixed-increment controlled equilibrium # Solve scale 1.18 with the existing FIELD criterion while capping every increment at 0.5 percent.
+        shell: bash # Execute syntax validation and the nonlinear solve under strict Bash semantics.
+        run: | # Locate the verified L2 deck and run the conservative wrapper.
+          set -euxo pipefail # Fail on missing inputs, syntax errors or a failed qualification receipt.
+          mkdir -p "$OUT" # Create the numerical evidence root before solver execution.
+          base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact verified PR9 L2 dead-load input deck.
+          test -s "$base" # Require a nonempty verified baseline before adding prestress.
+          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/controlled_equilibrium.py automation/zhaqing_prestress/controlled_equilibrium_lowstep.py # Reject syntax errors before launching CalculiX.
+          python3 automation/zhaqing_prestress/controlled_equilibrium_lowstep.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute the two-hundred-increment controlled prestressed equilibrium and audit it.
+      - name: Preserve provenance # Record exact source and solver environment after every numerical outcome.
+        if: always() # Preserve provenance even if the nonlinear qualification fails.
+        shell: bash # Use deterministic text diagnostics.
+        run: | # Write source and environment records beside the numerical receipt.
+          set +e # Continue metadata collection if an optional diagnostic fails.
+          mkdir -p "$OUT/provenance" # Ensure the provenance directory exists after any upstream outcome.
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt" # Record the exact tested source commit.
+          uname -a > "$OUT/provenance/environment.txt" # Record runner kernel and architecture.
+          cat /etc/os-release >> "$OUT/provenance/environment.txt" # Append the Ubuntu release metadata.
+          python3 --version >> "$OUT/provenance/environment.txt" 2>&1 # Append the Python interpreter version.
+          dpkg-query -W calculix-ccx >> "$OUT/provenance/environment.txt" 2>&1 || true # Append the installed CalculiX package version when available.
+      - name: Upload complete conservative evidence # Preserve the input deck, solver outputs, convergence trace and audit receipt before final gating.
+        if: always() # Upload partial evidence even if qualification fails.
+        uses: actions/upload-artifact@v4 # Store the complete numerical package in GitHub Actions.
+        with: # Name and retain the evidence deterministically.
+          name: zhaqing-prestress-controlled-lowstep-${{ github.sha }} # Bind the artifact to the exact tested commit.
+          path: build/zhaqing-prestress-controlled-lowstep # Upload every numerical and provenance file from the conservative solve.
+          if-no-files-found: error # Treat missing evidence as an explicit workflow error.
+          retention-days: 30 # Retain the research-baseline evidence for downstream AFEM integration.
+          compression-level: 6 # Use moderate compression for CalculiX field files.
+      - name: Enforce conservative research-baseline gate # Require clean nonlinear completion, internal-only dominant residuals and packaged final outputs.
+        if: always() # Evaluate the persisted receipt after evidence upload.
+        shell: bash # Use deterministic Python assertions for final qualification.
+        run: | # Require the receipt and accepted model/result package.
+          set -euxo pipefail # Propagate every receipt or file-integrity failure.
+          test -s "$OUT/controlled_equilibrium_receipt.json" # Require the machine-readable qualification receipt.
+          python3 - <<'PY' # Validate the final model using persisted evidence only.
+          import json  # Parse the controlled-equilibrium receipt.
+          from pathlib import Path  # Resolve packaged numerical artifacts safely.
+          root = Path('build/zhaqing-prestress-controlled-lowstep')  # Point to the conservative evidence root.
+          receipt = json.loads((root / 'controlled_equilibrium_receipt.json').read_text(encoding='utf-8'))  # Read the persisted qualification decision.
+          assert receipt['status'] == 'PASS', receipt  # Require a qualified research-baseline state.
+          assert receipt['outcome']['cleanConvergence'] is True, receipt['outcome']  # Require clean CalculiX nonlinear completion.
+          assert receipt['allLargestResidualNodesInternal'] is True, receipt['lastResidual']  # Require dominant residuals to remain outside the original physical node range.
+          assert receipt['outcome']['rmsCenterlineU3Mm'] is not None, receipt['outcome']  # Require completed-geometry centerline output.
+          best = root / 'best'  # Resolve the direct-use accepted model package.
+          assert any(best.glob('*.inp')), list(best.glob('*'))  # Require the accepted prestressed INP deck.
+          assert any(best.glob('*.dat')), list(best.glob('*'))  # Require the accepted text result output.
+          assert any(best.glob('*.frd')), list(best.glob('*'))  # Require the accepted field result output.
+          print(json.dumps(receipt, ensure_ascii=False, indent=2))  # Surface the complete numerical qualification in the Actions log.
+          PY # End the persisted-evidence validation program.

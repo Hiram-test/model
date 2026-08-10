@@ -1,0 +1,106 @@
+name: Zhaqing L2 axial main-cable prestress calibration # Qualify completed-state prestress after the minimum B31-to-T3D2 main-cable representation change.
+on: # Define branch, child-PR and manual execution triggers.
+  push: # Run automatically when the dedicated prestress branch changes this axial-cable experiment.
+    branches: # Restrict push execution to the reversible Zhaqing prestress branch.
+      - agent/zhaqing-prestress-isolation # Execute only the dedicated prestress research branch.
+    paths: # Trigger only this workflow and its direct numerical dependencies.
+      - '.github/workflows/zhaqing-prestress-truss-cable.yml' # Re-run when this workflow changes.
+      - 'automation/zhaqing_prestress/truss_cable_initial_stress.py' # Re-run when the axial-cable prestress constructor changes.
+      - 'automation/zhaqing_prestress/initial_stress_prestress.py' # Re-run when shared direct-stress calibration logic changes.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Re-run when mechanics-derived target forces change.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Re-run when the verified-L2 parser or CalculiX runner changes.
+  pull_request: # Validate the axial-cable intervention relative to the original PR9 head branch.
+    branches: # Freeze the comparison base to the existing Zhaqing PR9 implementation.
+      - agent/zhaqing-freecad-cad003 # Compare only the prestress and main-cable representation intervention against PR9.
+    paths: # Trigger the child PR only for the axial-cable numerical chain.
+      - '.github/workflows/zhaqing-prestress-truss-cable.yml' # Validate workflow edits in the child PR.
+      - 'automation/zhaqing_prestress/truss_cable_initial_stress.py' # Validate axial-cable model edits in the child PR.
+      - 'automation/zhaqing_prestress/initial_stress_prestress.py' # Validate shared direct-stress calibration edits in the child PR.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Validate target-force construction edits in the child PR.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Validate shared parser and solver-runner edits in the child PR.
+  workflow_dispatch: # Permit explicit reruns without changing numerical source files.
+permissions: # Grant only read access required for checkout and verified-baseline recovery.
+  contents: read # Allow checkout of the tested source revision.
+  actions: read # Allow recovery of the successful verified PR9 L2 artifact.
+jobs: # Define one bounded axial-main-cable prestress scale sweep and evidence job.
+  solve: # Generate, solve, compare and package all nonlinear completed-state trials.
+    runs-on: ubuntu-22.04 # Match the CalculiX-compatible Ubuntu family used by PR9.
+    timeout-minutes: 60 # Bound the five-scale nonlinear sweep and evidence packaging.
+    env: # Freeze upstream provenance identifiers and output location.
+      BASELINE_RUN_ID: '30068283053' # Recover the successful verified PR9 L2 static-shell run.
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23' # Pin the exact immutable verified L2 artifact.
+      OUT: 'build/zhaqing-prestress-truss-cable' # Store every axial-cable deck, result and receipt under one artifact root.
+    steps: # Execute source recovery, solver installation, axial-cable sweep and qualification sequentially.
+      - name: Checkout tested source # Recover exactly the commit associated with this workflow event.
+        uses: actions/checkout@v4 # Use the maintained GitHub checkout action.
+        with: # Freeze checkout behavior for reproducibility and least privilege.
+          fetch-depth: 1 # Fetch only the tested revision.
+          persist-credentials: false # Prevent numerical commands from inheriting repository write credentials.
+      - name: Recover verified PR9 L2 baseline # Reuse the successful bridge model without regenerating topology, mesh, supports or permanent loads.
+        uses: actions/download-artifact@v4 # Recover immutable upstream evidence through GitHub Actions.
+        with: # Pin the exact upstream artifact and repository.
+          name: ${{ env.BASELINE_ARTIFACT }} # Select the frozen verified L2 artifact name.
+          path: recovered-baseline # Extract the baseline into an isolated working directory.
+          github-token: ${{ github.token }} # Authenticate the cross-run artifact read.
+          repository: Hiram-test/model # Read from the same bridge-model repository.
+          run-id: ${{ env.BASELINE_RUN_ID }} # Pin the exact successful baseline workflow run.
+      - name: Install CalculiX # Install the nonlinear finite-element solver used by the original PR9 workflows.
+        shell: bash # Use strict Bash semantics for package installation.
+        run: | # Enable Ubuntu Universe, install ccx and verify its executable.
+          set -euxo pipefail # Stop immediately on package or shell failures.
+          sudo apt-get update # Refresh Ubuntu package metadata.
+          sudo apt-get install -y --no-install-recommends software-properties-common # Install repository-management support.
+          sudo add-apt-repository -y universe # Enable the repository containing calculix-ccx.
+          sudo apt-get update # Refresh metadata after enabling Universe.
+          sudo apt-get install -y --no-install-recommends calculix-ccx # Install CalculiX CrunchiX.
+          command -v ccx # Require the solver executable on PATH.
+      - name: Run axial main-cable prestress sweep # Change only MAIN_CABLES from equal-area B31 to equal-area T3D2 and solve native all-IP initial-stress completed states.
+        shell: bash # Execute syntax validation and all five nonlinear trials under strict Bash semantics.
+        run: | # Locate the verified baseline, validate dependencies and execute the axial-cable calibration.
+          set -euxo pipefail # Fail on missing inputs, syntax errors or absence of a clean completed equilibrium.
+          mkdir -p "$OUT" # Create the numerical evidence root before solver execution.
+          base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact verified PR9 L2 dead-load input deck.
+          test -s "$base" # Require a nonempty verified baseline before changing main-cable representation or assigning prestress.
+          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/initial_stress_prestress.py automation/zhaqing_prestress/truss_cable_initial_stress.py # Reject Python syntax errors before launching CalculiX.
+          python3 automation/zhaqing_prestress/truss_cable_initial_stress.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute the bounded axial-main-cable prestress scale sweep and completed-geometry selection.
+      - name: Preserve provenance # Record exact source revision and solver environment after every numerical outcome.
+        if: always() # Preserve provenance even when no axial-cable scale passes the nonlinear gate.
+        shell: bash # Use deterministic text diagnostics for environment evidence.
+        run: | # Write source and environment records beside the numerical receipts.
+          set +e # Continue metadata collection if an optional diagnostic command is unavailable.
+          mkdir -p "$OUT/provenance" # Ensure the provenance directory exists after any upstream outcome.
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt" # Record the exact tested repository commit SHA.
+          uname -a > "$OUT/provenance/environment.txt" # Record runner kernel and architecture.
+          cat /etc/os-release >> "$OUT/provenance/environment.txt" # Append the Ubuntu release metadata.
+          python3 --version >> "$OUT/provenance/environment.txt" 2>&1 # Append the Python interpreter version.
+          dpkg-query -W calculix-ccx >> "$OUT/provenance/environment.txt" 2>&1 || true # Append the installed CalculiX package version when available.
+      - name: Upload complete axial-cable evidence # Preserve every generated input, result, convergence trace and scale receipt before final gating.
+        if: always() # Upload partial evidence even if all axial-cable trials fail.
+        uses: actions/upload-artifact@v4 # Store the complete numerical evidence package in GitHub Actions.
+        with: # Name and retain the evidence deterministically.
+          name: zhaqing-prestress-truss-cable-${{ github.sha }} # Bind the artifact to the exact tested commit.
+          path: build/zhaqing-prestress-truss-cable # Upload every trial and qualification file from the axial-cable sweep.
+          if-no-files-found: error # Treat missing numerical evidence as an explicit workflow error.
+          retention-days: 30 # Retain the research-baseline evidence for downstream AFEM integration.
+          compression-level: 6 # Use moderate compression for CalculiX field-result files.
+      - name: Enforce axial-cable research-baseline gate # Require a clean nonlinear completed state and a packaged direct-use model.
+        if: always() # Evaluate the persisted selection receipt after evidence upload.
+        shell: bash # Use deterministic Python assertions for final qualification.
+        run: | # Require the direct-stress summary and selected model/result package.
+          set -euxo pipefail # Propagate every receipt or file-integrity failure.
+          test -s "$OUT/direct_initial_stress_summary.json" # Require the machine-readable axial-cable prestress qualification receipt.
+          python3 - <<'PY' # Validate the selected research baseline from persisted evidence only.
+          import json  # Parse the axial-main-cable direct-initial-stress summary.
+          from pathlib import Path  # Resolve packaged numerical artifacts safely.
+          root = Path('build/zhaqing-prestress-truss-cable')  # Point to the complete axial-cable evidence root.
+          summary = json.loads((root / 'direct_initial_stress_summary.json').read_text(encoding='utf-8'))  # Read the persisted scale-selection decision.
+          assert summary['status'] == 'PASS', summary  # Require at least one clean axial-main-cable completed equilibrium.
+          selected = summary['selected']  # Extract the objective geometry-selected scale.
+          assert selected and selected['cleanConvergence'] is True, selected  # Require clean CalculiX nonlinear completion.
+          assert selected['rmsCenterlineU3Mm'] is not None, selected  # Require a completed-geometry centerline displacement metric.
+          best = root / 'best'  # Resolve the direct-use accepted model package.
+          assert any(best.glob('*.inp')), list(best.glob('*'))  # Require the accepted prestressed INP deck.
+          assert any(best.glob('*.dat')), list(best.glob('*'))  # Require the accepted text result output.
+          assert any(best.glob('*.frd')), list(best.glob('*'))  # Require the accepted field-result output.
+          print(json.dumps({'status': summary['status'], 'selected': selected, 'trials': summary['trials']}, ensure_ascii=False, indent=2))  # Surface the complete axial-cable scale comparison in the Actions log.
+          PY # End the persisted-evidence validation program.

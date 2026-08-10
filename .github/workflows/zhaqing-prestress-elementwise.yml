@@ -1,0 +1,101 @@
+name: Zhaqing L2 elementwise prestress equilibrium # Validate discrete segment-by-segment cable and hanger prestress on the frozen L2 bridge.
+on: # Define automatic branch, child-PR and manual triggers.
+  push: # Run when the dedicated research branch changes this element-wise experiment.
+    branches: # Restrict push execution to the reversible isolation branch.
+      - agent/zhaqing-prestress-isolation # Execute only the dedicated prestress research branch.
+    paths: # Avoid unrelated changes triggering nonlinear finite-element solves.
+      - '.github/workflows/zhaqing-prestress-elementwise.yml' # Re-run when this workflow changes.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Re-run when the element-wise equilibrium implementation changes.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Re-run when the shared audited parser/solver helper changes.
+  pull_request: # Validate the isolated change relative to the original PR9 head branch.
+    branches: # Keep the comparison base fixed to the existing Zhaqing PR9 implementation.
+      - agent/zhaqing-freecad-cad003 # Compare only against the frozen original PR9 head.
+    paths: # Trigger the child PR only for this prestress experiment and its shared helper.
+      - '.github/workflows/zhaqing-prestress-elementwise.yml' # Validate workflow changes inside the child PR.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Validate the discrete force-field generator inside the child PR.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Validate changes to the shared L2 parser/CalculiX runner inside the child PR.
+  workflow_dispatch: # Permit explicit reruns without mutating the numerical source.
+permissions: # Grant only permissions required to read source and the verified upstream artifact.
+  contents: read # Allow checkout of the tested commit.
+  actions: read # Allow recovery of the successful PR9 L2 artifact.
+jobs: # Define one deterministic calibration and evidence job.
+  solve: # Generate, solve, compare and package all element-wise prestress trials.
+    runs-on: ubuntu-22.04 # Use the same CalculiX-compatible Ubuntu family as the PR9 solver workflows.
+    timeout-minutes: 60 # Bound the five-case element-wise nonlinear sweep.
+    env: # Freeze upstream provenance and output locations.
+      BASELINE_RUN_ID: '30068283053' # Recover the successful verified PR9 L2 static-shell run.
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23' # Pin the exact verified L2 artifact name.
+      OUT: 'build/zhaqing-prestress-elementwise' # Keep all trial inputs, results and receipts under one artifact root.
+    steps: # Execute source recovery, solver installation, nonlinear sweep and evidence gating sequentially.
+      - name: Checkout tested source # Recover exactly the commit associated with this workflow event.
+        uses: actions/checkout@v4 # Use the maintained GitHub checkout action.
+        with: # Freeze checkout behavior for reproducibility.
+          fetch-depth: 1 # Fetch only the tested revision.
+          persist-credentials: false # Prevent solver commands from inheriting write credentials.
+      - name: Recover verified L2 bridge artifact # Reuse the successful baseline rather than regenerating its mesh or loads.
+        uses: actions/download-artifact@v4 # Use GitHub artifact recovery for immutable upstream evidence.
+        with: # Pin repository, run and artifact identifiers explicitly.
+          name: ${{ env.BASELINE_ARTIFACT }} # Select the exact verified static-shell artifact.
+          path: recovered-baseline # Extract the baseline into a separate working directory.
+          github-token: ${{ github.token }} # Authenticate the cross-run download with the workflow token.
+          repository: Hiram-test/model # Read from the same bridge-model repository.
+          run-id: ${{ env.BASELINE_RUN_ID }} # Pin the successful baseline run identifier.
+      - name: Install CalculiX # Install the solver used to execute the nonlinear equilibrium sweep.
+        shell: bash # Use strict Bash execution for package installation.
+        run: | # Install CalculiX from Ubuntu Universe and verify the executable.
+          set -euxo pipefail # Stop immediately on package or shell failures.
+          sudo apt-get update # Refresh package metadata.
+          sudo apt-get install -y --no-install-recommends software-properties-common # Install repository-management support.
+          sudo add-apt-repository -y universe # Enable the Ubuntu repository containing calculix-ccx.
+          sudo apt-get update # Refresh metadata after enabling Universe.
+          sudo apt-get install -y --no-install-recommends calculix-ccx # Install the CalculiX CrunchiX solver.
+          command -v ccx # Require the solver executable on PATH.
+      - name: Run elementwise prestress sweep # Apply slope-consistent cable forces and boundary-aware hanger forces on the unchanged L2 model.
+        shell: bash # Execute syntax validation and all nonlinear trials under strict Bash semantics.
+        run: | # Locate the verified baseline and launch the five-scale element-wise calculation.
+          set -euxo pipefail # Fail on missing inputs, Python syntax errors or a failed numerical gate.
+          mkdir -p "$OUT" # Create the result root before numerical execution.
+          base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact verified L2 dead-load input deck.
+          test -s "$base" # Require a nonempty verified baseline before applying prestress.
+          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py # Validate both the shared helper and element-wise generator before solving.
+          python3 automation/zhaqing_prestress/elementwise_prestress.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute the bounded element-wise prestress equilibrium sweep.
+      - name: Preserve provenance # Record source and solver environment even when no scale passes the default convergence gate.
+        if: always() # Preserve provenance after both successful and failed nonlinear sweeps.
+        shell: bash # Use simple deterministic text diagnostics.
+        run: | # Write source and environment records into the artifact root.
+          set +e # Continue gathering provenance if one diagnostic command is unavailable.
+          mkdir -p "$OUT/provenance" # Ensure the provenance directory exists after any earlier failure.
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt" # Record the exact tested source revision.
+          uname -a > "$OUT/provenance/environment.txt" # Record runner kernel and architecture.
+          python3 --version >> "$OUT/provenance/environment.txt" 2>&1 # Record the Python version used by the generator.
+          dpkg-query -W calculix-ccx >> "$OUT/provenance/environment.txt" 2>&1 || true # Record the installed CalculiX package version.
+      - name: Upload complete elementwise evidence # Preserve converged and rejected trials before enforcing the final status.
+        if: always() # Upload evidence even if the element-wise calibration does not converge.
+        uses: actions/upload-artifact@v4 # Persist the full numerical evidence package.
+        with: # Name and retain the artifact deterministically.
+          name: zhaqing-prestress-elementwise-${{ github.sha }} # Bind the artifact to the exact tested commit.
+          path: build/zhaqing-prestress-elementwise # Upload every generated INP, FRD, DAT, convergence trace and receipt.
+          if-no-files-found: error # Treat missing evidence as an explicit workflow failure.
+          retention-days: 30 # Retain the research calculation for downstream AFEM work.
+          compression-level: 6 # Use moderate ZIP compression for numerical field files.
+      - name: Enforce clean nonlinear equilibrium # Accept only a scale that completes CalculiX and produces final completed-geometry output.
+        if: always() # Run after evidence upload so failures remain diagnosable.
+        shell: bash # Validate the persisted receipt with deterministic Python assertions.
+        run: | # Require an accepted selected model and its numerical output files.
+          set -euxo pipefail # Fail the job on any evidence inconsistency.
+          test -s "$OUT/elementwise_prestress_summary.json" # Require the complete element-wise calibration receipt.
+          python3 - <<'PY' # Validate only persisted evidence rather than transient shell state.
+          import json  # Parse the calibration receipt.
+          from pathlib import Path  # Resolve selected artifact paths safely.
+          root = Path('build/zhaqing-prestress-elementwise')  # Point to the element-wise evidence root.
+          summary = json.loads((root / 'elementwise_prestress_summary.json').read_text(encoding='utf-8'))  # Read the complete calibration decision.
+          assert summary['status'] == 'PASS', {'status': summary['status'], 'bestResidual': summary['bestResidual']}  # Require at least one clean nonlinear completed state.
+          selected = summary['selected']  # Extract the objective geometry-selected prestress scale.
+          assert selected and selected['cleanConvergence'] is True, selected  # Require clean CalculiX convergence for the selected scale.
+          assert selected['rmsCenterlineU3Mm'] is not None, selected  # Require the completed-geometry centerline metric.
+          best = root / 'best'  # Resolve the selected-model package.
+          assert any(best.glob('*.inp')), list(best.glob('*'))  # Require the selected input deck.
+          assert any(best.glob('*.dat')), list(best.glob('*'))  # Require the selected text result output.
+          assert any(best.glob('*.frd')), list(best.glob('*'))  # Require the selected field result output.
+          print(json.dumps({'status': summary['status'], 'selected': selected, 'bestResidual': summary['bestResidual']}, ensure_ascii=False, indent=2))  # Surface the accepted scale and residual evidence in the Actions log.
+          PY # End the receipt-validation program.

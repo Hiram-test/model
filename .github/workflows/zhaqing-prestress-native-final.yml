@@ -1,0 +1,102 @@
+name: Zhaqing force-found native prestress final solve # Solve the full PR9 bridge with mechanics-derived native cable stress and exact balancing-load transfer.
+on: # Execute only on the isolated prestress branch when this final path changes.
+  push: # Use the branch push path already proven to execute full remote CalculiX solves.
+    branches: # Restrict execution to the reversible prestress research branch.
+      - agent/zhaqing-prestress-isolation # Keep all prestress intervention isolated from the validated PR9 baseline.
+    paths: # Trigger only this workflow and its exact numerical source chain.
+      - '.github/workflows/zhaqing-prestress-native-final.yml' # Re-run when the final native-prestress workflow changes.
+      - 'automation/zhaqing_prestress/balanced_transfer_final.py' # Re-run when force-found scaling or Newton controls change.
+      - 'automation/zhaqing_prestress/balanced_transfer_prestress.py' # Re-run when native stress or balancing-load construction changes.
+      - 'automation/zhaqing_prestress/initial_stress_prestress.py' # Re-run when axial-to-global stress-tensor conversion changes.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Re-run when mechanics-derived force targets change.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Re-run when topology parsing or result extraction changes.
+permissions: # Permit immutable baseline recovery and connector-visible PR reporting only.
+  contents: read # Allow checkout of the exact tested branch revision.
+  actions: read # Allow recovery of the successful PR9 L2 baseline artifact.
+  issues: write # Allow the workflow to publish the numerical receipt to PR13.
+  pull-requests: write # Allow same-repository PR13 comment creation.
+jobs: # Define one complete three-dimensional native-prestress CalculiX solve.
+  solve: # Generate, solve, preserve, and report the mechanics-derived completed state.
+    runs-on: ubuntu-22.04 # Match the operating-system family used by all prior PR13 CalculiX diagnostics.
+    timeout-minutes: 60 # Allow extended Newton iterations while bounding the final full-bridge solve.
+    env: # Freeze the verified upstream bridge and local evidence path.
+      BASELINE_RUN_ID: '30068283053' # Pin the successful PR9 L2 static-shell run.
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23' # Pin the exact validated bridge artifact.
+      OUT: 'build/zhaqing-prestress-native-final' # Store every generated input, solver output, audit, and provenance file under one root.
+    steps: # Execute checkout, baseline recovery, solver installation, full solve, artifact upload, and PR reporting.
+      - name: Checkout exact prestress revision # Materialize the branch commit being solved.
+        uses: actions/checkout@v4 # Use GitHub's maintained checkout action.
+        with: # Keep checkout shallow and read-only.
+          fetch-depth: 1 # Fetch only the exact tested revision.
+          persist-credentials: false # Prevent numerical commands from modifying repository content.
+      - name: Recover validated PR9 L2 baseline # Reuse the exact full-bridge topology, mesh, supports, sections, and permanent loads already solved successfully.
+        uses: actions/download-artifact@v4 # Retrieve immutable upstream numerical evidence.
+        with: # Pin artifact identity, repository, and source run explicitly.
+          name: ${{ env.BASELINE_ARTIFACT }} # Select the validated L2 bridge package.
+          path: recovered-baseline # Extract upstream evidence into an isolated input directory.
+          github-token: ${{ github.token }} # Authenticate same-repository cross-run artifact access.
+          repository: Hiram-test/model # Read from the bridge-model repository.
+          run-id: ${{ env.BASELINE_RUN_ID }} # Use the exact successful baseline run.
+      - name: Install CalculiX # Install the solver family used by all previous full-bridge diagnostics.
+        shell: bash # Use strict Bash semantics for deterministic package setup.
+        run: | # Enable Ubuntu Universe, install ccx, and verify the executable.
+          set -euxo pipefail # Fail immediately on package or executable errors.
+          sudo apt-get update # Refresh package metadata.
+          sudo apt-get install -y --no-install-recommends software-properties-common # Install repository-management support.
+          sudo add-apt-repository -y universe # Enable the Ubuntu component containing CalculiX.
+          sudo apt-get update # Refresh metadata after enabling Universe.
+          sudo apt-get install -y --no-install-recommends calculix-ccx # Install CalculiX CrunchiX.
+          command -v ccx # Require the solver executable on PATH.
+      - name: Run force-found native prestress equilibrium # Apply native element-wise prestress with exact balancing loads, then transfer to the unchanged PR9 permanent-load state under NLGEOM.
+        id: numerical # Preserve the process outcome while ensuring evidence is still uploaded after a rejected nonlinear state.
+        continue-on-error: true # Keep complete solver evidence available for diagnosis even if the final state fails qualification.
+        shell: bash # Use Bash for exact baseline discovery and process-status capture.
+        run: | # Validate Python sources and execute the single mechanics-derived scale.
+          set +e # Continue to mandatory evidence upload and PR reporting after numerical rejection.
+          mkdir -p "$OUT" # Create the final evidence root before execution.
+          base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact validated PR9 dead-load mother model.
+          test -s "$base" # Require the immutable baseline input before adding prestress.
+          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/initial_stress_prestress.py automation/zhaqing_prestress/balanced_transfer_prestress.py automation/zhaqing_prestress/balanced_transfer_final.py # Reject source syntax errors before launching CalculiX.
+          python3 automation/zhaqing_prestress/balanced_transfer_final.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" > "$OUT/driver.stdout.log" 2>&1 # Execute the complete full-bridge native-prestress path and preserve its driver output.
+          code=$? # Capture the numerical qualification status without discarding solver files.
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT" # Expose the process status to the final PR receipt.
+          exit 0 # Continue to artifact preservation and result reporting.
+      - name: Preserve execution provenance # Record the exact source revision and solver environment for independent reproduction.
+        if: always() # Preserve provenance for accepted and rejected nonlinear states alike.
+        shell: bash # Use deterministic text diagnostics.
+        run: | # Write exact source and package-version evidence beside the numerical results.
+          set +e # Continue if an optional environment query is unavailable.
+          mkdir -p "$OUT/provenance" # Ensure the provenance directory exists after every outcome.
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt" # Record the exact tested repository revision.
+          uname -a > "$OUT/provenance/environment.txt" # Record runner kernel and architecture.
+          dpkg-query -W calculix-ccx >> "$OUT/provenance/environment.txt" 2>&1 || true # Append the installed CalculiX package version when available.
+      - name: Upload complete native-prestress evidence # Preserve selected INP, DAT, FRD, STA, CVG, logs, receipts, trial evidence, and provenance.
+        if: always() # Upload all partial evidence even if CalculiX rejects the final state.
+        uses: actions/upload-artifact@v4 # Store the complete numerical package as a downloadable Actions artifact.
+        with: # Bind artifact identity to the exact workflow run for deterministic retrieval.
+          name: zhaqing-prestress-native-final-${{ github.run_id }} # Include the run ID that will also be published to PR13.
+          path: build/zhaqing-prestress-native-final # Upload every generated numerical and audit file.
+          if-no-files-found: error # Treat missing numerical evidence as infrastructure failure.
+          retention-days: 30 # Retain the final prestress package for AFEM mother-model handoff.
+          compression-level: 6 # Use standard compression for mixed ASCII and FRD field results.
+      - name: Report native-prestress result to PR13 # Publish a compact connector-visible numerical receipt with the unique run identifier.
+        if: always() # Report success and failure alike so the solve remains fully observable.
+        env: # Expose the workflow token only to the PR reporting command.
+          GH_TOKEN: ${{ github.token }} # Authenticate same-repository PR13 comment creation.
+        shell: bash # Build the report deterministically from persisted evidence.
+        run: | # Parse the single-scale summary and publish the decisive scalar metrics.
+          set +e # Ensure missing optional metrics do not suppress the core run receipt.
+          python3 - "$OUT" "${{ github.run_id }}" "${{ steps.numerical.outputs.exit_code }}" > "$OUT/pr_comment.md" <<'PY' # Convert persisted solver evidence into a compact PR comment.
+          import json, pathlib, sys  # Parse the balanced-transfer summary and emit stable JSON.
+          root = pathlib.Path(sys.argv[1])  # Resolve the complete final evidence root.
+          path = root / 'balanced_transfer_summary.json'  # Locate the persisted native-prestress qualification summary.
+          data = json.loads(path.read_text()) if path.exists() else {}  # Load the summary or preserve an empty diagnostic on early infrastructure failure.
+          trials = data.get('trials') or []  # Recover the single mechanics-derived full-bridge trial when available.
+          trial = trials[0] if trials else None  # Select the sole force-found candidate for compact reporting.
+          result = {'marker': 'ZHAQING_NATIVE_PRESTRESS_RESULT', 'runId': int(sys.argv[2]), 'processExit': int(sys.argv[3] or 999), 'status': data.get('status'), 'selected': data.get('selected'), 'trial': trial}  # Retain convergence, geometry, and artifact metrics needed for final acceptance.
+          print('ZHAQING_NATIVE_PRESTRESS_RESULT')  # Emit a stable marker for connector polling.
+          print('```json')  # Open a machine-readable fenced JSON block.
+          print(json.dumps(result, ensure_ascii=False, indent=2))  # Publish the exact persisted numerical outcome without reinterpretation.
+          print('```')  # Close the JSON block.
+          PY
+          gh pr comment 13 --repo "$GITHUB_REPOSITORY" --body-file "$OUT/pr_comment.md" # Publish the native-prestress solve receipt to the isolated prestress PR conversation.

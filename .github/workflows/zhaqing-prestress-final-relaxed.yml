@@ -1,0 +1,96 @@
+name: Zhaqing final prestress relaxed-residual solve # Re-run the closest full 3D constitutive-prestress solution with only the identified B31/MPC residual floor adjusted.
+on: # Execute automatically whenever this final diagnostic or its thin wrapper changes.
+  push: # Use the already-working PR13 branch push execution path.
+    branches: # Restrict execution to the isolated prestress research branch.
+      - agent/zhaqing-prestress-isolation # Keep the final nonlinear solve separate from PR9 baseline content.
+    paths: # Trigger only this workflow or the final residual-floor wrapper.
+      - '.github/workflows/zhaqing-prestress-final-relaxed.yml' # Re-run when the numerical workflow changes.
+      - 'automation/zhaqing_prestress/balanced_thermal_transfer_v3.py' # Re-run when the narrow convergence-control wrapper changes.
+permissions: # Permit immutable baseline recovery plus publication of the numerical receipt to PR13.
+  contents: read # Allow checkout of the exact branch revision.
+  actions: read # Allow retrieval of the validated PR9 L2 baseline artifact.
+  issues: write # Allow publishing the solver receipt as a pull-request conversation comment.
+  pull-requests: write # Allow addressing PR13 directly from a push-triggered workflow.
+jobs: # Define one complete three-dimensional CalculiX solve.
+  solve: # Generate, solve, preserve, and report the corrected prestress model.
+    runs-on: ubuntu-22.04 # Match the CalculiX environment used by earlier PR13 diagnostics.
+    timeout-minutes: 45 # Bound the full nonlinear solve while allowing small cutbacks.
+    env: # Freeze the validated upstream artifact and local evidence root.
+      BASELINE_RUN_ID: '30068283053' # Pin the successful PR9 L2 static-shell run.
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23' # Pin the exact validated bridge baseline package.
+      OUT: 'build/zhaqing-prestress-final-relaxed' # Store all generated solver evidence under one deterministic path.
+    steps: # Execute checkout, baseline recovery, solver installation, nonlinear solve, evidence upload, and PR reporting.
+      - name: Checkout exact diagnostic revision # Materialize the branch commit being solved.
+        uses: actions/checkout@v4 # Use GitHub's maintained checkout action.
+        with: # Keep checkout shallow and read-only.
+          fetch-depth: 1 # Fetch only the current diagnostic revision.
+          persist-credentials: false # Prevent numerical scripts from modifying repository content.
+      - name: Recover validated PR9 L2 baseline # Reuse the exact bridge topology, mesh, supports, sections, and permanent loads already solved in PR9.
+        uses: actions/download-artifact@v4 # Retrieve immutable upstream numerical evidence.
+        with: # Pin artifact identity and source run explicitly.
+          name: ${{ env.BASELINE_ARTIFACT }} # Select the validated L2 artifact.
+          path: recovered-baseline # Extract it into an isolated input directory.
+          github-token: ${{ github.token }} # Authenticate same-repository cross-run artifact access.
+          repository: Hiram-test/model # Read from the bridge-model repository.
+          run-id: ${{ env.BASELINE_RUN_ID }} # Use the exact successful baseline run.
+      - name: Install CalculiX # Install the solver version family used by the previous full-bridge diagnostics.
+        shell: bash # Use strict Bash semantics for package setup.
+        run: | # Enable Ubuntu Universe and install ccx deterministically.
+          set -euxo pipefail # Fail immediately on package or executable errors.
+          sudo apt-get update # Refresh package metadata.
+          sudo apt-get install -y --no-install-recommends software-properties-common # Install repository-management support.
+          sudo add-apt-repository -y universe # Enable the Ubuntu component containing CalculiX.
+          sudo apt-get update # Refresh metadata after enabling Universe.
+          sudo apt-get install -y --no-install-recommends calculix-ccx # Install CalculiX CrunchiX.
+          command -v ccx # Require the solver executable on PATH.
+      - name: Run final relaxed-residual prestress solve # Execute the same constitutive prestress mechanics with only Rn changed from 0.0050 to 0.0053.
+        id: numerical # Preserve success or failure so evidence and the PR receipt are always emitted.
+        continue-on-error: true # Keep partial DAT/FRD/STA/log evidence available if a later increment exposes another issue.
+        shell: bash # Use Bash for exact baseline discovery and solver invocation.
+        run: | # Locate the validated LC01 deck and execute the v3 wrapper.
+          set +e # Allow the workflow to continue through evidence upload after a nonlinear rejection.
+          mkdir -p "$OUT" # Create the numerical evidence root before execution.
+          base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact validated PR9 dead-load mother model.
+          test -s "$base" # Require the immutable baseline input before running the solver.
+          python3 -m py_compile automation/zhaqing_prestress/balanced_thermal_transfer_v3.py # Reject wrapper syntax errors before CalculiX execution.
+          python3 automation/zhaqing_prestress/balanced_thermal_transfer_v3.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Generate, solve, audit, and package the full bridge nonlinear prestress state.
+          code=$? # Capture the diagnostic qualification status without discarding solver files.
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT" # Expose the exact process status to the reporting step.
+          exit 0 # Continue to mandatory evidence upload and PR reporting.
+      - name: Preserve provenance # Record exact branch revision and CalculiX package version.
+        if: always() # Preserve provenance for accepted and rejected nonlinear states alike.
+        shell: bash # Use deterministic plain-text evidence.
+        run: | # Write immutable source and environment records beside solver output.
+          set +e # Continue if an optional environment query is unavailable.
+          mkdir -p "$OUT/provenance" # Ensure the provenance directory exists after every outcome.
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt" # Record the exact tested repository commit.
+          uname -a > "$OUT/provenance/environment.txt" # Record runner kernel and architecture.
+          dpkg-query -W calculix-ccx >> "$OUT/provenance/environment.txt" 2>&1 || true # Record the installed CalculiX package version.
+      - name: Upload complete final prestress evidence # Preserve generated INP, DAT, FRD, STA, CVG, logs, receipt, and provenance before reporting status.
+        if: always() # Upload partial evidence even if the final nonlinear gate still rejects the model.
+        uses: actions/upload-artifact@v4 # Store the numerical package in Actions artifact storage.
+        with: # Bind the artifact to the exact workflow run for deterministic retrieval.
+          name: zhaqing-prestress-final-relaxed-${{ github.run_id }} # Include run ID so the PR receipt uniquely identifies the downloadable artifact.
+          path: build/zhaqing-prestress-final-relaxed # Upload every numerical and audit file produced by the solve.
+          if-no-files-found: error # Treat absence of numerical evidence as infrastructure failure.
+          retention-days: 30 # Retain the final prestress package for AFEM mother-model handoff.
+          compression-level: 6 # Use moderate compression for CalculiX field-result files.
+      - name: Report numerical receipt to PR13 # Publish status and run ID through the connector-visible PR conversation.
+        if: always() # Report both PASS and FAIL outcomes so no remote solve is opaque.
+        env: # Expose the workflow token only to the GitHub CLI reporting operation.
+          GH_TOKEN: ${{ github.token }} # Authenticate same-repository PR comment creation.
+        shell: bash # Build the comment deterministically from the persisted receipt.
+        run: | # Extract the compact numerical outcome and publish it to PR13.
+          set +e # Ensure a missing optional field does not suppress the core run identifier.
+          receipt="$(find "$OUT" -maxdepth 1 -type f -name '*receipt.json' | head -1)" # Locate the persisted diagnostic receipt generated by the v3 wrapper.
+          python3 - "$receipt" "${{ github.run_id }}" "${{ steps.numerical.outputs.exit_code }}" > "$OUT/pr_comment.md" <<'PY' # Convert the receipt into a compact connector-readable PR message.
+          import json, pathlib, sys  # Parse the persisted receipt and serialize the compact report.
+          path = pathlib.Path(sys.argv[1]) if sys.argv[1] else None  # Resolve the receipt path when the numerical script reached audit generation.
+          data = json.loads(path.read_text()) if path and path.exists() else {}  # Load audit content or preserve an empty diagnostic on early failure.
+          result = {'marker': 'ZHAQING_FINAL_PRESTRESS_RESULT', 'runId': int(sys.argv[2]), 'processExit': int(sys.argv[3] or 999), 'status': data.get('status'), 'outcome': data.get('outcome'), 'audit': data.get('audit')}  # Retain the run identifier plus the load-state metrics needed for acceptance or another iteration.
+          print('ZHAQING_FINAL_PRESTRESS_RESULT')  # Emit a stable marker for connector polling.
+          print('```json')  # Open a machine-readable fenced JSON block in the PR conversation.
+          print(json.dumps(result, ensure_ascii=False, indent=2))  # Publish the exact numerical receipt without prose reinterpretation.
+          print('```')  # Close the JSON block.
+          PY
+          gh pr comment 13 --repo "$GITHUB_REPOSITORY" --body-file "$OUT/pr_comment.md" # Publish the final solve receipt to the isolated prestress PR conversation.
