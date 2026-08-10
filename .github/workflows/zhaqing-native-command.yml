@@ -1,0 +1,54 @@
+name: Zhaqing native prestress command # Run exactly one force-found native-prestress solve when PR13 receives the explicit command comment.
+on: # Use a default-branch event independent of pull-request synchronize fan-out.
+  issue_comment: # Listen to connector-visible pull-request conversation comments.
+    types: [created] # Start only on creation of a new command comment.
+permissions: # Grant only source/artifact read and PR reporting permissions.
+  contents: read # Permit checkout of the isolated no-PR solver branch.
+  actions: read # Permit recovery of the validated PR9 baseline artifact.
+  issues: write # Permit posting the final completion marker back to PR13.
+  pull-requests: write # Permit addressing the triggering pull request.
+jobs: # Define one standalone full-bridge solve.
+  solve: # Execute only for the explicit Zhaqing native-prestress command on PR13.
+    if: ${{ github.event.issue.number == 13 && contains(github.event.comment.body, '/run-zhaqing-native-final') }} # Ignore every unrelated repository comment.
+    runs-on: ubuntu-22.04 # Match the validated PR9 CalculiX environment family.
+    timeout-minutes: 60 # Allow extended Newton iterations while bounding the remote solve.
+    env: # Freeze one deterministic evidence root.
+      OUT: build/zhaqing-native-command # Store all generated model, result, audit, and provenance files together.
+    steps: # Execute checkout, baseline recovery, solver setup, full solve, evidence upload, and result reporting.
+      - name: Checkout isolated solver source # Read the no-PR branch so no research workflow matrix is triggered by the numerical run itself.
+        uses: actions/checkout@v4 # Use GitHub's maintained checkout action.
+        with: # Pin the standalone solver source explicitly.
+          ref: agent/zhaqing-native-solve-only # Use the repaired native-prestress wrapper and audited supporting scripts.
+          fetch-depth: 1 # Fetch only the exact source head needed by the solve.
+          persist-credentials: false # Keep the numerical runner read-only with respect to repository contents.
+      - name: Recover validated PR9 L2 baseline # Download the exact full-bridge mother model previously solved successfully.
+        uses: actions/download-artifact@v4 # Retrieve immutable prior-run evidence.
+        with: # Pin artifact identity and source run exactly.
+          name: verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23 # Select the validated PR9 L2 bridge package.
+          path: recovered-baseline # Extract it into an isolated input directory.
+          github-token: ${{ github.token }} # Authenticate same-repository artifact access.
+          repository: Hiram-test/model # Read from the bridge-model repository.
+          run-id: '30068283053' # Pin the successful baseline run.
+      - name: Install CalculiX # Install the CrunchiX package used by the previous full-bridge diagnostics.
+        shell: bash # Use strict Bash package setup.
+        run: set -euxo pipefail; sudo apt-get update; sudo apt-get install -y --no-install-recommends software-properties-common; sudo add-apt-repository -y universe; sudo apt-get update; sudo apt-get install -y --no-install-recommends calculix-ccx; command -v ccx # Install and verify ccx deterministically.
+      - name: Run force-found native completed state # Repair the one historical parser typo at runtime, build native initial cable stress with exact balancing loads, and transfer to the unchanged permanent load under NLGEOM.
+        id: numerical # Preserve the real qualification status while allowing evidence upload after failure.
+        continue-on-error: true # Keep DAT, FRD, STA, logs, and summary available after any numerical rejection.
+        shell: bash # Use Bash for exact baseline discovery and status capture.
+        run: set +e; mkdir -p "$OUT"; base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)"; test -s "$base"; python3 -m py_compile automation/zhaqing_prestress/balanced_transfer_final.py automation/zhaqing_prestress/initial_stress_prestress.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/prestress_isolation.py; python3 automation/zhaqing_prestress/balanced_transfer_final.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" > "$OUT/driver.stdout.log" 2>&1; code=$?; echo "exit_code=$code" >> "$GITHUB_OUTPUT"; exit 0 # Execute the complete full-bridge solve and retain its actual qualification code.
+      - name: Upload complete numerical evidence # Preserve generated INP, DAT, FRD, STA, logs, summary, trial evidence, and provenance.
+        if: always() # Upload every available file after success or failure.
+        uses: actions/upload-artifact@v4 # Store the complete solver directory as a downloadable artifact.
+        with: # Bind the artifact to the command-run identifier.
+          name: zhaqing-native-command-${{ github.run_id }} # Include the unique run ID for deterministic retrieval.
+          path: build/zhaqing-native-command # Upload every generated numerical file.
+          if-no-files-found: error # Treat missing evidence as infrastructure failure.
+          retention-days: 30 # Retain the final model/results for AFEM handoff.
+          compression-level: 6 # Use standard compression for mixed text and FRD output.
+      - name: Report command completion # Publish the run ID and process result back to PR13 where the connector can retrieve it.
+        if: always() # Report both success and failure.
+        env: # Expose the workflow token only to GitHub CLI reporting.
+          GH_TOKEN: ${{ github.token }} # Authenticate same-repository PR comment creation.
+        shell: bash # Publish one compact machine-readable completion marker.
+        run: gh pr comment 13 --repo "$GITHUB_REPOSITORY" --body "ZHAQING_NATIVE_COMMAND_RESULT runId=${{ github.run_id }} processExit=${{ steps.numerical.outputs.exit_code }} artifact=zhaqing-native-command-${{ github.run_id }}" # Return the exact run identifier needed to download and inspect the full solver evidence.
