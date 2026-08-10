@@ -72,3 +72,4 @@ jobs: # Define one deterministic balanced-transfer nonlinear diagnostic job.
           if-no-files-found: error # Treat missing numerical evidence as an explicit workflow error.
           retention-days: 30 # Retain the diagnostic for downstream AFEM integration and audit.
           compression-level: 6 # Use moderate compression for CalculiX field-result files.
+# Trigger revision after workflow registration so GitHub evaluates the push event with this workflow already present. # Preserve execution provenance for the first balanced-transfer run.
