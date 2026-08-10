@@ -46,10 +46,13 @@ jobs:
           set -e
           mkdir -p automation/zhaqing_calculix/prestress_result
           cp build/zhaqing-prestress/calibration_summary.json automation/zhaqing_calculix/prestress_result/calibration_summary.json
+          if test -s build/zhaqing-prestress/scale_0p00000000/solver.stdout.log; then cp build/zhaqing-prestress/scale_0p00000000/solver.stdout.log automation/zhaqing_calculix/prestress_result/scale0_solver.log; fi
+          if test -s build/zhaqing-prestress/scale_1p00000000/solver.stdout.log; then cp build/zhaqing-prestress/scale_1p00000000/solver.stdout.log automation/zhaqing_calculix/prestress_result/scale1_solver.log; fi
+          if test -s build/zhaqing-prestress/scale_1p00000000/model.inp; then cp build/zhaqing-prestress/scale_1p00000000/model.inp automation/zhaqing_calculix/prestress_result/scale1_model.inp; fi
           if test -s build/zhaqing-prestress/SELECTED_MODEL.inp; then cp build/zhaqing-prestress/SELECTED_MODEL.inp automation/zhaqing_calculix/prestress_result/SELECTED_MODEL.inp; fi
           if test -s build/zhaqing-prestress/SELECTED_MODEL.dat; then cp build/zhaqing-prestress/SELECTED_MODEL.dat automation/zhaqing_calculix/prestress_result/SELECTED_MODEL.dat; fi
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add automation/zhaqing_calculix/prestress_result
-          git diff --cached --quiet || git commit -m "publish Zhaqing completed-state prestress result"
+          git diff --cached --quiet || git commit -m "publish Zhaqing prestress diagnostics"
           git push origin HEAD:agent/zhaqing-freecad-cad003
