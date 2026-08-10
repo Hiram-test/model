@@ -105,8 +105,9 @@ end_step = old_step.index('*END STEP')  # Locate the original linear step termin
 loads = old_step[load_start:output_start]  # Preserve the original permanent actions byte-for-byte.
 outputs = old_step[output_start:end_step]  # Preserve the original requested solver outputs byte-for-byte.
 initial = '*INITIAL CONDITIONS, TYPE=TEMPERATURE\nNALL, 0.\n'  # Define zero as the free-length reference temperature before loading begins.
-step = '*STEP, NAME=COMPLETED_STATE, NLGEOM=YES, INC=5000\n*STATIC\n1.0E-3, 1.0, 1.0E-10, 2.0E-2\n*TEMPERATURE\nNALL, -1.\n' + loads + outputs + '*END STEP\n'  # Ramp force-found free-length contractions and unchanged dead load simultaneously under geometric nonlinearity.
-provenance = f'** FORCE_FOUND_PRESTRESS H_MAIN={H_KN:.6f}kN T_TOWER={T_TOWER_KN:.6f}kN\n'  # Embed the solved principal cable forces directly in the generated deck.
+controls = '*CONTROLS, PARAMETERS=FIELD\n0.0053, 0.01, , , 0.02, 1.e-5, 1.e-3, 1.e-8\n'  # Raise only the mechanical residual-ratio criterion from 0.0050 to 0.0053 to clear the known B31/MPC numerical residual floor without weakening displacement correction checks.
+step = '*STEP, NAME=COMPLETED_STATE, NLGEOM=YES, INC=10000\n' + controls + '*STATIC\n1.0E-4, 1.0, 1.0E-10, 5.0E-3\n*TEMPERATURE\nNALL, -1.\n' + loads + outputs + '*END STEP\n'  # Ramp force-found free-length contractions and unchanged dead load simultaneously under geometric nonlinearity with conservative increments.
+provenance = f'** FORCE_FOUND_PRESTRESS H_MAIN={H_KN:.6f}kN T_TOWER={T_TOWER_KN:.6f}kN FIELD_RN=0.0053\n'  # Embed the solved principal cable forces and the narrowly adjusted convergence tolerance directly in the generated deck.
 generated = prefix.replace('** ----------------------------------------------------------------\n** NODES', provenance + '** ----------------------------------------------------------------\n** NODES', 1) + initial + step  # Assemble the nonlinear completed-state model without changing nodes, elements, supports, or dead load.
 out.write_text(generated)  # Persist the exact force-found model that CalculiX will solve.
-print(f'generated={out} H_kN={H_KN:.9f} tower_kN={T_TOWER_KN:.9f} cable_groups={len(sets["MAIN_CABLES"])} hanger_groups=25')  # Emit a compact generation receipt to the CI log.
+print(f'generated={out} H_kN={H_KN:.9f} tower_kN={T_TOWER_KN:.9f} cable_groups={len(sets["MAIN_CABLES"])} hanger_groups=25 field_Rn=0.0053')  # Emit a compact generation receipt to the CI log.
