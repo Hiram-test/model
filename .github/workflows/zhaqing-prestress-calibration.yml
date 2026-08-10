@@ -1,6 +1,7 @@
 name: Zhaqing prestress calibration gate # Validate a completed-state main-cable prestress calibration against the archived PR9 L2 bridge model.
 on: # Execute this gate only for explicit prestress-calibration pull requests.
   pull_request: # Use the default-branch workflow definition so GitHub exposes the run through normal PR checks.
+    types: [opened, synchronize, reopened, ready_for_review] # Include an explicit ready-for-review event so the solver can be triggered after workflow installation.
     branches: # Restrict execution to pull requests targeting the repository main branch.
       - main # Keep the reusable calibration gate anchored on the default branch.
     paths: # Avoid running CalculiX for unrelated repository pull requests.
