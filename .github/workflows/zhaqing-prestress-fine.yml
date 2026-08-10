@@ -1,0 +1,81 @@
+name: Zhaqing L2 fine prestress residual sweep # Resolve the discrete suspension-system equilibrium scale before accepting any nonlinear state.
+on: # Define branch, child-PR and manual execution triggers.
+  push: # Run when the dedicated research branch changes this fine sweep.
+    branches: # Restrict automatic pushes to the isolation branch.
+      - agent/zhaqing-prestress-isolation # Execute only the reversible prestress branch.
+    paths: # Trigger only this fine-sweep workflow and its direct dependencies.
+      - '.github/workflows/zhaqing-prestress-fine.yml' # Re-run when this workflow changes.
+      - 'automation/zhaqing_prestress/fine_prestress.py' # Re-run when fine scale values change.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Re-run when element-wise force construction changes.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Re-run when the shared L2 parser/solver helper changes.
+  pull_request: # Validate the fine sweep relative to the original PR9 head branch.
+    branches: # Freeze the comparison base to the existing Zhaqing PR9 branch.
+      - agent/zhaqing-freecad-cad003 # Compare only the prestress intervention against PR9.
+    paths: # Trigger on this workflow and the fine-sweep implementation chain.
+      - '.github/workflows/zhaqing-prestress-fine.yml' # Validate fine-workflow edits in the child PR.
+      - 'automation/zhaqing_prestress/fine_prestress.py' # Validate scale-resolution edits in the child PR.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Validate element-wise force construction in the child PR.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Validate shared parsing and solver execution in the child PR.
+  workflow_dispatch: # Permit explicit reruns without source mutations.
+permissions: # Grant only read access required for source and upstream artifact recovery.
+  contents: read # Allow checkout of the tested source revision.
+  actions: read # Allow download of the verified PR9 L2 artifact.
+jobs: # Define one bounded numerical evidence job.
+  sweep: # Generate and solve seven closely spaced prestress scales.
+    runs-on: ubuntu-22.04 # Match the CalculiX-compatible PR9 runner family.
+    timeout-minutes: 60 # Bound solver runtime for the seven failed-or-converged trials.
+    env: # Freeze upstream artifact identity and local evidence location.
+      BASELINE_RUN_ID: '30068283053' # Use the successful PR9 L2 verification run.
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23' # Pin the exact verified L2 package.
+      OUT: 'build/zhaqing-prestress-fine' # Store all fine-sweep evidence in one artifact root.
+    steps: # Execute recovery, installation, solve and evidence preservation sequentially.
+      - name: Checkout tested source # Recover exactly the child-PR revision being evaluated.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Freeze checkout behavior for provenance clarity.
+          fetch-depth: 1 # Fetch only the tested revision.
+          persist-credentials: false # Prevent solver commands from inheriting write credentials.
+      - name: Recover verified L2 artifact # Reuse the successful PR9 model rather than regenerating any bridge topology.
+        uses: actions/download-artifact@v4 # Download immutable numerical evidence from the prior successful run.
+        with: # Identify the exact upstream package.
+          name: ${{ env.BASELINE_ARTIFACT }} # Select the frozen verified artifact name.
+          path: recovered-baseline # Extract it outside the output directory.
+          github-token: ${{ github.token }} # Authenticate the cross-run artifact read.
+          repository: Hiram-test/model # Read from the same public bridge-model repository.
+          run-id: ${{ env.BASELINE_RUN_ID }} # Pin the successful PR9 Actions run.
+      - name: Install CalculiX # Install the solver used by the original PR9 numerical workflow.
+        shell: bash # Use strict Bash execution for package operations.
+        run: | # Enable Universe, install ccx and verify its executable.
+          set -euxo pipefail # Stop immediately on package or shell errors.
+          sudo apt-get update # Refresh Ubuntu package metadata.
+          sudo apt-get install -y --no-install-recommends software-properties-common # Install repository-management support.
+          sudo add-apt-repository -y universe # Enable the repository containing calculix-ccx.
+          sudo apt-get update # Refresh metadata after repository activation.
+          sudo apt-get install -y --no-install-recommends calculix-ccx # Install CalculiX CrunchiX.
+          command -v ccx # Require a resolvable solver executable.
+      - name: Run fine residual sweep # Resolve the residual minimum while freezing every non-prestress L2 model choice.
+        shell: bash # Run syntax validation and CalculiX trials under strict Bash semantics.
+        run: | # Locate the verified baseline and execute the narrow scale sweep.
+          set -euxo pipefail # Fail the step after preserving the script's numerical receipt when no scale converges.
+          mkdir -p "$OUT" # Create the fine-sweep output root.
+          base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact verified L2 dead-load deck.
+          test -s "$base" # Require a nonempty verified baseline input.
+          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/fine_prestress.py # Validate every Python dependency before solver execution.
+          python3 automation/zhaqing_prestress/fine_prestress.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute scales 1.14 through 1.26 using the unchanged element-wise equilibrium model.
+      - name: Preserve provenance # Record source and solver environment after success or failure.
+        if: always() # Preserve evidence even when the default CalculiX convergence gate rejects every scale.
+        shell: bash # Use deterministic shell diagnostics.
+        run: | # Write provenance files beside the numerical receipts.
+          set +e # Continue metadata collection if an optional diagnostic fails.
+          mkdir -p "$OUT/provenance" # Ensure a provenance directory exists.
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt" # Record the exact tested commit SHA.
+          uname -a > "$OUT/provenance/environment.txt" # Record kernel and runner architecture.
+          dpkg-query -W calculix-ccx >> "$OUT/provenance/environment.txt" 2>&1 || true # Record the installed solver package version.
+      - name: Upload complete fine-sweep evidence # Preserve all failed and converged trial decks and solver outputs.
+        if: always() # Upload evidence before any final workflow conclusion.
+        uses: actions/upload-artifact@v4 # Store the complete numerical package in GitHub Actions.
+        with: # Name and retain the evidence deterministically.
+          name: zhaqing-prestress-fine-${{ github.sha }} # Bind the artifact to the exact tested commit.
+          path: build/zhaqing-prestress-fine # Upload every trial and receipt from the fine sweep.
+          if-no-files-found: error # Treat missing numerical evidence as an explicit error.
+          retention-days: 30 # Retain the package for downstream prestress and AFEM integration.
+          compression-level: 6 # Use moderate compression for field result files.
