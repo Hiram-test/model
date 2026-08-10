@@ -1,0 +1,40 @@
+name: Dispatch Zhaqing completed-state prestress calibration # Launch and track the temporary nonlinear solver for pull-request changes to the calibration implementation.
+on: # Run only when the experimental prestress implementation changes in an open pull request.
+  pull_request: # Use the trusted default-branch workflow definition while solving the untrusted head branch read-only.
+    branches: # Restrict the gate to pull requests targeting repository main.
+      - main # Keep this temporary numerical gate scoped to the existing PR9 integration path.
+    paths: # Trigger only for the completed-state calibration implementation or its explicit synchronization marker.
+      - 'automation/zhaqing_calculix/prestress_l2_calibrate.py' # Re-run when the nonlinear inverse-calibration code changes.
+      - 'automation/zhaqing_calculix/prestress_trigger.txt' # Re-run when an explicit calibration synchronization marker is pushed.
+permissions: # Allow this trusted gate to dispatch and inspect the delegated solver workflow.
+  contents: read # Permit checkout of the pull-request merge snapshot for provenance only.
+  actions: write # Permit workflow dispatch and status polling for the delegated solver run.
+jobs: # Define one dispatcher job that waits for the exact head SHA result.
+  dispatch: # Launch the default-branch delegated solver on the pull request head branch.
+    runs-on: ubuntu-22.04 # Use the same runner family as the numerical solver for consistent GitHub CLI behavior.
+    timeout-minutes: 50 # Bound dispatch polling plus the delegated nonlinear calculation.
+    steps: # Checkout provenance, dispatch the exact head SHA, and wait for numerical completion.
+      - name: Checkout pull-request snapshot # Record the exact pull-request state associated with this calibration request.
+        uses: actions/checkout@v4 # Use GitHub's standard checkout action.
+        with: # Keep dispatcher checkout shallow and read-only.
+          fetch-depth: 1 # Fetch only the merge snapshot needed for provenance.
+          persist-credentials: false # Avoid retaining repository write credentials outside GitHub CLI.
+      - name: Dispatch exact prestress solver and wait # Start the delegated workflow on the PR head branch and expose its run id in this job log.
+        env: # Pass only GitHub-provided immutable PR identifiers to the dispatch script.
+          GH_TOKEN: ${{ github.token }} # Authenticate workflow dispatch and run-status polling.
+          HEAD_BRANCH: ${{ github.head_ref }} # Select the experimental branch that contains the calibration implementation.
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }} # Require the delegated run to match the exact head commit that triggered this gate.
+        run: |
+          set -euxo pipefail # Fail immediately on dispatch, query, or delegated numerical errors.
+          started_epoch=$(date -u +%s) # Record dispatch time so older workflow runs cannot be mistaken for this calibration.
+          gh api --method POST "repos/${GITHUB_REPOSITORY}/actions/workflows/zhaqing-prestress-delegated.yml/dispatches" -f ref="$HEAD_BRANCH" # Dispatch the trusted default-branch solver definition on the PR head branch.
+          run_id='' # Initialize the delegated run identifier before polling GitHub Actions.
+          for attempt in $(seq 1 60); do # Poll for up to five minutes until GitHub registers the exact delegated run.
+            runs_json=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/zhaqing-prestress-delegated.yml/runs?branch=${HEAD_BRANCH}&event=workflow_dispatch&per_page=20") # Fetch recent explicit runs for this branch only.
+            run_id=$(jq -r --arg sha "$HEAD_SHA" --argjson started "$started_epoch" '[.workflow_runs[] | select(.head_sha == $sha) | select((.created_at | fromdateiso8601) >= $started)] | sort_by(.created_at) | last | .id // empty' <<<"$runs_json") # Select only the run tied to the exact PR head SHA and this dispatch window.
+            if [[ -n "$run_id" ]]; then break; fi # Stop polling immediately after the exact numerical run is identified.
+            sleep 5 # Wait briefly before the next GitHub Actions registration query.
+          done # Finish bounded run-registration polling.
+          test -n "$run_id" # Fail clearly if GitHub never registered a delegated run for the requested SHA.
+          echo "DELEGATED_PRESTRESS_RUN_ID=$run_id" # Print the exact run id so external auditing can retrieve logs and artifacts deterministically.
+          gh run watch "$run_id" --repo "$GITHUB_REPOSITORY" --exit-status # Wait synchronously for CalculiX calibration and propagate its numerical pass/fail status.
