@@ -1,135 +1,112 @@
-from __future__ import annotations  # Enable modern typing behavior while keeping the script compatible with the GitHub runner.
-import json  # Serialize the complete calibration history and the selected prestress state.
-import re  # Parse CalculiX text output and patch the input deck deterministically.
-import subprocess  # Execute the CalculiX solver for every prestress candidate.
-import sys  # Read command-line arguments and propagate a meaningful process status.
-from pathlib import Path  # Handle all input, output, and solver-result paths safely.
-BASE_ALPHA = 130.0 / 195000.0  # Use 130 MPa as the first-order main-cable stress scale for the inverse search.
-INITIAL_SCALES = [0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0]  # Span zero prestress through a deliberately broad tensile range.
-TARGET_NODE = 291  # Use the centerline deck node at midspan as the completed-geometry vertical-displacement target.
-TARGET_UZ_MM = 0.0  # Define the supplied bridge geometry as the desired dead-load completed configuration.
-TARGET_TOL_MM = 1.0  # Accept a prestress calibration when the midspan vertical residual is within one millimetre.
-MAX_REFINEMENT_RUNS = 5  # Limit secant/bisection refinement while still resolving the zero-displacement crossing tightly.
-def split_baseline(text: str) -> tuple[str, str, str]:  # Separate the validated model definition, permanent loads, and requested outputs.
-    step_start = text.index("*STEP")  # Locate the only original linear static analysis step.
-    prefix = text[:step_start]  # Preserve every validated node, element, property, set, boundary, and connection definition unchanged.
-    original_step = text[step_start:]  # Isolate the original loading and output block for controlled nonlinear reconstruction.
-    load_start = original_step.index("*DLOAD")  # Locate the validated gravity-plus-concentrated permanent-load definition.
-    output_start = original_step.index("*NODE PRINT")  # Locate the original monitoring and element-output requests.
-    end_step = original_step.index("*END STEP")  # Locate the original step terminator so no stale linear controls survive.
-    loads = original_step[load_start:output_start]  # Reuse the original permanent actions byte-for-byte.
-    outputs = original_step[output_start:end_step]  # Reuse the original displacement, reaction, stress, and strain requests.
-    return prefix, loads, outputs  # Return the three immutable building blocks needed by every candidate model.
-def build_candidate(base_text: str, scale: float) -> str:  # Build one two-stage geometrically nonlinear prestress/dead-load candidate.
-    prefix, loads, outputs = split_baseline(base_text)  # Recover the validated model definition and original permanent actions.
-    material_anchor = "*MATERIAL, NAME=MAIN_CABLE_WIRE_SCREEN\n*ELASTIC\n195000., 0.30\n*DENSITY\n7.85e-9\n"  # Match the exclusive main-cable material block exactly.
-    alpha = BASE_ALPHA * scale  # Convert the dimensionless search scale into an equivalent thermal contraction coefficient.
-    expansion_block = material_anchor + "*EXPANSION, ZERO=0.\n" + f"{alpha:.12e}\n"  # Encode the main-cable free contraction without modifying any other material.
-    if material_anchor not in prefix:  # Refuse to silently patch an unexpected or changed baseline deck.
-        raise RuntimeError("main-cable material anchor not found")  # Stop immediately if the validated material contract has changed.
-    prefix = prefix.replace(material_anchor, expansion_block, 1)  # Add thermal strain capability only to the main-cable material.
-    initial = "*INITIAL CONDITIONS, TYPE=TEMPERATURE\nNALL, 0.\n"  # Establish a zero-strain thermal reference before analysis begins.
-    prestress_step = "*STEP, NAME=PRESTRESS, NLGEOM=YES, INC=1000\n*STATIC\n1.0E-3, 1.0, 1.0E-10, 2.0E-2\n*TEMPERATURE\nNALL, -1.\n*NODE PRINT, NSET=MONITOR, FREQUENCY=1\nU, RF\n*EL PRINT, ELSET=MAIN_CABLES, FREQUENCY=1\nS, E\n*END STEP\n"  # Ramp cable contraction alone to establish geometric stiffness before gravity is introduced.
-    dead_step = "*STEP, NAME=DEAD_EQUILIBRIUM, NLGEOM=YES, INC=2000\n*STATIC\n1.0E-3, 1.0, 1.0E-10, 2.0E-2\n*TEMPERATURE\nNALL, -1.\n" + loads + outputs + "*END STEP\n"  # Hold the same cable contraction explicitly while ramping the validated permanent actions to completed-state equilibrium.
-    heading_note = f"** PRESTRESS_CALIBRATION_SCALE={scale:.12g}; MAIN_CABLE_ALPHA={alpha:.12e}; TARGET_NODE={TARGET_NODE}; TARGET_UZ_MM={TARGET_UZ_MM:.6f}\n"  # Embed full calibration provenance directly in the solver deck.
-    return prefix.replace("** ----------------------------------------------------------------\n** NODES", heading_note + "** ----------------------------------------------------------------\n** NODES", 1) + initial + prestress_step + dead_step  # Assemble the final candidate without changing geometry or non-cable properties.
-def parse_last_displacement(dat_path: Path, node_id: int) -> float | None:  # Extract the final-step vertical displacement of the selected completed-state monitor node.
-    if not dat_path.exists():  # Treat missing solver output as a failed candidate rather than inventing a value.
-        return None  # Signal that no displacement can be trusted for this run.
-    lines = dat_path.read_text(errors="ignore").splitlines()  # Load the CalculiX text output while tolerating platform encoding details.
-    value = None  # Keep the most recent matching displacement so the second step supersedes the prestress-only step.
-    in_disp = False  # Track whether the parser is currently inside a displacement table.
-    for line in lines:  # Scan every output line in chronological order.
-        if "displacements (vx,vy,vz)" in line.lower():  # Detect the beginning of each nodal displacement table.
-            in_disp = True  # Enable numeric row parsing for the current table.
-            continue  # Move to the first data row after the table heading.
-        if in_disp and line.strip().startswith("forces ("):  # Detect the end of the displacement table when reaction-force output begins.
-            in_disp = False  # Stop interpreting subsequent rows as displacement values.
-        if in_disp:  # Parse only rows belonging to an active displacement table.
-            match = re.match(r"\s*(\d+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$", line)  # Match one CalculiX node-displacement row.
-            if match and int(match.group(1)) == node_id:  # Select only the specified bridge midspan monitoring node.
-                value = float(match.group(4))  # Store its global vertical displacement component in millimetres.
-    return value  # Return the completed-state displacement from the last successfully printed table.
-def converged(sta_path: Path, log_text: str) -> bool:  # Apply a strict but solver-version-tolerant convergence screen.
-    if "*ERROR" in log_text.upper() or "TOO MANY CUTBACKS" in log_text.upper():  # Reject explicit CalculiX nonlinear failure messages.
-        return False  # Mark the candidate unusable for inverse calibration.
-    if not sta_path.exists():  # Require the nonlinear status file as solver evidence.
-        return False  # Reject runs that terminated before producing status history.
-    sta = sta_path.read_text(errors="ignore")  # Read increment history for the final-step completion check.
-    successful_lines = [line for line in sta.splitlines() if re.match(r"\s*2\s+\d+\s+\d+\s+\d+\s+", line) and "U" not in line]  # Find accepted increments belonging to the dead-load equilibrium step.
-    return bool(successful_lines) and any(float(line.split()[5]) >= 0.999999 for line in successful_lines if len(line.split()) > 5)  # Require the second step to reach its full normalized step time.
-def run_scale(base_text: str, output_dir: Path, scale: float) -> dict[str, object]:  # Generate, solve, and audit one prestress scale.
-    label = f"s{scale:.8f}".replace("-", "m").replace(".", "p")  # Create a filesystem-safe deterministic candidate label.
-    run_dir = output_dir / label  # Isolate every solver run so files cannot overwrite one another.
-    run_dir.mkdir(parents=True, exist_ok=True)  # Create the candidate evidence directory before writing the model.
-    model_text = build_candidate(base_text, scale)  # Construct the two-stage nonlinear input deck for this prestress level.
-    inp_path = run_dir / "model.inp"  # Use a short stable CalculiX job name inside each isolated directory.
-    inp_path.write_text(model_text)  # Preserve the exact candidate deck as part of the calibration evidence.
-    proc = subprocess.run(["ccx", "-i", "model"], cwd=run_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)  # Execute CalculiX synchronously and capture its complete diagnostic stream.
-    log_text = proc.stdout  # Retain the solver console output for convergence diagnostics and later audit.
-    (run_dir / "solver.stdout.log").write_text(log_text)  # Save the raw CalculiX console trace next to the numerical result files.
-    is_converged = converged(run_dir / "model.sta", log_text)  # Determine whether the full dead-load equilibrium step was accepted.
-    uz = parse_last_displacement(run_dir / "model.dat", TARGET_NODE) if is_converged else None  # Read the completed-state displacement only from a converged solution.
-    return {"scale": scale, "alpha": BASE_ALPHA * scale, "nominalMainCableStressMPa": 130.0 * scale, "solverExitCode": proc.returncode, "converged": is_converged, "midspanUzMm": uz, "directory": label}  # Return the complete scalar evidence needed by the inverse search.
-def find_bracket(rows: list[dict[str, object]]) -> tuple[dict[str, object], dict[str, object]] | None:  # Locate two converged prestress states whose completed-state vertical displacements straddle zero.
-    valid = sorted([row for row in rows if row["converged"] and row["midspanUzMm"] is not None], key=lambda row: float(row["scale"]))  # Keep only physically evaluable candidates in scale order.
-    for left, right in zip(valid, valid[1:]):  # Test every adjacent converged pair for a sign change.
-        ul = float(left["midspanUzMm"]) - TARGET_UZ_MM  # Compute the left candidate's signed target residual.
-        ur = float(right["midspanUzMm"]) - TARGET_UZ_MM  # Compute the right candidate's signed target residual.
-        if ul == 0.0 or ur == 0.0 or ul * ur < 0.0:  # Accept exact hits and genuine zero crossings alike.
-            return left, right  # Return the tightest available local bracket in the current sampled set.
-    return None  # Signal that the sampled prestress range has not yet crossed the completed-state target.
-def choose_next(left: dict[str, object], right: dict[str, object]) -> float:  # Compute a safeguarded secant estimate inside a zero-displacement bracket.
-    sl = float(left["scale"])  # Read the lower bracket prestress scale.
-    sr = float(right["scale"])  # Read the upper bracket prestress scale.
-    ul = float(left["midspanUzMm"]) - TARGET_UZ_MM  # Read the lower bracket completed-state displacement residual.
-    ur = float(right["midspanUzMm"]) - TARGET_UZ_MM  # Read the upper bracket completed-state displacement residual.
-    if abs(ur - ul) < 1.0e-12:  # Avoid numerical division by an almost flat displacement response.
-        return 0.5 * (sl + sr)  # Fall back to bisection when secant interpolation is ill-conditioned.
-    secant = sl - ul * (sr - sl) / (ur - ul)  # Interpolate the prestress scale expected to drive completed-state displacement to zero.
-    margin = 0.05 * (sr - sl)  # Keep the trial safely away from either bracket endpoint to ensure useful refinement.
-    return min(sr - margin, max(sl + margin, secant))  # Safeguard the secant estimate within the current physical bracket.
-def main() -> int:  # Execute the complete nonlinear inverse calibration and persist its solver evidence.
-    if len(sys.argv) != 3:  # Require an explicit validated baseline deck and an explicit output directory.
-        raise SystemExit("usage: run_prestress_calibration.py BASELINE_INP OUTPUT_DIR")  # Fail clearly when workflow arguments are incomplete.
-    base_path = Path(sys.argv[1]).resolve()  # Resolve the validated PR9 LC01 baseline input deck path.
-    output_dir = Path(sys.argv[2]).resolve()  # Resolve the append-only calibration evidence directory.
-    output_dir.mkdir(parents=True, exist_ok=True)  # Create the top-level evidence directory before any solver run.
-    base_text = base_path.read_text()  # Load the exact validated L2 shell-beam-cable model once for deterministic candidate generation.
-    rows: list[dict[str, object]] = []  # Accumulate every attempted prestress state, including nonconvergent runs.
-    attempted: set[float] = set()  # Prevent duplicate solver calls when refinement reproduces a sampled scale.
-    for scale in INITIAL_SCALES:  # Establish a broad initial displacement-versus-prestress response curve.
-        row = run_scale(base_text, output_dir, scale)  # Solve one nonlinear completed-state candidate.
-        rows.append(row)  # Preserve the result regardless of convergence outcome.
-        attempted.add(round(scale, 10))  # Register the scale so later interpolation cannot repeat it accidentally.
-    for _ in range(MAX_REFINEMENT_RUNS):  # Refine only after the initial broad response curve has been solved.
-        valid = [row for row in rows if row["converged"] and row["midspanUzMm"] is not None]  # Gather all currently usable completed-state solutions.
-        if valid and min(abs(float(row["midspanUzMm"]) - TARGET_UZ_MM) for row in valid) <= TARGET_TOL_MM:  # Stop once the completed geometry is recovered to the requested tolerance.
-            break  # Preserve compute while retaining the already adequate calibrated state.
-        bracket = find_bracket(rows)  # Search the current solution set for a physical zero-displacement bracket.
-        if bracket is None:  # Avoid uncontrolled extrapolation when the solved prestress range never reaches the target.
-            break  # Leave the best sampled candidate explicit for diagnosis rather than inventing an unbounded prestress.
-        trial = choose_next(*bracket)  # Compute a safeguarded secant/bisection refinement scale.
-        if round(trial, 10) in attempted:  # Detect a numerically repeated trial that cannot add information.
-            trial = 0.5 * (float(bracket[0]["scale"]) + float(bracket[1]["scale"]))  # Force a strict bisection point inside the current bracket.
-        if round(trial, 10) in attempted:  # Detect a fully exhausted bracket caused by floating-point coincidence.
-            break  # Stop refinement because another identical solve would provide no new evidence.
-        row = run_scale(base_text, output_dir, trial)  # Solve the refined prestress candidate in the same validated L2 topology.
-        rows.append(row)  # Preserve the refined result in chronological calibration history.
-        attempted.add(round(trial, 10))  # Register the new scale before the next refinement iteration.
-    valid = [row for row in rows if row["converged"] and row["midspanUzMm"] is not None]  # Collect all converged completed-state candidates for final selection.
-    selected = min(valid, key=lambda row: abs(float(row["midspanUzMm"]) - TARGET_UZ_MM)) if valid else None  # Select the converged state closest to the supplied completed geometry.
-    status = "PASS" if selected is not None and abs(float(selected["midspanUzMm"]) - TARGET_UZ_MM) <= TARGET_TOL_MM else "NO_CALIBRATED_SOLUTION"  # Distinguish a quantitatively recovered completed state from an incomplete search.
-    summary = {"status": status, "targetNode": TARGET_NODE, "targetUzMm": TARGET_UZ_MM, "toleranceMm": TARGET_TOL_MM, "baseAlpha": BASE_ALPHA, "selected": selected, "runs": rows}  # Assemble a complete machine-readable calibration receipt.
-    (output_dir / "calibration_summary.json").write_text(json.dumps(summary, indent=2))  # Save the final result and all rejected candidates for audit and reproduction.
-    print(json.dumps(summary, indent=2))  # Emit the same receipt into the GitHub Actions log for immediate inspection.
-    if selected is not None:  # Export a stable final model filename whenever at least one converged candidate exists.
-        selected_dir = output_dir / str(selected["directory"])  # Resolve the evidence directory belonging to the selected prestress state.
-        (output_dir / "CALIBRATED_MODEL.inp").write_text((selected_dir / "model.inp").read_text())  # Copy the exact selected input deck without regenerating it.
-        for suffix in ["dat", "frd", "sta", "cvg", "12d"]:  # Preserve the principal CalculiX numerical evidence next to the calibrated deck.
-            source = selected_dir / f"model.{suffix}"  # Resolve one possible solver output associated with the selected state.
-            if source.exists():  # Copy only files actually produced by the installed CalculiX build.
-                (output_dir / f"CALIBRATED_MODEL.{suffix}").write_bytes(source.read_bytes())  # Preserve solver bytes exactly for later inspection.
-    return 0 if status == "PASS" else 2  # Make the workflow gate fail unless the completed-state geometry is recovered quantitatively.
-if __name__ == "__main__":  # Execute the calibration only when the file is run as the workflow entry point.
-    raise SystemExit(main())  # Propagate the calibrated-state gate status back to GitHub Actions.
+from pathlib import Path  # Use pathlib for deterministic baseline and generated-model paths.
+import math  # Evaluate cable and hanger lengths, slopes, and elastic strain targets.
+import re  # Parse original element connectivity and replace only cable/hanger section definitions.
+import sys  # Receive the validated PR9 LC01 input deck and output path from CI.
+if len(sys.argv) != 3:  # Require one source INP and one generated INP path.
+    raise SystemExit('usage: build_prestress_compact.py BASELINE_INP OUTPUT_INP')  # Fail clearly when workflow arguments are incomplete.
+source = Path(sys.argv[1]).resolve()  # Resolve the validated zero-prestress LC01 mother model.
+out = Path(sys.argv[2]).resolve()  # Resolve the final force-found nonlinear CalculiX deck path.
+out.parent.mkdir(parents=True, exist_ok=True)  # Create the generated-model directory before writing evidence.
+text = source.read_text()  # Read the validated mother deck once so all unchanged records remain byte-identical.
+lines = text.splitlines()  # Split lines only for extracting node coordinates and cable/hanger connectivity.
+nodes = {}  # Store original global node coordinates without modification.
+elements = {}  # Store original element type, semantic set, and connectivity without modification.
+sets = {}  # Store original element identifiers grouped by semantic set.
+i = 0  # Start a single-pass source parser at the first line.
+while i < len(lines):  # Parse only the geometric records required to convert solved forces into free lengths.
+    line = lines[i].strip()  # Normalize whitespace around the current input record.
+    upper = line.upper()  # Compare Abaqus/CalculiX keywords case-insensitively.
+    if upper == '*NODE, NSET=NALL' or upper == '*NODE':  # Enter the original node block while excluding output keywords.
+        i += 1  # Advance from the node keyword to its first coordinate record.
+        while i < len(lines) and not lines[i].lstrip().startswith('*'):  # Read every validated node until the next keyword.
+            row = [field.strip() for field in lines[i].split(',')]  # Split node identifier and global coordinates.
+            nodes[int(row[0])] = (float(row[1]), float(row[2]), float(row[3]))  # Preserve the original global coordinate tuple exactly.
+            i += 1  # Move to the next node or keyword record.
+        continue  # Resume parsing from the keyword already reached by the inner loop.
+    if upper.startswith('*ELEMENT,'):  # Enter an original element block.
+        type_match = re.search(r'TYPE=([^,]+)', line, re.I)  # Extract the original element formulation.
+        set_match = re.search(r'ELSET=([^,]+)', line, re.I)  # Extract the original semantic element-set name.
+        element_type = type_match.group(1).strip() if type_match else ''  # Preserve the original element formulation string.
+        element_set = set_match.group(1).strip() if set_match else ''  # Preserve the original semantic set string.
+        sets.setdefault(element_set, [])  # Initialize the semantic set before reading its connectivity rows.
+        i += 1  # Advance from the element keyword to its first connectivity record.
+        while i < len(lines) and not lines[i].lstrip().startswith('*'):  # Read every element in the current block.
+            row = [field.strip() for field in lines[i].split(',') if field.strip()]  # Remove empty comma fields without changing node order.
+            element_id = int(row[0])  # Parse the original globally unique element identifier.
+            elements[element_id] = (element_type, element_set, [int(value) for value in row[1:]])  # Preserve original connectivity unchanged.
+            sets[element_set].append(element_id)  # Register the element under its original semantic set.
+            i += 1  # Move to the next connectivity row or keyword.
+        continue  # Resume parsing from the keyword already reached by the inner loop.
+    i += 1  # Skip all source records that are not needed for free-length generation.
+def length(element_id):  # Return one original two-node element length in millimetres.
+    node_a, node_b = elements[element_id][2][:2]  # Retrieve the original element end-node identifiers.
+    return math.dist(nodes[node_a], nodes[node_b])  # Evaluate length directly from the validated global coordinates.
+H_KN = 716.1502048515677  # Use the force-found horizontal main-cable component obtained from exact PR9 dead-load/global-equilibrium decomposition.
+A_MAIN = 74.5432224 * 74.5432224  # Preserve the original equivalent main-cable area in square millimetres.
+E_MAIN = 195000.0  # Preserve the original main-cable elastic modulus in MPa.
+A_HANGER = 804.247719  # Preserve the original hanger area in square millimetres.
+E_HANGER = 200000.0  # Preserve the original hanger elastic modulus in MPa.
+RHO_HANGER = 7.85e-9  # Preserve the original hanger density in tonnes per cubic millimetre.
+G = 9810.0  # Preserve the original N-mm-tonne-s gravitational acceleration.
+mainspan = []  # Identify one positive-y tower-to-tower cable chain to recover the actual endpoint segment slope.
+for element_id in sets['MAIN_CABLES']:  # Inspect every original main-cable B31 element.
+    node_a, node_b = elements[element_id][2][:2]  # Retrieve original element end nodes.
+    point_a, point_b = nodes[node_a], nodes[node_b]  # Recover original end-node coordinates.
+    if abs(point_a[1] - 2750.0) < 1.0e-6 and abs(point_b[1] - 2750.0) < 1.0e-6 and min(point_a[0], point_b[0]) >= 0.0 and max(point_a[0], point_b[0]) <= 82000.0:  # Select the positive-y main-span chain.
+        mainspan.append(element_id)  # Preserve the original main-span element for end-slope detection.
+mainspan.sort(key=lambda element_id: min(nodes[elements[element_id][2][0]][0], nodes[elements[element_id][2][1]][0]))  # Sort the selected chain from left tower to right tower.
+first_a, first_b = elements[mainspan[0]][2][:2]  # Retrieve the actual first 1 m B31 segment adjacent to the left tower.
+end_slope = abs((nodes[first_b][2] - nodes[first_a][2]) / (nodes[first_b][0] - nodes[first_a][0]))  # Evaluate the discretized tower-adjacent cable slope.
+T_TOWER_KN = H_KN * math.sqrt(1.0 + end_slope * end_slope)  # Recover the target tower-adjacent cable tension used for straight side spans.
+materials = []  # Accumulate segment/station-specific materials carrying equivalent thermal free contractions.
+elsets = []  # Accumulate disjoint prestress assignment sets while retaining original semantic sets for output.
+sections = []  # Accumulate replacement B31/T3D2 section definitions with unchanged geometry.
+for sequence, element_id in enumerate(sets['MAIN_CABLES'], start=1):  # Generate one free-length correction for each original main-cable element.
+    node_a, node_b = elements[element_id][2][:2]  # Retrieve original cable-segment end nodes.
+    point_a, point_b = nodes[node_a], nodes[node_b]  # Recover original segment coordinates.
+    dx = point_b[0] - point_a[0]  # Compute the original longitudinal segment projection.
+    dz = point_b[2] - point_a[2]  # Compute the original vertical segment projection.
+    midpoint_x = 0.5 * (point_a[0] + point_b[0])  # Locate this segment along the bridge axis.
+    in_mainspan = 0.0 <= midpoint_x <= 82000.0 and abs(dx) > 1.0e-12 and abs(abs(point_a[1]) - 2750.0) < 1.0e-6 and abs(abs(point_b[1]) - 2750.0) < 1.0e-6  # Detect a tower-to-tower segment in either cable plane.
+    tension_kN = H_KN * math.sqrt(1.0 + (dz / dx) ** 2) if in_mainspan else T_TOWER_KN  # Apply constant horizontal force in the main span and tension continuity in straight side spans.
+    strain = tension_kN * 1000.0 / (A_MAIN * E_MAIN)  # Convert target axial force into completed-state elastic strain.
+    material = f'MC_PRE_{sequence:03d}'  # Create a deterministic material name for this original cable segment.
+    elset = f'MCSEG_{sequence:03d}'  # Create a deterministic disjoint section-assignment set for this cable segment.
+    materials.append(f'*MATERIAL, NAME={material}\n*ELASTIC\n195000., 0.30\n*DENSITY\n7.85e-9\n*EXPANSION, ZERO=0.\n{strain:.12e}\n')  # Encode target elastic strain as equal thermal free contraction at DeltaT=-1.
+    elsets.append(f'*ELSET, ELSET={elset}\n{element_id}\n')  # Assign exactly this original cable element to its unique prestress group.
+    sections.append(f'*BEAM SECTION, ELSET={elset}, MATERIAL={material}, SECTION=RECT\n74.5432224, 74.5432224\n0., 1., 0.\n')  # Preserve original B31 equivalent section and orientation while changing only free length.
+for station in range(25):  # Generate one target free length for each symmetric hanger station.
+    positive = 1021 + station  # Identify the positive-y original hanger element at this station.
+    negative = 1046 + station  # Identify the symmetric negative-y original hanger element at this station.
+    hanger_length = length(positive)  # Recover the exact existing geometric hanger length.
+    deck_force_kN = 26.1924675 if station in (0, 24) else 20.5652030  # Use the exact PR9 tributary deck-load solution rounded below one newton at end/interior stations.
+    half_self_weight_kN = 0.5 * hanger_length * A_HANGER * RHO_HANGER * G / 1000.0  # Add the lower-node half of the one-element hanger consistent gravity load.
+    tension_kN = deck_force_kN + half_self_weight_kN  # Recover the uniform completed-state hanger axial force.
+    strain = tension_kN * 1000.0 / (A_HANGER * E_HANGER)  # Convert target hanger force into completed-state elastic strain.
+    material = f'HG_PRE_{station + 1:02d}'  # Create a deterministic station-specific hanger material name.
+    elset = f'HGSTA_{station + 1:02d}'  # Create a deterministic section-assignment set shared by both cable planes.
+    materials.append(f'*MATERIAL, NAME={material}\n*ELASTIC\n200000., 0.30\n*DENSITY\n7.85e-9\n*EXPANSION, ZERO=0.\n{strain:.12e}\n')  # Encode the solved hanger extension as equal thermal free contraction at DeltaT=-1.
+    elsets.append(f'*ELSET, ELSET={elset}\n{positive}, {negative}\n')  # Assign the symmetric hanger pair to the same solved target force.
+    sections.append(f'*SOLID SECTION, ELSET={elset}, MATERIAL={material}\n804.247719\n')  # Preserve the original T3D2 area while changing only unstressed length.
+material_anchor = '*MATERIAL, NAME=MAIN_CABLE_WIRE_SCREEN\n*ELASTIC\n195000., 0.30\n*DENSITY\n7.85e-9\n'  # Identify the exact original cable material block for deterministic insertion.
+if material_anchor not in text:  # Refuse to modify an unexpected baseline model.
+    raise RuntimeError('main-cable material anchor missing')  # Stop rather than silently patching a changed bridge model.
+generated = text.replace(material_anchor, material_anchor + ''.join(materials), 1)  # Insert all prestress materials while retaining every original material definition.
+pattern = re.compile(r'\*BEAM SECTION, ELSET=MAIN_CABLES, MATERIAL=MAIN_CABLE_WIRE_SCREEN, SECTION=RECT\n74\.5432224, 74\.5432224\n0\., 1\., 0\.\n\*SOLID SECTION, ELSET=HANGERS, MATERIAL=HANGER_BAR_SCREEN\n804\.247719\n', re.I)  # Match exactly the original uniform main-cable and hanger section assignments.
+generated, replacements = pattern.subn(''.join(elsets) + ''.join(sections), generated, count=1)  # Replace only those two uniform assignments with disjoint free-length groups.
+if replacements != 1:  # Verify the validated source structure matched exactly once.
+    raise RuntimeError('cable/hanger section anchor replacement failed')  # Stop before producing an ambiguous model if the source structure changed.
+step_start = generated.index('*STEP')  # Locate the original single linear LC01 step.
+prefix = generated[:step_start]  # Preserve all validated model definitions and boundary conditions before the analysis step.
+old_step = generated[step_start:]  # Isolate the original load/output step for exact reuse of permanent actions.
+load_start = old_step.index('*DLOAD')  # Locate original gravity and accessory CLOAD records.
+output_start = old_step.index('*NODE PRINT')  # Locate original displacement, reaction, cable, hanger, and girder output requests.
+end_step = old_step.index('*END STEP')  # Locate the original linear step terminator.
+loads = old_step[load_start:output_start]  # Preserve the original permanent actions byte-for-byte.
+outputs = old_step[output_start:end_step]  # Preserve the original requested solver outputs byte-for-byte.
+initial = '*INITIAL CONDITIONS, TYPE=TEMPERATURE\nNALL, 0.\n'  # Define zero as the free-length reference temperature before loading begins.
+step = '*STEP, NAME=COMPLETED_STATE, NLGEOM=YES, INC=5000\n*STATIC\n1.0E-3, 1.0, 1.0E-10, 2.0E-2\n*TEMPERATURE\nNALL, -1.\n' + loads + outputs + '*END STEP\n'  # Ramp force-found free-length contractions and unchanged dead load simultaneously under geometric nonlinearity.
+provenance = f'** FORCE_FOUND_PRESTRESS H_MAIN={H_KN:.6f}kN T_TOWER={T_TOWER_KN:.6f}kN\n'  # Embed the solved principal cable forces directly in the generated deck.
+generated = prefix.replace('** ----------------------------------------------------------------\n** NODES', provenance + '** ----------------------------------------------------------------\n** NODES', 1) + initial + step  # Assemble the nonlinear completed-state model without changing nodes, elements, supports, or dead load.
+out.write_text(generated)  # Persist the exact force-found model that CalculiX will solve.
+print(f'generated={out} H_kN={H_KN:.9f} tower_kN={T_TOWER_KN:.9f} cable_groups={len(sets["MAIN_CABLES"])} hanger_groups=25')  # Emit a compact generation receipt to the CI log.
