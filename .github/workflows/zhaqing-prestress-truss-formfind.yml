@@ -1,0 +1,81 @@
+name: Zhaqing direct truss-cable form finding # Co-ramp suspension-system unstressed-length contraction and verified dead load in one NLGEOM equilibrium step.
+on: # Define branch, child-PR and manual execution triggers.
+  push: # Run automatically on the dedicated prestress research branch.
+    branches: # Restrict automatic execution to the reversible branch.
+      - agent/zhaqing-prestress-isolation # Execute only the dedicated prestress branch.
+    paths: # Trigger only this workflow and its numerical dependencies.
+      - '.github/workflows/zhaqing-prestress-truss-formfind.yml' # Re-run when this workflow changes.
+      - 'automation/zhaqing_prestress/truss_thermal_formfind.py' # Re-run when direct form-finding logic changes.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Re-run when mechanics-derived suspension force targets change.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Re-run when the verified-L2 parser or CalculiX runner changes.
+  pull_request: # Validate the same experiment against the original PR9 head branch.
+    branches: # Freeze the comparison base to the existing Zhaqing PR9 branch.
+      - agent/zhaqing-freecad-cad003 # Compare only the isolated prestress intervention against PR9.
+    paths: # Trigger the child-PR calculation only for this workflow and its dependencies.
+      - '.github/workflows/zhaqing-prestress-truss-formfind.yml' # Validate workflow edits inside the child PR.
+      - 'automation/zhaqing_prestress/truss_thermal_formfind.py' # Validate direct form-finding logic inside the child PR.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Validate suspension target-force construction inside the child PR.
+      - 'automation/zhaqing_prestress/prestress_isolation.py' # Validate the verified-L2 parser and CalculiX runner inside the child PR.
+  workflow_dispatch: # Permit explicit reruns without source mutation.
+permissions: # Grant only read access required for source checkout and verified artifact recovery.
+  contents: read # Allow checkout of the tested source revision.
+  actions: read # Allow recovery of the verified PR9 L2 Actions artifact.
+jobs: # Define one deterministic bounded form-finding sweep.
+  solve: # Recover, generate, solve, compare and preserve all scale trials.
+    runs-on: ubuntu-22.04 # Match the CalculiX-compatible runner family used by PR9.
+    timeout-minutes: 60 # Bound the five-scale nonlinear sweep and evidence packaging.
+    env: # Freeze immutable baseline identifiers and output location.
+      BASELINE_RUN_ID: '30068283053' # Recover the successful verified PR9 L2 static-shell run.
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23' # Pin the exact verified baseline artifact.
+      OUT: 'build/zhaqing-prestress-truss-formfind' # Keep every generated input, result and receipt under one evidence root.
+    steps: # Execute baseline recovery, solver installation, numerical sweep and evidence preservation in order.
+      - name: Checkout tested source # Recover exactly the revision being validated.
+        uses: actions/checkout@v4 # Use the maintained GitHub checkout action.
+        with: # Freeze checkout behavior for reproducibility and least privilege.
+          fetch-depth: 1 # Fetch only the tested revision.
+          persist-credentials: false # Prevent numerical commands from inheriting repository write credentials.
+      - name: Recover verified PR9 L2 baseline # Reuse the successful bridge deck without regenerating topology, mesh, supports or loads.
+        uses: actions/download-artifact@v4 # Recover immutable prior-run evidence through GitHub Actions.
+        with: # Pin the exact artifact, repository and workflow run.
+          name: ${{ env.BASELINE_ARTIFACT }} # Select the frozen verified baseline artifact.
+          path: recovered-baseline # Extract the baseline into an isolated working directory.
+          github-token: ${{ github.token }} # Authenticate the cross-run artifact read.
+          repository: Hiram-test/model # Read from the same bridge-model repository.
+          run-id: ${{ env.BASELINE_RUN_ID }} # Pin the exact successful baseline workflow run.
+      - name: Install CalculiX # Install the same open-source finite-element solver family used by PR9.
+        shell: bash # Execute package installation with strict Bash semantics.
+        run: | # Enable Ubuntu Universe, install ccx and verify the executable.
+          set -euxo pipefail # Stop immediately on package or shell failures.
+          sudo apt-get update # Refresh Ubuntu package metadata.
+          sudo apt-get install -y --no-install-recommends software-properties-common # Install repository-management support.
+          sudo add-apt-repository -y universe # Enable the repository containing calculix-ccx.
+          sudo apt-get update # Refresh package metadata after enabling Universe.
+          sudo apt-get install -y --no-install-recommends calculix-ccx # Install CalculiX CrunchiX.
+          command -v ccx # Require a resolvable solver executable.
+      - name: Run direct nonlinear form-finding sweep # Co-ramp cable/hanger contraction and every unchanged verified permanent load for five prestress scales.
+        shell: bash # Execute syntax validation and CalculiX under strict Bash semantics.
+        run: | # Locate the immutable LC01 deck and run the bounded form-finding family.
+          set -euxo pipefail # Fail on missing inputs, syntax errors or absence of a clean completed equilibrium.
+          mkdir -p "$OUT" # Create the evidence root before numerical execution.
+          base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact verified PR9 L2 dead-load deck.
+          test -s "$base" # Require a nonempty immutable baseline input.
+          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/truss_thermal_formfind.py # Reject Python syntax errors before launching the solver.
+          python3 automation/zhaqing_prestress/truss_thermal_formfind.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute the five-scale direct nonlinear completed-state form-finding sweep.
+      - name: Preserve provenance # Record exact source and solver environment after success or failure.
+        if: always() # Preserve provenance for rejected and accepted scale families.
+        shell: bash # Use deterministic text diagnostics.
+        run: | # Write source and environment evidence beside the numerical receipts.
+          set +e # Continue metadata collection if an optional diagnostic is unavailable.
+          mkdir -p "$OUT/provenance" # Ensure the provenance directory exists after every upstream outcome.
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt" # Record the exact tested source commit SHA.
+          uname -a > "$OUT/provenance/environment.txt" # Record runner kernel and architecture.
+          dpkg-query -W calculix-ccx >> "$OUT/provenance/environment.txt" 2>&1 || true # Record the installed CalculiX package version when available.
+      - name: Upload complete form-finding evidence # Preserve every generated INP, solver output, convergence trace and comparison receipt.
+        if: always() # Upload partial evidence even when no scale is accepted.
+        uses: actions/upload-artifact@v4 # Store the complete numerical package in GitHub Actions artifact storage.
+        with: # Name and retain the evidence deterministically.
+          name: zhaqing-prestress-truss-formfind-${{ github.sha }} # Bind the artifact to the exact tested source revision.
+          path: build/zhaqing-prestress-truss-formfind # Upload every numerical and provenance file from the bounded sweep.
+          if-no-files-found: error # Treat missing numerical evidence as an explicit workflow error.
+          retention-days: 30 # Retain the research-baseline evidence for downstream AFEM integration.
+          compression-level: 6 # Use moderate compression for CalculiX field-result files.
