@@ -1,30 +1,28 @@
-name: Zhaqing balanced prestress load transfer # Validate an exactly balanced native-prestress initialization before transfer to verified permanent loads.
+name: Zhaqing balanced prestress load transfer # Validate constitutive cable prestress built from zero strain before transfer to verified permanent loads.
 on: # Define branch, child-PR and manual execution triggers for the isolated diagnostic.
   push: # Run automatically when the dedicated research branch changes this diagnostic.
     branches: # Restrict automatic execution to the reversible prestress branch.
       - agent/zhaqing-prestress-isolation # Execute only the dedicated Zhaqing prestress branch.
     paths: # Trigger only this workflow and its direct source dependencies.
       - '.github/workflows/zhaqing-prestress-balanced-transfer.yml' # Re-run when this workflow changes.
-      - 'automation/zhaqing_prestress/balanced_transfer_v2.py' # Re-run when the balanced-transfer diagnostic changes.
-      - 'automation/zhaqing_prestress/balanced_transfer_controlled.py' # Re-run when the narrowly controlled transfer wrapper changes.
+      - 'automation/zhaqing_prestress/balanced_thermal_transfer.py' # Re-run when the constitutive prestress transfer changes.
+      - 'automation/zhaqing_prestress/balanced_transfer_v2.py' # Re-run when shared verified-load and support parsing changes.
       - 'automation/zhaqing_prestress/prestress_isolation.py' # Re-run when the shared baseline parser or CalculiX runner changes.
       - 'automation/zhaqing_prestress/elementwise_prestress.py' # Re-run when mechanics-derived prestress targets change.
-      - 'automation/zhaqing_prestress/initial_stress_prestress.py' # Re-run when global initial-stress tensor conversion changes.
   pull_request: # Run the same diagnostic on the child PR so its evidence is visible through PR workflow inspection.
     branches: # Restrict the comparison base to the original Zhaqing PR9 head branch.
       - agent/zhaqing-freecad-cad003 # Compare only the isolated prestress intervention against the frozen PR9 branch.
     paths: # Trigger the child-PR calculation only for this diagnostic and its direct dependencies.
       - '.github/workflows/zhaqing-prestress-balanced-transfer.yml' # Validate workflow changes inside the child PR.
-      - 'automation/zhaqing_prestress/balanced_transfer_v2.py' # Validate balanced-transfer implementation changes inside the child PR.
-      - 'automation/zhaqing_prestress/balanced_transfer_controlled.py' # Validate the minimal residual-control wrapper inside the child PR.
+      - 'automation/zhaqing_prestress/balanced_thermal_transfer.py' # Validate constitutive prestress-transfer changes inside the child PR.
+      - 'automation/zhaqing_prestress/balanced_transfer_v2.py' # Validate shared support/load parser changes inside the child PR.
       - 'automation/zhaqing_prestress/prestress_isolation.py' # Validate shared baseline-parser and solver-runner changes inside the child PR.
-      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Validate prestress-target changes inside the child PR.
-      - 'automation/zhaqing_prestress/initial_stress_prestress.py' # Validate native-stress tensor conversion changes inside the child PR.
+      - 'automation/zhaqing_prestress/elementwise_prestress.py' # Validate mechanics-derived prestress-target changes inside the child PR.
   workflow_dispatch: # Permit an explicit rerun without source mutation.
 permissions: # Grant only read access required for source checkout and verified artifact recovery.
   contents: read # Allow checkout of the tested source revision.
   actions: read # Allow download of the successful verified PR9 L2 artifact.
-jobs: # Define one deterministic balanced-transfer nonlinear diagnostic job.
+jobs: # Define one deterministic constitutive-prestress nonlinear diagnostic job.
   solve: # Generate, solve, audit and preserve the completed-state prestress diagnostic.
     runs-on: ubuntu-22.04 # Match the CalculiX-compatible Ubuntu family used by the original PR9 workflows.
     timeout-minutes: 45 # Bound the two-step nonlinear diagnostic and evidence packaging.
@@ -56,15 +54,15 @@ jobs: # Define one deterministic balanced-transfer nonlinear diagnostic job.
           sudo apt-get update # Refresh metadata after enabling Universe.
           sudo apt-get install -y --no-install-recommends calculix-ccx # Install CalculiX CrunchiX.
           command -v ccx # Require the solver executable on PATH.
-      - name: Run balanced prestress transfer # Establish exact free-DOF prestress balance and then ramp to the unchanged verified permanent-load state.
+      - name: Run balanced constitutive prestress transfer # Build cable tension by proportional contraction and balancing loads, then transfer to unchanged verified permanent loading.
         shell: bash # Execute syntax validation and nonlinear solution under strict Bash semantics.
-        run: | # Locate the verified baseline and run the single scale-1.18 diagnostic with the minimal FIELD adjustment.
+        run: | # Locate the verified baseline and run the scale-1.18 constitutive prestress diagnostic.
           set -euxo pipefail # Fail on missing inputs, syntax errors or an unqualified nonlinear result.
           mkdir -p "$OUT" # Create the numerical evidence root before solver execution.
           base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)" # Locate the exact verified PR9 L2 dead-load deck.
           test -s "$base" # Require a nonempty immutable baseline input.
-          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/initial_stress_prestress.py automation/zhaqing_prestress/balanced_transfer_v2.py automation/zhaqing_prestress/balanced_transfer_controlled.py # Reject Python syntax errors before launching CalculiX.
-          python3 automation/zhaqing_prestress/balanced_transfer_controlled.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute the physically balanced transfer while changing only Rn from 0.005 to 0.0051 in step two.
+          python3 -m py_compile automation/zhaqing_prestress/prestress_isolation.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/balanced_transfer_v2.py automation/zhaqing_prestress/balanced_thermal_transfer.py # Reject Python syntax errors before launching CalculiX.
+          python3 automation/zhaqing_prestress/balanced_thermal_transfer.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" # Execute zero-to-prestress constitutive loading followed by prestress-to-dead-load transfer.
       - name: Preserve provenance # Record exact source and solver environment after success or failure.
         if: always() # Preserve provenance for rejected nonlinear diagnostics as well as successful ones.
         shell: bash # Use deterministic text diagnostics for environment evidence.
