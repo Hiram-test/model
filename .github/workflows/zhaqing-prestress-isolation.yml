@@ -1,11 +1,17 @@
 name: Zhaqing L2 prestress isolation calibration # Identify the isolated prestress validation workflow.
-on: # Define explicit branch and manual workflow triggers.
+on: # Define explicit branch, pull-request and manual workflow triggers.
   push: # Run automatically whenever the isolation branch changes relevant files.
     branches: # Restrict automatic execution to the reversible research branch.
       - agent/zhaqing-prestress-isolation # Execute only the dedicated prestress-isolation branch.
     paths: # Avoid unrelated repository changes triggering expensive finite-element solves.
       - '.github/workflows/zhaqing-prestress-isolation.yml' # Re-run when this workflow changes.
       - 'automation/zhaqing_prestress/**' # Re-run when the prestress calibration implementation changes.
+  pull_request: # Run the same validation as an isolated child PR of the original Zhaqing PR9 branch.
+    branches: # Restrict the comparison base to the existing PR9 head branch.
+      - agent/zhaqing-freecad-cad003 # Compare only the new prestress intervention against the frozen PR9 head.
+    paths: # Trigger only when the isolation implementation or its workflow changes.
+      - '.github/workflows/zhaqing-prestress-isolation.yml' # Validate workflow edits inside the child PR.
+      - 'automation/zhaqing_prestress/**' # Validate prestress-calibration implementation edits inside the child PR.
   workflow_dispatch: # Permit an explicit manual rerun without changing source files.
 permissions: # Grant only the read permissions required to recover the verified baseline artifact.
   contents: read # Allow checkout of the immutable repository source.
