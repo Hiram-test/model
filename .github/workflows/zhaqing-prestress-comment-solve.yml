@@ -1,0 +1,94 @@
+name: Zhaqing prestress comment solve # Execute the force-found PR9 prestress model on demand from a pull-request comment.
+on: # Use an event that is generated independently from repository-content writes.
+  issue_comment: # Listen to top-level issue and pull-request comments on the default branch workflow definition.
+    types: [created] # Start only when a new comment is created.
+permissions: # Grant the minimum permissions required to read artifacts and report the numerical result back to the PR.
+  contents: read # Permit checkout of the prestress implementation branch.
+  actions: read # Permit download of the previously validated PR9 L2 baseline artifact.
+  issues: write # Permit the workflow to publish its solver result as a PR conversation comment.
+  pull-requests: write # Permit the workflow token to address the triggering pull request explicitly.
+jobs: # Define one isolated CalculiX solve job.
+  solve: # Generate and solve the completed-state force-found prestress model.
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/run-zhaqing-prestress') }} # Ignore every comment except the explicit prestress solve command on a pull request.
+    runs-on: ubuntu-22.04 # Match the Linux family used by the validated PR9 CalculiX baseline.
+    timeout-minutes: 45 # Bound installation and nonlinear solve runtime while allowing conservative increments.
+    steps: # Execute checkout, baseline recovery, generation, solve, parsing, artifact upload, and reporting sequentially.
+      - name: Checkout prestress branch # Read the current force-found generator that the user wants validated.
+        uses: actions/checkout@v4 # Use GitHub's standard checkout action.
+        with: # Configure checkout to retrieve the dedicated repair branch rather than the default branch.
+          ref: agent/zhaqing-prestress-calibration-run # Solve the current prestress implementation branch explicitly.
+          fetch-depth: 1 # Fetch only the branch head needed by this numerical run.
+          persist-credentials: false # Keep the numerical runner read-only with respect to repository content.
+      - name: Install CalculiX # Install the same Ubuntu CalculiX package family used for PR9 static solutions.
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx # Install ccx plus its packaged sparse-solver dependencies.
+      - name: Download validated PR9 baseline # Recover the exact LC01_G_DEAD mother model that previously solved successfully.
+        env: # Limit GitHub token exposure to the artifact download command.
+          GH_TOKEN: ${{ github.token }} # Authenticate same-repository Actions artifact access.
+        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline # Download the archived validated L2 bridge package without regenerating geometry.
+      - name: Generate force-found prestress INP # Convert solved main-cable and hanger forces into element-specific free-length contractions.
+        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && mkdir -p build && python3 automation/zhaqing_prestress_fix/run_prestress_calibration.py "$BASE" build/ZQ_PRESTRESS.inp # Preserve all baseline nodes, elements, supports, and dead loads while adding only prestress state and NLGEOM controls.
+      - name: Solve nonlinear completed state # Run CalculiX on the generated full three-dimensional bridge model.
+        id: solver # Expose the raw process status to later parsing and reporting steps.
+        continue-on-error: true # Preserve result files and logs even when nonlinear convergence fails.
+        shell: bash # Use Bash so the ccx exit code can be captured without suppressing evidence upload.
+        run: cd build && set +e && ccx -i ZQ_PRESTRESS > ZQ_PRESTRESS.stdout.log 2>&1; code=$?; echo "exit_code=$code" >> "$GITHUB_OUTPUT"; exit 0 # Execute ccx synchronously, store the full console trace, and retain its actual exit code.
+      - name: Parse numerical outcome # Extract convergence state, final step time, midspan displacement, and the dominant residual from CalculiX evidence.
+        if: always() # Parse whatever evidence exists regardless of solver success or failure.
+        env: # Pass immutable workflow metadata and captured solver status into the result parser.
+          SOLVER_EXIT: ${{ steps.solver.outputs.exit_code }} # Supply the actual CalculiX process exit code.
+          RUN_ID: ${{ github.run_id }} # Record the Actions run identifier so the result artifact can be retrieved later.
+          PR_NUMBER: ${{ github.event.issue.number }} # Record the triggering pull-request number in the result receipt.
+        run: python3 - <<'PY'
+          from pathlib import Path  # Read CalculiX DAT, STA, and console evidence with deterministic paths.
+          import json  # Serialize the numerical result for artifact and PR-comment reporting.
+          import os  # Read solver and workflow identifiers passed through environment variables.
+          import re  # Parse displacement tables, status records, and residual diagnostics robustly.
+          root = Path('build')  # Resolve the single numerical working directory produced by this workflow.
+          dat = root / 'ZQ_PRESTRESS.dat'  # Locate the CalculiX text result containing requested monitor-node displacements.
+          sta = root / 'ZQ_PRESTRESS.sta'  # Locate the CalculiX increment-status history used to verify full step completion.
+          log = root / 'ZQ_PRESTRESS.stdout.log'  # Locate the complete solver console trace used for failure diagnostics.
+          uz = None  # Initialize the final node-291 vertical displacement as unavailable until a matching table row is parsed.
+          if dat.exists():  # Parse displacement output only when CalculiX produced the requested DAT file.
+              in_displacements = False  # Track whether the current DAT lines belong to a displacement table.
+              for line in dat.read_text(errors='ignore').splitlines():  # Scan all tables so the last completed-state value supersedes earlier output.
+                  if 'displacements (vx,vy,vz)' in line.lower():  # Detect the start of a standard CalculiX nodal displacement table.
+                      in_displacements = True  # Enable row parsing immediately after the displacement-table heading.
+                      continue  # Move directly to the first possible displacement row.
+                  if in_displacements and line.strip().lower().startswith('forces ('):  # Detect the following reaction-force table as the displacement-table terminator.
+                      in_displacements = False  # Stop interpreting later numeric rows as displacement records.
+                  if in_displacements:  # Parse only lines inside an active displacement table.
+                      match = re.match(r'\s*(\d+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$', line)  # Match a node identifier and three displacement components.
+                      if match and int(match.group(1)) == 291:  # Select the validated centerline midspan monitoring node.
+                          uz = float(match.group(4))  # Store the global vertical displacement in millimetres from the latest table encountered.
+          sta_rows = []  # Accumulate numeric status records while ignoring the STA heading text.
+          if sta.exists():  # Parse the increment history only when CalculiX generated an STA file.
+              for line in sta.read_text(errors='ignore').splitlines():  # Inspect every status line in chronological order.
+                  fields = line.split()  # Tokenize the fixed-column status record using whitespace.
+                  if fields and fields[0].isdigit() and len(fields) >= 7:  # Retain only numeric increment records with the expected status fields.
+                      sta_rows.append(fields)  # Preserve the complete record for final-time and last-attempt reporting.
+          final_step_time = float(sta_rows[-1][5]) if sta_rows else None  # Read normalized step time from the last available status record.
+          log_text = log.read_text(errors='ignore') if log.exists() else ''  # Load the complete solver trace or an empty fallback when execution failed early.
+          residual_matches = re.findall(r'largest residual force=\s*([-+0-9.Ee]+)\s+in node\s+(\d+)\s+and dof\s+(\d+)', log_text, re.I)  # Collect all nonlinear residual diagnostics emitted by CalculiX.
+          last_residual = {'forceN': float(residual_matches[-1][0]), 'node': int(residual_matches[-1][1]), 'dof': int(residual_matches[-1][2])} if residual_matches else None  # Retain the final reported residual for targeted diagnosis.
+          exit_code = int(os.environ.get('SOLVER_EXIT') or 999)  # Normalize the captured ccx process status to an integer.
+          clean = exit_code == 0 and final_step_time is not None and final_step_time >= 0.999999 and '*ERROR' not in log_text.upper()  # Require normal process exit, full step completion, and no explicit CalculiX error.
+          result = {'marker': 'ZHAQING_PRESTRESS_RESULT', 'runId': int(os.environ['RUN_ID']), 'pr': int(os.environ['PR_NUMBER']), 'solverExitCode': exit_code, 'converged': clean, 'finalStepTime': final_step_time, 'midspanU3Mm': uz, 'lastResidual': last_residual, 'datBytes': dat.stat().st_size if dat.exists() else 0, 'frdBytes': (root / 'ZQ_PRESTRESS.frd').stat().st_size if (root / 'ZQ_PRESTRESS.frd').exists() else 0}  # Assemble the complete machine-readable full-bridge solve receipt.
+          (root / 'solve_summary.json').write_text(json.dumps(result, indent=2))  # Save the numerical receipt beside the raw CalculiX files for artifact download.
+          body = 'ZHAQING_PRESTRESS_RESULT\n```json\n' + json.dumps(result, indent=2) + '\n```\n'  # Format an unambiguous marker and JSON payload for retrieval through the PR conversation API.
+          (root / 'result_comment.md').write_text(body)  # Persist the exact PR comment body before publishing it.
+          print(json.dumps(result, indent=2))  # Mirror the receipt into the Actions log for redundant auditability.
+          PY
+      - name: Upload full solver evidence # Preserve the generated INP plus DAT, FRD, STA, CVG, console log, and parsed numerical receipt.
+        if: always() # Upload all available files even after nonlinear failure so the next repair can target the actual residual.
+        uses: actions/upload-artifact@v4 # Store the raw full-bridge CalculiX evidence as a downloadable Actions artifact.
+        with: # Configure artifact identity and retention.
+          name: zhaqing-prestress-comment-solve-${{ github.run_id }} # Use the run identifier published in the result comment for deterministic retrieval.
+          path: build # Upload the entire numerical working directory without filtering away failure evidence.
+          if-no-files-found: error # Treat absence of generated numerical files as an infrastructure failure.
+          retention-days: 30 # Keep the solve long enough for AFEM mother-model handoff and independent checking.
+          compression-level: 6 # Apply standard compression to mixed ASCII and FRD output.
+      - name: Report result to pull request # Publish the run identifier and numerical outcome where the connector can retrieve it synchronously.
+        if: always() # Report both success and failure so no solver run disappears behind CI infrastructure.
+        env: # Expose the workflow token only to the GitHub CLI comment operation.
+          GH_TOKEN: ${{ github.token }} # Authenticate the same-repository PR comment write.
+        run: test -s build/result_comment.md && gh pr comment "${{ github.event.issue.number }}" --repo "$GITHUB_REPOSITORY" --body-file build/result_comment.md # Return the exact solve receipt to the triggering PR conversation.
