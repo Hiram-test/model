@@ -2,7 +2,7 @@
 import initial_stress_prestress as direct  # Reuse the audited nonlinear scale sweep, result parser and geometry-based selector.
 import elementwise_prestress as forces  # Reuse the mechanics-derived segment-wise main-cable and hanger target-force construction.
 
-MAIN_CABLE_AREA_MM2 = direct.force_model.MAIN_CABLE_AREA_MM2  # Preserve exactly the equal area already used by the verified PR9 B31 main-cable section.
+MAIN_CABLE_AREA_MM2 = forces.MAIN_AREA_MM2  # Preserve exactly the equal area already used by the verified PR9 B31 main-cable section.
 
 
 def truss_cable_block(base_text: str, scale: float) -> tuple[str, int, dict]:  # Build a direct-prestress completed-state model with only MAIN_CABLES changed from beam to axial truss elements.
