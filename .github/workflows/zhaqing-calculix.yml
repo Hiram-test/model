@@ -1,114 +1,113 @@
-name: Zhaqing force-found completed-state prestress solve
-on:
-  push:
-    branches:
-      - agent/zhaqing-freecad-cad003
-    paths:
-      - '.github/workflows/zhaqing-calculix.yml'
-  workflow_dispatch:
-permissions:
-  contents: write
-  actions: read
-jobs:
-  solve:
-    name: Solve force-found completed-state prestress on validated L2 topology
-    runs-on: ubuntu-22.04
-    timeout-minutes: 45
-    steps:
-      - name: Checkout result branch
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-          persist-credentials: true
-      - name: Recover force-found generator
-        run: git fetch --depth=1 origin agent/zhaqing-prestress-calibration-run && git show FETCH_HEAD:automation/zhaqing_prestress_fix/run_prestress_calibration.py > /tmp/zhaqing_forcefound.py
-      - name: Install CalculiX
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx
-      - name: Download validated PR9 L2 baseline
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline
-      - name: Generate and solve force-found model
-        id: solver
-        continue-on-error: true
-        run: |
-          set +e
-          mkdir -p build/zhaqing-forcefound
-          BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)"
-          test -s "$BASE" || exit 90
-          python3 /tmp/zhaqing_forcefound.py "$BASE" build/zhaqing-forcefound/ZQ_PRESTRESS.inp || exit 91
-          cd build/zhaqing-forcefound
-          ccx -i ZQ_PRESTRESS > ZQ_PRESTRESS.stdout.log 2>&1
-          code=$?
-          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
-          exit 0
-      - name: Parse force-found solve
-        if: always()
-        env:
-          SOLVER_EXIT: ${{ steps.solver.outputs.exit_code }}
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          import json
-          import os
-          import re
-          root = Path('build/zhaqing-forcefound')
-          dat = root / 'ZQ_PRESTRESS.dat'
-          sta = root / 'ZQ_PRESTRESS.sta'
-          log = root / 'ZQ_PRESTRESS.stdout.log'
-          uz = None
-          if dat.exists():
-              active = False
-              for line in dat.read_text(errors='ignore').splitlines():
-                  if 'displacements (vx,vy,vz)' in line.lower():
-                      active = True
-                      continue
-                  if active and line.strip().lower().startswith('forces ('):
-                      active = False
-                  if active:
-                      m = re.match(r'\s*(\d+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$', line)
-                      if m and int(m.group(1)) == 291:
-                          uz = float(m.group(4))
-          accepted = []
-          if sta.exists():
-              for line in sta.read_text(errors='ignore').splitlines():
-                  f = line.split()
-                  if len(f) >= 7 and f[0] == '1' and 'U' not in f[2]:
-                      try:
-                          accepted.append(float(f[5]))
-                      except ValueError:
-                          pass
-          text = log.read_text(errors='ignore') if log.exists() else ''
-          residuals = re.findall(r'largest residual force=\s*([-+0-9.Ee]+)\s+in node\s+(\d+)\s+and dof\s+(\d+)', text, re.I)
-          last = {'forceN': float(residuals[-1][0]), 'node': int(residuals[-1][1]), 'dof': int(residuals[-1][2])} if residuals else None
-          final_time = max(accepted) if accepted else None
-          code = int(os.environ.get('SOLVER_EXIT') or 999)
-          converged = code == 0 and final_time is not None and final_time >= 0.999999 and '*ERROR' not in text.upper()
-          result = {'status': 'PASS' if converged else 'FAIL', 'solverExitCode': code, 'converged': converged, 'finalStepTime': final_time, 'midspanU3Mm': uz, 'lastResidual': last, 'HMainCableN': 716150.2048515677}
-          (root / 'solve_summary.json').write_text(json.dumps(result, indent=2))
-          print(json.dumps(result, indent=2))
-          PY
-      - name: Upload force-found evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: zhaqing-forcefound-prestress-${{ github.sha }}
-          path: build/zhaqing-forcefound
-          if-no-files-found: error
-          retention-days: 30
-          compression-level: 6
-      - name: Publish force-found result to branch
-        if: always()
-        run: |
-          set -e
-          mkdir -p automation/zhaqing_calculix/prestress_forcefound_result
-          cp build/zhaqing-forcefound/solve_summary.json automation/zhaqing_calculix/prestress_forcefound_result/solve_summary.json
-          cp build/zhaqing-forcefound/ZQ_PRESTRESS.inp automation/zhaqing_calculix/prestress_forcefound_result/ZQ_PRESTRESS.inp
-          if test -s build/zhaqing-forcefound/ZQ_PRESTRESS.dat; then cp build/zhaqing-forcefound/ZQ_PRESTRESS.dat automation/zhaqing_calculix/prestress_forcefound_result/ZQ_PRESTRESS.dat; fi
-          if test -s build/zhaqing-forcefound/ZQ_PRESTRESS.sta; then cp build/zhaqing-forcefound/ZQ_PRESTRESS.sta automation/zhaqing_calculix/prestress_forcefound_result/ZQ_PRESTRESS.sta; fi
-          cp build/zhaqing-forcefound/ZQ_PRESTRESS.stdout.log automation/zhaqing_calculix/prestress_forcefound_result/ZQ_PRESTRESS.stdout.log
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add automation/zhaqing_calculix/prestress_forcefound_result
-          git diff --cached --quiet || git commit -m "publish Zhaqing force-found prestress result"
-          git push origin HEAD:agent/zhaqing-freecad-cad003
+name: Zhaqing anisotropic completed-state prestress solve # Run the axial-only prestress repair on the validated L2 bridge topology.
+on: # Define the existing branch-push execution path used reliably by PR9.
+  push: # Execute whenever this temporary solver workflow changes on the PR9 branch.
+    branches: # Restrict numerical repair work to the existing experimental branch.
+      - agent/zhaqing-freecad-cad003 # Keep the original main branch isolated from the nonlinear experiment.
+    paths: # Avoid unrelated push runs during the prestress repair.
+      - '.github/workflows/zhaqing-calculix.yml' # Trigger when this exact solver workflow changes.
+      - 'automation/zhaqing_calculix/prestress_aniso_generate.py' # Trigger when the directional prestress generator changes.
+  workflow_dispatch: # Retain the original manual execution capability for audit reruns.
+permissions: # Grant only the repository access needed to publish numerical evidence back to this temporary branch.
+  contents: write # Allow the workflow to commit the final solve receipt and selected INP back to the experimental branch.
+  actions: read # Allow retrieval of the immutable validated PR9 L2 baseline artifact.
+jobs: # Define one deterministic nonlinear solve job.
+  solve: # Generate, solve, parse, archive, and publish the axial-only force-found state.
+    name: Solve axial-only force-found prestress on validated L2 topology # Give the numerical job an explicit engineering purpose.
+    runs-on: ubuntu-22.04 # Match the operating-system family used by the validated PR9 CalculiX baseline.
+    timeout-minutes: 45 # Bound installation and nonlinear solution time while allowing conservative cutbacks.
+    steps: # Execute the numerical workflow in a fixed auditable order.
+      - name: Checkout exact calibration commit # Materialize the branch commit containing the directional prestress generator.
+        uses: actions/checkout@v4 # Use GitHub's standard checkout action.
+        with: # Configure checkout for evidence publication after the solve.
+          fetch-depth: 1 # Fetch only the exact commit needed for this deterministic numerical run.
+          persist-credentials: true # Retain the workflow credential solely for publishing the generated result files back to this branch.
+      - name: Install CalculiX # Install the same packaged CalculiX family used by the successful PR9 baseline.
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx # Install ccx and its sparse-solver dependencies from Ubuntu repositories.
+      - name: Download validated PR9 L2 baseline # Recover the already-solved mother model rather than regenerate bridge topology.
+        env: # Limit the Actions token use to the same-repository artifact retrieval command.
+          GH_TOKEN: ${{ github.token }} # Authenticate GitHub CLI for the immutable baseline artifact download.
+        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline # Download the exact LC01_G_DEAD model that previously solved successfully.
+      - name: Generate and solve axial-only prestress model # Apply directional free-length contractions and solve the completed bridge state under NLGEOM.
+        id: solver # Preserve the actual ccx exit status for the parser without discarding failure evidence.
+        continue-on-error: true # Allow parsing and evidence publication even when the nonlinear solve still exposes a defect.
+        run: | # Run generation and CalculiX in one controlled working directory.
+          set +e # Capture numerical failure explicitly instead of terminating before result publication.
+          mkdir -p build/zhaqing-aniso # Create an isolated working directory for the final directional prestress candidate.
+          BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" # Locate the immutable validated PR9 L2 dead-load mother model inside the artifact.
+          test -s "$BASE" || exit 90 # Refuse to run if the validated mother-model input is missing.
+          python3 automation/zhaqing_calculix/prestress_aniso_generate.py "$BASE" build/zhaqing-aniso/ZQ_PRESTRESS_ANISO.inp || exit 91 # Generate the axial-only force-found input without changing validated topology or permanent actions.
+          cd build/zhaqing-aniso # Enter the isolated numerical directory so all CalculiX files share one deterministic basename.
+          ccx -i ZQ_PRESTRESS_ANISO > ZQ_PRESTRESS_ANISO.stdout.log 2>&1 # Execute the full three-dimensional nonlinear bridge solve and retain the complete console trace.
+          code=$? # Capture the native CalculiX process exit status before returning control to the workflow.
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT" # Expose the exact solver status to the machine-readable result parser.
+          exit 0 # Continue to parsing and evidence publication regardless of the raw solver outcome.
+      - name: Parse anisotropic completed-state solve # Extract full-step convergence, bridge midspan displacement, and final residual evidence.
+        if: always() # Parse any numerical evidence produced even after a failed nonlinear attempt.
+        env: # Supply the captured native solver exit code to the parser.
+          SOLVER_EXIT: ${{ steps.solver.outputs.exit_code }} # Preserve the exact CalculiX process status in the final receipt.
+        run: | # Execute a deterministic parser over DAT, STA, and console output.
+          python3 - <<'PY' # Start an inline Python parser whose every executable line is documented.
+          from pathlib import Path  # Resolve the deterministic numerical evidence paths.
+          import json  # Serialize the final completed-state solve receipt.
+          import os  # Read the captured native CalculiX exit status from the workflow environment.
+          import re  # Parse displacement tables and nonlinear residual diagnostics from CalculiX text output.
+          root = Path('build/zhaqing-aniso')  # Resolve the isolated directional prestress numerical directory.
+          dat = root / 'ZQ_PRESTRESS_ANISO.dat'  # Locate requested nodal displacement and element result text output.
+          sta = root / 'ZQ_PRESTRESS_ANISO.sta'  # Locate the nonlinear increment-status history used to verify full step completion.
+          log = root / 'ZQ_PRESTRESS_ANISO.stdout.log'  # Locate the complete CalculiX console trace for convergence diagnostics.
+          uz = None  # Initialize bridge midspan vertical displacement as unavailable until parsed from a completed result table.
+          if dat.exists():  # Parse nodal displacement output only when CalculiX generated the DAT result file.
+              active = False  # Track whether the current DAT lines belong to a nodal displacement table.
+              for line in dat.read_text(errors='ignore').splitlines():  # Scan every result table so the final accepted state supersedes earlier increments.
+                  if 'displacements (vx,vy,vz)' in line.lower():  # Detect the standard CalculiX displacement-table heading.
+                      active = True  # Enable numeric row parsing after the displacement heading.
+                      continue  # Advance directly to the first possible displacement row.
+                  if active and line.strip().lower().startswith('forces ('):  # Detect the following reaction-force table as the displacement-table terminator.
+                      active = False  # Stop interpreting subsequent numeric rows as displacements.
+                  if active:  # Parse numeric records only inside an active displacement table.
+                      match = re.match(r'\s*(\d+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$', line)  # Match one node identifier and three global displacement components.
+                      if match and int(match.group(1)) == 291:  # Select the validated bridge-deck centerline midspan monitoring node.
+                          uz = float(match.group(4))  # Store its final available global vertical displacement in millimetres.
+          accepted = []  # Accumulate normalized step times for successfully accepted nonlinear increments.
+          if sta.exists():  # Parse the increment history only when CalculiX generated a status file.
+              for line in sta.read_text(errors='ignore').splitlines():  # Inspect every chronological status record.
+                  fields = line.split()  # Tokenize the compact fixed-column record using whitespace.
+                  if len(fields) >= 7 and fields[0] == '1' and 'U' not in fields[2]:  # Retain only accepted increment rows belonging to analysis step one.
+                      try:  # Guard numeric conversion against nonstandard status diagnostics.
+                          accepted.append(float(fields[5]))  # Store normalized step time for this accepted increment.
+                      except ValueError:  # Ignore malformed lines that resemble status records but contain nonnumeric text.
+                          pass  # Continue scanning later valid status records without altering numerical evidence.
+          text = log.read_text(errors='ignore') if log.exists() else ''  # Load the complete solver trace or an empty fallback after very early execution failure.
+          residuals = re.findall(r'largest residual force=\s*([-+0-9.Ee]+)\s+in node\s+(\d+)\s+and dof\s+(\d+)', text, re.I)  # Collect all reported nonlinear force residual maxima.
+          last_residual = {'forceN': float(residuals[-1][0]), 'node': int(residuals[-1][1]), 'dof': int(residuals[-1][2])} if residuals else None  # Preserve the final residual location and magnitude for audit or repair.
+          final_step_time = max(accepted) if accepted else None  # Record the furthest normalized completed-state time actually accepted by CalculiX.
+          exit_code = int(os.environ.get('SOLVER_EXIT') or 999)  # Normalize the captured native solver status to an integer.
+          converged = exit_code == 0 and final_step_time is not None and final_step_time >= 0.999999 and '*ERROR' not in text.upper()  # Require clean process exit, full step completion, and no explicit fatal CalculiX error.
+          result = {'status': 'PASS' if converged else 'FAIL', 'solverExitCode': exit_code, 'converged': converged, 'finalStepTime': final_step_time, 'midspanU3Mm': uz, 'lastResidual': last_residual, 'HMainCableN': 716150.2048515677, 'prestressMethod': 'AXIAL_ANISOTROPIC_FREE_LENGTH'}  # Assemble the complete machine-readable completed-state receipt.
+          (root / 'solve_summary.json').write_text(json.dumps(result, indent=2))  # Persist the receipt beside the raw numerical evidence.
+          print(json.dumps(result, indent=2))  # Mirror the same receipt into the GitHub Actions log for redundant auditability.
+          PY # End the documented inline Python parser.
+      - name: Upload anisotropic solve evidence # Preserve the generated INP and all raw CalculiX result/status/log files.
+        if: always() # Upload evidence after both successful and failed nonlinear states.
+        uses: actions/upload-artifact@v4 # Store the complete numerical package as an immutable Actions artifact.
+        with: # Configure artifact identity and retention policy.
+          name: zhaqing-aniso-prestress-${{ github.sha }} # Bind the evidence package to the exact directional-prestress implementation commit.
+          path: build/zhaqing-aniso # Upload the complete isolated solver directory without filtering failure diagnostics.
+          if-no-files-found: error # Treat missing numerical files as infrastructure failure.
+          retention-days: 30 # Keep the result package available for downstream AFEM mother-model handoff.
+          compression-level: 6 # Apply standard compression to mixed ASCII and FRD numerical files.
+      - name: Publish anisotropic result to branch # Make the numerical result directly retrievable without depending on push-run discovery APIs.
+        if: always() # Publish any available result and diagnostic files after the solve.
+        run: | # Copy solver evidence to a stable repository path and commit it once.
+          set -e # Stop publication immediately if required numerical evidence is unexpectedly missing.
+          mkdir -p automation/zhaqing_calculix/prestress_aniso_result # Create a stable result directory on the temporary PR9 branch.
+          cp build/zhaqing-aniso/solve_summary.json automation/zhaqing_calculix/prestress_aniso_result/solve_summary.json # Publish the machine-readable convergence receipt.
+          cp build/zhaqing-aniso/ZQ_PRESTRESS_ANISO.inp automation/zhaqing_calculix/prestress_aniso_result/ZQ_PRESTRESS_ANISO.inp # Publish the exact generated nonlinear mother-model candidate.
+          if test -s build/zhaqing-aniso/ZQ_PRESTRESS_ANISO.dat; then cp build/zhaqing-aniso/ZQ_PRESTRESS_ANISO.dat automation/zhaqing_calculix/prestress_aniso_result/ZQ_PRESTRESS_ANISO.dat; fi # Publish requested text results when available.
+          if test -s build/zhaqing-aniso/ZQ_PRESTRESS_ANISO.sta; then cp build/zhaqing-aniso/ZQ_PRESTRESS_ANISO.sta automation/zhaqing_calculix/prestress_aniso_result/ZQ_PRESTRESS_ANISO.sta; fi # Publish nonlinear increment history when available.
+          cp build/zhaqing-aniso/ZQ_PRESTRESS_ANISO.stdout.log automation/zhaqing_calculix/prestress_aniso_result/ZQ_PRESTRESS_ANISO.stdout.log # Publish the complete console trace for independent convergence review.
+          git config user.name github-actions # Identify the automated numerical evidence publisher explicitly.
+          git config user.email github-actions@github.com # Use GitHub Actions' conventional non-personal commit identity.
+          git add automation/zhaqing_calculix/prestress_aniso_result # Stage only the directional prestress numerical evidence directory.
+          git diff --cached --quiet || git commit -m "publish Zhaqing anisotropic prestress result" # Create a result commit only when numerical evidence changed.
+          git push origin HEAD:agent/zhaqing-freecad-cad003 # Publish the result atomically back to the same temporary branch.
