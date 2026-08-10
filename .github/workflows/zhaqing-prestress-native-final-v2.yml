@@ -1,0 +1,60 @@
+name: Zhaqing native prestress final v2 # Run the repaired native-initial-stress completed-state solve without compiling the known legacy parser before its runtime one-line repair.
+on: # Trigger only this isolated final workflow on the prestress research branch.
+  push: # Use the proven branch-push execution path for remote CalculiX.
+    branches: # Restrict the full solve to the reversible prestress branch.
+      - agent/zhaqing-prestress-isolation # Keep the validated PR9 branch untouched.
+    paths: # Trigger only this workflow and the runtime repair wrapper.
+      - '.github/workflows/zhaqing-prestress-native-final-v2.yml' # Run when this final solver workflow is created or changed.
+      - 'automation/zhaqing_prestress/balanced_transfer_final.py' # Run when the force-found native-prestress wrapper changes.
+permissions: # Grant only baseline-artifact read and PR-result reporting permissions.
+  contents: read # Permit checkout of the exact tested branch revision.
+  actions: read # Permit recovery of the successful PR9 baseline artifact.
+  issues: write # Permit a completion marker to be posted to PR13.
+  pull-requests: write # Permit the workflow to address PR13 directly.
+jobs: # Define one full three-dimensional CalculiX job.
+  solve: # Recover the validated mother model, generate native prestress, solve, and preserve all evidence.
+    runs-on: ubuntu-22.04 # Match the solver environment used by the validated PR9 analyses.
+    timeout-minutes: 60 # Allow extended Newton iterations while bounding the final solve.
+    env: # Freeze the upstream baseline and local output path.
+      OUT: build/zhaqing-native-final-v2 # Store all generated and solver evidence under one deterministic root.
+    steps: # Execute checkout, baseline recovery, solver setup, native-prestress solve, artifact upload, and completion reporting.
+      - name: Checkout exact branch revision # Materialize the source revision being solved.
+        uses: actions/checkout@v4 # Use GitHub's maintained checkout action.
+        with: # Keep checkout shallow and read-only.
+          fetch-depth: 1 # Fetch only the tested revision.
+          persist-credentials: false # Prevent numerical commands from retaining repository write credentials.
+      - name: Recover validated PR9 L2 baseline # Download the exact static-shell mother model that previously solved successfully.
+        uses: actions/download-artifact@v4 # Recover immutable prior-run evidence directly.
+        with: # Pin artifact identity and source run.
+          name: verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23 # Select the validated PR9 L2 package.
+          path: recovered-baseline # Extract it into an isolated input directory.
+          github-token: ${{ github.token }} # Authenticate same-repository artifact access.
+          repository: Hiram-test/model # Read from the bridge-model repository.
+          run-id: '30068283053' # Pin the successful baseline run exactly.
+      - name: Install CalculiX # Install the same CrunchiX solver family used by previous bridge runs.
+        shell: bash # Use strict Bash semantics for package setup.
+        run: set -euxo pipefail; sudo apt-get update; sudo apt-get install -y --no-install-recommends software-properties-common; sudo add-apt-repository -y universe; sudo apt-get update; sudo apt-get install -y --no-install-recommends calculix-ccx; command -v ccx # Install and verify ccx in one deterministic shell command.
+      - name: Run repaired force-found native prestress # Let the wrapper repair the single historical parser typo before importing the native-prestress generator and launching CalculiX.
+        id: numerical # Preserve the numerical exit status for the completion marker.
+        continue-on-error: true # Keep all generated evidence available even if the nonlinear state is rejected.
+        shell: bash # Use Bash for exact baseline discovery and status capture.
+        run: set +e; mkdir -p "$OUT"; base="$(find recovered-baseline -type f -path '*/flat/LC01_G_DEAD.inp' | head -1)"; test -s "$base"; python3 -m py_compile automation/zhaqing_prestress/balanced_transfer_final.py automation/zhaqing_prestress/initial_stress_prestress.py automation/zhaqing_prestress/elementwise_prestress.py automation/zhaqing_prestress/prestress_isolation.py; python3 automation/zhaqing_prestress/balanced_transfer_final.py --base "$base" --output "$OUT" --ccx "$(command -v ccx)" > "$OUT/driver.stdout.log" 2>&1; code=$?; echo "exit_code=$code" >> "$GITHUB_OUTPUT"; exit 0 # Compile only valid pre-repair sources, execute the repair wrapper, solve the full bridge, and retain its actual qualification code.
+      - name: Preserve exact provenance # Record the tested revision and solver package beside the numerical output.
+        if: always() # Preserve provenance after both accepted and rejected solves.
+        shell: bash # Use deterministic text records.
+        run: set +e; mkdir -p "$OUT/provenance"; git rev-parse HEAD > "$OUT/provenance/source-commit.txt"; dpkg-query -W calculix-ccx > "$OUT/provenance/calculix-package.txt" 2>&1 || true # Record source and solver identity without altering numerical files.
+      - name: Upload complete native-prestress evidence # Preserve generated INP, DAT, FRD, STA, logs, summary, and provenance for direct inspection.
+        if: always() # Upload partial evidence even if the nonlinear gate rejects the state.
+        uses: actions/upload-artifact@v4 # Store the complete numerical directory as a downloadable artifact.
+        with: # Bind the artifact to this unique run.
+          name: zhaqing-native-final-v2-${{ github.run_id }} # Include the run ID in the artifact name for deterministic retrieval.
+          path: build/zhaqing-native-final-v2 # Upload every file generated by the final solve.
+          if-no-files-found: error # Treat absence of evidence as infrastructure failure.
+          retention-days: 30 # Retain the package for AFEM mother-model handoff.
+          compression-level: 6 # Use normal compression for mixed ASCII and FRD output.
+      - name: Publish completion marker to PR13 # Expose the unique run ID and process result through the connector-visible PR conversation.
+        if: always() # Report both success and failure so the remote solve cannot disappear silently.
+        env: # Expose the workflow token only to GitHub CLI reporting.
+          GH_TOKEN: ${{ github.token }} # Authenticate same-repository PR comment creation.
+        shell: bash # Format one compact completion message.
+        run: gh pr comment 13 --repo "$GITHUB_REPOSITORY" --body "ZHAQING_NATIVE_V2_RESULT runId=${{ github.run_id }} processExit=${{ steps.numerical.outputs.exit_code }} artifact=zhaqing-native-final-v2-${{ github.run_id }}" # Publish the exact run identifier needed to retrieve and inspect the solver evidence.
