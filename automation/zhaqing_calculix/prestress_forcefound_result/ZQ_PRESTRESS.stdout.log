@@ -1,0 +1,3406 @@
+
+************************************************************
+
+CalculiX Version 2.17, Copyright(C) 1998-2020 Guido Dhondt
+CalculiX comes with ABSOLUTELY NO WARRANTY. This is free
+software, and you are welcome to redistribute it under
+certain conditions, see gpl.htm
+
+************************************************************
+
+You are using an executable made on Thu Jul 23 21:43:50 CEST 2020
+
+  The numbers below are estimated upper bounds
+
+  number of:
+
+   nodes:        63923
+   elements:         1659
+   one-dimensional elements:          586
+   two-dimensional elements:          492
+   integration points per element:            8
+   degrees of freedom per node:            3
+   layers per element:            2
+
+   distributed facial loads:            0
+   distributed volumetric loads:            1
+   concentrated loads:         5229
+   single point constraints:        78138
+   multiple point constraints:       129361
+   terms in all multiple point constraints:       827905
+   tie constraints:            0
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:          831
+   terms in all sets:         8584
+
+   materials:          808
+   constants per material and temperature:            2
+   temperature points per material:            1
+   plastic data points per material:            0
+
+   orientations:          984
+   amplitudes:            4
+   data points in all amplitudes:            4
+   print requests:            8
+   transformations:            0
+   property cards:            0
+
+ *WARNING reading *STEP: parameter not recognized:
+          NAME=COMPLETED_STATE
+ *WARNING reading *STEP. Card image:
+          *STEP,NAME=COMPLETED_STATE,NLGEOM=YES,INC=10000
+
+ *INFO reading *STEP: nonlinear geometric
+       effects are turned on
+
+ *INFO: field control parameters set to:
+        ran =    5.3000000000000000E-003
+        can =    1.0000000000000000E-002
+        qa0 =    0.0000000000000000     
+        qau =    0.0000000000000000     
+        rap =    2.0000000000000000E-002
+         ea =    1.0000000000000001E-005
+        cae =    1.0000000000000000E-003
+        ral =    1.0000000000000000E-008
+ *WARNING reading *STATIC:
+          the minimum increment    1.0000000000000000E-010
+          is smaller then 1.e-6 times the 
+          step time;
+          the minimum increment is changed
+          to    9.9999999999999995E-007
+          which is the minimum of the initial
+          increment time and 1.e-6 times the step time
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ increment 1 attempt 1 
+ increment size= 1.000000e-04
+ sum of previous increments=0.000000e+00
+ actual step time=1.000000e-04
+ actual total time=1.000000e-04
+
+ iteration 1
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.137937
+ time avg. forc= 4.137937
+ largest residual force= 88.497773 in node 10275 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 1.612060e-01 in node 690 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.141518
+ time avg. forc= 4.141518
+ largest residual force= 938.680223 in node 1040 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 3.037664e-03 in node 780 and dof 3
+
+ no convergence
+
+ iteration 3
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.141503
+ time avg. forc= 4.141503
+ largest residual force= 935.584898 in node 1040 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 1.462780e-07 in node 683 and dof 3
+
+ no convergence
+
+ iteration 4
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.141503
+ time avg. forc= 4.141503
+ largest residual force= 935.583813 in node 1040 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 5.314987e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 5
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.141503
+ time avg. forc= 4.141503
+ largest residual force= 935.583813 in node 1040 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 7.279406e-11 in node 288 and dof 1
+
+ no convergence
+
+ iteration 6
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.141503
+ time avg. forc= 4.141503
+ largest residual force= 935.583813 in node 1040 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 5.314617e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 7
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.141503
+ time avg. forc= 4.141503
+ largest residual force= 935.583813 in node 1040 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 7.279597e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 8
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.141503
+ time avg. forc= 4.141503
+ largest residual force= 935.583813 in node 1040 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 5.314586e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 9
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.141503
+ time avg. forc= 4.141503
+ largest residual force= 935.583813 in node 1040 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 5.314752e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 10
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.141503
+ time avg. forc= 4.141503
+ largest residual force= 935.583813 in node 1040 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 7.279607e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 11
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 4.141503
+ time avg. forc= 4.141503
+ largest residual force= 935.583813 in node 1040 and dof 1
+ largest increment of disp= 1.612060e-01
+ largest correction to disp= 5.314945e-11 in node 288 and dof 2
+
+ divergence; the increment size is decreased to 2.500000e-05
+ the increment is reattempted
+
+ increment 1 attempt 2 
+ increment size= 2.500000e-05
+ sum of previous increments=0.000000e+00
+ actual step time=2.500000e-05
+ actual total time=2.500000e-05
+
+ iteration 1
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 1.034347
+ time avg. forc= 1.034347
+ largest residual force= 5.691270 in node 10275 and dof 1
+ largest increment of disp= 4.101600e-02
+ largest correction to disp= 4.101600e-02 in node 690 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 1.035462
+ time avg. forc= 1.035462
+ largest residual force= 234.684345 in node 1007 and dof 1
+ largest increment of disp= 4.101600e-02
+ largest correction to disp= 1.939624e-04 in node 683 and dof 3
+
+ no convergence
+
+ iteration 3
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 1.035461
+ time avg. forc= 1.035461
+ largest residual force= 234.489201 in node 1040 and dof 1
+ largest increment of disp= 4.101600e-02
+ largest correction to disp= 6.045041e-10 in node 780 and dof 3
+
+ no convergence
+
+ iteration 4
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 1.035461
+ time avg. forc= 1.035461
+ largest residual force= 234.489196 in node 1040 and dof 1
+ largest increment of disp= 4.101600e-02
+ largest correction to disp= 2.427788e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 5
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 1.035461
+ time avg. forc= 1.035461
+ largest residual force= 234.489196 in node 1040 and dof 1
+ largest increment of disp= 4.101600e-02
+ largest correction to disp= 1.016688e-10 in node 288 and dof 2
+
+ no convergence
+
+ iteration 6
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 1.035461
+ time avg. forc= 1.035461
+ largest residual force= 234.489196 in node 1040 and dof 1
+ largest increment of disp= 4.101600e-02
+ largest correction to disp= 4.763074e-11 in node 315 and dof 2
+
+ no convergence
+
+ iteration 7
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 1.035461
+ time avg. forc= 1.035461
+ largest residual force= 234.489196 in node 1040 and dof 1
+ largest increment of disp= 4.101600e-02
+ largest correction to disp= 2.427923e-11 in node 288 and dof 2
+
+ divergence; the increment size is decreased to 6.250000e-06
+ the increment is reattempted
+
+ increment 1 attempt 3 
+ increment size= 6.250000e-06
+ sum of previous increments=0.000000e+00
+ actual step time=6.250000e-06
+ actual total time=6.250000e-06
+
+ iteration 1
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.258585
+ time avg. forc= 0.258585
+ largest residual force= 0.358283 in node 10275 and dof 1
+ largest increment of disp= 1.029965e-02
+ largest correction to disp= 1.029965e-02 in node 690 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.258871
+ time avg. forc= 0.258871
+ largest residual force= 58.671932 in node 1007 and dof 1
+ largest increment of disp= 1.029965e-02
+ largest correction to disp= 1.218923e-05 in node 780 and dof 3
+
+ no convergence
+
+ iteration 3
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.258871
+ time avg. forc= 0.258871
+ largest residual force= 58.659709 in node 1040 and dof 1
+ largest increment of disp= 1.029965e-02
+ largest correction to disp= 3.687323e-11 in node 315 and dof 2
+
+ no convergence
+
+ iteration 4
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.258871
+ time avg. forc= 0.258871
+ largest residual force= 58.659709 in node 1040 and dof 1
+ largest increment of disp= 1.029965e-02
+ largest correction to disp= 3.239908e-11 in node 315 and dof 2
+
+ no convergence
+
+ iteration 5
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.258871
+ time avg. forc= 0.258871
+ largest residual force= 58.659709 in node 1040 and dof 1
+ largest increment of disp= 1.029965e-02
+ largest correction to disp= 3.687367e-11 in node 315 and dof 2
+
+ no convergence
+
+ iteration 6
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.258871
+ time avg. forc= 0.258871
+ largest residual force= 58.659709 in node 1040 and dof 1
+ largest increment of disp= 1.029965e-02
+ largest correction to disp= 3.239838e-11 in node 315 and dof 1
+
+ divergence; the increment size is decreased to 1.562500e-06
+ the increment is reattempted
+
+ increment 1 attempt 4 
+ increment size= 1.562500e-06
+ sum of previous increments=0.000000e+00
+ actual step time=1.562500e-06
+ actual total time=1.562500e-06
+
+ iteration 1
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.064648
+ time avg. forc= 0.064648
+ largest residual force= 0.022433 in node 10275 and dof 1
+ largest increment of disp= 2.577782e-03
+ largest correction to disp= 2.577782e-03 in node 690 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.064718
+ time avg. forc= 0.064718
+ largest residual force= 14.668035 in node 1040 and dof 1
+ largest increment of disp= 2.577782e-03
+ largest correction to disp= 7.631790e-07 in node 593 and dof 3
+
+ no convergence
+
+ iteration 3
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.064718
+ time avg. forc= 0.064718
+ largest residual force= 14.667270 in node 1007 and dof 1
+ largest increment of disp= 2.577782e-03
+ largest correction to disp= 8.561916e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 4
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.064718
+ time avg. forc= 0.064718
+ largest residual force= 14.667271 in node 1007 and dof 1
+ largest increment of disp= 2.577782e-03
+ largest correction to disp= 4.032095e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 5
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.064718
+ time avg. forc= 0.064718
+ largest residual force= 14.667270 in node 1040 and dof 1
+ largest increment of disp= 2.577782e-03
+ largest correction to disp= 4.032382e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 6
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.064718
+ time avg. forc= 0.064718
+ largest residual force= 14.667270 in node 1040 and dof 1
+ largest increment of disp= 2.577782e-03
+ largest correction to disp= 8.561639e-11 in node 288 and dof 2
+
+ no convergence
+
+ iteration 7
+
+ Decascading the MPC's
+
+*INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1258 in direction 1
+
+ Determining the structure of the matrix:
+ number of equations
+ 16516
+ number of nonzero lower triangular matrix elements
+ 390038
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 1 cpu(s) for spooles.
+
+ Using up to 1 cpu(s) for the stress calculation.
+
+ average force= 0.064718
+ time avg. forc= 0.064718
+ largest residual force= 14.667270 in node 1007 and dof 1
+ largest increment of disp= 2.577782e-03
+ largest correction to disp= 4.845436e-11 in node 315 and dof 1
+
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+
+ STEP            1
+
+ Static analysis was selected
+
+ Newton-Raphson iterative procedure is active
+
+ Nonlinear geometric effects are taken into account
+
+ divergence; the increment size is decreased to 3.906250e-07
+ the increment is reattempted
+
+
+ *ERROR: increment size smaller than minimum
+ best solution and residuals are in the frd file
+
