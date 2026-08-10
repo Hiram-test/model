@@ -1,29 +1,119 @@
-name: Zhaqing internal node 1040 mapping
-on:
-  push:
-    branches:
-      - agent/zhaqing-freecad-cad003
-    paths:
-      - '.github/workflows/zhaqing-calculix.yml'
-      - 'automation/zhaqing_calculix/map_internal_1040.py'
-  workflow_dispatch:
-permissions:
-  contents: write
-jobs:
-  map:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout mapping evidence
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-          persist-credentials: true
-      - name: Map residual internal node
-        run: python3 automation/zhaqing_calculix/map_internal_1040.py
-      - name: Publish mapping result
+name: Zhaqing tied deck-beam linear and NLGEOM verification # Verify that native TIE removes S4-B31 KNOT failure without materially changing the validated linear response.
+on: # Reuse the reliable PR9 branch-push Actions route.
+  push: # Execute whenever this verification workflow itself changes.
+    branches: # Restrict all experimental bridge changes to the existing PR9 branch.
+      - agent/zhaqing-freecad-cad003 # Keep repository main isolated from the nonlinear interface repair.
+    paths: # Trigger only on this exact verification workflow or its deterministic generator.
+      - '.github/workflows/zhaqing-calculix.yml' # Re-run when numerical verification logic changes.
+      - 'automation/zhaqing_calculix/tied_beam_deck_generate.py' # Re-run when the deck-beam TIE repair changes.
+  workflow_dispatch: # Retain explicit audit rerun capability.
+permissions: # Grant only baseline-artifact read and temporary result publication access.
+  contents: write # Allow the workflow to commit small machine-readable verification evidence back to the experimental branch.
+  actions: read # Allow retrieval of the immutable successful PR9 L2 baseline artifact.
+jobs: # Define one deterministic three-model comparison job.
+  verify: # Compare original linear, repaired linear, and repaired pure-NLGEOM response in the same solver environment.
+    runs-on: ubuntu-22.04 # Match the operating-system family used by the validated PR9 CalculiX calculation.
+    timeout-minutes: 35 # Bound package installation plus three whole-bridge solves.
+    steps: # Execute checkout, solver installation, baseline recovery, generation, three solves, parsing, and publication.
+      - name: Checkout exact repair commit # Materialize the precise branch revision under verification.
+        uses: actions/checkout@v4 # Use GitHub's standard checkout action.
+        with: # Retain credentials only for final evidence publication.
+          fetch-depth: 1 # Fetch only the exact deterministic branch commit.
+          persist-credentials: true # Permit one result commit back to the same temporary branch.
+      - name: Install CalculiX # Install the same packaged solver family used by the validated baseline.
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx # Install ccx and sparse-solver dependencies.
+      - name: Download validated PR9 L2 baseline # Recover the exact already-solved LC01 mother model from immutable Actions evidence.
+        env: # Scope the GitHub token to same-repository artifact retrieval.
+          GH_TOKEN: ${{ github.token }} # Authenticate GitHub CLI for the validated baseline artifact.
+        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline # Download the original successful S4/B31/T3D2 model package.
+      - name: Generate tied deck-beam controls # Duplicate only deck B31 nodes and connect them to the S4 reference face through native tied contact.
+        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && mkdir -p build/zhaqing-tied && cp "$BASE" build/zhaqing-tied/ZQ_ORIGINAL_LINEAR.inp && python3 automation/zhaqing_calculix/tied_beam_deck_generate.py "$BASE" build/zhaqing-tied # Preserve an original control and generate repaired linear plus pure-NLGEOM decks from the same immutable source.
+      - name: Solve original and repaired controls # Execute all three whole-bridge models in the same CalculiX installation for direct numerical comparison.
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add automation/zhaqing_calculix/nlgeom_node_map/node1040_neighborhood.json
-          git diff --cached --quiet || git commit -m "publish Zhaqing node 1040 neighborhood"
-          git push origin HEAD:agent/zhaqing-freecad-cad003
+          set +e # Capture every native solver status without suppressing later evidence parsing.
+          cd build/zhaqing-tied # Run all jobs from one isolated result directory.
+          ccx -i ZQ_ORIGINAL_LINEAR > ZQ_ORIGINAL_LINEAR.stdout.log 2>&1 # Reproduce the validated original linear response in the current solver environment.
+          echo $? > ZQ_ORIGINAL_LINEAR.exit # Preserve the original linear process status as an auditable scalar file.
+          ccx -i ZQ_TIED_LINEAR > ZQ_TIED_LINEAR.stdout.log 2>&1 # Solve the native-TIE repaired model under the original small-displacement static procedure.
+          echo $? > ZQ_TIED_LINEAR.exit # Preserve the repaired linear process status for response-equivalence gating.
+          ccx -i ZQ_TIED_NLGEOM > ZQ_TIED_NLGEOM.stdout.log 2>&1 # Solve the same repaired topology under geometric nonlinearity with no prestress or thermal field.
+          echo $? > ZQ_TIED_NLGEOM.exit # Preserve the pure-NLGEOM process status for interface-convergence gating.
+          exit 0 # Continue to deterministic result parsing regardless of any individual solver failure.
+      - name: Parse linear equivalence and nonlinear convergence # Extract node-291 response, increment completion, residuals, and mixed-MPC diagnostics from all three jobs.
+        run: |
+          python3 - <<'PY' # Start the documented comparison parser.
+          from pathlib import Path  # Resolve model-result paths portably.
+          import json  # Serialize the complete three-model verification receipt.
+          import re  # Parse displacement tables and nonlinear diagnostic strings from CalculiX output.
+          root = Path('build/zhaqing-tied')  # Resolve the isolated verification directory containing all three jobs.
+          def parse_uz(name):  # Return the final printed vertical displacement at validated bridge midspan node 291.
+              dat = root / f'{name}.dat'  # Locate the requested CalculiX DAT result file for this model.
+              if not dat.exists():  # Treat missing result output as an unavailable response rather than inventing a scalar.
+                  return None  # Return no displacement when the solver never produced a DAT table.
+              value = None  # Retain the last available displacement value across all printed states.
+              active = False  # Track whether the parser is inside a nodal displacement table.
+              for line in dat.read_text(errors='ignore').splitlines():  # Scan every result line chronologically.
+                  if 'displacements (vx,vy,vz)' in line.lower():  # Detect the standard CalculiX displacement-table header.
+                      active = True  # Enable numeric displacement-row parsing.
+                      continue  # Advance directly to the first possible result row.
+                  if active and line.strip().lower().startswith('forces ('):  # Detect the following reaction-force table that ends a displacement table.
+                      active = False  # Stop interpreting subsequent numeric records as displacements.
+                  if active:  # Parse numeric rows only while a displacement table is active.
+                      match = re.match(r'\s*(\d+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$', line)  # Match one node identifier and three displacement components.
+                      if match and int(match.group(1)) == 291:  # Select the validated deck-centerline midspan monitor node.
+                          value = float(match.group(4))  # Store its global vertical displacement in millimetres.
+              return value  # Return the final available node-291 vertical displacement.
+          def parse_job(name, nonlinear=False):  # Summarize one CalculiX job using process, status-history, and console evidence.
+              exit_path = root / f'{name}.exit'  # Locate the native solver process-status file written immediately after execution.
+              exit_code = int(exit_path.read_text().strip()) if exit_path.exists() else 999  # Normalize the native solver status to an integer fallback.
+              log_path = root / f'{name}.stdout.log'  # Locate the complete console trace for fatal errors and residual history.
+              log = log_path.read_text(errors='ignore') if log_path.exists() else ''  # Load available solver diagnostics without failing on missing output.
+              accepted = []  # Accumulate normalized times of accepted nonlinear increments when an STA file exists.
+              sta = root / f'{name}.sta'  # Locate nonlinear increment history for the geometrically nonlinear control.
+              if sta.exists():  # Parse step progression only when CalculiX generated a status file.
+                  for line in sta.read_text(errors='ignore').splitlines():  # Scan all increment attempts chronologically.
+                      fields = line.split()  # Tokenize the compact status row by whitespace.
+                      if len(fields) >= 7 and fields[0] == '1' and not fields[2].endswith('U'):  # Retain accepted increments from analysis step one.
+                          try:  # Guard numeric conversion against headers or diagnostic rows.
+                              accepted.append(float(fields[5]))  # Record the accepted normalized step time.
+                          except ValueError:  # Ignore nonnumeric rows without altering valid status evidence.
+                              pass  # Continue scanning later status rows.
+              residuals = re.findall(r'largest residual force=\s*([-+0-9.Ee]+)\s+in node\s+(\d+)\s+and dof\s+(\d+)', log, re.I)  # Collect all maximum nonlinear force residual reports.
+              mpc_match = re.search(r'linear MPCs and\s+nonlinear MPCs depend on each other\s+common node:\s*(\d+)\s+in direction\s*(\d+)', log, re.I)  # Detect any remaining mixed-dimensional cascade dependency.
+              final_time = max(accepted) if accepted else None  # Record the furthest accepted normalized nonlinear step time.
+              converged = exit_code == 0 and '*ERROR' not in log.upper() and ((not nonlinear) or (final_time is not None and final_time >= 0.999999))  # Require clean execution and full step completion for the nonlinear model.
+              return {'solverExitCode': exit_code, 'converged': converged, 'midspanU3Mm': parse_uz(name), 'finalStepTime': final_time, 'lastResidual': {'forceN': float(residuals[-1][0]), 'node': int(residuals[-1][1]), 'dof': int(residuals[-1][2])} if residuals else None, 'mixedMpcDependency': {'node': int(mpc_match.group(1)), 'dof': int(mpc_match.group(2))} if mpc_match else None}  # Return all load-bearing verification evidence for this job.
+          original = parse_job('ZQ_ORIGINAL_LINEAR', False)  # Parse the unchanged PR9 linear mother model rerun.
+          tied_linear = parse_job('ZQ_TIED_LINEAR', False)  # Parse the duplicate-node native-TIE linear comparison model.
+          tied_nlgeom = parse_job('ZQ_TIED_NLGEOM', True)  # Parse the duplicate-node native-TIE pure geometric-nonlinear model.
+          relative_difference = None  # Initialize the repaired-to-original midspan response difference until both displacements are available.
+          if original['midspanU3Mm'] is not None and tied_linear['midspanU3Mm'] is not None and abs(original['midspanU3Mm']) > 1.0e-12:  # Compare response only when both jobs produced a nonzero reference displacement.
+              relative_difference = abs(tied_linear['midspanU3Mm'] - original['midspanU3Mm']) / abs(original['midspanU3Mm'])  # Measure relative change caused solely by replacing co-nodal KNOT coupling with native tied contact.
+          status = 'PASS' if original['converged'] and tied_linear['converged'] and tied_nlgeom['converged'] and relative_difference is not None and relative_difference <= 0.05 else 'FAIL'  # Require original reproduction, repaired linear equivalence within five percent, and full pure-NLGEOM convergence.
+          receipt = {'status': status, 'linearRelativeMidspanDifference': relative_difference, 'originalLinear': original, 'tiedLinear': tied_linear, 'tiedNLGEOM': tied_nlgeom}  # Assemble the complete interface-repair verification receipt.
+          (root / 'verification_summary.json').write_text(json.dumps(receipt, indent=2))  # Persist the machine-readable comparison beside raw solver files.
+          print(json.dumps(receipt, indent=2))  # Mirror the same result into the GitHub Actions log for redundant auditability.
+          PY # End the documented inline parser.
+      - name: Upload tied-interface verification evidence # Preserve all three generated inputs, DAT/STA results, and solver logs.
+        if: always() # Archive evidence after both success and failure.
+        uses: actions/upload-artifact@v4 # Store the complete comparison directory as immutable numerical evidence.
+        with: # Configure artifact identity and retention.
+          name: zhaqing-tied-deck-beam-verify-${{ github.sha }} # Bind evidence to the exact interface-repair commit.
+          path: build/zhaqing-tied # Upload all original and repaired comparison files.
+          if-no-files-found: error # Treat absence of numerical evidence as workflow infrastructure failure.
+          retention-days: 30 # Retain the verification package for final prestressed mother-model construction.
+          compression-level: 6 # Apply standard compression to mixed ASCII and FRD outputs.
+      - name: Publish verification result to branch # Make the comparison receipt directly readable without push-run discovery APIs.
+        if: always() # Publish any available result after numerical execution.
+        run: |
+          set -e # Stop publication if the required comparison receipt is unexpectedly missing.
+          mkdir -p automation/zhaqing_calculix/tied_beam_deck_result # Create a stable temporary result path.
+          cp build/zhaqing-tied/verification_summary.json automation/zhaqing_calculix/tied_beam_deck_result/verification_summary.json # Publish the machine-readable three-model verification receipt.
+          cp build/zhaqing-tied/ZQ_TIED_LINEAR.inp automation/zhaqing_calculix/tied_beam_deck_result/ZQ_TIED_LINEAR.inp # Publish the repaired linear model for independent inspection.
+          cp build/zhaqing-tied/ZQ_TIED_NLGEOM.inp automation/zhaqing_calculix/tied_beam_deck_result/ZQ_TIED_NLGEOM.inp # Publish the repaired pure-NLGEOM model for independent inspection.
+          cp build/zhaqing-tied/ZQ_TIED_NLGEOM.stdout.log automation/zhaqing_calculix/tied_beam_deck_result/ZQ_TIED_NLGEOM.stdout.log # Publish nonlinear diagnostics even if convergence fails.
+          git config user.name github-actions # Identify the automated numerical evidence publisher.
+          git config user.email github-actions@github.com # Use GitHub Actions' conventional non-personal identity.
+          git add automation/zhaqing_calculix/tied_beam_deck_result # Stage only the tied-interface verification evidence.
+          git diff --cached --quiet || git commit -m "publish Zhaqing tied deck-beam verification" # Create one evidence commit only when numerical result changed.
+          git push origin HEAD:agent/zhaqing-freecad-cad003 # Publish the verification result atomically back to the same temporary branch.
