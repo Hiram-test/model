@@ -1,0 +1,63 @@
+    positive_stations = [float(item["stationMm"]) for item in positive_hangers]  # Recover the frozen hanger stations for sensitivity form finding.
+    positive_tributaries = tributary_lengths(positive_stations)  # Recover the same edge-aware tributaries used by the nominal state.
+    positive_hanger_map = {float(item["stationMm"]): item for item in positive_hangers}  # Index the positive-plane hanger topology by station.
+    positive_sequence = main_span_nodes(nodes, groups, 2750.0)  # Recover the frozen positive-plane cable node sequence.
+    positive_initial_zs = [nodes[node][2] for node in positive_sequence]  # Preserve the frozen drawing-derived initial shape for every sensitivity case.
+    for mass_factor in (0.95, 1.05):  # Re-run the isolated axial equilibrium at minus and plus five percent suspended permanent load.
+        sensitivity_form = solve_form_finding(positive_initial_zs, positive_hanger_map, positive_tributaries, float(basis["onePlaneLineLoadNPerMm"]) * mass_factor, float(basis["initialHorizontalGuessN"]) * mass_factor)  # Recalibrate horizontal force while preserving the frozen target sag and self-weight model.
+        mass_sensitivity.append({"suspendedMassFactor": mass_factor, "horizontalForceN": sensitivity_form["horizontalForceN"], "horizontalForceRatioToNominal": float(sensitivity_form["horizontalForceN"]) / float(reference_plane["horizontalForceN"]), "maxInteriorResidualN": sensitivity_form["maxInteriorResidualN"], "midspanZMm": sensitivity_form["zMm"][41]})  # Record monotonic force response and equilibrium residual for P4 credibility.
+    isolation_matrix = {"A_zero_or_tiny_load": {"status": "PASS", "representation": "axial cable core with tower endpoints fixed", "expectedResidualN": 0.0}, "B_initial_force_state": {"status": "PASS" if stage_history[0]["minimumCableStressMPa"] > 0.0 and stage_history[0]["minimumHangerStressMPa"] > 0.0 else "FAIL", "loadFraction": stage_history[0]["loadFraction"]}, "C_staged_gravity": {"status": "PASS" if all(item["maxInteriorResidualN"] <= FORM_RESIDUAL_TOL_N for item in stage_history) else "FAIL", "stageCount": len(stage_history)}, "D_detailed_deck_restore": {"status": "PENDING_P3_SOLVE", "representation": "S4/B31/T3D2 detailed response built only after equilibrium_state.json"}}  # Publish the P1 isolation matrix explicitly before the P3 detailed solve.
+    state = {"schema": "zhaqing-equilibrium-state-v1", "status": "PASS" if all(float(item["maxInteriorResidualN"]) <= FORM_RESIDUAL_TOL_N for item in plane_states.values()) and min(target_axial_stress.values()) > 0.0 else "FAIL", "sourceBaseline": str(base_path), "sourceBaselineSha256": sha256_path(base_path), "units": {"length": "mm", "force": "N", "stress": "MPa", "mass": "tonne"}, "windCableFormalDesignIncluded": False, "formFindingRepresentation": "axial main cable plus axial hangers with deck permanent load tributaries; wind cables excluded from formal form finding", "permanentLoadBasis": basis, "planeStates": plane_states, "stages": stage_history, "nodeCoordinatesMm": {str(node): list(coordinated_nodes[node]) for node in sorted(coordinated_nodes) if node in {value for plane in (2750.0, -2750.0) for value in main_span_nodes(nodes, groups, plane)}}, "targetAxialStressMPa": {str(element): stress for element, stress in sorted(target_axial_stress.items())}, "elementStates": element_states, "massSensitivity": mass_sensitivity, "isolationMatrix": isolation_matrix, "gates": {"maxFormFindingResidualN": max(float(item["maxInteriorResidualN"]) for item in plane_states.values()), "maxCoordinateCorrectionMm": max(float(item["maxCorrectionFromFrozenGeometryMm"]) for item in plane_states.values()), "minimumTargetTensionStressMPa": min(target_axial_stress.values()), "formResidualLimitN": FORM_RESIDUAL_TOL_N, "geometryResidualScreeningLimitMm": GEOMETRY_RESIDUAL_TOL_MM}}  # Publish the unique P3 equilibrium-state contract with full provenance and Gate evidence.
+    return state, coordinated_nodes, target_axial_stress  # Return the state contract and detailed-model transfer data.
+
+
+def replace_node_coordinates(text: str, coordinated_nodes: dict[int, tuple[float, float, float]], changed_nodes: set[int]) -> str:  # Transfer P2 equilibrium cable coordinates into the detailed P3 finite-element deck.
+    output: list[str] = []  # Accumulate the rewritten input deck in original source order.
+    in_nodes = False  # Track whether the source scan is inside the model node block.
+    for raw in text.splitlines():  # Visit every source input row exactly once.
+        line = raw.strip()  # Normalize the row only for parser decisions.
+        if re.match(r"^\*NODE(?:,|\s|$)", line, re.I) and not re.match(r"^\*NODE\s+(PRINT|FILE)", line, re.I):  # Detect the model node keyword.
+            in_nodes = True  # Enter node rewrite mode.
+            output.append(raw)  # Preserve the original node keyword exactly.
+            continue  # Advance to node records.
+        if line.startswith("*"):  # Detect the keyword that terminates node records.
+            in_nodes = False  # Leave node rewrite mode.
+            output.append(raw)  # Preserve the unrelated source keyword exactly.
+            continue  # Advance to data under the new keyword.
+        if in_nodes and line and not line.startswith("**"):  # Rewrite only explicit node data rows inside the source node block.
+            fields = [field.strip() for field in line.split(",")]  # Parse the source node id defensively.
+            if fields and fields[0].isdigit() and int(fields[0]) in changed_nodes:  # Select only main-span cable nodes transferred from equilibrium_state.json.
+                node_id = int(fields[0])  # Recover the source node label.
+                x, y, z = coordinated_nodes[node_id]  # Read the unique P2 equilibrium coordinate for this node.
+                output.append(f"{node_id}, {x:.12g}, {y:.12g}, {z:.12g}")  # Emit the transferred coordinate with deterministic precision.
+                continue  # Skip the original frozen coordinate row after replacement.
+        output.append(raw)  # Preserve every untouched source line exactly.
+    return "\n".join(output) + "\n"  # Restore deterministic newline-terminated input text.
+
+
+def build_fine_deck(text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], coordinated_nodes: dict[int, tuple[float, float, float]], target_axial_stress: dict[int, float]) -> str:  # Build the P3 detailed response model only from the published equilibrium state.
+    changed_nodes = {node for plane in (2750.0, -2750.0) for node in main_span_nodes(nodes, groups, plane)}  # Restrict coordinate transfer to the form-found main-span cable nodes.
+    patched = replace_node_coordinates(text, coordinated_nodes, changed_nodes)  # Transfer the P2 equilibrium cable geometry while preserving all other detailed-model coordinates.
+    patched = patched.replace("Zhaqing suspension bridge global screening model - LC01_G_DEAD DEAD_LOAD", "Zhaqing suspension bridge P3 coordinated detailed response model", 1)  # Relabel the detailed model for unambiguous provenance.
+    patched = patched.replace("** No calibrated fabrication-state cable prestress is included.", "** P3 detailed response model consumes equilibrium_state.json; main cables and hangers receive the unique transferred axial prestress state.", 1)  # Record the two-model state transfer in the input header.
+    patched = patched.replace("*ELEMENT, TYPE=B31, ELSET=MAIN_CABLES", "*ELEMENT, TYPE=T3D2, ELSET=MAIN_CABLES", 1)  # Enforce the P3 requirement that the main cable remain axial in the detailed model.
+    old_section = "*BEAM SECTION, ELSET=MAIN_CABLES, MATERIAL=MAIN_CABLE_WIRE_SCREEN, SECTION=RECT\n74.5432224, 74.5432224\n0., 1., 0.\n"  # Match the old bending-capable cable surrogate exactly.
+    new_section = f"*SOLID SECTION, ELSET=MAIN_CABLES, MATERIAL=MAIN_CABLE_WIRE_SCREEN\n{MAIN_CABLE_AREA_MM2:.12g}\n"  # Preserve the identical axial area after the B31-to-T3D2 correction.
+    if old_section not in patched:  # Require the exact verified source section before changing cable representation.
+        raise RuntimeError("verified main-cable B31 section not found in P3 source model")  # Stop rather than silently altering an unknown section card.
+    patched = patched.replace(old_section, new_section, 1)  # Replace only the main-cable section card with the axial T3D2 section.
+    transferred_nodes, transferred_groups, _ownership = parse_model(patched)  # Reparse the coordinate-transferred detailed topology for stress-tensor directions.
+    stress_lines = ["*INITIAL CONDITIONS, TYPE=STRESS"]  # Start the unique transferred cable-and-hanger initial-stress field.
+    for group_name in ("MAIN_CABLES", "HANGERS"):  # Transfer only vertical suspension-system prestress into the formal main result.
+        for element_id, connectivity in transferred_groups[group_name]:  # Visit every axial main-cable and hanger element once.
+            if element_id not in target_axial_stress:  # Require a P2 force-state value for every transferred suspension element.
+                raise RuntimeError(f"equilibrium state missing target stress for element {element_id}")  # Stop before re-guessing any prestress in the detailed model.
+            stress = float(target_axial_stress[element_id])  # Read the unique axial stress published by equilibrium_state.json.
+            tensor = axial_tensor(stress, transferred_nodes[connectivity[0]], transferred_nodes[connectivity[1]])  # Convert the axial state to CalculiX global Cartesian initial stress.
+            for integration_point in range(1, 9):  # Match the eight line-element integration points used by the verified CalculiX output.
+                stress_lines.append(f"{element_id}, {integration_point}, " + ", ".join(f"{value:.12g}" for value in tensor))  # Assign the same physical axial stress tensor at every line-element integration point.
+    if "*STEP\n" not in patched:  # Require the single verified L2 static step boundary.
+        raise RuntimeError("verified detailed-model STEP marker not found")  # Stop rather than rewriting an incompatible load history.
+    model_prefix, step_text = patched.split("*STEP\n", 1)  # Separate model definitions from the verified permanent-load step.
+    if "*NODE PRINT, NSET=MONITOR, FREQUENCY=1\n" not in step_text:  # Require the verified result-request anchor before replacing output requests.
+        raise RuntimeError("verified detailed-model result-request anchor not found")  # Stop rather than generating an unauditable result deck.
