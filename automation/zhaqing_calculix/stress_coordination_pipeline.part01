@@ -1,0 +1,125 @@
+    return sequence  # Return the exact source node ids in longitudinal order.
+
+
+def hanger_records(nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], y_plane: float) -> list[dict]:  # Recover vertical hanger topology and station metadata for one cable plane.
+    records: list[dict] = []  # Accumulate one deterministic record per hanger element.
+    for element_id, connectivity in groups["HANGERS"]:  # Visit every verified hanger element once.
+        if len(connectivity) < 2:  # Reject incomplete line-element connectivity explicitly.
+            raise RuntimeError(f"hanger element {element_id} has incomplete connectivity")  # Stop before constructing a false force state.
+        if abs(nodes[connectivity[0]][1] - y_plane) > 1.0e-6:  # Skip the opposite cable plane without modifying it.
+            continue  # Advance to the next hanger element.
+        bottom = min(connectivity[:2], key=lambda node: nodes[node][2])  # Identify the deck-side node by the lower frozen elevation.
+        top = max(connectivity[:2], key=lambda node: nodes[node][2])  # Identify the main-cable-side node by the higher frozen elevation.
+        records.append({"elementId": element_id, "bottomNode": bottom, "topNode": top, "stationMm": nodes[bottom][0]})  # Preserve source ids and physical station.
+    records.sort(key=lambda item: item["stationMm"])  # Keep hanger force construction in increasing longitudinal order.
+    if len(records) != 25:  # Require the frozen 25 hangers per cable plane.
+        raise RuntimeError(f"unexpected hanger count on y={y_plane}: {len(records)}")  # Stop before force calibration on an incomplete plane.
+    return records  # Return the complete hanger record list for this cable plane.
+
+
+def cable_loads_for_shape(xs: list[float], zs: list[float], hanger_by_station: dict[float, dict], tributaries: dict[float, float], one_plane_line_load: float) -> tuple[list[float], dict[int, float]]:  # Assemble permanent vertical loads acting on one axial cable plane for a trial shape.
+    nodal_downward = [0.0] * len(xs)  # Accumulate positive-downward equivalent point loads at cable nodes.
+    hanger_force_targets: dict[int, float] = {}  # Store the average initial axial force target for each hanger element.
+    for index in range(len(xs) - 1):  # Convert main-cable self-weight to consistent half-segment nodal loads.
+        length = math.hypot(xs[index + 1] - xs[index], zs[index + 1] - zs[index])  # Compute the current axial cable segment length in millimetres.
+        segment_weight = MAIN_CABLE_AREA_MM2 * STEEL_DENSITY_T_MM3 * GRAVITY_MM_S2 * length  # Compute the segment self-weight in newtons.
+        nodal_downward[index] += 0.5 * segment_weight  # Assign half of the cable self-weight to the left cable node.
+        nodal_downward[index + 1] += 0.5 * segment_weight  # Assign half of the cable self-weight to the right cable node.
+    for station, hanger in hanger_by_station.items():  # Add deck permanent load and hanger self-weight at every suspension point.
+        cable_index = min(range(len(xs)), key=lambda index: abs(xs[index] - station))  # Locate the exact one-metre cable node at the hanger station.
+        if abs(xs[cable_index] - station) > 1.0e-6:  # Require exact frozen station coincidence between cable and hanger.
+            raise RuntimeError(f"hanger station {station} does not coincide with a cable node")  # Stop before inventing a shifted suspension point.
+        hanger_length = abs(zs[cable_index])  # Use the vertical hanger length from deck z=0 to the current cable elevation.
+        hanger_weight = HANGER_AREA_MM2 * STEEL_DENSITY_T_MM3 * GRAVITY_MM_S2 * hanger_length  # Compute the full hanger self-weight in newtons.
+        deck_share = one_plane_line_load * tributaries[station]  # Compute the suspended deck permanent load assigned to this hanger.
+        hanger_force_targets[int(hanger["elementId"])] = deck_share + 0.5 * hanger_weight  # Set the uniform hanger initial force so bottom force minus half self-weight supports exactly the deck tributary.
+        nodal_downward[cable_index] += deck_share + hanger_weight  # Apply deck tributary plus full hanger self-weight to the cable top equilibrium.
+    return nodal_downward, hanger_force_targets  # Return the complete cable-node loads and compatible hanger axial force targets.
+
+
+def shape_for_horizontal_force(horizontal_force: float, initial_zs: list[float], hanger_by_station: dict[float, dict], tributaries: dict[float, float], one_plane_line_load: float) -> tuple[list[float], list[float], dict[int, float], int, float]:  # Solve one P2 fixed-horizontal-force axial form-finding state including self-weight.
+    xs = [1000.0 * index for index in range(83)]  # Use the frozen one-metre main-span longitudinal grid.
+    zs = list(initial_zs)  # Start the self-weight iteration from the frozen drawing-derived cable shape.
+    iteration_count = 0  # Track the fixed-point self-weight iteration count for audit.
+    final_delta = float("inf")  # Initialize the shape convergence metric before the first iteration.
+    hanger_targets: dict[int, float] = {}  # Initialize hanger targets for the first cable-load assembly.
+    nodal_downward: list[float] = []  # Initialize the cable-node load vector before the first assembly.
+    for iteration_count in range(1, 101):  # Bound self-weight shape iterations to prevent silent nonconvergence.
+        nodal_downward, hanger_targets = cable_loads_for_shape(xs, zs, hanger_by_station, tributaries, one_plane_line_load)  # Reassemble shape-dependent cable and hanger self-weight.
+        unknown_count = len(xs) - 2  # Solve only interior cable elevations while both tower-top endpoints remain fixed.
+        lower = [0.0] * unknown_count  # Allocate the tridiagonal lower coefficients for interior equilibrium.
+        diagonal = [0.0] * unknown_count  # Allocate the tridiagonal main coefficients for interior equilibrium.
+        upper = [0.0] * unknown_count  # Allocate the tridiagonal upper coefficients for interior equilibrium.
+        rhs = [0.0] * unknown_count  # Allocate the positive-up coordinate equilibrium right-hand side.
+        for local_index in range(unknown_count):  # Assemble vertical force equilibrium at every interior cable node.
+            node_index = local_index + 1  # Convert the local interior index to the full cable-node index.
+            dx_left = xs[node_index] - xs[node_index - 1]  # Compute the left segment horizontal projection.
+            dx_right = xs[node_index + 1] - xs[node_index]  # Compute the right segment horizontal projection.
+            lower[local_index] = -1.0 / dx_left if local_index > 0 else 0.0  # Couple to the previous interior cable elevation.
+            diagonal[local_index] = 1.0 / dx_left + 1.0 / dx_right  # Assemble the current cable elevation coefficient.
+            upper[local_index] = -1.0 / dx_right if local_index < unknown_count - 1 else 0.0  # Couple to the next interior cable elevation.
+            rhs[local_index] = -nodal_downward[node_index] / horizontal_force  # Convert downward point load to the fixed-horizontal-force curvature requirement.
+            if node_index == 1:  # Move the fixed left tower elevation to the right-hand side at the first interior node.
+                rhs[local_index] += TOWER_Z_MM / dx_left  # Preserve the exact frozen left tower cable elevation.
+            if node_index == len(xs) - 2:  # Move the fixed right tower elevation to the right-hand side at the last interior node.
+                rhs[local_index] += TOWER_Z_MM / dx_right  # Preserve the exact frozen right tower cable elevation.
+        interior = solve_tridiagonal(lower, diagonal, upper, rhs)  # Solve the current axial funicular cable equilibrium shape.
+        updated = [TOWER_Z_MM, *interior, TOWER_Z_MM]  # Reinsert both fixed tower-top cable elevations.
+        final_delta = max(abs(updated[index] - zs[index]) for index in range(len(zs)))  # Measure the maximum self-weight fixed-point shape update.
+        zs = updated  # Advance the self-weight iteration to the newly equilibrated cable shape.
+        if final_delta <= 1.0e-7:  # Accept the form-finding fixed point once sub-micron coordinate changes are reached.
+            break  # Leave the bounded self-weight iteration with a converged geometry.
+    if final_delta > 1.0e-5:  # Refuse a shape state that did not settle to a stable self-weight fixed point.
+        raise RuntimeError(f"form-finding self-weight iteration did not converge: delta={final_delta}")  # Fail closed on unstable load-shape coupling.
+    return zs, nodal_downward, hanger_targets, iteration_count, final_delta  # Return the converged shape, loads, hanger forces, and convergence evidence.
+
+
+def solve_form_finding(initial_zs: list[float], hanger_by_station: dict[float, dict], tributaries: dict[float, float], one_plane_line_load: float, horizontal_guess: float) -> dict:  # Execute the P1/P2 inverse form-finding core and satisfy the frozen sag target.
+    low = max(1.0e4, 0.25 * horizontal_guess)  # Start the horizontal-force bracket below the analytical initial guess.
+    high = max(low * 2.0, 2.0 * horizontal_guess)  # Start the upper bracket above the analytical initial guess.
+    low_shape = shape_for_horizontal_force(low, initial_zs, hanger_by_station, tributaries, one_plane_line_load)[0]  # Solve the initial low-force cable shape.
+    high_shape = shape_for_horizontal_force(high, initial_zs, hanger_by_station, tributaries, one_plane_line_load)[0]  # Solve the initial high-force cable shape.
+    for _attempt in range(30):  # Expand the bracket deterministically until it encloses the target midspan elevation.
+        if low_shape[41] <= MIDSPAN_Z_TARGET_MM <= high_shape[41]:  # Require the target elevation between low- and high-force solutions.
+            break  # Keep the successful bracket for bisection.
+        if low_shape[41] > MIDSPAN_Z_TARGET_MM:  # Reduce the lower force when the low-force shape remains too shallow.
+            low *= 0.5  # Halve the lower horizontal force to increase sag.
+            low_shape = shape_for_horizontal_force(low, initial_zs, hanger_by_station, tributaries, one_plane_line_load)[0]  # Recompute the expanded lower bracket shape.
+        if high_shape[41] < MIDSPAN_Z_TARGET_MM:  # Increase the upper force when the high-force shape remains too deep.
+            high *= 2.0  # Double the upper horizontal force to reduce sag.
+            high_shape = shape_for_horizontal_force(high, initial_zs, hanger_by_station, tributaries, one_plane_line_load)[0]  # Recompute the expanded upper bracket shape.
+    else:  # Reject a force family that cannot reproduce the frozen sag target.
+        raise RuntimeError("could not bracket the frozen main-span sag target")  # Stop before publishing an uncalibrated equilibrium state.
+    result: tuple[list[float], list[float], dict[int, float], int, float] | None = None  # Initialize the final bisection state holder.
+    for _iteration in range(80):  # Refine the horizontal force to the frozen midspan elevation with ample deterministic precision.
+        midpoint = 0.5 * (low + high)  # Evaluate the midpoint horizontal force of the current bracket.
+        result = shape_for_horizontal_force(midpoint, initial_zs, hanger_by_station, tributaries, one_plane_line_load)  # Solve the self-weight-compatible shape for this force.
+        if result[0][41] < MIDSPAN_Z_TARGET_MM:  # Increase horizontal force when the midpoint shape sags below the target elevation.
+            low = midpoint  # Move the lower bracket to the current midpoint.
+        else:  # Reduce horizontal force when the midpoint shape is shallower than the target elevation.
+            high = midpoint  # Move the upper bracket to the current midpoint.
+        if abs(result[0][41] - MIDSPAN_Z_TARGET_MM) <= 1.0e-8:  # Stop once the midspan target is matched to numerical precision.
+            break  # Preserve the current converged form-finding state.
+    if result is None:  # Defend against an impossible empty bisection result.
+        raise RuntimeError("form-finding bisection produced no result")  # Stop before constructing an undefined state.
+    horizontal_force = 0.5 * (low + high)  # Use the final bracket midpoint as the calibrated horizontal cable force.
+    final_shape = shape_for_horizontal_force(horizontal_force, initial_zs, hanger_by_station, tributaries, one_plane_line_load)  # Recompute the exact final shape and load evidence at the calibrated force.
+    zs, nodal_downward, hanger_targets, self_weight_iterations, self_weight_delta = final_shape  # Unpack the final P2 equilibrium state.
+    segment_forces: list[float] = []  # Store the axial tension in every one-metre main-span cable segment.
+    residuals: list[float] = []  # Store vertical equilibrium residuals at every interior cable node.
+    xs = [1000.0 * index for index in range(83)]  # Recreate the frozen longitudinal cable coordinates for force recovery.
+    for index in range(len(xs) - 1):  # Recover each cable-segment tension from the calibrated constant horizontal component.
+        dx = xs[index + 1] - xs[index]  # Compute the segment horizontal projection.
+        dz = zs[index + 1] - zs[index]  # Compute the form-found segment vertical projection.
+        segment_forces.append(horizontal_force * math.sqrt(1.0 + (dz / dx) ** 2))  # Convert the horizontal component to the segment tensile force magnitude.
+    for index in range(1, len(xs) - 1):  # Recompute independent nodal vertical force residuals from the final segment directions.
+        left_vertical = horizontal_force * (zs[index - 1] - zs[index]) / (xs[index] - xs[index - 1])  # Compute the left-segment vertical force acting on the node.
+        right_vertical = horizontal_force * (zs[index + 1] - zs[index]) / (xs[index + 1] - xs[index])  # Compute the right-segment vertical force acting on the node.
+        residuals.append(left_vertical + right_vertical - nodal_downward[index])  # Close the interior cable-node vertical equilibrium independently of the solver matrix.
+    left_reaction_vertical = -(horizontal_force * (zs[1] - zs[0]) / (xs[1] - xs[0]) - nodal_downward[0])  # Recover the vertical left tower boundary reaction required by the axial cable core.
+    right_reaction_vertical = -(-horizontal_force * (zs[-1] - zs[-2]) / (xs[-1] - xs[-2]) - nodal_downward[-1])  # Recover the vertical right tower boundary reaction required by the axial cable core.
+    return {"horizontalForceN": horizontal_force, "zMm": zs, "nodalDownwardLoadsN": nodal_downward, "hangerForceTargetsN": hanger_targets, "segmentForcesN": segment_forces, "maxInteriorResidualN": max(abs(value) for value in residuals), "rmsInteriorResidualN": math.sqrt(sum(value * value for value in residuals) / len(residuals)), "leftTowerVerticalReactionN": left_reaction_vertical, "rightTowerVerticalReactionN": right_reaction_vertical, "selfWeightIterations": self_weight_iterations, "selfWeightFinalDeltaMm": self_weight_delta}  # Return the complete machine-auditable form-finding state.
+
+
+def axial_tensor(stress_mpa: float, point_a: tuple[float, float, float], point_b: tuple[float, float, float]) -> tuple[float, float, float, float, float, float]:  # Convert one axial tensile stress to a global Cartesian tensor for CalculiX initial stress.
+    chord = tuple(point_b[index] - point_a[index] for index in range(3))  # Build the current element chord vector in millimetres.
