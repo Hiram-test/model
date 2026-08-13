@@ -558,7 +558,7 @@ def validate_artifacts(vtk_path: Path, summary_path: Path, baseline_path: Path, 
             "excludedWindElementIds": sorted(excluded_element_ids),  # Record the eight baseline-derived wind elements excluded from primary response.
             "excludedWindOnlyNodeIds": sorted(wind_only_node_ids),  # Record the eight baseline-derived wind-only points excluded from primary response.
             "windExclusionStatus": "BLOCKED_G3_G5",  # Preserve the engineering evidence boundary in the strict VTK receipt.
-            "stressSemantics": {"MAIN_CABLES": "raw DAT tensor is the P3 increment and VTK total adds the P2 equilibrium target tensor", "HANGERS": "raw DAT tensor is the P3 increment and VTK total adds the P2 equilibrium target tensor", "retainedStructure": "raw DAT tensor is the final total tensor and transfers to VTK without P2 addition"},  # Declare the canonical mixed response semantics explicitly for downstream audit.
+            "stressSemantics": {"MAIN_CABLES": "raw DAT tensor is the analytic current-minus-F3 increment and VTK total adds the F3 equilibrium tensor", "HANGERS": "raw DAT tensor is the analytic current-minus-F3 increment and VTK total adds the F3 equilibrium tensor", "retainedStructure": "raw DAT tensor is the final total tensor and transfers to VTK without F3 addition"},  # Declare the canonical mixed tangent-or-nonlinear response semantics explicitly for downstream audit.
         },  # Finish the fixed validation contract block.
         "results": {  # Publish independently recomputed visualization extrema.
             "maxVonMisesMPa": maximum_von_mises,  # Record the complete cell-field J2 maximum.

@@ -227,7 +227,7 @@ class StrictVtkValidatorRegressionTests(unittest.TestCase):  # Verify canonical 
         receipt = self.validate()  # Validate every source, raw-result, field, and digest invariant.
         self.assertEqual(receipt["status"], "PASS")  # Require the independent receipt to announce PASS.
         self.assertEqual(receipt["contract"]["vtkLineCount"], VALIDATOR.EXPECTED_VTK_LINE_COUNT)  # Require the exact complete serialization size.
-        self.assertIn("P3 increment", receipt["contract"]["stressSemantics"]["MAIN_CABLES"])  # Require the receipt to declare suspension stress composition explicitly.
+        self.assertIn("current-minus-F3 increment", receipt["contract"]["stressSemantics"]["MAIN_CABLES"])  # Require the receipt to declare tangent-or-nonlinear suspension stress composition explicitly.
         self.assertIn("final total", receipt["contract"]["stressSemantics"]["retainedStructure"])  # Require the receipt to declare retained-structure stress semantics explicitly.
         self.assertEqual(receipt["contract"]["excludedWindOnlyNodeIds"], list(range(784, 792)))  # Require exact wind-only point exclusion.
 

@@ -168,17 +168,27 @@ def render_reaction_sensors(records: list[dict], stiffness_n_per_mm: float) -> s
 def render_condensed_modes(condensation: dict) -> str:  # Realize each physical condensed Cholesky mode as one grounded SPRING1 plus a homogeneous linear equation.
     retained_nodes = sorted(condensation["retainedNodes"])  # Freeze the exact physical NALL output set without auxiliary or removed-only nodes.
     mode_records: list[tuple[int, int, str, dict, list[tuple[int, int]]]] = []  # Accumulate deterministic auxiliary node, element, name, mode, and interface ordering records.
-    next_node = 100001  # Reserve a collision-free source-independent auxiliary node-label range above the frozen 1..791 inventory.
-    next_element = 200001  # Reserve a collision-free auxiliary element-label range above source structural and mass labels.
+    next_node = 100001  # Preserve the legacy nominal sequential allocator while reviewed damage condensations may publish stable reserved slots explicitly.
+    next_element = 200001  # Preserve the legacy nominal sequential element allocator while reviewed damage condensations may publish stable reserved slots explicitly.
     for plane in condensation["planes"]:  # Visit the positive then negative signed suspension plane.
         plane_tag = "P" if plane["sign"] > 0 else "N"  # Encode plane identity in every generated ELSET for reviewability.
+        damage_case = condensation.get("damageContract", {}).get("caseId") == "LC08"  # Detect only the reviewed three-slot hanger-loss topology before assigning stable auxiliary identities.
+        plane_slot_start = 1 if plane["sign"] > 0 else 82  # Reserve nominal plane slots 1..81 and 82..162 so deleting one positive-plane hanger cannot renumber the negative plane.
         for mode_index, mode in enumerate(plane["modes"], 1):  # Visit every exact positive Cholesky rank-one mode.
             mode_name = f"P3_KC_{plane_tag}_{mode_index:03d}"  # Create one stable short CalculiX set name per mode.
-            mode_records.append((next_node, next_element, mode_name, mode, plane["interfaceDofs"]))  # Preserve its physical equation ordering and stiffness.
+            stable_slot = int(mode.get("stableSlot", plane_slot_start + mode_index - 1 if damage_case else next_node - 100000))  # Consume an explicit nonlinear slot or deterministically preserve the reviewed LC08 plane gap.
+            stable_node = int(mode.get("auxiliaryNodeId", 100000 + stable_slot))  # Bind the generalized coordinate to its stable reserved source-independent slot.
+            stable_element = int(mode.get("auxiliaryElementId", 200000 + stable_slot))  # Bind the SPRING1 identity to the same stable reserved slot.
+            mode_records.append((stable_node, stable_element, mode_name, mode, plane["interfaceDofs"]))  # Preserve physical equation ordering, stiffness, and stable damage identity together.
             next_node += 1  # Allocate the next independent auxiliary label.
             next_element += 1  # Allocate the next independent SPRING1 label.
-    if next_node != 100163 or next_element != 200163:  # Freeze the exact two-plane 162-mode topology before reserving reaction-audit IDs.
-        raise RuntimeError(f"condensed mode topology expected next ids 100163/200163, got {next_node}/{next_element}")  # Stop before auxiliary ranges collide after an unreviewed topology change.
+    expected_mode_count = 159 if condensation.get("damageContract", {}).get("caseId") == "LC08" else 162  # Reserve the reviewed LC08 three-mode gap while retaining the exact nominal topology contract.
+    mode_nodes = [record[0] for record in mode_records]  # Collect every assigned generalized-coordinate identity for collision and reserved-range validation.
+    mode_elements = [record[1] for record in mode_records]  # Collect every assigned modal SPRING1 identity for collision and reserved-range validation.
+    if len(mode_records) != expected_mode_count or len(set(mode_nodes)) != expected_mode_count or len(set(mode_elements)) != expected_mode_count or any(node < 100001 or node > 100162 for node in mode_nodes) or any(element < 200001 or element > 200162 for element in mode_elements):  # Require exact unique active slots wholly below the frozen reaction-audit ranges.
+        raise RuntimeError(f"condensed mode stable-slot topology expected {expected_mode_count} unique modes below ids 100163/200163")  # Stop before auxiliary ranges collide or a topology change masquerades as the reviewed loss case.
+    if expected_mode_count == 159 and (set(range(100001, 100163)) - set(mode_nodes) != {100079, 100080, 100081} or set(range(200001, 200163)) - set(mode_elements) != {200079, 200080, 200081}):  # Require only the reviewed positive-plane three-slot gap for LC08.
+        raise RuntimeError("LC08 condensed modes do not preserve reserved stable slots 79 through 81")  # Reject damage-mode renumbering before native solver execution.
     lines: list[str] = []  # Accumulate the complete no-regularization tangent realization block.
     lines.append("** P3 CANONICAL TANGENT CONDENSATION: AUXILIARY NODES ARE NOT PHYSICAL RESPONSE POINTS")  # Mark the exact modeling boundary for deck reviewers.
     lines.append("*NSET, NSET=NALL")  # Define the raw CalculiX response set independently from the original all-source-node declaration.
@@ -202,7 +212,22 @@ def render_condensed_modes(condensation: dict) -> str:  # Realize each physical 
     return "\n".join(lines) + "\n"  # Return the exact energy-equivalent modal block with a deterministic trailing newline.
 
 
-def merge_permanent_cloads(load_body: str, interface_loads: dict[tuple[int, int], float]) -> str:  # Merge original retained permanent nodal loads and P2 suspension interface actions into one unambiguous CLOAD block.
+def normalize_delta_cloads(delta_cloads: dict[tuple[int, int], float] | None) -> dict[tuple[int, int], float]:  # Validate and normalize one optional relative-case concentrated-load ledger before deck construction.
+    normalized_delta: dict[tuple[int, int], float] = {}  # Accumulate one finite scalar increment per explicit physical translational degree.
+    for raw_key, raw_value in (delta_cloads or {}).items():  # Visit every caller-supplied case increment exactly once while preserving the empty canonical path.
+        if not isinstance(raw_key, tuple) or len(raw_key) != 2 or not all(isinstance(component, int) and not isinstance(component, bool) for component in raw_key):  # Require an explicit integer physical-node and translational-direction identity.
+            raise RuntimeError(f"invalid delta CLOAD key: {raw_key!r}")  # Stop before silently coercing an unaudited load target.
+        node, dof = raw_key  # Recover the validated physical degree identity without changing caller ordering semantics.
+        if node <= 0 or dof not in (1, 2, 3):  # Limit increments to positive physical node labels and the three supported translational directions.
+            raise RuntimeError(f"invalid delta CLOAD degree: node={node} dof={dof}")  # Stop before emitting an invalid or rotational concentrated load.
+        value = float(raw_value)  # Convert the supplied scalar once before finite screening and deterministic serialization.
+        if not math.isfinite(value):  # Refuse NaN and infinity before they can contaminate solver input or load-ledger evidence.
+            raise RuntimeError(f"nonfinite delta CLOAD at node={node} dof={dof}")  # Stop before publishing an unusable case deck.
+        normalized_delta[(node, dof)] = value  # Preserve one exact increment per dictionary degree for deterministic application and audit comments.
+    return normalized_delta  # Return the complete deterministic relative-load map for both canonical and reaction-audit decks.
+
+
+def merge_permanent_cloads(load_body: str, interface_loads: dict[tuple[int, int], float], delta_cloads: dict[tuple[int, int], float] | None = None) -> str:  # Merge original permanent loads, P2 suspension interface actions, and one explicitly supplied case delta into one unambiguous CLOAD block.
     marker = "*CLOAD\n"  # Freeze the verified source nodal-load keyword spelling.
     if marker not in load_body:  # Require the immutable permanent nodal-load block before interface transfer.
         raise RuntimeError("verified permanent CLOAD block not found")  # Stop before publishing an incomplete P3 load case.
@@ -217,16 +242,27 @@ def merge_permanent_cloads(load_body: str, interface_loads: dict[tuple[int, int]
             raise RuntimeError(f"unexpected source CLOAD record: {raw}")  # Stop before changing verified load semantics.
     for key, value in interface_loads.items():  # Transfer P2 cable traction plus half-element suspension self-weight to every shared retained degree.
         combined[key] = combined.get(key, 0.0) + float(value)  # Superpose the physical interface action exactly once.
+    normalized_delta = normalize_delta_cloads(delta_cloads)  # Validate the optional relative load independently from permanent and transferred suspension actions.
+    for key, value in normalized_delta.items():  # Apply the audited case increment after the invariant permanent and suspension-interface actions.
+        combined[key] = combined.get(key, 0.0) + value  # Superpose each relative case force exactly once without altering the empty-delta canonical result.
+    delta_audit = ""  # Preserve canonical deck bytes when no relative load case has been requested.
+    if normalized_delta:  # Emit a machine-readable comment ledger only for a nonempty case increment.
+        delta_rows = [f"** DELTA_CLOAD {node}, {dof}, {value:.12e}" for (node, dof), value in sorted(normalized_delta.items())]  # Freeze every applied case increment separately from the merged solver load values.
+        delta_audit = "** AUDITED RELATIVE CASE CLOADS FOLLOW\n" + "\n".join(delta_rows) + "\n"  # Keep the case-load provenance inside the solver deck without creating a second active CLOAD block.
     records = [f"{node}, {dof}, {value:.12e}" for (node, dof), value in sorted(combined.items()) if value != 0.0]  # Keep every deterministic nonzero CLOAD real token within CalculiX's 20-character parser width.
-    return before + marker + "\n".join(records) + "\n"  # Return the single-step full permanent load body without duplicate-degree ambiguity.
+    return before + delta_audit + marker + "\n".join(records) + "\n"  # Return one active full-load block plus an inactive case-delta audit ledger without duplicate-degree ambiguity.
 
 
-def build_fine_deck(text: str, coordinated_nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], condensation: dict, reaction_sensor_stiffness_n_per_mm: float | None = None) -> str:  # Build either the canonical direct-support response deck or one independent SPRING2 reaction-audit deck.
+def build_fine_deck(text: str, coordinated_nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], condensation: dict, reaction_sensor_stiffness_n_per_mm: float | None = None, delta_cloads: dict[tuple[int, int], float] | None = None) -> str:  # Build either the canonical direct-support response deck or one independent SPRING2 reaction-audit deck with the same optional relative case loads.
     if "*STEP\n" not in text:  # Require the immutable source load-step boundary.
         raise RuntimeError("verified source STEP marker not found")  # Stop before guessing a load history.
     source_prefix, source_step = text.split("*STEP\n", 1)  # Separate model definitions from the one verified permanent-load step.
     retained_element_ids = {element_id for group_name in PRIMARY_STRESS_GROUPS for element_id, _connectivity in groups[group_name]}  # Freeze the exact 824 retained stress-carrying source elements.
     retained_node_ids = set(condensation["retainedNodes"])  # Freeze the exact 589-node retained physical response population independently from complete v3 source geometry.
+    normalized_delta = normalize_delta_cloads(delta_cloads)  # Validate the relative-load ledger before resolving its physical node coverage.
+    delta_node_ids = {node for node, _dof in normalized_delta}  # Recover every validated relative-case load target before any solver text is emitted.
+    if not delta_node_ids.issubset(retained_node_ids):  # Require every case increment to act on a retained physical node rather than a condensed, wind-only, or auxiliary label.
+        raise RuntimeError(f"delta CLOAD targets non-retained nodes: {sorted(delta_node_ids - retained_node_ids)[:8]}")  # Stop before dropping or misrouting a source-case force.
     structurally_referenced_nodes = {node for group_name in PRIMARY_STRESS_GROUPS for _element_id, connectivity in groups[group_name] for node in connectivity}  # Derive every physical node carrying retained shell or beam stiffness directly from frozen topology.
     if retained_node_ids != structurally_referenced_nodes:  # Reject both zero-stiffness retained orphans and structural references missing from the solver declaration.
         missing = sorted(structurally_referenced_nodes - retained_node_ids)  # Identify structural nodes absent from the retained response contract.
@@ -243,7 +279,7 @@ def build_fine_deck(text: str, coordinated_nodes: dict[int, tuple[float, float, 
     if output_match is None:  # Require an auditable source output-request boundary.
         raise RuntimeError("verified source NODE PRINT request not found")  # Stop before retaining an unknown tail of the source step.
     permanent_body = source_step[:output_match.start()]  # Preserve only STATIC, DLOAD, and CLOAD data from the verified permanent step.
-    merged_body = merge_permanent_cloads(permanent_body, condensation["interfaceLoads"])  # Apply retained permanent loads and P2 interface actions once in the same static step.
+    merged_body = merge_permanent_cloads(permanent_body, condensation["interfaceLoads"], delta_cloads=normalized_delta)  # Apply retained permanent loads, P2 interface actions, and the same audited case increment once in either deck type.
     if reaction_sensor_stiffness_n_per_mm is None:  # Preserve the canonical response output contract independently from support-sensor approximations.
         requests = "*NODE PRINT, NSET=NALL, FREQUENCY=1\nU, RF\n*EL PRINT, ELSET=E_STRUCTURAL, FREQUENCY=1\nS, E\n*NODE FILE, NSET=NALL, FREQUENCY=1\nU, RF\n*EL FILE, ELSET=E_STRUCTURAL, FREQUENCY=1\nS, E\n*END STEP\n"  # Request exact retained U/RF and every retained element's eight S records under direct physical supports.
     else:  # Keep the independent reaction audit minimal while retaining complete displacement and clean support-force evidence.
@@ -345,7 +381,9 @@ def recover_suspension_response(raw_displacements: dict[int, tuple[float, float,
     suspension_weight = 0.0  # Integrate complete cable-and-hanger self-weight for full-bridge force balance.
     for plane in condensation["planes"]:  # Recover each independent signed suspension plane through its accepted operators.
         interface_vector = [raw_displacements[node][dof] for node, dof in plane["interfaceDofs"]]  # Read every shared retained translation in the exact Schur ordering.
-        internal_vector = matrix_vector(plane["recovery"], interface_vector)  # Apply u_J equals minus K_JJ-inverse K_JI u_I with no zero response substitution.
+        homogeneous_internal = matrix_vector(plane["recovery"], interface_vector)  # Apply the homogeneous minus-KJJ-inverse-KJI interface response under the exact active tangent.
+        recovery_offset = plane.get("recoveryOffset", [0.0] * len(homogeneous_internal))  # Recover the explicit LC08 release offset while retaining a true zero affine term on the nominal path.
+        internal_vector = [recovery_offset[index] + homogeneous_internal[index] for index in range(len(homogeneous_internal))]  # Compose uJ=offset-KJJ-inverse-KJI*uI without filling or dropping any active internal degree.
         for index, (node, dof) in enumerate(plane["internalDofs"]):  # Map every recovered eliminated degree back to its physical node.
             current = list(displacements.get(node, (float("nan"), float("nan"), float("nan"))))  # Initialize a node only until all three analytic components are assigned.
             current[dof] = internal_vector[index]  # Store this exact recovered Cartesian component.
@@ -386,22 +424,34 @@ def recover_suspension_response(raw_displacements: dict[int, tuple[float, float,
             add_vector(incremental_resisting, node_b, tuple(-value for value in resisting_a))  # Assemble the equal-and-opposite endpoint B incremental internal residual.
             weight = area * STEEL_DENSITY_T_MM3 * GRAVITY_MM_S2 * length  # Reconstruct this suspension element's complete permanent self-weight.
             suspension_weight += weight  # Accumulate the full physical suspension external load once.
+        if "recoveryOffset" in plane:  # Remove the explicit damaged-plane base residual from incremental closure because the affine offset has already released it physically.
+            for node in plane["internalNodes"]:  # Visit every active eliminated node in the released plane.
+                base_action = plane["baseActions"].get(node, [0.0, 0.0, 0.0])  # Recover the active-member pre-release residual that drove the affine offset.
+                add_vector(incremental_resisting, node, tuple(-value for value in base_action))  # Evaluate post-release equilibrium as base residual plus action change equals zero under the stored sign convention.
         for node in plane["internalNodes"]:  # Verify every analytically eliminated free node remains incrementally equilibrated.
             maximum_internal_incremental_residual = max(maximum_internal_incremental_residual, vector_norm(incremental_resisting.get(node, [0.0, 0.0, 0.0])))  # Preserve the worst full-substructure residual.
-        condensed_resisting = matrix_vector(plane["condensed"], interface_vector)  # Compute the exact Schur interface residual independently from element recovery.
+        condensed_resisting = matrix_vector(plane["condensed"], interface_vector)  # Compute the exact homogeneous Schur interface residual independently from element recovery.
         for index, (node, dof) in enumerate(plane["interfaceDofs"]):  # Compare every Cartesian interface degree in the accepted ordering.
-            actual = incremental_resisting.get(node, [0.0, 0.0, 0.0])[dof]  # Recover the full-element assembled incremental residual.
+            actual = incremental_resisting.get(node, [0.0, 0.0, 0.0])[dof]  # Recover the full-element assembled active tangent action change.
+            if "effectiveInterfaceActions" in plane:  # Remove the affine release action at the interface before comparing the homogeneous Schur response.
+                actual += plane["effectiveInterfaceActions"][node][dof] - plane["baseActions"][node][dof]  # Isolate only the interface-displacement-driven tangent action under the action-change-equals-minus-K-u convention.
             maximum_interface_tangent_error = max(maximum_interface_tangent_error, abs(actual - condensed_resisting[index]))  # Preserve the largest realization mismatch.
         for node in plane["anchorNodes"]:  # Recover each fixed cable anchor's physical support residual explicitly.
             base_action = plane["baseActions"][node]  # Read physical base element action plus half-element self-weight at the anchor.
             increment = incremental_resisting.get(node, [0.0, 0.0, 0.0])  # Read the standard incremental internal-residual action at the fixed anchor.
             anchor_reactions[node] = [-base_action[axis] + increment[axis] for axis in range(3)]  # Apply reaction equals base internal-minus-external residual plus incremental internal residual.
-    primary_node_ids = {node for group_name in PRIMARY_VTK_GROUPS for _element_id, connectivity in groups[group_name] for node in connectivity}  # Freeze every physical node participating in the 1070-cell canonical primary response.
+    primary_node_ids = {node for group_name in PRIMARY_VTK_GROUPS for _element_id, connectivity in groups[group_name] for node in connectivity}  # Freeze every physical node participating in stable 1070-cell source topology, including any explicitly zero-total damage ghost.
+    removed_only_nodes = primary_node_ids - set(displacements)  # Detect source nodes that disappeared from active suspension partition only because their reviewed member was removed.
+    allowed_removed_nodes = {node for element_id in set(condensation.get("removedSuspensionElementIds", set())) for node in element_states[element_id]["nodeIds"]} - set(condensation["suspensionNodes"])  # Restrict fallback kinematics to removed-member endpoints absent from active suspension but still present in retained raw response.
+    for node in sorted(removed_only_nodes & allowed_removed_nodes):  # Restore only a retained endpoint whose active suspension incidence disappeared under the explicit damage contract.
+        if node not in raw_displacements:  # Require the endpoint displacement to come from native retained CalculiX response rather than a synthesized zero.
+            raise RuntimeError(f"removed-member endpoint {node} lacks retained raw displacement")  # Stop before filling a damage-node response.
+        displacements[node] = raw_displacements[node]  # Preserve the verbatim physical retained translation for stable source-topology visualization.
     if set(displacements) != primary_node_ids or any(any(not math.isfinite(value) for value in vector) for vector in displacements.values()):  # Require exact finite 783-node coverage without wind or auxiliary values.
         missing = sorted(primary_node_ids - set(displacements))  # Identify every missing physical response explicitly.
         surplus = sorted(set(displacements) - primary_node_ids)  # Identify every non-primary response explicitly.
         raise RuntimeError(f"analytic suspension displacement recovery mismatch missing={missing[:8]} surplus={surplus[:8]}")  # Stop before any zero or NaN fill reaches canonical output.
-    expected_suspension = {element_id for group_name in SUSPENSION_GROUPS for element_id, _connectivity in groups[group_name]}  # Freeze exact analytic suspension stress coverage.
+    expected_suspension = set(condensation.get("activeSuspensionElementIds", {element_id for group_name in SUSPENSION_GROUPS for element_id, _connectivity in groups[group_name]}))  # Freeze exact nominal or reviewed LC08 active analytic suspension stress coverage.
     if set(incremental_tensors) != expected_suspension:  # Require one real tangent-derived tensor for every cable and hanger.
         raise RuntimeError("analytic suspension stress recovery is incomplete")  # Stop before filling a missing element with P2 stress or zero.
     tolerance_scale = max(max(abs(value) for plane in condensation["planes"] for row in plane["condensed"] for value in row), 1.0)  # Form one physical stiffness scale for roundoff-only recovery checks.
@@ -409,4 +459,13 @@ def recover_suspension_response(raw_displacements: dict[int, tuple[float, float,
         raise RuntimeError(f"suspension tangent recovery failed residual={maximum_internal_incremental_residual} interface={maximum_interface_tangent_error}")  # Stop before publishing internally inconsistent response.
     anchor_sum = [sum(vector[axis] for vector in anchor_reactions.values()) for axis in range(3)]  # Form the complete physical cable-anchor support resultant.
     receipt = {"displacementNodeCount": len(displacements), "incrementalStressElementCount": len(incremental_tensors), "maximumInternalIncrementalResidualN": maximum_internal_incremental_residual, "maximumInterfaceTangentErrorN": maximum_interface_tangent_error, "minimumFinalSuspensionAxialStressMPa": minimum_final_tension, "maximumSuspensionIncrementToBaseRatio": maximum_coordination_increment, "anchorReactionConvention": "support-on-suspension residual: -[P2 element action + half self-weight] + tangent internal residual", "anchorReactionsN": {str(node): vector for node, vector in sorted(anchor_reactions.items())}, "anchorReactionResultantN": anchor_sum, "suspensionSelfWeightN": suspension_weight}  # Publish the complete physical recovery and reaction convention.
-    return {"displacements": displacements, "incrementalTensors": incremental_tensors, "totalTensors": total_tensors, "anchorReactions": anchor_reactions, "receipt": receipt}  # Return real primary response fields and their numerical receipt.
+    removed_ids = set(condensation.get("removedSuspensionElementIds", set()))  # Recover reviewed stable source IDs removed from the active suspension response.
+    removed_release_tensors: dict[int, tuple[float, float, float, float, float, float]] = {}  # Store exact negative-base increments for ghost topology only when a damage contract requires source-ID continuity.
+    for element_id in sorted(removed_ids):  # Visit each explicitly removed source member exactly once.
+        record = element_states[element_id]  # Recover its authoritative pre-loss P2 state without adding its stiffness or self-weight to the active solve.
+        node_a, node_b = (int(value) for value in record["nodeIds"])  # Recover the immutable ordered source endpoints for tensor orientation.
+        base_tensor = axial_tensor(float(record["axialStressMPa"]), coordinated_nodes[node_a], coordinated_nodes[node_b])  # Reconstruct the exact pre-loss base tensor independently.
+        removed_release_tensors[element_id] = tuple(-value for value in base_tensor)  # Publish delta stress equal to negative base so the explicit removed ghost total is exactly zero.
+        total_tensors[element_id] = tuple(0.0 for _component in range(6))  # Preserve stable VTK source topology while making the absent member's total response identically zero.
+    receipt.update({"activeSuspensionElementCount": len(incremental_tensors), "removedSuspensionElementIds": sorted(removed_ids), "removedGhostTotalStressMPa": {str(element_id): 0.0 for element_id in sorted(removed_ids)}})  # Bind active coverage and exact zero-total ghost semantics to the recovery receipt.
+    return {"displacements": displacements, "incrementalTensors": incremental_tensors, "removedReleaseTensors": removed_release_tensors, "totalTensors": total_tensors, "anchorReactions": anchor_reactions, "receipt": receipt}  # Return real active response fields, explicit damage releases, and their numerical receipt.
