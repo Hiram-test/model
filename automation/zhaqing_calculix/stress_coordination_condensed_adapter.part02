@@ -125,7 +125,7 @@ def render_reaction_sensors(records: list[dict], stiffness_n_per_mm: float) -> s
         lines.append(f"{record['sensorElement']}, {record['collectorNode']}, {record['physicalNode']}")  # Put the load-free collector first so its RF1 is the support-on-structure action and the physical direction is the second SPRING2 axis.
         lines.append(f"*SPRING, ELSET={sensor_name}")  # Assign the source-frozen audit stiffness to this scalar sensor.
         lines.append(f"1, {record['physicalDof']}")  # Measure collector DOF1 against the mapped physical global support direction.
-        lines.append(f"{stiffness_n_per_mm:.15e}")  # Serialize a real-valued N/mm spring constant with explicit decimal notation.
+        lines.append(f"{stiffness_n_per_mm:.12e}")  # Keep every CalculiX real field within its 20-character parser width while retaining thirteen significant digits.
     lines.append("*BOUNDARY")  # Apply audit support constraints only at load-free sensor endpoints.
     lines.append("P3_REACTION_COLLECTORS, 1, 1, 0.")  # Fix every scalar collector DOF1 while leaving unused collector directions inactive.
     return "\n".join(lines) + "\n"  # Return the deterministic non-MPC reaction-sensor block.
@@ -156,13 +156,13 @@ def render_condensed_modes(condensation: dict) -> str:  # Realize each physical 
         lines.append(f"{element_id}, {node_id}")  # Connect the unique generalized coordinate to its grounded spring.
         lines.append(f"*SPRING, ELSET={mode_name}")  # Assign the positive physical modal stiffness without a surrogate material.
         lines.append("1")  # Activate only the auxiliary node's first translational generalized degree.
-        lines.append(f"{float(mode['stiffnessNPerMm']):.15e}")  # Serialize the exact normalized Cholesky-column stiffness in N/mm with an explicit decimal.
+        lines.append(f"{float(mode['stiffnessNPerMm']):.12e}")  # Keep the modal stiffness within CalculiX\'s 20-character real-field width with precision beyond the frozen matrix tolerance.
         independent_terms = [(source_node, source_dof + 1, -float(coefficient)) for (source_node, source_dof), coefficient in zip(interface_dofs, mode["vector"]) if coefficient != 0.0]  # Form q minus v-transpose-u equals zero without dropping any nonzero factor coefficient.
         equation_terms = [(node_id, 1, 1.0), *independent_terms]  # Preserve the dependent auxiliary term first while preparing the complete MPC for CalculiX's fixed-width input rows.
         lines.append("*EQUATION")  # Begin the homogeneous MPC that maps retained translations to this generalized extension.
         lines.append(str(len(equation_terms)))  # Declare the exact equation term count including the dependent auxiliary coordinate.
         for term_offset in range(0, len(equation_terms), 4):  # Pack exactly four node-DOF-coefficient triples per nonfinal row as required by CalculiX 2.17.
-            lines.append(", ".join(f"{term_node}, {term_dof}, {term_coefficient:.15e}" for term_node, term_dof, term_coefficient in equation_terms[term_offset:term_offset + 4]))  # Serialize at most twelve comma-separated entries on each MPC data row.
+            lines.append(", ".join(f"{term_node}, {term_dof}, {term_coefficient:.12e}" for term_node, term_dof, term_coefficient in equation_terms[term_offset:term_offset + 4]))  # Keep each MPC real token at twenty characters or fewer while preserving the required four-term row packing.
     return "\n".join(lines) + "\n"  # Return the exact energy-equivalent modal block with a deterministic trailing newline.
 
 
@@ -181,7 +181,7 @@ def merge_permanent_cloads(load_body: str, interface_loads: dict[tuple[int, int]
             raise RuntimeError(f"unexpected source CLOAD record: {raw}")  # Stop before changing verified load semantics.
     for key, value in interface_loads.items():  # Transfer P2 cable traction plus half-element suspension self-weight to every shared retained degree.
         combined[key] = combined.get(key, 0.0) + float(value)  # Superpose the physical interface action exactly once.
-    records = [f"{node}, {dof}, {value:.15e}" for (node, dof), value in sorted(combined.items()) if value != 0.0]  # Serialize one deterministic nonzero CLOAD per physical degree.
+    records = [f"{node}, {dof}, {value:.12e}" for (node, dof), value in sorted(combined.items()) if value != 0.0]  # Keep every deterministic nonzero CLOAD real token within CalculiX\'s 20-character parser width.
     return before + marker + "\n".join(records) + "\n"  # Return the single-step full permanent load body without duplicate-degree ambiguity.
 
 
