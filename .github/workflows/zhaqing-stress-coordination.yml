@@ -1,0 +1,123 @@
+name: Zhaqing P0-P4 stress coordination and VTK # Run the repair plan from deterministic preflight through the final stress cloud.
+on: # Register only explicit PR9 branch execution routes.
+  push: # Recalculate when the implementation itself changes on the PR branch.
+    branches: # Restrict this numerical qualification to the existing PR9 head branch.
+      - agent/zhaqing-freecad-cad003 # Keep repository main isolated until every independent Gate is reviewed.
+    paths: # Trigger only when the P0-P4 implementation or this workflow changes.
+      - '.github/workflows/zhaqing-stress-coordination.yml' # Re-run when orchestration or Gate logic changes.
+      - 'automation/zhaqing_calculix/stress_coordination_pipeline.part*' # Re-run when any auditable pipeline source fragment changes.
+      - 'automation/zhaqing_prestress/balanced_transfer_prestress.py' # Re-run when the fixed P0 compatibility parser changes.
+  workflow_dispatch: # Permit an explicit audit rerun without changing model source.
+permissions: # Use the minimum repository permissions required for immutable baseline retrieval.
+  contents: read # Read the exact PR implementation and source evidence only.
+  actions: read # Download the fixed successful L2 baseline artifact by run id and exact artifact name.
+jobs: # Define one fail-closed deterministic numerical qualification job.
+  coordinate-stress: # Execute P0 preflight, P1/P2 form finding, P3 detailed solve, and P4 VTK Gate in sequence.
+    runs-on: ubuntu-22.04 # Match the operating-system family used by the verified CalculiX L2 baseline.
+    timeout-minutes: 45 # Bound package installation, one detailed solve, parsing, and artifact upload.
+    env: # Freeze immutable baseline and output identities for provenance.
+      BASELINE_RUN_ID: '30068283053' # Use the already verified L2 static-shell run as the frozen comparison mother model.
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23' # Select the exact successful baseline artifact by immutable name.
+      OUT: 'build/zhaqing-stress-coordination' # Keep every generated P0-P4 artifact in one isolated append-only directory.
+    steps: # Execute deterministic source checkout, preflight, baseline recovery, solve, archive, and physical Gate.
+      - name: Checkout exact PR9 implementation # Materialize the precise branch revision under test.
+        uses: actions/checkout@v4 # Use GitHub's standard deterministic source checkout.
+        with: # Configure checkout to avoid hidden history or credentials.
+          fetch-depth: 1 # Fetch only the exact tested PR revision.
+          persist-credentials: false # Prevent numerical scripts from mutating repository content during the run.
+      - name: Initialize append-only evidence directories # Create output and provenance roots before any calculation starts.
+        run: | # Record the exact source revision and runner context immediately.
+          set -euxo pipefail # Fail on shell errors, unset variables, and pipeline failures during evidence initialization.
+          mkdir -p "$OUT/provenance" "$OUT/logs" # Create deterministic evidence directories for calculation and audit output.
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt" # Bind every generated artifact to the exact PR head commit.
+          printf 'runner_os=%s\nrunner_arch=%s\n' "$RUNNER_OS" "$RUNNER_ARCH" > "$OUT/provenance/runner.txt" # Preserve the GitHub runner platform identity.
+      - name: P0 compile and import preflight # Catch syntax, import, and entry-point regressions before solver installation or model generation.
+        run: | # Exercise every local calculation module without using a floating cross-branch dependency.
+          set -euxo pipefail # Fail immediately on any Python syntax or import regression.
+          cat automation/zhaqing_calculix/stress_coordination_pipeline.part* > "$OUT/provenance/stress_coordination_pipeline.py" # Reconstruct the exact auditable P1-P4 source from ordered repository fragments.
+          python3 -m py_compile automation/zhaqing_prestress/balanced_transfer_prestress.py "$OUT/provenance/stress_coordination_pipeline.py" # Compile both P0 compatibility and reconstructed P1-P4 pipeline source files.
+          python3 "$OUT/provenance/stress_coordination_pipeline.py" --help > "$OUT/logs/p0-pipeline-help.txt" # Import and execute the reconstructed pipeline entry point through its harmless help path.
+          python3 --version > "$OUT/provenance/python-version.txt" # Freeze the Python interpreter version used by every subsequent model transformation.
+      - name: Install pinned solver family # Install the same CalculiX package family used by the successful verified baseline.
+        run: | # Install ccx from the Ubuntu 22.04 universe repository and preserve package identity.
+          set -euxo pipefail # Stop immediately if the numerical solver cannot be installed deterministically.
+          sudo apt-get update # Refresh Ubuntu package metadata before enabling the solver repository.
+          sudo apt-get install -y --no-install-recommends software-properties-common # Install the repository-management utility required by the runner image.
+          sudo add-apt-repository -y universe # Enable the Ubuntu universe repository containing CalculiX 2.17.
+          sudo apt-get update # Refresh package metadata after enabling universe.
+          sudo apt-get install -y --no-install-recommends calculix-ccx # Install CalculiX and its sparse-solver runtime dependencies.
+          command -v ccx > "$OUT/provenance/ccx-path.txt" # Record the exact solver executable path resolved by the runner.
+          dpkg-query -W calculix-ccx > "$OUT/provenance/calculix-package.txt" # Record the installed CalculiX package version for reproducibility.
+      - name: Recover immutable verified L2 baseline # Download the fixed successful L2 artifact without reading any floating calculation branch.
+        env: # Scope the GitHub token solely to same-repository artifact retrieval.
+          GH_TOKEN: ${{ github.token }} # Authenticate GitHub CLI to read the immutable baseline artifact.
+        run: | # Download, locate, hash, and smoke-test the exact baseline input.
+          set -euxo pipefail # Fail closed when the expected run, artifact, or source input is unavailable.
+          mkdir -p baseline # Create an isolated immutable baseline extraction root.
+          gh run download "$BASELINE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$BASELINE_ARTIFACT" --dir baseline # Download only the exact successful run artifact named above.
+          BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" # Locate the verified L2 dead-load mother deck inside the artifact.
+          test -s "$BASE" # Require a nonempty baseline input deck before any P1 form finding.
+          CONTRACT="$(find baseline -type f -name 'source_frozen_model_contract.json' -print -quit)" # Locate the CAD/FEM source contract carried by the verified baseline package.
+          test -s "$CONTRACT" # Require the frozen source contract for full and semantic provenance digests.
+          printf 'BASE=%s\nCONTRACT=%s\n' "$BASE" "$CONTRACT" >> "$GITHUB_ENV" # Publish deterministic baseline paths to later workflow steps.
+          sha256sum "$BASE" > "$OUT/provenance/baseline-input.sha256" # Freeze the exact verified mother-deck bytes used by P1-P4.
+          sha256sum "$CONTRACT" > "$OUT/provenance/source-contract-full.sha256" # Preserve the complete source-contract hash including volatile metadata.
+          python3 automation/zhaqing_prestress/balanced_transfer_prestress.py "$BASE" | tee "$OUT/logs/p0-balanced-transfer-smoke.txt" # Exercise the corrected former line-67 CLOAD parser against the real verified baseline.
+      - name: P0 semantic geometry digest # Separate meaningful source geometry from volatile generation timestamps in provenance.
+        run: | # Canonicalize the frozen contract after recursively removing time-like metadata keys.
+          set -euxo pipefail # Fail on malformed contract JSON or digest-generation errors.
+          python3 - "$CONTRACT" "$OUT/provenance/source-contract-semantic.sha256" <<'PY' # Execute a deterministic standard-library semantic digest without external dependencies.
+          import hashlib  # Compute the SHA-256 digest of canonical semantic geometry content.
+          import json  # Parse and canonically serialize the frozen source contract.
+          import sys  # Read the source-contract and output digest paths supplied by the workflow.
+          from pathlib import Path  # Use explicit filesystem paths for the source and digest files.
+          source = Path(sys.argv[1])  # Resolve the exact frozen source-contract path downloaded from the baseline artifact.
+          destination = Path(sys.argv[2])  # Resolve the provenance file that will store the semantic digest.
+          volatile_tokens = ("time", "timestamp", "date", "generated", "created", "updated")  # Define metadata-key fragments excluded from the semantic geometry digest.
+          def clean(value):  # Recursively remove only dictionary keys identified as volatile metadata.
+              if isinstance(value, dict):  # Canonicalize mapping content while preserving every nonvolatile engineering field.
+                  return {key: clean(item) for key, item in sorted(value.items()) if not any(token in key.lower() for token in volatile_tokens)}  # Remove time-like metadata and sort remaining keys deterministically.
+              if isinstance(value, list):  # Preserve source-order list semantics while cleaning nested records.
+                  return [clean(item) for item in value]  # Recursively canonicalize each list entry without reordering.
+              return value  # Preserve scalar geometry, material, identifier, and assumption values exactly.
+          payload = clean(json.loads(source.read_text(encoding="utf-8")))  # Parse and strip only volatile metadata from the frozen contract.
+          canonical = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")  # Serialize the semantic contract to one deterministic UTF-8 byte stream.
+          destination.write_text(hashlib.sha256(canonical).hexdigest() + "  semantic-source-contract\n", encoding="utf-8")  # Persist the canonical semantic geometry digest for change-control comparison.
+          PY
+      - name: Execute P1-P4 stress coordination # Build equilibrium_state.json, transfer it to the detailed model, solve, Gate, and export the mandatory VTK cloud.
+        run: | # Preserve a complete pipeline log while allowing evidence upload after a physical Gate failure.
+          set +e # Capture the pipeline's fail-closed status instead of terminating before artifact upload.
+          python3 "$OUT/provenance/stress_coordination_pipeline.py" --base "$BASE" --output "$OUT/calculation" --ccx "$(command -v ccx)" 2>&1 | tee "$OUT/logs/p1-p4-pipeline.log" # Execute the exact reconstructed repair-plan implementation from immutable L2 input to final VTK.
+          status=${PIPESTATUS[0]} # Preserve the pipeline's native numerical Gate exit code independently of tee.
+          set -e # Restore fail-fast shell behavior after the calculation process completes.
+          printf '%s\n' "$status" > "$OUT/provenance/pipeline-exit-code.txt" # Record the physical/numerical Gate process status for audit.
+          exit 0 # Continue to artifact upload regardless of calculation PASS or FAIL so diagnostics are never lost.
+      - name: Upload complete coordination evidence # Preserve source hashes, equilibrium state, solver deck/results, logs, summary, and VTK before enforcing final status.
+        if: always() # Archive complete evidence after both numerical success and failure.
+        uses: actions/upload-artifact@v4 # Store the complete P0-P4 calculation package as immutable Actions evidence.
+        with: # Configure deterministic artifact identity and bounded retention.
+          name: zhaqing-stress-coordinated-vtk-${{ github.sha }} # Bind the artifact to the exact PR implementation commit.
+          path: build/zhaqing-stress-coordination # Upload every provenance, log, solver, Gate, and visualization file.
+          if-no-files-found: error # Treat missing evidence as workflow infrastructure failure.
+          retention-days: 30 # Retain the result package for independent engineering review and comparison.
+          compression-level: 6 # Apply standard compression to mixed text, DAT, FRD, and VTK evidence.
+      - name: Enforce P4 physical and VTK Gate # Make workflow success follow summary PASS and the mandatory stress-cloud artifact rather than upload success.
+        if: always() # Evaluate final Gate even when earlier numerical stages reported failure.
+        run: | # Require machine-readable PASS, solver evidence, and a nonempty final VTK cloud.
+          set -euxo pipefail # Fail immediately when any required final evidence is missing or rejected.
+          test -s "$OUT/calculation/equilibrium_state.json" # Require the unique P2/P3 equilibrium-state contract before accepting detailed response.
+          test -s "$OUT/calculation/summary.json" # Require the decisive P4 machine-readable Gate receipt.
+          test -s "$OUT/calculation/stress-coordinated.vtk" # Require the exact final stress-cloud VTK filename requested for delivery.
+          test "$(stat -c%s "$OUT/calculation/stress-coordinated.vtk")" -gt 100000 # Reject placeholder or empty VTK files that cannot contain the complete full-bridge stress grid.
+          python3 - "$OUT/calculation/equilibrium_state.json" "$OUT/calculation/summary.json" <<'PY' # Verify semantic PASS conditions independently of the pipeline process exit file.
+          import json  # Read the machine-readable equilibrium-state and final Gate receipts.
+          import sys  # Receive deterministic evidence paths from the workflow shell.
+          from pathlib import Path  # Resolve evidence files explicitly without directory guessing.
+          equilibrium = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))  # Parse the unique P2 equilibrium-state contract.
+          summary = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))  # Parse the decisive P4 detailed-response Gate receipt.
+          assert equilibrium["status"] == "PASS", equilibrium.get("gates")  # Require the isolated axial P1/P2 equilibrium core to pass before detailed-model acceptance.
+          assert summary["status"] == "PASS", summary.get("gates")  # Require every mandatory P4 numerical coordination Gate to pass simultaneously.
+          assert summary["engineeringReleaseStatus"] == "BLOCKED", summary.get("engineeringReleaseStatus")  # Preserve the explicit boundary that unresolved G3-G6 evidence still blocks formal engineering release.
+          assert summary["vtk"]["pointCount"] > 0 and summary["vtk"]["cellCount"] > 0, summary.get("vtk")  # Require a populated VTK finite-element grid and stress field.
+          print(json.dumps({"status": summary["status"], "engineeringReleaseStatus": summary["engineeringReleaseStatus"], "vtkSha256": summary["vtkSha256"], "minSuspensionStressMPa": summary["minimumSuspensionAxialStressMPa"], "forceBalanceRelative": summary["verticalReactionBalanceRelative"]}, indent=2))  # Mirror the decisive Gate scalars into the final workflow log.
+          PY
