@@ -7,9 +7,10 @@ def format_integer_rows(values: list[int], width: int = 16) -> list[str]:  # Ser
     return [", ".join(str(value) for value in values[start:start + width]) for start in range(0, len(values), width)]  # Preserve sorted membership while bounding each input row.
 
 
-def filter_source_model(prefix: str, coordinated_nodes: dict[int, tuple[float, float, float]], retained_element_ids: set[int], sensor_supports: bool = False) -> str:  # Remove condensed and unevidenced elements while optionally replacing loaded translational supports only in an independent reaction audit.
+def filter_source_model(prefix: str, coordinated_nodes: dict[int, tuple[float, float, float]], retained_node_ids: set[int], retained_element_ids: set[int], sensor_supports: bool = False) -> str:  # Remove condensed and unevidenced nodes and elements while optionally replacing loaded translational supports only in an independent reaction audit.
     lines = prefix.splitlines()  # Scan the pre-step model data without normalizing the immutable source before decisions.
     output: list[str] = []  # Accumulate the deterministic retained model prefix.
+    emitted_physical_nodes: set[int] = set()  # Track the exact retained source-node population so deleted subsystems cannot leave zero-stiffness orphans.
     active_node_block = False  # Track source physical-node records so v3 coordinates replace baseline coordinates explicitly.
     active_boundary_block = False  # Track the single physical boundary block so removed-subsystem supports can be deleted.
     index = 0  # Advance through source rows with explicit whole-keyword-block skipping.
@@ -19,6 +20,7 @@ def filter_source_model(prefix: str, coordinated_nodes: dict[int, tuple[float, f
         upper = stripped.upper()  # Cache the case-insensitive keyword form.
         if stripped.startswith("*") and not stripped.startswith("**"):  # Process one real CalculiX keyword boundary.
             group_name = keyword_parameter(stripped, "ELSET")  # Recover element or section ownership when the keyword declares it.
+            node_set_name = keyword_parameter(stripped, "NSET")  # Recover source node-set ownership independently from element-set parameters.
             if upper.startswith("*ELEMENT") and group_name in REMOVED_PRIMARY_GROUPS:  # Delete the complete source element block for condensed suspension and excluded wind inventory.
                 index += 1  # Advance past the removed ELEMENT keyword.
                 while index < len(lines) and not lines[index].lstrip().startswith("*"):  # Consume only its numeric connectivity records.
@@ -47,6 +49,21 @@ def filter_source_model(prefix: str, coordinated_nodes: dict[int, tuple[float, f
                 active_node_block = False  # Leave physical-node parsing mode after an ELSET boundary.
                 active_boundary_block = False  # Leave boundary parsing mode after an ELSET boundary.
                 continue  # Reprocess the next keyword without consuming it.
+            if upper.startswith("*NSET") and node_set_name is not None:  # Rewrite every source node set so no retained keyword references a deleted suspension or wind-only node.
+                if "GENERATE" in upper:  # Refuse an unreviewed compact set syntax rather than expanding a possibly changed source contract incorrectly.
+                    raise RuntimeError(f"generated source NSET is unsupported in retained filtering: {raw}")  # Stop before silently changing node-set membership semantics.
+                index += 1  # Advance past the source NSET keyword before consuming its complete explicit membership body.
+                original_members: list[int] = []  # Collect exact explicit source node labels before applying the primary-response boundary.
+                while index < len(lines) and not lines[index].lstrip().startswith("*"):  # Consume every continued row belonging to this source node set.
+                    original_members.extend(int(token.strip()) for token in lines[index].split(",") if token.strip().isdigit())  # Parse only explicit integer node labels from the frozen source set.
+                    index += 1  # Advance through the complete source NSET body.
+                filtered_members = sorted(set(original_members) & retained_node_ids)  # Keep only declared retained physical nodes and remove all deleted-subsystem references.
+                if filtered_members:  # Preserve nonempty retained support, deck, tower, and monitor sets under their authoritative source names.
+                    output.append(raw)  # Retain the original NSET keyword spelling and identity.
+                    output.extend(format_integer_rows(filtered_members))  # Serialize exact filtered membership deterministically.
+                active_node_block = False  # Leave physical-node parsing mode after a source NSET boundary.
+                active_boundary_block = False  # Leave boundary parsing mode after a source NSET boundary.
+                continue  # Reprocess the next keyword without emitting an empty deleted-subsystem set.
             if re.match(r"^\*NODE(?:,|\s|$)", stripped, re.I) and not re.match(r"^\*NODE\s+(PRINT|FILE)", stripped, re.I):  # Detect the one physical source NODE definition.
                 output.append("*NODE, NSET=P3_SOURCE_NODES")  # Prevent removed and auxiliary nodes from entering the solver-result NALL contract implicitly.
                 active_node_block = True  # Enable authoritative v3 coordinate replacement on following node rows.
@@ -58,12 +75,18 @@ def filter_source_model(prefix: str, coordinated_nodes: dict[int, tuple[float, f
             output.append(raw)  # Preserve the unrelated retained model keyword verbatim.
             index += 1  # Advance to its data or the next keyword.
             continue  # Finish processing this keyword.
-        if active_node_block and stripped and not stripped.startswith("**"):  # Replace one physical source node record from the digest-verified v3 state.
+        if active_node_block and stripped and not stripped.startswith("**"):  # Replace one retained physical source node record from the digest-verified v3 state and drop every removed-only node.
             fields = [field.strip() for field in raw.split(",")]  # Tokenize the comma-delimited node record.
-            if fields and fields[0].isdigit() and int(fields[0]) in coordinated_nodes:  # Accept exactly a published physical source node label.
+            if fields and fields[0].isdigit():  # Recognize one explicit physical source-node definition before deciding its retained status.
                 node_id = int(fields[0])  # Recover the source node identity.
+                if node_id not in retained_node_ids:  # Remove every node belonging only to condensed suspension or formally excluded wind topology.
+                    index += 1  # Consume the deleted source-node row without allowing it to fall through to unchanged output.
+                    continue  # Advance with no zero-stiffness orphan declaration.
+                if node_id not in coordinated_nodes:  # Require authoritative v3 geometry for every retained physical node.
+                    raise RuntimeError(f"retained physical node {node_id} is missing from coordinated geometry")  # Stop before borrowing a stale baseline coordinate.
                 x_value, y_value, z_value = coordinated_nodes[node_id]  # Read its authoritative equilibrium coordinate.
                 output.append(f"{node_id}, {x_value:.12g}, {y_value:.12g}, {z_value:.12g}")  # Serialize the v3 coordinate with deterministic engineering precision.
+                emitted_physical_nodes.add(node_id)  # Record exact retained source-node declaration coverage for the fail-closed topology Gate.
                 index += 1  # Advance to the next source node row.
                 continue  # Avoid retaining the superseded baseline coordinate.
         if active_boundary_block and re.match(r"^(MAIN_CABLE_ANCHORS|WIND_ANCHORS)\s*,", stripped, re.I):  # Remove supports belonging only to condensed or formally excluded source subsystems.
@@ -86,6 +109,10 @@ def filter_source_model(prefix: str, coordinated_nodes: dict[int, tuple[float, f
             continue  # Let the later collector block carry these exact constrained directions.
         output.append(raw)  # Preserve every other model-data, comment, and retained boundary row verbatim.
         index += 1  # Advance to the next source row.
+    if emitted_physical_nodes != retained_node_ids:  # Require every and only retained physical node to be declared once after source filtering.
+        missing = sorted(retained_node_ids - emitted_physical_nodes)  # Identify absent retained nodes explicitly for review diagnostics.
+        surplus = sorted(emitted_physical_nodes - retained_node_ids)  # Identify any undeleted source-only nodes explicitly for review diagnostics.
+        raise RuntimeError(f"retained physical-node declaration mismatch missing={missing[:8]} surplus={surplus[:8]}")  # Stop before passing any orphan or incomplete topology to CalculiX.
     return "\n".join(output) + "\n"  # Return one normalized trailing-newline model prefix for deterministic insertion.
 
 
@@ -93,7 +120,8 @@ def reaction_collector_contract(text: str) -> list[dict]:  # Derive one load-fre
     nsets = parse_nsets(text)  # Recover support membership independently from the immutable source set declarations.
     specifications = (("TOWER_BASES", (1, 2, 3)), ("DECK_LEFT_PIN", (1, 2, 3)), ("DECK_RIGHT_ROLLER", (2, 3)))  # Freeze the exact translational support contract while excluding irrelevant rotational resultants.
     supported_degrees: list[tuple[int, int, str]] = []  # Accumulate physical node, direction, and source support-set records before global ordering.
-    next_node = 100163  # Continue directly after the exact 162 condensed-mode auxiliary nodes to minimize CalculiX allocation ranges.
+    first_collector_node = 100163  # Continue directly after the exact 162 condensed-mode auxiliary nodes with one scalar load-free collector per support direction.
+    first_proxy_node = 100185  # Reserve the following disjoint 22-node range for scalar support proxies isolated from shell-and-beam knot expansion.
     next_element = 200163  # Continue directly after the exact 162 condensed-mode SPRING1 elements for sensor identity.
     for set_name, directions in specifications:  # Visit tower bases, the left pin, and the right roller in physical contract order.
         members = sorted(nsets.get(set_name, set()))  # Resolve each frozen support set to explicit physical source nodes.
@@ -103,11 +131,10 @@ def reaction_collector_contract(text: str) -> list[dict]:  # Derive one load-fre
             for physical_dof in directions:  # Create one independent collector for each constrained global translation.
                 supported_degrees.append((physical_node, physical_dof, set_name))  # Preserve this physical support degree before source-independent sorting.
     records: list[dict] = []  # Allocate the final deterministic physical-degree to scalar-collector mappings.
-    for physical_node, physical_dof, set_name in sorted(supported_degrees):  # Freeze IDs by global physical node then Cartesian direction, independent of support-set declaration order.
-        records.append({"collectorNode": next_node, "sensorElement": next_element, "physicalNode": physical_node, "physicalDof": physical_dof, "supportSet": set_name})  # Bind one scalar collector and sensor element to its physical direction for parsing and audit.
-        next_node += 1  # Allocate the next unique compact reaction-collector label.
+    for record_index, (physical_node, physical_dof, set_name) in enumerate(sorted(supported_degrees)):  # Freeze IDs by global physical node then Cartesian direction, independent of support-set declaration order.
+        records.append({"collectorNode": first_collector_node + record_index, "proxyNode": first_proxy_node + record_index, "sensorElement": next_element, "physicalNode": physical_node, "physicalDof": physical_dof, "supportSet": set_name})  # Bind one load-free collector, scalar proxy, sensor, and physical support direction for parsing and audit.
         next_element += 1  # Allocate the matching compact reaction-sensor element label.
-    if len(records) != 22:  # Freeze the verified four tower bases, two left-pin nodes, and two right-roller nodes contract.
+    if len(records) != 22 or records[-1]["collectorNode"] != 100184 or records[-1]["proxyNode"] != 100206 or next_element != 200185:  # Freeze both scalar-node ranges and the verified 22 translational support degrees exactly.
         raise RuntimeError(f"reaction collector contract expected 22 translational degrees, got {len(records)}")  # Stop before accepting changed support membership silently.
     return records  # Return the complete deterministic collector mapping.
 
@@ -117,17 +144,24 @@ def render_reaction_sensors(records: list[dict], stiffness_n_per_mm: float) -> s
         raise RuntimeError(f"unapproved reaction-audit stiffness {stiffness_n_per_mm}")  # Stop before tuning a support sensor after observing results.
     lines = ["** P3 LOAD-FREE SPRING2 REACTION SENSORS: COLLECTOR RF EXCLUDES PHYSICAL CLOAD AND DLOAD", "*NODE"]  # Begin an explicit nonphysical collector population outside the canonical response.
     lines.extend(f"{record['collectorNode']}, 0., 0., 0." for record in records)  # Define one scalar collector per constrained physical translation.
+    lines.extend(f"{record['proxyNode']}, 0., 0., 0." for record in records)  # Define one scalar proxy per support direction so spring force does not attach directly to an expanded shell-and-beam knot.
     lines.append("*NSET, NSET=P3_REACTION_COLLECTORS")  # Declare collector output and boundary membership independently from node-definition parser behavior.
     lines.extend(format_integer_rows([int(record["collectorNode"]) for record in records]))  # List exactly the 22 clean scalar collector labels.
+    lines.append("*NSET, NSET=P3_REACTION_PROXIES")  # Declare proxy displacement output independently from retained physical NALL response.
+    lines.extend(format_integer_rows([int(record["proxyNode"]) for record in records]))  # List exactly the 22 scalar support-proxy labels.
     for sensor_index, record in enumerate(records, 1):  # Realize every support direction through one independent linear scalar force sensor.
         sensor_name = f"P3_RF_{sensor_index:03d}"  # Create one deterministic short element set per physical support degree.
         lines.append(f"*ELEMENT, TYPE=SPRING2, ELSET={sensor_name}")  # Declare a two-node fixed-direction sensor rather than an MPC whose force is not an independent RF.
-        lines.append(f"{record['sensorElement']}, {record['collectorNode']}, {record['physicalNode']}")  # Put the load-free collector first so its RF1 is the support-on-structure action and the physical direction is the second SPRING2 axis.
+        lines.append(f"{record['sensorElement']}, {record['collectorNode']}, {record['proxyNode']}")  # Put the load-free collector first and the scalar support proxy second so both spring axes are unambiguous DOF1.
         lines.append(f"*SPRING, ELSET={sensor_name}")  # Assign the source-frozen audit stiffness to this scalar sensor.
-        lines.append(f"1, {record['physicalDof']}")  # Measure collector DOF1 against the mapped physical global support direction.
+        lines.append("1, 1")  # Measure the collector and proxy scalar DOF1 pair without attaching SPRING2 directly to a beam-shell knot node.
         lines.append(f"{stiffness_n_per_mm:.12e}")  # Keep every CalculiX real field within its 20-character parser width while retaining thirteen significant digits.
+        lines.append("*EQUATION")  # Couple the proxy scalar exactly to its mapped physical Cartesian support displacement.
+        lines.append("2")  # Declare one dependent proxy term and one independent physical support term.
+        lines.append(f"{record['proxyNode']}, 1, 1., {record['physicalNode']}, {record['physicalDof']}, -1.")  # Enforce uProxy1 equals uPhysicalDirection while keeping all spring forces on the proxy side of the MPC.
     lines.append("*BOUNDARY")  # Apply audit support constraints only at load-free sensor endpoints.
-    lines.append("P3_REACTION_COLLECTORS, 1, 1, 0.")  # Fix every scalar collector DOF1 while leaving unused collector directions inactive.
+    lines.append("P3_REACTION_COLLECTORS, 1, 3, 0.")  # Fix the measured scalar DOF1 and both unused zero-stiffness collector directions without constraining any physical support node directly.
+    lines.append("P3_REACTION_PROXIES, 2, 3, 0.")  # Constrain only unused proxy directions while DOF1 remains the MPC-dependent physical support coordinate.
     return "\n".join(lines) + "\n"  # Return the deterministic non-MPC reaction-sensor block.
 
 
@@ -151,12 +185,14 @@ def render_condensed_modes(condensation: dict) -> str:  # Realize each physical 
     lines.extend(format_integer_rows(retained_nodes))  # Include every and only retained physical node in raw U/RF output.
     lines.append("*NODE, NSET=P3_CONDENSED_AUX")  # Begin auxiliary scalar generalized-coordinate definitions.
     lines.extend(f"{node_id}, 0., 0., 0." for node_id, _element_id, _name, _mode, _dofs in mode_records)  # Place algebraic nodes at an arbitrary nonphysical origin because only DOF1 enters energy.
+    lines.append("*BOUNDARY")  # Remove only unused auxiliary Cartesian directions before the scalar modal coordinates enter the global matrix.
+    lines.append("P3_CONDENSED_AUX, 2, 3, 0.")  # Constrain zero-stiffness DOF2/DOF3 while preserving DOF1 as the dependent generalized coordinate in every exact MPC.
     for node_id, element_id, mode_name, mode, interface_dofs in mode_records:  # Serialize one exact rank-one stiffness contribution.
         lines.append(f"*ELEMENT, TYPE=SPRING1, ELSET={mode_name}")  # Declare a one-node spring grounded through the SPRING1 formulation.
         lines.append(f"{element_id}, {node_id}")  # Connect the unique generalized coordinate to its grounded spring.
         lines.append(f"*SPRING, ELSET={mode_name}")  # Assign the positive physical modal stiffness without a surrogate material.
         lines.append("1")  # Activate only the auxiliary node's first translational generalized degree.
-        lines.append(f"{float(mode['stiffnessNPerMm']):.12e}")  # Keep the modal stiffness within CalculiX\'s 20-character real-field width with precision beyond the frozen matrix tolerance.
+        lines.append(f"{float(mode['stiffnessNPerMm']):.12e}")  # Keep the modal stiffness within CalculiX's 20-character real-field width with precision beyond the frozen matrix tolerance.
         independent_terms = [(source_node, source_dof + 1, -float(coefficient)) for (source_node, source_dof), coefficient in zip(interface_dofs, mode["vector"]) if coefficient != 0.0]  # Form q minus v-transpose-u equals zero without dropping any nonzero factor coefficient.
         equation_terms = [(node_id, 1, 1.0), *independent_terms]  # Preserve the dependent auxiliary term first while preparing the complete MPC for CalculiX's fixed-width input rows.
         lines.append("*EQUATION")  # Begin the homogeneous MPC that maps retained translations to this generalized extension.
@@ -181,7 +217,7 @@ def merge_permanent_cloads(load_body: str, interface_loads: dict[tuple[int, int]
             raise RuntimeError(f"unexpected source CLOAD record: {raw}")  # Stop before changing verified load semantics.
     for key, value in interface_loads.items():  # Transfer P2 cable traction plus half-element suspension self-weight to every shared retained degree.
         combined[key] = combined.get(key, 0.0) + float(value)  # Superpose the physical interface action exactly once.
-    records = [f"{node}, {dof}, {value:.12e}" for (node, dof), value in sorted(combined.items()) if value != 0.0]  # Keep every deterministic nonzero CLOAD real token within CalculiX\'s 20-character parser width.
+    records = [f"{node}, {dof}, {value:.12e}" for (node, dof), value in sorted(combined.items()) if value != 0.0]  # Keep every deterministic nonzero CLOAD real token within CalculiX's 20-character parser width.
     return before + marker + "\n".join(records) + "\n"  # Return the single-step full permanent load body without duplicate-degree ambiguity.
 
 
@@ -190,7 +226,13 @@ def build_fine_deck(text: str, coordinated_nodes: dict[int, tuple[float, float, 
         raise RuntimeError("verified source STEP marker not found")  # Stop before guessing a load history.
     source_prefix, source_step = text.split("*STEP\n", 1)  # Separate model definitions from the one verified permanent-load step.
     retained_element_ids = {element_id for group_name in PRIMARY_STRESS_GROUPS for element_id, _connectivity in groups[group_name]}  # Freeze the exact 824 retained stress-carrying source elements.
-    retained_prefix = filter_source_model(source_prefix, coordinated_nodes, retained_element_ids, sensor_supports=reaction_sensor_stiffness_n_per_mm is not None)  # Preserve direct supports for response or replace only audit translations with sensors.
+    retained_node_ids = set(condensation["retainedNodes"])  # Freeze the exact 589-node retained physical response population independently from complete v3 source geometry.
+    structurally_referenced_nodes = {node for group_name in PRIMARY_STRESS_GROUPS for _element_id, connectivity in groups[group_name] for node in connectivity}  # Derive every physical node carrying retained shell or beam stiffness directly from frozen topology.
+    if retained_node_ids != structurally_referenced_nodes:  # Reject both zero-stiffness retained orphans and structural references missing from the solver declaration.
+        missing = sorted(structurally_referenced_nodes - retained_node_ids)  # Identify structural nodes absent from the retained response contract.
+        orphaned = sorted(retained_node_ids - structurally_referenced_nodes)  # Identify retained nodes with no physical shell or beam stiffness.
+        raise RuntimeError(f"retained structural-node topology mismatch missing={missing[:8]} orphaned={orphaned[:8]}")  # Stop before relying on constraints or regularization to mask a singular topology.
+    retained_prefix = filter_source_model(source_prefix, coordinated_nodes, retained_node_ids, retained_element_ids, sensor_supports=reaction_sensor_stiffness_n_per_mm is not None)  # Preserve only 589 structurally referenced physical nodes with direct or sensor support semantics.
     mode_block = render_condensed_modes(condensation)  # Build the exact Schur-complement spring-and-equation representation.
     collector_block = render_reaction_sensors(reaction_collector_contract(text), reaction_sensor_stiffness_n_per_mm) if reaction_sensor_stiffness_n_per_mm is not None else ""  # Add force sensors only to the separate reaction audit, never to canonical U/S response.
     insertion_marker = "** BOUNDARY CONDITIONS\n"  # Prefer the source boundary comment as the deterministic pre-support insertion point.
@@ -205,7 +247,7 @@ def build_fine_deck(text: str, coordinated_nodes: dict[int, tuple[float, float, 
     if reaction_sensor_stiffness_n_per_mm is None:  # Preserve the canonical response output contract independently from support-sensor approximations.
         requests = "*NODE PRINT, NSET=NALL, FREQUENCY=1\nU, RF\n*EL PRINT, ELSET=E_STRUCTURAL, FREQUENCY=1\nS, E\n*NODE FILE, NSET=NALL, FREQUENCY=1\nU, RF\n*EL FILE, ELSET=E_STRUCTURAL, FREQUENCY=1\nS, E\n*END STEP\n"  # Request exact retained U/RF and every retained element's eight S records under direct physical supports.
     else:  # Keep the independent reaction audit minimal while retaining complete displacement and clean support-force evidence.
-        requests = "*NODE PRINT, NSET=NALL, FREQUENCY=1\nU\n*NODE PRINT, NSET=P3_REACTION_COLLECTORS, FREQUENCY=1\nRF\n*NODE FILE, NSET=NALL, FREQUENCY=1\nU\n*NODE FILE, NSET=P3_REACTION_COLLECTORS, FREQUENCY=1\nRF\n*END STEP\n"  # Request physical U plus collector RF without duplicating canonical stresses or using loaded-node RF.
+        requests = "*NODE PRINT, NSET=NALL, FREQUENCY=1\nU\n*NODE PRINT, NSET=P3_REACTION_PROXIES, FREQUENCY=1\nU\n*NODE PRINT, NSET=P3_REACTION_COLLECTORS, FREQUENCY=1\nRF\n*NODE FILE, NSET=NALL, FREQUENCY=1\nU\n*NODE FILE, NSET=P3_REACTION_PROXIES, FREQUENCY=1\nU\n*NODE FILE, NSET=P3_REACTION_COLLECTORS, FREQUENCY=1\nRF\n*END STEP\n"  # Request physical U, scalar proxy U, and collector RF without duplicating canonical stresses or using loaded-node RF.
     deck = retained_prefix + "*STEP\n" + merged_body + requests  # Assemble one ordinary static response step with no invalid PERTURBATION load reset or duplicated boundary block.
     if "PERTURBATION" in deck.upper():  # Enforce the canonical one-step full-load semantics mechanically.
         raise RuntimeError("canonical condensed deck unexpectedly contains PERTURBATION semantics")  # Stop before reintroducing reference-plus-full-load double counting.
@@ -220,6 +262,7 @@ def parse_raw_response(path: Path) -> dict:  # Parse final raw CalculiX NALL U/R
     displacements: dict[int, tuple[float, float, float]] = {}  # Preserve the corresponding finite numeric retained displacement values.
     forces: dict[int, tuple[float, float, float]] = {}  # Preserve final NALL nodal-force values for retained physical equilibrium diagnostics.
     collector_forces: dict[int, tuple[float, float, float]] = {}  # Preserve final load-free support-collector RF values independently from loaded physical nodes.
+    proxy_displacements: dict[int, tuple[float, float, float]] = {}  # Preserve final scalar support-proxy translations independently from physical knot output.
     stress_tokens: dict[int, dict[int, tuple[str, str, str, str, str, str]]] = {}  # Preserve every final element/integration-point stress token exactly.
     active: str | None = None  # Track the current final response table type.
     for raw in text.splitlines():  # Scan the complete native result in source order so a later frame replaces an earlier frame explicitly.
@@ -237,6 +280,10 @@ def parse_raw_response(path: Path) -> dict:  # Parse final raw CalculiX NALL U/R
             collector_forces = {}  # Select this later frame as the current final collector-force candidate.
             active = "COLLECTOR_RF"  # Enter collector-force parsing mode without contaminating NALL coverage.
             continue  # Advance through the optional blank header separator.
+        if "displacements (vx,vy,vz)" in lower and "set p3_reaction_proxies" in lower:  # Detect the separate scalar support-proxy displacement frame.
+            proxy_displacements = {}  # Select this later frame as the current final proxy-displacement candidate.
+            active = "PROXY_U"  # Enter proxy-displacement parsing mode without contaminating NALL coverage.
+            continue  # Advance through the optional blank header separator.
         if "stresses (elem" in lower and "set e_structural" in lower:  # Detect one complete retained element stress frame.
             stress_tokens = {}  # Select this later frame as the current final stress candidate.
             active = "S"  # Enter integration-point stress parsing mode.
@@ -245,7 +292,7 @@ def parse_raw_response(path: Path) -> dict:  # Parse final raw CalculiX NALL U/R
             active = None  # Prevent later numeric text from contaminating the selected response table.
             continue  # Advance under the unrelated table.
         fields = raw.split()  # Tokenize one possible fixed-width CalculiX numeric result row.
-        if active in {"U", "RF", "COLLECTOR_RF"} and len(fields) == 4 and fields[0].isdigit():  # Parse one exact node id plus three Cartesian components.
+        if active in {"U", "RF", "COLLECTOR_RF", "PROXY_U"} and len(fields) == 4 and fields[0].isdigit():  # Parse one exact node id plus three Cartesian components.
             node_id = int(fields[0])  # Recover the physical source node identity.
             components = tuple(float(token) for token in fields[1:4])  # Convert the three native numeric spellings to finite floats.
             if any(not math.isfinite(value) for value in components):  # Reject a diverged or nonfinite native response immediately.
@@ -255,8 +302,10 @@ def parse_raw_response(path: Path) -> dict:  # Parse final raw CalculiX NALL U/R
                 displacements[node_id] = (components[0], components[1], components[2])  # Preserve numeric values for analytic recovery.
             elif active == "RF":  # Route retained physical nodal-force rows to their independent diagnostic map.
                 forces[node_id] = (components[0], components[1], components[2])  # Preserve all printed nodal forces without calling free-node forces reactions.
-            else:  # Route clean collector rows to the only map accepted for retained reaction recovery.
+            elif active == "COLLECTOR_RF":  # Route clean collector rows to the only map accepted for retained reaction recovery.
                 collector_forces[node_id] = (components[0], components[1], components[2])  # Preserve scalar-collector RF in its solver DOF1 component.
+            else:  # Route scalar support-proxy displacement rows independently from physical knot translations.
+                proxy_displacements[node_id] = (components[0], components[1], components[2])  # Preserve proxy DOF1 for direct sensor constitutive verification.
             continue  # Finish processing this nodal result row.
         if active == "S" and len(fields) >= 8 and fields[0].isdigit() and fields[1].isdigit():  # Parse one element, integration point, and six symmetric stress components.
             element_id = int(fields[0])  # Recover the retained source element label.
@@ -268,7 +317,7 @@ def parse_raw_response(path: Path) -> dict:  # Parse final raw CalculiX NALL U/R
             if integration_point in element_records:  # Reject duplicate final-frame point labels rather than last-row-wins ambiguity.
                 raise RuntimeError(f"duplicate raw stress record for element {element_id} point {integration_point}")  # Stop before losing one native record.
             element_records[integration_point] = (fields[2], fields[3], fields[4], fields[5], fields[6], fields[7])  # Preserve exactly the six native stress token spellings.
-    return {"displacementTokens": displacement_tokens, "displacements": displacements, "forces": forces, "collectorForces": collector_forces, "stressTokens": stress_tokens, "rawSha256": sha256_path(path)}  # Return complete native physical and load-free reaction response with unchanged-file identity.
+    return {"displacementTokens": displacement_tokens, "displacements": displacements, "forces": forces, "collectorForces": collector_forces, "proxyDisplacements": proxy_displacements, "stressTokens": stress_tokens, "rawSha256": sha256_path(path)}  # Return complete native physical, scalar-proxy, and load-free reaction response with unchanged-file identity.
 
 
 def average_stress_records(records: dict[int, tuple[str, str, str, str, str, str]]) -> tuple[float, float, float, float, float, float]:  # Reduce one exact eight-record native tensor table to the established VTK element-average convention.
