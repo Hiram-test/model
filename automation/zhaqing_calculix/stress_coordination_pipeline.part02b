@@ -35,29 +35,81 @@ def replace_node_coordinates(text: str, coordinated_nodes: dict[int, tuple[float
     return "\n".join(output) + "\n"  # Restore deterministic newline-terminated input text.
 
 
-def build_fine_deck(text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], coordinated_nodes: dict[int, tuple[float, float, float]], target_axial_stress: dict[int, float]) -> str:  # Build the P3 detailed response model only from the published equilibrium state.
+def build_fine_deck(text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], coordinated_nodes: dict[int, tuple[float, float, float]], target_axial_stress: dict[int, float]) -> str:  # Build the P3 detailed perturbation model only from the published equilibrium state.
     changed_nodes = {node for plane in (2750.0, -2750.0) for node in main_span_nodes(nodes, groups, plane)}  # Restrict coordinate transfer to the form-found main-span cable nodes.
     patched = replace_node_coordinates(text, coordinated_nodes, changed_nodes)  # Transfer the P2 equilibrium cable geometry while preserving all other detailed-model coordinates.
-    patched = patched.replace("Zhaqing suspension bridge global screening model - LC01_G_DEAD DEAD_LOAD", "Zhaqing suspension bridge P3 coordinated detailed response model", 1)  # Relabel the detailed model for unambiguous provenance.
-    patched = patched.replace("** No calibrated fabrication-state cable prestress is included.", "** P3 detailed response model consumes equilibrium_state.json; main cables and hangers receive the unique transferred axial prestress state.", 1)  # Record the two-model state transfer in the input header.
-    patched = patched.replace("*ELEMENT, TYPE=B31, ELSET=MAIN_CABLES", "*ELEMENT, TYPE=T3D2, ELSET=MAIN_CABLES", 1)  # Enforce the P3 requirement that the main cable remain axial in the detailed model.
+    patched = patched.replace("Zhaqing suspension bridge global screening model - LC01_G_DEAD DEAD_LOAD", "Zhaqing suspension bridge P3 coordinated prestress-reference response model", 1)  # Relabel the detailed response model for unambiguous provenance.
+    patched = patched.replace("** No calibrated fabrication-state cable prestress is included.", "** P3 detailed response model consumes equilibrium_state.json and evaluates permanent-load response as a perturbation about that prestressed reference state.", 1)  # Record the two-model state transfer in the input header.
+    patched = patched.replace("*ELEMENT, TYPE=B31, ELSET=MAIN_CABLES", "*ELEMENT, TYPE=T3D2, ELSET=MAIN_CABLES", 1)  # Keep the P3 main cable axial while removing the old bending surrogate.
     old_section = "*BEAM SECTION, ELSET=MAIN_CABLES, MATERIAL=MAIN_CABLE_WIRE_SCREEN, SECTION=RECT\n74.5432224, 74.5432224\n0., 1., 0.\n"  # Match the old bending-capable cable surrogate exactly.
-    new_section = f"*SOLID SECTION, ELSET=MAIN_CABLES, MATERIAL=MAIN_CABLE_WIRE_SCREEN\n{MAIN_CABLE_AREA_MM2:.12g}\n"  # Preserve the identical axial area after the B31-to-T3D2 correction.
+    new_section = f"*SOLID SECTION, ELSET=MAIN_CABLES, MATERIAL=MAIN_CABLE_WIRE_SCREEN\n{MAIN_CABLE_AREA_MM2:.12g}\n"  # Preserve identical axial area after the B31-to-T3D2 correction.
     if old_section not in patched:  # Require the exact verified source section before changing cable representation.
         raise RuntimeError("verified main-cable B31 section not found in P3 source model")  # Stop rather than silently altering an unknown section card.
     patched = patched.replace(old_section, new_section, 1)  # Replace only the main-cable section card with the axial T3D2 section.
-    transferred_nodes, transferred_groups, _ownership = parse_model(patched)  # Reparse the coordinate-transferred detailed topology for stress-tensor directions.
+    transferred_nodes, transferred_groups, _ownership = parse_model(patched)  # Reparse the coordinate-transferred detailed topology for stress directions and node sets.
+    cable_nodes = sorted({node for _element_id, connectivity in transferred_groups["MAIN_CABLES"] for node in connectivity[:2]})  # Collect every main-cable node for the temporary P3 reference-state stabilization set.
+    temp_set_lines = ["*NSET, NSET=P3_TEMP_CABLE_FIX"]  # Start the temporary cable-coordinate fixation set used only by the nonperturbative reference step.
+    for index in range(0, len(cable_nodes), 16):  # Serialize the temporary node set in bounded deterministic rows.
+        temp_set_lines.append(", ".join(str(node) for node in cable_nodes[index:index + 16]))  # Preserve source node ids without inventing new geometry.
+    if "** MATERIALS\n" not in patched:  # Require the frozen material-section insertion anchor.
+        raise RuntimeError("verified detailed-model MATERIALS marker not found")  # Stop before inserting a temporary state set at an ambiguous location.
+    patched = patched.replace("** MATERIALS\n", "\n".join(temp_set_lines) + "\n** MATERIALS\n", 1)  # Add only the temporary P3 reference-state node set to the model definition.
+    transferred_nodes, transferred_groups, _ownership = parse_model(patched)  # Reparse after the temporary node-set insertion for final stress construction.
     stress_lines = ["*INITIAL CONDITIONS, TYPE=STRESS"]  # Start the unique transferred cable-and-hanger initial-stress field.
-    for group_name in ("MAIN_CABLES", "HANGERS"):  # Transfer only vertical suspension-system prestress into the formal main result.
+    balance: dict[tuple[int, int], float] = {}  # Accumulate exact opposite forces at free hanger-bottom nodes for the stabilized P3 reference step.
+    cable_node_set = set(cable_nodes)  # Cache the temporarily fixed main-cable nodes for balance-load filtering.
+    for group_name, area in (("MAIN_CABLES", MAIN_CABLE_AREA_MM2), ("HANGERS", HANGER_AREA_MM2)):  # Transfer the complete vertical suspension-system P2 stress state.
         for element_id, connectivity in transferred_groups[group_name]:  # Visit every axial main-cable and hanger element once.
-            if element_id not in target_axial_stress:  # Require a P2 force-state value for every transferred suspension element.
-                raise RuntimeError(f"equilibrium state missing target stress for element {element_id}")  # Stop before re-guessing any prestress in the detailed model.
+            if element_id not in target_axial_stress:  # Require a P2 state value for every transferred suspension element.
+                raise RuntimeError(f"equilibrium state missing target stress for element {element_id}")  # Stop before re-guessing prestress in the detailed model.
             stress = float(target_axial_stress[element_id])  # Read the unique axial stress published by equilibrium_state.json.
-            tensor = axial_tensor(stress, transferred_nodes[connectivity[0]], transferred_nodes[connectivity[1]])  # Convert the axial state to CalculiX global Cartesian initial stress.
+            tensor = axial_tensor(stress, transferred_nodes[connectivity[0]], transferred_nodes[connectivity[1]])  # Convert the P2 axial state to a global Cartesian initial-stress tensor.
             for integration_point in range(1, 9):  # Match the eight line-element integration points used by the verified CalculiX output.
-                stress_lines.append(f"{element_id}, {integration_point}, " + ", ".join(f"{value:.12g}" for value in tensor))  # Assign the same physical axial stress tensor at every line-element integration point.
+                stress_lines.append(f"{element_id}, {integration_point}, " + ", ".join(f"{value:.12g}" for value in tensor))  # Assign the physical axial reference stress at every line-element integration point.
+            point_a = transferred_nodes[connectivity[0]]  # Recover the first transferred endpoint for the reference-state force vector.
+            point_b = transferred_nodes[connectivity[1]]  # Recover the second transferred endpoint for the reference-state force vector.
+            length = vector_length(point_a, point_b)  # Compute the transferred element chord length.
+            unit = tuple((point_b[index] - point_a[index]) / length for index in range(3))  # Normalize the transferred element axis.
+            force = stress * area  # Convert the P2 target tensile stress back to element axial force.
+            end_force = tuple(force * value for value in unit)  # Compute the tensile force pulling node one toward node two.
+            for node_id, sign in ((connectivity[0], 1.0), (connectivity[1], -1.0)):  # Visit both element endpoints with equal-and-opposite internal nodal-force signs.
+                if node_id in cable_node_set:  # Let the temporary cable-coordinate fixation carry reference-step cable-node forces.
+                    continue  # Do not add an artificial CLOAD to temporarily fixed cable coordinates.
+                for dof, component in enumerate(end_force, 1):  # Balance each free endpoint translational force component independently.
+                    balance[(node_id, dof)] = balance.get((node_id, dof), 0.0) - sign * component  # Apply the exact opposite reference CLOAD so free detailed-model nodes remain at the P2 equilibrium coordinates.
     if "*STEP\n" not in patched:  # Require the single verified L2 static step boundary.
         raise RuntimeError("verified detailed-model STEP marker not found")  # Stop rather than rewriting an incompatible load history.
-    model_prefix, step_text = patched.split("*STEP\n", 1)  # Separate model definitions from the verified permanent-load step.
-    if "*NODE PRINT, NSET=MONITOR, FREQUENCY=1\n" not in step_text:  # Require the verified result-request anchor before replacing output requests.
-        raise RuntimeError("verified detailed-model result-request anchor not found")  # Stop rather than generating an unauditable result deck.
+    model_prefix, verified_step = patched.split("*STEP\n", 1)  # Separate model definitions from the immutable verified permanent-load step.
+    if "*NODE PRINT, NSET=MONITOR, FREQUENCY=1\n" not in verified_step:  # Require the verified result-request anchor before replacing output requests.
+        raise RuntimeError("verified detailed-model result-request anchor not found")  # Stop rather than generating an unauditable response deck.
+    verified_load_body = verified_step.split("*NODE PRINT, NSET=MONITOR, FREQUENCY=1\n", 1)[0]  # Preserve the exact verified DLOAD and CLOAD data before its original result requests.
+    if "*DLOAD\n" not in verified_load_body:  # Require the immutable permanent gravity block.
+        raise RuntimeError("verified detailed-model DLOAD block not found")  # Stop before constructing an incomplete P3 perturbation load.
+    permanent_loads = "*DLOAD\n" + verified_load_body.split("*DLOAD\n", 1)[1]  # Preserve every verified permanent gravity and CLOAD record exactly.
+    reference_cload_lines = [f"{node}, {dof}, {value:.12g}" for (node, dof), value in sorted(balance.items()) if abs(value) > 1.0e-9]  # Serialize deterministic temporary balancing loads at free suspension endpoints.
+    reference_step = "*STEP\n*STATIC\n*BOUNDARY\nP3_TEMP_CABLE_FIX, 1, 3, 0.\n" + ("*CLOAD\n" + "\n".join(reference_cload_lines) + "\n" if reference_cload_lines else "") + "*END STEP\n"  # Establish a zero-displacement nonperturbative prestressed reference state with temporary cable-coordinate stabilization.
+    physical_boundaries = "*BOUNDARY, OP=NEW\nTOWER_BASES, 1, 6, 0.\nMAIN_CABLE_ANCHORS, 1, 3, 0.\nWIND_ANCHORS, 1, 3, 0.\nDECK_LEFT_PIN, 1, 3, 0.\nDECK_RIGHT_ROLLER, 2, 3, 0.\n"  # Release temporary cable fixation and reapply only the frozen physical support contract in the perturbation step.
+    output_requests = "*NODE PRINT, NSET=NALL, FREQUENCY=1\nU, RF\n*EL PRINT, ELSET=E_STRUCTURAL, FREQUENCY=1\nS, E\n*NODE FILE, FREQUENCY=1\nU, RF\n*EL FILE, FREQUENCY=1\nS, E\n*END STEP\n"  # Request complete perturbation response for P4 and VTK generation.
+    perturbation_step = "*STEP, PERTURBATION\n*STATIC\n" + physical_boundaries + permanent_loads + output_requests  # Evaluate the verified permanent-load response about the established prestressed P2 reference state while retaining axial main-cable representation.
+    return model_prefix + "\n".join(stress_lines) + "\n" + reference_step + perturbation_step  # Assemble the two-model P3 reference-plus-perturbation response deck without full shell-beam NLGEOM iterations.
+
+def parse_dat_nodes(dat_path: Path) -> tuple[dict[int, tuple[float, float, float]], dict[int, tuple[float, float, float]]]:  # Parse the final NALL perturbation displacement and nodal-force blocks from CalculiX DAT output.
+    text = dat_path.read_text(encoding="utf-8", errors="replace") if dat_path.exists() else ""  # Read the solver DAT output defensively.
+    displacements: dict[int, tuple[float, float, float]] = {}  # Store final perturbation U1,U2,U3 by source node id.
+    reactions: dict[int, tuple[float, float, float]] = {}  # Store final printed RF1,RF2,RF3 by source node id.
+    active: str | None = None  # Track whether the parser is inside displacement or force output.
+    seen_numeric = False  # Distinguish the standard blank line after a CalculiX table header from the end of populated data.
+    for raw in text.splitlines():  # Scan the complete result text in source order.
+        line = raw.strip()  # Normalize whitespace for header and numeric-row detection.
+        lower = line.lower()  # Cache lowercase text for robust CalculiX header matching.
+        if "displacements (vx,vy,vz)" in lower and "set nall" in lower:  # Detect the complete NALL displacement table.
+            active = "U"  # Enter displacement-row parsing mode.
+            seen_numeric = False  # Reset row-state at the start of this result table.
+            continue  # Advance through the optional blank line after the header.
+        if "forces (fx,fy,fz)" in lower and "set nall" in lower:  # Detect the complete NALL nodal-force table.
+            active = "RF"  # Enter nodal-force-row parsing mode.
+            seen_numeric = False  # Reset row-state at the start of this result table.
+            continue  # Advance through the optional blank line after the header.
+        if active:  # Parse numeric node result rows while a NALL table is active.
+            match = re.match(r"^\s*(\d+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$", raw)  # Match node id and three result components.
+            if match:  # Store only well-formed numeric rows.
