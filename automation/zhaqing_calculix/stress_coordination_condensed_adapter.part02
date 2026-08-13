@@ -158,10 +158,11 @@ def render_condensed_modes(condensation: dict) -> str:  # Realize each physical 
         lines.append("1")  # Activate only the auxiliary node's first translational generalized degree.
         lines.append(f"{float(mode['stiffnessNPerMm']):.15e}")  # Serialize the exact normalized Cholesky-column stiffness in N/mm with an explicit decimal.
         independent_terms = [(source_node, source_dof + 1, -float(coefficient)) for (source_node, source_dof), coefficient in zip(interface_dofs, mode["vector"]) if coefficient != 0.0]  # Form q minus v-transpose-u equals zero without dropping any nonzero factor coefficient.
+        equation_terms = [(node_id, 1, 1.0), *independent_terms]  # Preserve the dependent auxiliary term first while preparing the complete MPC for CalculiX's fixed-width input rows.
         lines.append("*EQUATION")  # Begin the homogeneous MPC that maps retained translations to this generalized extension.
-        lines.append(str(1 + len(independent_terms)))  # Declare the exact equation term count including the dependent auxiliary coordinate.
-        lines.append(f"{node_id}, 1, 1.000000000000000e+00")  # Place the normalized auxiliary DOF first so CalculiX eliminates only a nonphysical coordinate.
-        lines.extend(f"{source_node}, {source_dof}, {coefficient:.15e}" for source_node, source_dof, coefficient in independent_terms)  # Emit one term per row, safely below CalculiX's four-term input-row limit.
+        lines.append(str(len(equation_terms)))  # Declare the exact equation term count including the dependent auxiliary coordinate.
+        for term_offset in range(0, len(equation_terms), 4):  # Pack exactly four node-DOF-coefficient triples per nonfinal row as required by CalculiX 2.17.
+            lines.append(", ".join(f"{term_node}, {term_dof}, {term_coefficient:.15e}" for term_node, term_dof, term_coefficient in equation_terms[term_offset:term_offset + 4]))  # Serialize at most twelve comma-separated entries on each MPC data row.
     return "\n".join(lines) + "\n"  # Return the exact energy-equivalent modal block with a deterministic trailing newline.
 
 
