@@ -1,0 +1,59 @@
+    for group_name in ("MAIN_CABLES", "HANGERS"):  # Evaluate positive tension and stress transfer in both suspension-element families.
+        for element_id, connectivity in groups[group_name]:  # Visit every detailed-model suspension element.
+            tensor = stresses.get(element_id)  # Recover its coordinated total final stress tensor.
+            if tensor is None:  # Treat missing stress output as a hard Gate failure through completeness checks.
+                continue  # Preserve explicit missing-output counting without fabricating stress.
+            axial = projected_axial_stress(tensor, nodes[connectivity[0]], nodes[connectivity[1]])  # Project coordinated total stress onto the element axis.
+            tension_checks.append(axial)  # Preserve the final tensile stress for minimum-margin evaluation.
+            target = float(target_axial_stress[element_id])  # Recover the unique P2 equilibrium target stress for this element.
+            coordination_errors.append(abs(axial - target) / max(abs(target), 1.0e-9))  # Measure the relative detailed-response deviation from the P2 equilibrium stress.
+    max_displacement = max(math.sqrt(sum(component * component for component in vector)) for vector in displacements.values()) if displacements else float("inf")  # Measure the maximum detailed-model perturbation displacement magnitude.
+    form_residual = float(equilibrium_state["gates"]["maxFormFindingResidualN"])  # Recover the independent P1/P2 axial equilibrium residual.
+    stress_output_expected = sum(len(solver_groups.get(name, [])) for name in ("DECK_SHELLS", "CROSSBEAMS", "LONG_GIRDERS", "TOWER_COLUMNS", "TOWER_TOP_BEAMS", "WIND_ATTACH_LINKS", "WIND_CABLES"))  # Count active retained P3 structural cells expected in complete solver stress output.
+    active_solver_nodes = {node for group_name in solver_groups for _element_id, connectivity in solver_groups[group_name] for node in connectivity}  # Recover every node participating in an active P3 solver element for nodal-output completeness screening.
+    max_coordination_error = max(coordination_errors) if coordination_errors else float("inf")  # Recover the worst suspension stress-transfer deviation for the coordination Gate.
+    gates = {"solverExitZero": solver_exit == 0, "fatalDiagnosticsAbsent": not fatal_hits, "completeNodalOutput": len(displacements) >= len(active_solver_nodes), "completeStructuralStressOutput": len(stresses) >= 0.90 * stress_output_expected, "formFindingResidualPass": form_residual <= FORM_RESIDUAL_TOL_N, "positiveSuspensionTension": bool(tension_checks) and min(tension_checks) >= MIN_TENSION_MPA, "suspensionStressCoordinationPass": max_coordination_error <= 0.50, "verticalReactionBalanceScreeningPass": vertical_balance_relative <= FORCE_BALANCE_REL_TOL, "maximumDisplacementScreeningPass": math.isfinite(max_displacement) and max_displacement <= 1000.0, "vtkProduced": vtk_receipt.get("pointCount", 0) > 0 and vtk_receipt.get("cellCount", 0) > 0, "coordinateCorrectionWithinScreeningLimit": float(equilibrium_state["gates"]["maxCoordinateCorrectionMm"]) <= GEOMETRY_RESIDUAL_TOL_MM}  # Assemble the mandatory machine-readable P4 Gate booleans including stress coordination and displacement sanity.
+    status = "PASS" if all(gates.values()) else "FAIL"  # Accept the numerical coordination result only when every mandatory Gate passes simultaneously.
+    return {"status": status, "gates": gates, "solverExitCode": solver_exit, "fatalDiagnostics": fatal_hits, "supportNodeCount": len(support_nodes), "reactionSumN": reaction_sum, "externalLoadResultantN": external_resultant, "forceResidualResultantN": residual_resultant, "externalLoadAudit": external_audit, "totalPermanentVerticalReferenceN": reference_weight, "verticalReactionBalanceRelative": vertical_balance_relative, "minimumSuspensionAxialStressMPa": min(tension_checks) if tension_checks else None, "maximumSuspensionCoordinationRelativeError": max_coordination_error if coordination_errors else None, "maximumDisplacementMm": max_displacement, "formFindingMaxResidualN": form_residual, "vtk": vtk_receipt, "engineeringReleaseStatus": "BLOCKED", "engineeringReleaseBlockers": "G3-G6 source geometry/assembly evidence and formal wind-cable evidence remain outside this numerical coordination Gate"}
+
+def main() -> int:  # Execute the audited P0-P2 pipeline and the condensed P3/P4 adapter through one deterministic workflow entry point.
+    parser = argparse.ArgumentParser()  # Build the adapter command-line interface with explicit immutable inputs.
+    parser.add_argument("--module", type=Path, required=True)  # Require the workflow-reconstructed audited base pipeline module.
+    parser.add_argument("--base", type=Path, required=True)  # Require the frozen verified LC01_G_DEAD mother deck.
+    parser.add_argument("--output", type=Path, required=True)  # Require an isolated append-only output root for all P0-P4 evidence.
+    parser.add_argument("--ccx", required=True)  # Require the exact CalculiX executable resolved by the workflow.
+    args = parser.parse_args()  # Parse all deterministic adapter inputs before loading or transforming model data.
+    pipeline = load_pipeline(args.module)  # Import the exact reconstructed P0-P2 implementation that already passed the first two real Actions runs.
+    bind_globals(pipeline)  # Bind its engineering constants and shared utilities into the condensed P3/P4 function namespace.
+    args.output.mkdir(parents=True, exist_ok=True)  # Create the calculation output root before publishing the unique equilibrium-state contract.
+    base_text = args.base.read_text(encoding="ascii")  # Read the immutable verified L2 mother deck without normalization.
+    nodes, groups, element_group = pipeline.parse_model(base_text)  # Parse the complete source topology through the audited base parser.
+    equilibrium_state, coordinated_nodes, target_axial_stress = pipeline.build_equilibrium_state(args.base, base_text, nodes, groups)  # Execute the unchanged P1/P2 axial form-finding core and unique per-element equilibrium-state construction.
+    equilibrium_path = args.output / "equilibrium_state.json"  # Resolve the mandatory unique P2-to-P3 state-transfer contract path.
+    equilibrium_path.write_text(json.dumps(equilibrium_state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # Persist the complete P1/P2 equilibrium state before generating the retained P3 solver deck.
+    fine_deck = build_fine_deck(base_text, nodes, groups, coordinated_nodes, target_axial_stress)  # Condense the P2 suspension substructure to exact shared-node interface forces and retain only the stable detailed structure in CalculiX.
+    fine_stem = "ZQ_STRESS_COORDINATED"  # Preserve the deterministic final detailed-response CalculiX basename used by earlier P4 evidence.
+    fine_path = args.output / f"{fine_stem}.inp"  # Resolve the exact condensed P3 solver input path.
+    fine_path.write_text(fine_deck, encoding="ascii")  # Persist the auditable retained-structure detailed-response deck before solving.
+    solver_exit, solver_log = pipeline.run_calculix(args.ccx, args.output, fine_stem)  # Execute the stable retained detailed structure through the pinned CalculiX family.
+    dat_path = args.output / f"{fine_stem}.dat"  # Resolve the retained detailed-model DAT result path.
+    displacements, reactions = pipeline.parse_dat_nodes(dat_path)  # Parse complete retained-structure nodal displacements and nodal-force evidence.
+    detailed_stresses = pipeline.parse_dat_stresses(dat_path)  # Parse averaged retained-structure stress tensors for every active E_STRUCTURAL element.
+    visual_nodes = coordinated_nodes  # Use the unique P2 equilibrium cable coordinates plus frozen detailed-structure coordinates as the full-bridge visualization geometry.
+    visual_groups = groups  # Preserve the complete original 1078-cell structural topology in the final VTK, including analytically coordinated main cables and hangers.
+    stresses = pipeline.compose_total_stresses(detailed_stresses, visual_nodes, visual_groups, target_axial_stress)  # Combine authoritative P2 suspension stresses with P3 retained-structure CalculiX stresses into one full-bridge coordinated total stress field.
+    vtk_path = args.output / "stress-coordinated.vtk"  # Resolve the mandatory final VTK stress-cloud filename required by the PR repair task.
+    vtk_receipt = pipeline.write_legacy_vtk(vtk_path, visual_nodes, visual_groups, element_group, displacements, stresses, target_axial_stress)  # Export the complete bridge geometry, displacement field, stress tensor, von Mises stress, and axial suspension stress fields.
+    summary = evaluate_final_gate(fine_deck, visual_nodes, visual_groups, solver_exit, solver_log, displacements, reactions, stresses, target_axial_stress, equilibrium_state, vtk_receipt)  # Apply the independent P4 numerical coordination Gate across the condensed solver and complete P2/P3 stress field.
+    summary["stressComposition"] = "P2 equilibrium total stress for MAIN_CABLES/HANGERS plus P3 CalculiX retained-structure stress after exact shared-node suspension-interface force transfer"  # Declare the two-model final stress composition explicitly for independent review.
+    summary["sourceBaselineSha256"] = pipeline.sha256_path(args.base)  # Bind the final Gate receipt to the immutable verified L2 baseline deck.
+    summary["equilibriumStateSha256"] = pipeline.sha256_path(equilibrium_path)  # Bind the final Gate receipt to the unique P2 equilibrium-state contract.
+    summary["fineDeckSha256"] = pipeline.sha256_path(fine_path)  # Bind the final Gate receipt to the exact condensed P3 detailed solver deck.
+    summary["vtkSha256"] = pipeline.sha256_path(vtk_path)  # Bind the final Gate receipt to the mandatory stress-coordinated VTK cloud.
+    (args.output / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # Persist the decisive machine-readable P4 result beside the raw solver and VTK evidence.
+    print(json.dumps(summary, ensure_ascii=False, indent=2))  # Mirror the final P4 receipt into the Actions log for redundant auditability.
+    return 0 if summary["status"] == "PASS" else 2  # Make process success follow the physical/numerical Gate rather than artifact upload completion.
+
+
+if __name__ == "__main__":  # Execute the adapter only when invoked explicitly by the dedicated third-round workflow.
+    raise SystemExit(main())  # Return the fail-closed P4 Gate status through the native process exit code.

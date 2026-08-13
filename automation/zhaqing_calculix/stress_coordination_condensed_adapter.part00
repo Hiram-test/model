@@ -1,0 +1,60 @@
+#!/usr/bin/env python3  # Apply the PR9 P3/P4 condensed-substructure adapter while preserving the already-audited P0-P2 pipeline implementation.
+import argparse  # Parse the immutable base pipeline module, verified baseline, output root, and CalculiX executable.
+import importlib.util  # Import the reconstructed audited pipeline without executing its guarded command-line main function.
+import json  # Persist the decisive P4 summary with the same machine-readable contract as the base pipeline.
+import math  # Evaluate displacement magnitudes and screening ratios in the condensed P3/P4 Gate.
+import re  # Parse explicit node sets used by the retained detailed-model support contract.
+from pathlib import Path  # Resolve all reconstructed module and calculation artifact paths explicitly.
+
+
+def load_pipeline(path: Path):  # Load the reconstructed P0-P4 base module under a private import name so its guarded main block does not execute.
+    spec = importlib.util.spec_from_file_location("zhaqing_stress_coordination_base", path)  # Build an explicit import specification from the workflow-generated audited source path.
+    if spec is None or spec.loader is None:  # Refuse to continue when Python cannot construct a loader for the audited base module.
+        raise RuntimeError("cannot load reconstructed stress coordination pipeline")  # Stop before applying a P3/P4 adapter to an undefined implementation.
+    module = importlib.util.module_from_spec(spec)  # Create the isolated module object that will expose all audited P0-P2 utilities.
+    spec.loader.exec_module(module)  # Execute definitions only because the imported module name is not __main__.
+    return module  # Return the fully loaded audited base pipeline module to the adapter.
+
+
+def bind_globals(pipeline):  # Bind only the audited constants and utilities required by the condensed P3/P4 functions extracted from the locally validated implementation.
+    globals().update({name: getattr(pipeline, name) for name in ("MAIN_CABLE_AREA_MM2", "HANGER_AREA_MM2", "DECK_SHELL_DENSITY_T_MM3", "DECK_SHELL_THICKNESS_MM", "STEEL_DENSITY_T_MM3", "CROSSBEAM_AREA_MM2", "LONG_GIRDER_AREA_MM2", "CONCRETE_DENSITY_T_MM3", "TOWER_COLUMN_AREA_MM2", "TOWER_TOP_BEAM_AREA_MM2", "WIND_ATTACH_AREA_MM2", "WIND_CABLE_AREA_MM2", "GRAVITY_MM_S2", "FATAL_TOKENS", "FORM_RESIDUAL_TOL_N", "MIN_TENSION_MPA", "FORCE_BALANCE_REL_TOL", "GEOMETRY_RESIDUAL_TOL_MM")})  # Reuse exactly the audited engineering constants already exercised by P0-P2.
+    globals().update({name: getattr(pipeline, name) for name in ("vector_length", "triangle_area", "parse_model", "projected_axial_stress")})  # Reuse the audited geometry and result-projection utilities without duplicating their implementations.
+
+def build_fine_deck(text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], coordinated_nodes: dict[int, tuple[float, float, float]], target_axial_stress: dict[int, float]) -> str:  # Build the P3 retained-structure response model from the published P2 equilibrium state by explicit suspension-interface force transfer.
+    retained_group_names = ("DECK_SHELLS", "CROSSBEAMS", "LONG_GIRDERS", "TOWER_COLUMNS", "TOWER_TOP_BEAMS", "WIND_ATTACH_LINKS", "WIND_CABLES", "DECK_ACCESSORY_MASS")  # Retain the already verified detailed bridge, tower, wind, and accessory-mass components in the P3 solver model.
+    retained_nodes = {node for group_name in retained_group_names for _element_id, connectivity in groups.get(group_name, []) for node in connectivity}  # Identify the exact P2-to-P3 interface nodes shared with the retained detailed structure.
+    interface_loads: dict[tuple[int, int], float] = {}  # Accumulate suspension-system forces exerted on the retained detailed structure at shared nodes.
+    for group_name, area in (("MAIN_CABLES", MAIN_CABLE_AREA_MM2), ("HANGERS", HANGER_AREA_MM2)):  # Transfer the P2 axial main-cable and hanger state through physical shared-node interfaces.
+        for element_id, connectivity in groups[group_name]:  # Visit every suspension element exactly once in its P2 equilibrium geometry.
+            point_a = coordinated_nodes[connectivity[0]]  # Recover the first P2 equilibrium endpoint coordinate.
+            point_b = coordinated_nodes[connectivity[1]]  # Recover the second P2 equilibrium endpoint coordinate.
+            length = vector_length(point_a, point_b)  # Compute the P2 equilibrium element chord length.
+            unit = tuple((point_b[index] - point_a[index]) / length for index in range(3))  # Normalize the P2 equilibrium element axis.
+            force = float(target_axial_stress[element_id]) * area  # Convert the published P2 axial stress back to tensile force.
+            element_on_a = tuple(force * component for component in unit)  # Compute the suspension-element force exerted on endpoint A.
+            for node_id, sign in ((connectivity[0], 1.0), (connectivity[1], -1.0)):  # Visit both suspension endpoints with equal-and-opposite internal-force signs.
+                if node_id not in retained_nodes:  # Eliminate internal suspension-only nodes from the P3 detailed solver interface.
+                    continue  # Keep their equilibrium effects inside the P2 suspension substructure rather than duplicating them in P3.
+                for dof, component in enumerate(element_on_a, 1):  # Transfer every global interface-force component independently.
+                    interface_loads[(node_id, dof)] = interface_loads.get((node_id, dof), 0.0) + sign * component  # Apply the exact suspension force exerted on the retained bridge/tower node.
+    excluded_ids = {element_id for group_name in ("MAIN_CABLES", "HANGERS") for element_id, _connectivity in groups[group_name]}  # Freeze the suspension element ids removed from the P3 detailed solver after their interface forces are transferred.
+    source_lines = text.splitlines()  # Work from the immutable verified L2 source deck without changing unrelated record order.
+    stripped_lines: list[str] = []  # Accumulate the P3 solver deck after removing only suspension element blocks and their section cards.
+    skipping_element_block = False  # Track whether the scan is inside a removed MAIN_CABLES or HANGERS connectivity block.
+    skipping_section_data = 0  # Track the fixed number of data rows following a removed suspension section keyword.
+    for raw in source_lines:  # Scan every verified source line exactly once.
+        upper = raw.strip().upper()  # Normalize the current line only for deterministic keyword decisions.
+        if skipping_section_data > 0:  # Skip only the known data rows belonging to a removed suspension section card.
+            skipping_section_data -= 1  # Count down the exact section-data rows without consuming any following keyword.
+            continue  # Omit this obsolete suspension-section data from the P3 retained-structure model.
+        if upper.startswith("*ELEMENT") and ("ELSET=MAIN_CABLES" in upper or "ELSET=HANGERS" in upper):  # Detect a suspension connectivity block to be represented by interface forces instead of solver elements.
+            skipping_element_block = True  # Enter suspension-connectivity removal mode.
+            continue  # Omit the suspension *ELEMENT keyword itself.
+        if skipping_element_block:  # Skip suspension connectivity records until the next solver keyword starts.
+            if upper.startswith("*"):  # Detect the keyword immediately following the removed element block.
+                skipping_element_block = False  # Leave suspension-connectivity removal mode before processing this new keyword.
+            else:  # Continue across numeric connectivity rows belonging to the removed suspension block.
+                continue  # Omit this suspension connectivity row from the P3 solver deck.
+        if upper.startswith("*BEAM SECTION") and "ELSET=MAIN_CABLES" in upper:  # Detect the obsolete B31 main-cable section card after element removal.
+            skipping_section_data = 2  # Remove its dimension and orientation data rows exactly.
+            continue  # Omit the obsolete main-cable section keyword.

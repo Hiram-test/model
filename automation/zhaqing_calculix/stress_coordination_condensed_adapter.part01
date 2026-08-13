@@ -1,0 +1,60 @@
+        if upper.startswith("*SOLID SECTION") and "ELSET=HANGERS" in upper:  # Detect the obsolete hanger T3D2 section card after element removal.
+            skipping_section_data = 1  # Remove its one axial-area data row exactly.
+            continue  # Omit the obsolete hanger section keyword.
+        stripped_lines.append(raw)  # Preserve every unrelated verified L2 source record exactly.
+    stripped = "\n".join(stripped_lines) + "\n"  # Restore one deterministic newline-terminated P3 source deck.
+    def rewrite_elset_members(deck: str, set_name: str) -> str:  # Remove eliminated suspension element ids from one explicit verified ELSET while preserving all retained source ids.
+        lines = deck.splitlines()  # Parse the current P3 deck by source rows for one explicit ELSET rewrite.
+        output: list[str] = []  # Accumulate the rewritten deck in original source order.
+        index = 0  # Track the current source-row position deterministically.
+        marker = f"*ELSET, ELSET={set_name}"  # Build the exact normalized ELSET keyword expected in the verified source.
+        found = False  # Track whether the requested explicit element set was located.
+        while index < len(lines):  # Scan the complete deck until the requested explicit set is rewritten.
+            if lines[index].strip().upper() == marker:  # Detect the exact explicit verified E_GRAV or E_STRUCTURAL set keyword.
+                found = True  # Record successful discovery of the required source set.
+                output.append(lines[index])  # Preserve the original ELSET keyword itself.
+                index += 1  # Advance to its numeric membership rows.
+                members: list[int] = []  # Collect retained element ids before deterministic reserialization.
+                while index < len(lines) and not lines[index].lstrip().startswith("*"):  # Read every numeric membership row until the next keyword.
+                    for token in lines[index].split(","):  # Visit every comma-separated source element id.
+                        token = token.strip()  # Normalize surrounding whitespace around the candidate id.
+                        if token.isdigit() and int(token) not in excluded_ids:  # Keep only existing retained detailed-model element ids.
+                            members.append(int(token))  # Preserve the original source element id in deterministic source order.
+                    index += 1  # Advance to the next membership row or following keyword.
+                for offset in range(0, len(members), 16):  # Serialize retained ids in the same bounded row width used by the verified source.
+                    output.append(", ".join(str(value) for value in members[offset:offset + 16]))  # Write one deterministic retained-element membership row.
+                continue  # Resume the outer scan at the keyword following the rewritten set.
+            output.append(lines[index])  # Preserve unrelated source rows exactly.
+            index += 1  # Advance to the next source row.
+        if not found:  # Refuse a P3 solver deck without the verified gravity or structural result set.
+            raise RuntimeError(f"verified explicit ELSET {set_name} not found")  # Stop before running a partially rewritten detailed model.
+        return "\n".join(output) + "\n"  # Return the deterministic deck with only this explicit set rewritten.
+    stripped = rewrite_elset_members(stripped, "E_GRAV")  # Remove P2 suspension elements from the P3 gravity set because their self-weight is already embedded in the transferred equilibrium interface forces.
+    stripped = rewrite_elset_members(stripped, "E_STRUCTURAL")  # Remove P2 suspension elements from the P3 solver stress-output set because their authoritative total stresses remain in equilibrium_state.json.
+    stripped = stripped.replace("Zhaqing suspension bridge global screening model - LC01_G_DEAD DEAD_LOAD", "Zhaqing suspension bridge P3 retained-structure response with P2 suspension interface transfer", 1)  # Relabel the detailed response deck for unambiguous two-model provenance.
+    stripped = stripped.replace("** No calibrated fabrication-state cable prestress is included.", "** P3 removes suspension solver elements after transferring the unique P2 main-cable/hanger equilibrium state as shared-node interface forces; suspension stresses remain authoritative from equilibrium_state.json.", 1)  # Record the exact two-model transfer boundary in the solver input header.
+    old_boundary = "*BOUNDARY\nTOWER_BASES, 1, 6, 0.\nMAIN_CABLE_ANCHORS, 1, 3, 0.\nWIND_ANCHORS, 1, 3, 0.\nDECK_LEFT_PIN, 1, 3, 0.\nDECK_RIGHT_ROLLER, 2, 3, 0.\n"  # Match the verified full-model support contract before suspension-element elimination.
+    new_boundary = "*BOUNDARY\nTOWER_BASES, 1, 6, 0.\nWIND_ANCHORS, 1, 3, 0.\nDECK_LEFT_PIN, 1, 3, 0.\nDECK_RIGHT_ROLLER, 2, 3, 0.\n"  # Retain only physical supports connected to active P3 detailed-model elements after cable-anchor nodes become suspension-only.
+    if old_boundary not in stripped:  # Require the exact verified support block before changing the active P3 support set.
+        raise RuntimeError("verified detailed-model boundary block not found")  # Stop rather than silently changing an unknown support contract.
+    stripped = stripped.replace(old_boundary, new_boundary, 1)  # Remove only the now-orphaned main-cable anchor constraints from the active P3 solver model.
+    if "*STEP\n" not in stripped:  # Require the single verified L2 static-step boundary after deterministic model stripping.
+        raise RuntimeError("verified detailed-model STEP marker not found")  # Stop before generating an incompatible P3 load step.
+    model_prefix, verified_step = stripped.split("*STEP\n", 1)  # Separate the retained model definition from the immutable verified permanent-load step.
+    if "*NODE PRINT, NSET=MONITOR, FREQUENCY=1\n" not in verified_step:  # Require the verified output-request anchor before replacing result requests.
+        raise RuntimeError("verified detailed-model output-request anchor not found")  # Stop before creating an unauditable P3 result deck.
+    load_body = verified_step.split("*NODE PRINT, NSET=MONITOR, FREQUENCY=1\n", 1)[0]  # Preserve the exact verified static controls, gravity record, and deck/accessory permanent CLOAD records.
+    interface_lines = [f"{node}, {dof}, {value:.12g}" for (node, dof), value in sorted(interface_loads.items()) if abs(value) > 1.0e-9]  # Serialize every P2 suspension-to-P3 retained-structure interface force deterministically.
+    load_body = load_body.rstrip("\n") + "\n" + "\n".join(interface_lines) + "\n"  # Append interface forces to the existing active CLOAD block without altering the frozen permanent load values.
+    output_requests = "*NODE PRINT, NSET=NALL, FREQUENCY=1\nU, RF\n*EL PRINT, ELSET=E_STRUCTURAL, FREQUENCY=1\nS, E\n*NODE FILE, FREQUENCY=1\nU, RF\n*EL FILE, FREQUENCY=1\nS, E\n*END STEP\n"  # Request complete retained detailed-model nodal and stress response for P4 and VTK composition.
+    return model_prefix + "*STEP\n" + load_body + output_requests
+
+def permanent_external_resultant(text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]]) -> tuple[tuple[float, float, float], dict[str, float]]:  # Recover the full detailed-model permanent external load resultant for the P4 reaction-balance Gate.
+    group_properties = {"DECK_SHELLS": (DECK_SHELL_DENSITY_T_MM3, DECK_SHELL_THICKNESS_MM, "shell"), "CROSSBEAMS": (STEEL_DENSITY_T_MM3, CROSSBEAM_AREA_MM2, "line"), "LONG_GIRDERS": (STEEL_DENSITY_T_MM3, LONG_GIRDER_AREA_MM2, "line"), "TOWER_COLUMNS": (CONCRETE_DENSITY_T_MM3, TOWER_COLUMN_AREA_MM2, "line"), "TOWER_TOP_BEAMS": (CONCRETE_DENSITY_T_MM3, TOWER_TOP_BEAM_AREA_MM2, "line"), "WIND_ATTACH_LINKS": (STEEL_DENSITY_T_MM3, WIND_ATTACH_AREA_MM2, "line"), "WIND_CABLES": (STEEL_DENSITY_T_MM3, WIND_CABLE_AREA_MM2, "line")}  # Freeze the verified section and density data used by E_GRAV.
+    mass_by_group: dict[str, float] = {}  # Accumulate gravitational mass by engineering component for provenance.
+    for group_name, (density, measure, kind) in group_properties.items():  # Integrate the mass of every structural element family receiving gravity.
+        mass = 0.0  # Initialize this component's mass in tonnes.
+        for _element_id, connectivity in groups.get(group_name, []):  # Visit every source element in the current engineering component.
+            if kind == "line":  # Integrate a beam or truss mass from section area and element length.
+                mass += density * measure * vector_length(nodes[connectivity[0]], nodes[connectivity[1]])  # Add the exact current-geometry line-element mass.
+            else:  # Integrate an S4 shell mass from the quadrilateral area and frozen thickness.
