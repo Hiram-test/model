@@ -1,0 +1,143 @@
+{
+  "description": "Bridge FEM N00-N18 lifecycle, Gate fidelity, solver and release guardrails.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/bridge_fem_hooks.py\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; py -3 (Join-Path $root '.codex/hooks/bridge_fem_hooks.py')\"",
+            "timeout": 20,
+            "statusMessage": "Loading Bridge FEM run state"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/bridge_fem_hooks.py\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; py -3 (Join-Path $root '.codex/hooks/bridge_fem_hooks.py')\"",
+            "timeout": 20,
+            "statusMessage": "Injecting Bridge FEM node contract"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "^(Bash|apply_patch|Edit|Write|mcp__.*|Agent)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/bridge_fem_hooks.py\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; py -3 (Join-Path $root '.codex/hooks/bridge_fem_hooks.py')\"",
+            "timeout": 30,
+            "statusMessage": "Checking Bridge FEM lifecycle policy"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "^(Bash|apply_patch|Edit|Write|mcp__.*)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/bridge_fem_hooks.py\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; py -3 (Join-Path $root '.codex/hooks/bridge_fem_hooks.py')\"",
+            "timeout": 30,
+            "statusMessage": "Reviewing Bridge FEM approval request"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(Bash|apply_patch|Edit|Write|mcp__.*|Agent)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/bridge_fem_hooks.py\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; py -3 (Join-Path $root '.codex/hooks/bridge_fem_hooks.py')\"",
+            "timeout": 30,
+            "statusMessage": "Recording Bridge FEM tool evidence"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "manual|auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/bridge_fem_hooks.py\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; py -3 (Join-Path $root '.codex/hooks/bridge_fem_hooks.py')\"",
+            "timeout": 20,
+            "statusMessage": "Saving Bridge FEM state before compaction"
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "manual|auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/bridge_fem_hooks.py\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; py -3 (Join-Path $root '.codex/hooks/bridge_fem_hooks.py')\"",
+            "timeout": 20,
+            "statusMessage": "Restoring Bridge FEM state after compaction"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/bridge_fem_hooks.py\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; py -3 (Join-Path $root '.codex/hooks/bridge_fem_hooks.py')\"",
+            "timeout": 20,
+            "statusMessage": "Binding Bridge FEM task packet to subagent"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/bridge_fem_hooks.py\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; py -3 (Join-Path $root '.codex/hooks/bridge_fem_hooks.py')\"",
+            "timeout": 30,
+            "statusMessage": "Checking subagent evidence"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/bridge_fem_hooks.py\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; py -3 (Join-Path $root '.codex/hooks/bridge_fem_hooks.py')\"",
+            "timeout": 30,
+            "statusMessage": "Checking Bridge FEM completion claims"
+          }
+        ]
+      }
+    ]
+  }
+}

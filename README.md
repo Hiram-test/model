@@ -1,6 +1,6 @@
 # Bridge FEM Skill Suite
 
-本仓库保存 Bridge FEM 19 节点 Skill Suite 的可安装源码包、桥梁原始输入资料和 Skill Gate 执行复盘。
+本仓库保存 Bridge FEM 19 节点 Skill Suite 的可安装源码包、桥梁原始输入资料、Skill Gate 执行复盘和仓库级执行 Hook。
 
 ## 可安装 Skill
 
@@ -8,6 +8,18 @@
 - [`bridge-fem-skill-suite/workflow.yaml`](bridge-fem-skill-suite/workflow.yaml)：节点依赖、条件分支和 Gate 定义。
 - [`bridge-fem-skill-suite/schemas/`](bridge-fem-skill-suite/schemas/)：正式工件 schema。
 - [`bridge-fem-skill-suite-v1.0.0.zip`](bridge-fem-skill-suite-v1.0.0.zip)：与展开目录内容一致的原始发布包。
+
+## 仓库级执行 Hook
+
+- [`.codex/hooks.json`](.codex/hooks.json)：Codex lifecycle Hook 配置。
+- [`.codex/hooks/bridge_fem_hooks.py`](.codex/hooks/bridge_fem_hooks.py)：Codex 生命周期事件分发、上下文恢复和工具审计。
+- [`.codex/hooks/bridge_fem_run.py`](.codex/hooks/bridge_fem_run.py)：确定性 run 初始化、节点进入、N17 计划冻结和 run 关闭。
+- [`.codex/hooks/bridge_fem_policy.py`](.codex/hooks/bridge_fem_policy.py)：solver、原始结果、Gate 写入、发布和完成声明防线。
+- [`.codex/hooks/bridge_fem_receipts.py`](.codex/hooks/bridge_fem_receipts.py)：逐条件 Gate receipt、工件哈希、审批和上游通行校验。
+- [`.codex/hooks/node_hook_policy.json`](.codex/hooks/node_hook_policy.json)：19 个节点的规定工件、Gate 条件数量、审批和正式通行策略。
+- [`docs/bridge-fem-hook-enforcement.md`](docs/bridge-fem-hook-enforcement.md)：节点覆盖、启用方式、运行状态和 Gate receipt 说明。
+
+首次拉取或 Hook 内容变化后，需要在 Codex CLI 运行 `/hooks`，审阅并信任仓库级 Hook。Hook 未受信任时不会执行。
 
 ## 原始输入
 
