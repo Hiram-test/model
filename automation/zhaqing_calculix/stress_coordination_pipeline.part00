@@ -1,0 +1,125 @@
+#!/usr/bin/env python3  # Execute the PR9 stress-coordination pipeline with the workflow Python interpreter.
+import argparse  # Parse deterministic baseline, output, and solver paths.
+import hashlib  # Freeze source and generated artifact digests for provenance.
+import json  # Persist the equilibrium state, solver receipt, and final Gate summary.
+import math  # Evaluate cable geometry, stresses, residuals, and von Mises values.
+import re  # Parse CalculiX keyword decks and text result tables safely.
+import subprocess  # Run CalculiX synchronously and capture its native exit status.
+from pathlib import Path  # Use explicit filesystem paths for every generated artifact.
+
+SPAN_MM = 82000.0  # Preserve the frozen main-span tower spacing from the PR9 L2 model.
+TOWER_Z_MM = 9150.0  # Preserve the frozen tower-top cable elevation from the PR9 geometry.
+MIDSPAN_Z_TARGET_MM = 950.0  # Preserve the frozen 8.2 m main-cable sag target at midspan.
+GRAVITY_MM_S2 = 9810.0  # Use gravity in the existing N-mm-tonne-s unit system.
+STEEL_DENSITY_T_MM3 = 7.85e-9  # Preserve the steel density used by the verified L2 model.
+MAIN_CABLE_SIDE_MM = 74.5432224  # Preserve the equal-area square side used by the old B31 cable surrogate.
+MAIN_CABLE_AREA_MM2 = MAIN_CABLE_SIDE_MM * MAIN_CABLE_SIDE_MM  # Convert the frozen square side to the axial cable area.
+HANGER_AREA_MM2 = 804.247719  # Preserve the verified hanger axial area.
+WIND_CABLE_AREA_MM2 = 452.389342  # Preserve the verified wind-cable axial area for external-load accounting.
+WIND_ATTACH_AREA_MM2 = 160.0 * 160.0  # Preserve the verified wind-attachment link beam area.
+TOWER_COLUMN_AREA_MM2 = 1500.0 * 1000.0  # Preserve the verified tower-column beam area.
+TOWER_TOP_BEAM_AREA_MM2 = 500.0 * 1500.0  # Preserve the verified tower-top transverse beam area.
+DECK_SHELL_THICKNESS_MM = 50.0  # Preserve the verified equivalent deck-shell thickness.
+DECK_SHELL_DENSITY_T_MM3 = 2.67908381e-9  # Preserve the calibrated equivalent deck-shell density.
+CONCRETE_DENSITY_T_MM3 = 2.50e-9  # Preserve the verified tower concrete density.
+LONG_GIRDER_AREA_MM2 = 604.64126 * 35.4821965  # Preserve the two longitudinal-girder equivalent section area.
+CROSSBEAM_AREA_MM2 = 420.0 * 41.4123032  # Preserve the crossbeam equivalent section area.
+DECK_PANEL_MASS_T = 60.41334  # Preserve the verified total deck-panel mass closure.
+DECK_ACCESSORY_MASS_T = 6.041334  # Preserve the verified distributed deck accessory mass.
+FORM_FIND_STAGES = (0.05, 0.10, 0.20, 0.35, 0.50, 0.70, 0.85, 1.00)  # Apply the P2 staged permanent-load path in bounded increments.
+FORM_RESIDUAL_TOL_N = 1.0e-3  # Require sub-newton nodal equilibrium in the analytical axial form-finding core.
+FORCE_BALANCE_REL_TOL = 1.0e-3  # Start the P4 global force-balance Gate at 0.1 percent of permanent load.
+MIN_TENSION_MPA = 1.0  # Require a positive tensile stress margin in every main cable and hanger.
+GEOMETRY_RESIDUAL_TOL_MM = 50.0  # Bound mapped cable-coordinate changes relative to the frozen target geometry for the screening state.
+FATAL_TOKENS = ("*ERROR", "SINGULAR", "NEGATIVE PIVOT", "LINEAR MPCS AND NONLINEAR MPCS DEPEND ON EACH OTHER")  # Fail closed on known solver fatal conditions.
+
+
+def sha256_path(path: Path) -> str:  # Compute one deterministic SHA-256 digest for a file used by the calculation.
+    digest = hashlib.sha256()  # Initialize a new SHA-256 hasher for the requested path.
+    with path.open("rb") as stream:  # Read the source file without text normalization.
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):  # Hash the file in bounded one-megabyte chunks.
+            digest.update(chunk)  # Extend the digest with the exact source bytes.
+    return digest.hexdigest()  # Return the lowercase hexadecimal digest for provenance.
+
+
+def parse_model(text: str) -> tuple[dict[int, tuple[float, float, float]], dict[str, list[tuple[int, list[int]]]], dict[int, str]]:  # Parse nodes, element groups, and element-to-group ownership from the verified INP.
+    nodes: dict[int, tuple[float, float, float]] = {}  # Preserve every original node coordinate keyed by node id.
+    groups: dict[str, list[tuple[int, list[int]]]] = {}  # Preserve every explicit element block keyed by ELSET.
+    element_group: dict[int, str] = {}  # Track the primary source ELSET for VTK component labeling.
+    in_nodes = False  # Track whether the parser is inside the model node block.
+    active_group: str | None = None  # Track the current element-block ELSET while scanning source order.
+    for raw in text.splitlines():  # Scan the complete input deck once without reordering source records.
+        line = raw.strip()  # Normalize surrounding whitespace only.
+        if re.match(r"^\*NODE(?:,|\s|$)", line, re.I) and not re.match(r"^\*NODE\s+(PRINT|FILE)", line, re.I):  # Detect the model node keyword but not result requests.
+            in_nodes = True  # Enter node parsing mode at the node keyword.
+            active_group = None  # Leave any previous element parsing mode.
+            continue  # Advance to the first node data row.
+        if line.upper().startswith("*ELEMENT"):  # Detect a new finite-element connectivity block.
+            in_nodes = False  # Leave node parsing mode at an element keyword.
+            match = re.search(r"ELSET=([^,\s]+)", line, re.I)  # Extract the explicit element-set name from the keyword.
+            active_group = match.group(1).upper() if match else "UNNAMED"  # Normalize the primary component label deterministically.
+            groups.setdefault(active_group, [])  # Ensure the component has a stable connectivity list.
+            continue  # Advance to element connectivity rows.
+        if line.startswith("*"):  # Detect every other keyword boundary.
+            in_nodes = False  # Leave node parsing mode at unrelated keywords.
+            active_group = None  # Leave element parsing mode at unrelated keywords.
+            continue  # Advance to data belonging to the new keyword.
+        if not line or line.startswith("**"):  # Ignore empty rows and comments outside active data records.
+            continue  # Advance without changing parser state.
+        if in_nodes:  # Parse one node record while the node block is active.
+            fields = [field.strip() for field in line.split(",")]  # Split the comma-separated node record deterministically.
+            if len(fields) >= 4 and fields[0].isdigit():  # Require a node id and three Cartesian coordinates.
+                nodes[int(fields[0])] = (float(fields[1]), float(fields[2]), float(fields[3]))  # Preserve the exact original coordinate in millimetres.
+            continue  # Finish processing this node record.
+        if active_group is not None:  # Parse one connectivity record while an element block is active.
+            fields = [field.strip() for field in line.split(",") if field.strip()]  # Remove empty comma fields while preserving integer labels.
+            if fields and fields[0].isdigit():  # Require a numeric element label before accepting connectivity.
+                element_id = int(fields[0])  # Convert the source element id to an integer key.
+                connectivity = [int(value) for value in fields[1:]]  # Convert all source node labels without reordering.
+                groups[active_group].append((element_id, connectivity))  # Preserve this element in its source component list.
+                element_group[element_id] = active_group  # Record the primary source component for final visualization.
+    return nodes, groups, element_group  # Return the immutable source topology and component ownership.
+
+
+def tributary_lengths(stations: list[float]) -> dict[float, float]:  # Compute boundary-aware hanger tributary lengths from the frozen station layout.
+    supports = [0.0, *stations, SPAN_MM]  # Include the two main-span deck support stations around the hanger sequence.
+    result: dict[float, float] = {}  # Store one tributary width in millimetres for every hanger station.
+    for index, station in enumerate(stations, 1):  # Visit the sorted hanger stations in physical order.
+        result[station] = 0.5 * (supports[index + 1] - supports[index - 1])  # Assign half of each adjacent support interval to the hanger.
+    return result  # Return the exact edge and interior tributary lengths used by the core.
+
+
+def suspended_permanent_basis() -> dict[str, float]:  # Derive the frozen suspended permanent load used as the P2 form-finding input.
+    girder_mass_t = 2.0 * SPAN_MM * LONG_GIRDER_AREA_MM2 * STEEL_DENSITY_T_MM3  # Compute the two verified longitudinal-girder masses.
+    crossbeam_mass_t = 27.0 * 5500.0 * CROSSBEAM_AREA_MM2 * STEEL_DENSITY_T_MM3  # Compute the 27 verified full-width crossbeam masses.
+    suspended_mass_t = girder_mass_t + crossbeam_mass_t + DECK_PANEL_MASS_T + DECK_ACCESSORY_MASS_T  # Sum the suspended deck-system permanent mass.
+    permanent_weight_n = suspended_mass_t * GRAVITY_MM_S2  # Convert the suspended mass to a vertical permanent weight.
+    one_plane_line_load_n_per_mm = permanent_weight_n / SPAN_MM / 2.0  # Split the suspended load equally between the two cable planes.
+    initial_horizontal_guess_n = one_plane_line_load_n_per_mm * SPAN_MM * SPAN_MM / (8.0 * (TOWER_Z_MM - MIDSPAN_Z_TARGET_MM))  # Use H=wL^2/(8f) only as the P2 initial guess requested by the repair plan.
+    return {"girderMassTonne": girder_mass_t, "crossbeamMassTonne": crossbeam_mass_t, "suspendedMassTonne": suspended_mass_t, "suspendedPermanentWeightN": permanent_weight_n, "onePlaneLineLoadNPerMm": one_plane_line_load_n_per_mm, "initialHorizontalGuessN": initial_horizontal_guess_n}  # Return the complete auditable load basis.
+
+
+def solve_tridiagonal(lower: list[float], diagonal: list[float], upper: list[float], rhs: list[float]) -> list[float]:  # Solve the axial-cable finite-difference equilibrium system without external numeric dependencies.
+    count = len(diagonal)  # Record the number of unknown interior cable elevations.
+    cprime = [0.0] * count  # Allocate the forward-sweep normalized upper diagonal.
+    dprime = [0.0] * count  # Allocate the forward-sweep normalized right-hand side.
+    cprime[0] = upper[0] / diagonal[0] if count > 1 else 0.0  # Initialize the first normalized upper coefficient.
+    dprime[0] = rhs[0] / diagonal[0]  # Initialize the first normalized right-hand-side coefficient.
+    for index in range(1, count):  # Eliminate the lower diagonal from the second equation onward.
+        denominator = diagonal[index] - lower[index] * cprime[index - 1]  # Compute the current Thomas-algorithm pivot.
+        if abs(denominator) <= 1.0e-18:  # Refuse a singular axial form-finding system explicitly.
+            raise RuntimeError("singular tridiagonal form-finding core")  # Stop before publishing an undefined cable state.
+        cprime[index] = upper[index] / denominator if index < count - 1 else 0.0  # Normalize the remaining upper coefficient.
+        dprime[index] = (rhs[index] - lower[index] * dprime[index - 1]) / denominator  # Normalize the current right-hand side.
+    solution = [0.0] * count  # Allocate the back-substitution solution vector.
+    solution[-1] = dprime[-1]  # Initialize the final unknown from the forward sweep.
+    for index in range(count - 2, -1, -1):  # Back-substitute from the penultimate unknown to the first.
+        solution[index] = dprime[index] - cprime[index] * solution[index + 1]  # Recover the current cable elevation unknown.
+    return solution  # Return all interior cable elevations in source longitudinal order.
+
+
+def main_span_nodes(nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], y_plane: float) -> list[int]:  # Recover one cable-plane main-span node sequence from immutable connectivity.
+    candidates = {node for _element, connectivity in groups["MAIN_CABLES"] for node in connectivity if abs(nodes[node][1] - y_plane) <= 1.0e-6 and -1.0e-6 <= nodes[node][0] <= SPAN_MM + 1.0e-6}  # Select main-span cable nodes on the requested transverse plane.
+    sequence = sorted(candidates, key=lambda node: nodes[node][0])  # Sort cable nodes by increasing longitudinal coordinate.
+    if len(sequence) != 83:  # Require the frozen one-metre discretization from x=0 to x=82 m.
+        raise RuntimeError(f"unexpected main-span cable node count on y={y_plane}: {len(sequence)}")  # Stop rather than form-find an unknown topology.
