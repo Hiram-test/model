@@ -1,0 +1,100 @@
+name: Zhaqing final stress VTK with OUTPUT2D force audit # Re-run the fixed 5277838372 P0-P4 workflow with only the original-node P4 force-record correction.
+on: # Register deterministic execution routes for this narrow P4 validation layer.
+  push: # Execute when this workflow or its thin OUTPUT=2D adapter changes on the PR branch.
+    branches: # Restrict qualification to the existing suspension-bridge PR head branch.
+      - agent/zhaqing-freecad-cad003 # Keep repository main isolated while formal engineering release remains blocked by G3-G6 evidence.
+    paths: # Trigger only on this narrow P4 correction surface.
+      - '.github/workflows/zhaqing-stress-coordination-output2d-audit.yml' # Re-run when final orchestration or persistent Gate checks change.
+      - 'automation/zhaqing_calculix/stress_coordination_force_audit_output2d.py' # Re-run when original-node force recovery changes.
+  workflow_dispatch: # Permit an explicit independent rerun without changing engineering model source.
+permissions: # Grant only read access required for immutable source and baseline recovery.
+  contents: read # Read the exact PR implementation without workflow repository mutation.
+  actions: read # Download the frozen verified L2 artifact by immutable run and artifact identities.
+jobs: # Define one fail-closed final numerical qualification job.
+  coordinate-stress: # Reconstruct prior audited sources, execute the narrow P4 correction, archive evidence, and enforce final VTK PASS.
+    runs-on: ubuntu-22.04 # Match the solver environment family used by the successful verified L2 baseline.
+    timeout-minutes: 45 # Bound solver installation, P1-P2 form finding, P3 response, P4 audit, and evidence upload.
+    env: # Freeze immutable source and output identities for provenance.
+      BASELINE_RUN_ID: '30068283053' # Use the verified PR9 L2 static-shell mother-model run.
+      BASELINE_ARTIFACT: 'verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23' # Select the exact successful L2 artifact by immutable name.
+      OUT: 'build/zhaqing-stress-coordination-output2d-audit' # Isolate every final equilibrium, solver, Gate, log, and VTK artifact under one root.
+    steps: # Execute exact checkout, source reconstruction, solver installation, baseline recovery, calculation, upload, and final semantic Gate.
+      - name: Checkout exact PR9 implementation # Materialize the precise branch revision under final qualification.
+        uses: actions/checkout@v4 # Use GitHub's standard deterministic checkout action.
+        with: # Configure a minimal immutable source checkout.
+          fetch-depth: 1 # Fetch only the exact tested PR revision.
+          persist-credentials: false # Prevent numerical code from mutating repository content during execution.
+      - name: Reconstruct and compile P0-P4 sources # Rebuild the exercised base, condensed, force-audit, and thin OUTPUT=2D adapter sources before solver work.
+        run: | # Preserve exact calculation-source bytes and reject syntax/import regressions first.
+          set -euxo pipefail # Fail immediately on source reconstruction, syntax, or entry-point errors.
+          mkdir -p "$OUT/provenance" "$OUT/logs" # Create deterministic provenance and log directories.
+          cat automation/zhaqing_calculix/stress_coordination_pipeline.part* > "$OUT/provenance/stress_coordination_pipeline.py" # Reconstruct the already exercised P0-P2/base implementation from ordered fragments.
+          cat automation/zhaqing_calculix/stress_coordination_condensed_adapter.part* > "$OUT/provenance/stress_coordination_condensed_adapter.py" # Reconstruct the already exercised condensed P3 retained-structure implementation from ordered fragments.
+          cp automation/zhaqing_calculix/stress_coordination_force_audit_adapter.py "$OUT/provenance/stress_coordination_force_audit_adapter.py" # Freeze the already exercised explicit-load P4 force-audit adapter beside its dependencies.
+          cp automation/zhaqing_calculix/stress_coordination_force_audit_output2d.py "$OUT/provenance/stress_coordination_force_audit_output2d.py" # Freeze the narrow original-node force-record correction beside the prior adapter.
+          python3 -m py_compile "$OUT/provenance/stress_coordination_pipeline.py" "$OUT/provenance/stress_coordination_condensed_adapter.py" "$OUT/provenance/stress_coordination_force_audit_adapter.py" "$OUT/provenance/stress_coordination_force_audit_output2d.py" # Reject any syntax regression across the complete final calculation chain.
+          python3 "$OUT/provenance/stress_coordination_force_audit_output2d.py" --help > "$OUT/logs/p0-output2d-help.txt" # Exercise the harmless final wrapper entry point to verify sibling imports and argument routing.
+          git rev-parse HEAD > "$OUT/provenance/source-commit.txt" # Bind every generated artifact to the exact tested PR commit.
+          sha256sum "$OUT/provenance/"*.py > "$OUT/provenance/calculation-source.sha256" # Freeze all final calculation-source byte streams for independent audit.
+      - name: Install pinned CalculiX family # Install the same Ubuntu CalculiX package family used by the successful L2 baseline.
+        run: | # Install ccx and preserve exact solver package identity.
+          set -euxo pipefail # Stop immediately if the numerical solver cannot be installed.
+          sudo apt-get update # Refresh Ubuntu package metadata on the hosted runner.
+          sudo apt-get install -y --no-install-recommends software-properties-common # Install repository management required by the runner image.
+          sudo add-apt-repository -y universe # Enable the Ubuntu universe repository containing CalculiX.
+          sudo apt-get update # Refresh package metadata after enabling universe.
+          sudo apt-get install -y --no-install-recommends calculix-ccx # Install CalculiX and its sparse-solver runtime dependencies.
+          command -v ccx > "$OUT/provenance/ccx-path.txt" # Record the exact solver executable path resolved by the runner.
+          dpkg-query -W calculix-ccx > "$OUT/provenance/calculix-package.txt" # Record the installed CalculiX package version for reproducibility.
+      - name: Recover immutable verified L2 baseline # Download and hash the exact successful mother-model artifact.
+        env: # Scope the GitHub token solely to same-repository artifact retrieval.
+          GH_TOKEN: ${{ github.token }} # Authenticate GitHub CLI to read the immutable baseline artifact.
+        run: | # Download the exact run artifact and expose only the verified LC01 input to calculation.
+          set -euxo pipefail # Fail closed when the expected run, artifact, or baseline input is unavailable.
+          mkdir -p baseline # Create an isolated immutable baseline extraction root.
+          gh run download "$BASELINE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$BASELINE_ARTIFACT" --dir baseline # Download only the fixed successful L2 artifact named above.
+          BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" # Locate the verified dead-load mother deck inside the artifact.
+          test -s "$BASE" # Require a nonempty verified baseline before any model transformation.
+          printf 'BASE=%s\n' "$BASE" >> "$GITHUB_ENV" # Publish the deterministic baseline path to the final calculation step.
+          sha256sum "$BASE" > "$OUT/provenance/baseline-input.sha256" # Freeze the exact mother-deck bytes used by the final qualification.
+          python3 automation/zhaqing_prestress/balanced_transfer_prestress.py "$BASE" | tee "$OUT/logs/p0-balanced-transfer-smoke.txt" # Re-exercise the corrected P0 real-baseline CLOAD parser before P1 form finding.
+      - name: Execute final stress coordination with OUTPUT2D P4 audit # Preserve P1-P3 and the prior explicit-load audit while changing only the audit force-record representation.
+        run: | # Capture fail-closed status while preserving complete evidence after either PASS or controlled failure.
+          set +e # Prevent early shell termination before immutable evidence upload.
+          cd "$OUT/provenance" # Execute beside the frozen sibling adapter sources required by the thin wrapper.
+          python3 stress_coordination_force_audit_output2d.py --module stress_coordination_pipeline.py --adapter stress_coordination_condensed_adapter.py --base "$GITHUB_WORKSPACE/$BASE" --output "$GITHUB_WORKSPACE/$OUT/calculation" --ccx "$(command -v ccx)" 2>&1 | tee "$GITHUB_WORKSPACE/$OUT/logs/p1-p4-output2d-audit.log" # Execute the strict two-model repair plan through final stress VTK and original-node force audit.
+          status=${PIPESTATUS[0]} # Preserve the native machine-readable P4 Gate process status independently of tee.
+          cd "$GITHUB_WORKSPACE" # Return to the repository root before persisting workflow-level provenance.
+          set -e # Restore fail-fast shell behavior after calculation completes.
+          printf '%s\n' "$status" > "$OUT/provenance/pipeline-exit-code.txt" # Record the final physical/numerical Gate exit status for audit.
+          exit 0 # Continue to immutable artifact upload even on controlled Gate failure so diagnostics are never lost.
+      - name: Upload complete final coordination evidence # Preserve equilibrium state, both solver cases, logs, summary, hashes, and mandatory VTK before final workflow enforcement.
+        if: always() # Archive evidence after numerical PASS and controlled FAIL alike.
+        uses: actions/upload-artifact@v4 # Store the complete final P0-P4 package as immutable Actions evidence.
+        with: # Configure deterministic artifact identity and bounded retention.
+          name: zhaqing-final-stress-coordinated-output2d-vtk-${{ github.sha }} # Bind the final package to the exact PR implementation commit.
+          path: build/zhaqing-stress-coordination-output2d-audit # Upload every provenance, main stress solve, audit solve, Gate, and visualization artifact.
+          if-no-files-found: error # Treat absence of evidence as workflow infrastructure failure.
+          retention-days: 30 # Retain the complete final package for independent engineering review.
+          compression-level: 6 # Apply standard compression to mixed text, DAT, FRD, and VTK evidence.
+      - name: Enforce final P4 and VTK Gate # Make workflow success follow the unchanged numerical thresholds and mandatory stress-cloud delivery.
+        if: always() # Evaluate persisted final evidence regardless of the calculation process status.
+        run: | # Require equilibrium PASS, force-audit PASS, full summary PASS, nonempty VTK, and explicit engineering-release boundary.
+          set -euxo pipefail # Fail immediately when any mandatory persisted evidence is missing or rejected.
+          test -s "$OUT/calculation/equilibrium_state.json" # Require the unique authoritative P2-to-P3 state-transfer contract.
+          test -s "$OUT/calculation/summary.json" # Require the decisive corrected P4 machine-readable Gate receipt.
+          test -s "$OUT/calculation/stress-coordinated.vtk" # Require the exact final stress-cloud VTK filename requested by the task.
+          test "$(stat -c%s "$OUT/calculation/stress-coordinated.vtk")" -gt 100000 # Reject placeholder VTK files that cannot contain the complete bridge stress grid.
+          python3 - "$OUT/calculation/equilibrium_state.json" "$OUT/calculation/summary.json" <<'PY' # Independently verify persisted semantic PASS conditions from machine-readable evidence.
+          import json  # Parse the unique equilibrium-state and corrected final Gate receipts.
+          import sys  # Receive deterministic persisted evidence paths from the workflow shell.
+          from pathlib import Path  # Resolve evidence files explicitly without directory guessing.
+          equilibrium = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))  # Load the authoritative unchanged P1/P2 equilibrium-state contract.
+          summary = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))  # Load the original-node-force-audited P3/P4 result.
+          assert equilibrium["status"] == "PASS", equilibrium.get("gates")  # Require the isolated axial P1/P2 equilibrium core to pass.
+          assert summary["forceAudit"]["status"] == "PASS", summary.get("forceAudit")  # Require the independent original-node force audit to satisfy the unchanged 0.1-percent Gate.
+          assert summary["status"] == "PASS", summary.get("gates")  # Require every mandatory final numerical coordination Gate to pass simultaneously.
+          assert summary["engineeringReleaseStatus"] == "BLOCKED", summary.get("engineeringReleaseStatus")  # Preserve the explicit boundary that unresolved G3-G6 evidence still blocks formal engineering release.
+          assert summary["vtk"]["pointCount"] > 0 and summary["vtk"]["cellCount"] > 0, summary.get("vtk")  # Require a populated complete-bridge VTK finite-element grid and stress field.
+          print(json.dumps({"status": summary["status"], "vtkSha256": summary["vtkSha256"], "minimumSuspensionStressMPa": summary["minimumSuspensionAxialStressMPa"], "maximumDisplacementMm": summary["maximumDisplacementMm"], "forceBalanceRelative": summary["forceAudit"]["forceBalanceRelative"], "forceRecordSource": summary["forceAudit"].get("forceRecordSource")}, indent=2)) # Mirror decisive final scalars into the workflow log.
+          PY
