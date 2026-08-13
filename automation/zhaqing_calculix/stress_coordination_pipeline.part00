@@ -15,6 +15,8 @@ STEEL_DENSITY_T_MM3 = 7.85e-9  # Preserve the steel density used by the verified
 MAIN_CABLE_SIDE_MM = 74.5432224  # Preserve the equal-area square side used by the old B31 cable surrogate.
 MAIN_CABLE_AREA_MM2 = MAIN_CABLE_SIDE_MM * MAIN_CABLE_SIDE_MM  # Convert the frozen square side to the axial cable area.
 HANGER_AREA_MM2 = 804.247719  # Preserve the verified hanger axial area.
+MAIN_CABLE_E_MPA = 195000.0  # Preserve the verified main-cable elastic modulus used to recover fixed fabrication length.
+HANGER_E_MPA = 200000.0  # Preserve the verified hanger elastic modulus used to recover fixed fabrication length.
 WIND_CABLE_AREA_MM2 = 452.389342  # Preserve the verified wind-cable axial area for external-load accounting.
 WIND_ATTACH_AREA_MM2 = 160.0 * 160.0  # Preserve the verified wind-attachment link beam area.
 TOWER_COLUMN_AREA_MM2 = 1500.0 * 1000.0  # Preserve the verified tower-column beam area.
@@ -26,7 +28,14 @@ LONG_GIRDER_AREA_MM2 = 604.64126 * 35.4821965  # Preserve the two longitudinal-g
 CROSSBEAM_AREA_MM2 = 420.0 * 41.4123032  # Preserve the crossbeam equivalent section area.
 DECK_PANEL_MASS_T = 60.41334  # Preserve the verified total deck-panel mass closure.
 DECK_ACCESSORY_MASS_T = 6.041334  # Preserve the verified distributed deck accessory mass.
-FORM_FIND_STAGES = (0.05, 0.10, 0.20, 0.35, 0.50, 0.70, 0.85, 1.00)  # Apply the P2 staged permanent-load path in bounded increments.
+STAGE_SPECS = (  # Define the four physical construction states replayed with one frozen fabrication-length contract.
+    {"id": "F0", "hangersActive": False, "primaryDeckFactor": 0.0, "accessoryDeckFactor": 0.0, "description": "main cables plus main-cable self-weight"},  # Keep hangers absent before their construction activation.
+    {"id": "F1", "hangersActive": True, "primaryDeckFactor": 0.0, "accessoryDeckFactor": 0.0, "description": "activate hangers and hanger self-weight"},  # Add installed hangers without assigning deck dead load.
+    {"id": "F2", "hangersActive": True, "primaryDeckFactor": 1.0, "accessoryDeckFactor": 0.0, "description": "add girders, crossbeams, and deck panels"},  # Apply the primary bridge-deck permanent load through the hanger interfaces.
+    {"id": "F3", "hangersActive": True, "primaryDeckFactor": 1.0, "accessoryDeckFactor": 1.0, "description": "add deck accessories and close completed permanent state"},  # Add the remaining accessory dead load without recalibrating the cable shape.
+)  # Close the immutable staged-construction specification.
+SADDLE_CONTRACT_MODE = "FRICTIONLESS_CONTINUOUS_ASSUMPTION"  # Use continuous cable tension and one anchor-to-anchor unstressed length because no saddle-friction evidence exists in the baseline.
+HANGER_TRIBUTARY_REFERENCE_MM = 77000.0  # Preserve the 25-hanger influence length implied by half-spacing at the two bridge ends.
 FORM_RESIDUAL_TOL_N = 1.0e-3  # Require sub-newton nodal equilibrium in the analytical axial form-finding core.
 FORCE_BALANCE_REL_TOL = 1.0e-3  # Start the P4 global force-balance Gate at 0.1 percent of permanent load.
 MIN_TENSION_MPA = 1.0  # Require a positive tensile stress margin in every main cable and hanger.
@@ -82,21 +91,34 @@ def parse_model(text: str) -> tuple[dict[int, tuple[float, float, float]], dict[
 
 
 def tributary_lengths(stations: list[float]) -> dict[float, float]:  # Compute boundary-aware hanger tributary lengths from the frozen station layout.
-    supports = [0.0, *stations, SPAN_MM]  # Include the two main-span deck support stations around the hanger sequence.
+    if len(stations) < 2 or stations != sorted(stations):  # Require a usable monotonic hanger layout before assigning permanent deck mass.
+        raise RuntimeError("hanger stations must contain at least two sorted positions")  # Stop before silently losing an edge tributary.
+    if stations[0] <= 0.0 or stations[-1] >= SPAN_MM:  # Require both end panels to terminate at the frozen deck supports rather than at a hanger.
+        raise RuntimeError("hanger stations must lie strictly inside the main span")  # Stop before creating a negative boundary tributary.
+    supports = [0.0, *stations, SPAN_MM]  # Include both bridge-end deck supports around the physical hanger sequence.
     result: dict[float, float] = {}  # Store one tributary width in millimetres for every hanger station.
-    for index, station in enumerate(stations, 1):  # Visit the sorted hanger stations in physical order.
-        result[station] = 0.5 * (supports[index + 1] - supports[index - 1])  # Assign half of each adjacent support interval to the hanger.
-    return result  # Return the exact edge and interior tributary lengths used by the core.
+    for index, station in enumerate(stations, 1):  # Visit the sorted hanger stations between the two explicit deck supports.
+        result[station] = 0.5 * (supports[index + 1] - supports[index - 1])  # Assign half of each adjacent support or hanger interval to this hanger.
+    if abs(sum(result.values()) - HANGER_TRIBUTARY_REFERENCE_MM) > 1.0e-9:  # Require the verified 77 m hanger influence region rather than transferring the end panels twice.
+        raise RuntimeError("hanger tributaries do not reproduce the verified 77 m influence length")  # Stop before silently moving bridge-end dead load into the suspension system.
+    return result  # Return the 4 m edge and 3 m interior hanger influence lengths.
 
 
 def suspended_permanent_basis() -> dict[str, float]:  # Derive the frozen suspended permanent load used as the P2 form-finding input.
     girder_mass_t = 2.0 * SPAN_MM * LONG_GIRDER_AREA_MM2 * STEEL_DENSITY_T_MM3  # Compute the two verified longitudinal-girder masses.
     crossbeam_mass_t = 27.0 * 5500.0 * CROSSBEAM_AREA_MM2 * STEEL_DENSITY_T_MM3  # Compute the 27 verified full-width crossbeam masses.
-    suspended_mass_t = girder_mass_t + crossbeam_mass_t + DECK_PANEL_MASS_T + DECK_ACCESSORY_MASS_T  # Sum the suspended deck-system permanent mass.
-    permanent_weight_n = suspended_mass_t * GRAVITY_MM_S2  # Convert the suspended mass to a vertical permanent weight.
-    one_plane_line_load_n_per_mm = permanent_weight_n / SPAN_MM / 2.0  # Split the suspended load equally between the two cable planes.
-    initial_horizontal_guess_n = one_plane_line_load_n_per_mm * SPAN_MM * SPAN_MM / (8.0 * (TOWER_Z_MM - MIDSPAN_Z_TARGET_MM))  # Use H=wL^2/(8f) only as the P2 initial guess requested by the repair plan.
-    return {"girderMassTonne": girder_mass_t, "crossbeamMassTonne": crossbeam_mass_t, "suspendedMassTonne": suspended_mass_t, "suspendedPermanentWeightN": permanent_weight_n, "onePlaneLineLoadNPerMm": one_plane_line_load_n_per_mm, "initialHorizontalGuessN": initial_horizontal_guess_n}  # Return the complete auditable load basis.
+    primary_mass_t = girder_mass_t + crossbeam_mass_t + DECK_PANEL_MASS_T  # Separate primary deck construction mass from the later accessory stage.
+    deck_system_mass_t = primary_mass_t + DECK_ACCESSORY_MASS_T  # Sum the complete bridge-deck permanent mass before load-path allocation.
+    primary_weight_n = primary_mass_t * GRAVITY_MM_S2  # Convert primary deck mass to its complete main-span weight.
+    accessory_weight_n = DECK_ACCESSORY_MASS_T * GRAVITY_MM_S2  # Convert accessory mass to its complete main-span weight.
+    permanent_weight_n = deck_system_mass_t * GRAVITY_MM_S2  # Convert the completed deck-system mass to vertical permanent weight.
+    hanger_fraction = HANGER_TRIBUTARY_REFERENCE_MM / SPAN_MM  # Derive the exact share of uniform deck load delivered to hangers.
+    direct_support_fraction = 1.0 - hanger_fraction  # Preserve the remaining two 2.5 m end regions as direct deck-bearing load.
+    one_plane_line_load_n_per_mm = permanent_weight_n / SPAN_MM / 2.0  # Split the complete uniform deck load equally between the two cable planes.
+    primary_one_plane_line_load_n_per_mm = primary_weight_n / SPAN_MM / 2.0  # Split primary deck load equally between both hanger planes.
+    accessory_one_plane_line_load_n_per_mm = accessory_weight_n / SPAN_MM / 2.0  # Split accessory deck load equally between both hanger planes.
+    initial_horizontal_guess_n = one_plane_line_load_n_per_mm * SPAN_MM * SPAN_MM / (8.0 * (TOWER_Z_MM - MIDSPAN_Z_TARGET_MM))  # Use H=wL^2/(8f) only as the completed-state inverse-solve starting guess.
+    return {"girderMassTonne": girder_mass_t, "crossbeamMassTonne": crossbeam_mass_t, "deckPanelMassTonne": DECK_PANEL_MASS_T, "accessoryMassTonne": DECK_ACCESSORY_MASS_T, "primaryDeckMassTonne": primary_mass_t, "deckSystemMassTonne": deck_system_mass_t, "primaryDeckWeightN": primary_weight_n, "accessoryDeckWeightN": accessory_weight_n, "deckSystemPermanentWeightN": permanent_weight_n, "hangerLoadPathFraction": hanger_fraction, "directDeckSupportFraction": direct_support_fraction, "hangerTransferredDeckWeightN": permanent_weight_n * hanger_fraction, "directDeckSupportWeightN": permanent_weight_n * direct_support_fraction, "onePlaneLineLoadNPerMm": one_plane_line_load_n_per_mm, "primaryOnePlaneLineLoadNPerMm": primary_one_plane_line_load_n_per_mm, "accessoryOnePlaneLineLoadNPerMm": accessory_one_plane_line_load_n_per_mm, "initialHorizontalGuessN": initial_horizontal_guess_n}  # Return component weights and both hanger/direct-support load paths without double counting.
 
 
 def solve_tridiagonal(lower: list[float], diagonal: list[float], upper: list[float], rhs: list[float]) -> list[float]:  # Solve the axial-cable finite-difference equilibrium system without external numeric dependencies.

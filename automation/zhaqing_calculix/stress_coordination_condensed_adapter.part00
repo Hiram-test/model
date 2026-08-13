@@ -1,60 +1,169 @@
-#!/usr/bin/env python3  # Apply the PR9 P3/P4 condensed-substructure adapter while preserving the already-audited P0-P2 pipeline implementation.
-import argparse  # Parse the immutable base pipeline module, verified baseline, output root, and CalculiX executable.
-import importlib.util  # Import the reconstructed audited pipeline without executing its guarded command-line main function.
-import json  # Persist the decisive P4 summary with the same machine-readable contract as the base pipeline.
-import math  # Evaluate displacement magnitudes and screening ratios in the condensed P3/P4 Gate.
-import re  # Parse explicit node sets used by the retained detailed-model support contract.
-from pathlib import Path  # Resolve all reconstructed module and calculation artifact paths explicitly.
+#!/usr/bin/env python3  # Build the canonical P3 retained-structure model with an exact linearized suspension-substructure tangent.
+import argparse  # Parse the frozen P0-P2 module, verified baseline, output root, and CalculiX executable paths.
+import hashlib  # Verify the persisted equilibrium-state byte stream before P3 consumes it.
+import importlib.util  # Load the workflow-reconstructed P0-P2 implementation without executing its guarded main function.
+import json  # Persist, reload, validate, and summarize the machine-readable P2/P3 contracts.
+import math  # Assemble three-dimensional axial tangents and evaluate numerical recovery Gates.
+import re  # Parse source node sets and deterministic CalculiX keyword blocks.
+from pathlib import Path  # Resolve immutable inputs and append-only calculation evidence explicitly.
 
 
-def load_pipeline(path: Path):  # Load the reconstructed P0-P4 base module under a private import name so its guarded main block does not execute.
-    spec = importlib.util.spec_from_file_location("zhaqing_stress_coordination_base", path)  # Build an explicit import specification from the workflow-generated audited source path.
-    if spec is None or spec.loader is None:  # Refuse to continue when Python cannot construct a loader for the audited base module.
-        raise RuntimeError("cannot load reconstructed stress coordination pipeline")  # Stop before applying a P3/P4 adapter to an undefined implementation.
-    module = importlib.util.module_from_spec(spec)  # Create the isolated module object that will expose all audited P0-P2 utilities.
+PRIMARY_RETAINED_GROUPS = ("DECK_SHELLS", "CROSSBEAMS", "LONG_GIRDERS", "TOWER_COLUMNS", "TOWER_TOP_BEAMS", "DECK_ACCESSORY_MASS")  # Keep only the evidenced deck and tower structure in the primary P3 solve.
+PRIMARY_STRESS_GROUPS = ("DECK_SHELLS", "CROSSBEAMS", "LONG_GIRDERS", "TOWER_COLUMNS", "TOWER_TOP_BEAMS")  # Require CalculiX stress output for every retained stress-carrying source element.
+SUSPENSION_GROUPS = ("MAIN_CABLES", "HANGERS")  # Condense exactly the P2 axial suspension subsystem and no unrelated source component.
+REMOVED_PRIMARY_GROUPS = ("MAIN_CABLES", "HANGERS", "WIND_ATTACH_LINKS", "WIND_CABLES")  # Remove condensed suspension and unevidenced wind components from the primary CalculiX topology.
+PRIMARY_VTK_GROUPS = ("DECK_SHELLS", "CROSSBEAMS", "LONG_GIRDERS", "TOWER_COLUMNS", "TOWER_TOP_BEAMS", "MAIN_CABLES", "HANGERS")  # Export only response-bearing primary cells and exclude wind inventory from response claims.
+STATE_SCHEMA = "zhaqing-equilibrium-state-v3"  # Require the complete fabrication, staged-history, side-span, saddle, anchor, and tangent-bearing P2 state contract.
+MATRIX_REL_TOL = 1.0e-10  # Bound symmetry and Cholesky-factor reconstruction error for the condensed tangent.
+ACTION_ABS_TOL_N = 1.0e-5  # Bound independent P2 action reconstruction error at interfaces and anchors in newtons.
+REACTION_AUDIT_STIFFNESSES_N_PER_MM = (1.0e9, 1.0e10)  # Freeze two one-decade-separated SPRING2 sensor stiffnesses before observing retained reaction results.
+REACTION_AUDIT_CONVERGENCE_REL_TOL = 1.0e-3  # Require the complete physical support resultant to converge within the frozen 0.1-percent force-balance charter.
+REACTION_AUDIT_SUPPORT_TRANSLATION_TOL_MM = 1.0e-2  # Bound the highest-stiffness audit support translation so its support limit approaches the canonical direct restraint.
+
+
+def load_pipeline(path: Path):  # Load the exact workflow-reconstructed P0-P2 calculation source under an isolated module name.
+    spec = importlib.util.spec_from_file_location("zhaqing_stress_coordination_base", path)  # Build an explicit import specification for the frozen calculation source.
+    if spec is None or spec.loader is None:  # Refuse to continue when Python cannot construct a source loader.
+        raise RuntimeError("cannot load reconstructed stress coordination pipeline")  # Stop before P3 consumes an undefined P2 implementation.
+    module = importlib.util.module_from_spec(spec)  # Create the isolated module object exposing audited constants and parsers.
     spec.loader.exec_module(module)  # Execute definitions only because the imported module name is not __main__.
-    return module  # Return the fully loaded audited base pipeline module to the adapter.
+    return module  # Return the loaded P0-P2 implementation for explicit function reuse.
 
 
-def bind_globals(pipeline):  # Bind only the audited constants and utilities required by the condensed P3/P4 functions extracted from the locally validated implementation.
-    globals().update({name: getattr(pipeline, name) for name in ("MAIN_CABLE_AREA_MM2", "HANGER_AREA_MM2", "DECK_SHELL_DENSITY_T_MM3", "DECK_SHELL_THICKNESS_MM", "STEEL_DENSITY_T_MM3", "CROSSBEAM_AREA_MM2", "LONG_GIRDER_AREA_MM2", "CONCRETE_DENSITY_T_MM3", "TOWER_COLUMN_AREA_MM2", "TOWER_TOP_BEAM_AREA_MM2", "WIND_ATTACH_AREA_MM2", "WIND_CABLE_AREA_MM2", "GRAVITY_MM_S2", "FATAL_TOKENS", "FORM_RESIDUAL_TOL_N", "MIN_TENSION_MPA", "FORCE_BALANCE_REL_TOL", "GEOMETRY_RESIDUAL_TOL_MM")})  # Reuse exactly the audited engineering constants already exercised by P0-P2.
-    globals().update({name: getattr(pipeline, name) for name in ("vector_length", "triangle_area", "parse_model", "projected_axial_stress")})  # Reuse the audited geometry and result-projection utilities without duplicating their implementations.
+def bind_globals(pipeline) -> None:  # Bind only immutable engineering constants and utilities required by the P3 adapter.
+    constant_names = ("MAIN_CABLE_AREA_MM2", "HANGER_AREA_MM2", "STEEL_DENSITY_T_MM3", "GRAVITY_MM_S2", "FATAL_TOKENS", "FORM_RESIDUAL_TOL_N", "MIN_TENSION_MPA", "GEOMETRY_RESIDUAL_TOL_MM", "FORCE_BALANCE_REL_TOL")  # Freeze the exact P2 constitutive, mass, diagnostic, and Gate constants.
+    globals().update({name: getattr(pipeline, name) for name in constant_names})  # Reuse the frozen P0-P2 values without creating a second engineering interpretation.
+    utility_names = ("vector_length", "parse_model", "parse_dat_nodes", "parse_dat_stresses", "run_calculix", "sha256_path", "axial_tensor", "von_mises", "projected_axial_stress", "permanent_external_resultant")  # Freeze the exact geometry, solver, digest, stress, and retained-load utilities shared with P2.
+    globals().update({name: getattr(pipeline, name) for name in utility_names})  # Bind the audited utilities into this adapter namespace explicitly.
 
-def build_fine_deck(text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], coordinated_nodes: dict[int, tuple[float, float, float]], target_axial_stress: dict[int, float]) -> str:  # Build the P3 retained-structure response model from the published P2 equilibrium state by explicit suspension-interface force transfer.
-    retained_group_names = ("DECK_SHELLS", "CROSSBEAMS", "LONG_GIRDERS", "TOWER_COLUMNS", "TOWER_TOP_BEAMS", "WIND_ATTACH_LINKS", "WIND_CABLES", "DECK_ACCESSORY_MASS")  # Retain the already verified detailed bridge, tower, wind, and accessory-mass components in the P3 solver model.
-    retained_nodes = {node for group_name in retained_group_names for _element_id, connectivity in groups.get(group_name, []) for node in connectivity}  # Identify the exact P2-to-P3 interface nodes shared with the retained detailed structure.
-    interface_loads: dict[tuple[int, int], float] = {}  # Accumulate suspension-system forces exerted on the retained detailed structure at shared nodes.
-    for group_name, area in (("MAIN_CABLES", MAIN_CABLE_AREA_MM2), ("HANGERS", HANGER_AREA_MM2)):  # Transfer the P2 axial main-cable and hanger state through physical shared-node interfaces.
-        for element_id, connectivity in groups[group_name]:  # Visit every suspension element exactly once in its P2 equilibrium geometry.
-            point_a = coordinated_nodes[connectivity[0]]  # Recover the first P2 equilibrium endpoint coordinate.
-            point_b = coordinated_nodes[connectivity[1]]  # Recover the second P2 equilibrium endpoint coordinate.
-            length = vector_length(point_a, point_b)  # Compute the P2 equilibrium element chord length.
-            unit = tuple((point_b[index] - point_a[index]) / length for index in range(3))  # Normalize the P2 equilibrium element axis.
-            force = float(target_axial_stress[element_id]) * area  # Convert the published P2 axial stress back to tensile force.
-            element_on_a = tuple(force * component for component in unit)  # Compute the suspension-element force exerted on endpoint A.
-            for node_id, sign in ((connectivity[0], 1.0), (connectivity[1], -1.0)):  # Visit both suspension endpoints with equal-and-opposite internal-force signs.
-                if node_id not in retained_nodes:  # Eliminate internal suspension-only nodes from the P3 detailed solver interface.
-                    continue  # Keep their equilibrium effects inside the P2 suspension substructure rather than duplicating them in P3.
-                for dof, component in enumerate(element_on_a, 1):  # Transfer every global interface-force component independently.
-                    interface_loads[(node_id, dof)] = interface_loads.get((node_id, dof), 0.0) + sign * component  # Apply the exact suspension force exerted on the retained bridge/tower node.
-    excluded_ids = {element_id for group_name in ("MAIN_CABLES", "HANGERS") for element_id, _connectivity in groups[group_name]}  # Freeze the suspension element ids removed from the P3 detailed solver after their interface forces are transferred.
-    source_lines = text.splitlines()  # Work from the immutable verified L2 source deck without changing unrelated record order.
-    stripped_lines: list[str] = []  # Accumulate the P3 solver deck after removing only suspension element blocks and their section cards.
-    skipping_element_block = False  # Track whether the scan is inside a removed MAIN_CABLES or HANGERS connectivity block.
-    skipping_section_data = 0  # Track the fixed number of data rows following a removed suspension section keyword.
-    for raw in source_lines:  # Scan every verified source line exactly once.
-        upper = raw.strip().upper()  # Normalize the current line only for deterministic keyword decisions.
-        if skipping_section_data > 0:  # Skip only the known data rows belonging to a removed suspension section card.
-            skipping_section_data -= 1  # Count down the exact section-data rows without consuming any following keyword.
-            continue  # Omit this obsolete suspension-section data from the P3 retained-structure model.
-        if upper.startswith("*ELEMENT") and ("ELSET=MAIN_CABLES" in upper or "ELSET=HANGERS" in upper):  # Detect a suspension connectivity block to be represented by interface forces instead of solver elements.
-            skipping_element_block = True  # Enter suspension-connectivity removal mode.
-            continue  # Omit the suspension *ELEMENT keyword itself.
-        if skipping_element_block:  # Skip suspension connectivity records until the next solver keyword starts.
-            if upper.startswith("*"):  # Detect the keyword immediately following the removed element block.
-                skipping_element_block = False  # Leave suspension-connectivity removal mode before processing this new keyword.
-            else:  # Continue across numeric connectivity rows belonging to the removed suspension block.
-                continue  # Omit this suspension connectivity row from the P3 solver deck.
-        if upper.startswith("*BEAM SECTION") and "ELSET=MAIN_CABLES" in upper:  # Detect the obsolete B31 main-cable section card after element removal.
-            skipping_section_data = 2  # Remove its dimension and orientation data rows exactly.
-            continue  # Omit the obsolete main-cable section keyword.
+
+def sha256_bytes(payload: bytes) -> str:  # Compute one deterministic digest for an in-memory persisted-state byte stream.
+    return hashlib.sha256(payload).hexdigest()  # Return the lowercase hexadecimal SHA-256 identity.
+
+
+def publish_reload_state(path: Path, state: dict, baseline_path: Path) -> tuple[dict, str]:  # Persist P2, reload only the persisted bytes, and prove that P3 consumes the same v3 contract.
+    payload = (json.dumps(state, ensure_ascii=False, indent=2) + "\n").encode("utf-8")  # Serialize one deterministic UTF-8 equilibrium-state byte stream.
+    path.write_bytes(payload)  # Publish the authoritative P2-to-P3 contract before any P3 matrix is assembled.
+    published_sha = sha256_bytes(payload)  # Freeze the digest of the exact bytes requested for publication.
+    reloaded_bytes = path.read_bytes()  # Re-read the state from storage instead of passing the in-memory P2 object to P3.
+    reloaded_sha = sha256_bytes(reloaded_bytes)  # Recompute the digest independently from the consumed byte stream.
+    if reloaded_sha != published_sha or sha256_path(path) != published_sha:  # Require both in-memory and filesystem digest paths to agree exactly.
+        raise RuntimeError("equilibrium_state.json SHA-256 changed between publication and P3 consumption")  # Stop before using a mutated or partial state file.
+    reloaded = json.loads(reloaded_bytes.decode("utf-8"))  # Parse only the digest-verified persisted state for all subsequent P3 work.
+    if json.loads(payload.decode("utf-8")) != reloaded:  # Require a lossless JSON semantic round trip while allowing source tuples to assume their defined JSON-array representation.
+        raise RuntimeError("equilibrium_state.json did not round-trip exactly through its published JSON representation")  # Stop before accepting a semantically changed persisted contract.
+    if reloaded.get("sourceBaselineSha256") != sha256_path(baseline_path):  # Bind the consumed state to the exact immutable L2 mother deck.
+        raise RuntimeError("equilibrium-state baseline digest does not match the consumed L2 input")  # Stop before mixing geometry or topology revisions.
+    return reloaded, reloaded_sha  # Return only the persisted v3 state and its verified byte identity.
+
+
+def parse_nsets(text: str) -> dict[str, set[int]]:  # Parse explicit source node sets required for anchor, retained-support, and output contracts.
+    result: dict[str, set[int]] = {}  # Store every explicit node set by normalized uppercase name.
+    active: str | None = None  # Track the currently parsed explicit node set.
+    for raw in text.splitlines():  # Visit every source input row exactly once.
+        line = raw.strip()  # Normalize surrounding whitespace only for keyword decisions.
+        if line.upper().startswith("*NSET"):  # Detect one explicit node-set definition.
+            match = re.search(r"NSET=([^,\s]+)", line, re.I)  # Extract its case-insensitive source name.
+            active = match.group(1).upper() if match else None  # Normalize the active set identity deterministically.
+            if active is not None:  # Initialize storage only for a valid named set.
+                result.setdefault(active, set())  # Preserve continued set definitions without losing earlier members.
+            continue  # Advance to numeric set membership rows.
+        if line.startswith("*"):  # Detect the next keyword boundary.
+            active = None  # Leave node-set parsing mode at unrelated model data.
+            continue  # Advance without interpreting the new keyword as membership.
+        if active is not None and line and not line.startswith("**"):  # Parse only nonempty numeric membership rows in an active set.
+            for token in line.split(","):  # Visit every comma-separated membership token.
+                candidate = token.strip()  # Normalize the candidate source node label.
+                if candidate.isdigit():  # Preserve only explicit integer node labels.
+                    result[active].add(int(candidate))  # Add the exact source node id to the normalized set.
+    return result  # Return all explicit node-set memberships required by P3.
+
+
+def validate_state_v3(state: dict, baseline_path: Path, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]]) -> tuple[dict[int, tuple[float, float, float]], dict[int, dict], dict[int, float]]:  # Validate complete P2 coverage and extract the only geometry and constitutive data P3 may consume.
+    if state.get("schema") != STATE_SCHEMA or state.get("status") != "PASS":  # Require the complete accepted v3 contract rather than a legacy or failed state.
+        raise RuntimeError(f"P3 requires accepted {STATE_SCHEMA}, received {state.get('schema')} status={state.get('status')}")  # Stop before synthesizing missing equilibrium data.
+    if state.get("sourceBaselineSha256") != sha256_path(baseline_path):  # Recheck baseline identity at semantic validation time.
+        raise RuntimeError("P3 state validation found a baseline digest mismatch")  # Stop before any topology-dependent tangent assembly.
+    if state.get("windCableFormalDesignIncluded") is not False:  # Require the v3 contract to declare the unresolved wind-cable evidence boundary explicitly.
+        raise RuntimeError("P3 primary response requires wind cables to remain formally excluded")  # Stop before mixing unevidenced wind stiffness into the primary response.
+    if not isinstance(state.get("fabricationContract"), dict) or set(state["fabricationContract"]) != {"POSITIVE_Y", "NEGATIVE_Y"}:  # Require both independently frozen nominal-F3 cable-and-hanger fabrication contracts.
+        raise RuntimeError("equilibrium-state v3 fabricationContract does not cover both suspension planes")  # Stop before deriving a tangent from an unfrozen material-length state.
+    stage_history = state.get("stageHistory", [])  # Recover the actual fixed-fabrication construction replay contract.
+    if not isinstance(stage_history, list) or len(stage_history) != 4 or not all(isinstance(stage, dict) for stage in stage_history) or [stage.get("id") for stage in stage_history] != ["F0", "F1", "F2", "F3"]:  # Require the complete ordered physical activation history rather than a scalar-load surrogate.
+        raise RuntimeError("equilibrium-state v3 stageHistory must contain F0,F1,F2,F3 exactly")  # Stop before accepting a legacy or partial equilibrium state.
+    if not isinstance(state.get("planeStates"), dict) or set(state["planeStates"]) != {"POSITIVE_Y", "NEGATIVE_Y"}:  # Require both accepted nominal-F3 vector-equilibrium plane states.
+        raise RuntimeError("equilibrium-state v3 planeStates does not cover both suspension planes")  # Stop before copying symmetry or omitting one physical subsystem.
+    raw_coordinates = state.get("nodeCoordinatesMm", {})  # Recover the complete v3 source-node coordinate contract.
+    coordinated_nodes = {int(node): tuple(float(value) for value in coordinate) for node, coordinate in raw_coordinates.items()}  # Convert JSON keys and coordinate scalars without defaults.
+    if set(coordinated_nodes) != set(nodes) or any(len(value) != 3 for value in coordinated_nodes.values()):  # Require one three-component coordinate for every source node and no invented nodes.
+        raise RuntimeError("equilibrium-state v3 does not provide exact full-node coordinate coverage")  # Stop before zero-filling or borrowing baseline suspension coordinates.
+    expected_elements = {element_id for group_name in SUSPENSION_GROUPS for element_id, _connectivity in groups[group_name]}  # Freeze the exact source cable-and-hanger element population.
+    raw_states = state.get("elementStates", {})  # Recover all per-element constitutive equilibrium records from persisted JSON.
+    element_states = {int(element): dict(record) for element, record in raw_states.items()}  # Convert JSON element keys while preserving every published scalar.
+    if set(element_states) != expected_elements:  # Require one and only one physical state record per suspension element.
+        raise RuntimeError("equilibrium-state v3 does not provide exact suspension-element coverage")  # Stop before backfilling P2 stress or tangent values.
+    raw_targets = state.get("targetAxialStressMPa", {})  # Recover the redundant top-level target-stress coverage for cross-checking.
+    target_stress = {int(element): float(value) for element, value in raw_targets.items()}  # Convert target keys and MPa values without defaults.
+    if set(target_stress) != expected_elements:  # Require redundant target coverage to match the element-state population exactly.
+        raise RuntimeError("equilibrium-state v3 target-stress coverage is incomplete")  # Stop before an ambiguous stress recovery.
+    source_connectivity = {element_id: connectivity[:2] for group_name in SUSPENSION_GROUPS for element_id, connectivity in groups[group_name]}  # Index the immutable source suspension topology.
+    source_group = {element_id: group_name for group_name in SUSPENSION_GROUPS for element_id, _connectivity in groups[group_name]}  # Index immutable source component ownership.
+    for element_id in sorted(expected_elements):  # Validate every persisted element record independently.
+        record = element_states[element_id]  # Recover the unique v3 state for this source element.
+        if record.get("group") != source_group[element_id] or [int(value) for value in record.get("nodeIds", [])] != source_connectivity[element_id]:  # Require exact group and ordered connectivity identity.
+            raise RuntimeError(f"equilibrium-state topology mismatch for suspension element {element_id}")  # Stop before assembling a tangent on mismatched endpoints.
+        required_positive = ("equilibriumLengthMm", "unstressedLengthMm", "axialStressMPa", "axialForceN", "materialTangentNPerMm", "geometricTangentNPerMm")  # Freeze every positive scalar required by tangent and response recovery.
+        if any(not math.isfinite(float(record.get(name, float("nan")))) or float(record.get(name, 0.0)) <= 0.0 for name in required_positive):  # Reject missing, nonfinite, zero, or compressive base-state properties.
+            raise RuntimeError(f"invalid equilibrium constitutive state for suspension element {element_id}")  # Stop before an indefinite or nonphysical condensation.
+        if abs(float(record["axialStressMPa"]) - target_stress[element_id]) > 1.0e-10 * max(abs(target_stress[element_id]), 1.0):  # Require redundant stress publications to agree to serialization precision.
+            raise RuntimeError(f"conflicting target stress records for suspension element {element_id}")  # Stop before choosing one of two incompatible P2 values.
+        actual_length = vector_length(coordinated_nodes[source_connectivity[element_id][0]], coordinated_nodes[source_connectivity[element_id][1]])  # Recompute the chord length from persisted v3 coordinates.
+        if abs(actual_length - float(record["equilibriumLengthMm"])) > 1.0e-8 * max(actual_length, 1.0):  # Bind constitutive state to the same physical geometry used by P3.
+            raise RuntimeError(f"equilibrium length mismatch for suspension element {element_id}")  # Stop before combining state from different geometries.
+    return coordinated_nodes, element_states, target_stress  # Return complete validated P2 geometry, constitutive state, and target stress maps.
+
+
+def zero_matrix(rows: int, columns: int) -> list[list[float]]:  # Allocate one dense standard-library matrix for deterministic small substructure algebra.
+    return [[0.0] * columns for _row in range(rows)]  # Return independent mutable rows with no shared-list aliasing.
+
+
+def cholesky(matrix: list[list[float]], label: str) -> tuple[list[list[float]], dict]:  # Factor one symmetric positive-definite tangent without adding numerical stabilization.
+    size = len(matrix)  # Freeze the square matrix order before factorization.
+    if size == 0 or any(len(row) != size for row in matrix):  # Require one nonempty square matrix.
+        raise RuntimeError(f"{label} is not a nonempty square matrix")  # Stop before an undefined condensation.
+    factor = zero_matrix(size, size)  # Allocate the lower-triangular Cholesky factor.
+    minimum_pivot = float("inf")  # Track the smallest physical stiffness pivot for the numerical receipt.
+    maximum_pivot = 0.0  # Track the largest physical stiffness pivot for a conditioning proxy.
+    for row in range(size):  # Advance through each lower-triangular factor row.
+        for column in range(row + 1):  # Compute only entries on and below the diagonal.
+            subtotal = 0.0  # Initialize the previously factored dot-product contribution.
+            for index in range(column):  # Accumulate all completed factor columns shared by this entry.
+                subtotal += factor[row][index] * factor[column][index]  # Subtract the exact lower-factor inner product.
+            value = 0.5 * (matrix[row][column] + matrix[column][row]) - subtotal  # Symmetrize roundoff and form the current Schur pivot or off-diagonal numerator.
+            if row == column:  # Complete one positive diagonal pivot.
+                if not math.isfinite(value) or value <= 0.0:  # Reject a mechanism, negative tangent, or numerical breakdown without hidden regularization.
+                    raise RuntimeError(f"{label} is not positive definite at pivot {row}: {value}")  # Stop before emitting a nonphysical grounded spring surrogate.
+                factor[row][column] = math.sqrt(value)  # Store the positive Cholesky diagonal.
+                minimum_pivot = min(minimum_pivot, value)  # Preserve the smallest unfactored stiffness pivot.
+                maximum_pivot = max(maximum_pivot, value)  # Preserve the largest unfactored stiffness pivot.
+            else:  # Complete one strict lower-triangular entry.
+                factor[row][column] = value / factor[column][column]  # Divide by the already accepted positive diagonal.
+    receipt = {"order": size, "minimumPivot": minimum_pivot, "maximumPivot": maximum_pivot, "pivotConditionProxy": maximum_pivot / minimum_pivot}  # Publish transparent no-regularization factor evidence.
+    return factor, receipt  # Return the exact lower factor and its numerical receipt.
+
+
+def solve_cholesky(factor: list[list[float]], right_hand_side: list[float]) -> list[float]:  # Solve one SPD system from an accepted lower Cholesky factor.
+    size = len(factor)  # Freeze the factor order for forward and backward substitutions.
+    forward = [0.0] * size  # Allocate the intermediate solution of L y = b.
+    for row in range(size):  # Advance through lower-triangular forward substitution.
+        subtotal = 0.0  # Initialize the completed-row contribution.
+        for column in range(row):  # Accumulate already solved forward components.
+            subtotal += factor[row][column] * forward[column]  # Apply one lower-factor coefficient.
+        forward[row] = (right_hand_side[row] - subtotal) / factor[row][row]  # Solve the current positive diagonal equation.
+    solution = [0.0] * size  # Allocate the final solution of L-transpose x = y.
+    for row in range(size - 1, -1, -1):  # Advance backward through the transposed upper-triangular system.
+        subtotal = 0.0  # Initialize the already solved upper contribution.
+        for column in range(row + 1, size):  # Accumulate completed solution components above this diagonal.
+            subtotal += factor[column][row] * solution[column]  # Apply one transposed lower-factor coefficient.
+        solution[row] = (forward[row] - subtotal) / factor[row][row]  # Solve the current positive diagonal equation.
+    return solution  # Return the deterministic SPD-system solution vector.

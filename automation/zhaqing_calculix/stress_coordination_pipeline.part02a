@@ -5,58 +5,105 @@
     return (stress_mpa * ux * ux, stress_mpa * uy * uy, stress_mpa * uz * uz, stress_mpa * ux * uy, stress_mpa * ux * uz, stress_mpa * uy * uz)  # Return SXX,SYY,SZZ,SXY,SXZ,SYZ in global axes.
 
 
-def build_equilibrium_state(base_path: Path, text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]]) -> tuple[dict, dict[int, tuple[float, float, float]], dict[int, float]]:  # Execute P1/P2 and publish the unique equilibrium-state contract required by P3.
-    basis = suspended_permanent_basis()  # Freeze the suspended permanent-load basis before form finding.
-    plane_states: dict[str, dict] = {}  # Store one symmetric axial form-finding state for each cable plane.
-    coordinated_nodes = dict(nodes)  # Start P3 coordinate transfer from an exact copy of the frozen L2 coordinates.
-    target_axial_stress: dict[int, float] = {}  # Store the unique target axial stress for every main cable and hanger element.
-    for y_plane in (2750.0, -2750.0):  # Solve both cable planes independently while preserving their frozen symmetry.
-        cable_sequence = main_span_nodes(nodes, groups, y_plane)  # Recover this plane's exact main-span cable node ordering.
-        initial_zs = [nodes[node][2] for node in cable_sequence]  # Use the frozen drawing-derived cable elevations only as the P2 initial geometry.
-        hangers = hanger_records(nodes, groups, y_plane)  # Recover the 25 source hanger elements connected to this cable plane.
-        stations = [float(item["stationMm"]) for item in hangers]  # Recover the ordered physical hanger stations.
-        tributaries = tributary_lengths(stations)  # Compute edge-aware suspended deck tributary lengths.
-        hanger_by_station = {float(item["stationMm"]): item for item in hangers}  # Index hanger metadata by exact longitudinal station.
-        form = solve_form_finding(initial_zs, hanger_by_station, tributaries, float(basis["onePlaneLineLoadNPerMm"]), float(basis["initialHorizontalGuessN"]))  # Calibrate the self-weight-compatible funicular cable force and geometry.
-        for index, node in enumerate(cable_sequence):  # Transfer only the main-span cable z coordinate from the converged axial core.
-            x, y, _old_z = coordinated_nodes[node]  # Preserve the frozen longitudinal and transverse coordinates.
-            coordinated_nodes[node] = (x, y, float(form["zMm"][index]))  # Replace the cable elevation with the form-found equilibrium coordinate.
-        main_span_elements: list[tuple[int, list[int]]] = []  # Collect main-span cable elements in longitudinal order for force assignment.
-        side_span_elements: list[tuple[int, list[int]]] = []  # Collect side-span cable elements for axial saddle-force transfer.
-        for element_id, connectivity in groups["MAIN_CABLES"]:  # Classify every main-cable element on this transverse plane.
-            point_a = nodes[connectivity[0]]  # Recover the first frozen element endpoint.
-            point_b = nodes[connectivity[1]]  # Recover the second frozen element endpoint.
-            same_plane = (y_plane > 0.0 and point_a[1] > 0.0 and point_b[1] > 0.0) or (y_plane < 0.0 and point_a[1] < 0.0 and point_b[1] < 0.0)  # Classify the complete side-plus-main cable chain by transverse sign because side spans fan from y=±2.35 m to y=±2.75 m.
-            if not same_plane:  # Skip main-cable elements belonging to the opposite signed cable plane.
-                continue  # Advance to the next main-cable element.
-            if -1.0e-6 <= point_a[0] <= SPAN_MM + 1.0e-6 and -1.0e-6 <= point_b[0] <= SPAN_MM + 1.0e-6:  # Identify elements wholly inside the main span.
-                main_span_elements.append((element_id, connectivity))  # Preserve the source main-span cable element.
-            else:  # Treat all remaining same-plane cable elements as side-span segments.
-                side_span_elements.append((element_id, connectivity))  # Preserve the source side-span cable element.
-        main_span_elements.sort(key=lambda item: min(coordinated_nodes[item[1][0]][0], coordinated_nodes[item[1][1]][0]))  # Align main-span elements with the form-found segment-force array.
-        if len(main_span_elements) != 82:  # Require the frozen 82 one-metre main-span cable segments per plane.
-            raise RuntimeError(f"unexpected main-span cable element count on y={y_plane}: {len(main_span_elements)}")  # Stop before assigning mismatched force data.
-        for index, (element_id, _connectivity) in enumerate(main_span_elements):  # Assign the calibrated funicular tension to every main-span cable segment.
-            target_axial_stress[element_id] = float(form["segmentForcesN"][index]) / MAIN_CABLE_AREA_MM2  # Convert the segment tension to its uniform axial stress target.
-        tower_tension = 0.5 * (float(form["segmentForcesN"][0]) + float(form["segmentForcesN"][-1]))  # Use the symmetric tower-adjacent main-span tension as the side-span saddle-force magnitude.
-        for element_id, _connectivity in side_span_elements:  # Transfer the same axial saddle tension through each collinear side-span segment.
-            target_axial_stress[element_id] = tower_tension / MAIN_CABLE_AREA_MM2  # Preserve axial-only main-cable behavior outside the form-found main span.
-        for element_id, target_force in form["hangerForceTargetsN"].items():  # Transfer the P2 compatible hanger force targets to the detailed-model stress map.
-            target_axial_stress[int(element_id)] = float(target_force) / HANGER_AREA_MM2  # Convert each hanger target tension to uniform axial stress.
-        original_residual = max(abs(float(form["zMm"][index]) - initial_zs[index]) for index in range(len(initial_zs)))  # Measure the largest coordinate correction from the frozen parabolic drawing geometry.
-        plane_states[str(y_plane)] = {"horizontalForceN": form["horizontalForceN"], "mainSpanNodeIds": cable_sequence, "formFoundZMm": form["zMm"], "maxInteriorResidualN": form["maxInteriorResidualN"], "rmsInteriorResidualN": form["rmsInteriorResidualN"], "leftTowerVerticalReactionN": form["leftTowerVerticalReactionN"], "rightTowerVerticalReactionN": form["rightTowerVerticalReactionN"], "maxCorrectionFromFrozenGeometryMm": original_residual, "selfWeightIterations": form["selfWeightIterations"], "selfWeightFinalDeltaMm": form["selfWeightFinalDeltaMm"], "hangerForceTargetsN": {str(key): value for key, value in sorted(form["hangerForceTargetsN"].items())}}  # Persist the complete per-plane force and geometry evidence.
-    element_states: dict[str, dict] = {}  # Publish element-specific force, stress, initial-strain, and unstressed-length state instead of one global prestress scale.
-    for group_name, modulus_mpa in (("MAIN_CABLES", 195000.0), ("HANGERS", 200000.0)):  # Derive P2/P3 constitutive state variables separately for main cables and hangers.
-        for element_id, connectivity in groups[group_name]:  # Visit every suspension element with a unique transferred stress target.
-            current_length = vector_length(coordinated_nodes[connectivity[0]], coordinated_nodes[connectivity[1]])  # Compute the equilibrium-state element length after form-found coordinate transfer.
-            target_stress = float(target_axial_stress[element_id])  # Recover the unique element target tensile stress in MPa.
-            initial_strain = target_stress / modulus_mpa  # Convert tensile stress to the corresponding linear-elastic engineering strain.
-            unstressed_length = current_length / (1.0 + initial_strain)  # Back-calculate the element unstressed length that reproduces the equilibrium tensile strain.
-            area = MAIN_CABLE_AREA_MM2 if group_name == "MAIN_CABLES" else HANGER_AREA_MM2  # Select the frozen axial area for force recovery.
-            element_states[str(element_id)] = {"group": group_name, "nodeIds": connectivity[:2], "equilibriumLengthMm": current_length, "unstressedLengthMm": unstressed_length, "initialStrain": initial_strain, "axialStressMPa": target_stress, "axialForceN": target_stress * area}  # Publish the complete per-element equilibrium state required by P3.
-    stage_history: list[dict] = []  # Build the explicit P2 F1 staged permanent-load history required by the repair plan.
-    reference_plane = plane_states["2750.0"]  # Use one symmetric plane as the scalar staged-load reference.
-    for scale in FORM_FIND_STAGES:  # Advance the documented staged load fraction from five percent to the full permanent state.
-        stage_history.append({"loadFraction": scale, "horizontalForceN": float(reference_plane["horizontalForceN"]) * scale, "maxInteriorResidualN": float(reference_plane["maxInteriorResidualN"]) * scale, "minimumCableStressMPa": min(target_axial_stress[element_id] * scale for element_id, _connectivity in groups["MAIN_CABLES"]), "minimumHangerStressMPa": min(target_axial_stress[element_id] * scale for element_id, _connectivity in groups["HANGERS"])})  # Record force scaling, residual scaling, and positive-tension margins at each F1 stage.
-    mass_sensitivity: list[dict] = []  # Evaluate the P4 ±5 percent suspended-mass sensitivity on the isolated axial form-finding core.
-    positive_hangers = hanger_records(nodes, groups, 2750.0)  # Reuse the positive cable plane for the symmetric mass sensitivity study.
+def solve_complete_cable_plane_legacy(nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], y_plane: float, basis: dict[str, float], load_factor: float = 1.0) -> dict:  # Retain the former retargeted-sag implementation only as an explicitly named diagnostic.
+    cable_sequence = main_span_nodes(nodes, groups, y_plane)  # Recover the exact 83-node main-span cable ordering between tower saddles.
+    initial_zs = [nodes[node][2] for node in cable_sequence]  # Preserve the drawing-derived main-span shape only as the inverse-solve starting geometry.
+    hangers = hanger_records(nodes, groups, y_plane)  # Recover all 25 physical hanger interfaces on this cable plane.
+    stations = [float(item["stationMm"]) for item in hangers]  # Recover ordered deck suspension stations.
+    tributaries = tributary_lengths(stations)  # Close the full 82 m suspended deck length without losing end panels.
+    hanger_by_station = {float(item["stationMm"]): item for item in hangers}  # Index hanger topology by exact station for load transfer.
+    form = solve_form_finding(initial_zs, hanger_by_station, tributaries, float(basis["onePlaneLineLoadNPerMm"]), float(basis["initialHorizontalGuessN"]), load_factor)  # Solve the actual staged main-span deck, cable, and hanger equilibrium.
+    chain_nodes, chain_elements = ordered_cable_plane(nodes, groups, 1.0 if y_plane > 0.0 else -1.0)  # Recover the complete side-main-side source topology on this signed plane.
+    left_tower_index = chain_nodes.index(cable_sequence[0])  # Locate the left tower saddle inside the anchor-to-anchor chain.
+    right_tower_index = chain_nodes.index(cable_sequence[-1])  # Locate the right tower saddle inside the anchor-to-anchor chain.
+    if right_tower_index - left_tower_index != 82:  # Require the exact 82 main-span cable elements between tower saddles.
+        raise RuntimeError(f"unexpected main-span chain length on y={y_plane}")  # Stop before misaligning side and main forces.
+    left_source = [nodes[node] for node in chain_nodes[:left_tower_index + 1]]  # Extract the complete left anchor-to-saddle source span.
+    right_source = [nodes[node] for node in chain_nodes[right_tower_index:]]  # Extract the complete right saddle-to-anchor source span.
+    left_side = solve_side_span_to_saddle_tension(left_source, True, float(form["segmentForcesN"][0]), load_factor)  # Calibrate the left side span to continuous axial saddle tension.
+    right_side = solve_side_span_to_saddle_tension(right_source, False, float(form["segmentForcesN"][-1]), load_factor)  # Calibrate the right side span independently to the opposite saddle tension.
+    coordinated = dict(nodes)  # Start the staged full-model coordinate state from immutable source coordinates.
+    for index, node in enumerate(chain_nodes[:left_tower_index + 1]):  # Transfer the solved left side-span coordinates including fixed endpoints.
+        coordinated[node] = tuple(left_side["points"][index])  # Preserve exact plan position and calibrated self-weight elevation.
+    for index, node in enumerate(cable_sequence):  # Transfer the solved main-span funicular elevations.
+        x, y, _z = coordinated[node]  # Preserve frozen longitudinal and transverse coordinates at every main-span cable node.
+        coordinated[node] = (x, y, float(form["zMm"][index]))  # Replace only the equilibrium elevation.
+    for index, node in enumerate(chain_nodes[right_tower_index:]):  # Transfer the solved right side-span coordinates including fixed endpoints.
+        coordinated[node] = tuple(right_side["points"][index])  # Preserve exact plan position and calibrated self-weight elevation.
+    element_forces: dict[int, float] = {}  # Publish one physical axial force for every cable and hanger element on this plane.
+    for index, element_id in enumerate(chain_elements[:left_tower_index]):  # Map calibrated left side-span segment forces to source elements.
+        element_forces[element_id] = float(left_side["segmentForcesN"][index])  # Preserve the self-weight-varying physical force.
+    for index, element_id in enumerate(chain_elements[left_tower_index:right_tower_index]):  # Map main-span funicular segment forces to source elements.
+        element_forces[element_id] = float(form["segmentForcesN"][index])  # Preserve the calibrated main-span physical force.
+    for index, element_id in enumerate(chain_elements[right_tower_index:]):  # Map calibrated right side-span segment forces to source elements.
+        element_forces[element_id] = float(right_side["segmentForcesN"][index])  # Preserve the self-weight-varying physical force.
+    for element_id, target_force in form["hangerForceTargetsN"].items():  # Add compatible mean hanger tension for every deck interface.
+        element_forces[int(element_id)] = float(target_force)  # Preserve mean tension so top and bottom forces close with lumped self-weight.
+    node_actions: dict[int, list[float]] = {}  # Accumulate element actions plus staged body load at every suspension node.
+    def add_action(node: int, vector: tuple[float, float, float]) -> None:  # Add one global action vector to a suspension node deterministically.
+        target = node_actions.setdefault(node, [0.0, 0.0, 0.0])  # Initialize the exact node action accumulator on first use.
+        for axis in range(3):  # Resolve all three global action components independently.
+            target[axis] += vector[axis]  # Accumulate the requested component without rounding.
+    plane_element_ids = set(element_forces)  # Freeze the exact complete cable-and-hanger element population on this plane.
+    for group_name, area in (("MAIN_CABLES", MAIN_CABLE_AREA_MM2), ("HANGERS", HANGER_AREA_MM2)):  # Assemble cable and hanger actions with their correct areas.
+        for element_id, connectivity in groups[group_name]:  # Visit every source suspension element once.
+            if element_id not in plane_element_ids:  # Skip only the opposite cable plane.
+                continue  # Advance without contaminating this plane's equilibrium audit.
+            node_a, node_b = connectivity[:2]  # Recover the two axial endpoints.
+            point_a = coordinated[node_a]  # Read the staged equilibrium coordinate at endpoint A.
+            point_b = coordinated[node_b]  # Read the staged equilibrium coordinate at endpoint B.
+            length = vector_length(point_a, point_b)  # Compute the exact staged element length.
+            unit = tuple((point_b[axis] - point_a[axis]) / length for axis in range(3))  # Normalize its global axis.
+            force = element_forces[element_id]  # Recover the physical mean axial tension.
+            add_action(node_a, tuple(force * component for component in unit))  # Add the tensile action pulling endpoint A toward B.
+            add_action(node_b, tuple(-force * component for component in unit))  # Add the equal-and-opposite tensile action at endpoint B.
+            weight = area * STEEL_DENSITY_T_MM3 * GRAVITY_MM_S2 * length * load_factor  # Compute this staged suspension-element self-weight.
+            add_action(node_a, (0.0, 0.0, -0.5 * weight))  # Lump half of self-weight to endpoint A.
+            add_action(node_b, (0.0, 0.0, -0.5 * weight))  # Lump half of self-weight to endpoint B.
+    interface_bottoms = {int(item["bottomNode"]) for item in hangers}  # Freeze physical hanger-to-deck interface nodes.
+    tower_nodes = {cable_sequence[0], cable_sequence[-1]}  # Freeze physical cable-to-tower saddle nodes.
+    anchor_nodes = {chain_nodes[0], chain_nodes[-1]}  # Freeze physical anchor support nodes.
+    free_cable_nodes = set(chain_nodes) - tower_nodes - anchor_nodes  # Require every non-support cable node to close in three dimensions.
+    free_residuals = {node: math.sqrt(sum(component * component for component in node_actions.get(node, (0.0, 0.0, 0.0)))) for node in free_cable_nodes}  # Compute exact full-vector free-node residuals.
+    interface_actions = {str(node): node_actions[node] for node in sorted(interface_bottoms | tower_nodes)}  # Publish suspension forces exerted on the retained detailed structure.
+    anchor_actions = {str(node): node_actions[node] for node in sorted(anchor_nodes)}  # Publish cable forces exerted on ground anchor supports.
+    coordinate_correction = max(vector_length(nodes[node], coordinated[node]) for node in chain_nodes)  # Measure the largest source-to-equilibrium cable coordinate correction.
+    return {"loadFactor": load_factor, "horizontalForceN": form["horizontalForceN"], "mainSpanNodeIds": cable_sequence, "completeCableNodeIds": chain_nodes, "completeCableElementIds": chain_elements, "formFoundZMm": form["zMm"], "elementForcesN": {str(key): value for key, value in sorted(element_forces.items())}, "hangerForceTargetsN": {str(key): value for key, value in sorted(form["hangerForceTargetsN"].items())}, "interfaceActionsN": interface_actions, "anchorActionsN": anchor_actions, "maxFreeNodeResidualN": max(free_residuals.values()), "rmsFreeNodeResidualN": math.sqrt(sum(value * value for value in free_residuals.values()) / len(free_residuals)), "freeNodeResidualN": {str(key): value for key, value in sorted(free_residuals.items())}, "maxCoordinateCorrectionMm": coordinate_correction, "mainSpan": form, "leftSideSpan": left_side, "rightSideSpan": right_side, "coordinatedNodes": coordinated}  # Return complete three-span equilibrium, interface, reaction, and residual evidence.
+
+
+def build_equilibrium_state_legacy(base_path: Path, text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]]) -> tuple[dict, dict[int, tuple[float, float, float]], dict[int, float]]:  # Retain the former load-scaled history only as inert provenance while the fixed-length implementation supersedes it below.
+    basis = suspended_permanent_basis()  # Freeze the suspended permanent-load basis before any staged solve.
+    plane_states: dict[str, dict] = {}  # Store one complete anchor-to-anchor equilibrium state for each cable plane.
+    coordinated_nodes = dict(nodes)  # Preserve full-model coordinates so equilibrium_state can publish every source node.
+    target_axial_stress: dict[int, float] = {}  # Store one unique target axial stress for every main cable and hanger element.
+    for y_plane in (2750.0, -2750.0):  # Solve both signed cable planes independently from the same frozen evidence.
+        solved = solve_complete_cable_plane_legacy(nodes, groups, y_plane, basis, 1.0)  # Preserve former behavior only if a developer invokes this explicitly named legacy diagnostic.
+        for node in solved["completeCableNodeIds"]:  # Transfer every side-span and main-span cable coordinate from the complete equilibrium state.
+            coordinated_nodes[node] = tuple(solved["coordinatedNodes"][node])  # Preserve the unique full three-span equilibrium coordinate.
+        for element_id_text, force in solved["elementForcesN"].items():  # Convert every complete-plane cable and hanger force to stress.
+            element_id = int(element_id_text)  # Recover the source element id from machine-readable state keys.
+            area = MAIN_CABLE_AREA_MM2 if any(candidate_id == element_id for candidate_id, _connectivity in groups["MAIN_CABLES"]) else HANGER_AREA_MM2  # Select the verified physical axial area.
+            target_axial_stress[element_id] = float(force) / area  # Publish the unique equilibrium axial stress.
+        solved.pop("coordinatedNodes")  # Keep coordinates only once in the top-level complete node-coordinate contract.
+        plane_states[str(y_plane)] = solved  # Preserve full residual, support, stage, and side-span evidence for this plane.
+    if len(target_axial_stress) != len(groups["MAIN_CABLES"]) + len(groups["HANGERS"]):  # Require exact stress coverage across both complete suspension planes.
+        raise RuntimeError("complete equilibrium state did not cover every cable and hanger element")  # Stop before allowing P3 to synthesize missing state.
+    element_states: dict[str, dict] = {}  # Publish element-specific force, stress, strain, tangent, and unstressed-length state instead of one global scale.
+    for group_name, modulus_mpa in (("MAIN_CABLES", 195000.0), ("HANGERS", 200000.0)):  # Derive constitutive state variables separately for cables and hangers.
+        for element_id, connectivity in groups[group_name]:  # Visit every suspension element exactly once.
+            current_length = vector_length(coordinated_nodes[connectivity[0]], coordinated_nodes[connectivity[1]])  # Compute its unique equilibrium length.
+            target_stress = float(target_axial_stress[element_id])  # Recover its unique equilibrium axial stress.
+            initial_strain = target_stress / modulus_mpa  # Convert equilibrium stress to linear-elastic engineering strain.
+            unstressed_length = current_length / (1.0 + initial_strain)  # Back-calculate the compatible unloaded fabrication length.
+            area = MAIN_CABLE_AREA_MM2 if group_name == "MAIN_CABLES" else HANGER_AREA_MM2  # Select the verified axial area.
+            axial_force = target_stress * area  # Recover the physical equilibrium axial force.
+            element_states[str(element_id)] = {"group": group_name, "nodeIds": connectivity[:2], "equilibriumLengthMm": current_length, "unstressedLengthMm": unstressed_length, "initialStrain": initial_strain, "axialStressMPa": target_stress, "axialForceN": axial_force, "materialTangentNPerMm": modulus_mpa * area / current_length, "geometricTangentNPerMm": axial_force / current_length}  # Publish all data needed for exact suspension tangent condensation in P3.
+    stage_history: list[dict] = []  # Execute and preserve actual independent equilibrium solves at every F1 permanent-load fraction.
+    for scale in (0.05, 0.10, 0.20, 0.35, 0.50, 0.70, 0.85, 1.00):  # Preserve former diagnostic fractions locally without exposing them as the physical stage contract.
+        stage_planes = [solve_complete_cable_plane_legacy(nodes, groups, y_plane, basis, scale) for y_plane in (2750.0, -2750.0)]  # Preserve former retargeted-sag behavior only inside the explicitly named legacy diagnostic.
+        all_forces = [float(value) for plane in stage_planes for value in plane["elementForcesN"].values()]  # Collect actual staged cable and hanger forces.
+        stage_history.append({"phase": "F1_STAGED_GRAVITY", "loadFraction": scale, "planeHorizontalForceN": {str(y): stage_planes[index]["horizontalForceN"] for index, y in enumerate((2750.0, -2750.0))}, "maxFreeNodeResidualN": max(float(plane["maxFreeNodeResidualN"]) for plane in stage_planes), "minimumSuspensionForceN": min(all_forces), "solver": "independent complete three-span axial equilibrium solve", "continuedFromPreviousAcceptedStage": bool(stage_history)})  # Record real solve output and explicit continuation order without fabricating scaled residuals.
+    mass_sensitivity: list[dict] = []  # Execute P4 plus/minus-five-percent full suspended-system mass sensitivity.
+    for mass_factor in (0.95, 1.05):  # Re-solve every complete plane at both bounded mass perturbations.
+        sensitivity_planes = [solve_complete_cable_plane_legacy(nodes, groups, y_plane, basis, mass_factor) for y_plane in (2750.0, -2750.0)]  # Preserve former retargeted-sag behavior only inside the explicitly named legacy diagnostic.
+        mass_sensitivity.append({"suspendedMassFactor": mass_factor, "planeHorizontalForceN": {str(y): sensitivity_planes[index]["horizontalForceN"] for index, y in enumerate((2750.0, -2750.0))}, "maxFreeNodeResidualN": max(float(plane["maxFreeNodeResidualN"]) for plane in sensitivity_planes), "minimumSuspensionForceN": min(float(value) for plane in sensitivity_planes for value in plane["elementForcesN"].values()), "midspanZMm": {str(y): sensitivity_planes[index]["formFoundZMm"][41] for index, y in enumerate((2750.0, -2750.0))}})  # Publish continuous physical response from actual sensitivity solves.

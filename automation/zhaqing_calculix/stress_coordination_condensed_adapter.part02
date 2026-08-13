@@ -1,60 +1,362 @@
-                if len(connectivity) != 4:  # Require the verified four-node shell topology.
-                    raise RuntimeError(f"unexpected shell connectivity for gravity mass: {connectivity}")  # Stop before undercounting external gravity.
-                p1, p2, p3, p4 = (nodes[node] for node in connectivity)  # Recover the four shell corner coordinates.
-                area = triangle_area(p1, p2, p3) + triangle_area(p1, p3, p4)  # Split the quadrilateral into two deterministic triangles.
-                mass += density * measure * area  # Add the shell mass from density, thickness, and geometric area.
-        mass_by_group[group_name] = mass  # Preserve the component mass for the final load audit.
-    gravity_weight = sum(mass_by_group.values()) * GRAVITY_MM_S2  # Convert the complete E_GRAV structural mass to downward gravitational force.
-    if "*CLOAD\n" not in text:  # Require the verified permanent nodal-load block.
-        raise RuntimeError("coordinated detailed model CLOAD block not found")  # Stop before publishing an incomplete external-load reference.
-    cload_text = text.split("*CLOAD\n", 1)[1].split("*NODE PRINT", 1)[0]  # Isolate the final permanent nodal loads before result requests.
-    cload_sum = [0.0, 0.0, 0.0]  # Accumulate all explicit CLOAD components in global axes.
-    for raw in cload_text.splitlines():  # Parse every explicit permanent nodal-load record.
-        line = raw.strip()  # Normalize surrounding whitespace only.
-        if not line or line.startswith("**") or line.startswith("*"):  # Ignore empty rows, comments, and subsequent keywords.
-            continue  # Advance to the next possible load record.
-        fields = [field.strip() for field in line.split(",")]  # Split the standard node,dof,value CLOAD row.
-        if len(fields) >= 3 and fields[0].isdigit() and fields[1].isdigit():  # Accept only numeric CLOAD records.
-            dof = int(fields[1])  # Recover the global translational load direction.
-            if 1 <= dof <= 3:  # Restrict the resultant to translational force components.
-                cload_sum[dof - 1] += float(fields[2])  # Add the explicit force value to the global resultant.
-    external = (cload_sum[0], cload_sum[1], cload_sum[2] - gravity_weight)  # Combine explicit nodal loads with downward structural gravity.
-    audit = {"structuralGravityMassTonne": sum(mass_by_group.values()), "structuralGravityWeightN": gravity_weight, "explicitCloadFxN": cload_sum[0], "explicitCloadFyN": cload_sum[1], "explicitCloadFzN": cload_sum[2], **{f"mass_{name}_tonne": value for name, value in mass_by_group.items()}}  # Preserve full external-load accounting by source component.
-    return external, audit
+def keyword_parameter(line: str, name: str) -> str | None:  # Recover one comma-delimited CalculiX keyword parameter without accepting partial names.
+    match = re.search(rf"(?:^|,)\s*{re.escape(name)}\s*=\s*([^,\s]+)", line, re.I)  # Locate the requested parameter case-insensitively.
+    return match.group(1).upper() if match else None  # Return a normalized parameter value or an explicit absence.
 
-def parse_nsets(text: str) -> dict[str, set[int]]:  # Parse explicit node sets required for support-reaction screening from the coordinated detailed deck.
-    sets: dict[str, set[int]] = {}  # Store every explicit NSET by normalized uppercase name.
-    active: str | None = None  # Track the current explicit node-set definition while scanning the deck.
-    for raw in text.splitlines():  # Visit every input row once in source order.
-        line = raw.strip()  # Normalize surrounding whitespace for keyword recognition.
-        if line.upper().startswith("*NSET"):  # Detect an explicit node-set definition.
-            match = re.search(r"NSET=([^,\s]+)", line, re.I)  # Extract the named set identifier.
-            active = match.group(1).upper() if match else None  # Normalize the active set name for deterministic lookup.
-            if active:  # Initialize storage only when a valid set name was found.
-                sets.setdefault(active, set())  # Preserve continued set definitions without discarding earlier members.
-            continue  # Advance to set member rows.
-        if line.startswith("*"):  # Detect the next keyword boundary.
-            active = None  # Leave explicit node-set parsing mode.
-            continue  # Advance to data under the new keyword.
-        if active and line and not line.startswith("**"):  # Parse numeric node labels inside the active explicit set.
-            for token in line.split(","):  # Visit each comma-separated set member token.
-                token = token.strip()  # Normalize surrounding whitespace around the candidate node id.
-                if token.isdigit():  # Preserve only explicit integer node labels used by this verified model.
-                    sets[active].add(int(token))  # Add the source node id to the normalized set.
-    return sets
 
-def evaluate_final_gate(fine_deck_text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], solver_exit: int, solver_log: str, displacements: dict[int, tuple[float, float, float]], reactions: dict[int, tuple[float, float, float]], stresses: dict[int, tuple[float, float, float, float, float, float]], target_axial_stress: dict[int, float], equilibrium_state: dict, vtk_receipt: dict) -> dict:  # Apply the P4 numerical acceptance Gate independently of artifact upload success.
-    fatal_hits = [token for token in FATAL_TOKENS if token in solver_log.upper()]  # Detect all known fatal, singularity, and MPC-dependence diagnostics.
-    solver_nodes, solver_groups, _solver_ownership = parse_model(fine_deck_text)  # Parse the active retained P3 solver topology independently from the full P2 visualization topology.
-    nsets = parse_nsets(fine_deck_text)  # Recover the frozen physical support sets from the exact coordinated solver deck.
-    support_names = ("TOWER_BASES", "WIND_ANCHORS", "DECK_LEFT_PIN", "DECK_RIGHT_ROLLER")  # Freeze the active P3 physical support contract after suspension-only cable-anchor nodes are condensed out of the detailed solver.
-    support_nodes = set().union(*(nsets.get(name, set()) for name in support_names))  # Form one unique set of physical support nodes without double counting.
-    reaction_sum = tuple(sum(reactions.get(node, (0.0, 0.0, 0.0))[index] for node in support_nodes) for index in range(3)) if support_nodes else (0.0, 0.0, 0.0)  # Sum only physical-support nodal forces from the perturbation result.
-    external_resultant, external_audit = permanent_external_resultant(fine_deck_text, nodes, solver_groups)  # Recover the exact retained-model gravity plus original CLOAD plus transferred suspension-interface force resultant.
-    reference_weight = max(abs(external_resultant[2]), 1.0)  # Use the exact total downward permanent resultant as the P4 normalization scale.
-    vertical_balance_same_sign = abs(reaction_sum[2] - external_resultant[2]) / reference_weight  # Compare support output to external load under the CalculiX structural-action sign convention.
-    vertical_balance_opposite_sign = abs(reaction_sum[2] + external_resultant[2]) / reference_weight  # Also evaluate the conventional support-reaction sign convention explicitly.
-    vertical_balance_relative = min(vertical_balance_same_sign, vertical_balance_opposite_sign)  # Remove only sign-convention ambiguity while preserving force-magnitude closure.
-    residual_resultant = (reaction_sum[0] - external_resultant[0], reaction_sum[1] - external_resultant[1], reaction_sum[2] - external_resultant[2] if vertical_balance_same_sign <= vertical_balance_opposite_sign else reaction_sum[2] + external_resultant[2])  # Report the force-residual vector using the sign convention that closes the vertical component best.
-    tension_checks: list[float] = []  # Collect coordinated total final axial stresses for all main cables and hangers.
-    coordination_errors: list[float] = []  # Collect relative final-to-P2-target axial stress deviations for suspension elements.
+def format_integer_rows(values: list[int], width: int = 16) -> list[str]:  # Serialize deterministic source labels into compact CalculiX set-membership rows.
+    return [", ".join(str(value) for value in values[start:start + width]) for start in range(0, len(values), width)]  # Preserve sorted membership while bounding each input row.
+
+
+def filter_source_model(prefix: str, coordinated_nodes: dict[int, tuple[float, float, float]], retained_element_ids: set[int], sensor_supports: bool = False) -> str:  # Remove condensed and unevidenced elements while optionally replacing loaded translational supports only in an independent reaction audit.
+    lines = prefix.splitlines()  # Scan the pre-step model data without normalizing the immutable source before decisions.
+    output: list[str] = []  # Accumulate the deterministic retained model prefix.
+    active_node_block = False  # Track source physical-node records so v3 coordinates replace baseline coordinates explicitly.
+    active_boundary_block = False  # Track the single physical boundary block so removed-subsystem supports can be deleted.
+    index = 0  # Advance through source rows with explicit whole-keyword-block skipping.
+    while index < len(lines):  # Visit every pre-step source row exactly once.
+        raw = lines[index]  # Preserve the original source spelling when the row remains authoritative.
+        stripped = raw.strip()  # Normalize surrounding whitespace only for keyword and record recognition.
+        upper = stripped.upper()  # Cache the case-insensitive keyword form.
+        if stripped.startswith("*") and not stripped.startswith("**"):  # Process one real CalculiX keyword boundary.
+            group_name = keyword_parameter(stripped, "ELSET")  # Recover element or section ownership when the keyword declares it.
+            if upper.startswith("*ELEMENT") and group_name in REMOVED_PRIMARY_GROUPS:  # Delete the complete source element block for condensed suspension and excluded wind inventory.
+                index += 1  # Advance past the removed ELEMENT keyword.
+                while index < len(lines) and not lines[index].lstrip().startswith("*"):  # Consume only its numeric connectivity records.
+                    index += 1  # Drop one removed source connectivity row.
+                active_node_block = False  # Leave physical-node parsing mode after an element boundary.
+                active_boundary_block = False  # Leave boundary parsing mode after an element boundary.
+                continue  # Reprocess the next keyword without consuming it.
+            if (upper.startswith("*BEAM SECTION") or upper.startswith("*SOLID SECTION") or upper.startswith("*SHELL SECTION")) and group_name in REMOVED_PRIMARY_GROUPS:  # Delete every section block that references a removed source ELSET.
+                index += 1  # Advance past the removed section keyword.
+                while index < len(lines) and not lines[index].lstrip().startswith("*"):  # Consume its section dimensions and orientation rows.
+                    index += 1  # Drop one removed section-data row.
+                active_node_block = False  # Leave physical-node parsing mode after a section boundary.
+                active_boundary_block = False  # Leave boundary parsing mode after a section boundary.
+                continue  # Reprocess the next keyword without consuming it.
+            if upper.startswith("*ELSET") and group_name in {"E_GRAV", "E_STRUCTURAL"}:  # Rewrite the two aggregate structural sets to retained physical elements only.
+                output.append(raw)  # Preserve the authoritative aggregate-set keyword and name.
+                index += 1  # Advance to its original membership body.
+                original_members: list[int] = []  # Collect every explicit original member before applying the primary-response boundary.
+                while index < len(lines) and not lines[index].lstrip().startswith("*"):  # Consume the complete continued ELSET definition.
+                    original_members.extend(int(token.strip()) for token in lines[index].split(",") if token.strip().isdigit())  # Parse every explicit integer source label.
+                    index += 1  # Advance through the aggregate-set body.
+                filtered_members = sorted(set(original_members) & retained_element_ids)  # Keep exactly retained stress-carrying source elements and no suspension or wind cell.
+                if not filtered_members:  # Refuse to emit an empty gravity or stress output population.
+                    raise RuntimeError(f"retained {group_name} set became empty")  # Stop before an invalid primary CalculiX deck is published.
+                output.extend(format_integer_rows(filtered_members))  # Serialize the exact retained aggregate membership deterministically.
+                active_node_block = False  # Leave physical-node parsing mode after an ELSET boundary.
+                active_boundary_block = False  # Leave boundary parsing mode after an ELSET boundary.
+                continue  # Reprocess the next keyword without consuming it.
+            if re.match(r"^\*NODE(?:,|\s|$)", stripped, re.I) and not re.match(r"^\*NODE\s+(PRINT|FILE)", stripped, re.I):  # Detect the one physical source NODE definition.
+                output.append("*NODE, NSET=P3_SOURCE_NODES")  # Prevent removed and auxiliary nodes from entering the solver-result NALL contract implicitly.
+                active_node_block = True  # Enable authoritative v3 coordinate replacement on following node rows.
+                active_boundary_block = False  # Leave boundary parsing mode at the NODE keyword.
+                index += 1  # Advance to the first physical node record.
+                continue  # Finish processing this keyword.
+            active_node_block = False  # Any other real keyword terminates source node-record parsing.
+            active_boundary_block = upper.startswith("*BOUNDARY")  # Enter boundary filtering only for the single physical boundary keyword.
+            output.append(raw)  # Preserve the unrelated retained model keyword verbatim.
+            index += 1  # Advance to its data or the next keyword.
+            continue  # Finish processing this keyword.
+        if active_node_block and stripped and not stripped.startswith("**"):  # Replace one physical source node record from the digest-verified v3 state.
+            fields = [field.strip() for field in raw.split(",")]  # Tokenize the comma-delimited node record.
+            if fields and fields[0].isdigit() and int(fields[0]) in coordinated_nodes:  # Accept exactly a published physical source node label.
+                node_id = int(fields[0])  # Recover the source node identity.
+                x_value, y_value, z_value = coordinated_nodes[node_id]  # Read its authoritative equilibrium coordinate.
+                output.append(f"{node_id}, {x_value:.12g}, {y_value:.12g}, {z_value:.12g}")  # Serialize the v3 coordinate with deterministic engineering precision.
+                index += 1  # Advance to the next source node row.
+                continue  # Avoid retaining the superseded baseline coordinate.
+        if active_boundary_block and re.match(r"^(MAIN_CABLE_ANCHORS|WIND_ANCHORS)\s*,", stripped, re.I):  # Remove supports belonging only to condensed or formally excluded source subsystems.
+            index += 1  # Drop the obsolete boundary record while preserving retained tower and deck supports.
+            continue  # Advance without duplicating or grounding an eliminated degree of freedom.
+        if sensor_supports and active_boundary_block and re.match(r"^TOWER_BASES\s*,", stripped, re.I):  # Replace loaded tower-base translations by sensor springs while retaining physical rotational fixity only in an audit solve.
+            fields = [field.strip() for field in raw.split(",")]  # Parse the frozen tower-base boundary record before changing its support representation.
+            if len(fields) < 4 or fields[1:4] != ["1", "6", "0."]:  # Require the exact verified translational-plus-rotational support contract.
+                raise RuntimeError(f"unexpected TOWER_BASES boundary record: {raw}")  # Stop before silently changing an unrecognized physical support.
+            output.append("TOWER_BASES, 4, 6, 0.")  # Keep the three physical beam rotations fixed at their original tower-base nodes.
+            index += 1  # Consume the replaced source boundary record.
+            continue  # Avoid retaining its contaminated translational constraints.
+        if sensor_supports and active_boundary_block and re.match(r"^(DECK_LEFT_PIN|DECK_RIGHT_ROLLER)\s*,", stripped, re.I):  # Move every deck translational restraint to a load-free sensor only in an audit solve.
+            fields = [field.strip() for field in raw.split(",")]  # Parse the frozen deck support record before removing it from the loaded physical node.
+            support_name = fields[0].upper() if fields else ""  # Normalize the selected verified support-set identity.
+            expected = ["1", "3", "0."] if support_name == "DECK_LEFT_PIN" else ["2", "3", "0."]  # Freeze the exact pin and roller translational ranges.
+            if len(fields) < 4 or fields[1:4] != expected:  # Require the immutable source constraint before collector substitution.
+                raise RuntimeError(f"unexpected {support_name} boundary record: {raw}")  # Stop before changing an unrecognized deck support.
+            index += 1  # Consume the source translational boundary record completely.
+            continue  # Let the later collector block carry these exact constrained directions.
+        output.append(raw)  # Preserve every other model-data, comment, and retained boundary row verbatim.
+        index += 1  # Advance to the next source row.
+    return "\n".join(output) + "\n"  # Return one normalized trailing-newline model prefix for deterministic insertion.
+
+
+def reaction_collector_contract(text: str) -> list[dict]:  # Derive one load-free scalar reaction collector for every frozen retained translational support degree.
+    nsets = parse_nsets(text)  # Recover support membership independently from the immutable source set declarations.
+    specifications = (("TOWER_BASES", (1, 2, 3)), ("DECK_LEFT_PIN", (1, 2, 3)), ("DECK_RIGHT_ROLLER", (2, 3)))  # Freeze the exact translational support contract while excluding irrelevant rotational resultants.
+    supported_degrees: list[tuple[int, int, str]] = []  # Accumulate physical node, direction, and source support-set records before global ordering.
+    next_node = 100163  # Continue directly after the exact 162 condensed-mode auxiliary nodes to minimize CalculiX allocation ranges.
+    next_element = 200163  # Continue directly after the exact 162 condensed-mode SPRING1 elements for sensor identity.
+    for set_name, directions in specifications:  # Visit tower bases, the left pin, and the right roller in physical contract order.
+        members = sorted(nsets.get(set_name, set()))  # Resolve each frozen support set to explicit physical source nodes.
+        if not members:  # Require every expected support family before building the canonical solve.
+            raise RuntimeError(f"required support set {set_name} is empty")  # Stop before weakening or changing the baseline constraint topology.
+        for physical_node in members:  # Visit each support node deterministically.
+            for physical_dof in directions:  # Create one independent collector for each constrained global translation.
+                supported_degrees.append((physical_node, physical_dof, set_name))  # Preserve this physical support degree before source-independent sorting.
+    records: list[dict] = []  # Allocate the final deterministic physical-degree to scalar-collector mappings.
+    for physical_node, physical_dof, set_name in sorted(supported_degrees):  # Freeze IDs by global physical node then Cartesian direction, independent of support-set declaration order.
+        records.append({"collectorNode": next_node, "sensorElement": next_element, "physicalNode": physical_node, "physicalDof": physical_dof, "supportSet": set_name})  # Bind one scalar collector and sensor element to its physical direction for parsing and audit.
+        next_node += 1  # Allocate the next unique compact reaction-collector label.
+        next_element += 1  # Allocate the matching compact reaction-sensor element label.
+    if len(records) != 22:  # Freeze the verified four tower bases, two left-pin nodes, and two right-roller nodes contract.
+        raise RuntimeError(f"reaction collector contract expected 22 translational degrees, got {len(records)}")  # Stop before accepting changed support membership silently.
+    return records  # Return the complete deterministic collector mapping.
+
+
+def render_reaction_sensors(records: list[dict], stiffness_n_per_mm: float) -> str:  # Connect physical supports to load-free fixed nodes through explicit SPRING2 force sensors in an independent audit solve.
+    if stiffness_n_per_mm not in REACTION_AUDIT_STIFFNESSES_N_PER_MM:  # Accept only the two source-frozen audit stiffnesses.
+        raise RuntimeError(f"unapproved reaction-audit stiffness {stiffness_n_per_mm}")  # Stop before tuning a support sensor after observing results.
+    lines = ["** P3 LOAD-FREE SPRING2 REACTION SENSORS: COLLECTOR RF EXCLUDES PHYSICAL CLOAD AND DLOAD", "*NODE"]  # Begin an explicit nonphysical collector population outside the canonical response.
+    lines.extend(f"{record['collectorNode']}, 0., 0., 0." for record in records)  # Define one scalar collector per constrained physical translation.
+    lines.append("*NSET, NSET=P3_REACTION_COLLECTORS")  # Declare collector output and boundary membership independently from node-definition parser behavior.
+    lines.extend(format_integer_rows([int(record["collectorNode"]) for record in records]))  # List exactly the 22 clean scalar collector labels.
+    for sensor_index, record in enumerate(records, 1):  # Realize every support direction through one independent linear scalar force sensor.
+        sensor_name = f"P3_RF_{sensor_index:03d}"  # Create one deterministic short element set per physical support degree.
+        lines.append(f"*ELEMENT, TYPE=SPRING2, ELSET={sensor_name}")  # Declare a two-node fixed-direction sensor rather than an MPC whose force is not an independent RF.
+        lines.append(f"{record['sensorElement']}, {record['collectorNode']}, {record['physicalNode']}")  # Put the load-free collector first so its RF1 is the support-on-structure action and the physical direction is the second SPRING2 axis.
+        lines.append(f"*SPRING, ELSET={sensor_name}")  # Assign the source-frozen audit stiffness to this scalar sensor.
+        lines.append(f"1, {record['physicalDof']}")  # Measure collector DOF1 against the mapped physical global support direction.
+        lines.append(f"{stiffness_n_per_mm:.15e}")  # Serialize a real-valued N/mm spring constant with explicit decimal notation.
+    lines.append("*BOUNDARY")  # Apply audit support constraints only at load-free sensor endpoints.
+    lines.append("P3_REACTION_COLLECTORS, 1, 1, 0.")  # Fix every scalar collector DOF1 while leaving unused collector directions inactive.
+    return "\n".join(lines) + "\n"  # Return the deterministic non-MPC reaction-sensor block.
+
+
+def render_condensed_modes(condensation: dict) -> str:  # Realize each physical condensed Cholesky mode as one grounded SPRING1 plus a homogeneous linear equation.
+    retained_nodes = sorted(condensation["retainedNodes"])  # Freeze the exact physical NALL output set without auxiliary or removed-only nodes.
+    mode_records: list[tuple[int, int, str, dict, list[tuple[int, int]]]] = []  # Accumulate deterministic auxiliary node, element, name, mode, and interface ordering records.
+    next_node = 100001  # Reserve a collision-free source-independent auxiliary node-label range above the frozen 1..791 inventory.
+    next_element = 200001  # Reserve a collision-free auxiliary element-label range above source structural and mass labels.
+    for plane in condensation["planes"]:  # Visit the positive then negative signed suspension plane.
+        plane_tag = "P" if plane["sign"] > 0 else "N"  # Encode plane identity in every generated ELSET for reviewability.
+        for mode_index, mode in enumerate(plane["modes"], 1):  # Visit every exact positive Cholesky rank-one mode.
+            mode_name = f"P3_KC_{plane_tag}_{mode_index:03d}"  # Create one stable short CalculiX set name per mode.
+            mode_records.append((next_node, next_element, mode_name, mode, plane["interfaceDofs"]))  # Preserve its physical equation ordering and stiffness.
+            next_node += 1  # Allocate the next independent auxiliary label.
+            next_element += 1  # Allocate the next independent SPRING1 label.
+    if next_node != 100163 or next_element != 200163:  # Freeze the exact two-plane 162-mode topology before reserving reaction-audit IDs.
+        raise RuntimeError(f"condensed mode topology expected next ids 100163/200163, got {next_node}/{next_element}")  # Stop before auxiliary ranges collide after an unreviewed topology change.
+    lines: list[str] = []  # Accumulate the complete no-regularization tangent realization block.
+    lines.append("** P3 CANONICAL TANGENT CONDENSATION: AUXILIARY NODES ARE NOT PHYSICAL RESPONSE POINTS")  # Mark the exact modeling boundary for deck reviewers.
+    lines.append("*NSET, NSET=NALL")  # Define the raw CalculiX response set independently from the original all-source-node declaration.
+    lines.extend(format_integer_rows(retained_nodes))  # Include every and only retained physical node in raw U/RF output.
+    lines.append("*NODE, NSET=P3_CONDENSED_AUX")  # Begin auxiliary scalar generalized-coordinate definitions.
+    lines.extend(f"{node_id}, 0., 0., 0." for node_id, _element_id, _name, _mode, _dofs in mode_records)  # Place algebraic nodes at an arbitrary nonphysical origin because only DOF1 enters energy.
+    for node_id, element_id, mode_name, mode, interface_dofs in mode_records:  # Serialize one exact rank-one stiffness contribution.
+        lines.append(f"*ELEMENT, TYPE=SPRING1, ELSET={mode_name}")  # Declare a one-node spring grounded through the SPRING1 formulation.
+        lines.append(f"{element_id}, {node_id}")  # Connect the unique generalized coordinate to its grounded spring.
+        lines.append(f"*SPRING, ELSET={mode_name}")  # Assign the positive physical modal stiffness without a surrogate material.
+        lines.append("1")  # Activate only the auxiliary node's first translational generalized degree.
+        lines.append(f"{float(mode['stiffnessNPerMm']):.15e}")  # Serialize the exact normalized Cholesky-column stiffness in N/mm with an explicit decimal.
+        independent_terms = [(source_node, source_dof + 1, -float(coefficient)) for (source_node, source_dof), coefficient in zip(interface_dofs, mode["vector"]) if coefficient != 0.0]  # Form q minus v-transpose-u equals zero without dropping any nonzero factor coefficient.
+        lines.append("*EQUATION")  # Begin the homogeneous MPC that maps retained translations to this generalized extension.
+        lines.append(str(1 + len(independent_terms)))  # Declare the exact equation term count including the dependent auxiliary coordinate.
+        lines.append(f"{node_id}, 1, 1.000000000000000e+00")  # Place the normalized auxiliary DOF first so CalculiX eliminates only a nonphysical coordinate.
+        lines.extend(f"{source_node}, {source_dof}, {coefficient:.15e}" for source_node, source_dof, coefficient in independent_terms)  # Emit one term per row, safely below CalculiX's four-term input-row limit.
+    return "\n".join(lines) + "\n"  # Return the exact energy-equivalent modal block with a deterministic trailing newline.
+
+
+def merge_permanent_cloads(load_body: str, interface_loads: dict[tuple[int, int], float]) -> str:  # Merge original retained permanent nodal loads and P2 suspension interface actions into one unambiguous CLOAD block.
+    marker = "*CLOAD\n"  # Freeze the verified source nodal-load keyword spelling.
+    if marker not in load_body:  # Require the immutable permanent nodal-load block before interface transfer.
+        raise RuntimeError("verified permanent CLOAD block not found")  # Stop before publishing an incomplete P3 load case.
+    before, original_body = load_body.split(marker, 1)  # Separate unchanged STATIC/DLOAD data from explicit nodal records.
+    combined: dict[tuple[int, int], float] = {}  # Accumulate one resultant value per physical node and translational direction.
+    for raw in original_body.splitlines():  # Parse every original permanent CLOAD record.
+        fields = [field.strip() for field in raw.split(",")]  # Tokenize one standard node,dof,value record.
+        if len(fields) >= 3 and fields[0].isdigit() and fields[1].isdigit():  # Accept only explicit numeric source records.
+            key = (int(fields[0]), int(fields[1]))  # Recover the physical loaded degree.
+            combined[key] = combined.get(key, 0.0) + float(fields[2])  # Preserve the complete original permanent nodal force.
+        elif raw.strip() and not raw.lstrip().startswith("**"):  # Reject an unexpected keyword or nonnumeric load-body record instead of silently dropping it.
+            raise RuntimeError(f"unexpected source CLOAD record: {raw}")  # Stop before changing verified load semantics.
+    for key, value in interface_loads.items():  # Transfer P2 cable traction plus half-element suspension self-weight to every shared retained degree.
+        combined[key] = combined.get(key, 0.0) + float(value)  # Superpose the physical interface action exactly once.
+    records = [f"{node}, {dof}, {value:.15e}" for (node, dof), value in sorted(combined.items()) if value != 0.0]  # Serialize one deterministic nonzero CLOAD per physical degree.
+    return before + marker + "\n".join(records) + "\n"  # Return the single-step full permanent load body without duplicate-degree ambiguity.
+
+
+def build_fine_deck(text: str, coordinated_nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], condensation: dict, reaction_sensor_stiffness_n_per_mm: float | None = None) -> str:  # Build either the canonical direct-support response deck or one independent SPRING2 reaction-audit deck.
+    if "*STEP\n" not in text:  # Require the immutable source load-step boundary.
+        raise RuntimeError("verified source STEP marker not found")  # Stop before guessing a load history.
+    source_prefix, source_step = text.split("*STEP\n", 1)  # Separate model definitions from the one verified permanent-load step.
+    retained_element_ids = {element_id for group_name in PRIMARY_STRESS_GROUPS for element_id, _connectivity in groups[group_name]}  # Freeze the exact 824 retained stress-carrying source elements.
+    retained_prefix = filter_source_model(source_prefix, coordinated_nodes, retained_element_ids, sensor_supports=reaction_sensor_stiffness_n_per_mm is not None)  # Preserve direct supports for response or replace only audit translations with sensors.
+    mode_block = render_condensed_modes(condensation)  # Build the exact Schur-complement spring-and-equation representation.
+    collector_block = render_reaction_sensors(reaction_collector_contract(text), reaction_sensor_stiffness_n_per_mm) if reaction_sensor_stiffness_n_per_mm is not None else ""  # Add force sensors only to the separate reaction audit, never to canonical U/S response.
+    insertion_marker = "** BOUNDARY CONDITIONS\n"  # Prefer the source boundary comment as the deterministic pre-support insertion point.
+    if insertion_marker not in retained_prefix:  # Require a unique reviewable placement before physical boundary conditions.
+        raise RuntimeError("source boundary-condition insertion marker not found")  # Stop before moving model data across an undefined boundary.
+    retained_prefix = retained_prefix.replace(insertion_marker, mode_block + collector_block + insertion_marker, 1)  # Insert generalized stiffness and collector definitions before retained rotational supports.
+    output_match = re.search(r"(?im)^\*NODE PRINT\b.*$", source_step)  # Locate the first original result request without depending on MONITOR spelling.
+    if output_match is None:  # Require an auditable source output-request boundary.
+        raise RuntimeError("verified source NODE PRINT request not found")  # Stop before retaining an unknown tail of the source step.
+    permanent_body = source_step[:output_match.start()]  # Preserve only STATIC, DLOAD, and CLOAD data from the verified permanent step.
+    merged_body = merge_permanent_cloads(permanent_body, condensation["interfaceLoads"])  # Apply retained permanent loads and P2 interface actions once in the same static step.
+    if reaction_sensor_stiffness_n_per_mm is None:  # Preserve the canonical response output contract independently from support-sensor approximations.
+        requests = "*NODE PRINT, NSET=NALL, FREQUENCY=1\nU, RF\n*EL PRINT, ELSET=E_STRUCTURAL, FREQUENCY=1\nS, E\n*NODE FILE, NSET=NALL, FREQUENCY=1\nU, RF\n*EL FILE, ELSET=E_STRUCTURAL, FREQUENCY=1\nS, E\n*END STEP\n"  # Request exact retained U/RF and every retained element's eight S records under direct physical supports.
+    else:  # Keep the independent reaction audit minimal while retaining complete displacement and clean support-force evidence.
+        requests = "*NODE PRINT, NSET=NALL, FREQUENCY=1\nU\n*NODE PRINT, NSET=P3_REACTION_COLLECTORS, FREQUENCY=1\nRF\n*NODE FILE, NSET=NALL, FREQUENCY=1\nU\n*NODE FILE, NSET=P3_REACTION_COLLECTORS, FREQUENCY=1\nRF\n*END STEP\n"  # Request physical U plus collector RF without duplicating canonical stresses or using loaded-node RF.
+    deck = retained_prefix + "*STEP\n" + merged_body + requests  # Assemble one ordinary static response step with no invalid PERTURBATION load reset or duplicated boundary block.
+    if "PERTURBATION" in deck.upper():  # Enforce the canonical one-step full-load semantics mechanically.
+        raise RuntimeError("canonical condensed deck unexpectedly contains PERTURBATION semantics")  # Stop before reintroducing reference-plus-full-load double counting.
+    return deck  # Return the complete ASCII CalculiX 2.17-compatible retained response deck.
+
+
+def parse_raw_response(path: Path) -> dict:  # Parse final raw CalculiX NALL U/RF and exact eight-record E_STRUCTURAL stresses while preserving numeric token spellings.
+    if not path.is_file():  # Require the solver-native response before any canonical composition.
+        raise RuntimeError(f"raw CalculiX DAT is missing: {path}")  # Stop before inventing retained U or S records.
+    text = path.read_text(encoding="utf-8", errors="strict")  # Read the unchanged raw solver result without replacement characters.
+    displacement_tokens: dict[int, tuple[str, str, str]] = {}  # Preserve final retained displacement numeric spellings exactly as printed by CalculiX.
+    displacements: dict[int, tuple[float, float, float]] = {}  # Preserve the corresponding finite numeric retained displacement values.
+    forces: dict[int, tuple[float, float, float]] = {}  # Preserve final NALL nodal-force values for retained physical equilibrium diagnostics.
+    collector_forces: dict[int, tuple[float, float, float]] = {}  # Preserve final load-free support-collector RF values independently from loaded physical nodes.
+    stress_tokens: dict[int, dict[int, tuple[str, str, str, str, str, str]]] = {}  # Preserve every final element/integration-point stress token exactly.
+    active: str | None = None  # Track the current final response table type.
+    for raw in text.splitlines():  # Scan the complete native result in source order so a later frame replaces an earlier frame explicitly.
+        lower = raw.strip().lower()  # Normalize only for deterministic CalculiX header recognition.
+        if "displacements (vx,vy,vz)" in lower and "set nall" in lower:  # Detect one complete retained physical displacement frame.
+            displacement_tokens = {}  # Select this later frame as the current final displacement candidate.
+            displacements = {}  # Reset its numeric mirror consistently.
+            active = "U"  # Enter displacement-record parsing mode.
+            continue  # Advance through the optional blank header separator.
+        if "forces (fx,fy,fz)" in lower and "set nall" in lower:  # Detect one complete retained nodal-force frame.
+            forces = {}  # Select this later frame as the current final force candidate.
+            active = "RF"  # Enter force-record parsing mode.
+            continue  # Advance through the optional blank header separator.
+        if "forces (fx,fy,fz)" in lower and "set p3_reaction_collectors" in lower:  # Detect the separate load-free reaction-collector frame.
+            collector_forces = {}  # Select this later frame as the current final collector-force candidate.
+            active = "COLLECTOR_RF"  # Enter collector-force parsing mode without contaminating NALL coverage.
+            continue  # Advance through the optional blank header separator.
+        if "stresses (elem" in lower and "set e_structural" in lower:  # Detect one complete retained element stress frame.
+            stress_tokens = {}  # Select this later frame as the current final stress candidate.
+            active = "S"  # Enter integration-point stress parsing mode.
+            continue  # Advance through the optional blank header separator.
+        if "strains (elem" in lower or (raw.lstrip().startswith("*") and active is not None):  # Leave stress or nodal parsing at an explicit unrelated result boundary.
+            active = None  # Prevent later numeric text from contaminating the selected response table.
+            continue  # Advance under the unrelated table.
+        fields = raw.split()  # Tokenize one possible fixed-width CalculiX numeric result row.
+        if active in {"U", "RF", "COLLECTOR_RF"} and len(fields) == 4 and fields[0].isdigit():  # Parse one exact node id plus three Cartesian components.
+            node_id = int(fields[0])  # Recover the physical source node identity.
+            components = tuple(float(token) for token in fields[1:4])  # Convert the three native numeric spellings to finite floats.
+            if any(not math.isfinite(value) for value in components):  # Reject a diverged or nonfinite native response immediately.
+                raise RuntimeError(f"nonfinite raw nodal response at node {node_id}")  # Stop before canonical serialization.
+            if active == "U":  # Route displacement rows to both token and numeric maps.
+                displacement_tokens[node_id] = (fields[1], fields[2], fields[3])  # Preserve exact native spellings for literal canonical reuse.
+                displacements[node_id] = (components[0], components[1], components[2])  # Preserve numeric values for analytic recovery.
+            elif active == "RF":  # Route retained physical nodal-force rows to their independent diagnostic map.
+                forces[node_id] = (components[0], components[1], components[2])  # Preserve all printed nodal forces without calling free-node forces reactions.
+            else:  # Route clean collector rows to the only map accepted for retained reaction recovery.
+                collector_forces[node_id] = (components[0], components[1], components[2])  # Preserve scalar-collector RF in its solver DOF1 component.
+            continue  # Finish processing this nodal result row.
+        if active == "S" and len(fields) >= 8 and fields[0].isdigit() and fields[1].isdigit():  # Parse one element, integration point, and six symmetric stress components.
+            element_id = int(fields[0])  # Recover the retained source element label.
+            integration_point = int(fields[1])  # Recover the native CalculiX section/integration-point label.
+            components = tuple(float(token) for token in fields[2:8])  # Convert all six printed tensor values for finite screening.
+            if any(not math.isfinite(value) for value in components):  # Reject any nonfinite retained stress value.
+                raise RuntimeError(f"nonfinite raw stress at element {element_id} point {integration_point}")  # Stop before canonical composition.
+            element_records = stress_tokens.setdefault(element_id, {})  # Recover or create this retained element's exact record map.
+            if integration_point in element_records:  # Reject duplicate final-frame point labels rather than last-row-wins ambiguity.
+                raise RuntimeError(f"duplicate raw stress record for element {element_id} point {integration_point}")  # Stop before losing one native record.
+            element_records[integration_point] = (fields[2], fields[3], fields[4], fields[5], fields[6], fields[7])  # Preserve exactly the six native stress token spellings.
+    return {"displacementTokens": displacement_tokens, "displacements": displacements, "forces": forces, "collectorForces": collector_forces, "stressTokens": stress_tokens, "rawSha256": sha256_path(path)}  # Return complete native physical and load-free reaction response with unchanged-file identity.
+
+
+def average_stress_records(records: dict[int, tuple[str, str, str, str, str, str]]) -> tuple[float, float, float, float, float, float]:  # Reduce one exact eight-record native tensor table to the established VTK element-average convention.
+    ordered = [records[index] for index in sorted(records)]  # Preserve native integration-point ordering for deterministic accumulation.
+    return tuple(sum(float(record[component]) for record in ordered) / len(ordered) for component in range(6))  # Return the arithmetic average used by the canonical stress cloud.
+
+
+def matrix_vector(matrix: list[list[float]], vector: list[float]) -> list[float]:  # Multiply one dense deterministic condensation operator by a physical displacement vector.
+    return [sum(coefficient * value for coefficient, value in zip(row, vector)) for row in matrix]  # Evaluate every row without hidden numerical libraries or defaults.
+
+
+def recover_suspension_response(raw_displacements: dict[int, tuple[float, float, float]], coordinated_nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], element_states: dict[int, dict], condensation: dict) -> dict:  # Recover real eliminated-node U, incremental suspension S, and physical anchor reactions from the same tangent used in CalculiX.
+    if set(raw_displacements) != set(condensation["retainedNodes"]):  # Require exact raw retained-node coverage with no auxiliary or removed-only node contamination.
+        missing = sorted(set(condensation["retainedNodes"]) - set(raw_displacements))  # Identify every absent retained physical response explicitly.
+        surplus = sorted(set(raw_displacements) - set(condensation["retainedNodes"]))  # Identify every unexpected raw response explicitly.
+        raise RuntimeError(f"raw retained displacement coverage mismatch missing={missing[:8]} surplus={surplus[:8]}")  # Stop before filling any nodal response.
+    displacements = dict(raw_displacements)  # Begin the canonical physical response with verbatim-native retained translations.
+    incremental_tensors: dict[int, tuple[float, float, float, float, float, float]] = {}  # Store one real tangent-derived incremental axial stress tensor per suspension element.
+    total_tensors: dict[int, tuple[float, float, float, float, float, float]] = {}  # Store P2 base plus tangent-derived increment for Gate and VTK use.
+    anchor_reactions: dict[int, list[float]] = {}  # Recover physical fixed-anchor support reactions under an explicit residual convention.
+    maximum_internal_incremental_residual = 0.0  # Track eliminated-node incremental equilibrium closure in newtons.
+    maximum_interface_tangent_error = 0.0  # Track independent full-to-condensed interface action agreement in newtons.
+    minimum_final_tension = float("inf")  # Track the lowest total suspension axial stress after the real increment.
+    maximum_coordination_increment = 0.0  # Track the largest relative change from the P2 equilibrium target.
+    suspension_weight = 0.0  # Integrate complete cable-and-hanger self-weight for full-bridge force balance.
+    for plane in condensation["planes"]:  # Recover each independent signed suspension plane through its accepted operators.
+        interface_vector = [raw_displacements[node][dof] for node, dof in plane["interfaceDofs"]]  # Read every shared retained translation in the exact Schur ordering.
+        internal_vector = matrix_vector(plane["recovery"], interface_vector)  # Apply u_J equals minus K_JJ-inverse K_JI u_I with no zero response substitution.
+        for index, (node, dof) in enumerate(plane["internalDofs"]):  # Map every recovered eliminated degree back to its physical node.
+            current = list(displacements.get(node, (float("nan"), float("nan"), float("nan"))))  # Initialize a node only until all three analytic components are assigned.
+            current[dof] = internal_vector[index]  # Store this exact recovered Cartesian component.
+            displacements[node] = (current[0], current[1], current[2])  # Preserve the partially or fully assembled analytic vector deterministically.
+        for node in plane["anchorNodes"]:  # Apply the actual fixed-anchor kinematic boundary rather than a missing-response placeholder.
+            displacements[node] = (0.0, 0.0, 0.0)  # Record the physically prescribed three-component anchor displacement exactly.
+        incremental_resisting: dict[int, list[float]] = {}  # Assemble full-substructure incremental internal-residual actions at every plane node.
+        for element_id in plane["elements"]:  # Recover the real axial response of every eliminated cable or hanger element.
+            record = element_states[element_id]  # Read its v3 equilibrium geometry and constitutive tangent.
+            node_a, node_b = (int(value) for value in record["nodeIds"])  # Recover ordered physical endpoints.
+            displacement_a = displacements[node_a]  # Read retained, recovered, or prescribed endpoint A translation.
+            displacement_b = displacements[node_b]  # Read retained, recovered, or prescribed endpoint B translation.
+            point_a = coordinated_nodes[node_a]  # Read the equilibrium endpoint A coordinate.
+            point_b = coordinated_nodes[node_b]  # Read the equilibrium endpoint B coordinate.
+            length = float(record["equilibriumLengthMm"])  # Recover the validated equilibrium chord length.
+            unit = tuple((point_b[axis] - point_a[axis]) / length for axis in range(3))  # Form the equilibrium axial direction.
+            axial_extension = sum(unit[axis] * (displacement_b[axis] - displacement_a[axis]) for axis in range(3))  # Project the relative translation onto the physical element axis.
+            delta_force = float(record["materialTangentNPerMm"]) * axial_extension  # Recover the first-order material axial-force increment from the same tangent state.
+            area = MAIN_CABLE_AREA_MM2 if record["group"] == "MAIN_CABLES" else HANGER_AREA_MM2  # Select the frozen source section area.
+            delta_stress = delta_force / area  # Convert the real axial-force increment to MPa in N/mm2 units.
+            relative_displacement = tuple(displacement_b[axis] - displacement_a[axis] for axis in range(3))  # Recover the complete endpoint-relative translation driving both material strain and initial-stress rotation.
+            direction_increment = tuple((relative_displacement[axis] - axial_extension * unit[axis]) / length for axis in range(3))  # Linearize the unit chord as delta-n=(I-nn-transpose)delta-u/L.
+            material_tensor = axial_tensor(delta_stress, point_a, point_b)  # Express the material axial-stress increment in the equilibrium global tensor basis.
+            base_stress = float(record["axialStressMPa"])  # Recover the scalar P2 equilibrium stress that multiplies the first-order direction change.
+            orientation_tensor = (2.0 * base_stress * unit[0] * direction_increment[0], 2.0 * base_stress * unit[1] * direction_increment[1], 2.0 * base_stress * unit[2] * direction_increment[2], base_stress * (direction_increment[0] * unit[1] + unit[0] * direction_increment[1]), base_stress * (direction_increment[0] * unit[2] + unit[0] * direction_increment[2]), base_stress * (direction_increment[1] * unit[2] + unit[1] * direction_increment[2]))  # Form sigma0(delta-n tensor n + n tensor delta-n), the stress-tensor counterpart of geometric tangent stiffness.
+            incremental_tensor = tuple(material_tensor[component] + orientation_tensor[component] for component in range(6))  # Preserve the complete first-order global stress-tensor increment rather than only its scalar axial part.
+            base_tensor = axial_tensor(float(record["axialStressMPa"]), point_a, point_b)  # Reconstruct the authoritative P2 equilibrium base tensor independently.
+            total_tensor = tuple(base_tensor[component] + incremental_tensor[component] for component in range(6))  # Compose the physical total response only for Gate and VTK fields.
+            incremental_tensors[element_id] = incremental_tensor  # Preserve the analytic increment for canonical-response.dat serialization.
+            total_tensors[element_id] = total_tensor  # Preserve the base-plus-increment physical tensor for response visualization.
+            final_stress = float(record["axialStressMPa"]) + delta_stress  # Recover the total scalar tensile stress under the same linearization.
+            minimum_final_tension = min(minimum_final_tension, final_stress)  # Preserve the lowest physical tension margin.
+            maximum_coordination_increment = max(maximum_coordination_increment, abs(delta_stress) / max(abs(float(record["axialStressMPa"])), 1.0e-12))  # Quantify the largest tangent response relative to its P2 base state.
+            tangent = plane["elementTangents"][element_id]  # Recover the same three-by-three material-plus-geometric tangent used in condensation.
+            relative_a = [displacement_a[axis] - displacement_b[axis] for axis in range(3)]  # Form the standard internal-residual endpoint-A relative translation.
+            resisting_a = matrix_vector(tangent, relative_a)  # Compute the exact linearized internal-residual action at endpoint A.
+            add_vector(incremental_resisting, node_a, tuple(resisting_a))  # Assemble endpoint A incremental internal residual.
+            add_vector(incremental_resisting, node_b, tuple(-value for value in resisting_a))  # Assemble the equal-and-opposite endpoint B incremental internal residual.
+            weight = area * STEEL_DENSITY_T_MM3 * GRAVITY_MM_S2 * length  # Reconstruct this suspension element's complete permanent self-weight.
+            suspension_weight += weight  # Accumulate the full physical suspension external load once.
+        for node in plane["internalNodes"]:  # Verify every analytically eliminated free node remains incrementally equilibrated.
+            maximum_internal_incremental_residual = max(maximum_internal_incremental_residual, vector_norm(incremental_resisting.get(node, [0.0, 0.0, 0.0])))  # Preserve the worst full-substructure residual.
+        condensed_resisting = matrix_vector(plane["condensed"], interface_vector)  # Compute the exact Schur interface residual independently from element recovery.
+        for index, (node, dof) in enumerate(plane["interfaceDofs"]):  # Compare every Cartesian interface degree in the accepted ordering.
+            actual = incremental_resisting.get(node, [0.0, 0.0, 0.0])[dof]  # Recover the full-element assembled incremental residual.
+            maximum_interface_tangent_error = max(maximum_interface_tangent_error, abs(actual - condensed_resisting[index]))  # Preserve the largest realization mismatch.
+        for node in plane["anchorNodes"]:  # Recover each fixed cable anchor's physical support residual explicitly.
+            base_action = plane["baseActions"][node]  # Read physical base element action plus half-element self-weight at the anchor.
+            increment = incremental_resisting.get(node, [0.0, 0.0, 0.0])  # Read the standard incremental internal-residual action at the fixed anchor.
+            anchor_reactions[node] = [-base_action[axis] + increment[axis] for axis in range(3)]  # Apply reaction equals base internal-minus-external residual plus incremental internal residual.
+    primary_node_ids = {node for group_name in PRIMARY_VTK_GROUPS for _element_id, connectivity in groups[group_name] for node in connectivity}  # Freeze every physical node participating in the 1070-cell canonical primary response.
+    if set(displacements) != primary_node_ids or any(any(not math.isfinite(value) for value in vector) for vector in displacements.values()):  # Require exact finite 783-node coverage without wind or auxiliary values.
+        missing = sorted(primary_node_ids - set(displacements))  # Identify every missing physical response explicitly.
+        surplus = sorted(set(displacements) - primary_node_ids)  # Identify every non-primary response explicitly.
+        raise RuntimeError(f"analytic suspension displacement recovery mismatch missing={missing[:8]} surplus={surplus[:8]}")  # Stop before any zero or NaN fill reaches canonical output.
+    expected_suspension = {element_id for group_name in SUSPENSION_GROUPS for element_id, _connectivity in groups[group_name]}  # Freeze exact analytic suspension stress coverage.
+    if set(incremental_tensors) != expected_suspension:  # Require one real tangent-derived tensor for every cable and hanger.
+        raise RuntimeError("analytic suspension stress recovery is incomplete")  # Stop before filling a missing element with P2 stress or zero.
+    tolerance_scale = max(max(abs(value) for plane in condensation["planes"] for row in plane["condensed"] for value in row), 1.0)  # Form one physical stiffness scale for roundoff-only recovery checks.
+    if maximum_internal_incremental_residual > 1.0e-7 * tolerance_scale or maximum_interface_tangent_error > 1.0e-7 * tolerance_scale:  # Reject a recovery operator inconsistent with the realized condensed stiffness.
+        raise RuntimeError(f"suspension tangent recovery failed residual={maximum_internal_incremental_residual} interface={maximum_interface_tangent_error}")  # Stop before publishing internally inconsistent response.
+    anchor_sum = [sum(vector[axis] for vector in anchor_reactions.values()) for axis in range(3)]  # Form the complete physical cable-anchor support resultant.
+    receipt = {"displacementNodeCount": len(displacements), "incrementalStressElementCount": len(incremental_tensors), "maximumInternalIncrementalResidualN": maximum_internal_incremental_residual, "maximumInterfaceTangentErrorN": maximum_interface_tangent_error, "minimumFinalSuspensionAxialStressMPa": minimum_final_tension, "maximumSuspensionIncrementToBaseRatio": maximum_coordination_increment, "anchorReactionConvention": "support-on-suspension residual: -[P2 element action + half self-weight] + tangent internal residual", "anchorReactionsN": {str(node): vector for node, vector in sorted(anchor_reactions.items())}, "anchorReactionResultantN": anchor_sum, "suspensionSelfWeightN": suspension_weight}  # Publish the complete physical recovery and reaction convention.
+    return {"displacements": displacements, "incrementalTensors": incremental_tensors, "totalTensors": total_tensors, "anchorReactions": anchor_reactions, "receipt": receipt}  # Return real primary response fields and their numerical receipt.

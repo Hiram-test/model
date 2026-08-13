@@ -15,7 +15,7 @@
     gravity_weight = sum(mass_by_group.values()) * GRAVITY_MM_S2  # Convert the complete E_GRAV structural mass to downward gravitational force.
     if "*CLOAD\n" not in text:  # Require the verified permanent nodal-load block.
         raise RuntimeError("coordinated detailed model CLOAD block not found")  # Stop before publishing an incomplete external-load reference.
-    cload_text = text.split("*CLOAD\n", 1)[1].split("*NODE PRINT", 1)[0]  # Isolate the final permanent nodal loads before result requests.
+    cload_text = text.rsplit("*CLOAD\n", 1)[1].split("*NODE PRINT", 1)[0]  # Isolate only the final perturbation-step permanent nodal loads and exclude reference-state balance CLOADs.
     cload_sum = [0.0, 0.0, 0.0]  # Accumulate all explicit CLOAD components in global axes.
     for raw in cload_text.splitlines():  # Parse every explicit permanent nodal-load record.
         line = raw.strip()  # Normalize surrounding whitespace only.
