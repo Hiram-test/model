@@ -1,0 +1,125 @@
+        target_values.append(target)  # Store the target stress for direct ParaView comparison.
+        ratio_values.append(axial / target if abs(target) > 1.0e-12 else 0.0)  # Store the final-to-target coordination ratio where a target exists.
+        component_values.append(float(component_codes[group_name]))  # Store the stable engineering component id.
+        element_values.append(float(element_id))  # Store the original source element label.
+    scalar_fields.extend((("von_mises_mpa", von_values), ("axial_stress_mpa", axial_values), ("equilibrium_target_axial_stress_mpa", target_values), ("stress_coordination_ratio", ratio_values), ("component_id", component_values), ("source_element_id", element_values)))  # Register all scalar cell fields in deterministic order.
+    for field_name, values in scalar_fields:  # Serialize each scalar engineering field into legacy VTK CELL_DATA.
+        lines.append(f"SCALARS {field_name} double 1")  # Declare the scalar field name and precision.
+        lines.append("LOOKUP_TABLE default")  # Use the standard VTK scalar lookup-table declaration.
+        lines.extend(f"{value:.12g}" for value in values)  # Write one scalar value per structural cell in source cell order.
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")  # Persist the complete stress-coordinated VTK cloud as portable ASCII.
+    return {"pointCount": len(node_ids), "cellCount": len(cells), "maxVonMisesMPa": max(von_values) if von_values else 0.0, "maxAbsAxialStressMPa": max(abs(value) for value in axial_values) if axial_values else 0.0, "sha256": sha256_path(path)}  # Return the final visualization receipt and digest.
+
+
+def run_calculix(ccx: str, workdir: Path, stem: str) -> tuple[int, str]:  # Execute the coordinated detailed model through CalculiX and preserve the raw log.
+    process = subprocess.run([ccx, "-i", stem], cwd=workdir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, check=False)  # Run one synchronous native solver process without hiding a nonzero exit code.
+    log_path = workdir / f"{stem}.stdout.log"  # Resolve the deterministic native solver log path.
+    log_path.write_text(process.stdout or "", encoding="utf-8", errors="replace")  # Preserve the complete CalculiX stdout/stderr trace for audit.
+    return int(process.returncode), process.stdout or ""  # Return the native solver exit code and complete diagnostic text.
+
+
+
+def vector_length(point_a: tuple[float, float, float], point_b: tuple[float, float, float]) -> float:  # Compute one three-dimensional element chord length in millimetres.
+    return math.sqrt(sum((point_b[index] - point_a[index]) ** 2 for index in range(3)))  # Return the Euclidean source-coordinate distance.
+
+
+def triangle_area(point_a: tuple[float, float, float], point_b: tuple[float, float, float], point_c: tuple[float, float, float]) -> float:  # Compute one three-dimensional triangle area for shell mass accounting.
+    ab = tuple(point_b[index] - point_a[index] for index in range(3))  # Build the first triangle edge vector.
+    ac = tuple(point_c[index] - point_a[index] for index in range(3))  # Build the second triangle edge vector.
+    cross = (ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0])  # Compute the edge cross product.
+    return 0.5 * math.sqrt(sum(value * value for value in cross))  # Return half the cross-product magnitude in square millimetres.
+
+
+def permanent_external_resultant(text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]]) -> tuple[tuple[float, float, float], dict[str, float]]:  # Recover the full detailed-model permanent external load resultant for the P4 reaction-balance Gate.
+    group_properties = {"DECK_SHELLS": (DECK_SHELL_DENSITY_T_MM3, DECK_SHELL_THICKNESS_MM, "shell"), "CROSSBEAMS": (STEEL_DENSITY_T_MM3, CROSSBEAM_AREA_MM2, "line"), "LONG_GIRDERS": (STEEL_DENSITY_T_MM3, LONG_GIRDER_AREA_MM2, "line"), "TOWER_COLUMNS": (CONCRETE_DENSITY_T_MM3, TOWER_COLUMN_AREA_MM2, "line"), "TOWER_TOP_BEAMS": (CONCRETE_DENSITY_T_MM3, TOWER_TOP_BEAM_AREA_MM2, "line"), "MAIN_CABLES": (STEEL_DENSITY_T_MM3, MAIN_CABLE_AREA_MM2, "line"), "HANGERS": (STEEL_DENSITY_T_MM3, HANGER_AREA_MM2, "line"), "WIND_ATTACH_LINKS": (STEEL_DENSITY_T_MM3, WIND_ATTACH_AREA_MM2, "line"), "WIND_CABLES": (STEEL_DENSITY_T_MM3, WIND_CABLE_AREA_MM2, "line")}  # Freeze the verified section and density data used by E_GRAV.
+    mass_by_group: dict[str, float] = {}  # Accumulate gravitational mass by engineering component for provenance.
+    for group_name, (density, measure, kind) in group_properties.items():  # Integrate the mass of every structural element family receiving gravity.
+        mass = 0.0  # Initialize this component's mass in tonnes.
+        for _element_id, connectivity in groups.get(group_name, []):  # Visit every source element in the current engineering component.
+            if kind == "line":  # Integrate a beam or truss mass from section area and element length.
+                mass += density * measure * vector_length(nodes[connectivity[0]], nodes[connectivity[1]])  # Add the exact current-geometry line-element mass.
+            else:  # Integrate an S4 shell mass from the quadrilateral area and frozen thickness.
+                if len(connectivity) != 4:  # Require the verified four-node shell topology.
+                    raise RuntimeError(f"unexpected shell connectivity for gravity mass: {connectivity}")  # Stop before undercounting external gravity.
+                p1, p2, p3, p4 = (nodes[node] for node in connectivity)  # Recover the four shell corner coordinates.
+                area = triangle_area(p1, p2, p3) + triangle_area(p1, p3, p4)  # Split the quadrilateral into two deterministic triangles.
+                mass += density * measure * area  # Add the shell mass from density, thickness, and geometric area.
+        mass_by_group[group_name] = mass  # Preserve the component mass for the final load audit.
+    gravity_weight = sum(mass_by_group.values()) * GRAVITY_MM_S2  # Convert the complete E_GRAV structural mass to downward gravitational force.
+    if "*CLOAD\n" not in text:  # Require the verified permanent nodal-load block.
+        raise RuntimeError("coordinated detailed model CLOAD block not found")  # Stop before publishing an incomplete external-load reference.
+    cload_text = text.split("*CLOAD\n", 1)[1].split("*NODE PRINT", 1)[0]  # Isolate the final permanent nodal loads before result requests.
+    cload_sum = [0.0, 0.0, 0.0]  # Accumulate all explicit CLOAD components in global axes.
+    for raw in cload_text.splitlines():  # Parse every explicit permanent nodal-load record.
+        line = raw.strip()  # Normalize surrounding whitespace only.
+        if not line or line.startswith("**") or line.startswith("*"):  # Ignore empty rows, comments, and subsequent keywords.
+            continue  # Advance to the next possible load record.
+        fields = [field.strip() for field in line.split(",")]  # Split the standard node,dof,value CLOAD row.
+        if len(fields) >= 3 and fields[0].isdigit() and fields[1].isdigit():  # Accept only numeric CLOAD records.
+            dof = int(fields[1])  # Recover the global translational load direction.
+            if 1 <= dof <= 3:  # Restrict the resultant to translational force components.
+                cload_sum[dof - 1] += float(fields[2])  # Add the explicit force value to the global resultant.
+    external = (cload_sum[0], cload_sum[1], cload_sum[2] - gravity_weight)  # Combine explicit nodal loads with downward structural gravity.
+    audit = {"structuralGravityMassTonne": sum(mass_by_group.values()), "structuralGravityWeightN": gravity_weight, "explicitCloadFxN": cload_sum[0], "explicitCloadFyN": cload_sum[1], "explicitCloadFzN": cload_sum[2], **{f"mass_{name}_tonne": value for name, value in mass_by_group.items()}}  # Preserve full external-load accounting by source component.
+    return external, audit  # Return the complete permanent external force resultant and its mass/load audit.
+
+def evaluate_final_gate(fine_deck_text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], solver_exit: int, solver_log: str, displacements: dict[int, tuple[float, float, float]], reactions: dict[int, tuple[float, float, float]], stresses: dict[int, tuple[float, float, float, float, float, float]], target_axial_stress: dict[int, float], equilibrium_state: dict, vtk_receipt: dict) -> dict:  # Apply the P4 numerical acceptance Gate independently of artifact upload success.
+    fatal_hits = [token for token in FATAL_TOKENS if token in solver_log.upper()]  # Detect all known fatal, singularity, and MPC-dependence diagnostics.
+    reaction_sum = tuple(sum(vector[index] for vector in reactions.values()) for index in range(3)) if reactions else (0.0, 0.0, 0.0)  # Sum all printed global reaction components.
+    external_resultant, external_audit = permanent_external_resultant(fine_deck_text, nodes, groups)  # Recover the exact current-geometry permanent external load resultant from the coordinated detailed deck.
+    residual_resultant = tuple(reaction_sum[index] + external_resultant[index] for index in range(3))  # Close the global reaction-plus-external-force equilibrium vector.
+    reference_weight = max(abs(external_resultant[2]), 1.0)  # Use the exact total downward permanent resultant as the P4 normalization scale.
+    vertical_balance_relative = abs(residual_resultant[2]) / reference_weight  # Measure vertical reaction closure relative to total permanent load.
+    tension_checks: list[float] = []  # Collect final axial stresses for all main cables and hangers.
+    coordination_errors: list[float] = []  # Collect relative final-to-target axial stress errors for suspension elements.
+    for group_name in ("MAIN_CABLES", "HANGERS"):  # Evaluate positive tension and stress transfer in both suspension-element families.
+        for element_id, connectivity in groups[group_name]:  # Visit every detailed-model suspension element.
+            tensor = stresses.get(element_id)  # Recover its averaged final stress tensor from the P4 detailed solve.
+            if tensor is None:  # Treat missing stress output as a hard Gate failure later.
+                continue  # Preserve explicit missing-output counting without fabricating stress.
+            axial = projected_axial_stress(tensor, nodes[connectivity[0]], nodes[connectivity[1]])  # Project final stress onto the element axis.
+            tension_checks.append(axial)  # Preserve the final tensile stress for minimum-margin evaluation.
+            target = float(target_axial_stress[element_id])  # Recover the unique P2 target stress for this element.
+            coordination_errors.append(abs(axial - target) / max(abs(target), 1.0e-9))  # Measure the relative detailed-model stress-transfer deviation.
+    max_displacement = max(math.sqrt(sum(component * component for component in vector)) for vector in displacements.values()) if displacements else float("inf")  # Measure the maximum final detailed-model nodal displacement magnitude.
+    form_residual = float(equilibrium_state["gates"]["maxFormFindingResidualN"])  # Recover the independent P1/P2 axial equilibrium residual.
+    gates = {"solverExitZero": solver_exit == 0, "fatalDiagnosticsAbsent": not fatal_hits, "completeNodalOutput": len(displacements) >= len(nodes), "completeStructuralStressOutput": len(stresses) >= 0.90 * sum(len(groups.get(name, [])) for name in ("DECK_SHELLS", "CROSSBEAMS", "LONG_GIRDERS", "TOWER_COLUMNS", "TOWER_TOP_BEAMS", "MAIN_CABLES", "HANGERS", "WIND_ATTACH_LINKS", "WIND_CABLES")), "formFindingResidualPass": form_residual <= FORM_RESIDUAL_TOL_N, "positiveSuspensionTension": bool(tension_checks) and min(tension_checks) >= MIN_TENSION_MPA, "verticalReactionBalanceScreeningPass": vertical_balance_relative <= FORCE_BALANCE_REL_TOL, "vtkProduced": vtk_receipt.get("pointCount", 0) > 0 and vtk_receipt.get("cellCount", 0) > 0, "coordinateCorrectionWithinScreeningLimit": float(equilibrium_state["gates"]["maxCoordinateCorrectionMm"]) <= GEOMETRY_RESIDUAL_TOL_MM}  # Assemble the mandatory machine-readable P4 Gate booleans.
+    status = "PASS" if all(gates.values()) else "FAIL"  # Accept the numerical coordination result only when every mandatory Gate passes simultaneously.
+    return {"status": status, "gates": gates, "solverExitCode": solver_exit, "fatalDiagnostics": fatal_hits, "reactionSumN": reaction_sum, "externalLoadResultantN": external_resultant, "forceResidualResultantN": residual_resultant, "externalLoadAudit": external_audit, "totalPermanentVerticalReferenceN": reference_weight, "verticalReactionBalanceRelative": vertical_balance_relative, "minimumSuspensionAxialStressMPa": min(tension_checks) if tension_checks else None, "maximumSuspensionCoordinationRelativeError": max(coordination_errors) if coordination_errors else None, "maximumDisplacementMm": max_displacement, "formFindingMaxResidualN": form_residual, "vtk": vtk_receipt, "engineeringReleaseStatus": "BLOCKED", "engineeringReleaseBlockers": "G3-G6 source geometry/assembly evidence and formal wind-cable evidence remain outside this numerical coordination Gate"}  # Return the complete numerical and engineering-status boundary receipt.
+
+
+def main() -> int:  # Execute P1 through P4 from the immutable verified L2 baseline to the final VTK artifact.
+    parser = argparse.ArgumentParser()  # Build the deterministic pipeline command-line interface.
+    parser.add_argument("--base", type=Path, required=True)  # Require the frozen verified LC01_G_DEAD input deck.
+    parser.add_argument("--output", type=Path, required=True)  # Require an isolated output directory for all generated evidence.
+    parser.add_argument("--ccx", required=True)  # Require the exact CalculiX executable resolved by the workflow.
+    args = parser.parse_args()  # Parse all required execution inputs before touching model data.
+    args.output.mkdir(parents=True, exist_ok=True)  # Create the append-only calculation output root.
+    base_text = args.base.read_text(encoding="ascii")  # Load the immutable verified baseline input without normalization.
+    nodes, groups, element_group = parse_model(base_text)  # Parse the source detailed-model topology for all subsequent stages.
+    equilibrium_state, coordinated_nodes, target_axial_stress = build_equilibrium_state(args.base, base_text, nodes, groups)  # Execute P1/P2 and create the unique P3 state transfer contract.
+    equilibrium_path = args.output / "equilibrium_state.json"  # Resolve the required unique equilibrium-state publication path.
+    equilibrium_path.write_text(json.dumps(equilibrium_state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # Persist the complete machine-readable equilibrium state before building the detailed model.
+    fine_deck = build_fine_deck(base_text, nodes, groups, coordinated_nodes, target_axial_stress)  # Construct the P3 detailed response model exclusively from equilibrium_state data.
+    fine_stem = "ZQ_STRESS_COORDINATED"  # Use one deterministic short CalculiX basename for final coordinated response.
+    fine_path = args.output / f"{fine_stem}.inp"  # Resolve the final detailed-model input path.
+    fine_path.write_text(fine_deck, encoding="ascii")  # Persist the exact coordinated CalculiX deck for independent review.
+    solver_exit, solver_log = run_calculix(args.ccx, args.output, fine_stem)  # Execute the P3/P4 detailed response solve and preserve native diagnostics.
+    dat_path = args.output / f"{fine_stem}.dat"  # Resolve the requested detailed-model DAT result file.
+    displacements, reactions = parse_dat_nodes(dat_path)  # Parse complete final nodal displacement and reaction evidence.
+    stresses = parse_dat_stresses(dat_path)  # Parse averaged final stress tensors for all E_STRUCTURAL elements.
+    transferred_nodes, transferred_groups, transferred_ownership = parse_model(fine_deck)  # Parse the exact P3 transferred detailed-model topology used by the solver.
+    vtk_path = args.output / "stress-coordinated.vtk"  # Resolve the mandatory final stress-cloud VTK filename requested by the user.
+    vtk_receipt = write_legacy_vtk(vtk_path, transferred_nodes, transferred_groups, transferred_ownership, displacements, stresses, target_axial_stress)  # Export the final deformed stress-coordinated unstructured grid.
+    summary = evaluate_final_gate(fine_deck, transferred_nodes, transferred_groups, solver_exit, solver_log, displacements, reactions, stresses, target_axial_stress, equilibrium_state, vtk_receipt)  # Apply the independent P4 numerical Gate after all evidence exists.
+    summary["sourceBaselineSha256"] = sha256_path(args.base)  # Bind the final Gate receipt to the immutable verified baseline deck.
+    summary["equilibriumStateSha256"] = sha256_path(equilibrium_path)  # Bind the final Gate receipt to the unique P2/P3 equilibrium-state contract.
+    summary["fineDeckSha256"] = sha256_path(fine_path)  # Bind the final Gate receipt to the exact detailed-model solver input.
+    summary["vtkSha256"] = sha256_path(vtk_path)  # Bind the final Gate receipt to the mandatory stress-cloud visualization file.
+    (args.output / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # Persist the decisive machine-readable P4 Gate result.
+    print(json.dumps(summary, ensure_ascii=False, indent=2))  # Mirror the final Gate receipt into the Actions log for redundant auditability.
+    return 0 if summary["status"] == "PASS" else 2  # Make workflow success follow the physical/numerical Gate rather than artifact upload success.
+
+
+if __name__ == "__main__":  # Execute the pipeline only when invoked as the workflow entry point.
+    raise SystemExit(main())  # Return the machine-readable Gate status through the native process exit code.
