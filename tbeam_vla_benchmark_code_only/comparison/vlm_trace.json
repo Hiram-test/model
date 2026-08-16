@@ -1,0 +1,59 @@
+{
+  "provenance": {
+    "source": "GPT-5.6 Pro visual audit recorded for the benchmark code",
+    "created_utc": "2026-08-15T17:03:14Z",
+    "trace_type": "public decision trace, not private chain-of-thought",
+    "authoring_mode": "direct inspection of the supplied coarse-state montage"
+  },
+  "input": {
+    "image_path": "comparison/assets/coarse_state_montage.png",
+    "image_sha256": "a81540997c2a51ac49442c25796238e2cb2566af4f350079a8075d29a2c00852",
+    "language_goal": "在约3500自由度预算下，优先降低固定端腹板—翼缘交界的应力误差，同时保持自由端竖向位移精度。"
+  },
+  "visual_observations": [
+    "三视图均显示应力沿梁长从固定端向自由端总体衰减，固定端附近是首要分辨率区域。",
+    "最高颜色带集中在固定端附近的腹板下部及其邻近截面，说明腹板纵向与截面分辨率都应优先提高。",
+    "翼缘固定端区域仍承担明显弯曲应力，但视觉强度低于腹板主热点，因此采用次高优先级。",
+    "中段应力平滑衰减，可保留传播分辨率而不需要与固定端同等加密。",
+    "自由端整体应力较低，但语言目标包含端部位移，因此不能把端部网格压缩到最低允许值。"
+  ],
+  "decision": {
+    "region_order": [
+      "root_web",
+      "root_flange",
+      "mid_web",
+      "mid_flange",
+      "tip_web",
+      "tip_flange"
+    ],
+    "region_priority": [
+      2.25,
+      1.75,
+      1.15,
+      1.05,
+      0.95,
+      0.90
+    ],
+    "action_center": {
+      "hx_root": 0.235,
+      "hx_mid": 0.499,
+      "hx_tip": 0.373,
+      "h_web": 0.159,
+      "h_flange": 0.148
+    },
+    "contrast_direction": [
+      -0.65,
+      0.10,
+      0.25,
+      -0.55,
+      -0.15
+    ],
+    "executor_instruction": "只允许在整体尺度和热点对比两个对数坐标上进行五粒子一次更新PSO，不重新开放五维全空间。"
+  },
+  "limitations": [
+    "该留痕只依据当前渲染图和语言目标，不把像素颜色当作精确应力数值。",
+    "固定端存在经典应力奇异性，因此视觉热点只用于网格行动优先级，不作为峰值应力收敛证明。",
+    "最终动作必须经过真实网格编译、统一自由度预算和终局有限元认证。",
+    "若几何、载荷、目标量或图像哈希改变，必须重新生成VLM留痕。"
+  ]
+}

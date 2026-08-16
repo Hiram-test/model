@@ -1,0 +1,44 @@
+{
+  "execution_default": "code_only",
+  "shared_protocol": {
+    "geometry": "same parametric 3D solid T-beam",
+    "coarse_state": "same coarse mesh, coarse FEM solution, recovered stress and ZZ field",
+    "target_budget": "same target DOF and three-percent upper tolerance",
+    "mesh_compiler": "same deterministic five-action C3D4 compiler",
+    "terminal_evaluation": "same full FEM solve and recovered ZZ metrics",
+    "reported_costs": [
+      "offline labels and training",
+      "surrogate evaluations",
+      "mesh compilations",
+      "local patch predictions",
+      "internal full FEM solves",
+      "terminal full FEM solve"
+    ]
+  },
+  "methods": {
+    "vlm_trace_micro_pso": {
+      "status": "implemented",
+      "visual_source": "/mnt/data/tbeam_vla_benchmark_code_only/comparison/vlm_trace.json",
+      "executor": "five initial particles in two latent coordinates plus one update of four particles",
+      "maximum_surrogate_evaluations": 9,
+      "full_fem_inside_executor": 0
+    },
+    "amber_iterative_sizing_field": {
+      "status": "adapter_only",
+      "external_requirement": "task-specific or multi-task AMBER checkpoint command",
+      "protocol": "current mesh graph -> node sizing field -> deterministic mesher -> repeat",
+      "no_fake_checkpoint": true
+    },
+    "local_prediction_h_afem": {
+      "status": "adapter_and_runner_only",
+      "external_requirement": "low-dimensional local enrichment or replacement predictor command",
+      "protocol": "six local candidates -> predicted globally effective error reduction -> exact added DOF -> cost-aware Dörfler marking -> global resolve",
+      "no_zz_substitution_for_local_prediction": true
+    }
+  },
+  "commands": {
+    "code_only": "python -m comparison.benchmark_driver --output-dir comparison_plan",
+    "execute_vlm_only": "python -m comparison.benchmark_driver --execute --methods vlm --output-dir comparison_run",
+    "execute_all": "python -m comparison.benchmark_driver --execute --methods vlm amber local --amber-command 'python amber_infer.py --request {request} --response {response}' --local-command 'python local_patch_predict.py --request {request} --response {response}' --output-dir comparison_run"
+  }
+}
