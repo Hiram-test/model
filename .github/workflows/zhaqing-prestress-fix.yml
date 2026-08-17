@@ -1,0 +1,50 @@
+name: Zhaqing L2 prestress inverse calibration # Run the nonlinear completed-state cable-force calibration on the validated PR9 L2 bridge model.
+on: # Define both automatic and manual execution paths for this calibration workflow.
+  push: # Re-run the calibration whenever its solver implementation changes on the dedicated branch.
+    branches: # Restrict automatic execution to the prestress repair branch.
+      - agent/zhaqing-prestress-fix # Keep experimental nonlinear work isolated from the validated PR9 branch.
+    paths: # Avoid spending solver time on unrelated repository changes.
+      - '.github/workflows/zhaqing-prestress-fix.yml' # Trigger when this solver workflow itself changes.
+      - 'automation/zhaqing_prestress_fix/**' # Trigger when the prestress calibration implementation changes.
+  pull_request: # Run the same calibration when the repair branch is reviewed against the PR9 model branch.
+    branches: # Limit pull-request execution to the branch that owns the validated PR9 L2 model.
+      - agent/zhaqing-freecad-cad003 # Keep the numerical experiment scoped to the existing Zhaqing bridge development line.
+    paths: # Trigger only when the calibration workflow or implementation changes.
+      - '.github/workflows/zhaqing-prestress-fix.yml' # Re-evaluate workflow changes before accepting any solver evidence.
+      - 'automation/zhaqing_prestress_fix/**' # Re-evaluate every change to the prestress inverse-calibration implementation.
+  workflow_dispatch: {} # Allow an explicit rerun without changing repository content.
+permissions: # Give the job only the permissions required to retrieve the validated baseline artifact.
+  contents: read # Permit checkout of the immutable branch contents.
+  actions: read # Permit download of the earlier validated PR9 Actions artifact.
+jobs: # Define the single deterministic calibration job.
+  calibrate: # Solve the prestress scan and enforce the completed-state displacement target.
+    runs-on: ubuntu-22.04 # Match the Ubuntu generation used by the validated PR9 CalculiX calculation.
+    timeout-minutes: 45 # Bound nonlinear calibration runtime while allowing repeated CalculiX solves.
+    steps: # Execute checkout, solver installation, calibration, evidence upload, and final gate in order.
+      - name: Checkout calibration implementation # Materialize the exact branch commit being validated.
+        uses: actions/checkout@v4 # Use GitHub's standard immutable checkout action.
+        with: # Configure checkout to minimize mutable repository state.
+          fetch-depth: 1 # Fetch only the commit needed by this deterministic run.
+          persist-credentials: false # Prevent the solver job from retaining repository write credentials.
+      - name: Install CalculiX # Install the same Debian-packaged solver family used by the earlier PR9 workflow.
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx # Install ccx and its required sparse-solver dependencies.
+      - name: Download validated PR9 L2 baseline # Recover the already-solved S4 shell-beam-cable bridge model without regenerating geometry.
+        env: # Expose the workflow token only to the artifact-download command.
+          GH_TOKEN: ${{ github.token }} # Authenticate GitHub CLI for same-repository Actions artifact retrieval.
+        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline # Download the validated PR9 L2 package that contains LC01_G_DEAD.inp.
+      - name: Run completed-state prestress inverse calibration # Solve cable contraction first and dead load second under geometric nonlinearity.
+        id: calibration # Preserve the execution outcome so evidence can still be uploaded after a failed candidate scan.
+        continue-on-error: true # Keep failure evidence available for diagnosis instead of losing the nonlinear solver outputs.
+        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && python3 automation/zhaqing_prestress_fix/run_prestress_calibration.py "$BASE" build/zhaqing-prestress # Search the validated artifact and execute the deterministic inverse-calibration driver.
+      - name: Upload complete nonlinear calibration evidence # Preserve all candidate INP, DAT, FRD, STA, logs, and the machine-readable calibration summary.
+        if: always() # Upload evidence even if the target displacement or convergence gate fails.
+        uses: actions/upload-artifact@v4 # Store solver evidence as a downloadable immutable Actions artifact.
+        with: # Configure the evidence package retained by GitHub Actions.
+          name: zhaqing-prestress-fix-${{ github.sha }} # Bind the evidence package to the exact calibration implementation commit.
+          path: build/zhaqing-prestress # Upload all candidate models and selected-model results from the calibration driver.
+          if-no-files-found: error # Treat a missing solver-evidence directory as a workflow integrity failure.
+          retention-days: 30 # Keep the result package long enough for downstream AFEM baseline construction.
+          compression-level: 6 # Use normal compression because FRD result files are moderately compressible.
+      - name: Enforce converged completed-state calibration # Reject the workflow unless at least one nonlinear solution reaches the completed-geometry target.
+        if: always() # Evaluate the final numerical gate after evidence upload regardless of the preceding process exit status.
+        run: test -s build/zhaqing-prestress/calibration_summary.json && grep -q '"status": "PASS"' build/zhaqing-prestress/calibration_summary.json && test -s build/zhaqing-prestress/CALIBRATED_MODEL.inp && test -s build/zhaqing-prestress/CALIBRATED_MODEL.dat && test "${{ steps.calibration.outcome }}" = "success" # Require a converged selected INP/result pair and a successful calibration process.
