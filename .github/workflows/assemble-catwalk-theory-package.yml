@@ -1,0 +1,29 @@
+name: Assemble catwalk theory package # 定义一次性服务器端重组工作流名称。
+on: # 定义工作流触发条件。
+  push: # 在目标分支接收到初始临时提交时触发。
+    branches: # 限定唯一允许触发的分支。
+      - feat/catwalk-thirteen-theory-models # 仅处理本次十三模型发布分支。
+permissions: # 设置 GitHub Actions 最小必要权限。
+  contents: write # 允许工作流提交最终 ZIP 并清理临时对象。
+jobs: # 定义工作流任务集合。
+  assemble: # 定义唯一的重组任务。
+    if: github.actor != 'github-actions[bot]' # 阻止机器人提交造成重复执行。
+    runs-on: ubuntu-latest # 使用 GitHub 托管的 Ubuntu 运行器。
+    steps: # 定义重组任务的执行步骤。
+      - name: Checkout branch # 检出当前功能分支。
+        uses: actions/checkout@v4 # 使用官方检出动作并保留推送凭据。
+      - name: Assemble and verify exact ZIP # 在 GitHub 服务器端重组并核验原始 ZIP。
+        shell: bash # 明确使用 Bash 执行严格脚本。
+        run: | # 开始多行重组脚本。
+          set -euo pipefail # 任何命令失败、未定义变量或管道失败都立即退出。
+          target='catwalk-theory/thirteen-mode-models/张靖皋猫道理论验证_可复现包_v1.2.zip' # 固定最终 ZIP 的仓库路径。
+          mkdir -p "$(dirname "$target")" # 确保最终目录存在。
+          cat '.github/catwalk-theory-upload/part-000' '.github/catwalk-theory-upload/part-001' > "$target" # 严格按字节顺序连接两个临时传输段。
+          printf '%s  %s\n' 'a8f5309eae4335e4913ead877ab04d09f05fb668820913ac6528ad20b4c7129c' "$target" | sha256sum -c - # 核验最终 ZIP 的原始 SHA-256。
+          test "$(stat -c %s "$target")" -eq 69800943 # 核验最终 ZIP 的精确字节数。
+          git rm '.github/catwalk-theory-upload/part-000' '.github/catwalk-theory-upload/part-001' '.github/workflows/assemble-catwalk-theory-package.yml' # 从最终分支删除两个临时段和一次性工作流。
+          git add -- "$target" # 仅暂存校验通过的完整 ZIP。
+          git config user.name 'github-actions[bot]' # 设置自动提交的标准 GitHub Actions 作者名。
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com' # 设置自动提交的标准机器人邮箱。
+          git commit -m 'add complete catwalk theory reproducibility package' # 创建只包含最终 ZIP 与临时清理的提交。
+          git push origin "HEAD:${GITHUB_REF_NAME}" # 将服务器端重组结果推回同一功能分支。
