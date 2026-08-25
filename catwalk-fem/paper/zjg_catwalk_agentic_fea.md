@@ -1,19 +1,20 @@
 # 张靖皋施工猫道的 Agentic 有限元翻模
 
-**三张哈希、41fb3222 连通定义表、以及新主 deck 上可分解但未收敛的第一增量**
+**四张哈希、41fb3222 连通定义表、c635dad7 四分量不过门、以及清掉后的 760c0ee4（不交计算）**
 
-Run `cursor/catwalk-main-deck-bound-4c2c`。仓库 `Hiram-test/model`，PR #19。
+Run `cursor/catwalk-clear-four-4c2c`（从 `cursor/catwalk-main-deck-gate-f23d` 分出）。仓库 `Hiram-test/model`，PR #19。本轮不 push、不合并、不交计算。
 几何：Release `catwalk-attachment23-v2.0-s10-20260716`
 `cw_S10_0716t050342_a4_centerline.step` SHA-256 `d03d01e38b823df5af4c1ff9b0b175fdfb87b097b9cda9a03af5d14e9c763344`。
 门架计数单位是「榀」（U+6980），不是「榌」（U+698C）。
 
-三张哈希角色分开。前两张**不改写**：
+四张哈希角色分开。前三张**不改写**：
 
 | 角色 | 路径 | SHA-256 | 字节 |
 |---|---|---|---:|
 | ELSET+单轴失败现场 | `artifacts/zjg_catwalk_coarsened.inp` | `82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da` | 7 702 117 |
 | IC 过门 / 第一增量奇异现场 | `artifacts/zjg_catwalk_ccx221.inp` | `41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a` | 26 839 981 |
-| **新主 deck** | `artifacts/zjg_catwalk_main.inp` | `c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84` | 47 948 333 |
+| 4 个无约束 B31 分量不过门现场 | `artifacts/zjg_catwalk_main.inp` | `c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84` | 47 948 333 |
+| **新主 deck（已清 4 分量，不交计算）** | `artifacts/zjg_catwalk_cleared.inp` | `760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9` | 47 948 916 |
 
 ## 摘要
 
@@ -23,13 +24,15 @@ Run `cursor/catwalk-main-deck-bound-4c2c`。仓库 `Hiram-test/model`，PR #19�
 
 `41fb3222` 按 §7.76 写出 204 208 行合法八字段 PK2。CalculiX 2.21 读入成功，组装 879 076 方程，第一增量 SPOOLES 奇异。本岗独立复算其连通：**22096** 个使用节点分量、**19371** 个 2 节点碎片 = **17756** T3D2 + **1615** B31，与计算一致。**21426 是「分量里没有任何约束节点」**，不是 21426 个无约束节点。无约束节点是 **50676**（\(51896-1220\)）。三张锚并集 **1220**（312 ∪ 16 ∪ 904，面层∩门架 = 0）。`41fb3222` 作为奇异现场冻结，不改写。
 
-新主 deck `c635dad7` 按该定义另写：图纸锚补段落到 \(x=-23.895/-44.909/4225.7\)；面层同纱缝合消耗 T3D2 碎片路径；B31 只走对缝；剩余无约束**分量**钉到 `N_ORPHAN_UNCONSTRAINED`；每个 T3D2 与 B31 写八字段 PK2（421 432 行）。独立回读后 1073 个分量、4 个无约束分量。CalculiX 2.21 在副本上读入成功，组装 **1 401 126** 方程，切线**可分解**（不再奇异），第一增量未收敛（exit 201，墙钟 63.65 s）。`.frd` 仍是 80 字节标题壳，无 DISP。本文不声称已求解。频率目标仍隔离。
+`c635dad7` 按该定义另写：图纸锚补段落到 \(x=-23.895/-44.909/4225.7\)；面层同纱缝合消耗 T3D2 碎片路径；B31 只走对缝；剩余无约束**分量**钉到 `N_ORPHAN_UNCONSTRAINED`；每个 T3D2 与 B31 写八字段 PK2（421 432 行）。独立回读后 1073 个分量。钉 3596 orphan 点后仍剩 **4 个无约束分量 / 12 个 B31 节点**（\(x\approx656\) 与 \(2965\)–\(2968\)）。猫道校验判不过门；本岗复算同一 12 节点。该文件当失败现场冻结，不改写。历史副本上 CalculiX 2.21 曾组装 **1 401 126** 方程、切线可分解、第一增量未收敛；本轮**不交计算**。
+
+新主 `760c0ee4` 是 c635dad7 的副本加 `N_CLEAR_FOUR_B31`（12 节点，UX/UY/UZ）。独立回读无约束分量 **0**。IC 仍 421 432 八字段、0 ELSET。有界项仍真：T3D2/B31 写 8 积分点；北/南门架图纸坐标是 28 个新 deg-1 节点接上去的；`E_CROSS_PASSAGE` 42（旧 21+新 21）。不是计算主，不是已求解。频率目标仍隔离。
 
 **关键词：** 施工猫道；坐标过门；142 榀门架；面层/门架分锚；CalculiX 2.21；第二类 Piola–Kirchhoff；连通分量；无约束分量
 
 ## Abstract (English)
 
-A millimetre centre-line STEP of the Zhangjinggao construction catwalk is mapped to \(x=\mathrm{chainage}-K16+876.000\). Floor-rope and portal-rope anchors are disjoint. Twenty-one passages and 142 portal frames (classifier U+6980, not U+698C) reconcile with zero insertions. Frozen deck `82548e6a` keeps its illegal ELSET+uniaxial `TYPE=STRESS` card. Site `41fb3222` is the IC-pass / first-increment-singular deck and is not rewritten. An independent reread of that site recovers 22 096 used-node components and 19 371 two-node fragments \(=\) 17 756 T3D2 \(+\) 1 615 B31. The integer 21 426 counts **components that contain no constrained node**, not unconstrained nodes (50 676). The three-card boundary union is 1 220. The new main deck `c635dad7` attaches drawing-anchor stubs, consumes T3D2 yarn gaps and B31 pairs, pins leftover unconstrained **components**, and writes 421 432 eight-field PK2 rows. CalculiX 2.21 reads it, assembles 1 401 126 equations, factors the tangent (not singular), and fails to converge the first increment. Four solver files exist without DISP. No spectrum is claimed.
+A millimetre centre-line STEP of the Zhangjinggao construction catwalk is mapped to \(x=\mathrm{chainage}-K16+876.000\). Floor-rope and portal-rope anchors are disjoint. Twenty-one passages and 142 portal frames (classifier U+6980, not U+698C) reconcile with zero insertions. Frozen deck `82548e6a` keeps its illegal ELSET+uniaxial `TYPE=STRESS` card. Site `41fb3222` is the IC-pass / first-increment-singular deck and is not rewritten. An independent reread of that site recovers 22 096 used-node components and 19 371 two-node fragments \(=\) 17 756 T3D2 \(+\) 1 615 B31. The integer 21 426 counts **components that contain no constrained node**, not unconstrained nodes (50 676). The three-card boundary union is 1 220. Site `c635dad7` is the four-unconstrained-B31 fail site (12 nodes at \(x\approx656\) and \(2965\)–\(2968\)) and is not rewritten. The new main deck `760c0ee4` copies that file and pins those twelve nodes. An independent reread finds **zero** unconstrained components. This turn does not run CalculiX. No spectrum is claimed.
 
 ---
 
@@ -37,19 +40,19 @@ A millimetre centre-line STEP of the Zhangjinggao construction catwalk is mapped
 
 ### 1.1 相关工作
 
-从 CAD 中心线到可求解有限元模型的自动管线，在房屋与桥梁中并不罕见，但它们通常继承已经对齐的坐标系和单一支承族。多跨悬索桥施工猫道打破这个假定：两幅走道、两族锚点桩号不同的承重索、离散门架、离散横通道，全部用公路桩号书写。仓库内理论包 `catwalk-theory/thirteen-mode-models` v1.2 已经冻结图纸拓扑和十四阶隔离协议；那是理论模型族，不是 CalculiX deck。先前 PR #18 交出了管线，但 `artifacts/` 为空。PR #19 先放下 `82548e6a`，再放下 `41fb3222`。本 run 不改这两张现场，另交新主哈希。
+从 CAD 中心线到可求解有限元模型的自动管线，在房屋与桥梁中并不罕见，但它们通常继承已经对齐的坐标系和单一支承族。多跨悬索桥施工猫道打破这个假定：两幅走道、两族锚点桩号不同的承重索、离散门架、离散横通道，全部用公路桩号书写。仓库内理论包 `catwalk-theory/thirteen-mode-models` v1.2 已经冻结图纸拓扑和十四阶隔离协议；那是理论模型族，不是 CalculiX deck。先前 PR #18 交出了管线，但 `artifacts/` 为空。PR #19 先放下 `82548e6a`，再放下 `41fb3222`，再放下 `c635dad7`。本 run 不改这三张现场；`c635dad7` 现为 4 个无约束 B31 分量不过门现场。另交新主 `760c0ee4`。
 
 ### 1.2 方法
 
-本 run 执行 `catwalk-fem/SKILL.md` 与 `PLAN.md`。几何只来自已发布 STEP。材料、垂度、荷载来自图纸与复核报告。坐标过门是硬门：除非鞍点高程证据要求平移，否则恒等；禁止 `X-xmin`。拓扑按冻结图纸清单对账：21 道横通道，71×2=142 榀门架。锚分两族，不得并成一个混合集。`82548e6a` 与 `41fb3222` 冻结。新主 deck 由修补器+同一写入器另写到 `zjg_catwalk_main.inp`。ccx 只在副本上跑。读入成功、切线可分解、`.sta` 有增量行，都不等于已求解。已求解只承认：exit 0 且 `.frd` 含 DISP 且 `.sta` 有收敛增量。
+本 run 执行 `catwalk-fem/SKILL.md` 与 `PLAN.md`。几何只来自已发布 STEP。材料、垂度、荷载来自图纸与复核报告。坐标过门是硬门：除非鞍点高程证据要求平移，否则恒等；禁止 `X-xmin`。拓扑按冻结图纸清单对账：21 道横通道，71×2=142 榀门架。锚分两族，不得并成一个混合集。`82548e6a`、`41fb3222` 与 `c635dad7` 冻结。新主 deck 是 `zjg_catwalk_cleared.inp`（c635dad7 副本加十二点钉）。本轮不跑 ccx。读入成功、切线可分解、`.sta` 有增量行，都不等于已求解。已求解只承认：exit 0 且 `.frd` 含 DISP 且 `.sta` 有收敛增量。
 
 ### 1.3 实验
 
-Release `catwalk-attachment23-v2.0-s10-20260716` 的中心线 STEP（139 991 条 TRIMMED_CURVE，`SI_UNIT(.MILLI.,.METRE.)`）换成米。恒等映射后 STEP 节点 \(X\in[0,4270.609]\) m，\(Z_{\max}=350.312\) m。三张哈希当场 `sha256sum` 与上表一致。CalculiX 2.21 官方二进制对 `c635dad7` 副本组装 1 401 126 方程后第一增量未收敛。
+Release `catwalk-attachment23-v2.0-s10-20260716` 的中心线 STEP（139 991 条 TRIMMED_CURVE，`SI_UNIT(.MILLI.,.METRE.)`）换成米。恒等映射后 STEP 节点 \(X\in[0,4270.609]\) m，\(Z_{\max}=350.312\) m。四张哈希当场 `sha256sum` 与上表一致。本轮不交 CalculiX。历史记录：官方 2.21 曾对 `c635dad7` 副本组装 1 401 126 方程后第一增量未收敛。
 
 ### 1.4 展望
 
-新哈希已经交出，初应力词法已过，第一增量不再因 22096 个分量而立即奇异。下一步若要静力收敛，必须处理修补后仍在的 1073 个分量、477 个 2 节点碎片、4 个无约束分量，以及 `umpc_mean_rot` 失败，而不是改 `82548e6a` 或 `41fb3222`。没有已求解谱之前，不得打开 TARGET-FREQ。
+四张哈希已经记账。初应力词法已过。`c635dad7` 上的 4 个无约束 B31 分量已在 `760c0ee4` 钉死。下一步若要静力收敛，必须处理仍在的 1073 个分量、477 个 2 节点碎片，以及历史副本上的 `umpc_mean_rot` 失败，而不是改三张冻结现场。本轮不交计算。没有已求解谱之前，不得打开 TARGET-FREQ。
 
 ---
 
@@ -69,11 +72,11 @@ Release `catwalk-attachment23-v2.0-s10-20260716` 的中心线 STEP（139 991 �
 4. 成型垂度 \(h=227.300\) m（\(340.600-113.300\)）。主缆控制垂度 255.56 m 禁止写入 deck（已核缺失）。
 5. 两幅猫道独立自由度，禁止镜像约束。
 6. 面层锚与门架锚不得求并。
-7. SHA-256 `82548e6a` 与 `41fb3222` 冻结后，不得为了「让求解器高兴」改写这两份 `.inp`。
+7. SHA-256 `82548e6a`、`41fb3222` 与 `c635dad7` 冻结后，不得为了「让求解器高兴」改写这三份 `.inp`。
 
 ### 2.3 实验
 
-隔离文件列出十四个频率，首项 0.0296 Hz。三份 deck 全文检索既无 `0.0296` 也无 `255.56`。`write_inp.py` 不导入 `isolated/TARGET-FREQ.json`。同 Release 的 `cw_S10_0716t050342_a4_eq.db` 写在禁止源清单里。
+隔离文件列出十四个频率，首项 0.0296 Hz。四份 deck 全文检索既无 `0.0296` 也无 `255.56`。`write_inp.py` 不导入 `isolated/TARGET-FREQ.json`。同 Release 的 `cw_S10_0716t050342_a4_eq.db` 写在禁止源清单里。
 
 ### 2.4 展望
 
@@ -112,7 +115,7 @@ x_{\text{portal,S}}&=4225.700~\text{m}\ (K21+101.700).
 
 ### 3.3 实验
 
-三份 deck 的 `*HEADING` 都用明文写出该公约。`82548e6a` / `41fb3222` 的 STEP 节点 \(x_{\min}=0\)。新主在图纸 stub 之后 \(x_{\min}=-44.909\)，STEP 导出节点仍从 0 起，未做 \(X-x_{\min}\)。
+四份 deck 的 `*HEADING` 都用明文写出该公约。`82548e6a` / `41fb3222` 的 STEP 节点 \(x_{\min}=0\)。`c635dad7` / `760c0ee4` 在图纸 stub 之后 \(x_{\min}=-44.909\)，STEP 导出节点仍从 0 起，未做 \(X-x_{\min}\)。
 
 ### 3.4 展望
 
@@ -237,7 +240,7 @@ H=\frac{wL^2}{8h},\quad h=227.300~\text{m},\quad L=2286.642~\text{m}.
 | 门架北 | K16+831.091 | −44.909 | 46.358 | STEP 北端代理 |
 | 门架南 | K21+101.700 | 4225.700 | 4221.093 | 匹配，\(\Delta=4.61\) m |
 
-**表 4. 新主 `c635dad7` 上的锚**
+**表 4. `c635dad7` / `760c0ee4` 上的锚（清 4 分量不改锚点）**
 
 | 族 | 目标 \(x\) | 选点 \(x_{\text{mean}}\) | 模式 |
 |---|---:|---:|---|
@@ -319,7 +322,7 @@ CalculiX 不在步间继承 `*DLOAD`/`*CLOAD`。每一步必须重写重力与�
 
 ---
 
-## 9. 新主 deck `c635dad7` 与 CalculiX 2.21
+## 9. 不过门现场 `c635dad7` 与历史 CalculiX 2.21
 
 ### 9.1 相关工作
 
@@ -375,21 +378,55 @@ n_sta_increment_rows = 1
 solved = false
 ```
 
-**表 6. 三张哈希的求解器四件套**
+**表 6. 求解器四件套（760c0ee4 本轮不交计算）**
 
 | 哈希 | 方程 | 奇异 | 增量行 | DISP | exit | 墙钟 (s) |
 |---|---:|:---:|---:|:---:|---:|---:|
 | 82548e6a | — | — | 0 | 无 | 201 | <1 |
 | 41fb3222 | 879 076 | 是 | 0 | 无 | 255 | 10.35 |
-| c635dad7 | 1 401 126 | 否 | 1（`1U`） | 无 | 201 | 63.65 |
+| c635dad7（历史） | 1 401 126 | 否 | 1（`1U`） | 无 | 201 | 63.65 |
+| 760c0ee4 | — | — | — | — | 未跑 | — |
 
 `c635dad7` 的 `.sta`：`1 1 1U 2`（未收敛）。`.cvg` 四行迭代，残差 \(10^7\)–\(10^8\) %，位移修正 100%。stdout：`no convergence` / `divergence` / `*ERROR in umpc_mean_rot`（节点 78746）。`.frd` 80 B 标题。不是解。
 
-求解后再核：82548e6a 与 41fb3222 哈希未变。
+求解后再核：82548e6a 与 41fb3222 哈希未变。本轮不再跑该副本。
 
 ### 9.4 展望
 
-初应力词法门与「第一增量不再立即奇异」已经覆盖。下一步是收敛，不是再改 §7.76 行格式，也不是改两张冻结现场。
+`c635dad7` 是 4 个无约束 B31 分量不过门现场，不是新主。不得改写该哈希来「补钉」。清分量走新路径。
+
+---
+
+## 9A. 清掉 4 个无约束 B31 分量 → 新主 `760c0ee4`
+
+### 9A.1 相关工作
+
+猫道校验（用户已给，本岗复算成立）：`c635dad7` 钉 `N_ORPHAN_UNCONSTRAINED` 3596 点后仍剩 4 个无约束分量、12 节点，全是 B31，\(x\approx656\) 与 \(2965\)–\(2968\)。不当计算主。
+
+### 9A.2 方法
+
+`pipeline/clear_four_b31.py` 只读 c635dad7，拒绝改写 82548e6a / 41fb3222 / c635dad7。在 `*INITIAL CONDITIONS` 前插入 `N_CLEAR_FOUR_B31`（9518 9519 9520 9521 33168–33175）与 UX,UY,UZ。节点表必须等于给定 12 点，否则拒绝。写出 `zjg_catwalk_cleared.inp`。不跑 CalculiX。
+
+### 9A.3 实验
+
+当场 `sha256sum` = `760c0ee4…b0585de9`（47 948 916 B）。独立回读（`eval/INDEPENDENT_REREAD_760c0ee4.json`，`pass=true`）：
+
+| 项 | 值 |
+|---|---|
+| 无约束分量 | **0** |
+| IC | 421 432 八字段，0 ELSET；与 c635dad7 首行相同 |
+| 八积分点 | 52 679 个 T3D2/B31 各写 1–8 |
+| 面层∩门架 | 0 |
+| `E_CROSS_PASSAGE` | **42**（旧 21+新 21） |
+| 图纸 deg-1 stub | **28**（−23.895×12 / −44.909×12 / 4225.700×4） |
+| 21 / 142 榀 | 标题仍写；榀 U+6980 |
+| CalculiX | 本轮未跑 |
+
+`test_clear_four_b31.py`：拒绝覆盖三张冻结路径；节点表锁定；清后 unc==0。账本 `HASH_LEDGER.json` / `checksums.sha256` 把 760c0ee4 记为 `new_main`，c635dad7 改记为失败现场。本轮不 push，独立回读是本机 `sha256sum` 对账本行。
+
+### 9A.4 展望
+
+4 个无约束分量已清。仍有 1073 个分量与 477 个 2 节点碎片。760c0ee4 不是计算主。不得打开 TARGET-FREQ。
 
 ---
 
@@ -397,29 +434,29 @@ solved = false
 
 ### 10.1 相关工作
 
-PR #18 交出空目录。PR #19 先放下 `82548e6a`，再放下 `41fb3222`。本 run 按已给定义表另交 `c635dad7`，并留下 eval 痕迹。
+PR #18 交出空目录。PR #19 先放下 `82548e6a`，再放下 `41fb3222`，再放下 `c635dad7`。本 run 把 `c635dad7` 改记为 4-B31 不过门现场，另交 `760c0ee4`，并留下 eval 痕迹。不 push。
 
 ### 10.2 方法
 
-看得见的有界项写成 bounds。硬门（恒等变换、21/142 榀、锚分集、§7.76 词法、两张冻结哈希未改、禁源、21426 定义）闭合。第一增量未收敛是有界项，不是把新 deck 判成未交。
+看得见的有界项写成 bounds。硬门（恒等变换、21/142 榀、锚分集、§7.76 词法、三张冻结哈希未改、禁源、21426 定义、给定 12 节点锁）闭合。无约束分量清零不是已求解。
 
 ### 10.3 实验（有界项，不粉饰）
 
-- 41fb3222 北锚是 STEP 端点代理。新主用图纸 stub 补了北面层/北门架/南门架；南面层仍 \(\Delta=0.38\) m。
+- 41fb3222 北锚是 STEP 端点代理。`c635dad7` / `760c0ee4` 用图纸 stub 补了北面层/北门架/南门架；南面层仍 \(\Delta=0.38\) m。
 - 门架索分类不完整；142 榀是站位，不是索单元数。
 - 几何垂度 214.18 m 对 227.30 m，过 15 m 门，不是成型线拟合。
 - 面层索总长偏长。
-- 修补后仍有 1073 个分量、477 个 2 节点碎片、4 个无约束分量。
+- 修补后仍有 1073 个分量、477 个 2 节点碎片。4 个无约束分量已钉。
 - orphan 钉是分量诊断剩余项，不是把碎片焊成一张静定网。
-- 新哈希切线可分解，第一增量未收敛，无 DISP。
-- 四件套有文件，没有完成增量。
+- T3D2/B31 仍写 8 积分点；28 个新 deg-1 图纸节点；`E_CROSS_PASSAGE` 42。
+- 本轮不交计算。历史 `c635dad7` 副本切线可分解、第一增量未收敛、无 DISP。
 - TARGET-FREQ 未打开。没有十四阶复现。
 
 ### 10.4 结论
 
-> 从已发布 STEP 出发，在 \(x=\text{桩号}-K16+876.000\) 下可以生成可回读的 CalculiX deck；面层锚与门架锚分开；21 道横通道与 **142 榀门架**对账闭合且插入为 0。冻结哈希 `82548e6a` 的 `TYPE=STRESS` 为 ELSET+单轴，未改。`41fb3222` 按 §7.76 写出八字段 PK2，读入过门后因连通奇异；本岗复算 22096 分量、19371=17756+1615 个 2 节点碎片、**21426 个无约束分量**、50676 个无约束节点、1220 三张锚并集，与计算一致；该哈希不动。新主 `c635dad7` 按该定义另写（图纸锚、T3D2 同纱缝、B31 对缝、无约束分量钉、全单元八字段 PK2）。CalculiX 2.21 读入成功并组装 1 401 126 方程，切线可分解，第一增量未收敛。不是已求解谱，不是十四阶复现。
+> 从已发布 STEP 出发，在 \(x=\text{桩号}-K16+876.000\) 下可以生成可回读的 CalculiX deck；面层锚与门架锚分开；21 道横通道与 **142 榀门架**对账闭合且插入为 0。冻结哈希 `82548e6a` 的 `TYPE=STRESS` 为 ELSET+单轴，未改。`41fb3222` 按 §7.76 写出八字段 PK2，读入过门后因连通奇异；本岗复算 22096 分量、19371=17756+1615 个 2 节点碎片、**21426 个无约束分量**、50676 个无约束节点、1220 三张锚并集，与计算一致；该哈希不动。`c635dad7` 按该定义另写后仍剩 4 个无约束 B31 分量（12 节点），不过门，该哈希不动。新主 `760c0ee4` 钉死这 12 点；独立回读无约束分量 0；IC 仍 421 432 八字段。本轮不交计算。不是已求解谱，不是十四阶复现。
 
-不支持的主张：已求解位移、十四阶同序复现、41fb3222 北锚已落到物理桩号、中心线已连成一张静定/超静定网、21426 是无约束节点个数。
+不支持的主张：已求解位移、十四阶同序复现、41fb3222 北锚已落到物理桩号、中心线已连成一张静定/超静定网、21426 是无约束节点个数、760c0ee4 已经过求解器。
 
 ---
 
@@ -431,21 +468,21 @@ python3 catwalk-fem/tests/test_write_inp.py
 python3 catwalk-fem/tests/test_reconcile.py
 python3 catwalk-fem/tests/test_audit_frozen_deck.py
 python3 catwalk-fem/tests/test_new_main_deck.py
-python3 catwalk-fem/tests/test_singular_defs.py
-python3 catwalk-fem/tests/test_repair_topology.py
-python3 catwalk-fem/pipeline/singular_audit.py catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
-python3 catwalk-fem/pipeline/emit_bound_main_deck.py
+python3 catwalk-fem/tests/test_clear_four_b31.py
+python3 catwalk-fem/pipeline/reread_cleared.py
 sha256sum catwalk-fem/artifacts/zjg_catwalk_coarsened.inp
 sha256sum catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
 sha256sum catwalk-fem/artifacts/zjg_catwalk_main.inp
+sha256sum catwalk-fem/artifacts/zjg_catwalk_cleared.inp
+grep zjg_catwalk catwalk-fem/artifacts/checksums.sha256
 cd catwalk-fem/paper && pdflatex -interaction=nonstopmode zjg_catwalk_agentic_fea.tex
 ```
 
-不要把 77 MB STEP 入库。不要把 `isolated/TARGET-FREQ.json` 喂给写入器或求解器。不要改写 `zjg_catwalk_coarsened.inp`。不要改写 `zjg_catwalk_ccx221.inp`。不要 push（本 run 约束）。
+不要把 77 MB STEP 入库。不要把 `isolated/TARGET-FREQ.json` 喂给写入器或求解器。不要改写 `zjg_catwalk_coarsened.inp`、`zjg_catwalk_ccx221.inp` 或 `zjg_catwalk_main.inp`。不要跑 CalculiX（本 run 约束）。不要 push（本 run 约束）。
 
 ## 数据
 
-分支 `cursor/catwalk-main-deck-bound-4c2c`。冻结 `82548e6a…276ab6da`。奇异现场 `41fb3222…bbca924a`。新主 `c635dad7…70cda84`。自评 `catwalk-fem/eval/GROK_SELF_EVAL.md`。定义表 `eval/DEFINITION_TABLE_41fb3222.md`。142 榀表 `artifacts/portal_142_table.md`（榀，不是榌）。
+分支 `cursor/catwalk-clear-four-4c2c`。冻结 `82548e6a…276ab6da`。奇异现场 `41fb3222…bbca924a`。四分量不过门现场 `c635dad7…70cda84`。新主 `760c0ee4…b0585de9`。自评 `catwalk-fem/eval/GROK_SELF_EVAL.md`。清分量留痕 `eval/CLEAR_FOUR_B31.md`。定义表 `eval/DEFINITION_TABLE_41fb3222.md`。142 榀表 `artifacts/portal_142_table.md`（榀，不是榌）。
 
 ## 参考文献
 
@@ -455,7 +492,7 @@ cd catwalk-fem/paper && pdflatex -interaction=nonstopmode zjg_catwalk_agentic_fe
 4. Release `catwalk-attachment23-v2.0-s10-20260716`，`cw_S10_0716t050342_a4_centerline.step`，SHA-256 `d03d01e3…763344`。
 5. 冻结现场：ccx 对 `82548e6a` 读入失败（`E_FLOOR_ROPE,3.549611E+08`，exit 201）。
 6. 奇异现场：`eval/ccx_41fb3222/`，879 076 方程，矩阵奇异。
-7. 新主求解：`eval/ccx_c635dad7/`，1 401 126 方程，切线可分解，第一增量未收敛。
+7. 历史求解（不作本轮交付）：`c635dad7` 副本 1 401 126 方程，切线可分解，第一增量未收敛。本轮不交计算。
 
 ---
 
@@ -575,7 +612,7 @@ Factoring the system of equations using the symmetric spooles solver
 
 `spooles.out`：`matrix found to be singular`。四件套：`.frd` 80 B，`.dat` 42 B，`.sta` 98 B，`.cvg` 274 B。exit 255。墙钟 10.35 s。`parse_fail_ic=false`。
 
-**B.3 新主 `c635dad7`**
+**B.3 不过门现场 `c635dad7`（历史副本；本轮不重跑）**
 
 ```
 number of equations
@@ -601,4 +638,16 @@ divergence; the increment size is decreased to 1.250000e-02
 1, 1, 1.439957e+08, 0.000000e+00, 2.109655e+08, 0.000000e+00, 1.742932e+08, 0.000000e+00
 ```
 
-其后积分点 2–8 重复。共 421 432 行。每个 T3D2 与每个 B31 都写了。
+其后积分点 2–8 重复。共 421 432 行。每个 T3D2 与每个 B31 都写了。`c635dad7` 与 `760c0ee4` 首行相同。
+
+**B.5 新主 `760c0ee4`（本轮不交计算）**
+
+```
+*NSET, NSET=N_CLEAR_FOUR_B31
+9518, 9519, 9520, 9521, 33168, 33169, 33170, 33171, 33172, 33173
+33174, 33175
+*BOUNDARY
+N_CLEAR_FOUR_B31, 1, 3
+```
+
+SHA-256 `760c0ee4…b0585de9`。独立回读无约束分量 0。未跑 CalculiX。不是解。

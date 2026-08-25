@@ -4,6 +4,7 @@
   "pr": "https://github.com/Hiram-test/model/pull/19",
   "branch": "cursor/catwalk-main-deck-gate-f23d",
   "merged": false,
+  "ccx_ran_this_turn": false,
   "entries": [
     {
       "role": "frozen_elset_uniaxial_fail_site",
@@ -20,13 +21,25 @@
       "rewritten": false
     },
     {
-      "role": "new_main",
+      "role": "fail_site_four_unconstrained_b31",
       "path": "catwalk-fem/artifacts/zjg_catwalk_main.inp",
       "sha256": "c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84",
       "bytes": 47948333,
       "sidecar": "catwalk-fem/artifacts/zjg_catwalk_main.inp.sha256",
       "in_checksums_sha256": true,
-      "on_pr19_branch": true
+      "on_pr19_branch": true,
+      "rewritten": false,
+      "note": "catwalk-check: after N_ORPHAN_UNCONSTRAINED 3596, still 4 unconstrained COMPONENTS / 12 B31 nodes at x≈656 and 2965–2968. 不过门. Not a calculation main."
+    },
+    {
+      "role": "new_main",
+      "path": "catwalk-fem/artifacts/zjg_catwalk_cleared.inp",
+      "sha256": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+      "bytes": 47948916,
+      "sidecar": "catwalk-fem/artifacts/zjg_catwalk_cleared.inp.sha256",
+      "in_checksums_sha256": true,
+      "on_pr19_branch": true,
+      "note": "copy of c635dad7 plus N_CLEAR_FOUR_B31 (12 nodes, UX/UY/UZ). Independent reread: 0 unconstrained components. IC still 421432 eight-field. Not a calculation. This turn did not run CalculiX."
     }
   ]
 }

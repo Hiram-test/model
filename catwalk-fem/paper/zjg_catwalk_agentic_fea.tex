@@ -6,10 +6,12 @@
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 \lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,backgroundcolor=\color{black!3}}
 \title{Agentic FEA of the Zhangjinggao Construction Catwalk:\\
-\large Three hashed decks, the 41fb3222 connectivity table,\\
-and a factorable but unconverged first increment}
-\author{Run \texttt{cursor/catwalk-main-deck-bound-4c2c}\\
-Repository \texttt{Hiram-test/model}, pull request \#19}
+\large Four hashed decks, the 41fb3222 connectivity table,\\
+the c635dad7 four-B31 fail site, and cleared 760c0ee4\\
+(no CalculiX this turn)}
+\author{Run \texttt{cursor/catwalk-clear-four-4c2c}\\
+Repository \texttt{Hiram-test/model}, pull request \#19\\
+No push, no merge, no CalculiX this turn}
 \date{2026-08-25}
 \begin{document}
 \maketitle
@@ -33,14 +35,15 @@ independent reread of that site recovers 22\,096 used-node components and
 21\,426 counts \textbf{components that contain no constrained node}, not
 unconstrained nodes (50\,676). The three-card boundary union is 1\,220.
 
-The new main deck
+Site
 \texttt{c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84}
-attaches drawing-anchor stubs at \(x=-23.895/-44.909/4225.7\), consumes T3D2
-yarn gaps and B31 pairs, pins leftover unconstrained \emph{components}, and
-writes 421\,432 eight-field second Piola--Kirchhoff rows. CalculiX 2.21 reads
-it, assembles 1\,401\,126 equations, factors the tangent (not singular), and
-fails to converge the first increment (exit 201, 63.65\,s). The \texttt{.frd}
-file is an 80-byte title shell with no DISP. No spectrum is claimed.
+is the four-unconstrained-B31 fail site (12 nodes at \(x\approx 656\) and
+\(2965\)--\(2968\)) and is not rewritten. The new main deck
+\texttt{760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9}
+copies that file and pins those twelve nodes as \texttt{N\_CLEAR\_FOUR\_B31}.
+An independent reread finds zero unconstrained components. Initial-condition
+rows remain 421\,432 eight-field PK2 lines. This turn does not run CalculiX.
+No spectrum is claimed.
 \end{abstract}
 
 \tableofcontents
@@ -57,8 +60,10 @@ discrete portal frames, and discrete cross-passages, all written in highway
 chainage. Theory archive \texttt{catwalk-theory/thirteen-mode-models} v1.2
 freezes drawing topology and the fourteen-mode isolation protocol; it is not
 a CalculiX deck. Pull request \#18 shipped an empty \texttt{artifacts/}.
-Pull request \#19 first deposited \texttt{82548e6a}, then \texttt{41fb3222}.
-This run does not rewrite those two sites. It emits a third hash.
+Pull request \#19 first deposited \texttt{82548e6a}, then \texttt{41fb3222},
+then \texttt{c635dad7}. This run does not rewrite those three sites.
+\texttt{c635dad7} is now the four-B31 fail site. A fourth hash
+\texttt{760c0ee4} is emitted on a new path.
 
 \paragraph{Method.}
 The run follows \texttt{catwalk-fem/SKILL.md}. Geometry is STEP-only.
@@ -66,8 +71,9 @@ Materials, sag, and loads come from drawings and the check report. The
 coordinate gate is identity unless saddle-height evidence requires a shift,
 never \(X-x_{\min}\). Topology is reconciled against frozen drawing lists:
 21 passages and \(71\times 2=142\) portal frames. Anchors are two families.
-\texttt{82548e6a} and \texttt{41fb3222} are frozen. The new main deck is
-written to \texttt{zjg\_catwalk\_main.inp}. CalculiX runs only on a copy.
+\texttt{82548e6a}, \texttt{41fb3222} and \texttt{c635dad7} are frozen.
+The new main deck is \texttt{zjg\_catwalk\_cleared.inp}. This turn does not
+run CalculiX.
 A successful read, a factorable tangent, or a \texttt{.sta} increment row is
 not a solved statics claim. Solved means exit 0, DISP in \texttt{.frd}, and
 a converged increment row.
@@ -76,17 +82,16 @@ a converged increment row.
 The centre-line STEP (139\,991 trimmed curves,
 \texttt{SI\_UNIT(.MILLI.,.METRE.)}) is converted to metres. After identity
 mapping, STEP nodes satisfy \(X\in[0,4270.609]\)\,m and
-\(Z_{\max}=350.312\)\,m. Three SHA-256 values were rechecked on this host.
-CalculiX 2.21 on a copy of \texttt{c635dad7} assembled 1\,401\,126 equations
-and failed to converge the first increment.
+\(Z_{\max}=350.312\)\,m. Four SHA-256 values were rechecked on this host.
+This turn does not run CalculiX. A historical copy of \texttt{c635dad7}
+assembled 1\,401\,126 equations and failed to converge the first increment.
 
 \paragraph{Outlook.}
-The new hash is emitted. The first increment is no longer immediately
-singular because of 22\,096 components. Static convergence still requires
-work on the remaining 1\,073 components, 477 pair fragments, four
-unconstrained components, and the \texttt{umpc\_mean\_rot} failure---not a
-rewrite of the two frozen sites. TARGET-FREQ stays isolated until a solved
-spectrum exists.
+The four hashes are in the local ledger. The four unconstrained B31
+components on \texttt{c635dad7} are pinned on \texttt{760c0ee4}. Static
+convergence still requires work on the remaining 1\,073 components and 477
+pair fragments---not a rewrite of the three frozen sites. TARGET-FREQ stays
+isolated until a solved spectrum exists. This turn is not a calculation.
 
 \section{Related work and isolation protocol}
 \label{sec:iso}
@@ -107,13 +112,14 @@ imported by \texttt{write\_inp} or the solver deck.
 is forbidden in the deck (verified absent).
 \item The two walkways keep independent degrees of freedom.
 \item Floor-rope anchors and portal-rope anchors are never unioned.
-\item After SHA-256 \texttt{82548e6a} and \texttt{41fb3222} are frozen, those
-\texttt{.inp} files are not rewritten to ``make the solver happy''.
+\item After SHA-256 \texttt{82548e6a}, \texttt{41fb3222} and
+\texttt{c635dad7} are frozen, those \texttt{.inp} files are not rewritten
+to ``make the solver happy''.
 \end{enumerate}
 
 \paragraph{Experiment.}
 The isolated file lists fourteen frequencies starting at \(0.0296\)\,Hz.
-Full-text search of all three decks finds neither \(0.0296\) nor \(255.56\).
+Full-text search of all four decks finds neither \(0.0296\) nor \(255.56\).
 \texttt{write\_inp.py} does not import \texttt{isolated/TARGET-FREQ.json}.
 
 \paragraph{Outlook.}
@@ -341,7 +347,7 @@ expansion; IC accepted); north floor \(x=0\) vs \(-23.895\); north portal
 The table is the input to the new-main repair. It is not a reason to
 withhold \texttt{41fb3222}. Do not pin 21\,426 nodes.
 
-\section{New main deck \texttt{c635dad7} and CalculiX 2.21}
+\section{Fail site \texttt{c635dad7} and historical CalculiX 2.21}
 \label{sec:new}
 
 \paragraph{Related work.}
@@ -394,7 +400,7 @@ solved = false
 
 \begin{table}[ht]
 \centering
-\caption{Solver four-file record on copies. Not a solved statics claim.}
+\caption{Solver four-file record on copies. \texttt{760c0ee4} was not submitted to CalculiX this turn. Not a solved statics claim.}
 \label{tab:ccx}
 \begin{tabular}{lrrcccc}
 \toprule
@@ -402,7 +408,8 @@ Hash & Eq. & Sing.\ & Inc.\ rows & DISP & exit & Wall (s) \\
 \midrule
 \texttt{82548e6a} & --- & --- & 0 & no & 201 & \(<1\) \\
 \texttt{41fb3222} & 879\,076 & yes & 0 & no & 255 & 10.35 \\
-\texttt{c635dad7} & 1\,401\,126 & no & 1 (\texttt{1U}) & no & 201 & 63.65 \\
+\texttt{c635dad7} (hist.) & 1\,401\,126 & no & 1 (\texttt{1U}) & no & 201 & 63.65 \\
+\texttt{760c0ee4} & --- & --- & --- & --- & not run & --- \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -415,32 +422,70 @@ in \texttt{no convergence} / \texttt{divergence} /
 80\,B. After the run, both frozen hashes were unchanged.
 
 \paragraph{Outlook.}
-The lexical IC gate and ``first increment no longer immediately singular''
-are closed. Convergence is the next bound. Do not change the \S7.76 row
-format again, and do not rewrite the two frozen sites.
+\texttt{c635dad7} is the four-unconstrained-B31 fail site, not the new main.
+Do not rewrite that hash to add the pin. Clearing goes on a new path.
+
+\section{Clear four unconstrained B31 components: new main \texttt{760c0ee4}}
+\label{sec:clear}
+
+\paragraph{Related work.}
+The catwalk check (given, independently recomputed here): after pinning
+3\,596 orphan nodes, \texttt{c635dad7} still has four unconstrained
+components / 12 B31 nodes at \(x\approx 656\) and \(2965\)--\(2968\).
+Not a calculation main.
+
+\paragraph{Method.}
+\texttt{pipeline/clear\_four\_b31.py} reads only \texttt{c635dad7} and
+refuses to overwrite \texttt{82548e6a} / \texttt{41fb3222} /
+\texttt{c635dad7}. It inserts \texttt{N\_CLEAR\_FOUR\_B31} (nodes 9518 9519
+9520 9521 33168--33175) and UX,UY,UZ immediately before
+\texttt{*INITIAL CONDITIONS}. The node list must match the given twelve
+nodes. Output is \texttt{zjg\_catwalk\_cleared.inp}. CalculiX is not run.
+
+\paragraph{Experiment.}
+On-host \texttt{sha256sum} is
+\texttt{760c0ee4\(\ldots\)b0585de9} (47\,948\,916\,B). Independent reread
+(\texttt{eval/INDEPENDENT\_REREAD\_760c0ee4.json}, \texttt{pass=true}):
+zero unconstrained components; 421\,432 eight-field IC rows and 0 ELSET
+rows; every T3D2/B31 still writes integration points 1--8;
+\texttt{E\_CROSS\_PASSAGE} has 42 members (old 21 + new 21); 28 new
+degree-1 drawing-anchor nodes at \(x=-23.895/-44.909/4225.7\); floor and
+portal anchors remain disjoint. Tests refuse overwrite of the three frozen
+paths and lock the node list.
+The local \#19 ledger (\texttt{HASH\_LEDGER.json},
+\texttt{checksums.sha256}) records \texttt{760c0ee4} as \texttt{new\_main}
+and recasts \texttt{c635dad7} as the fail site. This turn does not push;
+independent reread is local \texttt{sha256sum} against those two files.
+
+\paragraph{Outlook.}
+The four unconstrained components are cleared. 1\,073 components and 477
+pair fragments remain. \texttt{760c0ee4} is not a calculation main. Do not
+open TARGET-FREQ.
 
 \section{Discussion and conclusion}
 \label{sec:disc}
 
 \paragraph{Related work.}
-PR \#18 shipped an empty directory. PR \#19 deposited \texttt{82548e6a} then
-\texttt{41fb3222}. This run emits \texttt{c635dad7} from the corrected
-definition table and leaves traces under \texttt{catwalk-fem/eval/}.
+PR \#18 shipped an empty directory. PR \#19 deposited \texttt{82548e6a},
+then \texttt{41fb3222}, then \texttt{c635dad7}. This run recasts
+\texttt{c635dad7} as the four-B31 fail site, emits \texttt{760c0ee4}, and
+leaves traces under \texttt{catwalk-fem/eval/}. It does not push.
 
 \paragraph{Method.}
 Visible limits are bounds. Hard gates (identity, 21/142, disjoint anchors,
-\S7.76 lexicon, two frozen hashes, forbidden sources, the 21\,426
-definition) close. An unconverged first increment is a bound, not a reason
-to withhold the new deck.
+\S7.76 lexicon, three frozen hashes, forbidden sources, the 21\,426
+definition, the given twelve-node lock) close. Zero unconstrained
+components is not a solved statics claim.
 
 \paragraph{Experiment.}
-Bounds: \texttt{41fb3222} north anchors remain STEP-end proxies; the new
-main stubs north floor/portal and south portal; south floor still
-\(\Delta=0.38\)\,m; portal-rope classification is incomplete; geometric sag
-\(214.18\) vs \(227.30\)\,m; floor-line length is long; 1\,073 components
-and 477 pair fragments remain; orphan pins are leftover unconstrained
-components, not a statically determinate weld; the new-hash tangent factors
-but the first increment does not converge; no DISP; no spectrum.
+Bounds: \texttt{41fb3222} north anchors remain STEP-end proxies;
+\texttt{c635dad7}/\texttt{760c0ee4} stub north floor/portal and south
+portal; south floor still \(\Delta=0.38\)\,m; portal-rope classification is
+incomplete; geometric sag \(214.18\) vs \(227.30\)\,m; floor-line length is
+long; 1\,073 components and 477 pair fragments remain; T3D2/B31 still
+write eight integration points; 28 new degree-1 drawing nodes;
+\texttt{E\_CROSS\_PASSAGE}=42; this turn does not run CalculiX; no DISP;
+no spectrum.
 
 \paragraph{Outlook.}
 From the published STEP, under \(x=\mathrm{chainage}-K16+876.000\), a
@@ -450,10 +495,11 @@ passages and 142 frames reconcile with zero insertions. Frozen
 IC-pass / first-increment-singular site; the independent table
 (22\,096 / 19\,371 \(=\) 17\,756\(+\)1\,615 / 21\,426 components / 50\,676
 nodes / 1\,220 union) matches the given arithmetic and is not rewritten.
-New \texttt{c635dad7} emits drawing stubs, yarn/pair consume, component
-pins, and 421\,432 eight-field PK2 rows. CalculiX 2.21 reads it and
-assembles 1\,401\,126 equations, then fails to converge. No solved spectrum
-is claimed. 21\,426 is not an unconstrained-node count.
+\texttt{c635dad7} still has four unconstrained B31 components and is not
+rewritten. New \texttt{760c0ee4} pins those twelve nodes. Independent
+reread: zero unconstrained components; 421\,432 eight-field PK2 rows.
+This turn does not run CalculiX. No solved spectrum is claimed.
+21\,426 is not an unconstrained-node count.
 
 \section*{Reproduction}
 
@@ -463,28 +509,30 @@ python3 catwalk-fem/tests/test_write_inp.py
 python3 catwalk-fem/tests/test_reconcile.py
 python3 catwalk-fem/tests/test_audit_frozen_deck.py
 python3 catwalk-fem/tests/test_new_main_deck.py
-python3 catwalk-fem/tests/test_singular_defs.py
-python3 catwalk-fem/tests/test_repair_topology.py
-python3 catwalk-fem/pipeline/singular_audit.py \
-    catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
-python3 catwalk-fem/pipeline/emit_bound_main_deck.py
+python3 catwalk-fem/tests/test_clear_four_b31.py
+python3 catwalk-fem/pipeline/reread_cleared.py
 sha256sum catwalk-fem/artifacts/zjg_catwalk_coarsened.inp
 sha256sum catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
 sha256sum catwalk-fem/artifacts/zjg_catwalk_main.inp
+sha256sum catwalk-fem/artifacts/zjg_catwalk_cleared.inp
+grep zjg_catwalk catwalk-fem/artifacts/checksums.sha256
 pdflatex -interaction=nonstopmode zjg_catwalk_agentic_fea.tex
 \end{lstlisting}
 Do not add the 77\,MB STEP to git. Do not feed
 \texttt{isolated/TARGET-FREQ.json} to the writer. Do not rewrite
-\texttt{zjg\_catwalk\_coarsened.inp} or \texttt{zjg\_catwalk\_ccx221.inp}.
-This run does not push.
+\texttt{zjg\_catwalk\_coarsened.inp}, \texttt{zjg\_catwalk\_ccx221.inp}
+or \texttt{zjg\_catwalk\_main.inp}. This run does not run CalculiX
+and does not push.
 
 \section*{Data availability}
 Artefacts live under \texttt{catwalk-fem/artifacts/} on branch
-\texttt{cursor/catwalk-main-deck-bound-4c2c}. Frozen
+\texttt{cursor/catwalk-clear-four-4c2c}. Frozen
 \texttt{82548e6a\(\ldots\)276ab6da}. Singular site
-\texttt{41fb3222\(\ldots\)bbca924a}. New main
-\texttt{c635dad7\(\ldots\)70cda84}. Evaluation traces:
-\texttt{catwalk-fem/eval/GROK\_SELF\_EVAL.md} and
+\texttt{41fb3222\(\ldots\)bbca924a}. Four-B31 fail site
+\texttt{c635dad7\(\ldots\)70cda84}. New main
+\texttt{760c0ee4\(\ldots\)b0585de9}. Evaluation traces:
+\texttt{catwalk-fem/eval/GROK\_SELF\_EVAL.md},
+\texttt{eval/CLEAR\_FOUR\_B31.md} and
 \texttt{eval/DEFINITION\_TABLE\_41fb3222.md}.
 
 \bibliographystyle{plain}
