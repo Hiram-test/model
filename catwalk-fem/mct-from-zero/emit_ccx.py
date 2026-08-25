@@ -162,6 +162,20 @@ def emit_ccx(model: dict[str, Any], out_path: Path) -> dict[str, Any]:
             for d in dofs:
                 lines.append(f"{nid}, {d}, {d}")
                 n_bc += 1
+    # MCT nodes have Y≈0 (2-D equivalent). Out-of-plane UY is implicit there.
+    # Restrain UY on every node so the migrated T3D2 deck is not singular in Y.
+    already_uy = set()
+    for c in model["constraints"]:
+        if 2 in _dof_flags(c["dof"]):
+            already_uy.update(c["nodes"])
+    n_uy_plane = 0
+    lines.append("** MCT Y≈0 2-D equivalent: UY=0 on all nodes (migrate plane, not homemade).")
+    for nid in sorted(nodes):
+        if nid in already_uy:
+            continue
+        lines.append(f"{nid}, 2, 2")
+        n_uy_plane += 1
+        n_bc += 1
 
     lines.append("*STEP")
     lines.append("*STATIC")
@@ -202,6 +216,7 @@ def emit_ccx(model: dict[str, Any], out_path: Path) -> dict[str, Any]:
         "n_ic_rows": len(ic_eids) * len(T3D2_INTPTS),
         "n_ic_skipped_no_prestress": ic_skipped,
         "n_boundary_rows": n_bc,
+        "n_uy_plane_added": n_uy_plane,
         "n_cload_rows": n_cload,
         "ic_format": IC_FORMAT_NAME,
         "materials_converted": mat_meta,
