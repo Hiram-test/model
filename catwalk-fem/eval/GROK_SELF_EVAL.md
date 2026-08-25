@@ -78,3 +78,10 @@ GitHub 目录列举已出现 `zjg_catwalk_main.inp`。JSON：`eval/REMOTE_REREAD
 | 未合并 | **成立** | PR `merged=false` |
 
 **总评：认同当时不过门（哈希不在 #19）。inp+sidecar 已交到 `cursor/catwalk-main-deck-gate-f23d`。本岗对远程独立复算 c635dad7 成立。冻结两现场不动。不合并。**
+
+## 6. 账本登记（本轮补）
+
+用户句：没进 #19 不算新主；c635dad7 先交进账本，校验才能独立复算。
+
+交付前 `artifacts/checksums.sha256` 只有 82548e6a / 41fb3222，**无** `zjg_catwalk_main.inp`。  
+本轮追加账本行，并写 `artifacts/HASH_LEDGER.json`。41fb3222 行未改。不合并。

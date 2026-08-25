@@ -50,6 +50,17 @@ $ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_c
 
 PR #19 head=`298c616`，`merged=false`。不 merge。
 
+## 账本登记 c635dad7（checksums.sha256 + HASH_LEDGER.json）
+
+交付前 `checksums.sha256` 无 `zjg_catwalk_main.inp`。本轮追加两行，不改 82548e6a / 41fb3222 行。
+
+```
+$ grep zjg_catwalk catwalk-fem/artifacts/checksums.sha256
+82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da  zjg_catwalk_coarsened.inp
+41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a  zjg_catwalk_ccx221.inp
+c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  zjg_catwalk_main.inp
+```
+
 ---
 
 评估人：Cursor Grok 4.6。工作目录 `/workspace`。分支 `cursor/catwalk-main-deck-gate-f23d`。
