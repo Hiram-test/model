@@ -84,6 +84,8 @@ def test_emit_is_mct_migrate(tmp_path: Path):
     assert meta["n_ic_elems"] == 1123
     assert "*INITIAL CONDITIONS, TYPE=STRESS" in text
     assert "*ELEMENT, TYPE=T3D2" in text
+    assert "*ELEMENT, TYPE=B31" in text
+    assert "*BEAM SECTION" in text
     assert "猫道 - 门架索合建模型2.mct" in text
     assert EXPECTED_SHA256 in text
     sidecar = sidecar_from_model(model)

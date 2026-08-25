@@ -70,21 +70,34 @@ def emit_ccx(model: dict[str, Any], out_path: Path) -> dict[str, Any]:
     for eid, el in elems.items():
         by_sec.setdefault(el["sec"], []).append(eid)
 
-    lines.append("*ELEMENT, TYPE=T3D2, ELSET=E_ALL")
-    for eid in sorted(elems):
-        el = elems[eid]
-        lines.append(f"{eid}, {el['n1']}, {el['n2']}")
-
-    for sid, eids in sorted(by_sec.items()):
-        lines.append(f"*ELSET, ELSET=E_SEC{sid}")
+    def _elset(name: str, eids: list[int]) -> None:
+        lines.append(f"*ELSET, ELSET={name}")
         chunk: list[str] = []
-        for eid in sorted(eids):
+        for eid in eids:
             chunk.append(str(eid))
             if len(chunk) == 16:
                 lines.append(", ".join(chunk))
                 chunk = []
         if chunk:
             lines.append(", ".join(chunk))
+
+    tenstr = sorted(e for e, el in elems.items() if el["type"] == "TENSTR")
+    frames = sorted(e for e, el in elems.items() if el["type"] == "TRUSS")
+    # MCT TENSTR → T3D2. MCT TRUSS (门架) → B31: ccx 2.21 *SOLID SECTION T3D2
+    # cannot form n1 when the member is exactly along Z (dx=0), which 35 门架 are.
+    if tenstr:
+        lines.append("*ELEMENT, TYPE=T3D2, ELSET=E_CABLE")
+        for eid in tenstr:
+            el = elems[eid]
+            lines.append(f"{eid}, {el['n1']}, {el['n2']}")
+    if frames:
+        lines.append("*ELEMENT, TYPE=B31, ELSET=E_FRAME")
+        for eid in frames:
+            el = elems[eid]
+            lines.append(f"{eid}, {el['n1']}, {el['n2']}")
+
+    for sid, eids in sorted(by_sec.items()):
+        _elset(f"E_SEC{sid}", sorted(eids))
 
     # Materials: MCT E is kN/mm^2 → N/mm^2; DEN is specific weight kN/mm^3
     # ρ_tonne/mm^3 = (DEN_kN/mm^3 * 1e12 N/m^3) / g / 1e12  → DEN * 1e3 / g_m
@@ -128,9 +141,26 @@ def emit_ccx(model: dict[str, Any], out_path: Path) -> dict[str, Any]:
         mats = [elems[e]["mat"] for e in by_sec.get(sid, [])]
         if mats:
             mid = max(set(mats), key=mats.count)
-        sec_used[sid] = {"area_mm2": area, "mat": mid, "formula": sec["area_formula"]}
-        lines.append(f"*SOLID SECTION, ELSET=E_SEC{sid}, MATERIAL=MAT{mid}")
-        lines.append(f"{area:.8g}")
+        types = {elems[e]["type"] for e in by_sec.get(sid, [])}
+        sec_used[sid] = {
+            "area_mm2": area,
+            "mat": mid,
+            "formula": sec["area_formula"],
+            "mct_types": sorted(types),
+        }
+        if types == {"TRUSS"}:
+            side = area ** 0.5
+            lines.append(f"*BEAM SECTION, ELSET=E_SEC{sid}, MATERIAL=MAT{mid}, SECTION=RECT")
+            lines.append(f"{side:.8g}, {side:.8g}")
+            # n1 not parallel to X/Y/Z: 门架 has vertical (Z) posts. Same 1,1,1 as repo B31 decks.
+            lines.append("1, 1, 1")
+            sec_used[sid]["ccx_card"] = "BEAM SECTION RECT n1=1,1,1"
+        elif types == {"TENSTR"}:
+            lines.append(f"*SOLID SECTION, ELSET=E_SEC{sid}, MATERIAL=MAT{mid}")
+            lines.append(f"{area:.8g}")
+            sec_used[sid]["ccx_card"] = "SOLID SECTION T3D2"
+        else:
+            raise ValueError(f"section {sid} mixes MCT types {types}; refuse to invent a card")
 
     ic_eids = []
     ic_skipped = []
@@ -182,7 +212,10 @@ def emit_ccx(model: dict[str, Any], out_path: Path) -> dict[str, Any]:
     sw = model["selfweight"]
     if sw is not None:
         lines.append("*DLOAD")
-        lines.append(f"E_ALL, GRAV, {grav:.8g}, {sw['gx']}, {sw['gy']}, {sw['gz']}")
+        if tenstr:
+            lines.append(f"E_CABLE, GRAV, {grav:.8g}, {sw['gx']}, {sw['gy']}, {sw['gz']}")
+        if frames:
+            lines.append(f"E_FRAME, GRAV, {grav:.8g}, {sw['gx']}, {sw['gy']}, {sw['gz']}")
     if model["conload_erqi"]:
         lines.append("*CLOAD")
         n_cload = 0

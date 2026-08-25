@@ -1,6 +1,6 @@
 {
   "path": "/workspace/catwalk-fem/mct-from-zero/artifacts/mct_from_zero_static.ccx.inp",
-  "bytes": 924265,
+  "bytes": 924376,
   "n_nodes": 1125,
   "n_elems": 1194,
   "n_ic_elems": 1123,
@@ -112,17 +112,29 @@
     "1": {
       "area_mm2": 22298.69164950066,
       "mat": 1,
-      "formula": "SR solid round A=pi*(D/2)^2 with D=168.498 mm from *SECTION"
+      "formula": "SR solid round A=pi*(D/2)^2 with D=168.498 mm from *SECTION",
+      "mct_types": [
+        "TENSTR"
+      ],
+      "ccx_card": "SOLID SECTION T3D2"
     },
     "2": {
       "area_mm2": 8402.979737976504,
       "mat": 2,
-      "formula": "SR solid round A=pi*(D/2)^2 with D=103.436 mm from *SECTION"
+      "formula": "SR solid round A=pi*(D/2)^2 with D=103.436 mm from *SECTION",
+      "mct_types": [
+        "TENSTR"
+      ],
+      "ccx_card": "SOLID SECTION T3D2"
     },
     "3": {
       "area_mm2": 9792.0,
       "mat": 3,
-      "formula": "B box A=n*(B*H-(B-2tw)*(H-2tf)) B=161.0 H=161.0 tw=8.0 tf=8.0 n=2.0 from *SECTION name='2根B 160x4'"
+      "formula": "B box A=n*(B*H-(B-2tw)*(H-2tf)) B=161.0 H=161.0 tw=8.0 tf=8.0 n=2.0 from *SECTION name='2根B 160x4'",
+      "mct_types": [
+        "TRUSS"
+      ],
+      "ccx_card": "BEAM SECTION RECT n1=1,1,1"
     }
   },
   "source_sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",

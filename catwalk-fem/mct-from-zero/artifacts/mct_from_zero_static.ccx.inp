@@ -1129,7 +1129,7 @@ IC format ccx_2.21_s7.76_element_ip_six_pk2_global. P0: statics / cable force / 
 1393, 5050962, 0, 55107
 1394, 5052000, 0, 54818.826
 1395, 5101700, 0, 41317
-*ELEMENT, TYPE=T3D2, ELSET=E_ALL
+*ELEMENT, TYPE=T3D2, ELSET=E_CABLE
 1, 1, 2
 2, 2, 3
 3, 3, 4
@@ -2253,6 +2253,7 @@ IC format ccx_2.21_s7.76_element_ip_six_pk2_global. P0: statics / cable force / 
 1392, 1392, 1393
 1393, 1393, 1394
 1394, 1394, 1395
+*ELEMENT, TYPE=B31, ELSET=E_FRAME
 1395, 1008, 16
 1396, 1013, 29
 1397, 1018, 42
@@ -2422,8 +2423,9 @@ IC format ccx_2.21_s7.76_element_ip_six_pk2_global. P0: statics / cable force / 
 22298.692
 *SOLID SECTION, ELSET=E_SEC2, MATERIAL=MAT2
 8402.9797
-*SOLID SECTION, ELSET=E_SEC3, MATERIAL=MAT3
-9792
+*BEAM SECTION, ELSET=E_SEC3, MATERIAL=MAT3, SECTION=RECT
+98.954535, 98.954535
+1, 1, 1
 *INITIAL CONDITIONS, TYPE=STRESS
 ** ccx_2.21_s7.76_element_ip_six_pk2_global; sigma = F_N / A_mm2 from MCT INI-EFORCE mean, else INIFORCE
 1, 1, 2.853700e+02, 0.000000e+00, 4.180905e+02, 0.000000e+00, 3.454135e+02, 0.000000e+00
@@ -12572,7 +12574,8 @@ IC format ccx_2.21_s7.76_element_ip_six_pk2_global. P0: statics / cable force / 
 *STEP
 *STATIC
 *DLOAD
-E_ALL, GRAV, 9806, 0.0, 0.0, -1.0
+E_CABLE, GRAV, 9806, 0.0, 0.0, -1.0
+E_FRAME, GRAV, 9806, 0.0, 0.0, -1.0
 *CLOAD
 1, 3, -0.01
 2, 3, -0.01
