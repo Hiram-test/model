@@ -1,0 +1,235 @@
+{
+  "kind": "theory_freq_locked_params_974211b2",
+  "imported_TARGET_FREQ": false,
+  "used_0.06438_as_ccx": false,
+  "not_table_5_4": true,
+  "forbidden_table_5_4_kN": [
+    9309.3,
+    581.8
+  ],
+  "main": {
+    "path": "catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp",
+    "sha256": "974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1",
+    "bytes": 930300,
+    "rewritten": false
+  },
+  "cleared_760c0ee4": {
+    "path": "catwalk-fem/artifacts/zjg_catwalk_cleared.inp",
+    "sha256": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+    "untouched": true
+  },
+  "g_m_s2": 9.806,
+  "g_std": 9.80665,
+  "g_source": "MCT *STRUCTYPE 9806 mm/s2",
+  "L_main_m": 2302.0,
+  "h_main_m_locked": 227.3,
+  "h_main_m_overlay": 227.29739713606,
+  "mu_floor_kg_m": 282.044570937506,
+  "mu_portal_kg_m": 72.25568511516389,
+  "mu_sum_kg_m": 354.3002560526699,
+  "mu_frame_kg_m": 9.985723067520001e-08,
+  "A_floor_mm2": 22298.692,
+  "A_portal_mm2": 8402.9797,
+  "E_floor_N_mm2": 120000.0,
+  "EA_floor_N": 2675843040.0,
+  "EA_portal_N": 1008357564.0,
+  "T_floor_main_N": 10431682.050847458,
+  "T_portal_main_N": 3193636.5740740737,
+  "T_sum_main_N": 13625318.62492153,
+  "T_lock_global_mean_N": 7966671.006233303,
+  "H_sag_floor_main_N": 8059922.190670938,
+  "H_sag_portal_main_N": 2049401.7844910084,
+  "T_floor_over_H_sag": 1.2942658507202147,
+  "materials_reread": {
+    "MAT1": {
+      "E_N_mm2": 120000.0,
+      "nu": 0.3,
+      "rho_tonne_mm3": 1.26484805e-08
+    },
+    "MAT2": {
+      "E_N_mm2": 120000.0,
+      "nu": 0.3,
+      "rho_tonne_mm3": 8.59881705e-09
+    },
+    "MAT3": {
+      "E_N_mm2": 206000.0,
+      "nu": 0.31,
+      "rho_tonne_mm3": 1.01978381e-17
+    }
+  },
+  "lock_by_block_kN": {
+    "北边跨": {
+      "n": 149,
+      "min": 9231.855,
+      "max": 11465.05,
+      "mean": 10901.862785234898,
+      "p50": 10875.55,
+      "p95": 11378.35
+    },
+    "主跨": {
+      "n": 295,
+      "min": 1482.74,
+      "max": 11000.8,
+      "mean": 10431.682050847458,
+      "p50": 10440.9,
+      "p95": 10938.4
+    },
+    "南边跨": {
+      "n": 160,
+      "min": 9164.24,
+      "max": 10927.65,
+      "mean": 10475.000812499999,
+      "p50": 10453.3,
+      "p95": 10856.8
+    },
+    "南辅跨": {
+      "n": 115,
+      "min": 10045.2,
+      "max": 10337.55,
+      "mean": 10163.288695652174,
+      "p50": 10151.599999999999,
+      "p95": 10306.5
+    },
+    "门架索北边跨": {
+      "n": 64,
+      "min": 3115.1,
+      "max": 3553.5,
+      "mean": 3394.1234375,
+      "p50": 3400.95,
+      "p95": 3544.0
+    },
+    "门架索主跨": {
+      "n": 216,
+      "min": 3115.1,
+      "max": 3347.95,
+      "mean": 3193.636574074074,
+      "p50": 3171.85,
+      "p95": 3335.15
+    },
+    "门架索南边跨": {
+      "n": 67,
+      "min": 3115.1,
+      "max": 3381.0,
+      "mean": 3257.6753731343283,
+      "p50": 3248.15,
+      "p95": 3375.6
+    },
+    "门架索南辅跨": {
+      "n": 47,
+      "min": 3124.7,
+      "max": 3232.9,
+      "mean": 3161.0712765957446,
+      "p50": 3155.5,
+      "p95": 3203.45
+    }
+  },
+  "spans": [
+    {
+      "floor": "北边跨",
+      "portal": "门架索北边跨",
+      "L_floor_m": 648.112,
+      "L_portal_m": 703.909,
+      "z_left_m": 59.283,
+      "z_right_m": 340.596402534349,
+      "z_min_m": 59.283,
+      "sag_end_minus_zmin_m": 140.6567012671745,
+      "T_floor_N": 10901862.785234898,
+      "T_portal_N": 3394123.4375,
+      "T_sum_N": 14295986.222734898,
+      "inclined": true
+    },
+    {
+      "floor": "主跨",
+      "portal": "门架索主跨",
+      "L_floor_m": 2302.0,
+      "L_portal_m": 2302.0,
+      "z_left_m": 340.596402534349,
+      "z_right_m": 340.598391737771,
+      "z_min_m": 113.3,
+      "sag_end_minus_zmin_m": 227.29739713606,
+      "T_floor_N": 10431682.050847458,
+      "T_portal_N": 3193636.5740740737,
+      "T_sum_N": 13625318.62492153,
+      "inclined": false
+    },
+    {
+      "floor": "南边跨",
+      "portal": "门架索南边跨",
+      "L_floor_m": 725.276,
+      "L_portal_m": 719.0,
+      "z_left_m": 340.598391737771,
+      "z_right_m": 126.75,
+      "z_min_m": 126.75,
+      "sag_end_minus_zmin_m": 106.92419586888549,
+      "T_floor_N": 10475000.812499998,
+      "T_portal_N": 3257675.3731343285,
+      "T_sum_N": 13732676.185634326,
+      "inclined": true
+    },
+    {
+      "floor": "南辅跨",
+      "portal": "门架索南辅跨",
+      "L_floor_m": 496.908,
+      "L_portal_m": 545.7,
+      "z_left_m": 126.75,
+      "z_right_m": 46.282,
+      "z_min_m": 46.282,
+      "sag_end_minus_zmin_m": 40.234,
+      "T_floor_N": 10163288.695652174,
+      "T_portal_N": 3161071.276595745,
+      "T_sum_N": 13324359.972247919,
+      "inclined": true
+    }
+  ],
+  "ccx_freq_Hz": [
+    0.1335403,
+    0.1572925,
+    0.2151652,
+    0.2353319,
+    0.2608385,
+    0.2744557,
+    0.3367002,
+    0.3458761,
+    0.4133826,
+    0.4320113,
+    0.4585312,
+    0.483605,
+    0.5516513,
+    0.6216275,
+    0.6344128,
+    0.649522,
+    0.6857693,
+    0.6897224,
+    0.705828,
+    0.7595147
+  ],
+  "ccx_f1_Hz": 0.1335403,
+  "att_pair_Hz": [
+    0.0296,
+    0.0301
+  ],
+  "att_pair_note": "user-stated 附件2-3 first pair; post-hoc compare only",
+  "B_deck_m": 42.9,
+  "r_f2_m2": 3.4525,
+  "r_g2_m2": 69.15266666666666,
+  "J_frame_per_m": 822.3786488695653,
+  "passage_xi_main_m": [
+    178.0,
+    349.0,
+    520.0,
+    691.0,
+    844.0,
+    997.0,
+    1150.0,
+    1303.0,
+    1456.0,
+    1609.0,
+    1780.0,
+    1951.0,
+    2122.0
+  ],
+  "m_pass_core_kg": 5769.2,
+  "m_pass_report_kg": 10130.0,
+  "y_plane": "MCT Y≈0 single-line 2-D equivalent; UY=0 on all nodes",
+  "meta_source_sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1"
+}

@@ -1,0 +1,390 @@
+{
+  "layer": 3,
+  "title": "dual MCT + lateral passages / single-deck slow torsion",
+  "ccx_can_realise": false,
+  "why_ccx_cannot": "974211b2 is a Y=0 single line; UY=0 on every node; 21 横向通道节点 are markers, not two-deck springs",
+  "assumptions": [
+    "Two identical dual-MCT decks, spacing B=42.90 m (drawing; absent from the 2-D MCT).",
+    "T, μ locked from 974211b2. Passages: 13 main-span stations from the drawing chain.",
+    "Two mass books: 5769.2 kg core modules / 10130 kg report whole-passage. Not stacked.",
+    "Common motion: passages add mass. Differential: passages add stiffness; centreline mass drops out of J_roll.",
+    "Single-deck torsion uses v3 radii (r_f²=3.4525, r_g²=69.15, z=8 m) plus locked T, μ.",
+    "J_frame smear is a drawing / v3 number. CCX MAT3 density ~0, so CCX does not carry it.",
+    "k that reproduces the 0.0296/0.0301 *split* is a diagnostic, not a back-fit of the absolute frequency."
+  ],
+  "inputs": {
+    "L_m": 2302.0,
+    "B_m": 42.9,
+    "T_sum_kN": 13625.31862492153,
+    "mu_sum_kg_m": 354.3002560526699,
+    "n_pass_main": 13,
+    "xi_m": [
+      178.0,
+      349.0,
+      520.0,
+      691.0,
+      844.0,
+      997.0,
+      1150.0,
+      1303.0,
+      1456.0,
+      1609.0,
+      1780.0,
+      1951.0,
+      2122.0
+    ],
+    "k_hard_one_tube_N_m": 13214900.790121205,
+    "att_pair_split_rel": 0.01675041876046891,
+    "k_for_att_split_N_m": -208.53439580081263,
+    "k_for_att_split_physical": false
+  },
+  "formulas": {
+    "common": "ω² = (T (nπ/L)²) / (μ + m_pass Σsin² / L)",
+    "diff": "ω² = (T (nπ/L)² + 2 k_pass Σsin² / L) / μ   (centreline mass omitted)",
+    "torsion": "C_θ = T_f r_f² + T_p r_g²,  J_θ = μ_f r_f² + μ_p r_g² + J_frame,  f_n = n c_T / 2L"
+  },
+  "two_deck": {
+    "mass_core_k0": [
+      {
+        "n": 1,
+        "f_common_Hz": 0.04153700446990635,
+        "f_diff_Hz": 0.04259437846415741,
+        "split_rel": 0.025456192803145605,
+        "M_common": 857651.8126191451,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 0.0,
+        "m_pass_kg": 5769.2
+      },
+      {
+        "n": 2,
+        "f_common_Hz": 0.08316531300414481,
+        "f_diff_Hz": 0.08518875692831482,
+        "split_rel": 0.02433038307772808,
+        "M_common": 855769.6791132101,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 0.0,
+        "m_pass_kg": 5769.2
+      },
+      {
+        "n": 3,
+        "f_common_Hz": 0.1247402087008032,
+        "f_diff_Hz": 0.1277831353924722,
+        "split_rel": 0.024394112558907572,
+        "M_common": 855876.1671274555,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 0.0,
+        "m_pass_kg": 5769.2
+      },
+      {
+        "n": 4,
+        "f_common_Hz": 0.16624877634336999,
+        "f_diff_Hz": 0.17037751385662964,
+        "split_rel": 0.02483469414976121,
+        "M_common": 856612.5328845879,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 0.0,
+        "m_pass_kg": 5769.2
+      }
+    ],
+    "mass_report_k0": [
+      {
+        "n": 1,
+        "f_common_Hz": 0.040788031375021475,
+        "f_diff_Hz": 0.04259437846415741,
+        "split_rel": 0.04428620426731697,
+        "M_common": 889438.3825402899,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 0.0,
+        "m_pass_kg": 10130.0
+      },
+      {
+        "n": 2,
+        "f_common_Hz": 0.08172803821027577,
+        "f_diff_Hz": 0.08518875692831482,
+        "split_rel": 0.04234432630249928,
+        "M_common": 886133.5894294387,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 0.0,
+        "m_pass_kg": 10130.0
+      },
+      {
+        "n": 3,
+        "f_common_Hz": 0.12257912551494131,
+        "f_diff_Hz": 0.1277831353924722,
+        "split_rel": 0.0424542911011107,
+        "M_common": 886320.5691812771,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 0.0,
+        "m_pass_kg": 10130.0
+      },
+      {
+        "n": 4,
+        "f_common_Hz": 0.16331975177279623,
+        "f_diff_Hz": 0.17037751385662964,
+        "split_rel": 0.04321438164841126,
+        "M_common": 887613.5361645245,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 0.0,
+        "m_pass_kg": 10130.0
+      }
+    ],
+    "mass_report_khard": [
+      {
+        "n": 1,
+        "f_common_Hz": 0.040788031375021475,
+        "f_diff_Hz": 2.4464327045792045,
+        "split_rel": 58.979180708324066,
+        "M_common": 889438.3825402899,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 13214900.790121205,
+        "m_pass_kg": 10130.0
+      },
+      {
+        "n": 2,
+        "f_common_Hz": 0.08172803821027577,
+        "f_diff_Hz": 2.3922138581121866,
+        "split_rel": 28.270418212625227,
+        "M_common": 886133.5894294387,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 13214900.790121205,
+        "m_pass_kg": 10130.0
+      },
+      {
+        "n": 3,
+        "f_common_Hz": 0.12257912551494131,
+        "f_diff_Hz": 2.397271280174497,
+        "split_rel": 18.556929208817785,
+        "M_common": 886320.5691812771,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 13214900.790121205,
+        "m_pass_kg": 10130.0
+      },
+      {
+        "n": 4,
+        "f_common_Hz": 0.16331975177279623,
+        "f_diff_Hz": 2.4216480294699916,
+        "split_rel": 13.82764946176804,
+        "M_common": 887613.5361645245,
+        "M_diff": 815599.1894332462,
+        "k_pass_N_m": 13214900.790121205,
+        "m_pass_kg": 10130.0
+      }
+    ]
+  },
+  "torsion_lockT": {
+    "C_theta_N_m2": 256863867.74197054,
+    "J_theta_kg_m": 6792.810837571861,
+    "c_T_m_s": 194.45841808613625,
+    "f1_Hz": 0.04223684146093316,
+    "f_n_Hz": [
+      0.04223684146093316,
+      0.08447368292186631,
+      0.12671052438279948,
+      0.16894736584373263
+    ],
+    "formula": "C_θ = T_f r_f² + T_p r_g²,  J_θ = μ_f r_f² + μ_p r_g² + J_frame,  f_n = n c_T / 2L",
+    "r_f2": 3.4525,
+    "r_g2": 69.15266666666666,
+    "J_frame_per_m": 822.3786488695653
+  },
+  "torsion_sagH": {
+    "C_theta_N_m2": 169548479.83226994,
+    "J_theta_kg_m": 6792.810837571861,
+    "c_T_m_s": 157.98730461059031,
+    "f1_Hz": 0.034315226891961405,
+    "f_n_Hz": [
+      0.034315226891961405,
+      0.06863045378392281,
+      0.10294568067588422,
+      0.13726090756784562
+    ],
+    "formula": "C_θ = T_f r_f² + T_p r_g²,  J_θ = μ_f r_f² + μ_p r_g² + J_frame,  f_n = n c_T / 2L",
+    "r_f2": 3.4525,
+    "r_g2": 69.15266666666666,
+    "J_frame_per_m": 822.3786488695653
+  },
+  "beta_grid_locked_floor_c": [
+    {
+      "beta": 0.6,
+      "C_theta": 146899361.5387839,
+      "c_T": 147.05682789372923,
+      "f1_Hz": 0.031941100758846486
+    },
+    {
+      "beta": 0.7,
+      "C_theta": 165380024.74848938,
+      "c_T": 156.03311040047046,
+      "f1_Hz": 0.03389077115561913
+    },
+    {
+      "beta": 0.8,
+      "C_theta": 183860687.9581949,
+      "c_T": 164.52037093419437,
+      "f1_Hz": 0.035734224790224665
+    },
+    {
+      "beta": 1.0,
+      "C_theta": 220822014.37760592,
+      "c_T": 180.30028916916334,
+      "f1_Hz": 0.03916166141815016
+    },
+    {
+      "beta": 1.1950246750096962,
+      "C_theta": 256863867.74197054,
+      "c_T": 194.45841808613625,
+      "f1_Hz": 0.04223684146093316
+    }
+  ],
+  "J_needed_for_0.0296_with_lockT": {
+    "c_need_m_s": 136.2784,
+    "J_need_kg_m": 13830.853005108724,
+    "J_have_kg_m": 6792.810837571861,
+    "ratio": 2.0361015985619084,
+    "note": "locked portal T/μ is higher than floor (β>1); extra high mass alone is not enough unless J grows a lot or portal C is cut"
+  },
+  "compare_rows": [
+    {
+      "name": "two_deck_common_n1_report_k0",
+      "f_Hz": 0.040788031375021475,
+      "formula": "in-phase + 13×10130 kg",
+      "vs_att_0.0296": {
+        "abs": 0.011188031375021473,
+        "rel": 0.3779740329399146
+      },
+      "vs_att_0.0301": {
+        "abs": 0.010688031375021476,
+        "rel": 0.3550840988379228
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09275226862497853,
+        "rel": -0.6945638779078565
+      }
+    },
+    {
+      "name": "two_deck_diff_n1_report_k0",
+      "f_Hz": 0.04259437846415741,
+      "formula": "out-of-phase, k=0 (degenerate w.r.t spring)",
+      "vs_att_0.0296": {
+        "abs": 0.012994378464157408,
+        "rel": 0.4389992724377502
+      },
+      "vs_att_0.0301": {
+        "abs": 0.01249437846415741,
+        "rel": 0.41509563003845223
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09094592153584259,
+        "rel": -0.6810372714142666
+      }
+    },
+    {
+      "name": "two_deck_common_n1_khard",
+      "f_Hz": 0.040788031375021475,
+      "formula": "in-phase, hard tube",
+      "vs_att_0.0296": {
+        "abs": 0.011188031375021473,
+        "rel": 0.3779740329399146
+      },
+      "vs_att_0.0301": {
+        "abs": 0.010688031375021476,
+        "rel": 0.3550840988379228
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09275226862497853,
+        "rel": -0.6945638779078565
+      }
+    },
+    {
+      "name": "two_deck_diff_n1_khard",
+      "f_Hz": 2.4464327045792045,
+      "formula": "out-of-phase, hard tube",
+      "vs_att_0.0296": {
+        "abs": 2.4168327045792046,
+        "rel": 81.64975353308124
+      },
+      "vs_att_0.0301": {
+        "abs": 2.4163327045792045,
+        "rel": 80.27683403917624
+      },
+      "vs_ccx_0.1335403": {
+        "abs": 2.3128924045792045,
+        "rel": 17.319808361814406
+      }
+    },
+    {
+      "name": "torsion_lockT_n1",
+      "f_Hz": 0.04223684146093316,
+      "formula": "M5 C_θ,J_θ with locked T",
+      "vs_att_0.0296": {
+        "abs": 0.012636841460933156,
+        "rel": 0.4269203196261201
+      },
+      "vs_att_0.0301": {
+        "abs": 0.012136841460933159,
+        "rel": 0.40321732428349366
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09130345853906685,
+        "rel": -0.6837146429884225
+      }
+    },
+    {
+      "name": "torsion_sagH_n1",
+      "f_Hz": 0.034315226891961405,
+      "formula": "same J, sag-consistent H (not the lock)",
+      "vs_att_0.0296": {
+        "abs": 0.0047152268919614035,
+        "rel": 0.15929820580950688
+      },
+      "vs_att_0.0301": {
+        "abs": 0.0042152268919614065,
+        "rel": 0.1400407605302793
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.0992250731080386,
+        "rel": -0.7430346727395296
+      }
+    },
+    {
+      "name": "torsion_lockT_n4",
+      "f_Hz": 0.16894736584373263,
+      "formula": "4th harmonic of locked-T torsion",
+      "vs_att_0.0296": {
+        "abs": 0.13934736584373264,
+        "rel": 4.707681278504481
+      },
+      "vs_att_0.0301": {
+        "abs": 0.13884736584373264,
+        "rel": 4.612869297133975
+      },
+      "vs_ccx_0.1335403": {
+        "abs": 0.03540706584373263,
+        "rel": 0.2651414280463098
+      }
+    },
+    {
+      "name": "report_massonly_split_n1",
+      "f_Hz": 0.040788031375021475,
+      "formula": "13×10130 kg already splits ~4%, wider than 1.67%; k_att would be negative",
+      "vs_att_0.0296": {
+        "abs": 0.011188031375021473,
+        "rel": 0.3779740329399146
+      },
+      "vs_att_0.0301": {
+        "abs": 0.010688031375021476,
+        "rel": 0.3550840988379228
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09275226862497853,
+        "rel": -0.6945638779078565
+      }
+    }
+  ],
+  "self_judge": {
+    "nearest_att_0.0296": "torsion_sagH_n1",
+    "nearest_ccx_0.1335403": "torsion_lockT_n4",
+    "approaches_attachment_pair": "the *topology* of this layer is the one that can form a 0.0296/0.0301 near-doublet (two decks + weak passages, or slow torsion). With *locked* 974211b2 T the absolute root stays ~0.04 Hz. The older sag-H + β<1 construction is what sat on 0.0296; that H is not the lock.",
+    "approaches_ccx_f1": "nothing in this layer sits on 0.1335 except a 4th torsion harmonic of the locked-T branch, which is the wrong mechanism",
+    "does_not_claim_符合": true
+  }
+}

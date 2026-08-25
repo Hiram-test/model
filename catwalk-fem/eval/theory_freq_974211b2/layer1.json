@@ -1,0 +1,348 @@
+{
+  "layer": 1,
+  "title": "single-span taut / two parallel cables",
+  "assumptions": [
+    "Main span only. L=2302 m, d=227.300 m from the locked overlay / user lock.",
+    "T = MCT *INIFORCE mean on 主跨 TENSTR (10431.68 kN). Not table 5-4.",
+    "μ = ρ_MAT1 × A_SEC1 reread from the main deck (N-mm-s → kg/m).",
+    "Single line = the 2-D equivalent already in 974211b2 (16 φ50 bundled).",
+    "Two parallel cables = two copies of that line, uncoupled, spacing B=42.90 m from drawings.",
+    "No portals, no passages, no second polarisation beyond the taut/Irvine pair.",
+    "Ends pinned. No 4-span leakage."
+  ],
+  "inputs": {
+    "L_m": 2302.0,
+    "d_m": 227.3,
+    "d_overlay_m": 227.29739713606,
+    "T_floor_kN": 10431.682050847458,
+    "mu_floor_kg_m": 282.044570937506,
+    "EA_floor_N": 2675843040.0,
+    "H_sag_kN": 8059.922190670938,
+    "T_over_H_sag": 1.2942658507202147,
+    "c_lock_m_s": 192.3172758369594,
+    "c_sag_m_s": 169.0466436255789,
+    "g": 9.806
+  },
+  "formulas": {
+    "taut": "f_n = n/(2L) √(T/μ)",
+    "sag": "f_n = n √(g/32d)  (T=μgL²/8d eliminates μ)",
+    "two_parallel": "k_c=0 ⇒ {f,f} degenerate",
+    "Irvine": "tan(Ω/2) = Ω/2 − 4/λ² (Ω/2)³,  Ω = ωL/√(H/μ)"
+  },
+  "spectrum": {
+    "taut_lockT_Hz": [
+      0.04177178015572532,
+      0.08354356031145065,
+      0.125315340467176,
+      0.1670871206229013,
+      0.20885890077862665
+    ],
+    "sag_gMCT_Hz": [
+      0.036717342229708703,
+      0.07343468445941741,
+      0.1101520266891261,
+      0.14686936891883481,
+      0.18358671114854352
+    ],
+    "taut_sagH_Hz": [
+      0.036717342229708703,
+      0.07343468445941741,
+      0.11015202668912613,
+      0.14686936891883481,
+      0.18358671114854355
+    ]
+  },
+  "irvine_lockT": {
+    "c_m_s": 192.3172758369594,
+    "f_taut_Hz": 0.04177178015572532,
+    "lambda2": 148.4762275837703,
+    "Le_over_L": 1.0779970576713032,
+    "crossover_4pi2": 39.47841760435743,
+    "lambda2_above_crossover": true,
+    "symmetric": [
+      {
+        "index": 1,
+        "Omega": 8.560333315157472,
+        "f_Hz": 0.11382136410711749,
+        "f_over_ftaut": 2.7248387232430864
+      }
+    ],
+    "antisymmetric": [
+      {
+        "index": 1,
+        "Omega": 6.283185307179586,
+        "f_Hz": 0.08354356031145065,
+        "f_over_ftaut": 2.0
+      },
+      {
+        "index": 2,
+        "Omega": 12.566370614359172,
+        "f_Hz": 0.1670871206229013,
+        "f_over_ftaut": 4.0
+      },
+      {
+        "index": 3,
+        "Omega": 18.84955592153876,
+        "f_Hz": 0.250630680934352,
+        "f_over_ftaut": 6.0
+      }
+    ],
+    "first_inplane_Hz": 0.08354356031145065,
+    "formula_sym": "tan(Ω/2) = Ω/2 − 4/λ² (Ω/2)³,  Ω = ωL/√(H/μ)",
+    "formula_antisym": "f = n/L √(H/μ) = 2n f_taut,  n = 1,2,…"
+  },
+  "irvine_sagH": {
+    "c_m_s": 169.0466436255789,
+    "f_taut_Hz": 0.036717342229708703,
+    "lambda2": 192.16771100543662,
+    "Le_over_L": 1.0779970576713032,
+    "crossover_4pi2": 39.47841760435743,
+    "lambda2_above_crossover": true,
+    "symmetric": [
+      {
+        "index": 1,
+        "Omega": 8.699765622658788,
+        "f_Hz": 0.10167845004361496,
+        "f_over_ftaut": 2.7692214051741737
+      },
+      {
+        "index": 2,
+        "Omega": 13.397875528964072,
+        "f_Hz": 0.15658757680945568,
+        "f_over_ftaut": 4.264676234729149
+      }
+    ],
+    "antisymmetric": [
+      {
+        "index": 1,
+        "Omega": 6.283185307179586,
+        "f_Hz": 0.07343468445941741,
+        "f_over_ftaut": 2.0
+      },
+      {
+        "index": 2,
+        "Omega": 12.566370614359172,
+        "f_Hz": 0.14686936891883481,
+        "f_over_ftaut": 4.0
+      },
+      {
+        "index": 3,
+        "Omega": 18.84955592153876,
+        "f_Hz": 0.22030405337825226,
+        "f_over_ftaut": 6.0
+      }
+    ],
+    "first_inplane_Hz": 0.07343468445941741,
+    "formula_sym": "tan(Ω/2) = Ω/2 − 4/λ² (Ω/2)³,  Ω = ωL/√(H/μ)",
+    "formula_antisym": "f = n/L √(H/μ) = 2n f_taut,  n = 1,2,…"
+  },
+  "two_parallel": {
+    "assumption": "two identical copies of the locked floor line, B apart, k_c=0",
+    "B_m": 42.9,
+    "f_common_Hz": 0.04177178015572532,
+    "f_diff_Hz": 0.04177178015572532,
+    "split": 0.0,
+    "note": "uncoupled pair cannot split 0.0296 / 0.0301; it only duplicates the taut root"
+  },
+  "compare_rows": [
+    {
+      "name": "sag_n1_gMCT",
+      "f_Hz": 0.036717342229708703,
+      "formula": "n √(g/32d), d=227.300 m, g=9.806",
+      "vs_att_0.0296": {
+        "abs": 0.007117342229708702,
+        "rel": 0.24045075100367236
+      },
+      "vs_att_0.0301": {
+        "abs": 0.006617342229708705,
+        "rel": 0.21984525680095368
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09682295777029129,
+        "rel": -0.7250467294913318
+      }
+    },
+    {
+      "name": "sag_n1_gSTD",
+      "f_Hz": 0.03671855913145064,
+      "formula": "n √(g/32d), g=9.80665",
+      "vs_att_0.0296": {
+        "abs": 0.0071185591314506386,
+        "rel": 0.24049186254900806
+      },
+      "vs_att_0.0301": {
+        "abs": 0.006618559131450642,
+        "rel": 0.21988568543025389
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09682174086854936,
+        "rel": -0.7250376168733286
+      }
+    },
+    {
+      "name": "taut_lockT_n1",
+      "f_Hz": 0.04177178015572532,
+      "formula": "(1/2L) √(T_lock/μ_floor), T=主跨 mean INIFORCE",
+      "vs_att_0.0296": {
+        "abs": 0.012171780155725322,
+        "rel": 0.41120878904477437
+      },
+      "vs_att_0.0301": {
+        "abs": 0.011671780155725325,
+        "rel": 0.38776678258223674
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09176851984427467,
+        "rel": -0.687197196983043
+      }
+    },
+    {
+      "name": "taut_sagH_n1",
+      "f_Hz": 0.036717342229708703,
+      "formula": "(1/2L) √(H_sag/μ); H=μgL²/8d. Same number as sag_n1",
+      "vs_att_0.0296": {
+        "abs": 0.007117342229708702,
+        "rel": 0.24045075100367236
+      },
+      "vs_att_0.0301": {
+        "abs": 0.006617342229708705,
+        "rel": 0.21984525680095368
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09682295777029129,
+        "rel": -0.7250467294913318
+      }
+    },
+    {
+      "name": "two_parallel_uncoupled_n1",
+      "f_Hz": 0.04177178015572532,
+      "formula": "two copies of taut_lockT_n1",
+      "vs_att_0.0296": {
+        "abs": 0.012171780155725322,
+        "rel": 0.41120878904477437
+      },
+      "vs_att_0.0301": {
+        "abs": 0.011671780155725325,
+        "rel": 0.38776678258223674
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09176851984427467,
+        "rel": -0.687197196983043
+      }
+    },
+    {
+      "name": "irvine_lockT_antisym1",
+      "f_Hz": 0.08354356031145065,
+      "formula": "2 f_taut (in-plane odd)",
+      "vs_att_0.0296": {
+        "abs": 0.053943560311450645,
+        "rel": 1.8224175780895486
+      },
+      "vs_att_0.0301": {
+        "abs": 0.053443560311450644,
+        "rel": 1.7755335651644732
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.049996739688549355,
+        "rel": -0.3743943939660863
+      }
+    },
+    {
+      "name": "irvine_lockT_sym1",
+      "f_Hz": 0.11382136410711749,
+      "formula": "first Irvine symmetric, λ² from lock T",
+      "vs_att_0.0296": {
+        "abs": 0.08422136410711749,
+        "rel": 2.845316354970185
+      },
+      "vs_att_0.0301": {
+        "abs": 0.08372136410711749,
+        "rel": 2.781440668010548
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.01971893589288251,
+        "rel": -0.14766280960041658
+      }
+    },
+    {
+      "name": "irvine_lockT_first_inplane",
+      "f_Hz": 0.08354356031145065,
+      "formula": "min(antisym1, sym1)",
+      "vs_att_0.0296": {
+        "abs": 0.053943560311450645,
+        "rel": 1.8224175780895486
+      },
+      "vs_att_0.0301": {
+        "abs": 0.053443560311450644,
+        "rel": 1.7755335651644732
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.049996739688549355,
+        "rel": -0.3743943939660863
+      }
+    },
+    {
+      "name": "irvine_sagH_antisym1",
+      "f_Hz": 0.07343468445941741,
+      "formula": "2 √(g/32d)",
+      "vs_att_0.0296": {
+        "abs": 0.043834684459417406,
+        "rel": 1.4809015020073448
+      },
+      "vs_att_0.0301": {
+        "abs": 0.043334684459417405,
+        "rel": 1.4396905136019071
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.060105615540582594,
+        "rel": -0.4500934589826636
+      }
+    },
+    {
+      "name": "taut_lockT_n3",
+      "f_Hz": 0.125315340467176,
+      "formula": "3 f_taut ; catalog only",
+      "vs_att_0.0296": {
+        "abs": 0.09571534046717599,
+        "rel": 3.233626367134324
+      },
+      "vs_att_0.0301": {
+        "abs": 0.09521534046717599,
+        "rel": 3.1633003477467105
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.008224959532824011,
+        "rel": -0.0615915909491293
+      }
+    },
+    {
+      "name": "taut_lockT_n4",
+      "f_Hz": 0.1670871206229013,
+      "formula": "4 f_taut ; catalog only",
+      "vs_att_0.0296": {
+        "abs": 0.1374871206229013,
+        "rel": 4.644835156179098
+      },
+      "vs_att_0.0301": {
+        "abs": 0.1369871206229013,
+        "rel": 4.551067130328947
+      },
+      "vs_ccx_0.1335403": {
+        "abs": 0.03354682062290129,
+        "rel": 0.25121121206782737
+      }
+    }
+  ],
+  "self_judge": {
+    "nearest_att_0.0296": "sag_n1_gMCT",
+    "nearest_ccx_0.1335403": "taut_lockT_n3",
+    "approaches_attachment_pair": "sag / taut n=1 sit in the 0.037–0.042 Hz band, same order as 0.0296/0.0301, still 24–41% high",
+    "approaches_ccx_f1": "only n=3 taut (0.125) and Irvine sym1 (~0.12) are in the 0.13 neighbourhood; they are not this layer's fundamental",
+    "does_not_claim_符合": true
+  },
+  "unused": {
+    "T_portal_kN": 3193.636574074074,
+    "mu_portal_kg_m": 72.25568511516389,
+    "reason": "portal line is layer 2"
+  }
+}
