@@ -90,6 +90,23 @@ def _passage_mask(mesh: dict, mid: np.ndarray, delta: np.ndarray, length: np.nda
     return geom | (role == "cross_passage")
 
 
+def _y_span_at_x(coords: np.ndarray, x: float, tol: float = PASSAGE_MATCH_TOL_M) -> dict:
+    near = np.abs(coords[:, 0] - x) < tol
+    if not np.any(near):
+        return {"hit": False, "n": 0, "y_min": None, "y_max": None, "idx": np.asarray([], dtype=np.int64)}
+    idx = np.flatnonzero(near)
+    ys = coords[idx, 1]
+    return {
+        "hit": bool(ys.min() < -15.0 and ys.max() > 15.0),
+        "n": int(idx.size),
+        "y_min": float(ys.min()),
+        "y_max": float(ys.max()),
+        "idx": idx,
+        "i_min": int(idx[int(np.argmin(ys))]),
+        "i_max": int(idx[int(np.argmax(ys))]),
+    }
+
+
 def _portal_mask(mesh: dict, mid: np.ndarray, delta: np.ndarray, length: np.ndarray) -> np.ndarray:
     role = mesh["role"]
     dx = np.abs(delta[:, 0])
@@ -99,6 +116,11 @@ def _portal_mask(mesh: dict, mid: np.ndarray, delta: np.ndarray, length: np.ndar
 
 
 def reconcile_passages(mesh: dict) -> dict:
+    """A passage hits if members OR nodes at that X span both decks in Y.
+
+    The released centerline STEP tessellates each 49.655 m passage into
+    ~1.7 m pieces, so a single-element dy>=15 test is the wrong detector.
+    """
     mid, delta, length = _mid_delta(mesh)
     pick = _passage_mask(mesh, mid, delta, length)
     xs = mid[pick, 0] if np.any(pick) else np.asarray([], dtype=float)
@@ -107,18 +129,21 @@ def reconcile_passages(mesh: dict) -> dict:
     for i, px in enumerate(PASSAGE_X):
         near = np.abs(xs - px) < PASSAGE_MATCH_TOL_M
         n_seg = int(near.sum())
-        hit = n_seg > 0
+        span = _y_span_at_x(mesh["coords"], float(px))
+        hit = n_seg > 0 or span["hit"]
         n_hit += int(hit)
-        x_mean = None if not hit else float(xs[near].mean())
+        x_mean = None if n_seg == 0 else float(xs[near].mean())
         stations.append(
             {
                 "index": i + 1,
                 "label": PASSAGE_LABELS[i],
                 "x_drawing": float(px),
                 "n_segments": n_seg,
+                "y_span": {k: span[k] for k in ("hit", "n", "y_min", "y_max")},
                 "hit": hit,
+                "source": "step_element" if n_seg > 0 else ("step_yspan" if span["hit"] else None),
                 "x_mean": x_mean,
-                "dx": None if x_mean is None else abs(x_mean - px),
+                "dx": None if x_mean is None else abs(x_mean - float(px)),
             }
         )
     return {
@@ -129,6 +154,7 @@ def reconcile_passages(mesh: dict) -> dict:
         "missing_x": [s["x_drawing"] for s in stations if not s["hit"]],
         "stations": stations,
         "pass": n_hit == N_CROSS_PASSAGES,
+        "detector": "element_dy_or_node_yspan",
     }
 
 
@@ -181,6 +207,24 @@ def _family_nodes(mesh: dict, role_name: str) -> np.ndarray:
     return np.unique(np.concatenate([n1[pick], n2[pick]]))
 
 
+def _portal_candidate_nodes(mesh: dict) -> np.ndarray:
+    """Portal anchors must not reuse floor-rope nodes.
+
+    Classified portal_rope on this STEP is incomplete (main-span high lines
+    only). High-Z nodes that are not floor_rope are the family proxy.
+    """
+    coords = mesh["coords"]
+    floor = _family_nodes(mesh, "floor_rope")
+    portal = _family_nodes(mesh, "portal_rope")
+    floor_z = float(np.median(coords[floor, 2])) if floor.size else 80.0
+    high = np.flatnonzero(coords[:, 2] >= floor_z + 1.20)
+    if floor.size:
+        high = np.setdiff1d(high, floor, assume_unique=False)
+    if high.size:
+        return high
+    return portal
+
+
 def family_anchor_sets(mesh: dict) -> dict:
     """Pick floor-rope and portal-rope anchors as disjoint families.
 
@@ -191,7 +235,10 @@ def family_anchor_sets(mesh: dict) -> dict:
     coords = mesh["coords"]
     result = {}
     for spec in ANCHOR_SPECS:
-        nodes = _family_nodes(mesh, spec["role"])
+        if spec["family"] == "portal":
+            nodes = _portal_candidate_nodes(mesh)
+        else:
+            nodes = _family_nodes(mesh, spec["role"])
         rec = {
             **spec,
             "node_idx": np.asarray([], dtype=np.int64),
@@ -223,6 +270,7 @@ def family_anchor_sets(mesh: dict) -> dict:
         rec["node_idx"] = np.asarray(chosen, dtype=np.int64)
         rec["n"] = int(chosen.size)
         rec["mode"] = mode
+        rec["family_x_span"] = [lo, hi]
         if chosen.size:
             rec["x_mean"] = float(coords[chosen, 0].mean())
             rec["y_mean"] = float(coords[chosen, 1].mean())
@@ -275,8 +323,13 @@ def _interp_side_xyz(mesh: dict, x: float, sname: str) -> np.ndarray:
     return a + t * (b - a)
 
 
-def apply_drawing_overlay(mesh: dict) -> tuple[dict, dict]:
-    """Insert one drawing beam for each missing passage or portal station."""
+def apply_drawing_overlay(mesh: dict, donor_coords: np.ndarray | None = None) -> tuple[dict, dict]:
+    """Ensure 21 passages and 142 portals exist, preferring STEP coordinates.
+
+    Passages on the released STEP are tessellated. If `donor_coords` (merged
+    STEP points) already span both decks at a station, inject one beam using
+    those STEP points instead of inventing a drawing interpolant.
+    """
     coords = [row.copy() for row in mesh["coords"]]
     n1 = list(int(i) for i in mesh["n1"])
     n2 = list(int(i) for i in mesh["n2"])
@@ -284,6 +337,7 @@ def apply_drawing_overlay(mesh: dict) -> tuple[dict, dict]:
     side = list(mesh["side"])
     inserted_passages = []
     inserted_portals = []
+    recovered_passages = []
 
     working = {
         "coords": np.asarray(coords, float),
@@ -294,6 +348,7 @@ def apply_drawing_overlay(mesh: dict) -> tuple[dict, dict]:
     }
     passages = reconcile_passages(working)
     portals = reconcile_portals(working)
+    donor = None if donor_coords is None else np.asarray(donor_coords, float)
 
     half_w = 0.5 * PERSONNEL_WIDTH_M
 
@@ -302,19 +357,32 @@ def apply_drawing_overlay(mesh: dict) -> tuple[dict, dict]:
         return len(coords) - 1
 
     for rec in passages["stations"]:
-        if rec["hit"]:
+        if rec["hit"] and rec.get("n_segments", 0) > 0:
             continue
         x = rec["x_drawing"]
-        a = _interp_side_xyz(working, x, "upstream")
-        b = _interp_side_xyz(working, x, "downstream")
-        a[0] = x
-        b[0] = x
+        source = "DRW-B"
+        a = b = None
+        if donor is not None:
+            span = _y_span_at_x(donor, x)
+            if span["hit"]:
+                a = donor[span["i_min"]].copy()
+                b = donor[span["i_max"]].copy()
+                source = "STEP_YSPAN"
+        if a is None:
+            a = _interp_side_xyz(working, x, "upstream")
+            b = _interp_side_xyz(working, x, "downstream")
+            a[0] = x
+            b[0] = x
         ia, ib = add_node(a), add_node(b)
         n1.append(ia)
         n2.append(ib)
         role.append("cross_passage")
         side.append("cross")
-        inserted_passages.append({"label": rec["label"], "x": x, "source": "DRW-B"})
+        item = {"label": rec["label"], "x": x, "source": source}
+        if source == "STEP_YSPAN":
+            recovered_passages.append(item)
+        else:
+            inserted_passages.append(item)
 
     working["coords"] = np.asarray(coords, float)
 
@@ -348,14 +416,16 @@ def apply_drawing_overlay(mesh: dict) -> tuple[dict, dict]:
     after_g = reconcile_portals(out)
     audit = {
         "inserted_passages": inserted_passages,
+        "recovered_passages": recovered_passages,
         "inserted_portals": inserted_portals,
         "n_inserted_passages": len(inserted_passages),
+        "n_recovered_passages": len(recovered_passages),
         "n_inserted_portals": len(inserted_portals),
         "before": {"passages": passages["n_hit"], "portals": portals["n_hit"]},
         "after": {"passages": after_p["n_hit"], "portals": after_g["n_hit"]},
         "passages": after_p,
         "portals": after_g,
-        "rule": "insert only missing drawing stations; never overwrite STEP hits",
+        "rule": "prefer STEP Y-span points; insert drawing beams only if a station is absent",
     }
     return out, audit
 

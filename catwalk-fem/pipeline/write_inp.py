@@ -199,8 +199,10 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
     overlap = sorted(set(floor_ids) & set(portal_ids))
     a(f"** floor/portal NSET overlap count = {len(overlap)} (must be 0)")
     for sname in ("upstream", "downstream"):
-        ids = sorted({int(node_id[i]) for i, sid in enumerate(n1) if side[i] == sname}
-                     | {int(node_id[i]) for i, sid in enumerate(n2) if side[i] == sname})
+        ids = sorted(
+            {int(node_id[int(a)]) for a, sid in zip(n1, side) if sid == sname}
+            | {int(node_id[int(b)]) for b, sid in zip(n2, side) if sid == sname}
+        )
         if ids:
             lines.extend(_fmt_set(f"N_{sname.upper()}", ids, "N"))
 

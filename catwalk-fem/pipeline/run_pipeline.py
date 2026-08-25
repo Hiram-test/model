@@ -45,7 +45,7 @@ def run(step_path: Path, artifacts: Path, target_ds: float = 12.0) -> dict:
         "keep": merged["keep"],
     }
     mesh = coarsen_classified(classified_kept, merged, target_ds=target_ds)
-    mesh, topo = apply_drawing_overlay(mesh)
+    mesh, topo = apply_drawing_overlay(mesh, donor_coords=merged["coords"])
     write_json(artifacts / "topology_reconcile.json", topo)
     write_json(
         artifacts / "mesh_stats.json",
