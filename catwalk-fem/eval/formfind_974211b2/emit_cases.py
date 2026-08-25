@@ -412,25 +412,47 @@ def emit_daughter(
             "*ELASTIC\n206000, 0.31\n*DENSITY\n",
             f"*ELASTIC\n206000, 0.31\n*EXPANSION\n{alpha:.8g}\n*DENSITY\n",
         )
+        if "*INITIAL CONDITIONS, TYPE=TEMPERATURE" not in text:
+            # T3D2 expands past N_MCT; checktemp needs T on generated nodes too.
+            text = text.replace(
+                "*STEP, NLGEOM\n*STATIC\n",
+                "*NSET, NSET=N_THERM, GENERATE\n"
+                "1, 80000\n"
+                "*INITIAL CONDITIONS, TYPE=TEMPERATURE\n"
+                "N_THERM, 0.\n"
+                "*STEP, NLGEOM\n*STATIC\n",
+                1,
+            )
+            text = text.replace(
+                "*NODE FILE, NSET=N_MCT\n",
+                "*TEMPERATURE\nN_THERM, 0.\n*NODE FILE, NSET=N_MCT\n",
+                1,
+            )
     second: list[str] = [
         heading,
         "*STEP, NLGEOM",
         "*STATIC",
-        "0.05, 1., 1e-8, 0.1",
+        "1., 1., 1e-6, 1.",
     ]
     if extra_loads:
         second.extend(_cload_lines(extra_loads))
     if temp_c is not None:
-        second.extend(["*TEMPERATURE", f"N_MCT, {temp_c:.8g}"])
+        second.extend(
+            [
+                "*TEMPERATURE",
+                "N_THERM, 0.",
+                f"N_MCT, {temp_c:.8g}",
+            ]
+        )
     second.extend(
         [
-            "*NODE FILE, NSET=N_MCT",
+            "*NODE FILE, NSET=N_MCT, FREQUENCY=99",
             "U",
-            "*EL FILE",
+            "*EL FILE, FREQUENCY=99",
             "S, E",
-            "*NODE PRINT, NSET=N_MCT",
+            "*NODE PRINT, NSET=N_MCT, FREQUENCY=99",
             "U",
-            "*EL PRINT, ELSET=E_CABLE",
+            "*EL PRINT, ELSET=E_CABLE, FREQUENCY=99",
             "S",
             "*END STEP",
         ]
@@ -453,8 +475,10 @@ def emit_dyn(p1_text: str) -> str:
         "\n*STEP, PERTURBATION\n"
         "*FREQUENCY\n"
         f"{N_FREQ}\n"
-        "*NODE FILE, NSET=N_MCT\n"
-        "U\n"
+        "*NODE FILE, FREQUENCY=0\n"
+        "*EL FILE, FREQUENCY=0\n"
+        "*NODE PRINT, FREQUENCY=0\n"
+        "*EL PRINT, FREQUENCY=0\n"
         "*END STEP\n"
     )
     if not p1_text.endswith("\n"):
@@ -529,34 +553,37 @@ def parse_sta_finished(sta_text: str) -> bool:
 
 
 def parse_freq_dat(dat_text: str) -> list[float]:
+    """Read cycles/time from the CalculiX eigenvalue table. Do not score vs 附件2-3."""
     freqs: list[float] = []
-    # ccx prints "eigenvalue number     X" then "frequency (cycles/time) ..."
-    for line in dat_text.splitlines():
-        if "frequency (cycles/time)" in line.lower() or "FREQUENCY (CYCLES/TIME)" in line:
-            parts = line.replace("=", " ").split()
-            for p in reversed(parts):
-                try:
-                    freqs.append(float(p))
-                    break
-                except ValueError:
-                    continue
-    if freqs:
-        return freqs
-    # fallback: lines that look like "    1  0.1234E-01" after EIGENVALUE
     on = False
     for line in dat_text.splitlines():
-        if "EIGENVALUE NUMBER" in line.upper() or "eigenvalue number" in line.lower():
+        if "E I G E N V A L U E" in line or "MODE NO    EIGENVALUE" in line:
             on = True
             continue
-        if on:
-            parts = line.split()
-            if len(parts) >= 2:
-                try:
-                    freqs.append(float(parts[-1]))
-                except ValueError:
-                    if freqs:
-                        break
+        if on and "P A R T I C I P A T I O N" in line:
+            break
+        if not on:
+            continue
+        parts = line.split()
+        if len(parts) >= 4:
+            try:
+                int(parts[0])
+                freqs.append(float(parts[3]))
+            except ValueError:
+                continue
     return freqs
+
+
+def sta_has_step(sta_text: str, step: int) -> bool:
+    for line in sta_text.splitlines():
+        parts = line.split()
+        if len(parts) >= 6:
+            try:
+                if int(float(parts[0])) == step:
+                    return True
+            except ValueError:
+                continue
+    return False
 
 
 def run_ccx(inp_path: Path, jobdir: Path) -> dict[str, Any]:
@@ -738,6 +765,13 @@ def emit_all(*, solve: bool = False) -> dict[str, Any]:
         sta = job / f"{stem}.sta"
         if not (dat.is_file() and sta.is_file()):
             return False
+        sta_text = sta.read_text(encoding="utf-8", errors="replace")
+        if cid in {"P2", "P3", "P4", "P5", "P6"} and not sta_has_step(sta_text, 2):
+            return False
+        if cid == "DYN":
+            blob = dat.read_text(encoding="utf-8", errors="replace")
+            if "MODE NO    EIGENVALUE" not in blob and "E I G E N V A L U E" not in blob:
+                return False
         exit_path = job / "exit_code.txt"
         solves[cid] = {
             "ran": True,
@@ -901,6 +935,41 @@ def emit_all(*, solve: bool = False) -> dict[str, Any]:
         },
     )
     write_json(HERE / "EVIDENCE.json", evidence)
+    compare_rows = []
+    for card in case_cards:
+        c = comparisons[card["id"]]
+        ru = c.get("review_U") or {}
+        ccx_u = c.get("ccx_Umax_mm")
+        rev_u = ru.get("max_usum_mm")
+        rel = None
+        if ccx_u is not None and rev_u:
+            rel = abs(ccx_u - rev_u) / abs(rev_u)
+        compare_rows.append(
+            {
+                "id": card["id"],
+                "review_id": card["review_id"],
+                "ccx_Umax_mm": ccx_u,
+                "ccx_Umax_nid": c.get("ccx_Umax_nid"),
+                "review_Umax_mm": rev_u,
+                "review_Umax_nid": ru.get("usum_node_id"),
+                "Umax_rel": rel,
+                "peak_node_matched": c.get("review_peak_node_matched"),
+                "portal_mismatch_is_stop": False,
+                "table_5_4_used": False,
+            }
+        )
+    write_json(HERE / "compare_six.json", {"rows": compare_rows, "formfind_P1": formfind_ok})
+    dyn_q = qois.get("DYN") or {}
+    write_json(
+        HERE / "FREQ.json",
+        {
+            "n": dyn_q.get("n_freq_parsed", 0),
+            "freq_cycles": dyn_q.get("freq_cycles") or [],
+            "compared_to_attachment_2_3": False,
+            "imported_TARGET_FREQ": False,
+            "unit": "cycles/time (Hz if time is seconds)",
+        },
+    )
     return evidence
 
 
@@ -949,11 +1018,32 @@ def write_modeling_md(ev: dict[str, Any]) -> None:
         f"最大阵风 ΣFY={gust.get('fy_kN')} kN，ΣFZ={gust.get('fz_kN')} kN（P5）。",
         "二维 UY 钉死，FY 进反力；面内差主要来自风的 FZ。",
         "",
+        "## 六工况求解（对复核；门架峰值不对也不停）",
+        "",
+        "| ID | CCX Umax mm @ nid | 复核 USUM mm @ nid | rel | 峰点同 |",
+        "|---|---|---|---|---|",
+    ]
+    for cid in ("P1", "P2", "P3", "P4", "P5", "P6"):
+        c = ev["comparisons"].get(cid) or {}
+        ru = c.get("review_U") or {}
+        ccx_u = c.get("ccx_Umax_mm")
+        rev_u = ru.get("max_usum_mm")
+        rel = ""
+        if ccx_u is not None and rev_u:
+            rel = f"{abs(ccx_u - rev_u) / abs(rev_u):.3f}"
+        lines.append(
+            f"| {cid} | {ccx_u} @ {c.get('ccx_Umax_nid')} | {rev_u} @ {ru.get('usum_node_id')} | {rel} | {c.get('review_peak_node_matched')} |"
+        )
+    lines += [
+        "",
+        "P1 对上。P2–P6 量级在米级，峰点多在 302 不是复核门架索 1176/306。CONTINUE，不当门停。",
+        "",
         "## 动力卡",
         "",
         f"- `{ev['dyn_card']['path']}` sha `{ev['dyn_card']['sha256']}`",
         f"- P1 NLGEOM 后 `*STEP, PERTURBATION` + `*FREQUENCY` {ev['dyn_card']['n_freq_requested']} 阶",
         "- 不读 `isolated/TARGET-FREQ.json`，不把 0.0296… 写进 inp",
+        f"- 已解析阶数 { (ev.get('qoi_summary') or {}).get('DYN', {}).get('n_freq_parsed') }；不跟附件频率表对分",
         "",
         "## 求解",
         "",

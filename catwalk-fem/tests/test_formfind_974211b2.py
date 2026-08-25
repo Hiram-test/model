@@ -95,6 +95,8 @@ def test_p4_p5_daughters_carry_wind_cload():
     assert "*EXPANSION" in p3
     assert "*TEMPERATURE" in p3
     assert "N_MCT, -15" in p3
+    assert "N_THERM, 0." in p3
+    assert "*INITIAL CONDITIONS, TYPE=TEMPERATURE" in p3
 
 
 def test_dyn_is_perturbation_frequency_not_attachment_table():
@@ -124,6 +126,16 @@ def test_modeling_ledger_does_not_claim_attachment_fit():
     assert ev.get("handoff") == "paper_post_formfind_layer_only"
     assert ev["gates"]["portal_mismatch_is_stop"] is False
     assert ev["gates"]["TARGET_FREQ_imported"] is False
+
+
+def test_dyn_freq_not_scored_against_attachment():
+    freq = json.loads((FORM / "FREQ.json").read_text())
+    assert freq["n"] == 20
+    assert freq["compared_to_attachment_2_3"] is False
+    assert freq["imported_TARGET_FREQ"] is False
+    assert freq["freq_cycles"][0] != 0.0296
+    isolated = json.loads((ROOT / "isolated" / "TARGET-FREQ.json").read_text())
+    assert freq["freq_cycles"][0] not in isolated["values"]
 
 
 def test_no_homemade_hash_is_current_main():
