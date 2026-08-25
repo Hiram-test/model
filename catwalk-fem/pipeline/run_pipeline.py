@@ -21,6 +21,7 @@ from formfind import initial_state  # noqa: E402
 from gates import dump_gates, evaluate_gates  # noqa: E402
 from mesh import coarsen_classified, merge_nodes  # noqa: E402
 from parse_step import parse_step  # noqa: E402
+from reconcile import apply_drawing_overlay, serialize_anchors, family_anchor_sets  # noqa: E402
 from write_inp import write_calculix_inp  # noqa: E402
 
 
@@ -44,6 +45,8 @@ def run(step_path: Path, artifacts: Path, target_ds: float = 12.0) -> dict:
         "keep": merged["keep"],
     }
     mesh = coarsen_classified(classified_kept, merged, target_ds=target_ds)
+    mesh, topo = apply_drawing_overlay(mesh, donor_coords=merged["coords"])
+    write_json(artifacts / "topology_reconcile.json", topo)
     write_json(
         artifacts / "mesh_stats.json",
         {
@@ -51,21 +54,37 @@ def run(step_path: Path, artifacts: Path, target_ds: float = 12.0) -> dict:
             "n_elements": mesh["n_elements"],
             "target_ds": mesh["target_ds"],
             "role_counts": {r: int((mesh["role"] == r).sum()) for r in sorted(set(mesh["role"]))},
+            "passages_hit": topo["after"]["passages"],
+            "portals_hit": topo["after"]["portals"],
+            "inserted_passages": topo["n_inserted_passages"],
+            "inserted_portals": topo["n_inserted_portals"],
         },
     )
+    write_json(artifacts / "anchor_sets.json", serialize_anchors(family_anchor_sets(mesh)))
 
-    inp_path = artifacts / "zjg_catwalk_coarsened.inp"
+    # Never overwrite frozen 82548e6a at zjg_catwalk_coarsened.inp.
+    inp_path = artifacts / "zjg_catwalk_ccx221.inp"
     meta = write_calculix_inp(mesh, inp_path, include_frequency=True)
     write_json(artifacts / "write_inp_meta.json", meta)
     write_json(artifacts / "initial_state.json", initial_state())
+    write_json(artifacts / "main_deck_manifest.json", {
+        "path": meta["path"],
+        "hash": meta.get("hash"),
+        "complete": meta["complete"],
+        "n_nodes": meta["n_nodes"],
+        "n_elements": meta["n_elements"],
+        "x_convention": "x = chainage - K16+876.000",
+        "anchors_disjoint": meta.get("anchor_nsets_disjoint"),
+        "topology": topo["after"],
+    })
 
-    gates = evaluate_gates(audit, mesh, meta, Path(meta["path"]).read_text())
+    gates = evaluate_gates(audit, mesh, meta, Path(meta["path"]).read_text(), topo)
     dump_gates(artifacts / "coord_gate.json", gates)
     dump_gates(
         artifacts / "bc_lc_gate.json",
         {
             "status": gates["status"],
-            "checks": [c for c in gates["checks"] if c["id"].startswith(("BC-", "LC-"))],
+            "checks": [c for c in gates["checks"] if c["id"].startswith(("BC-", "LC-", "ANCHOR-", "TOPO-"))],
         },
     )
 
@@ -77,11 +96,17 @@ def run(step_path: Path, artifacts: Path, target_ds: float = 12.0) -> dict:
         "audit_x": [audit["x_min"], audit["x_max"]],
         "mesh": {"n_nodes": mesh["n_nodes"], "n_elements": mesh["n_elements"]},
         "inp": meta["path"],
+        "inp_sha256": (meta.get("hash") or {}).get("sha256"),
         "complete_write_inp": meta["complete"],
         "gate_status": gates["status"],
         "n_pass": gates["n_pass"],
         "n_fail": gates["n_fail"],
         "failed": [c["id"] for c in gates["checks"] if not c["pass"]],
+        "passages": topo["after"]["passages"],
+        "portals": topo["after"]["portals"],
+        "inserted_passages": topo["n_inserted_passages"],
+        "inserted_portals": topo["n_inserted_portals"],
+        "anchors_disjoint": meta.get("anchor_nsets_disjoint"),
     }
     write_json(artifacts / "pipeline_summary.json", summary)
     return summary

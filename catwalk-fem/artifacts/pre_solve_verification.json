@@ -1,0 +1,41 @@
+{
+  "status": "CCX_PARSE_OK_SINGULAR_TANGENT",
+  "ccx_executed": true,
+  "ccx_version": "2.21",
+  "frozen_82548e6a": {
+    "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "rewritten": false,
+    "ic_format": "ELSET+uniaxial",
+    "exit_code": 201,
+    "parse_fail_ic": true
+  },
+  "new_main_41fb3222": {
+    "path": "catwalk-fem/artifacts/zjg_catwalk_ccx221.inp",
+    "sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+    "bytes": 26839981,
+    "ic_format": "ccx_2.21_s7.76_element_ip_six_pk2_global",
+    "ic_n_rows": 204208,
+    "exit_code": 255,
+    "parse_fail_ic": false,
+    "n_equations": 879076,
+    "spooles": "matrix found to be singular",
+    "wall_s": 10.350076713999897,
+    "four_files": {
+      "frd_bytes": 80,
+      "dat_bytes": 42,
+      "sta_bytes": 98,
+      "cvg_bytes": 274
+    }
+  },
+  "connectivity": {
+    "n_components": 22096,
+    "largest": 129,
+    "n_deg1": 43468
+  },
+  "gates": {
+    "status": "PASS",
+    "n_pass": 27,
+    "n_fail": 0
+  },
+  "spectrum_claimed": false
+}

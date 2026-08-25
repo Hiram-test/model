@@ -20,6 +20,32 @@ FLOOR_ANCHOR_S = {"station": "K21+086.368", "x": 4210.368}
 PORTAL_ANCHOR_N = {"station": "K16+831.091", "x": -44.909}
 PORTAL_ANCHOR_S = {"station": "K21+101.700", "x": 4225.700}
 
+# physical anchors stay in SEPARATE families. Do not union floor and portal.
+ANCHOR_SPECS = (
+    {**FLOOR_ANCHOR_N, "id": "FLOOR_N", "family": "floor", "role": "floor_rope", "end": "north",
+     "source": "DRW-B / theory v1.2 §4; not the portal-rope north anchor"},
+    {**FLOOR_ANCHOR_S, "id": "FLOOR_S", "family": "floor", "role": "floor_rope", "end": "south",
+     "source": "DRW-B / theory v1.2 §4; not the portal-rope south anchor"},
+    {**PORTAL_ANCHOR_N, "id": "PORTAL_N", "family": "portal", "role": "portal_rope", "end": "north",
+     "source": "DRW-B / theory v1.2 §4; not the floor-rope north anchor"},
+    {**PORTAL_ANCHOR_S, "id": "PORTAL_S", "family": "portal", "role": "portal_rope", "end": "south",
+     "source": "DRW-B / theory v1.2 §4; not the floor-rope south anchor"},
+)
+N_PORTALS_PER_DECK = 71
+N_PORTALS_BOTH_DECKS = 142
+N_CROSS_PASSAGES = 21
+PASSAGE_MATCH_TOL_M = 12.0
+PORTAL_MATCH_TOL_M = 12.0
+ANCHOR_MATCH_TOL_M = 8.0  # < 15.332 m south floor/portal separation
+ANCHOR_END_BAND_M = 10.0
+PASSAGE_LABELS = (
+    "P01", "P02", "P03",
+    "P04", "P05", "P06", "P07", "P08", "P09",
+    "H1", "H2", "H3", "H4", "H5", "H6", "H7",
+    "H8", "H9", "H10",
+    "H11", "H12",
+)
+
 # saddles and formed catwalk line (CALC-INPUT, 复核报告表1-5/1-9)
 SADDLE_N = {"station": "K17+542.679", "x": 666.679, "z": 340.600, "source": "CALC-INPUT"}
 SADDLE_S = {"station": "K19+829.321", "x": 2953.321, "z": 340.600, "source": "CALC-INPUT"}

@@ -1,0 +1,35 @@
+{
+  "frozen": {
+    "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+    "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "expected": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "untouched": true
+  },
+  "new_sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+  "n_nodes": 51896,
+  "n_elements": 30317,
+  "n_components": 22096,
+  "largest_components": [
+    129,
+    129,
+    129,
+    129,
+    129,
+    129,
+    129,
+    129,
+    129,
+    129
+  ],
+  "n_deg1": 43468,
+  "n_deg0": 0,
+  "role_counts": {
+    "cross_passage": 21,
+    "floor_rope": 25299,
+    "handrail_rope": 34,
+    "longitudinal_other": 17,
+    "portal_or_beam": 4719,
+    "portal_rope": 227
+  },
+  "diagnosis": "22096 disconnected centreline components make the first tangent singular; this is not an IC lexical failure"
+}

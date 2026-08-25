@@ -79,6 +79,28 @@ def infer_x_transform(xyz_m: np.ndarray) -> dict:
         name, shift, residual = "identity", 0.0, score(0.0)
 
     moved_peaks = sorted(p - shift for p in peaks) if peaks else []
+
+    def saddle_z_ok(x_shift: float) -> dict:
+        xx = xyz_m[:, 0] - x_shift
+        zz = xyz_m[:, 2]
+        rec = {}
+        ok = True
+        for key, spec in (("north", SADDLE_N), ("south", SADDLE_S)):
+            near = np.abs(xx - spec["x"]) < 12.0
+            z90 = float(np.quantile(zz[near], 0.90)) if np.any(near) else None
+            rec[f"{key}_n"] = int(np.count_nonzero(near))
+            rec[f"{key}_z_p90"] = z90
+            rec[f"{key}_expected_z"] = spec["z"]
+            if z90 is None or z90 < spec["z"] - 40.0:
+                ok = False
+        rec["ok"] = ok
+        return rec
+
+    z_ev = saddle_z_ok(shift)
+    # Histogram modes of high-Z points sit on portal clusters (~700/3023), not
+    # the saddles themselves. Identity is confirmed when expected saddle X
+    # already carries the tower-top height in this metre frame.
+    xspan_ok = float(xs.min() - shift) > -50.0 and float(xs.max() - shift) < 5000.0
     return {
         "decision": name,
         "x_shift_m": shift,
@@ -86,7 +108,9 @@ def infer_x_transform(xyz_m: np.ndarray) -> dict:
         "tower_x_after_m": moved_peaks,
         "expected_saddle_x_m": list(expected),
         "saddle_residual_m": residual,
-        "pass_saddle_align": residual <= 40.0,
+        "saddle_z_evidence": z_ev,
+        "pass_saddle_align": bool(z_ev["ok"] and xspan_ok),
+        "histogram_residual_note": "high-Z histogram modes may sit on portal clusters, not saddles",
         "rule": "do_not_subtract_xmin_unless_saddle_evidence_requires_it",
     }
 

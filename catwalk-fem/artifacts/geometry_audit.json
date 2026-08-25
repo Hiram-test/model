@@ -1,0 +1,57 @@
+{
+  "n_points": 279982,
+  "x_min": 0.0,
+  "x_max": 4270.609,
+  "y_min": -25.14,
+  "y_max": 25.14,
+  "z_min": 22.51,
+  "z_max": 350.312,
+  "covers_nominal_0_4180": true,
+  "deck_half_spacing_expected": 21.45,
+  "y_pos_median": 20.6,
+  "y_neg_median": -20.6,
+  "two_decks": true,
+  "z_north_saddle_p90": 330.7812322184,
+  "z_south_saddle_p90": 324.8503477101,
+  "z_midspan_median": 113.64050724760001,
+  "sag_from_geometry_m": 214.17528271665003,
+  "sag_report_m": 227.3,
+  "sag_abs_err_m": 13.12471728334998,
+  "nominal_breaks": [
+    0.0,
+    660.0,
+    2960.0,
+    3677.0,
+    4180.0
+  ],
+  "midspan_expected_z": 113.3,
+  "transform": {
+    "decision": "identity",
+    "x_shift_m": 0.0,
+    "tower_x_raw_m": [
+      699.9531176470589,
+      3023.364882352941
+    ],
+    "tower_x_after_m": [
+      699.9531176470589,
+      3023.364882352941
+    ],
+    "expected_saddle_x_m": [
+      666.679,
+      2953.321
+    ],
+    "saddle_residual_m": 103.3180000000001,
+    "saddle_z_evidence": {
+      "north_n": 1676,
+      "north_z_p90": 330.7812322184,
+      "north_expected_z": 340.6,
+      "south_n": 1296,
+      "south_z_p90": 324.8503477101,
+      "south_expected_z": 340.6,
+      "ok": true
+    },
+    "pass_saddle_align": true,
+    "histogram_residual_note": "high-Z histogram modes may sit on portal clusters, not saddles",
+    "rule": "do_not_subtract_xmin_unless_saddle_evidence_requires_it"
+  }
+}

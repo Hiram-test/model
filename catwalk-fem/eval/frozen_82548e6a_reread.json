@@ -1,0 +1,59 @@
+{
+  "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+  "name": "zjg_catwalk_coarsened.inp",
+  "bytes": 7702117,
+  "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+  "is_frozen_82548e6a": true,
+  "heading_has_k16876": true,
+  "has_25556": false,
+  "has_00296": false,
+  "has_target_freq_values": false,
+  "n_floor_anchor": 312,
+  "n_portal_anchor": 16,
+  "anchor_overlap": 0,
+  "anchors_disjoint": true,
+  "boundary": {
+    "n_cards": 3,
+    "sets": [
+      "N_FLOOR_ANCHOR",
+      "N_PORTAL_ANCHOR",
+      "N_SUPPORT_SADDLE_ENDS"
+    ]
+  },
+  "initial_conditions": {
+    "present": true,
+    "keyword_line": "*INITIAL CONDITIONS, TYPE=STRESS",
+    "keyword_line_no": 90863,
+    "n_rows": 2,
+    "n_ccx221_legal": 0,
+    "n_elset_uniaxial": 2,
+    "all_ccx221_legal": false,
+    "any_elset_uniaxial": true,
+    "first_tokens_sample": [
+      "E_FLOOR_ROPE",
+      "E_PORTAL_ROPE"
+    ],
+    "first_tokens_are_element_numbers": false,
+    "first_row": {
+      "raw": "E_FLOOR_ROPE, 3.549611e+08",
+      "fields": [
+        "E_FLOOR_ROPE",
+        "3.549611e+08"
+      ],
+      "n_fields": 2,
+      "first_token": "E_FLOOR_ROPE",
+      "elset_plus_uniaxial": true,
+      "ccx_2_21_legal": false,
+      "reason": "ELSET name + one axial stress; CalculiX 2.21 §7.76 TYPE=STRESS requires element number, integration point, Sxx Syy Szz Sxy Sxz Syz"
+    },
+    "trace_sample": [],
+    "trace_matches_sigma_floor": false,
+    "writer_sigma_floor_Pa": 354961146.3121035,
+    "writer_sigma_portal_Pa": 242629503.72164991
+  },
+  "portal_unit": "榀",
+  "portal_not_unit": "榌",
+  "expected_passages": 21,
+  "expected_portals_per_deck": 71,
+  "expected_portals_both": 142
+}

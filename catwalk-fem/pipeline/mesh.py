@@ -75,7 +75,9 @@ def coarsen_classified(classified: dict, merged: dict, target_ds: float = 12.0) 
 
     for key, eids in groups.items():
         rname, sname = key.split("|", 1)
-        if rname in {"cross_passage", "portal_or_beam", "short_other"}:
+        if rname == "short_other":
+            continue
+        if rname in {"cross_passage", "portal_or_beam"}:
             for eid in eids:
                 new_n1.append(int(n1[eid]))
                 new_n2.append(int(n2[eid]))

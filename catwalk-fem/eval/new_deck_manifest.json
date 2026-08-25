@@ -1,0 +1,112 @@
+{
+  "ic_format": "ccx_2.21_s7.76_element_ip_six_pk2_global",
+  "ic_n_rows": 204208,
+  "ic_n_floor_rows": 202392,
+  "ic_n_portal_rows": 1816,
+  "ic_first_row": "1, 1, 1.439957e+08, 0.000000e+00, 2.109655e+08, 0.000000e+00, 1.742932e+08, 0.000000e+00",
+  "complete": true,
+  "hash": {
+    "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_ccx221.inp",
+    "name": "zjg_catwalk_ccx221.inp",
+    "sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+    "bytes": 26839981,
+    "sidecar": "/workspace/catwalk-fem/artifacts/zjg_catwalk_ccx221.inp.sha256"
+  },
+  "anchor_nsets_disjoint": true,
+  "reread": {
+    "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_ccx221.inp",
+    "name": "zjg_catwalk_ccx221.inp",
+    "bytes": 26839981,
+    "sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+    "is_frozen_82548e6a": false,
+    "heading_has_k16876": true,
+    "has_25556": false,
+    "has_00296": false,
+    "has_target_freq_values": false,
+    "n_floor_anchor": 312,
+    "n_portal_anchor": 16,
+    "anchor_overlap": 0,
+    "anchors_disjoint": true,
+    "boundary": {
+      "n_cards": 3,
+      "sets": [
+        "N_FLOOR_ANCHOR",
+        "N_PORTAL_ANCHOR",
+        "N_SUPPORT_SADDLE_ENDS"
+      ]
+    },
+    "initial_conditions": {
+      "present": true,
+      "keyword_line": "*INITIAL CONDITIONS, TYPE=STRESS",
+      "keyword_line_no": 90873,
+      "n_rows": 204208,
+      "n_ccx221_legal": 204208,
+      "n_elset_uniaxial": 0,
+      "all_ccx221_legal": true,
+      "any_elset_uniaxial": false,
+      "first_tokens_sample": [
+        "1",
+        "10",
+        "100",
+        "1000",
+        "10000",
+        "10001",
+        "10002",
+        "10003"
+      ],
+      "first_tokens_are_element_numbers": true,
+      "first_row": {
+        "raw": "1, 1, 1.439957e+08, 0.000000e+00, 2.109655e+08, 0.000000e+00, 1.742932e+08, 0.000000e+00",
+        "fields": [
+          "1",
+          "1",
+          "1.439957e+08",
+          "0.000000e+00",
+          "2.109655e+08",
+          "0.000000e+00",
+          "1.742932e+08",
+          "0.000000e+00"
+        ],
+        "n_fields": 8,
+        "first_token": "1",
+        "elset_plus_uniaxial": false,
+        "ccx_2_21_legal": true,
+        "reason": "ccx 2.21 eight-field row"
+      },
+      "trace_sample": [
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961160.0,
+        354961160.0,
+        354961160.0,
+        354961160.0,
+        354961160.0,
+        354961160.0,
+        354961160.0,
+        354961160.0
+      ],
+      "trace_matches_sigma_floor": true,
+      "writer_sigma_floor_Pa": 354961146.3121035,
+      "writer_sigma_portal_Pa": 242629503.72164991
+    },
+    "portal_unit": "榀",
+    "portal_not_unit": "榌",
+    "expected_passages": 21,
+    "expected_portals_per_deck": 71,
+    "expected_portals_both": 142
+  }
+}

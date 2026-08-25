@@ -1,0 +1,165 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "BC-G-X0",
+      "pass": true,
+      "n": 12,
+      "x_mean": 0.0,
+      "dx_max": 0.0,
+      "target": 0.0
+    },
+    {
+      "id": "BC-G-NT_SADDLE",
+      "pass": true,
+      "n": 240,
+      "x_mean": 664.97517985604,
+      "dx_max": 7.649664340699928,
+      "target": 666.679
+    },
+    {
+      "id": "BC-G-ST_SADDLE",
+      "pass": true,
+      "n": 132,
+      "x_mean": 2951.6917024061213,
+      "dx_max": 7.8247219179997956,
+      "target": 2953.321
+    },
+    {
+      "id": "BC-G-AUX",
+      "pass": true,
+      "n": 128,
+      "x_mean": 3676.2809194754373,
+      "dx_max": 6.9090000000001055,
+      "target": 3677.0
+    },
+    {
+      "id": "BC-G-X4180",
+      "pass": true,
+      "n": 392,
+      "x_mean": 4180.025663178285,
+      "dx_max": 7.908999999999651,
+      "target": 4180.0
+    },
+    {
+      "id": "BC-G-primary-saddles",
+      "pass": true,
+      "msg": "north/south saddles must have support nodes"
+    },
+    {
+      "id": "LC-G-dead-resultant",
+      "pass": true,
+      "resultant": 9019165.662187736,
+      "expected": 9019165.662187736,
+      "L": 164515.62552963925
+    },
+    {
+      "id": "LC-G-personnel-resultant",
+      "pass": true,
+      "resultant": 86370703.40306062,
+      "expected": 86370703.4030606
+    },
+    {
+      "id": "LC-G-wind-resultant",
+      "pass": true,
+      "resultant": 5141113.297801226,
+      "expected": 5141113.297801226
+    },
+    {
+      "id": "LC-G-keywords-complete",
+      "pass": true,
+      "missing": []
+    },
+    {
+      "id": "ANCHOR-G-names-separate",
+      "pass": true,
+      "msg": "floor and portal anchors must be separately named NSETs"
+    },
+    {
+      "id": "ANCHOR-G-disjoint",
+      "pass": true,
+      "n_floor": 312,
+      "n_portal": 16,
+      "audit": {
+        "n_floor": 312,
+        "n_portal": 16,
+        "n_overlap": 0,
+        "overlap_idx": [],
+        "disjoint": true,
+        "rule": "floor and portal anchors must not share a node or NSET"
+      }
+    },
+    {
+      "id": "ANCHOR-G-south-families",
+      "pass": true,
+      "floor_s": {
+        "station": "K21+086.368",
+        "x": 4210.368,
+        "id": "FLOOR_S",
+        "family": "floor",
+        "role": "floor_rope",
+        "end": "south",
+        "source": "DRW-B / theory v1.2 §4; not the portal-rope south anchor",
+        "n": 300,
+        "x_mean": 4209.98473021472,
+        "dx_to_target": 0.38326978528039035,
+        "mode": "matched_x",
+        "family_x_span": [
+          0.0,
+          4270.609
+        ],
+        "y_mean": 4.7369515717340015e-17,
+        "z_mean": 47.47488933020854,
+        "x_min": 4202.909,
+        "x_max": 4218.064871128
+      },
+      "portal_s": {
+        "station": "K21+101.700",
+        "x": 4225.7,
+        "id": "PORTAL_S",
+        "family": "portal",
+        "role": "portal_rope",
+        "end": "south",
+        "source": "DRW-B / theory v1.2 §4; not the floor-rope south anchor",
+        "n": 4,
+        "x_mean": 4221.093,
+        "dx_to_target": 4.606999999999971,
+        "mode": "matched_x",
+        "family_x_span": [
+          43.871,
+          4221.093
+        ],
+        "y_mean": -8.881784197001252e-16,
+        "z_mean": 46.282000000000004,
+        "x_min": 4221.093,
+        "x_max": 4221.093
+      }
+    },
+    {
+      "id": "ANCHOR-G-not-same-x",
+      "pass": true,
+      "floor_s_x_mean": 4209.98473021472,
+      "portal_s_x_mean": 4221.093,
+      "msg": "selected south floor and portal nodes must not collapse to the same x"
+    },
+    {
+      "id": "TOPO-G-passages-21",
+      "pass": true,
+      "n_hit": 21,
+      "missing": [],
+      "inserted": 0
+    },
+    {
+      "id": "TOPO-G-portals-142",
+      "pass": true,
+      "n_hit": 142,
+      "n_missing": 0,
+      "inserted": 0
+    },
+    {
+      "id": "BC-G-support-count",
+      "pass": true,
+      "n_support_nodes": 904
+    }
+  ]
+}
