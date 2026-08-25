@@ -1,0 +1,45 @@
+{
+  "schema": {
+    "name": "ReviewReportMCTValidation",
+    "version": "1.0.0"
+  },
+  "report": "D:\\张靖皋大桥\\01_设计资料与规范\\张靖皋长江大桥南航道桥 猫道结构复核计算报告0324.pdf",
+  "formed_shape_comparison": {
+    "catwalk_table_1_9": {
+      "report_points": 728,
+      "matched_mct_nodes": 728,
+      "max_abs_delta_x_mm": 18.0,
+      "max_abs_delta_z_mm": 0.5004264260060154,
+      "note": "除末端节点728里程相差18 mm外，其余坐标与报告0.001 m显示精度一致"
+    },
+    "gate_rope_table_1_12": {
+      "report_points": 395,
+      "matched_mct_nodes": 395,
+      "max_abs_delta_x_mm": 0.5,
+      "max_abs_delta_z_mm": 0.5002875900245272
+    }
+  },
+  "deadload_force_comparison": {
+    "north_side_span": {
+      "report_table_1_11_kn": 11466.0,
+      "mct_ini_eforce_max_kn": 11466.1,
+      "difference_kn": 0.1000000000003638
+    },
+    "main_span": {
+      "report_table_1_11_kn": 11005.0,
+      "mct_ini_eforce_max_kn": 11004.9,
+      "difference_kn": -0.1000000000003638
+    },
+    "south_side_span": {
+      "report_table_1_11_kn": 10928.0,
+      "mct_ini_eforce_max_kn": 10927.8,
+      "difference_kn": -0.2000000000007276
+    },
+    "south_auxiliary_span": {
+      "report_table_1_11_kn": 10338.0,
+      "mct_ini_eforce_max_kn": 10337.8,
+      "difference_kn": -0.2000000000007276
+    }
+  },
+  "conclusion": "复核报告成型线形和工况1恒载最大索力均由当前MCT模型直接对应，可作为正式结果基准"
+}
