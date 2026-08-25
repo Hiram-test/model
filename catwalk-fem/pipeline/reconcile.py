@@ -210,19 +210,24 @@ def _family_nodes(mesh: dict, role_name: str) -> np.ndarray:
 def _portal_candidate_nodes(mesh: dict) -> np.ndarray:
     """Portal anchors must not reuse floor-rope nodes.
 
-    Classified portal_rope on this STEP is incomplete (main-span high lines
-    only). High-Z nodes that are not floor_rope are the family proxy.
+    Classified portal_rope on this STEP is incomplete. Use portal_rope,
+    portal_or_beam and handrail nodes; they reach the south portal station
+    near x=4221–4226, which floor-rope must not own.
     """
-    coords = mesh["coords"]
     floor = _family_nodes(mesh, "floor_rope")
-    portal = _family_nodes(mesh, "portal_rope")
-    floor_z = float(np.median(coords[floor, 2])) if floor.size else 80.0
-    high = np.flatnonzero(coords[:, 2] >= floor_z + 1.20)
-    if floor.size:
-        high = np.setdiff1d(high, floor, assume_unique=False)
-    if high.size:
-        return high
-    return portal
+    chunks = [
+        _family_nodes(mesh, "portal_rope"),
+        _family_nodes(mesh, "portal_or_beam"),
+        _family_nodes(mesh, "handrail_rope"),
+    ]
+    pref = np.unique(np.concatenate([c for c in chunks if c.size])) if any(c.size for c in chunks) else np.asarray([], dtype=np.int64)
+    if floor.size and pref.size:
+        pref = np.setdiff1d(pref, floor, assume_unique=False)
+    if pref.size:
+        return pref
+    coords = mesh["coords"]
+    all_idx = np.arange(len(coords), dtype=np.int64)
+    return np.setdiff1d(all_idx, floor, assume_unique=False) if floor.size else all_idx
 
 
 def family_anchor_sets(mesh: dict) -> dict:

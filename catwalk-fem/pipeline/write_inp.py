@@ -101,7 +101,8 @@ def _distribute_line_load(coords, n1, n2, pick, w_npm, dof) -> dict[int, float]:
 
 
 def _fmt_set(name: str, ids: list[int], kind: str) -> list[str]:
-    lines = [f"*{kind}, {kind}SET={name}"]
+    key = "NSET" if kind == "N" else "ELSET"
+    lines = [f"*{key}, {key}={name}"]
     row: list[str] = []
     for i, nid in enumerate(ids, 1):
         row.append(str(nid))
@@ -127,9 +128,12 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
     supports = support_sets(coords)
     anchors = family_anchor_sets(mesh)
 
-    extra_dead_npm = FLOOR_SYSTEM_KNPM * 1000.0 - ROPE_FLOOR["n_per_deck"] * ROPE_FLOOR["mu_kgpm"] * G
-    personnel_npm = PERSONNEL_KPA * 1000.0 * PERSONNEL_WIDTH_M
-    wind_npm = WIND_KNPM * 1000.0
+    n_floor = ROPE_FLOOR["n_per_deck"]
+    # report packages are per deck; distributing onto 16 explicit floor ropes
+    extra_dead_deck_npm = FLOOR_SYSTEM_KNPM * 1000.0 - n_floor * ROPE_FLOOR["mu_kgpm"] * G
+    extra_dead_npm = extra_dead_deck_npm / n_floor
+    personnel_npm = PERSONNEL_KPA * 1000.0 * PERSONNEL_WIDTH_M / n_floor
+    wind_npm = WIND_KNPM * 1000.0 / n_floor
 
     floor = role == "floor_rope"
     dead_z = _distribute_line_load(coords, n1, n2, floor, extra_dead_npm, 3)
@@ -373,14 +377,19 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
         "initial_state": state,
         "loads": {
             "floor_truss_length_m": floor_len,
+            "n_floor_ropes_per_deck": n_floor,
+            "extra_dead_deck_npm": extra_dead_deck_npm,
             "extra_dead_npm": extra_dead_npm,
             "extra_dead_resultant_N": resultant(dead_z),
+            "personnel_deck_npm": PERSONNEL_KPA * 1000.0 * PERSONNEL_WIDTH_M,
             "personnel_npm": personnel_npm,
             "personnel_resultant_N": resultant(live_z),
+            "wind_deck_npm": WIND_KNPM * 1000.0,
             "wind_npm": wind_npm,
             "wind_resultant_N": resultant(wind_y),
             "personnel_source": PERSONNEL_SOURCE,
             "wind_source": WIND_SOURCE,
+            "distribution": "per-deck package split equally onto 16 floor ropes",
         },
         "missing_keywords": missing,
         "complete": not missing,

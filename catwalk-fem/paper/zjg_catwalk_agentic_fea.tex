@@ -1,0 +1,65 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm]{geometry}
+\usepackage{hyperref,booktabs,amsmath}
+\title{Agentic FEA of the Zhangjinggao Construction Catwalk\\
+\large From a published centerline STEP to a hashed CalculiX deck}
+\author{Run catwalk-main-deck-gate-f23d}
+\date{2026-08-25}
+\begin{document}
+\maketitle
+\begin{abstract}
+A millimetre STEP of the Zhangjinggao catwalk centre-lines is mapped to
+\(x=\mathrm{chainage}-K16+876.000\), classified against drawing topology,
+and written as a complete CalculiX deck. Floor-rope and portal-rope anchors
+are disjoint. Twenty-one passages and 142 portal frames reconcile with zero
+drawing insertions. Main-deck SHA-256 is
+\texttt{82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da}.
+Twenty-six gates PASS. \texttt{ccx} was not run.
+\end{abstract}
+
+\section{Introduction}
+The previous pull request shipped a pipeline and an empty \texttt{artifacts/}
+directory. A missing \texttt{.inp} cannot pass a coordinate gate. This paper
+records the run that produces a readable hashed deck.
+
+\section{Isolation}
+Geometry is Release \texttt{catwalk-attachment23-v2.0-s10-20260716} STEP
+\texttt{d03d01e38b823df5af4c1ff9b0b175fdfb87b097b9cda9a03af5d14e9c763344}.
+Properties are drawings / CALC-INPUT / STD / named ASSUMP.
+Forbidden: S10.db, B00, MCT, TARGET-FREQ, sag \(255.56\,\mathrm{m}\).
+
+\section{Coordinate gate}
+Identity transform, \(x\in[0,4270.609]\,\mathrm{m}\). Saddle alignment uses
+local \(Z_{p90}\) at \(x=666.679\) and \(x=2953.321\) (330.78\,m and 324.85\,m),
+not high-\(Z\) histogram modes at \(\approx 700\) and \(\approx 3023\,\mathrm{m}\).
+Formed sag from geometry is \(214.18\,\mathrm{m}\) versus \(227.30\,\mathrm{m}\).
+
+\section{Topology}
+Passages are tessellated (\(\Delta y\approx 1.7\,\mathrm{m}\)). Detection uses
+\(Y\)-span \([-24.3,24.3]\,\mathrm{m}\) at each of the 21 drawing stations.
+Portals: 71 stations \(\times\) 2 decks \(=142\). Insertions: 0 and 0.
+
+\section{Disjoint anchors}
+\texttt{N\_FLOOR\_ANCHOR} (312 nodes) and \texttt{N\_PORTAL\_ANCHOR} (16 nodes)
+have empty intersection and separate \texttt{*BOUNDARY} cards.
+South floor \(x=4209.985\) versus south portal \(x=4221.093\).
+North physical anchors lie outside the STEP and are recorded as end proxies.
+
+\section{Initial stress and loads}
+\[
+H=wL^2/(8h),\quad h=227.300\,\mathrm{m},\quad L=2286.642\,\mathrm{m}.
+\]
+\(H_{\mathrm{floor}}=7.954\,\mathrm{MN}\) per deck.
+Per-deck live/wind/extra-dead packages are split onto 16 floor ropes.
+Resultants close against \(wL\).
+
+\section{Deck}
+\texttt{zjg\_catwalk\_coarsened.inp}: 51896 nodes, 30317 elements, 7702117 bytes.
+Keywords required by the plan are present. TARGET-FREQ values are absent.
+Pre-solve only: no \texttt{ccx} in this environment.
+
+\section{Conclusion}
+The scientific claim supported by this run is the existence of a hashed,
+coordinate-gated, topology-reconciled CalculiX main deck---not a solved
+spectrum and not a fourteen-mode match.
+\end{document}

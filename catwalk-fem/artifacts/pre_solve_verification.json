@@ -1,0 +1,35 @@
+{
+  "status": "PRE_SOLVE_ONLY",
+  "ccx_executed": false,
+  "reason": "CalculiX solver binary is not installed in this environment; skill forbids claiming a solved run",
+  "deck": {
+    "path": "catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+    "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "bytes": 7702117,
+    "n_nodes": 51896,
+    "n_elements": 30317,
+    "complete_keywords": true
+  },
+  "gates": {
+    "status": "PASS",
+    "n_pass": 26,
+    "n_fail": 0
+  },
+  "checks": {
+    "units_m": true,
+    "identity_transform": true,
+    "no_xmin_shift": true,
+    "no_target_freq": true,
+    "no_25556_sag": true,
+    "floor_portal_nsets_disjoint": true,
+    "passages_21": true,
+    "portals_142": true,
+    "load_resultants_closed": true
+  },
+  "l0_magnitude_gate": {
+    "f1_hz": 0.03671855913145064,
+    "formula": "sqrt(g/(32h))",
+    "h_m": 227.3,
+    "not_used_as_solver_input": true
+  }
+}
