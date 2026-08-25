@@ -9,6 +9,7 @@ import numpy as np
 
 try:
     from .constants import (
+        ANCHOR_SPECS,
         AUDIT_STATIONS,
         FLOOR_SYSTEM_KNPM,
         G,
@@ -26,8 +27,10 @@ try:
         WIND_SOURCE,
     )
     from .formfind import initial_state
+    from .reconcile import family_anchor_sets, serialize_anchors, write_sha256_sidecar
 except ImportError:
     from constants import (
+        ANCHOR_SPECS,
         AUDIT_STATIONS,
         FLOOR_SYSTEM_KNPM,
         G,
@@ -45,6 +48,7 @@ except ImportError:
         WIND_SOURCE,
     )
     from formfind import initial_state
+    from reconcile import family_anchor_sets, serialize_anchors, write_sha256_sidecar
 
 TENSION_ROLES = ("floor_rope", "portal_rope", "handrail_rope", "longitudinal_other")
 BEAM_ROLES = ("cross_passage", "portal_or_beam", "short_other")
@@ -121,6 +125,7 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
     elem_id = np.arange(1, n_elem + 1)
     state = initial_state()
     supports = support_sets(coords)
+    anchors = family_anchor_sets(mesh)
 
     extra_dead_npm = FLOOR_SYSTEM_KNPM * 1000.0 - ROPE_FLOOR["n_per_deck"] * ROPE_FLOOR["mu_kgpm"] * G
     personnel_npm = PERSONNEL_KPA * 1000.0 * PERSONNEL_WIDTH_M
@@ -145,6 +150,8 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
     a("** geometry: STEP cw_S10_0716t050342_a4_centerline.step (Release catwalk-attachment23-v2.0-s10-20260716)")
     a("** properties: drawings / check report; NOT S10.db, NOT B00, NOT MCT, NOT TARGET-FREQ")
     a("** write_inp: complete deck (nodes, elsets, materials, BC, initial stress, load cases)")
+    a("** anchors: floor-rope and portal-rope families are DISJOINT NSETs; do not mix")
+    a("** topology audit: 21 cross-passages, 71 portals/deck = 142 both decks")
     a(f"** nodes={n_nodes} elements={n_elem}")
     a("")
 
@@ -163,7 +170,34 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
         all_sup.extend(int(node_id[i]) for i in supports[spec["id"]]["node_idx"])
     all_sup = sorted(set(all_sup))
     if all_sup:
+        lines.extend(_fmt_set("N_SUPPORT_SADDLE_ENDS", all_sup, "N"))
+        # keep legacy alias for older gates; it still excludes family anchors
         lines.extend(_fmt_set("N_SUPPORT_ALL", all_sup, "N"))
+
+    # floor vs portal anchors: four named sets, never one mixed set
+    a("** FAMILY ANCHORS: floor and portal kept in separate NSETs")
+    a("** DECLARED: N_FLOOR_N N_FLOOR_S N_PORTAL_N N_PORTAL_S N_FLOOR_ANCHOR N_PORTAL_ANCHOR")
+    floor_ids: list[int] = []
+    portal_ids: list[int] = []
+    for spec in ANCHOR_SPECS:
+        rec = anchors[spec["id"]]
+        ids = [int(node_id[i]) for i in rec["node_idx"]]
+        if ids:
+            lines.extend(_fmt_set(f"N_{spec['id']}", ids, "N"))
+        else:
+            a(f"** empty N_{spec['id']} (family={spec['family']}, x={spec['x']}, mode={rec.get('mode')})")
+        if spec["family"] == "floor":
+            floor_ids.extend(ids)
+        else:
+            portal_ids.extend(ids)
+    floor_ids = sorted(set(floor_ids))
+    portal_ids = sorted(set(portal_ids))
+    if floor_ids:
+        lines.extend(_fmt_set("N_FLOOR_ANCHOR", floor_ids, "N"))
+    if portal_ids:
+        lines.extend(_fmt_set("N_PORTAL_ANCHOR", portal_ids, "N"))
+    overlap = sorted(set(floor_ids) & set(portal_ids))
+    a(f"** floor/portal NSET overlap count = {len(overlap)} (must be 0)")
     for sname in ("upstream", "downstream"):
         ids = sorted({int(node_id[i]) for i, sid in enumerate(n1) if side[i] == sname}
                      | {int(node_id[i]) for i, sid in enumerate(n2) if side[i] == sname})
@@ -211,11 +245,18 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
         a("0.160, 0.160")
         a("0.0, 0.0, 1.0")
 
-    # boundaries — same x convention
-    a("** BOUNDARY: UX,UY,UZ at primary stations in x = chainage - K16+876")
+    # boundaries — same x convention; floor and portal get separate cards
+    a("** BOUNDARY: UX,UY,UZ. Floor-rope anchors and portal-rope anchors are separate cards.")
+    a("** convention: x = chainage - K16+876.000")
+    if floor_ids:
+        a("*BOUNDARY")
+        a("N_FLOOR_ANCHOR, 1, 3")
+    if portal_ids:
+        a("*BOUNDARY")
+        a("N_PORTAL_ANCHOR, 1, 3")
     if all_sup:
         a("*BOUNDARY")
-        a("N_SUPPORT_ALL, 1, 3")
+        a("N_SUPPORT_SADDLE_ENDS, 1, 3")
 
     # initial stress
     a("** INITIAL STRESS from independent sag formula H=wL^2/(8h), h=227.300 m")
@@ -310,6 +351,7 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
         "*BOUNDARY", "*INITIAL CONDITIONS, TYPE=STRESS",
         "LC-DEAD-PRESTRESS", "LC-PERSONNEL-UNIFORM", "LC-WIND-Y",
         "*DLOAD", "*CLOAD", "*STEP", "*END STEP",
+        "N_FLOOR_ANCHOR", "N_PORTAL_ANCHOR",
     )
     missing = [key for key in required if key not in text]
     if include_frequency and "LC-FREQ" not in text:
@@ -342,5 +384,10 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
         "complete": not missing,
         "target_freq_in_deck": any(f"{f:.4f}" in text for f in (0.0296, 0.0301, 0.1187)),
         "xmin_shift_used": False,
+        "anchors": serialize_anchors(anchors),
+        "anchor_nsets_disjoint": len(overlap) == 0,
+        "n_floor_anchor_nodes": len(floor_ids),
+        "n_portal_anchor_nodes": len(portal_ids),
     }
+    meta["hash"] = write_sha256_sidecar(out_path)
     return meta

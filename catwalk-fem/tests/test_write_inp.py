@@ -19,10 +19,11 @@ def _toy_mesh():
         np.concatenate(
             [
                 np.linspace(0.0, 4180.0, 80),
-                [0.0, 666.679, 1810.0, 2953.321, 3677.0, 4180.0],
+                [0.0, 666.679, 1810.0, 2953.321, 3677.0, 4180.0, 4210.368],
             ]
         )
     )
+    xs_portal = np.unique(np.concatenate([xs, [-44.909, 4225.700]]))
     coords = []
     n1 = []
     n2 = []
@@ -36,6 +37,14 @@ def _toy_mesh():
             n1.append(base + i)
             n2.append(base + i + 1)
             role.append("floor_rope")
+            side.append(s)
+        pbase = len(coords)
+        for x in xs_portal:
+            coords.append((x, y0 + 3.20, 340.6 - 227.3 * (1 - ((x - 1810) / 1150) ** 2) if 660 < x < 2960 else 208.0))
+        for i in range(len(xs_portal) - 1):
+            n1.append(pbase + i)
+            n2.append(pbase + i + 1)
+            role.append("portal_rope")
             side.append(s)
         # a few portal beams at saddles
         a = base + int(np.argmin(np.abs(xs - 666.679)))
@@ -82,6 +91,14 @@ def test_complete_keywords(tmp_path: Path | None = None):
     assert "255.56" not in text
     assert meta["supports"]["NT_SADDLE"]["n"] > 0
     assert meta["supports"]["ST_SADDLE"]["n"] > 0
+    assert "N_FLOOR_ANCHOR" in text
+    assert "N_PORTAL_ANCHOR" in text
+    assert meta["anchor_nsets_disjoint"] is True
+    assert meta["anchors"]["FLOOR_S"]["n"] > 0
+    assert meta["anchors"]["PORTAL_S"]["n"] > 0
+    assert abs(meta["anchors"]["FLOOR_S"]["x_mean"] - meta["anchors"]["PORTAL_S"]["x_mean"]) > 5.0
+    assert meta["hash"]["sha256"]
+    assert Path(meta["hash"]["sidecar"]).is_file()
 
 
 def test_l0_frequency_matches_theory():

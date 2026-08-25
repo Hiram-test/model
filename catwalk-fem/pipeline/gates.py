@@ -28,7 +28,7 @@ except ImportError:
     from coord import write_json
 
 
-def evaluate_gates(audit: dict, mesh: dict, inp_meta: dict, inp_text: str) -> dict:
+def evaluate_gates(audit: dict, mesh: dict, inp_meta: dict, inp_text: str, topo: dict | None = None) -> dict:
     coords = mesh["coords"]
     checks = []
 
@@ -107,6 +107,50 @@ def evaluate_gates(audit: dict, mesh: dict, inp_meta: dict, inp_text: str) -> di
     add("ISO-G-no-target-freq", inp_meta.get("target_freq_in_deck") is False, {})
     add("ISO-G-no-255-sag", "255.56" not in inp_text, {})
     add("ISO-G-heading-convention", "K16+876" in inp_text and "*BOUNDARY" in inp_text, {})
+    add(
+        "ANCHOR-G-names-separate",
+        "N_FLOOR_ANCHOR" in inp_text and "N_PORTAL_ANCHOR" in inp_text and "N_FLOOR_PORTAL" not in inp_text,
+        {"msg": "floor and portal anchors must be separately named NSETs"},
+    )
+    add(
+        "ANCHOR-G-disjoint",
+        bool(inp_meta.get("anchor_nsets_disjoint", False)),
+        {"n_floor": inp_meta.get("n_floor_anchor_nodes"), "n_portal": inp_meta.get("n_portal_anchor_nodes"),
+         "audit": (inp_meta.get("anchors") or {}).get("_audit")},
+    )
+    add(
+        "ANCHOR-G-south-families",
+        (inp_meta.get("anchors") or {}).get("FLOOR_S", {}).get("n", 0) > 0
+        and (inp_meta.get("anchors") or {}).get("PORTAL_S", {}).get("n", 0) > 0,
+        {
+            "floor_s": (inp_meta.get("anchors") or {}).get("FLOOR_S"),
+            "portal_s": (inp_meta.get("anchors") or {}).get("PORTAL_S"),
+        },
+    )
+    floor_s = (inp_meta.get("anchors") or {}).get("FLOOR_S") or {}
+    portal_s = (inp_meta.get("anchors") or {}).get("PORTAL_S") or {}
+    fx, px = floor_s.get("x_mean"), portal_s.get("x_mean")
+    add(
+        "ANCHOR-G-not-same-x",
+        fx is None or px is None or abs(float(fx) - float(px)) > 5.0,
+        {"floor_s_x_mean": fx, "portal_s_x_mean": px,
+         "msg": "selected south floor and portal nodes must not collapse to the same x"},
+    )
+    if topo:
+        passages = topo.get("passages") or {}
+        portals = topo.get("portals") or {}
+        add(
+            "TOPO-G-passages-21",
+            int(passages.get("n_hit", 0)) == 21,
+            {"n_hit": passages.get("n_hit"), "missing": passages.get("missing_x"),
+             "inserted": topo.get("n_inserted_passages")},
+        )
+        add(
+            "TOPO-G-portals-142",
+            int(portals.get("n_hit", 0)) == 142,
+            {"n_hit": portals.get("n_hit"), "n_missing": portals.get("n_missing"),
+             "inserted": topo.get("n_inserted_portals")},
+        )
 
     # nodes of N_SUPPORT_ALL must lie near some primary station
     if coords.size:
@@ -117,7 +161,12 @@ def evaluate_gates(audit: dict, mesh: dict, inp_meta: dict, inp_text: str) -> di
         add("BC-G-support-count", n_sup >= 8, {"n_support_nodes": n_sup})
 
     passed = all(c["pass"] for c in checks)
-    bounded = all(c["pass"] for c in checks if c["id"] not in {"BC-G-X0", "BC-G-X4180", "COORD-G5-formed-sag"})
+    bounded_ok_to_fail = {
+        "BC-G-X0",
+        "BC-G-X4180",
+        "COORD-G5-formed-sag",
+    }
+    bounded = all(c["pass"] for c in checks if c["id"] not in bounded_ok_to_fail)
     status = "PASS" if passed else ("PASS_WITH_BOUNDS" if bounded else "BLOCKED")
     return {
         "status": status,
