@@ -78,23 +78,26 @@ N12 (G10) records the mixed mesh: 1 123 two-node trusses and 71 B31 beams, first
 
 N14 (G12) is the only node allowed to invoke CalculiX. Rules taken from the skill contract: clean job directory; unique SOLVE-ID; adapter version recorded; exit 0 is completion, not verification; raw results are hashed read-only.
 
-**Locked P0 compute conclusions** (CalculiX 2.21, deck `974211b2`; may be physically bad; still reported):
+**Locked P0 compute conclusions** (CalculiX 2.21, deck `974211b2`; may be physically bad; still reported; **do not write 符合**):
 
 - process exit 0;
-- \(U_{\max}=9.264\times 10^{9}\) mm;
-- eid 1 axial force \(15\,687\,915\) N versus the sidecar MCT number \(15\,686\,250\) N.
+- **Displacement authority is `.dat` \(U_{\max}=9.26\times 10^{9}\) mm on 1 125 original-node U.** The classification is **mechanism-type (机构型)**.
+- The first `.frd` DISP block contains **0 original NSET nodes**. That block is **not** a second displacement conclusion: CalculiX expands T3D2 to C3D8I, and the original NSET is not on the FRD mesh.
+- **S≈IC is not cable-force balance** (worst relative error −19.1%).
+- eid 1 axial force \(15\,687\,915\) N versus the sidecar MCT number \(15\,686\,250\) N (not an operating-force-table test).
+- Source-side prestress 703.46 remains **excluded from Results**.
 
-These three facts are compute conclusions. They are not 符合 Attachment 2-3. A displacement of order \(10^{9}\) mm is written as a **likely failed static**. The commit that recorded the JSON summary is `16e2d222d3e7dc1b503d528d2dea621f1bcbcffa`. That commit does not contain `.frd`, `.dat`, `.sta`, or `.cvg`. Therefore P0 is **not** evidence-complete under Section 2.8.
+The JSON sidecar at commit `16e2d222d3e7dc1b503d528d2dea621f1bcbcffa` is not a substitute for hashed raw files. It must not override `.dat` as the U authority.
 
 Homemade scenes remain in the archive as negative controls: `82548e6a` (illegal IC card), `41fb3222` (singular tangent), `c635dad7` (four unconstrained B31 components), `760c0ee4` (those twelve nodes pinned; no solve delivered). Trial `6712e918` is absent and died at SPOOLES. None of them is promoted.
 
 ### 2.7. Solution verification and independent check
 
-N15 (G13) answers whether the discrete equations were solved. Mandatory checks: DISP completeness; increment presence in `.sta`; residual/`.cvg`; global force balance; a free-body cut on one walkway-rope group. N17 (G15) is the independent check: MCT operating-force table (or ANSYS table if extracted) versus CCX M1, using the pre-registered median and p95 on \(\delta(eid)\). N16 code review is out of scope.
+N15 (G13) answers whether the discrete equations were solved. Mandatory checks: **original-node `.dat` U** (not first FRD DISP); increment presence in `.sta`; residual/`.cvg`; global force balance; a free-body cut on one walkway-rope group. N17 (G15) is the independent check: MCT operating-force table (or ANSYS table if extracted) versus CCX M1. S≈IC is not that check. N16 code review is out of scope.
 
-**Skill design.** G13 cannot consume a chat message. G15 cannot share the migrate script as its only independent path: the referent table must come from MCT/ANSYS results, not from re-reading `*INIFORCE`.
+**Skill design.** G13 cannot consume a chat message. G15 cannot share the migrate script as its only independent path: the referent table must come from MCT/ANSYS results, not from re-reading `*INIFORCE` and not from S≈IC.
 
-**Process design.** Pre-registered scientific PASS requires DISP on 1 125 nodes, \(U_{\max}\le 500\) mm, a true operating-force table as M2, median \(\delta\le 0.01\), p95 \(\delta\le 0.05\), and the six evidence objects of Section 2.8. P0 already fails the displacement gate and the M2 definition gate. That failure is the written conclusion.
+**Process design.** Pre-registered scientific PASS requires `.dat` U on 1 125 original nodes, \(U_{\max}\le 500\) mm, a true operating-force table as M2, median \(\delta\le 0.01\), p95 \(\delta\le 0.05\), and the six evidence objects of Section 2.8. P0 already fails: `.dat` \(U_{\max}=9.26\times 10^{9}\) mm is 机构型; S≈IC worst −19.1% is not balance; M2 was INI-EFORCE. That failure is the written conclusion. Do not write 符合.
 
 ### 2.8. Evidence objects, Actions, and Go/No-Go
 
@@ -105,7 +108,8 @@ At plan freeze:
 | Object | Go/No-Go |
 |---|---|
 | Main `.inp` `974211b2` | Go |
-| `.frd` / `.dat` / `.sta` / `.cvg` for P0 | No-Go (not in tree) |
+| P0 `.dat` original-node U | Authority for \(U_{\max}=9.26\times 10^{9}\) mm (机构型). |
+| P0 first `.frd` DISP | **Not** a second U conclusion (0 original NSET nodes; T3D2→C3D8I). |
 | Commit of raw P0 results | No-Go |
 | Actions | No-Go. Branch runs `zhaqing-prestress-calibration.yml`, `zhaqing-prestress-delegated.yml`, and `zhaqing-prestress-pr-dispatch.yml` fail in 0 s (example run `32868201652` on `0d7eaf5`). They are the wrong object. |
 
@@ -113,7 +117,7 @@ At plan freeze:
 
 ### 2.9. Paper process and what is not done
 
-N18 (G16) assembles the engineering report and the machine release bundle. The paper’s Introduction states the technical and catwalk-object difficulties of Section 2.1. Subsequent sections follow the skill order N02–N17. Results may quote the locked P0 facts. Results may not quote 703.46 as a successful comparison. Results may not say 符合 without a DISP-bearing four-file set.
+N18 (G16) assembles the engineering report and the machine release bundle. The paper’s Introduction states the technical and catwalk-object difficulties of Section 2.1. Subsequent sections follow the skill order N02–N17. Results may quote the locked P0 facts (`.dat` 机构型 \(U_{\max}\); S≈IC is not balance). Results may not quote 703.46 as a successful comparison. Results may not say 符合. Results may not quote the first FRD DISP as a second displacement.
 
 Not tested: Attachment 2-3 frequencies; dual-walkway 1:1 map; ANSYS POST1 table (blocked); design combinations `gLCB*`; homemade STEP as the official path; `demo-rl-calculix`.
 
@@ -125,7 +129,7 @@ Not tested: Attachment 2-3 frequencies; dual-walkway 1:1 map; ANSYS POST1 table 
 - Skill suite `bridge-fem-skill-suite` v1.0.0 (19 `SKILL.md` files, `workflow.yaml`).  
 - Preregistration path `docs/catwalk-experiment-plan-ccx-operating-force/`.  
 
-Data that exist are the hashed MCT, the hashed migrate `.inp`, and the P0 JSON sidecar. Data that do not exist are the P0 raw solver files and an ANSYS operating-force extract. Both absences are part of the experimental record.
+Data that exist are the hashed MCT, the hashed migrate `.inp`, and the locked P0 compute conclusions (`.dat` 机构型 \(U_{\max}\); FRD first DISP is not a second U; S≈IC is not balance). An ANSYS operating-force extract does not exist. Do not write 符合.
 
 ---
 

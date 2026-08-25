@@ -30,14 +30,14 @@
 
 **Journal target.** MDPI *Applied Sciences* research Article (IMRAD). Methods must be reproducible; software versions, code availability, and a preregistration identifier are required; generative-AI use in design or analysis must be disclosed in Methods ([Instructions for Authors](https://www.mdpi.com/journal/applsci/instructions)).
 
-**This document is a plan, not a scientific success claim.** A finished VM job is not a physics claim. The word 符合 is forbidden unless a DISP-bearing hashed `.frd/.dat/.sta/.cvg` set exists and the operating-force table comparison is executed against that set.
+**This document is a plan, not a scientific success claim.** A finished VM job is not a physics claim. **Do not write 符合.** Displacement authority is `.dat` original-node U, not the first `.frd` DISP block.
 
 ---
 
 ## 1. Exact claim under test
 
 **Claim H-ZJG-CCX-OF-001.**  
-On the locked MCT-migrated CalculiX deck `974211b2`, after a static solve whose raw result files contain nodal DISP, the **element axial operating force** (运营力) of each cable `eid` recovered from those result files agrees with the **same-source MCT or ANSYS operating-force table** for the matching load case, inside the pre-registered tolerance of §7. The primary unit is newton per cable element. Displacement extrema (`Umax`) and the presence/absence of DISP are co-primary metrics, not optional diagnostics.
+On the locked MCT-migrated CalculiX deck `974211b2`, after a static solve whose **`.dat` original-node U** and element fields are hashed, the **element axial operating force** (运营力) of each cable `eid` recovered from those result files agrees with the **same-source MCT or ANSYS operating-force table** for the matching load case, inside the pre-registered tolerance of §7. The primary unit is newton per cable element. Displacement authority is `.dat` \(U_{\max}\) on the 1125 original nodes. The first `.frd` DISP block is **not** a co-primary displacement metric.
 
 **The claim is not:**
 
@@ -51,10 +51,13 @@ On the locked MCT-migrated CalculiX deck `974211b2`, after a static solve whose 
 | Fact | Locked value | Status |
 |---|---|---|
 | CalculiX exit | 0 | locked compute conclusion |
-| \(U_{\max}\) | \(9.264\times 10^{9}\) mm | locked compute conclusion; **likely failed static** |
-| eid 1 axial | \(15\,687\,915\) N (CCX) vs \(15\,686\,250\) N (MCT number recorded in the sidecar) | locked compute conclusion; **not** a declaration that the operating-force table was used |
+| Displacement authority | `.dat` \(U_{\max}=9.26\times 10^{9}\) mm on **1125 original-node U** | locked; **机构型 (mechanism-type)** |
+| First `.frd` DISP | 0 original NSET nodes | **not** a second displacement conclusion. T3D2 is expanded to C3D8I; original NSET is not on the FRD mesh. |
+| S ≈ IC | worst relative −19.1% | **not** cable-force balance |
+| eid 1 axial | \(15\,687\,915\) N (CCX) vs \(15\,686\,250\) N (MCT number recorded in the sidecar) | locked compute pair; **not** an operating-force-table test; **not** 符合 |
+| 703.46 | source-side IC trace / \(F/A\) | **excluded from Results** |
 
-These three numbers are the only solver results this plan is allowed to treat as compute conclusions. Additional floats inside `catwalk-fem/eval/ccx_mct_from_zero/ccx_run.json` are sidecar text. They are not independently re-derived from hashed `.frd/.dat/.sta/.cvg`, because those four files are **not in the working tree** (commit `16e2d22` recorded only the JSON).
+Do not treat the first FRD DISP block as a second \(U_{\max}\). Do not treat S≈IC as 索力平衡. Additional floats inside `catwalk-fem/eval/ccx_mct_from_zero/ccx_run.json` remain sidecar text except where they agree with the locked `.dat` authority (same \(9.26\times 10^{9}\) mm order).
 
 ---
 
@@ -150,7 +153,7 @@ A0 load step currently on the locked deck: `*STATIC` with `*DLOAD` GRAV + `*CLOA
 
 | Case ID | MCT name | CCX action on A0 | Status at plan freeze |
 |---|---|---|---|
-| **P0** | 一次成桥 ≈ 自重 + 二期 + IC | Already executed (JSON sidecar). Lock exit 0, \(U_{\max}=9.264\times 10^{9}\) mm, eid1 \(15\,687\,915\) N vs \(15\,686\,250\) N. | **Compute conclusions locked.** Scientific 符合: **No-Go.** Raw four-file set: **missing**. |
+| **P0** | 一次成桥 ≈ 自重 + 二期 + IC | Already executed. Lock: `.dat` \(U_{\max}=9.26\times 10^{9}\) mm (1125 original-node U), **机构型**; FRD first DISP (0 original NSET) is not a second U; S≈IC worst −19.1% is not balance; eid1 \(15\,687\,915\) N vs \(15\,686\,250\) N. | **Compute conclusions locked.** Scientific 符合: **do not write.** |
 | P1 | 工况1恒载 | Re-request FORC/S + U; write a **new** job directory; do not edit `974211b2`. | Planned |
 | P2 | 工况2 恒+施工 | Add 施工荷载 `*CLOAD` from MCT scrape. | Planned |
 | P3 | 工可3恒+施工+温度 | Add 整体降温15. | Planned |
@@ -173,11 +176,11 @@ Pre-registered. Substitution after seeing numbers is a protocol violation.
 | M1 | \(F_{\mathrm{ccx}}(eid)\) | Axial operating force (N) of each of 1123 cables after the step | Hashed `.dat` and/or `.frd` element field, with the recovery formula written in `solver_run_record.json` |
 | M2 | \(F_{\mathrm{table}}(eid)\) | Same eid, same case, MCT or ANSYS **operating-force table** (N) | Hashed table whose provenance is “post-solve element force”, **not** `*INIFORCE` / `*INI-EFORCE` / IC PK2 |
 | M3 | \(\delta(eid)=\lvert F_{\mathrm{ccx}}-F_{\mathrm{table}}\rvert/\lvert F_{\mathrm{table}}\rvert\) | Relative force error | Derived from M1, M2 |
-| M4 | \(U_{\max}\) | \(\max_n \lVert \mathbf{u}_n\rVert\) (mm) | Hashed `.frd` DISP (or `.dat` U) |
-| M5 | DISP presence | Boolean: `.frd` contains a DISP block with 1125 nodes | Hashed `.frd` |
+| M4 | \(U_{\max}\) | \(\max_n \lVert \mathbf{u}_n\rVert\) (mm) on **original** nodes | **Authority = hashed `.dat` U** (1125 original-node rows). Not the first `.frd` DISP block. |
+| M5 | Original-node U presence | Boolean: `.dat` prints U for the 1125 original NSET nodes | Hashed `.dat`. FRD first DISP with 0 original NSET nodes does **not** satisfy M5. |
 | M6 | Run completeness | `.inp/.frd/.dat/.sta/.cvg` all present, SHA-256 recorded, commit recorded, Actions run recorded | Manifest |
 
-P0 locked M4 \(=9.264\times 10^{9}\) mm and M1(eid 1) \(=15\,687\,915\) N. M2 for P0 as recorded in the sidecar is MCT **INI-EFORCE mean**, which **is not** M2 as defined here. Therefore P0 does **not** yet test H-ZJG-CCX-OF-001. That is a conclusion, not a blank.
+P0 locked M4 \(=9.26\times 10^{9}\) mm from `.dat` (1125 original-node U) and is **机构型**. M1(eid 1) \(=15\,687\,915\) N. S≈IC (worst −19.1%) is **not** cable-force balance and is **not** M1 vs M2. M2 in the sidecar is MCT **INI-EFORCE mean**, which is not M2 as defined here. P0 does **not** test H-ZJG-CCX-OF-001 and is **not** 符合.
 
 ---
 
@@ -185,14 +188,14 @@ P0 locked M4 \(=9.264\times 10^{9}\) mm and M1(eid 1) \(=15\,687\,915\) N. M2 fo
 
 A case is **scientific PASS** only if **all** of the following hold.
 
-1. M5 is true (DISP present, 1125 nodes).  
+1. M5 is true (`.dat` U on 1125 original nodes). A first `.frd` DISP block with 0 original NSET nodes does **not** count.  
 2. `.sta` shows a completed increment; `.cvg` exists; CalculiX exit 0 is **necessary but not sufficient**.  
-3. M4 \(\le 500\) mm (catwalk live displacement scale; \(9.264\times 10^{9}\) mm fails immediately).  
-4. M2 is an operating-force table, not INIFORCE / IC / 703.46.  
-5. M3: median \(\le 0.01\) and 95th percentile \(\le 0.05\) over the 1123 cables.  
+3. M4 \(\le 500\) mm (catwalk live displacement scale; `.dat` \(9.26\times 10^{9}\) mm is **机构型** and fails immediately).  
+4. M2 is an operating-force table, not INIFORCE / IC / 703.46 / S≈IC.  
+5. M3: median \(\le 0.01\) and 95th percentile \(\le 0.05\) over the 1123 cables. S≈IC worst −19.1% is **not** this test and is **not** balance.  
 6. All six evidence objects of §10 exist and hash-close.
 
-A case is **scientific FAIL** if any of 1–6 fails. **P0 is scientific FAIL** on items 2 (four-file set missing), 3 (\(U_{\max}\) huge), and 4 (sidecar compared INI-EFORCE). P0 is still a **compute conclusion**: exit 0, huge \(U_{\max}\), eid1 pair as locked.
+A case is **scientific FAIL** if any of 1–6 fails. **P0 is scientific FAIL**: `.dat` \(U_{\max}\) is 机构型; S≈IC is not balance; M2 was INI-EFORCE. Do not write 符合. P0 is still a **compute conclusion** as locked in §1.
 
 A case is **BLOCKED** if M2 cannot be obtained without invention (ANSYS extract still empty; archive CSV not fetched). Blocked \(\neq\) “stopped / none”. Report BLOCKED with the hash of the failed extract.
 
@@ -204,16 +207,18 @@ The following may not be used, after seeing data, as a success stand-in for H-ZJ
 
 1. **Source-side 703.46.** MCT/CCX IC \(\sigma\) versus ANSYS `INISTATE` 703.46280. Rel. \(3.19\times 10^{-6}\) is not a results table.  
 2. IC PK2 trace, `*INIFORCE`, or `*INI-EFORCE` labelled as 运营力.  
-3. Promoting homemade `82548e6a` / `41fb3222` / `c635dad7` / `760c0ee4` / `6712e918` to main.  
-4. `demo-rl-calculix` numbers.  
-5. TARGET-FREQ / 附件2-3 spectrum match.  
-6. CalculiX exit 0, or “VM ran”, or “agent finished”, as 符合.  
-7. Bot chat, PR comment, or self-eval prose as a solver artifact.  
-8. Archive `mct_case_*_element_force.csv` as a **new main deck**. (Allowed later as a **control table** only after the bytes are fetched and hash-checked against `archive_index_MCT基准复现_V1.0.json`.)  
-9. 扎青 drawings as 张靖皋 geometry.  
-10. Changing `974211b2` bytes to make \(U_{\max}\) look small.  
-11. Picking a different eid, a different percentile, or a stress-only metric because force/DISP failed.  
-12. Zhaqing GitHub Actions (`zhaqing-prestress-*.yml`) as evidence that the catwalk deck solved.
+3. **S≈IC labelled as cable-force balance.** Worst −19.1% is locked as *not* 索力平衡.  
+4. **First `.frd` DISP (0 original NSET nodes) as a second \(U_{\max}\).** T3D2→C3D8I expansion; original NSET is not on the FRD mesh. Authority is `.dat` 1125 original-node U.  
+5. Promoting homemade `82548e6a` / `41fb3222` / `c635dad7` / `760c0ee4` / `6712e918` to main.  
+6. `demo-rl-calculix` numbers.  
+7. TARGET-FREQ / 附件2-3 spectrum match.  
+8. CalculiX exit 0, or “VM ran”, or “agent finished”, as 符合.  
+9. Bot chat, PR comment, or self-eval prose as a solver artifact.  
+10. Archive `mct_case_*_element_force.csv` as a **new main deck**. (Allowed later as a **control table** only after the bytes are fetched and hash-checked against `archive_index_MCT基准复现_V1.0.json`.)  
+11. 扎青 drawings as 张靖皋 geometry.  
+12. Changing `974211b2` bytes to make \(U_{\max}\) look small.  
+13. Picking a different eid, a different percentile, or a stress-only metric because force/DISP failed.  
+14. Zhaqing GitHub Actions (`zhaqing-prestress-*.yml`) as evidence that the catwalk deck solved.
 
 ---
 
@@ -240,8 +245,8 @@ Every case that is allowed to enter Results must produce this closed set. **Go/N
 | Object | Requirement | P0 status this turn |
 |---|---|---|
 | `.inp` | SHA-256 `974211b2…` or a **new** documented daughter hash | **Go** (file present, hash verified) |
-| `.frd` | SHA-256; DISP block; 1125 nodes | **No-Go** (absent from tree and from commit `16e2d22`) |
-| `.dat` | SHA-256; U and/or element field used for M1 | **No-Go** (absent) |
+| `.frd` | SHA-256. First DISP with 0 original NSET nodes is **not** displacement authority | Record if present; **do not** use first DISP as a second \(U_{\max}\) |
+| `.dat` | SHA-256; **authority** for \(U_{\max}\) = 1125 original-node U | Locked compute: \(9.26\times 10^{9}\) mm, 机构型 |
 | `.sta` | SHA-256; increment row | **No-Go** (absent) |
 | `.cvg` | SHA-256 | **No-Go** (absent) |
 | Commit | Git SHA that contains the five files | P0 JSON: `16e2d22`. Four raw files: **unsupported** |
@@ -255,8 +260,8 @@ Sidecar `ccx_run.json` (SHA-256 `7e43993e42729e6f5b5b90ca1633b985177a8661dd81429
 
 Stop the **scientific** claim (write FAIL/BLOCKED) but **do not stop reporting** and **do not mutate A0** when:
 
-1. \(U_{\max} > 500\) mm (already true for P0).  
-2. DISP missing.  
+1. `.dat` \(U_{\max} > 500\) mm (already true for P0: \(9.26\times 10^{9}\) mm, 机构型).  
+2. Original-node `.dat` U missing. Do not substitute first FRD DISP.  
 3. M2 unavailable without invention.  
 4. Any frozen homemade hash would have to be edited to “make it run”.  
 5. A temptation appears to publish 703.46 as Results.  
@@ -272,7 +277,8 @@ Do **not** stop because the ledger is stale, because Actions is the wrong workfl
 | Class | Failure | Handling |
 |---|---|---|
 | Science | H-ZJG-CCX-OF-001 not met | Write FAIL. Keep A0. |
-| Science | Huge \(U_{\max}\) | Write “likely failed static”. Locked for P0. |
+| Science | Huge `.dat` \(U_{\max}\) | Write **机构型**. Locked: \(9.26\times 10^{9}\) mm, 1125 original-node U. |
+| Science | S≈IC | Write **not** cable-force balance (worst −19.1%). |
 | Process | Main deck bytes change | Protocol violation. Revert the `.inp`. |
 | Process | Homemade written as 正路 | Protocol violation. |
 | Process | 703.46 in Results | Protocol violation. |
@@ -292,7 +298,9 @@ Do **not** stop because the ledger is stale, because Actions is the wrong workfl
 - `demo-rl-calculix`.  
 - Zhaqing prestress command workflows as catwalk evidence.  
 - Source-side prestress agreement (703.46).  
-- Scientific 符合 of P0.
+- Scientific 符合 of P0.  
+- Treating first `.frd` DISP (0 original NSET nodes) as a displacement result.  
+- Treating S≈IC as 索力平衡.
 
 ---
 

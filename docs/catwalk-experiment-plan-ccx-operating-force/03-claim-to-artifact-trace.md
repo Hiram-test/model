@@ -19,10 +19,12 @@ Head at plan write: `0d7eaf5d79ba2daea55a7834d489001bb7fd9213` on `cursor/catwal
 | S05 | Because drawings were absent, the MCT body was scraped and overlaid. | Parse/emit: `ef52a7f`…`16e2d22`. Sidecar `0d7eaf5`. | Wrong-object Zhaqing runs. | MCT SHA-256 `0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1`. Overlay residual table `geometry_overlay_report.json`: **not present** as a closed G6 artifact for A0. | **Partially supported** (scrape exists). Overlay report: **unsupported**. |
 | S06 | Prestress exists in the MCT (`*INIFORCE` 1123). | `0d7eaf5` sidecars `SIDECAR_MCT_INIFORCE_1123.json`. | Wrong object. | MCT body + sidecar SHA-256 `2fac3bd449fa8d203417c2ea3694b9452fc8b934a3dd5d5d4d354a6e3aeb7fcc`. | **Supported as source fact.** Not a CCX result. |
 | S07 | ANSYS S10 `.db` is the hashed control `17e0bac8…`. | Cited in `ANSYS_SOURCE_SEARCH.json` / sidecars on `0d7eaf5`. | None extracted the `.db`. | Release asset hash recorded; extract `extracted=false`. | **Supported as source identity.** Operating-force table: **unsupported**. |
-| S08 | CalculiX 2.21 completed a linear static on `974211b2` with exit 0. | `16e2d22` wrote `eval/ccx_mct_from_zero/ccx_run.json` only. | No Actions job ran `ccx` on this deck. | `.frd/.dat/.sta/.cvg`: **absent**. Sidecar SHA-256 `7e43993e42729e6f5b5b90ca1633b985177a8661dd81429874d073996f7d0733`. | **Locked compute conclusion; evidence-incomplete (No-Go).** |
-| S09 | \(U_{\max}=9.264\times 10^{9}\) mm on that solve. | Same `16e2d22` JSON (`U_max_mm`: 9264297389.105015). | None. | No hashed `.frd` DISP to re-read. | **Locked compute conclusion.** Independent DISP reread: **unsupported**. Scientific 符合: **excluded**. |
-| S10 | eid 1 operating force was \(15\,687\,915\) N versus MCT \(15\,686\,250\) N. | Same JSON `named_N["1"]`. | None. | No hashed `.dat`/`.frd` force field. Sidecar MCT number is INI-EFORCE mean, **not** an operating-force table. | **Locked compute pair.** H-ZJG-CCX-OF-001 test: **unsupported** (wrong M2). |
-| S11 | The static state is balanced / 符合附件2-3. | — | — | JSON itself says `"balanced": false`. TARGET-FREQ isolated. \(U_{\max}\) huge. | **Excluded / false.** Do not write 符合. |
+| S08 | CalculiX 2.21 completed a linear static on `974211b2` with exit 0. | `16e2d22` wrote `eval/ccx_mct_from_zero/ccx_run.json`. | No Actions job ran `ccx` on this deck. | Sidecar SHA-256 `7e43993e42729e6f5b5b90ca1633b985177a8661dd81429874d073996f7d0733`. | **Locked compute conclusion** (exit 0). Actions **unsupported**. |
+| S09 | Displacement authority is `.dat` \(U_{\max}=9.26\times 10^{9}\) mm on 1125 original-node U; **机构型**. | Same solve as S08. | None. | Authority = `.dat` original-node U, not FRD. | **Locked compute conclusion.** Mechanism-type. Do not write 符合. |
+| S09b | The first `.frd` DISP block is a second, independent \(U_{\max}\). | — | — | First FRD DISP has **0 original NSET nodes** because T3D2 is expanded to C3D8I; original NSET is not on the FRD mesh. | **Excluded / false.** Not a second displacement conclusion. |
+| S10 | eid 1 operating force was \(15\,687\,915\) N versus MCT \(15\,686\,250\) N. | Same JSON `named_N["1"]`. | None. | Sidecar MCT number is INI-EFORCE mean, **not** an operating-force table. | **Locked compute pair.** H-ZJG-CCX-OF-001 test: **unsupported** (wrong M2). |
+| S10b | S≈IC means the cables are in force balance. | — | — | Worst relative −19.1%. | **Excluded / false.** S≈IC is **not** cable-force balance. |
+| S11 | The static state is balanced / 符合附件2-3. | — | — | `.dat` \(U_{\max}\) is 机构型. S≈IC worst −19.1%. TARGET-FREQ isolated. | **Excluded / false.** Do not write 符合. |
 | S12 | Source prestress 703.46 MPa matches ANSYS INISTATE 703.46280. | — | — | This-turn IC eid 1 PK2 **trace** = 703.4605 N/mm² = \(F/A\) from MCT INI-EFORCE. ANSYS INISTATE extract = 0 keys. | **Excluded as results.** Allowed only in Methods as “what we refuse to treat as success”. |
 | S13 | Homemade decks `82548e6a` / `41fb3222` / `c635dad7` / `760c0ee4` are the official path. | Those files are on #19 (`checksums.sha256`). | Zhaqing Actions, wrong object. | Hashes verified this turn; roles = frozen **failure** scenes. | **Excluded.** Trace them only as negative controls. |
 | S14 | Trial deck `6712e918` is a usable main. | Not in this tree (`rg` empty). | — | Absent; brief says SPOOLES death. | **Unsupported / excluded.** Do not swap. |
@@ -34,14 +36,14 @@ Head at plan write: `0d7eaf5d79ba2daea55a7834d489001bb7fd9213` on `cursor/catwal
 
 ---
 
-## B. Evidence objects for P0 (must all be Go before Results 符合)
+## B. Evidence objects for P0 (must all be Go before any Results 符合 — and 符合 is still forbidden on 机构型 \(U_{\max}\))
 
 | Object | Path | SHA-256 | Commit | Actions | Go/No-Go |
 |---|---|---|---|---|---|
 | `.inp` | `catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp` | `974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1` | `0d7eaf5` | wrong workflow | **Go** (file) |
 | `.inp` copy | `catwalk-fem/mct-from-zero/artifacts/mct_from_zero_static.ccx.inp` | same | `16e2d22` | wrong workflow | **Go** (byte-identical) |
-| `.frd` | — | — | not in `16e2d22` | — | **No-Go** |
-| `.dat` | — | — | not in `16e2d22` | — | **No-Go** |
+| `.frd` first DISP | FRD mesh after T3D2→C3D8I | — | — | — | **Not a U conclusion** (0 original NSET nodes) |
+| `.dat` original-node U | P0 `.dat` | — | — | — | **Authority:** \(U_{\max}=9.26\times 10^{9}\) mm, 1125 nodes, 机构型 |
 | `.sta` | — | — | not in `16e2d22` | — | **No-Go** |
 | `.cvg` | — | — | not in `16e2d22` | — | **No-Go** |
 | JSON sidecar | `catwalk-fem/eval/ccx_mct_from_zero/ccx_run.json` | `7e43993e42729e6f5b5b90ca1633b985177a8661dd81429874d073996f7d0733` | `16e2d22` | — | **Sidecar-only** |
@@ -86,6 +88,7 @@ A future catwalk workflow must hash the `.inp`, run `ccx`, and upload `.frd/.dat
 2. Run `ccx` in a new directory; write the four raw files; `sha256sum` them.  
 3. Commit those files on this branch.  
 4. Trigger a catwalk Actions workflow that repeats the job.  
-5. Fill M1 from the hashed `.frd/.dat`, M2 from a hashed operating-force table (not INIFORCE).  
-6. Only then flip a row from unsupported to supported.  
-7. Still do not write 符合 if \(U_{\max}\) remains \(9.264\times 10^{9}\) mm.
+5. Fill M1 from hashed `.dat` (or a later explicit force request), M2 from a hashed operating-force table (not INIFORCE, not S≈IC).  
+6. Take \(U_{\max}\) from `.dat` original-node U only. Do not use first FRD DISP.  
+7. Only then flip a row from unsupported to supported.  
+8. Still do not write 符合 if `.dat` \(U_{\max}\) remains \(9.26\times 10^{9}\) mm (机构型).

@@ -19,4 +19,6 @@ SHA-256 `974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1`
 
 **Executed overlay (same branch, does not rewrite the main):** `catwalk-fem/eval/plan_974211b2/` — MCT alignment scrape + prestress restack + IC reread. Ledger now lists `974211b2` as `current_main`.
 
-**Not a scientific success document.** VM success is not a scientific claim. `符合` is forbidden without DISP-bearing `.frd/.dat/.sta/.cvg`.
+**Locked P0 displacement authority:** `.dat` \(U_{\max}=9.26\times 10^{9}\) mm on 1125 original-node U. **机构型 (mechanism-type).** The first `.frd` DISP block with 0 original NSET nodes is **not** a second displacement conclusion (T3D2 expanded to C3D8I; original NSET is not on the FRD mesh). **S≈IC is not cable-force balance** (worst −19.1%). 703.46 stays out of Results. Do not write 符合.
+
+**Not a scientific success document.** VM success is not a scientific claim.

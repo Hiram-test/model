@@ -50,17 +50,28 @@
     "still_write_them": true,
     "scientific_success": false,
     "符合附件2-3": false,
+    "do_not_write_符合": true,
     "facts": {
       "ccx_exit": 0,
-      "Umax_mm": 9.264e9,
+      "displacement_authority": "dat_original_node_U",
+      "Umax_dat_mm": 9.26e9,
+      "Umax_dat_n_original_nodes": 1125,
+      "classification": "mechanism_type_机构型",
       "eid1_ccx_N": 15687915,
-      "eid1_mct_N": 15686250
+      "eid1_mct_N": 15686250,
+      "S_approx_IC_is_cable_force_balance": false,
+      "S_vs_IC_worst_rel": -0.191
+    },
+    "frd_first_disp_is_not_a_second_displacement_conclusion": {
+      "reason": "T3D2 expanded to C3D8I; original NSET nodes are not on the FRD mesh",
+      "first_disp_block_original_nset_nodes": 0,
+      "lock": "Do not treat FRD first DISP as a second Umax or as 1125-node original DISP."
     },
     "sidecar_only_not_locked_as_extra_solver_numbers": {
       "path": "catwalk-fem/eval/ccx_mct_from_zero/ccx_run.json",
       "sha256": "7e43993e42729e6f5b5b90ca1633b985177a8661dd81429874d073996f7d0733",
       "records_more_than_locked_facts": true,
-      "raw_frd_dat_sta_cvg_in_tree": false
+      "note": "Sidecar U_max_mm 9264297389.105015 is the same 9.26e9 order; authority is .dat 1125 original-node U, not FRD first DISP."
     }
   },
   "frozen_homemade_failure_scenes_not_main_path": {
