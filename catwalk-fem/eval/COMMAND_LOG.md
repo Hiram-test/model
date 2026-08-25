@@ -28,7 +28,22 @@ c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  catwalk-fem/ar
 760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  catwalk-fem/artifacts/zjg_catwalk_cleared.inp
 ```
 
-未改写 c635dad7 / 41fb3222。不 merge。
+```
+$ git push -u origin cursor/catwalk-main-deck-gate-f23d
+6d2c25d..d3b97d6  cursor/catwalk-main-deck-gate-f23d -> cursor/catwalk-main-deck-gate-f23d
+
+$ git fetch origin cursor/catwalk-main-deck-gate-f23d
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_cleared.inp | sha256sum
+760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  -
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_main.inp | sha256sum
+c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  -
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_ccx221.inp | sha256sum
+41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a  -
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/checksums.sha256 | grep zjg_catwalk_cleared.inp
+760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  zjg_catwalk_cleared.inp
+```
+
+PR #19 head=`d3b97d6`，`merged=false`。不 merge。未改写 c635dad7 / 41fb3222。
 
 ---
 

@@ -9,3 +9,6 @@
 - `artifacts/zjg_catwalk_cleared.inp` SHA-256 `760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9`
 - sidecar：`artifacts/zjg_catwalk_cleared.inp.sha256`
 - c635dad7、41fb3222、82548e6a **未改**
+
+独立回读（已核）：`git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_cleared.inp | sha256sum`  
+= `760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9`。PR #19 `merged=false`。

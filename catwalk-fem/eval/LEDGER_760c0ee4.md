@@ -45,3 +45,18 @@ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_cat
 ```
 
 账本行与 `git show | sha256sum` 必须同一字符串，才算新主进账。
+
+## 交付后本岗独立回读
+
+```
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/checksums.sha256 | grep zjg_catwalk_cleared.inp
+760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  zjg_catwalk_cleared.inp
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_cleared.inp | sha256sum
+760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  -
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_main.inp | sha256sum
+c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  -
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_ccx221.inp | sha256sum
+41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a  -
+```
+
+GitHub `get_file_contents` 对 `checksums.sha256` 与 `HASH_LEDGER.json` 同一字符串。账本行 = 独立 `sha256sum`。c635dad7 / 41fb3222 未改。PR `merged=false`。

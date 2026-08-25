@@ -51,3 +51,12 @@ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_cat
 ```
 
 账本行与 `git show | sha256sum` 必须同一字符串，才算新主进账。不合并。
+
+## 交付后当场核
+
+```
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_cleared.inp | sha256sum
+760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  -
+```
+
+JSON：`eval/REMOTE_REREAD_760c0ee4.json`。PR `merged=false`。

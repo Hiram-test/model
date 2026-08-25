@@ -31,6 +31,35 @@ $ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/check
 
 GitHub 目录列举无 `zjg_catwalk_cleared.inp`。因此上一轮声称 760c0ee4 可在 #19 独立复算：**不成立**。本岗认同该不过门。
 
+## D.2 远程独立回读（push 后当场核）
+
+```
+git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_cleared.inp | sha256sum
+= 760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9
+git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_main.inp | sha256sum
+= c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84
+git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_ccx221.inp | sha256sum
+= 41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a
+```
+
+`checksums.sha256` 现有 `zjg_catwalk_cleared.inp` 行，与 `git show | sha256sum` 同一字符串。  
+`HASH_LEDGER.json` `new_main` = 760c0ee4；c635dad7 为 `fail_site_four_unconstrained_b31`。  
+GitHub 目录列举已出现 `zjg_catwalk_cleared.inp`（47 948 916 B）。  
+PR #19 head=`d3b97d667627a8125a4fdacc12365b17b21d921a`，`merged=false`，`draft=true`。
+
+| 项 | 判定 | 一句依据 |
+|---|---|---|
+| 上一轮「#19 上无 760c0ee4」 | **成立（当时不过门）** | 交付前 `git ls-tree` 无该路径；checksums 无 cleared 行 |
+| 新主 inp 已在 #19 远程分支 | **成立** | `git show origin/… \| sha256sum` = 760c0ee4 |
+| sidecar 已在远程 | **成立** | 正文等于该哈希 |
+| 账本行已登记 | **成立** | checksums + HASH_LEDGER 与 sha256sum 同一字符串 |
+| 对方可独立复算 | **成立** | 路径在 PR #19 head；命令见 `DELIVER_760c0ee4_TO_PR19.md` |
+| c635dad7 未改 | **成立** | 远程 `sha256sum` 仍 c635dad7 |
+| 41fb3222 未改 | **成立** | 远程 `sha256sum` 仍 41fb3222 |
+| 未合并 | **成立** | PR `merged=false` |
+
+**总评：认同当时不过门（哈希不在 #19 / 账本无 cleared 行）。inp+sidecar+账本已交到 `cursor/catwalk-main-deck-gate-f23d`。本岗对远程独立复算 760c0ee4 成立。c635dad7 与 41fb3222 不动。不合并。**
+
 ---
 
 # 上一轮留痕（清 4 个 B31 分量 → 760c0ee4；当时不 push）
