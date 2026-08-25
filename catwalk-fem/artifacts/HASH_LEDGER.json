@@ -1,0 +1,32 @@
+{
+  "ledger": "catwalk-fem artifacts hash book on PR #19 / cursor/catwalk-main-deck-gate-f23d",
+  "rule": "a hash is not the new main until it is listed here and in checksums.sha256; independent reread is git show | sha256sum",
+  "pr": "https://github.com/Hiram-test/model/pull/19",
+  "branch": "cursor/catwalk-main-deck-gate-f23d",
+  "merged": false,
+  "entries": [
+    {
+      "role": "frozen_elset_uniaxial_fail_site",
+      "path": "catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+      "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+      "bytes": 7702117,
+      "rewritten": false
+    },
+    {
+      "role": "frozen_ic_pass_first_increment_singular_site",
+      "path": "catwalk-fem/artifacts/zjg_catwalk_ccx221.inp",
+      "sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+      "bytes": 26839981,
+      "rewritten": false
+    },
+    {
+      "role": "new_main",
+      "path": "catwalk-fem/artifacts/zjg_catwalk_main.inp",
+      "sha256": "c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84",
+      "bytes": 47948333,
+      "sidecar": "catwalk-fem/artifacts/zjg_catwalk_main.inp.sha256",
+      "in_checksums_sha256": true,
+      "on_pr19_branch": true
+    }
+  ]
+}
