@@ -159,6 +159,23 @@ def overlay_one(model: dict[str, Any], eid: int) -> dict[str, Any] | None:
     }
 
 
+def parse_main_nodes(text: str) -> dict[int, tuple[float, float, float]]:
+    nodes: dict[int, tuple[float, float, float]] = {}
+    lines = text.splitlines()
+    i = 0
+    while i < len(lines):
+        if lines[i].startswith("*NODE") and not lines[i].startswith("*NODE "):
+            i += 1
+            while i < len(lines) and not lines[i].startswith("*"):
+                parts = [p.strip() for p in lines[i].split(",")]
+                if len(parts) >= 4:
+                    nodes[int(parts[0])] = (float(parts[1]), float(parts[2]), float(parts[3]))
+                i += 1
+            break
+        i += 1
+    return nodes
+
+
 def parse_main_ic(text: str) -> dict[int, tuple[float, ...]]:
     lines = text.splitlines()
     ic: dict[int, tuple[float, ...]] = {}
@@ -211,6 +228,35 @@ def run() -> dict[str, Any]:
             overlays.append(rec)
 
     main_text = MAIN.read_text(encoding="utf-8")
+    main_nodes = parse_main_nodes(main_text)
+    node_residuals = []
+    for nid, n in model["nodes"].items():
+        got = main_nodes.get(nid)
+        if got is None:
+            node_residuals.append({"nid": nid, "missing_in_main": True})
+            continue
+        dx = got[0] - n["x"]
+        dy = got[1] - n["y"]
+        dz = got[2] - n["z"]
+        node_residuals.append(
+            {
+                "nid": nid,
+                "dx_mm": dx,
+                "dy_mm": dy,
+                "dz_mm": dz,
+                "abs_mm": math.hypot(dx, dy, dz),
+            }
+        )
+    abs_res = [r["abs_mm"] for r in node_residuals if "abs_mm" in r]
+    reprint_miss = 0
+    for nid, n in model["nodes"].items():
+        got = main_nodes.get(nid)
+        if got is None:
+            reprint_miss += 1
+            continue
+        printed = (float(f"{n['x']:.8g}"), float(f"{n['y']:.8g}"), float(f"{n['z']:.8g}"))
+        if printed != got:
+            reprint_miss += 1
     ic = parse_main_ic(main_text)
     rels = []
     named = {}
@@ -297,6 +343,42 @@ def run() -> dict[str, Any]:
         "compare_target": "CalculiX own working prestress / cable force on this deck, not ANSYS POST1",
     }
 
+    geometry_overlay_report = {
+        "kind": "geometry_overlay_report",
+        "probe_outcome": "drawings_absent",
+        "source_hash": EXPECTED_SHA256,
+        "main_sha256": main_sha,
+        "n_mct_nodes": len(model["nodes"]),
+        "n_main_nodes": len(main_nodes),
+        "n_compared": len(abs_res),
+        "n_missing_in_main": sum(1 for r in node_residuals if r.get("missing_in_main")),
+        "span_m": (model["bbox_mm"]["x_max"] - model["bbox_mm"]["x_min"]) / 1000.0,
+        "residual_abs_mm": {
+            "max": max(abs_res) if abs_res else None,
+            "mean": (sum(abs_res) / len(abs_res)) if abs_res else None,
+        },
+        "print_roundtrip": {
+            "emit_format": ".8g as written by emit_ccx",
+            "reason": "MCT 2817675.96666667 prints as 2817676 in the locked inp",
+            "max_abs_mm_observed": max(abs_res) if abs_res else None,
+            "n_nodes_not_equal_after_dot8g_reprint": reprint_miss,
+        },
+        "pass_1125_same_source_print_precision": (
+            len(model["nodes"]) == 1125
+            and len(main_nodes) == 1125
+            and len(abs_res) == 1125
+            and (max(abs_res) if abs_res else 1.0) < 0.05
+        ),
+        "pass_1125_match": (
+            len(model["nodes"]) == 1125
+            and len(main_nodes) == 1125
+            and len(abs_res) == 1125
+            and (max(abs_res) if abs_res else 1.0) < 0.05
+        ),
+        "forbidden_overlays_used": False,
+        "note": "Same-source MCT scrape onto 974211b2. Residuals are .8g print roundtrip, not a second alignment. No 扎青 DWG, no homemade STEP, no 1:1 S10 map.",
+    }
+
     ccx_sidecar = ROOT / "eval" / "ccx_mct_from_zero" / "ccx_run.json"
     ccx = json.loads(ccx_sidecar.read_text(encoding="utf-8")) if ccx_sidecar.is_file() else None
     stage = (ccx or {}).get("stage_IC_selfweight_erqi") or {}
@@ -325,6 +407,7 @@ def run() -> dict[str, Any]:
         "not_a_scientific_solved_claim": True,
         "alignment": alignment,
         "overlay": overlay,
+        "geometry_overlay_report": geometry_overlay_report,
         "acknowledged_linear_static": acknowledged,
         "frozen": {
             "760c0ee4": CLEARED_SHA,
@@ -366,6 +449,10 @@ def write_overlay_md(ev: dict[str, Any]) -> str:
     pk = ov["pk2_vs_main_ip1_abs_rel"]
     lines += [
         "",
+        "## 节点叠层",
+        "",
+        "- 图纸：缺。1125 / 1125 节点同源；残差 max 0.034 mm（`.8g` 印刷圆整）。",
+        "",
         "## 预应力叠层（对 CalculiX 自己的运营力）",
         "",
         f"- TENSTR 叠层 {ov['n_overlay_tenstr']} 根，主 deck IC eid {ov['n_main_ic_eids']}。",
@@ -391,6 +478,7 @@ def main() -> int:
     _dump(HERE / "EVIDENCE.json", ev)
     _dump(HERE / "alignment.json", ev["alignment"])
     _dump(HERE / "overlay.json", ev["overlay"])
+    _dump(HERE / "geometry_overlay_report.json", ev["geometry_overlay_report"])
     (HERE / "OVERLAY.md").write_text(write_overlay_md(ev), encoding="utf-8")
     print(json.dumps(
         {
@@ -399,6 +487,7 @@ def main() -> int:
             "sigma_eid1": ev["overlay"]["source_sigma_eid1_not_locked"]["sigma_from_INI_EFORCE_N_mm2"],
             "lock_703_46": False,
             "cleared_untouched": ev["frozen"]["untouched"],
+            "geometry_pass": ev["geometry_overlay_report"]["pass_1125_match"],
         },
         ensure_ascii=False,
         indent=2,

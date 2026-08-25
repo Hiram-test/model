@@ -38,7 +38,7 @@ sha256sum catwalk-fem/artifacts/zjg_catwalk_cleared.inp
 
 ## 3. 本轮已执行的叠层
 
-独立复算见 `alignment.json`、`overlay.json`、`OVERLAY.md`、`EVIDENCE.json`。
+独立复算见 `alignment.json`、`overlay.json`、`geometry_overlay_report.json`、`OVERLAY.md`、`EVIDENCE.json`。1125 节点同源：残差 max 0.034 mm，是主 deck `.8g` 印刷圆整，不是第二套线形。
 
 面层线形（MCT 组，单位 m）：
 

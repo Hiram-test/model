@@ -46,6 +46,10 @@ def test_overlay_closes_on_main_without_rewrite():
     spans = {s["group"]: s for s in ev["alignment"]["floor_spans"]}
     assert abs(spans["主跨"]["L_m"] - 2302.0) < 1e-9
     assert abs(spans["主跨"]["sag_end_minus_zmin_m"] - 227.297397) < 1e-5
+    assert ev["geometry_overlay_report"]["pass_1125_match"] is True
+    assert ev["geometry_overlay_report"]["probe_outcome"] == "drawings_absent"
+    assert ev["geometry_overlay_report"]["residual_abs_mm"]["max"] < 0.05
+    assert ev["geometry_overlay_report"]["print_roundtrip"]["n_nodes_not_equal_after_dot8g_reprint"] == 0
     assert ev["acknowledged_linear_static"]["lock_703_46"] is False
     assert ev["acknowledged_linear_static"]["S_approx_IC_is_not_equilibrium"] is True
     assert ev["twisted_to_demo_rl_calculix"] is False

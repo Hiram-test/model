@@ -508,6 +508,31 @@
     "formula": "sigma = F_N / A_mm2; PK2 = sigma * n⊗n on MCT node-to-node vector",
     "compare_target": "CalculiX own working prestress / cable force on this deck, not ANSYS POST1"
   },
+  "geometry_overlay_report": {
+    "kind": "geometry_overlay_report",
+    "probe_outcome": "drawings_absent",
+    "source_hash": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+    "main_sha256": "974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1",
+    "n_mct_nodes": 1125,
+    "n_main_nodes": 1125,
+    "n_compared": 1125,
+    "n_missing_in_main": 0,
+    "span_m": 4270.609,
+    "residual_abs_mm": {
+      "max": 0.03360482608011406,
+      "mean": 0.0024119508875557498
+    },
+    "print_roundtrip": {
+      "emit_format": ".8g as written by emit_ccx",
+      "reason": "MCT 2817675.96666667 prints as 2817676 in the locked inp",
+      "max_abs_mm_observed": 0.03360482608011406,
+      "n_nodes_not_equal_after_dot8g_reprint": 0
+    },
+    "pass_1125_same_source_print_precision": true,
+    "pass_1125_match": true,
+    "forbidden_overlays_used": false,
+    "note": "Same-source MCT scrape onto 974211b2. Residuals are .8g print roundtrip, not a second alignment. No 扎青 DWG, no homemade STEP, no 1:1 S10 map."
+  },
   "acknowledged_linear_static": {
     "source": "calculation group + #19 sidecar eval/ccx_mct_from_zero/ccx_run.json",
     "mechanism": true,
