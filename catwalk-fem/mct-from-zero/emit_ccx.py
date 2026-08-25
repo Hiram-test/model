@@ -231,10 +231,24 @@ def emit_ccx(model: dict[str, Any], out_path: Path) -> dict[str, Any]:
                 n_cload += 1
     else:
         n_cload = 0
-    lines.append("*NODE FILE")
+    lines.append("*NSET, NSET=N_MCT")
+    chunk = []
+    for nid in sorted(nodes):
+        chunk.append(str(nid))
+        if len(chunk) == 16:
+            lines.append(", ".join(chunk))
+            chunk = []
+    if chunk:
+        lines.append(", ".join(chunk))
+    lines.append("*NODE FILE, NSET=N_MCT")
     lines.append("U")
     lines.append("*EL FILE")
     lines.append("S, E")
+    lines.append("*NODE PRINT, NSET=N_MCT")
+    lines.append("U")
+    if tenstr:
+        lines.append("*EL PRINT, ELSET=E_CABLE")
+        lines.append("S")
     lines.append("*END STEP")
 
     out_path.parent.mkdir(parents=True, exist_ok=True)

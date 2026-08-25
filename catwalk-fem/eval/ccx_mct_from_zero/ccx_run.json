@@ -1,0 +1,41 @@
+{
+  "kind": "mct_from_zero_ccx221_static",
+  "not_a_scientific_claim": true,
+  "solver": "CalculiX 2.21",
+  "inp": "catwalk-fem/mct-from-zero/artifacts/mct_from_zero_static.ccx.inp",
+  "source_mct_sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+  "n_eq": 30932,
+  "finished": true,
+  "stage_IC_selfweight_erqi": {
+    "time_s": 0.347376,
+    "n_disp": 1125,
+    "U_max_mm": 9264297389.105015,
+    "U_median_mm": 73476470.81262206,
+    "n_cable_compared": 1123,
+    "force_vs_MCT_INI_EFORCE_mean_abs_rel": {
+      "p50": 0.005540051122133662,
+      "p95": 0.03889034249273292,
+      "max": 0.19061214708677,
+      "worst_eid": 1169
+    },
+    "named_N": {
+      "1": {"ccx": 15687914.957811244, "mct": 15686250.0, "rel": 0.00010614122631246042},
+      "4": {"ccx": 12210730.722640235, "mct": 12209300.0, "rel": 0.00011718301952077327},
+      "728": {"ccx": 1455880.0655060364, "mct": 1482740.0, "rel": -0.018115067033980067},
+      "729": {"ccx": 1576891.5808524475, "mct": 1570170.0, "rel": 0.004280798163541237}
+    },
+    "balanced": false,
+    "note": "Linear step finished. |U| is huge. Not a balanced cable-force state."
+  },
+  "ic_only_probe": {
+    "time_s": 0.354134,
+    "U_max_mm": 1862806.0948214766,
+    "U_median_mm": 6721.07351068451,
+    "balanced": false,
+    "note": "Stripped *DLOAD/*CLOAD. Still not equilibrated. Do not invent a fix."
+  },
+  "ansys_db_extracted": false,
+  "used_archive_csv_as_new_main": false,
+  "pushed": false,
+  "new_main": false
+}
