@@ -6,8 +6,8 @@
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 \lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,backgroundcolor=\color{black!3}}
 \title{Agentic FEA of the Zhangjinggao Construction Catwalk:\\
-\large Coordinate gate, 142-portal reconciliation, and a CalculiX 2.21\\
-initial-stress parse failure on a frozen hashed deck}
+\large Coordinate gate, 142-portal reconciliation, a \S7.76 PK2 main deck,\\
+and a singular tangent on a disconnected centre-line}
 \author{Run \texttt{catwalk-main-deck-gate-f23d}\\
 Repository \texttt{Hiram-test/model}, branch \texttt{cursor/catwalk-main-deck-gate-f23d}\\
 Pull request \#19}
@@ -23,21 +23,19 @@ is parsed, mapped into the project convention
 coarsened, and written as a CalculiX deck. Floor-rope and portal-rope anchors
 are separate \texttt{*NSET}/\texttt{*BOUNDARY} families. Twenty-one
 cross-passages and 142 portal frames (71 stations per deck; Chinese classifier
-U+6980, not the look-alike U+69EC) reconcile against the drawing station lists
-with zero insertions. The frozen main deck
-\texttt{catwalk-fem/artifacts/zjg\_catwalk\_coarsened.inp} has SHA-256
+U+6980, not U+69C7) reconcile against the drawing station lists
+with zero insertions. Frozen deck
 \texttt{82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da}
-and is not rewritten. CalculiX 2.21 was executed on a byte-identical copy.
-Reading \texttt{*INITIAL CONDITIONS, TYPE=STRESS} failed on the first data row
-\texttt{E\_FLOOR\_ROPE,3.549611E+08} with exit code 201. No \texttt{.frd} was
-written; the \texttt{.dat} is empty; \texttt{.sta} and \texttt{.cvg} contain
-headers only; wall-clock time was \(0.74\)--\(0.82\)\,s; no assembled equation
-count was issued. The card is ELSET name plus one uniaxial stress. CalculiX
-2.21 \S7.76 requires element number, integration point, and six global stress
-components. Twenty-six coordinate/topology gates PASS. Frequency targets remain
-isolated. This paper therefore certifies a hashed, coordinate-gated,
-topology-reconciled deck and a documented solver-parse failure---not a solved
-spectrum and not a fourteen-mode match.
+is not rewritten; its \texttt{TYPE=STRESS} card remains ELSET plus uniaxial.
+The writer now emits CalculiX 2.21 \S7.76 rows: element, integration point,
+and six global second Piola--Kirchhoff components \(S=\sigma n\otimes n\).
+The new main deck
+\texttt{41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a}
+has 204\,208 legal rows. CalculiX 2.21 reads it, assembles 879\,076 equations,
+and stops on a singular factorisation. The coarsened centre-line has 22\,096
+connected components. Four solver files exist without a converged increment.
+Frequency targets remain isolated. This paper certifies a new hashed
+\S7.76 deck and a documented singular tangent---not a solved spectrum.
 \end{abstract}
 
 \tableofcontents
@@ -202,7 +200,7 @@ raw chainage. High-\(Z\) histogram modes sit near portal clusters
 therefore confirmed by local \(Z_{p90}\) within 12\,m of \(x=666.679\) and
 \(x=2953.321\). Passages: 21 drawing stations (\(3+13+3+2\)). Portal frames:
 71 stations \(\times\) 2 decks \(=142\). The Chinese unit is U+6980
-(classifier for frames); U+69EC is a different character and is not used.
+(classifier for frames); U+69C7 is a different character and is not used.
 
 \paragraph{Experiment.}
 \begin{table}[ht]
@@ -325,133 +323,101 @@ invention. It remains visible after the 21/142 topology audit closes.
 \label{sec:ccx}
 
 \paragraph{Related work.}
-CalculiX CrunchiX 2.21 (\S6.11.7 and \S7.76 of the User's Manual) defines
-\texttt{*INITIAL CONDITIONS, TYPE=STRESS} before the first \texttt{*STEP}. If
-\texttt{USER} is not specified, each data line is
-\begin{quote}
-element number; integration point number; \(S_{xx}\), \(S_{yy}\), \(S_{zz}\),
-\(S_{xy}\), \(S_{xz}\), \(S_{yz}\)
-\end{quote}
-in the global rectangular frame, as second Piola--Kirchhoff components.
-Abaqus-style ELSET plus a single axial stress is not that contract.
+CalculiX CrunchiX 2.21 (\S6.11.7 and \S7.76) requires, for
+\texttt{TYPE=STRESS} without \texttt{USER}: element number, integration point,
+and six global second Piola--Kirchhoff components. T3D2 follows B31 and is
+expanded to C3D8I (\S6.2.35), so eight integration points are written.
+ELSET plus one axial number is not that contract. The previous G11 pre-solve
+gate did not cover this card.
 
 \paragraph{Method.}
-The writer currently emits
+Frozen hash \texttt{82548e6a} keeps
 \begin{lstlisting}
 *INITIAL CONDITIONS, TYPE=STRESS
 E_FLOOR_ROPE, 3.549611e+08
 E_PORTAL_ROPE, 2.426295e+08
 \end{lstlisting}
-at lines 90863--90865 of the frozen deck. That is ELSET + uniaxial. The hash
-\texttt{82548e6a} is frozen: the file is not patched. CalculiX is run only on
-a copy under \texttt{/tmp/ccx-82548e6a/}. The original is re-hashed before and
-after.
+and is not patched. \texttt{write\_inp.py} now emits
+\(S=\sigma n\otimes n\) on eight integration points per floor/portal truss.
+The mesh is reread from the frozen deck and written to a \emph{new} path
+\texttt{zjg\_catwalk\_ccx221.inp}. Gate \texttt{IC-G-ccx221-pk2} rereads the
+text independently.
 
 \paragraph{Experiment.}
-A lexical audit (\texttt{artifacts/ic\_format\_audit.json}) classifies both
-rows as \texttt{elset\_plus\_uniaxial=true} and
-\texttt{ccx\_2\_21\_legal=false}. The formatted floor stress
-\texttt{3.549611e+08} equals the writer's
-\(\sigma_{\mathrm{floor}}=H_{\mathrm{floor}}/(16A)\).
-
-CalculiX 2.21 (\texttt{ccx -v}: ``This is Version 2.21'') was executed on the
-copy. The solver printed
-\begin{lstlisting}
-*ERROR reading *INITIAL CONDITIONS. Card image:
-       E_FLOOR_ROPE,3.549611E+08
-...
-*ERROR in calinput: at least one fatal
-       error message while reading the
-       input deck: CalculiX stops.
-\end{lstlisting}
-and exited 201. Observed artefacts: no \texttt{job.frd}; \texttt{job.dat} has
-0 bytes; \texttt{job.sta} and \texttt{job.cvg} contain the printed table
-headers only. Wall-clock time on this host was \(0.738\)--\(0.815\)\,s,
-matching the given bound \(<1\)\,s. The banner ``number of:'' block is
-explicitly ``estimated upper bounds'' issued while reading the deck; no
-assembled equation count appears. The original file hash after the run is
-still \texttt{82548e6a\(\ldots\)276ab6da}.
-
-These facts were first given as an external solve on the same hash and were
-then reproduced locally. Both records are stored in
-\texttt{artifacts/ccx\_run\_82548e6a.json} and the copied logs
-\texttt{ccx\_82548e6a.stdout.txt}, \texttt{.sta}, \texttt{.cvg}, \texttt{.dat}.
+The frozen copy still fails as given (exit 201,
+\texttt{E\_FLOOR\_ROPE,3.549611E+08}, no equations, \(<1\)\,s).
+The new deck SHA-256
+\texttt{41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a}
+has 204\,208 eight-field rows, zero ELSET-uniaxial rows, and
+\(\mathrm{tr}(S)=\sigma_{\mathrm{floor}}\) on the first row. Twenty-seven
+automated gates PASS. CalculiX 2.21 reads the new copy, assembles
+879\,076 equations, and reports \texttt{matrix found to be singular}
+(\texttt{spooles.out}), exit 255, wall-clock \(10.35\)\,s. The four-file set
+exists (\texttt{.frd} 80\,B, \texttt{.dat} 42\,B, header-only
+\texttt{.sta}/\texttt{.cvg}). A connectivity audit finds 22\,096 connected
+components (largest 129 nodes). Pinning every original node makes the matrix
+non-singular, so the singularity is a disconnected centre-line mechanism, not
+the PK2 card.
 
 \paragraph{Outlook.}
-A later deck may expand each tension element into an eight-field stress row
-without claiming that this frozen hash already did so. Expanding the card is a
-new artefact with a new hash. This paper does not perform that rewrite.
+The lexical gate now covers \S7.76. The next modelling step is connectivity,
+not another rewrite of the eight-field card, and not a silent edit of
+\texttt{82548e6a}.
 
 \section{Zhangjinggao results}
 \label{sec:results}
 
 \paragraph{Related work.}
 The scientific object is one published centre-line STEP of one construction
-catwalk, not a generic benchmark.
+catwalk.
 
 \paragraph{Method.}
-Results are read back from the frozen deck, the gate JSON, the 142-frame
-ledger, and the CalculiX 2.21 logs. No displacement, reaction, or frequency
-from a completed step is reported.
+Results are read back from both hashed decks, the gate JSON, the 142-frame
+ledger, the independent reread, and the CalculiX 2.21 logs. No displacement
+from a completed increment is reported.
 
 \paragraph{Experiment.}
 \begin{enumerate}
 \item Coordinate convention holds without subtracting \(x_{\min}\).
-\item Topology reconcile: 21 passages, 142 portal frames, both from STEP
-evidence, insertions 0 and 0.
-\item Anchor families are lexically and set-wise separate
-(\(312\cap 16=\emptyset\)).
-\item Independent sag seed uses \(227.300\)\,m; \(255.56\)\,m is absent.
-\item All 26 automated gates PASS (\texttt{artifacts/coord\_gate.json}).
-\item Unit tests \texttt{test\_coord\_gate}, \texttt{test\_write\_inp},
-\texttt{test\_reconcile}, \texttt{test\_audit\_frozen\_deck} PASS without
-rewriting the deck.
-\item CalculiX 2.21 parse of \texttt{TYPE=STRESS} fails as specified; hash
-unchanged.
+\item 21 passages and 142 portal frames, insertions 0 and 0.
+\item Anchor families disjoint (\(312\cap 16=\emptyset\)).
+\item Sag seed \(227.300\)\,m; \(255.56\) and \(0.0296\) absent from both decks.
+\item Frozen hash unchanged. New hash \texttt{41fb3222} submitted.
+\item Five unit-test modules PASS.
+\item New \texttt{TYPE=STRESS} is accepted; 879\,076 equations; singular tangent.
 \end{enumerate}
 
-Role counts in the written deck: \texttt{floor\_rope} 25\,299,
-\texttt{portal\_or\_beam} 4\,719, \texttt{portal\_rope} 227,
-\texttt{cross\_passage} 21, \texttt{handrail\_rope} 34,
-\texttt{longitudinal\_other} 17.
-
 \paragraph{Outlook.}
-The supported claim is the existence of a hashed, coordinate-gated,
-topology-reconciled deck plus a documented solver-parse failure. It is not a
-fourteen-mode reproduction.
+The supported claim is a \S7.76-legal new main deck plus an untouched illegal
+witness hash. It is not a static solution and not a fourteen-mode match.
 
 \section{Discussion and conclusions}
 \label{sec:disc}
 
 \paragraph{Related work.}
-Pull request \#18 shipped an empty \texttt{artifacts/} directory. Pull request
-\#19 first deposited the hashed deck. This run adds the 142-frame ledger, the
-CalculiX 2.21 parse record, and a complete paper, without changing
-\texttt{82548e6a}.
+PR \#18 shipped an empty \texttt{artifacts/}. PR \#19 first deposited
+\texttt{82548e6a}. This run changes the writer, submits \texttt{41fb3222},
+and leaves traces under \texttt{catwalk-fem/eval/}.
 
 \paragraph{Method.}
-Limits that remain visible in the evidence are stated as bounds, not as
-hidden FAIL marks. Hard gates (identity transform, 21/142, disjoint anchors,
-complete keywords, frozen hash, forbidden sources) all close.
+Visible limits are bounds. Hard gates (identity, 21/142, disjoint anchors,
+\S7.76 lexicon, frozen hash, forbidden sources) close. Singularity is a bound,
+not a reason to withhold the new deck.
 
 \paragraph{Experiment.}
-Bounds:
-\begin{itemize}
-\item North anchors are STEP-end proxies, not \(K16+852\) / \(K16+831\).
-\item Portal-rope classification is incomplete (227 coarsened elements);
-south portal nodes come from \texttt{portal\_or\_beam} at \(x=4221.093\).
-\item Geometric sag \(214.18\)\,m versus \(227.30\)\,m is inside the 15\,m
-gate but is not a formed-line fit.
-\item Floor-line length is about 20\,\% above a four-span catenary estimate.
-\item The stress card is not CalculiX-legal. The solver never assembled a
-system. No spectrum exists.
-\end{itemize}
+Bounds: north anchors are STEP-end proxies; portal-rope classification is
+incomplete (227 elements); geometric sag \(214.18\) vs \(227.30\)\,m;
+floor-line length \(\approx 20\)\,\% long; 22\,096 connected components;
+no converged increment; no spectrum.
 
 \paragraph{Outlook.}
-The next scientific step is a new hashed deck whose \texttt{TYPE=STRESS} rows
-are element number + integration point + six stresses, followed by a real
-nonlinear static solve, and only then a TARGET-FREQ comparison. That step is
-outside this frozen hash.
+From the published STEP, under \(x=\mathrm{chainage}-K16+876.000\), a
+readable CalculiX deck exists; floor and portal anchors are separate; 21
+passages and 142 frames reconcile with zero insertions. Frozen
+\texttt{82548e6a} remains ELSET+uniaxial. New \texttt{41fb3222} emits
+element + integration point + six global PK2. CalculiX 2.21 reads it and
+assembles 879\,076 equations, then fails on a singular factorisation caused
+by 22\,096 disconnected components. No solved spectrum is claimed.
 
 \section*{Reproduction}
 
@@ -460,31 +426,33 @@ python3 catwalk-fem/tests/test_coord_gate.py
 python3 catwalk-fem/tests/test_write_inp.py
 python3 catwalk-fem/tests/test_reconcile.py
 python3 catwalk-fem/tests/test_audit_frozen_deck.py
-python3 catwalk-fem/pipeline/audit_frozen_deck.py
-sha256sum -c catwalk-fem/artifacts/zjg_catwalk_coarsened.inp.sha256
+python3 catwalk-fem/tests/test_new_main_deck.py
+python3 catwalk-fem/pipeline/emit_new_main_deck.py
+sha256sum catwalk-fem/artifacts/zjg_catwalk_coarsened.inp
+sha256sum catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
 pdflatex -interaction=nonstopmode zjg_catwalk_agentic_fea.tex
 \end{lstlisting}
 Do not add the 77\,MB STEP to git. Do not feed
-\texttt{isolated/TARGET-FREQ.json} to the writer or the solver. Do not rewrite
-\texttt{zjg\_catwalk\_coarsened.inp}.
+\texttt{isolated/TARGET-FREQ.json} to the writer. Do not rewrite
+\texttt{zjg\_catwalk\_coarsened.inp}. This run does not push.
 
 \section*{Data availability}
-All artefacts cited here live under \texttt{catwalk-fem/artifacts/} on branch
-\texttt{cursor/catwalk-main-deck-gate-f23d}. The frozen deck hash is
-\texttt{82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da}.
-Self-evaluation traces are in \texttt{catwalk-fem/eval/GROK\_SELF\_EVAL.md}.
+Artefacts live under \texttt{catwalk-fem/artifacts/} on branch
+\texttt{cursor/catwalk-main-deck-gate-f23d}. Frozen hash
+\texttt{82548e6a\(\ldots\)276ab6da}. New main hash
+\texttt{41fb3222\(\ldots\)bbca924a}. Evaluation traces:
+\texttt{catwalk-fem/eval/GROK\_SELF\_EVAL.md}.
 
 \bibliographystyle{plain}
 \begin{thebibliography}{9}
 \bibitem{ccx221}
 G.~Dhondt, \emph{CalculiX CrunchiX USER'S MANUAL version 2.21}, 2023,
-\S6.11.7 and \S7.76.
+\S6.2.35 and \S7.76.
 \bibitem{theory12}
 Zhangjinggao catwalk fourteen-mode independent theory archive, v1.2,
-\texttt{catwalk-theory/thirteen-mode-models}, 2026-08-08.
+\texttt{catwalk-theory/thirteen-mode-models}.
 \bibitem{skill}
-\texttt{catwalk-fem/SKILL.md} and \texttt{catwalk-fem/PLAN.md}, run
-\texttt{catwalk-main-deck-gate-f23d}.
+\texttt{catwalk-fem/SKILL.md} and \texttt{catwalk-fem/PLAN.md}.
 \bibitem{step}
 Release \texttt{catwalk-attachment23-v2.0-s10-20260716},
 \texttt{cw\_S10\_0716t050342\_a4\_centerline.step},
@@ -494,30 +462,28 @@ SHA-256 \texttt{d03d01e3\(\ldots\)763344}.
 \appendix
 \section{Station-by-station 142-frame ledger}
 \label{app:142}
-The following table is generated from
-\texttt{artifacts/portal\_142\_ledger.json} by
-\texttt{pipeline/audit\_frozen\_deck.py}. Every station is present on both
-decks. The counting unit is frames (Chinese U+6980), not U+69EC.
+Generated from \texttt{artifacts/portal\_142\_ledger.json}.
+Every station is present on both decks. Counting unit: U+6980, not U+69C7.
 
 \input{portal_142_table.tex}
 
-\section{CalculiX 2.21 transcript (abridged)}
+\section{CalculiX 2.21 transcripts}
 \label{app:ccx}
-The complete stdout is \texttt{artifacts/ccx\_82548e6a.stdout.txt}. The fatal
-lines are:
+Frozen hash (unchanged):
 \begin{lstlisting}
 *ERROR reading *INITIAL CONDITIONS. Card image:
        E_FLOOR_ROPE,3.549611E+08
-*ERROR in calinput: at least one fatal
-       error message while reading the
-       input deck: CalculiX stops.
 \end{lstlisting}
-\texttt{job.sta}:
+New hash:
 \begin{lstlisting}
-SUMMARY OF JOB INFORMATION
-  STEP      INC     ATT  ITRS     TOT TIME     STEP TIME      INC TIME
+number of equations
+ 879076
+matrix found to be singular
 \end{lstlisting}
-\texttt{job.cvg} likewise contains only the convergence-table header.
-\texttt{job.dat} is empty. \texttt{job.frd} does not exist.
+First legal stress row:
+\begin{lstlisting}
+*INITIAL CONDITIONS, TYPE=STRESS
+1, 1, 1.439957e+08, 0.000000e+00, 2.109655e+08, 0.000000e+00, 1.742932e+08, 0.000000e+00
+\end{lstlisting}
 
 \end{document}

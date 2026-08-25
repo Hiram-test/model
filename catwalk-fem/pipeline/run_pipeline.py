@@ -62,7 +62,8 @@ def run(step_path: Path, artifacts: Path, target_ds: float = 12.0) -> dict:
     )
     write_json(artifacts / "anchor_sets.json", serialize_anchors(family_anchor_sets(mesh)))
 
-    inp_path = artifacts / "zjg_catwalk_coarsened.inp"
+    # Never overwrite frozen 82548e6a at zjg_catwalk_coarsened.inp.
+    inp_path = artifacts / "zjg_catwalk_ccx221.inp"
     meta = write_calculix_inp(mesh, inp_path, include_frequency=True)
     write_json(artifacts / "write_inp_meta.json", meta)
     write_json(artifacts / "initial_state.json", initial_state())

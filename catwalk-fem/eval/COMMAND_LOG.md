@@ -1,0 +1,84 @@
+# 命令留痕（本 run，不找用户，不 push）
+
+评估人：Cursor Grok 4.6。工作目录 `/workspace`。分支 `cursor/catwalk-main-deck-gate-f23d`。
+
+## 冻结 deck 未改
+
+```
+$ sha256sum catwalk-fem/artifacts/zjg_catwalk_coarsened.inp
+82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da  catwalk-fem/artifacts/zjg_catwalk_coarsened.inp
+```
+
+发射新 deck 之后再跑一次，哈希相同。
+
+冻结 IC（独立 `sed`/`python` 回读，第 90863–90865 行）：
+
+```
+*INITIAL CONDITIONS, TYPE=STRESS
+E_FLOOR_ROPE, 3.549611e+08
+E_PORTAL_ROPE, 2.426295e+08
+```
+
+## 写入器与发射
+
+```
+$ python3 catwalk-fem/tests/test_coord_gate.py
+test_coord_gate ok
+$ python3 catwalk-fem/tests/test_write_inp.py
+test_write_inp ok
+$ python3 catwalk-fem/tests/test_reconcile.py
+test_reconcile ok
+$ python3 catwalk-fem/tests/test_audit_frozen_deck.py
+test_audit_frozen_deck ok
+$ python3 catwalk-fem/pipeline/emit_new_main_deck.py
+{
+  "frozen_untouched": true,
+  "new_sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+  "new_bytes": 26839981,
+  "ic_n_rows": 204208,
+  "all_ccx221_legal": true,
+  "any_elset_uniaxial": false,
+  "gate_status": "PASS",
+  "failed": []
+}
+$ python3 catwalk-fem/tests/test_new_main_deck.py
+test_new_main_deck ok
+```
+
+中间一次发射（旧梁轴）哈希 `48c7f304e9e47227217390d8db032ee6d0c828e41c54e9b6c31177fc724e7a14`，现场 `eval/ccx_48c7f304/`。正式新主 deck 覆盖写为 `41fb3222`。
+
+## 新 deck IC 词法（独立回读）
+
+```
+90873: *INITIAL CONDITIONS, TYPE=STRESS
+90874: 1, 1, 1.439957e+08, 0.000000e+00, 2.109655e+08, 0.000000e+00, 1.742932e+08, 0.000000e+00
+...
+（8 个积分点重复同一全局 PK2）
+295082: *STEP, NLGEOM
+IC data rows: 204208
+tr(S) = 3.549612e+08 Pa = sigma_floor
+```
+
+## CalculiX 2.21
+
+```
+$ ccx -v
+This is Version 2.21
+```
+
+副本目录 `/tmp/ccx-41fb3222/`，`job.inp` sha256 = `41fb3222…bbca924a`。
+
+```
+exit_code 255
+wall_s    10.35
+parse_fail_ic false
+number of equations 879076
+spooles.out: matrix found to be singular
+```
+
+诊断：全约束 51 896 个原节点后矩阵不再奇异（`/tmp/ccx-diag-pinall`，exit 201，未收敛，因过约束+预应力不兼容）。连通性见 `eval/connectivity_audit.json`。
+
+## 小算例（格式合同）
+
+`/tmp/ccx-toy/`：ELSET+单轴 → exit 201，卡图 `E1, 3.549611e+08`。  
+八字段 1 积分点或 8 积分点 + 两端固结线性静力 → exit 0，四件套非空。

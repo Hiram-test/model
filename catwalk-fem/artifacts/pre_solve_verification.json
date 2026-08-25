@@ -1,64 +1,41 @@
 {
-  "status": "CCX_PARSE_FAIL_IC",
+  "status": "CCX_PARSE_OK_SINGULAR_TANGENT",
   "ccx_executed": true,
-  "ccx_executed_on": "byte-identical copy; original frozen hash not rewritten",
   "ccx_version": "2.21",
-  "exit_code": 201,
-  "reason": "CalculiX 2.21 failed reading *INITIAL CONDITIONS, TYPE=STRESS on ELSET+uniaxial row E_FLOOR_ROPE,3.549611E+08. No assembled system. Frozen deck 82548e6a is not patched.",
-  "deck": {
-    "path": "catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+  "frozen_82548e6a": {
     "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
-    "bytes": 7702117,
-    "n_nodes": 51896,
-    "n_elements": 30317,
-    "complete_keywords": true,
+    "rewritten": false,
     "ic_format": "ELSET+uniaxial",
-    "ccx_2_21_requires": "element number + integration point + six stresses"
-  },
-  "given_run": {
-    "hash": "82548e6a",
-    "failed_row": "E_FLOOR_ROPE,3.549611E+08",
     "exit_code": 201,
-    "has_frd": false,
-    "dat_empty": true,
-    "sta_cvg_header_only": true,
-    "wall_clock": "<1 s",
-    "equation_count": null
+    "parse_fail_ic": true
   },
-  "local_reproduction": {
-    "exit_code": 201,
-    "wall_s_range": [0.7376800000000117, 0.8152592800000207],
-    "has_frd": false,
-    "dat_bytes": 0,
-    "sta_header_only": true,
-    "cvg_header_only": true,
-    "fatal": "*ERROR reading *INITIAL CONDITIONS. Card image: E_FLOOR_ROPE,3.549611E+08",
-    "original_untouched": true
+  "new_main_41fb3222": {
+    "path": "catwalk-fem/artifacts/zjg_catwalk_ccx221.inp",
+    "sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+    "bytes": 26839981,
+    "ic_format": "ccx_2.21_s7.76_element_ip_six_pk2_global",
+    "ic_n_rows": 204208,
+    "exit_code": 255,
+    "parse_fail_ic": false,
+    "n_equations": 879076,
+    "spooles": "matrix found to be singular",
+    "wall_s": 10.350076713999897,
+    "four_files": {
+      "frd_bytes": 80,
+      "dat_bytes": 42,
+      "sta_bytes": 98,
+      "cvg_bytes": 274
+    }
+  },
+  "connectivity": {
+    "n_components": 22096,
+    "largest": 129,
+    "n_deg1": 43468
   },
   "gates": {
     "status": "PASS",
-    "n_pass": 26,
+    "n_pass": 27,
     "n_fail": 0
-  },
-  "checks": {
-    "units_m": true,
-    "identity_transform": true,
-    "no_xmin_shift": true,
-    "no_target_freq": true,
-    "no_25556_sag": true,
-    "floor_portal_nsets_disjoint": true,
-    "passages_21": true,
-    "portals_142": true,
-    "portal_unit": "榀",
-    "not_portal_unit": "槬",
-    "load_resultants_closed": true,
-    "hash_unchanged": true
-  },
-  "l0_magnitude_gate": {
-    "f1_hz": 0.03671855913145064,
-    "formula": "sqrt(g/(32h))",
-    "h_m": 227.3,
-    "not_used_as_solver_input": true
   },
   "spectrum_claimed": false
 }

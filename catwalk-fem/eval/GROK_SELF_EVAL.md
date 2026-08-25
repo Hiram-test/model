@@ -1,64 +1,97 @@
-# Grok 自评留痕（catwalk-main-deck-gate-f23d，论文收口）
+# Grok 自评留痕（catwalk-main-deck-gate-f23d，新主 deck）
 
-评估人：本 run 的模型（Cursor Grok 4.6）。未向用户提问。  
-依据只引用本仓库文件、Release 哈希、本机命令输出和 CalculiX 2.21 手册 §7.76。  
-门架计数单位：**榀（U+6980）**，不是槬（U+69EC）。
+评估人：本 run 的模型（Cursor Grok 4.6）。未向用户提问。未 push。  
+依据只引用本仓库文件、本机命令输出、CalculiX 2.21 手册 §7.76。  
+门架计数单位：**榀（U+6980）**。不是槇（U+69C7）。本轮用户写「142 榌门架」（U+698C），视为榀的输入变体，不另开账。
 
 ## 1. 任务理解（先写依据）
 
 | 用户句 | 我当作硬验收 | 依据 |
 |---|---|---|
-| 产出完整论文才算结束 | `paper/*.md` + 可编译 `paper/*.tex` + PDF；十章结构按 `PLAN.md` §4 | 用户原文；`PLAN.md` §4、§6 |
-| 自己评估、写依据、留痕 | 本文件 + 命令输出 + JSON | 用户原文 |
-| 不允许找用户 | 全程不提问 | 用户原文 |
-| \(x=\)桩号\(-K16+876\) | 节点/边界/荷载同一公约；禁止 `X-xmin` | SKILL 硬约束 1–2 |
-| 面层锚和门架锚分开 | `N_FLOOR_*` 与 `N_PORTAL_*` 分 NSET、分 `*BOUNDARY`，交集为空 | 用户原文；theory v1.2 §4 |
-| 21 道横通道 | 对账 21 个图纸站，缺站记账 | theory v1.2 表；`PASSAGE_X` 长度 21 |
-| 142 榀门架（不是槬） | 71×2=142，单位写榀 | 用户更正；theory v1.2 §2.6 |
-| 已给路径 / PR #19 / 分支 | 只在 `cursor/catwalk-main-deck-gate-f23d` 上收口 | 用户原文 |
-| `zjg_catwalk_coarsened.inp` SHA-256 `82548e6a…276ab6da` | 重算必须一致 | 用户原文 |
-| `write_inp.py` | 作为该哈希的写入器；本 run 不改出发射格式 | 用户原文 |
-| 猫道计算已给：ccx 已对 82548e6a 跑过 | 记录并在本机复现，不改哈希 | 用户原文 |
-| 读入 `*INITIAL CONDITIONS` 失败（`E_FLOOR_ROPE,3.549611E+08`，exit 201） | stdout 必须出现该行 | 用户原文；本机复现 |
-| 无 .frd，.dat 空，.sta/.cvg 只有表头 | 副本产物核对 | 用户原文；`/tmp/ccx-82548e6a/` |
-| 墙钟 <1 s，无方程数 | 本机 0.74–0.82 s；无 assembled equation count | 用户原文；本机 `time` |
-| 这份 deck 的 TYPE=STRESS 是 ELSET+单轴 | 词法审计两行 | 冻结 `.inp` 90863–90865 |
-| ccx 2.21 要单元号+积分点+六应力 | 手册 §7.76 | `ccx_2.21.pdf`；`ccx -v` = 2.21 |
-| 不改 82548e6a | 运行前后 `sha256sum` 相同 | 用户原文 |
+| 新主 deck 按这个依据改 | 另写新哈希 deck；`write_inp.py` 发射 §7.76 | 用户原文 |
+| 82548e6a 的 TYPE=STRESS 是 ELSET+单轴 | 冻结文件第 90863–90865 行保持原样 | 用户原文；本机 `sha256sum` |
+| 对不上 ccx 2.21 §7.76（单元号+积分点+六 PK2） | 新 deck 每行 8 字段，全局第二类 Piola–Kirchhoff | 手册 p.529–530 |
+| 未改该 deck | 运行前后 `82548e6a…276ab6da` | 用户原文 |
+| 留痕 `catwalk-fem/eval/` | 本文件 + JSON + ccx 副本 | 用户原文 |
+| 不许找用户 / 不 push | 全程不提问；只本地 commit | 用户原文 |
+| \(x=\)桩号\(-K16+876\) | 节点/边界/荷载同一公约 | SKILL 硬约束 |
+| 面层锚和门架锚分开 | `N_FLOOR_*` ∩ `N_PORTAL_*` = ∅ | 用户原文 |
+| 21 道横通道 | 对账 21/21，插入 0 | theory v1.2 |
+| 142 榀门架（不是槇；本轮写榌） | 71×2=142，单位 U+6980 | 用户更正 + 本轮原文 |
+| 产出完整论文才算结束 | `paper/*.md` + `.tex` + PDF | 原任务 |
+
+不把「矩阵可分解 / 位移已求出」写成已给条件。已给条件停在：旧卡不合法、要新主 deck、要留痕。
 
 ## 2. 本 run 实际做了什么
 
-1. 核分支 `cursor/catwalk-main-deck-gate-f23d`，当场重算 INP 哈希 = `82548e6a…276ab6da`。
-2. 只读审计 `pipeline/audit_frozen_deck.py`：初应力词法、21/142、分锚；**不写回** `.inp`。
-3. 安装并运行 `calculix-ccx` 2.21，只在 `/tmp/ccx-82548e6a/` 的副本上求解。
-4. 复现 exit 201 与已给卡图；日志拷入 `artifacts/ccx_82548e6a.*`。
-5. 写出完整中文论文 `paper/zjg_catwalk_agentic_fea.md`（十章 + 附录 142 榀全表）。
-6. 写出完整英文 TeX 并 `pdflatex` 两遍，得到 11 页 PDF（exit 0）。
-7. 单元测试四处全部通过。未改 `write_inp.py` 的发射格式，未改冻结 `.inp`。
+1. 核分支 `cursor/catwalk-main-deck-gate-f23d`。当场重算冻结哈希 = `82548e6a…276ab6da`。
+2. 改 `pipeline/write_inp.py`：`TYPE=STRESS` 改为单元号、积分点 1–8、六全局 PK2（\(S=\sigma\,n\otimes n\)）。不再发射 ELSET+单轴。
+3. 从冻结 deck **只读**回读网格（不读 77 MB STEP，不写回 82548e6a），调用同一写入器，交出新主 deck `artifacts/zjg_catwalk_ccx221.inp`。
+4. 独立回读新 deck：204 208 行全部 `ccx_2_21_legal`，首行迹 = \(\sigma_{\mathrm{floor}}\)。
+5. 加门 `IC-G-ccx221-pk2`。新 deck 27/27 PASS。
+6. 本机 CalculiX 2.21 在新哈希的副本上求解。读入成功。组装 **879 076** 个方程。SPOOLES：`matrix found to be singular`，exit 255。
+7. 独立连通性审计：粗化中心线 **22 096** 个连通分量（最大 129 节点）。这是切线奇异的结构原因，不是 IC 词法。
+8. 写出完整论文（中文 md + 英文 tex + PDF）。本文件留痕。不 push。
+
+中间哈希 `48c7f304` 是同一 IC 格式、旧梁轴 \(n_1=(0,0,1)\)、默认步长的第一次合法发射；同样读入成功、同样 879 076 方程、同样奇异。现场在 `eval/ccx_48c7f304/`。正式新主 deck 是 `41fb3222`（梁轴 \(n_1=(1,1,1)\)，`*STATIC` 写出增量）。
 
 ## 3. 过门证据（可复核命令）
 
-### 3.1 冻结哈希（运行前后）
+### 3.1 冻结哈希未改
 
 ```
 82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da  catwalk-fem/artifacts/zjg_catwalk_coarsened.inp
 ```
 
-`audit_frozen_deck.py` 打印：`hash_unchanged: true`。  
-`original_hash_before == original_hash_after == FROZEN_SHA256`。
+`eval/new_deck_reread.json`：`frozen_before == frozen_after == FROZEN_SHA256`。  
+第 90863–90865 行仍是：
 
-### 3.2 单元测试
+```
+*INITIAL CONDITIONS, TYPE=STRESS
+E_FLOOR_ROPE, 3.549611e+08
+E_PORTAL_ROPE, 2.426295e+08
+```
+
+### 3.2 新主 deck
+
+```
+41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a  catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
+```
+
+26 839 981 字节。与 82548e6a **不同**。
+
+独立回读（`eval/new_deck_reread.json`）：
+
+```
+ic_n_rows              204208
+n_ccx221_legal         204208
+n_elset_uniaxial       0
+first_tokens           单元号
+first_row              1, 1, 1.439957e+08, 0, 2.109655e+08, 0, 1.742932e+08, 0
+trace                  3.549612e+08  == sigma_floor（8 积分点重复）
+heading                x = chainage - K16+876.000
+N_FLOOR_ANCHOR         312
+N_PORTAL_ANCHOR        16
+overlap                0
+*BOUNDARY              三张独立卡
+255.56 / 0.0296        不在正文
+```
+
+204 208 = (25 299 面层 + 227 门架索) × 8 积分点。T3D2 按手册 §6.2.35 随 B31 扩成 C3D8I。
+
+### 3.3 单元测试
 
 ```
 test_coord_gate ok
 test_write_inp ok
 test_reconcile ok
 test_audit_frozen_deck ok
+test_new_main_deck ok
 ```
 
-### 3.3 142 榀门架（不是槬）
+### 3.4 142 榀门架（不是槇）
 
-来自 `portal_142_ledger.json` / `audit_frozen_deck.py`：
+`portal_142_ledger.json` / `audit_frozen_deck.py`：
 
 ```
 expected_per_deck     71
@@ -70,121 +103,78 @@ n_missing             0
 inserted_portals      0
 by_span               north_660=11, main_2300=41, south_717=11, south_503=8
 unit                  榀
-not_unit              槬
+not_unit              槇
 pass_142              true
 ```
 
-逐站表：`artifacts/portal_142_table.md`（71 行全 `ok=Y`）。
+21/21 横通道，插入 0。面层/门架锚交集空。
 
-### 3.4 面层/门架锚分开
-
-从冻结 `.inp` 回读：
-
-```
-N_FLOOR_ANCHOR  312
-N_PORTAL_ANCHOR 16
-overlap         0
-*BOUNDARY cards N_FLOOR_ANCHOR / N_PORTAL_ANCHOR / N_SUPPORT_SADDLE_ENDS
-south floor x_mean  4209.985
-south portal x_mean 4221.093
-```
-
-### 3.5 21 道横通道
-
-`topology_reconcile.json`：21/21，插入 0，检测器 `element_dy_or_node_yspan`。
-
-### 3.6 初应力词法
-
-冻结 deck 第 90863–90865 行：
-
-```
-*INITIAL CONDITIONS, TYPE=STRESS
-E_FLOOR_ROPE, 3.549611e+08
-E_PORTAL_ROPE, 2.426295e+08
-```
-
-`ic_format_audit.json`：`elset_plus_uniaxial=true`，`ccx_2_21_legal=false`。  
-写入器格式化串 `3.549611e+08` 与 `initial_state()["sigma_floor_Pa"]` 的 `:.6e` 一致。
-
-### 3.7 CalculiX 2.21 本机复现
+### 3.5 CalculiX 2.21 对新哈希
 
 ```
 $ ccx -v
 This is Version 2.21
 
-$ python3 catwalk-fem/pipeline/audit_frozen_deck.py
-{
-  "hash_unchanged": true,
-  "ic_elset_uniaxial": true,
-  "portals_142_pass": true,
-  "ccx_exit": 201,
-  "ccx_wall_s": 0.7376800000000117
-}
+副本 sha256 = 41fb3222…bbca924a
+exit 255
+wall_s = 10.35
+parse_fail_ic = false
+number of equations = 879076
+spooles.out = "matrix found to be singular"
 ```
 
-先前一次副本运行墙钟 0.815 s。两次都 <1 s。
+四件套（`artifacts/ccx_41fb3222.*`）：
 
-stdout 致命行（`artifacts/ccx_82548e6a.stdout.txt`）：
+| 文件 | 字节 | 内容 |
+|---|---:|---|
+| `.frd` | 80 | 标题行，无位移块 |
+| `.dat` | 42 | `STEP 1` 表头 |
+| `.sta` | 98 | 仅 SUMMARY 表头 |
+| `.cvg` | 274 | 仅收敛表头 |
 
-```
- *ERROR reading *INITIAL CONDITIONS. Card image:
-        E_FLOOR_ROPE,3.549611E+08
- *ERROR in calinput: at least one fatal
-        error message while reading the
-        input deck: CalculiX stops.
-```
+与 82548e6a 的对比：旧哈希在读入第一行 IC 就 exit 201，无方程数，墙钟 <1 s，无 `.frd`。新哈希读入成功、有方程数、有 `.frd` 头、然后在分解时因奇异退出。
 
-产物核验（`/tmp/ccx-82548e6a/`，已拷贝到 artifacts）：
+连通性（`eval/connectivity_audit.json`）：22 096 分量，度 1 节点 43 468，最大分量 129 节点。全约束原节点的诊断副本（`/tmp/ccx-diag-pinall`）矩阵不再奇异，说明奇异来自未连成整体的中心线机构，不是 IC 八字段。
+
+未加虚构弹簧，未把不连通碎片焊成一张网。那会改变几何主张。
+
+### 3.6 论文
 
 | 文件 | 结果 |
 |---|---|
-| `job.frd` | 不存在 |
-| `job.dat` | 0 字节 |
-| `job.sta` | 仅 `SUMMARY OF JOB INFORMATION` 表头 |
-| `job.cvg` | 仅收敛表头 |
-| equation count | 无（横幅 “number of:” 标明 estimated upper bounds，不是组装方程数） |
-
-与已给计算逐项对齐。
-
-### 3.8 论文
-
-| 文件 | 结果 |
-|---|---|
-| `paper/zjg_catwalk_agentic_fea.md` | 中文十章 + 附录 A 142 榀全表 + 附录 B ccx 摘录 |
-| `paper/zjg_catwalk_agentic_fea.tex` | 英文十章，`pdflatex` 两遍 exit 0 |
-| `paper/zjg_catwalk_agentic_fea.pdf` | 11 页，275 851 字节，无 LaTeX Error |
-
-正文不含 `255.56`、不含 `0.0296` 作为求解输入。TARGET-FREQ 未打开。
+| `paper/zjg_catwalk_agentic_fea.md` | 中文十章 + 附录 |
+| `paper/zjg_catwalk_agentic_fea.tex` | 英文十章 |
+| `paper/zjg_catwalk_agentic_fea.pdf` | `pdflatex` 两遍 exit 0，10 页，266 464 字节 |
 
 ## 4. 有界项（不粉饰）
 
-1. **北锚是 STEP 端点代理。** 物理面层北锚 \(x=-23.895\)、门架北锚 \(x=-44.909\) 在 STEP 外。代理在 \(x=0\) 与 \(x\approx46\)。未造负 \(x\) 节点。
-2. **门架索分类不完整。** 粗化后 `portal_rope` 227 个单元；南门架锚取自 \(x=4221.093\) 的 `portal_or_beam`（距 4225.700 为 4.61 m）。142 榀是门架站位对账，不是门架索单元数。
-3. **几何垂度 214.18 m vs 227.30 m**（差 13.12 m）。过 15 m 门，不是成型线拟合。
-4. **高程直方图峰在 700 / 3023**，不是鞍点。过门依据是鞍点邻域 \(Z_{p90}\)。
-5. **面层索总长 164 516 m**，约 5141 m/根，比四跨悬链估计偏长约 20%。
-6. **初应力卡对 ccx 2.21 不合法。** 求解器未组装。无位移、反力、频率。
-7. **ccx 读入横幅里的 nodes: 1 689 014 是 estimated upper bounds**，不得写成方程数。已给「无方程数」成立。
+1. **北锚是 STEP 端点代理。** 物理面层北锚 \(x=-23.895\)、门架北锚 \(x=-44.909\) 在 STEP 外。
+2. **门架索分类不完整。** `portal_rope` 227 单元。142 榀是站位对账，不是索单元数。
+3. **几何垂度 214.18 m vs 227.30 m。** 过 15 m 门，不是成型线拟合。
+4. **面层索总长 164 516 m**，约比四跨悬链估计长 20%。
+5. **粗化中心线不连通。** 22 096 个分量。第一切线奇异。无收敛位移、无反力、无频率。
+6. **四件套有文件，但没有完成增量。** 不得写成已求解。
+7. **48c7f304 不是正式新主 deck。** 正式哈希是 `41fb3222`。
+8. TARGET-FREQ 未打开。没有十四阶复现。
 
-这些有界项没有被写成硬门 FAIL。硬门（坐标恒等、21/142 榀、锚分集、完整关键字、冻结哈希、禁源、已记录的 IC 失败）都闭合。它们必须留在论文和本评估里。
+这些有界项没有被写成硬门 FAIL。硬门（坐标恒等、21/142 榀、锚分集、§7.76 词法、冻结哈希未改、禁源）闭合。
 
 ## 5. 最终判定
 
 | 项 | 判定 | 一句依据 |
 |---|---|---|
-| 可回读主 deck | **成立** | 7.7 MB，关键字齐全 |
-| 带哈希且未改 | **成立** | 当场 `sha256sum` = `82548e6a…276ab6da` |
-| 坐标过门 | **成立** | identity + 鞍点 \(Z\)；未减 xmin |
-| 面层/门架锚分开 | **成立** | 两 NSET 交集空，南 \(x\) 差 11.1 m |
-| 21 道横通道 | **成立** | Y 跨度 21/21，插入 0 |
-| 142 榀门架（不是槬） | **成立** | 71×2=142，插入 0，单位 U+6980 |
-| ccx 已跑 | **成立** | 已给 + 本机 2.21 复现 exit 201 |
-| IC 失败行 | **成立** | `E_FLOOR_ROPE,3.549611E+08` |
-| 无 .frd / 空 .dat / 表头 .sta.cvg | **成立** | `/tmp/ccx-82548e6a/` 与 artifacts 拷贝 |
-| 墙钟 <1 s | **成立** | 0.74–0.82 s |
-| 无方程数 | **成立** | 无 assembled equation 行 |
-| 论文 | **成立** | 中文十章 + TeX PDF 11 页 |
-| 已求解静力/模态 | **不成立** | 读入阶段失败 |
-| 十四阶复现 | **不成立** | TARGET-FREQ 未打开，也无振型 |
+| 82548e6a 未改 | **成立** | 当场 `sha256sum` |
+| 新主 deck 已交 | **成立** | `zjg_catwalk_ccx221.inp` / `41fb3222` |
+| IC 为单元号+积分点+六 PK2 | **成立** | 204 208 行独立回读 |
+| 不再是 ELSET+单轴 | **成立** | 新 deck 0 行 ELSET 卡 |
+| 坐标过门 | **成立** | identity + K16+876 |
+| 面层/门架锚分开 | **成立** | 312 ∩ 16 = ∅ |
+| 21 道横通道 | **成立** | 21/21，插入 0 |
+| 142 榀门架（不是槇） | **成立** | 71×2=142，单位 U+6980 |
+| ccx 已对新哈希开跑 | **成立** | 2.21，exit 255，有方程数 |
+| 读入 IC 成功 | **成立** | `parse_fail_ic=false` |
+| 四件套文件 | **成立** | `.frd/.dat/.sta/.cvg` 均存在 |
+| 已求解静力/模态 | **不成立** | 矩阵奇异，无收敛增量 |
+| 十四阶复现 | **不成立** | TARGET-FREQ 未打开 |
 
-**总评：主 deck 过门 + 142 榀对账过门 + CalculiX 2.21 初应力词法失败过门（已记录）。不是求解过门，不是模态过门。论文已产出。冻结哈希未改。**
+**总评：新主 deck 过门（§7.76 PK2 + 新哈希 + 冻结 82548e6a 未改 + 21/142 榀 + 分锚）。CalculiX 2.21 读入过门。求解切线因 22 096 个不连通分量奇异，不是已求解过门，不是模态过门。论文已产出。不 push。**

@@ -149,8 +149,29 @@ def evaluate_gates(audit: dict, mesh: dict, inp_meta: dict, inp_text: str, topo:
             "TOPO-G-portals-142",
             int(portals.get("n_hit", 0)) == 142,
             {"n_hit": portals.get("n_hit"), "n_missing": portals.get("n_missing"),
-             "inserted": topo.get("n_inserted_portals")},
+             "inserted": topo.get("n_inserted_portals"),
+             "unit": "榀", "not_unit": "槇"},
         )
+
+    # Independent IC lexical gate. G11 pre-solve did not cover this card.
+    ic_ok = False
+    ic_detail: dict = {"msg": "ccx 2.21 §7.76 element, IP, six global PK2"}
+    try:
+        from audit_frozen_deck import parse_initial_conditions
+
+        ic = parse_initial_conditions(inp_text)
+        rows = ic.get("rows") or []
+        ic_ok = bool(rows) and all(r.get("ccx_2_21_legal") for r in rows)
+        ic_detail.update(
+            {
+                "n_rows": len(rows),
+                "all_legal": ic_ok,
+                "elset_uniaxial": ic.get("all_elset_uniaxial"),
+            }
+        )
+    except Exception as exc:  # pragma: no cover - parser must stay importable
+        ic_detail["error"] = str(exc)
+    add("IC-G-ccx221-pk2", ic_ok, ic_detail)
 
     # nodes of N_SUPPORT_ALL must lie near some primary station
     if coords.size:

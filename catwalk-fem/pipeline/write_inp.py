@@ -7,6 +7,14 @@ from pathlib import Path
 
 import numpy as np
 
+# CalculiX 2.21 §7.76 TYPE=STRESS (ccx_2.21.pdf p.529–530):
+# element number, integration point, Sxx Syy Szz Sxy Sxz Syz in the GLOBAL
+# rectangular frame, second Piola–Kirchhoff. T3D2 is expanded like B31 → C3D8I
+# (manual §6.2.35 / §6.2.32); C3D8I uses 2×2×2 = 8 integration points.
+# 82548e6a used ELSET+uniaxial; that file is not rewritten.
+T3D2_INTPTS = (1, 2, 3, 4, 5, 6, 7, 8)
+IC_FORMAT_NAME = "ccx_2.21_s7.76_element_ip_six_pk2_global"
+
 try:
     from .constants import (
         ANCHOR_SPECS,
@@ -100,6 +108,31 @@ def _distribute_line_load(coords, n1, n2, pick, w_npm, dof) -> dict[int, float]:
     return acc
 
 
+def uniaxial_pk2_global(direction, sigma: float) -> tuple[float, float, float, float, float, float]:
+    """Rotate uniaxial cable PK2 onto the global tensor (n ⊗ n) * sigma."""
+    vec = np.asarray(direction, float).reshape(3)
+    length = float(np.linalg.norm(vec))
+    if length <= 0.0:
+        raise ValueError("zero-length element: cannot form PK2")
+    n = vec / length
+    sxx = sigma * n[0] * n[0]
+    syy = sigma * n[1] * n[1]
+    szz = sigma * n[2] * n[2]
+    sxy = sigma * n[0] * n[1]
+    sxz = sigma * n[0] * n[2]
+    syz = sigma * n[1] * n[2]
+    return float(sxx), float(syy), float(szz), float(sxy), float(sxz), float(syz)
+
+
+def format_pk2_stress_rows(eid: int, direction, sigma: float, intpts=T3D2_INTPTS) -> list[str]:
+    """One §7.76 eight-field row per integration point. Not ELSET+uniaxial."""
+    sxx, syy, szz, sxy, sxz, syz = uniaxial_pk2_global(direction, sigma)
+    return [
+        f"{int(eid)}, {int(ip)}, {sxx:.6e}, {syy:.6e}, {szz:.6e}, {sxy:.6e}, {sxz:.6e}, {syz:.6e}"
+        for ip in intpts
+    ]
+
+
 def _fmt_set(name: str, ids: list[int], kind: str) -> list[str]:
     key = "NSET" if kind == "N" else "ELSET"
     lines = [f"*{key}, {key}={name}"]
@@ -155,7 +188,9 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
     a("** properties: drawings / check report; NOT S10.db, NOT B00, NOT MCT, NOT TARGET-FREQ")
     a("** write_inp: complete deck (nodes, elsets, materials, BC, initial stress, load cases)")
     a("** anchors: floor-rope and portal-rope families are DISJOINT NSETs; do not mix")
-    a("** topology audit: 21 cross-passages, 71 portals/deck = 142 both decks")
+    a("** topology audit: 21 cross-passages, 71 portals/deck = 142 both decks (classifier 榀 U+6980, not 槇 U+69C7)")
+    a("** initial stress: ccx 2.21 §7.76 element, integration point, six global PK2")
+    a("** not ELSET+uniaxial; frozen 82548e6a keeps that illegal card and is not rewritten")
     a(f"** nodes={n_nodes} elements={n_elem}")
     a("")
 
@@ -249,7 +284,9 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
     if beam_ids:
         a("*BEAM SECTION, ELSET=E_BEAM, MATERIAL=MAT-STEEL, SECTION=RECT")
         a("0.160, 0.160")
-        a("0.0, 0.0, 1.0")
+        # n1 must not be parallel to X, Y or Z: vertical portal posts, longitudinal
+        # chords and Y-span passages all exist. (0,0,1) made the 48c7f304 tangent singular.
+        a("1.0, 1.0, 1.0")
 
     # boundaries — same x convention; floor and portal get separate cards
     a("** BOUNDARY: UX,UY,UZ. Floor-rope anchors and portal-rope anchors are separate cards.")
@@ -264,14 +301,25 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
         a("*BOUNDARY")
         a("N_SUPPORT_SADDLE_ENDS, 1, 3")
 
-    # initial stress
+    # initial stress — CalculiX 2.21 §7.76 (NOT the 82548e6a ELSET+uniaxial card)
     a("** INITIAL STRESS from independent sag formula H=wL^2/(8h), h=227.300 m")
+    a("** ccx 2.21 §7.76 TYPE=STRESS: element, integration point, Sxx Syy Szz Sxy Sxz Syz")
+    a("** components are second Piola-Kirchhoff in the GLOBAL rectangular frame")
+    a("** T3D2 expanded like B31→C3D8I; eight integration points; S = sigma * n⊗n")
     a(f"** H_floor_deck={state['H_floor_deck_saddle_N']:.6e} N  sigma_floor={state['sigma_floor_Pa']:.6e} Pa")
+    a(f"** sigma_portal={state['sigma_portal_Pa']:.6e} Pa; format={IC_FORMAT_NAME}")
     a("*INITIAL CONDITIONS, TYPE=STRESS")
-    if truss_ids.get("floor_rope"):
-        a(f"E_FLOOR_ROPE, {state['sigma_floor_Pa']:.6e}")
-    if truss_ids.get("portal_rope"):
-        a(f"E_PORTAL_ROPE, {state['sigma_portal_Pa']:.6e}")
+    ic_n_floor = 0
+    ic_n_portal = 0
+    for eid, a1, b1, r in zip(elem_id, n1, n2, role):
+        if r == "floor_rope":
+            for row in format_pk2_stress_rows(int(eid), coords[b1] - coords[a1], state["sigma_floor_Pa"]):
+                a(row)
+            ic_n_floor += len(T3D2_INTPTS)
+        elif r == "portal_rope":
+            for row in format_pk2_stress_rows(int(eid), coords[b1] - coords[a1], state["sigma_portal_Pa"]):
+                a(row)
+            ic_n_portal += len(T3D2_INTPTS)
 
     def cload_block(acc: dict[int, float], dof: int) -> None:
         if not acc:
@@ -291,23 +339,34 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
         if beam_ids:
             a(f"E_BEAM, GRAV, {G:.6f}, 0., 0., -1.")
 
+    def result_cards() -> None:
+        a("*NODE FILE")
+        a("U")
+        a("*EL FILE")
+        a("S")
+        if floor_ids:
+            a("*NODE PRINT, NSET=N_FLOOR_ANCHOR")
+            a("RF")
+        if portal_ids:
+            a("*NODE PRINT, NSET=N_PORTAL_ANCHOR")
+            a("RF")
+
     # STEP 1 dead + prestress
     a("*STEP, NLGEOM")
-    a("LC-DEAD-PRESTRESS")
+    a("** LC-DEAD-PRESTRESS")
     a("*STATIC")
+    a("0.05, 1.0, 1e-6, 1.0")
     grav()
     a("** extra floor-system dead beyond rope self-weight, downward")
     cload_block({k: -v for k, v in dead_z.items()}, 3)
-    a("*NODE FILE")
-    a("U")
-    a("*EL FILE")
-    a("S")
+    result_cards()
     a("*END STEP")
 
     # STEP personnel (loads redefined; CalculiX does not inherit DLOAD/CLOAD)
     a("*STEP, NLGEOM")
-    a("LC-PERSONNEL-UNIFORM")
+    a("** LC-PERSONNEL-UNIFORM")
     a("*STATIC")
+    a("0.05, 1.0, 1e-6, 1.0")
     grav()
     merged_z = defaultdict(float)
     for k, v in dead_z.items():
@@ -316,30 +375,25 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
         merged_z[k] -= v
     a(f"** personnel {PERSONNEL_KPA} kPa x {PERSONNEL_WIDTH_M} m; {PERSONNEL_SOURCE}")
     cload_block(merged_z, 3)
-    a("*NODE FILE")
-    a("U")
-    a("*EL FILE")
-    a("S")
+    result_cards()
     a("*END STEP")
 
     a("*STEP, NLGEOM")
-    a("LC-WIND-Y")
+    a("** LC-WIND-Y")
     a("*STATIC")
+    a("0.05, 1.0, 1e-6, 1.0")
     grav()
     a(f"** {WIND_SOURCE}")
     cload_block({k: -v for k, v in dead_z.items()}, 3)
     cload_block(wind_y, 2)
-    a("*NODE FILE")
-    a("U")
-    a("*EL FILE")
-    a("S")
+    result_cards()
     a("*END STEP")
 
     if include_frequency:
         a("** LC-FREQ after last static: linearization uses the last NLGEOM state.")
         a("** Dedicated dead+freq deck is written separately when run_pipeline asks.")
         a("*STEP")
-        a("LC-FREQ")
+        a("** LC-FREQ")
         a("*FREQUENCY")
         a("20")
         a("*NODE FILE")
@@ -399,6 +453,24 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
         "anchor_nsets_disjoint": len(overlap) == 0,
         "n_floor_anchor_nodes": len(floor_ids),
         "n_portal_anchor_nodes": len(portal_ids),
+        "ic_format": IC_FORMAT_NAME,
+        "ic_n_intpt": len(T3D2_INTPTS),
+        "ic_n_floor_rows": ic_n_floor,
+        "ic_n_portal_rows": ic_n_portal,
+        "ic_n_rows": ic_n_floor + ic_n_portal,
+        "ic_elset_uniaxial": False,
+        "ic_ccx_2_21_legal": True,
+        "frozen_82548e6a_rewritten": False,
     }
+    # Independent lexical check of what was actually written (not just the flag).
+    ic_body = text.split("*INITIAL CONDITIONS, TYPE=STRESS", 1)[-1].split("*STEP", 1)[0]
+    ic_data = [ln.strip() for ln in ic_body.splitlines() if ln.strip() and not ln.startswith("*") and not ln.startswith("**")]
+    meta["ic_written_rows"] = len(ic_data)
+    meta["ic_first_row"] = ic_data[0] if ic_data else None
+    meta["ic_written_elset_uniaxial"] = any(
+        row.split(",")[0].strip().isalpha() or row.split(",")[0].strip().startswith("E_")
+        for row in ic_data
+    )
+    meta["ic_written_eight_field"] = bool(ic_data) and all(len([p for p in row.split(",") if p.strip()]) == 8 for row in ic_data[:8] + ic_data[-8:])
     meta["hash"] = write_sha256_sidecar(out_path)
     return meta

@@ -1,13 +1,13 @@
-# Grok 自评留痕（catwalk-main-deck-gate-f23d，论文收口）
+# Grok 自评留痕（副本）
 
-正本：`catwalk-fem/eval/GROK_SELF_EVAL.md`。本副本随 artifacts 一起过门。
+正本：`catwalk-fem/eval/GROK_SELF_EVAL.md`。
 
-评估人：Cursor Grok 4.6。未向用户提问。单位：**142 榀门架（不是槬）**。
+冻结 deck `82548e6a…276ab6da` **未改**。  
+新主 deck `catwalk-fem/artifacts/zjg_catwalk_ccx221.inp`  
+SHA-256 `41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a`。
 
-冻结 deck SHA-256 `82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da` 未改。
-
-本机 CalculiX 2.21 复现：exit 201，`*ERROR reading *INITIAL CONDITIONS. Card image: E_FLOOR_ROPE,3.549611E+08`，无 .frd，.dat 0 字节，.sta/.cvg 仅表头，墙钟 0.74–0.82 s，无方程数。
-
-21/21 通道，142/142 榀门架，面层/门架锚交集空。论文：`paper/zjg_catwalk_agentic_fea.md` + `.tex` + 11 页 PDF。
-
-**总评：预求解主 deck 过门 + 词法失败已留痕。不是求解过门，不是模态过门。**
+`TYPE=STRESS`：204 208 行单元号+积分点+六全局 PK2。不是 ELSET+单轴。  
+CalculiX 2.21 读入成功，组装 879 076 方程，SPOOLES 报矩阵奇异（22 096 个不连通中心线分量）。  
+四件套文件在 `artifacts/ccx_41fb3222.*`。无收敛增量。  
+142 榀门架（不是槇）。21 道横通道。面层/门架锚分开。\(x=\)桩号\(-K16+876\)。  
+未向用户提问。不 push。

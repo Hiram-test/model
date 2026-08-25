@@ -99,6 +99,25 @@ def test_complete_keywords(tmp_path: Path | None = None):
     assert abs(meta["anchors"]["FLOOR_S"]["x_mean"] - meta["anchors"]["PORTAL_S"]["x_mean"]) > 5.0
     assert meta["hash"]["sha256"]
     assert Path(meta["hash"]["sidecar"]).is_file()
+    assert meta["ic_elset_uniaxial"] is False
+    assert meta["ic_ccx_2_21_legal"] is True
+    assert meta["ic_n_intpt"] == 8
+    assert meta["ic_n_rows"] == meta["ic_n_floor_rows"] + meta["ic_n_portal_rows"]
+    assert meta["ic_n_rows"] > 0
+    ic_body = text.split("*INITIAL CONDITIONS, TYPE=STRESS", 1)[1].split("*STEP", 1)[0]
+    ic_data = [ln.strip() for ln in ic_body.splitlines() if ln.strip() and not ln.startswith("*") and not ln.startswith("**")]
+    assert ic_data
+    assert all(ln.split(",")[0].strip().isdigit() for ln in ic_data)
+    assert all(len([p for p in ln.split(",") if p.strip()]) == 8 for ln in ic_data)
+    assert not any(ln.startswith("E_FLOOR_ROPE") or ln.startswith("E_PORTAL_ROPE") for ln in ic_data)
+    from write_inp import uniaxial_pk2_global  # noqa: E402
+
+    sxx, syy, szz, sxy, sxz, syz = uniaxial_pk2_global((1.0, 0.0, 0.0), 1.0e8)
+    assert abs(sxx - 1.0e8) < 1e-6
+    assert abs(syy) < 1e-12 and abs(szz) < 1e-12
+    sxx, syy, szz, sxy, sxz, syz = uniaxial_pk2_global((0.0, 0.0, 2.0), 1.0e8)
+    assert abs(szz - 1.0e8) < 1e-6
+    assert abs(sxx) < 1e-12
 
 
 def test_l0_frequency_matches_theory():

@@ -1,0 +1,211 @@
+{
+  "frozen_before": {
+    "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+    "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "expected": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "untouched": true
+  },
+  "frozen_after": {
+    "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+    "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "expected": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "untouched": true
+  },
+  "frozen_untouched": true,
+  "frozen_reread": {
+    "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "bytes": 7702117,
+    "is_frozen_82548e6a": true,
+    "initial_conditions": {
+      "present": true,
+      "keyword_line": "*INITIAL CONDITIONS, TYPE=STRESS",
+      "keyword_line_no": 90863,
+      "n_rows": 2,
+      "n_ccx221_legal": 0,
+      "n_elset_uniaxial": 2,
+      "all_ccx221_legal": false,
+      "any_elset_uniaxial": true,
+      "first_tokens_sample": [
+        "E_FLOOR_ROPE",
+        "E_PORTAL_ROPE"
+      ],
+      "first_tokens_are_element_numbers": false,
+      "first_row": {
+        "raw": "E_FLOOR_ROPE, 3.549611e+08",
+        "fields": [
+          "E_FLOOR_ROPE",
+          "3.549611e+08"
+        ],
+        "n_fields": 2,
+        "first_token": "E_FLOOR_ROPE",
+        "elset_plus_uniaxial": true,
+        "ccx_2_21_legal": false,
+        "reason": "ELSET name + one axial stress; CalculiX 2.21 §7.76 TYPE=STRESS requires element number, integration point, Sxx Syy Szz Sxy Sxz Syz"
+      },
+      "trace_sample": [],
+      "trace_matches_sigma_floor": false,
+      "writer_sigma_floor_Pa": 354961146.3121035,
+      "writer_sigma_portal_Pa": 242629503.72164991
+    },
+    "anchors_disjoint": true
+  },
+  "mesh_from_frozen": {
+    "n_nodes": 51896,
+    "n_elements": 30317,
+    "elsets": {
+      "E_FLOOR_ROPE": 25299,
+      "E_PORTAL_ROPE": 227,
+      "E_LONGITUDINAL_OTHER": 17,
+      "E_HANDRAIL_ROPE": 34,
+      "E_PORTAL_OR_BEAM": 4719,
+      "E_CROSS_PASSAGE": 21
+    },
+    "nsets": {
+      "N_SUP_X0": 12,
+      "N_SUP_NT_SADDLE": 240,
+      "N_SUP_ST_SADDLE": 132,
+      "N_SUP_AUX": 128,
+      "N_SUP_X4180": 392,
+      "N_SUPPORT_SADDLE_ENDS": 904,
+      "N_SUPPORT_ALL": 904,
+      "N_FLOOR_N": 12,
+      "N_FLOOR_S": 300,
+      "N_PORTAL_N": 12,
+      "N_PORTAL_S": 4,
+      "N_FLOOR_ANCHOR": 312,
+      "N_PORTAL_ANCHOR": 16,
+      "N_UPSTREAM": 25863,
+      "N_DOWNSTREAM": 25991
+    },
+    "role_counts": {
+      "cross_passage": 21,
+      "floor_rope": 25299,
+      "handrail_rope": 34,
+      "longitudinal_other": 17,
+      "portal_or_beam": 4719,
+      "portal_rope": 227
+    }
+  },
+  "new_deck": {
+    "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_ccx221.inp",
+    "name": "zjg_catwalk_ccx221.inp",
+    "bytes": 26839981,
+    "sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+    "is_frozen_82548e6a": false,
+    "heading_has_k16876": true,
+    "has_25556": false,
+    "has_00296": false,
+    "has_target_freq_values": false,
+    "n_floor_anchor": 312,
+    "n_portal_anchor": 16,
+    "anchor_overlap": 0,
+    "anchors_disjoint": true,
+    "boundary": {
+      "n_cards": 3,
+      "sets": [
+        "N_FLOOR_ANCHOR",
+        "N_PORTAL_ANCHOR",
+        "N_SUPPORT_SADDLE_ENDS"
+      ]
+    },
+    "initial_conditions": {
+      "present": true,
+      "keyword_line": "*INITIAL CONDITIONS, TYPE=STRESS",
+      "keyword_line_no": 90873,
+      "n_rows": 204208,
+      "n_ccx221_legal": 204208,
+      "n_elset_uniaxial": 0,
+      "all_ccx221_legal": true,
+      "any_elset_uniaxial": false,
+      "first_tokens_sample": [
+        "1",
+        "10",
+        "100",
+        "1000",
+        "10000",
+        "10001",
+        "10002",
+        "10003"
+      ],
+      "first_tokens_are_element_numbers": true,
+      "first_row": {
+        "raw": "1, 1, 1.439957e+08, 0.000000e+00, 2.109655e+08, 0.000000e+00, 1.742932e+08, 0.000000e+00",
+        "fields": [
+          "1",
+          "1",
+          "1.439957e+08",
+          "0.000000e+00",
+          "2.109655e+08",
+          "0.000000e+00",
+          "1.742932e+08",
+          "0.000000e+00"
+        ],
+        "n_fields": 8,
+        "first_token": "1",
+        "elset_plus_uniaxial": false,
+        "ccx_2_21_legal": true,
+        "reason": "ccx 2.21 eight-field row"
+      },
+      "trace_sample": [
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961200.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961120.0,
+        354961160.0,
+        354961160.0,
+        354961160.0,
+        354961160.0,
+        354961160.0,
+        354961160.0,
+        354961160.0,
+        354961160.0
+      ],
+      "trace_matches_sigma_floor": true,
+      "writer_sigma_floor_Pa": 354961146.3121035,
+      "writer_sigma_portal_Pa": 242629503.72164991
+    },
+    "portal_unit": "榀",
+    "portal_not_unit": "槇",
+    "portal_variant_this_turn": "榌",
+    "expected_passages": 21,
+    "expected_portals_per_deck": 71,
+    "expected_portals_both": 142
+  },
+  "writer_meta": {
+    "ic_format": "ccx_2.21_s7.76_element_ip_six_pk2_global",
+    "ic_n_rows": 204208,
+    "ic_n_floor_rows": 202392,
+    "ic_n_portal_rows": 1816,
+    "ic_first_row": "1, 1, 1.439957e+08, 0.000000e+00, 2.109655e+08, 0.000000e+00, 1.742932e+08, 0.000000e+00",
+    "complete": true,
+    "hash": {
+      "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_ccx221.inp",
+      "name": "zjg_catwalk_ccx221.inp",
+      "sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+      "bytes": 26839981,
+      "sidecar": "/workspace/catwalk-fem/artifacts/zjg_catwalk_ccx221.inp.sha256"
+    },
+    "anchor_nsets_disjoint": true
+  },
+  "gates": {
+    "status": "PASS",
+    "n_pass": 27,
+    "n_fail": 0,
+    "failed": []
+  },
+  "pass_new_ic": true,
+  "pass_not_elset": true,
+  "pass_new_hash": true
+}
