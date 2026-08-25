@@ -17,4 +17,6 @@ It is a new-conversation Grok Build plan. It does **not** rewrite the locked mai
 **Locked main deck:** `catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp`  
 SHA-256 `974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1`
 
+**Executed overlay (same branch, does not rewrite the main):** `catwalk-fem/eval/plan_974211b2/` — MCT alignment scrape + prestress restack + IC reread. Ledger now lists `974211b2` as `current_main`.
+
 **Not a scientific success document.** VM success is not a scientific claim. `符合` is forbidden without DISP-bearing `.frd/.dat/.sta/.cvg`.
