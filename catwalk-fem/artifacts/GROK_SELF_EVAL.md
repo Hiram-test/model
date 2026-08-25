@@ -10,4 +10,5 @@
 - sidecar：`artifacts/zjg_catwalk_main.inp.sha256`
 - 82548e6a、41fb3222 **未改**
 
-独立回读：`git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_main.inp | sha256sum`
+独立回读（已核）：`git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_main.inp | sha256sum`  
+= `c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84`。PR #19 `merged=false`。

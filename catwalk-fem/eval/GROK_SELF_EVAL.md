@@ -62,7 +62,7 @@ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_cat
 
 41fb3222 / 82548e6a 的 `git show | sha256sum` 仍为已给值。  
 PR #19 head=`298c616c8735162ebcf38d561f5987f8408637a9`，`merged=false`，`draft=true`。  
-GitHub 目录列举已出现 `zjg_catwalk_main.inp`。JSON：`eval/REMOTE_REREAD_C635DAD7.md` 与 `.json`。
+GitHub 目录列举已出现 `zjg_catwalk_main.inp`。JSON：`eval/REMOTE_REREAD_C635DAD7.json`。
 
 ## 5. 判定
 
