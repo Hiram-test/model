@@ -6,11 +6,10 @@
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 \lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,backgroundcolor=\color{black!3}}
 \title{Agentic FEA of the Zhangjinggao Construction Catwalk:\\
-\large Coordinate gate, 142-portal reconciliation, a \S7.76 PK2 main deck,\\
-and a singular tangent on a disconnected centre-line}
-\author{Run \texttt{catwalk-main-deck-gate-f23d}\\
-Repository \texttt{Hiram-test/model}, branch \texttt{cursor/catwalk-main-deck-gate-f23d}\\
-Pull request \#19}
+\large Three hashed decks, the 41fb3222 connectivity table,\\
+and a factorable but unconverged first increment}
+\author{Run \texttt{cursor/catwalk-main-deck-bound-4c2c}\\
+Repository \texttt{Hiram-test/model}, pull request \#19}
 \date{2026-08-25}
 \begin{document}
 \maketitle
@@ -18,24 +17,30 @@ Pull request \#19}
 \begin{abstract}
 This paper records a complete, auditable agentic finite-element modelling run
 for the Zhangjinggao construction catwalk. A 77\,MB millimetre centre-line STEP
-is parsed, mapped into the project convention
-\(x=\mathrm{chainage}-K16+876.000\), classified against drawing topology,
-coarsened, and written as a CalculiX deck. Floor-rope and portal-rope anchors
-are separate \texttt{*NSET}/\texttt{*BOUNDARY} families. Twenty-one
+is mapped to \(x=\mathrm{chainage}-K16+876.000\). Floor-rope and portal-rope
+anchors are disjoint \texttt{*NSET}/\texttt{*BOUNDARY} families. Twenty-one
 cross-passages and 142 portal frames (71 stations per deck; Chinese classifier
-U+6980, not U+698C) reconcile against the drawing station lists
-with zero insertions. Frozen deck
+U+6980, not U+698C) reconcile with zero insertions.
+
+Frozen deck
 \texttt{82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da}
-is not rewritten; its \texttt{TYPE=STRESS} card remains ELSET plus uniaxial.
-The writer now emits CalculiX 2.21 \S7.76 rows: element, integration point,
-and six global second Piola--Kirchhoff components \(S=\sigma n\otimes n\).
-The new main deck
+keeps its illegal ELSET+uniaxial \texttt{TYPE=STRESS} card and is not rewritten.
+Site
 \texttt{41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a}
-has 204\,208 legal rows. CalculiX 2.21 reads it, assembles 879\,076 equations,
-and stops on a singular factorisation. The coarsened centre-line has 22\,096
-connected components. Four solver files exist without a converged increment.
-Frequency targets remain isolated. This paper certifies a new hashed
-\S7.76 deck and a documented singular tangent---not a solved spectrum.
+is the IC-pass / first-increment-singular deck and is not rewritten. An
+independent reread of that site recovers 22\,096 used-node components and
+19\,371 two-node fragments \(=\) 17\,756 T3D2 \(+\) 1\,615 B31. The integer
+21\,426 counts \textbf{components that contain no constrained node}, not
+unconstrained nodes (50\,676). The three-card boundary union is 1\,220.
+
+The new main deck
+\texttt{c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84}
+attaches drawing-anchor stubs at \(x=-23.895/-44.909/4225.7\), consumes T3D2
+yarn gaps and B31 pairs, pins leftover unconstrained \emph{components}, and
+writes 421\,432 eight-field second Piola--Kirchhoff rows. CalculiX 2.21 reads
+it, assembles 1\,401\,126 equations, factors the tangent (not singular), and
+fails to converge the first increment (exit 201, 63.65\,s). The \texttt{.frd}
+file is an 80-byte title shell with no DISP. No spectrum is claimed.
 \end{abstract}
 
 \tableofcontents
@@ -45,76 +50,75 @@ Frequency targets remain isolated. This paper certifies a new hashed
 \label{sec:intro}
 
 \paragraph{Related work.}
-Automated CAD-to-FEM pipelines exist for buildings and bridges, but they
-usually inherit an already-consistent coordinate system and a single support
-family. Construction catwalks of a multi-span suspension bridge break that
-assumption: two walkways, two rope families with different physical anchor
-stations, discrete portal frames, and discrete cross-passages, all written in
-highway chainage. A companion theory archive
-(\texttt{catwalk-theory/thirteen-mode-models}, v1.2) already freezes the
-drawing topology and the isolation protocol for fourteen low-order families.
-That archive is a theoretical model family, not a CalculiX deck.
+Automated CAD-to-FEM pipelines usually inherit one coordinate system and one
+support family. A multi-span suspension-bridge construction catwalk does not:
+two walkways, two rope families with different physical anchor stations,
+discrete portal frames, and discrete cross-passages, all written in highway
+chainage. Theory archive \texttt{catwalk-theory/thirteen-mode-models} v1.2
+freezes drawing topology and the fourteen-mode isolation protocol; it is not
+a CalculiX deck. Pull request \#18 shipped an empty \texttt{artifacts/}.
+Pull request \#19 first deposited \texttt{82548e6a}, then \texttt{41fb3222}.
+This run does not rewrite those two sites. It emits a third hash.
 
 \paragraph{Method.}
-The run follows \texttt{catwalk-fem/SKILL.md} and \texttt{PLAN.md}. Geometry is
-STEP-only. Materials, sag, and loads come from drawings and the check report.
-The coordinate gate is a hard stop: identity unless saddle-height evidence
-requires a shift, and never \(X-x_{\min}\). Topology is reconciled against
-frozen drawing lists: 21 passages and \(71\times 2=142\) portal frames.
-Anchors are two families, not one mixed set. The writer emits a complete
-keyword deck. After the hash is frozen, CalculiX may be run only on a copy.
+The run follows \texttt{catwalk-fem/SKILL.md}. Geometry is STEP-only.
+Materials, sag, and loads come from drawings and the check report. The
+coordinate gate is identity unless saddle-height evidence requires a shift,
+never \(X-x_{\min}\). Topology is reconciled against frozen drawing lists:
+21 passages and \(71\times 2=142\) portal frames. Anchors are two families.
+\texttt{82548e6a} and \texttt{41fb3222} are frozen. The new main deck is
+written to \texttt{zjg\_catwalk\_main.inp}. CalculiX runs only on a copy.
+A successful read, a factorable tangent, or a \texttt{.sta} increment row is
+not a solved statics claim. Solved means exit 0, DISP in \texttt{.frd}, and
+a converged increment row.
 
 \paragraph{Experiment.}
-Release \texttt{catwalk-attachment23-v2.0-s10-20260716} file
-\texttt{cw\_S10\_0716t050342\_a4\_centerline.step} (SHA-256
-\texttt{d03d01e38b823df5af4c1ff9b0b175fdfb87b097b9cda9a03af5d14e9c763344},
-139\,991 trimmed curves, \texttt{SI\_UNIT(.MILLI.,.METRE.)}) is converted to
-metres. After identity mapping, \(X\in[0,4270.609]\)\,m and
-\(Z_{\max}=350.312\)\,m. The written deck has 51\,896 nodes and 30\,317
-elements (7\,702\,117 bytes). CalculiX CrunchiX 2.21, executed on a copy of
-hash \texttt{82548e6a}, dies while reading the first initial-stress row.
+The centre-line STEP (139\,991 trimmed curves,
+\texttt{SI\_UNIT(.MILLI.,.METRE.)}) is converted to metres. After identity
+mapping, STEP nodes satisfy \(X\in[0,4270.609]\)\,m and
+\(Z_{\max}=350.312\)\,m. Three SHA-256 values were rechecked on this host.
+CalculiX 2.21 on a copy of \texttt{c635dad7} assembled 1\,401\,126 equations
+and failed to converge the first increment.
 
 \paragraph{Outlook.}
-A later run may emit a CalculiX-legal stress card without silently mutating
-this hash. North physical anchors lie outside this STEP and remain proxies.
-Fourteen-mode comparison stays forbidden until a solved spectrum exists.
+The new hash is emitted. The first increment is no longer immediately
+singular because of 22\,096 components. Static convergence still requires
+work on the remaining 1\,073 components, 477 pair fragments, four
+unconstrained components, and the \texttt{umpc\_mean\_rot} failure---not a
+rewrite of the two frozen sites. TARGET-FREQ stays isolated until a solved
+spectrum exists.
 
 \section{Related work and isolation protocol}
 \label{sec:iso}
 
 \paragraph{Related work.}
-Agentic FEA here means a scripted, auditable chain with frozen constants, not a
-chat that invents sections. Dhondt's CalculiX is used as the open solver
-because its keyword deck is inspectable and its version is pinned. Abaqus-like
-ELSET-wide uniaxial prestress is a common authoring convenience; it is not the
-CalculiX 2.21 contract.
+Agentic FEA here means a scripted chain with frozen constants. CalculiX 2.21
+is used because the keyword deck is inspectable. Abaqus-like ELSET-wide
+uniaxial prestress is not the CalculiX 2.21 contract.
 
 \paragraph{Method.}
-Isolation rules, taken from theory v1.2 \S1 and the skill file:
+Isolation rules from theory v1.2 \S1 and the skill file:
 \begin{enumerate}
 \item STEP supplies coordinates only.
 \item Properties come from DRW-A/B, CALC-INPUT, STD, or a named ASSUMP.
 \item \texttt{TARGET-FREQ} lives in \texttt{catwalk-fem/isolated/} and is not
 imported by \texttt{write\_inp} or the solver deck.
-\item Formed sag is \(h=227.300\)\,m (\(340.600-113.300\)). The \(255.56\)\,m
-main-cable control sag is forbidden in the deck (verified absent).
-\item The two decks keep independent degrees of freedom; no mirror constraint.
+\item Formed sag is \(h=227.300\)\,m. The \(255.56\)\,m main-cable control sag
+is forbidden in the deck (verified absent).
+\item The two walkways keep independent degrees of freedom.
 \item Floor-rope anchors and portal-rope anchors are never unioned.
-\item After SHA-256 \texttt{82548e6a} is frozen, the \texttt{.inp} is not
-rewritten to ``make the solver happy''.
+\item After SHA-256 \texttt{82548e6a} and \texttt{41fb3222} are frozen, those
+\texttt{.inp} files are not rewritten to ``make the solver happy''.
 \end{enumerate}
 
 \paragraph{Experiment.}
-The isolated file lists fourteen frequencies starting at \(0.0296\)\,Hz. A
-full-text search of the frozen deck finds neither \(0.0296\) nor \(255.56\).
+The isolated file lists fourteen frequencies starting at \(0.0296\)\,Hz.
+Full-text search of all three decks finds neither \(0.0296\) nor \(255.56\).
 \texttt{write\_inp.py} does not import \texttt{isolated/TARGET-FREQ.json}.
-The STEP sibling \texttt{cw\_S10\_0716t050342\_a4\_eq.db} is listed as a
-forbidden source in the heading.
 
 \paragraph{Outlook.}
-Isolation is a scientific claim, not a courtesy. Any later comparison table
-must load TARGET-FREQ only after the deck, the solve, and the mode-shape
-classification are frozen.
+Isolation is a scientific claim. Later comparison tables may load TARGET-FREQ
+only after deck, solve, and mode-shape classification are frozen.
 
 \section{Charter, evidence grades, and frozen constants}
 \label{sec:charter}
@@ -125,11 +129,9 @@ Portal and passage stations are DRW-B dimension chains. Saddle coordinates are
 CALC-INPUT (check-report tables 1-5 / 1-9).
 
 \paragraph{Method.}
-The charter (\texttt{artifacts/analysis\_charter.json}) freezes: project
-\texttt{zjg-catwalk}, run \texttt{catwalk-main-deck-gate-f23d}, SI internal
-units, and the four load cases LC-DEAD-PRESTRESS, LC-PERSONNEL-UNIFORM,
-LC-WIND-Y, LC-FREQ. The coordinate origin is the nominal four-span north end,
-not a physical anchor:
+The charter freezes project \texttt{zjg-catwalk}, SI internal units, and four
+load cases LC-DEAD-PRESTRESS, LC-PERSONNEL-UNIFORM, LC-WIND-Y, LC-FREQ. The
+origin is the nominal four-span north end, not a physical anchor:
 \[
 x = \mathrm{chainage} - K16+876.000,\qquad
 y\ \text{upstream}\to\text{downstream},\qquad
@@ -143,23 +145,23 @@ x_{\mathrm{portal,N}}&=-44.909~\mathrm{m}\ (K16+831.091),&
 x_{\mathrm{portal,S}}&=4225.700~\mathrm{m}\ (K21+101.700).
 \end{align*}
 Nominal four-span breaks \(\{0,660,2960,3677,4180\}\) and physical saddles
-\(\{666.679,2953.321\}\) are registered together and are never silently mixed.
+\(\{666.679,2953.321\}\) are registered together.
 
 \paragraph{Experiment.}
-The heading of the frozen deck states the convention in plain text. Node
-\(x_{\min}=0\) equals the transformed geometry \(x_{\min}\). South floor and
-south portal selected means differ by \(11.1\)\,m.
+All three headings state the convention in plain text.
+\texttt{82548e6a}/\texttt{41fb3222} have STEP \(x_{\min}=0\). After drawing
+stubs the new main has \(x_{\min}=-44.909\); STEP-derived nodes still start
+at 0. No \(X-x_{\min}\) shift is applied.
 
 \paragraph{Outlook.}
-If a later STEP covers the north physical anchors, those four stations must
-still remain four sets.
+If a later STEP covers the north physical anchors, the four stations remain
+four sets. Stubs are attachments, not a mixed floor/portal set.
 
 \section{Ingestion and classification (N02--N07)}
 \label{sec:ingest}
 
 \paragraph{Related work.}
-A centre-line STEP of 139\,991 trimmed curves is not a member-role model. Role
-assignment has to be recovered from geometry against drawing lattices.
+A centre-line STEP of 139\,991 trimmed curves is not a member-role model.
 
 \paragraph{Method.}
 \texttt{parse\_step} stream-parses \texttt{CARTESIAN\_POINT} /
@@ -173,39 +175,32 @@ inter-deck members as \texttt{cross\_passage}.
 Raw counts: \texttt{floor\_rope} 43\,200, \texttt{portal\_or\_beam} 4\,719,
 \texttt{portal\_rope} 356, \texttt{cross\_passage} 0, \texttt{short\_other}
 91\,618. No single segment has \(\Delta y\ge 15\)\,m, because each
-\(49.655\)\,m passage is tessellated into \(\approx 1.7\)\,m pieces. At every
-drawing passage \(X\), node \(Y\) already spans \([-24.3,24.3]\)\,m. Detection
-therefore uses \(Y\)-span, not a single long beam. Unclassified
-\texttt{short\_other} is dropped from the coarsened deck. Longitudinal chains
-keep drawing stations and a 12\,m target spacing.
+\(49.655\)\,m passage is tessellated into \(\approx 1.7\)\,m pieces.
+Detection therefore uses \(Y\)-span. Unclassified \texttt{short\_other} is
+dropped from the coarsened deck.
 
 \paragraph{Outlook.}
-Portal-rope classification remains incomplete after coarsening (227 elements).
-That bound is reported in \S\ref{sec:results} and is not hidden by the 142
-frame count.
+Portal-rope classification remains incomplete after coarsening. That bound
+is reported in \S\ref{sec:disc} and is not hidden by the 142 frame count.
 
 \section{Coordinate and topology gates (N07/N09)}
 \label{sec:gates}
 
 \paragraph{Related work.}
-A previous pull request shipped the pipeline and left \texttt{artifacts/}
-empty. An empty directory cannot be a passed coordinate gate. Topology counts
-must be recovered from the mesh against drawing lists, with insertions booked
-rather than invented silently.
+An empty \texttt{artifacts/} cannot be a passed coordinate gate. Topology
+counts must be recovered from the mesh against drawing lists.
 
 \paragraph{Method.}
 \texttt{infer\_x\_transform} scores identity, minus-\(x_{\min}\), and minus
-raw chainage. High-\(Z\) histogram modes sit near portal clusters
-(\(\approx 700\)\,m and \(\approx 3023\)\,m), not on the saddles. Alignment is
-therefore confirmed by local \(Z_{p90}\) within 12\,m of \(x=666.679\) and
-\(x=2953.321\). Passages: 21 drawing stations (\(3+13+3+2\)). Portal frames:
-71 stations \(\times\) 2 decks \(=142\). The Chinese unit is U+6980
-(classifier for frames); U+698C is a different character and is not used.
+raw chainage. Alignment is confirmed by local \(Z_{p90}\) within 12\,m of
+\(x=666.679\) and \(x=2953.321\). Passages: 21 drawing stations. Portal
+frames: 71 stations \(\times\) 2 decks \(=142\). The Chinese unit is U+6980;
+U+698C is not used.
 
 \paragraph{Experiment.}
 \begin{table}[ht]
 \centering
-\caption{Coordinate and topology gates read from \texttt{coord\_gate.json}.}
+\caption{Coordinate and topology gates.}
 \label{tab:gates}
 \begin{tabular}{lll}
 \toprule
@@ -216,7 +211,7 @@ Transform & PASS & identity, shift \(=0\) \\
 Saddle \(Z\) & PASS & north \(Z_{p90}=330.78\)\,m, south \(324.85\)\,m vs \(340.6\)\,m \\
 Two decks & PASS & \(Y\) medians \(+20.6\) / \(-20.6\)\,m vs \(\pm 21.45\) \\
 Formed sag & PASS & geometry \(214.18\)\,m vs \(227.30\)\,m, \(|\Delta|=13.12\)\,m \\
-No \(x_{\min}\) shift in \texttt{.inp} & PASS & node \(x_{\min}=0\) equals geometry \\
+No \(x_{\min}\) shift & PASS & STEP \(x_{\min}=0\); drawing stubs may have \(x<0\) \\
 Passages & PASS & 21/21, insertions 0 \\
 Portal frames & PASS & 142/142, insertions 0 \\
 \bottomrule
@@ -225,199 +220,240 @@ Portal frames & PASS & 142/142, insertions 0 \\
 
 Twenty-one passages close by \(Y\)-span at every DRW-B station
 (Table~\ref{tab:passages21}). Portal frames close station-by-station
-(Table~\ref{tab:portal142}): 11 north-span, 41 main-span, 11 south 717\,m, and
-8 south 503\,m stations, each hit on both decks. Missing stations: 0.
-Inserted drawing beams: 0.
+(Table~\ref{tab:portal142}).
+
+\paragraph{Outlook.}
+The 13.12\,m sag residual is inside the 15\,m gate. It is not a formed-line
+fit. Later runs must not treat histogram peaks as saddle evidence.
 
 \input{passage_21_table.tex}
 
-\paragraph{Outlook.}
-The 13.12\,m sag residual is inside the 15\,m gate and is not a formed-line
-fit. Histogram modes must not be used as saddle evidence in later runs.
-
-\section{Materials, disjoint anchors, and cable seed (N08--N10)}
-\label{sec:anchors}
+\section{Materials, family anchors, and initial tension (N08--N10)}
+\label{sec:mat}
 
 \paragraph{Related work.}
-Theory v1.2 \S4 forbids using a floor-rope anchor as a portal-rope anchor.
-The two families differ by \(21\)\,m at the north end and by \(15.332\)\,m at
-the south end.
+Theory v1.2 \S4 forbids treating floor-rope anchors as portal-rope anchors.
+The two north stations differ by 21\,m; the two south stations differ by
+15.332\,m.
 
 \paragraph{Method.}
-Rope \(E=1.20\times 10^{11}\)\,Pa, floor/portal \(A=1400.42\times 10^{-6}\)\,m\(^2\),
-\(\mu=12.038\)\,kg/m (CALC-INPUT / DRW-A). Steel \(E=2.06\times 10^{11}\)\,Pa,
-\(\rho=7850\)\,kg/m\(^3\). Horizontal seed
+Wire rope \(E=1.20\times10^{11}\)\,Pa, floor/portal
+\(A=1400.42\times10^{-6}\)\,m\(^2\), \(\mu=12.038\)\,kg/m. Steel
+\(E=2.06\times10^{11}\)\,Pa, \(\rho=7850\)\,kg/m\(^3\). Horizontal force
 \[
-H=\frac{wL^2}{8h},\qquad h=227.300~\mathrm{m},\qquad L=2286.642~\mathrm{m}.
+H=\frac{wL^2}{8h},\quad h=227.300~\mathrm{m},\quad L=2286.642~\mathrm{m}
 \]
-Per deck, \(w_{\mathrm{floor}}=2.766\)\,kN/m and
-\(w_{\mathrm{portal}}=0.709\)\,kN/m give \(H_{\mathrm{floor}}=7.954\)\,MN and
-\(H_{\mathrm{portal}}=2.039\)\,MN. Axial seeds are
-\(\sigma_{\mathrm{floor}}=3.549611\times 10^{8}\)\,Pa and
-\(\sigma_{\mathrm{portal}}=2.426295\times 10^{8}\)\,Pa. L0 wave frequency
-\(f_1=\sqrt{g/32h}=0.036719\)\,Hz is a magnitude gate only.
-
-Floor and portal anchors use different node sets and two \texttt{*BOUNDARY}
-cards. A third card holds saddles and nominal ends.
+gives \(H_{\mathrm{floor}}=7.954\)\,MN and \(H_{\mathrm{portal}}=2.039\)\,MN,
+hence \(\sigma_{\mathrm{floor}}=3.549611\times10^{8}\)\,Pa and
+\(\sigma_{\mathrm{portal}}=2.426295\times10^{8}\)\,Pa. Floor and portal
+anchors use two \texttt{*BOUNDARY} cards. A third card pins saddles and
+nominal ends. The new main adds a fourth card for leftover unconstrained
+\emph{components}; that set is not unioned into the anchors.
 
 \paragraph{Experiment.}
-\begin{table}[ht]
-\centering
-\caption{Disjoint anchor families. North physical anchors lie outside the STEP.}
-\label{tab:anchors}
-\begin{tabular}{llrrr}
-\toprule
-Family & Station & Target \(x\) (m) & Selected \(x_{\mathrm{mean}}\) & Mode \\
-\midrule
-Floor N & K16+852.105 & \(-23.895\) & 0.000 & STEP north-end proxy \\
-Floor S & K21+086.368 & 4210.368 & 4209.985 & matched, \(\Delta=0.38\)\,m \\
-Portal N & K16+831.091 & \(-44.909\) & 46.358 & STEP north-end proxy \\
-Portal S & K21+101.700 & 4225.700 & 4221.093 & matched, \(\Delta=4.61\)\,m \\
-\bottomrule
-\end{tabular}
-\end{table}
-Intersection of \texttt{N\_FLOOR\_ANCHOR} (312 nodes) and
-\texttt{N\_PORTAL\_ANCHOR} (16 nodes) is empty. Three \texttt{*BOUNDARY} cards
-are present. South families remain \(11.1\)\,m apart in \(x\).
+On \texttt{41fb3222}, north floor and north portal remain STEP-end proxies
+(\(x=0\) and \(x\approx 46.4\)). On \texttt{c635dad7}, drawing stubs place
+FLOOR\_N at \(-23.895\), PORTAL\_N at \(-44.909\), and PORTAL\_S at
+\(4225.7\). South floor remains a match (\(\Delta=0.38\)\,m). In both decks
+\(N_{\mathrm{floor}}=312\), \(N_{\mathrm{portal}}=16\), intersection empty.
 
 \paragraph{Outlook.}
-The deck does not invent nodes at negative \(x\). A later STEP that includes
-the north anchorage must still keep the four families separate.
+Stubs write drawing \(x<0\) into the new main only. They do not rewrite
+\texttt{41fb3222}.
 
 \section{Load cases (N11)}
 \label{sec:loads}
 
 \paragraph{Related work.}
-CalculiX does not inherit \texttt{*DLOAD}/\texttt{*CLOAD} across steps. Each
-step must restate gravity and the active package.
+CalculiX does not inherit \texttt{*DLOAD}/\texttt{*CLOAD} across steps.
 
 \paragraph{Method.}
-Per-deck packages are split equally onto 16 explicit floor ropes so that
-\(\sum_i w_{\mathrm{rope}}L_i=w_{\mathrm{deck}}L_{\mathrm{deck}}\).
+The check-report per-deck package is split equally onto 16 explicit floor
+ropes so that \(\sum_i w_{\mathrm{rope}}L_i=w_{\mathrm{deck}}L_{\mathrm{deck}}\).
 
 \paragraph{Experiment.}
+On the new main: extra dead 10.756\,MN, personnel 103.006\,MN, wind
+6.131\,MN. Floor-truss length after yarn stitch is 196\,202\,m. LC-FREQ
+requests 20 eigenvalues. The deck text contains neither \(0.0296\) nor
+\(255.56\).
+
+\paragraph{Outlook.}
+The long floor length is a classification/stitch bound, not an invented live
+load.
+
+\section{The 41fb3222 connectivity table (independent reread)}
+\label{sec:defs}
+
+\paragraph{Related work.}
+A previous write-up called \texttt{41fb3222} the ``new main deck'' and
+attributed singularity to 22\,096 components. The component count holds. The
+integer 21\,426 is easy to misread as an unconstrained-node count. The
+correction: 21\,426 is the unconstrained-\emph{component} count.
+
+\paragraph{Method.}
+\texttt{pipeline/singular\_audit.py} reads \texttt{zjg\_catwalk\_ccx221.inp}
+only. Connectivity is the used-node element graph. Constraint nodes are the
+union of three \texttt{*BOUNDARY} cards:
+\texttt{N\_FLOOR\_ANCHOR} \(\cup\) \texttt{N\_PORTAL\_ANCHOR} \(\cup\)
+\texttt{N\_SUPPORT\_SADDLE\_ENDS}. A component with empty intersection
+against that union is an unconstrained component. Two-node fragments are
+split by element type. The file is not rewritten.
+
+\paragraph{Experiment.}
+Host \texttt{sha256sum} equals \texttt{41fb3222\(\ldots\)bbca924a}.
+\texttt{test\_singular\_defs} passes. \texttt{match\_given.all} is true.
+
 \begin{table}[ht]
 \centering
-\caption{Load-case resultants close against \(wL\) on the coarsened floor mesh.}
-\label{tab:loads}
-\begin{tabular}{lrrr}
+\caption{Independent reread of site \texttt{41fb3222}.
+21\,426 is not an unconstrained-node count.}
+\label{tab:defs}
+\begin{tabular}{lrl}
 \toprule
-Case & Deck \(w\) & Per-rope \(w\) & Resultant \\
+Quantity & Value & Meaning \\
 \midrule
-Extra dead & 877.16\,N/m & 54.82\,N/m & 9.019\,MN \\
-Personnel & 8.400\,kN/m & 525\,N/m & 86.371\,MN \\
-Wind \(+Y\) & 0.50\,kN/m & 31.25\,N/m & 5.141\,MN \\
+Used-node components & 22\,096 & connected components \\
+Two-node fragments & 19\,371 & size-2 components \\
+\quad of which T3D2 & 17\,756 & floor 17\,616 + portal\_rope 136 + handrail 4 \\
+\quad of which B31 & 1\,615 & portal\_or\_beam 1\,594 + passage 21 \\
+Unconstrained \emph{components} & 21\,426 & no constraint node in the component \\
+Unconstrained \emph{nodes} & 50\,676 & \(51\,896-1\,220\) \\
+Three-card BC union & 1\,220 & \(312\cup 16\cup 904\); floor \(\cap\) portal \(=0\) \\
+Nodes / elements & 51\,896 / 30\,317 & \\
 \bottomrule
 \end{tabular}
 \end{table}
-Floor truss length in the coarsened mesh is 164\,516\,m (32 lines including
-sag and residual over-classified floor segments; \(\approx 5141\)\,m/line
-versus \(\approx 4300\)\,m expected). LC-FREQ requests 20 eigenvalues and does
-not contain \(0.0296\)\,Hz.
+
+Identities: \(19\,371=17\,756+1\,615\), \(50\,676=51\,896-1\,220\),
+\(21\,426\neq 50\,676\).
+
+CalculiX 2.21 on a copy of \texttt{41fb3222}: IC accepted, 879\,076
+equations, SPOOLES singular, exit 255, wall 10.35\,s. \texttt{.frd} is 80\,B
+with no DISP. \texttt{.sta}/\texttt{.cvg} have no increment rows. Not a
+solution.
+
+Bounds kept on the frozen site: T3D2 wrote eight integration points (C3D8I
+expansion; IC accepted); north floor \(x=0\) vs \(-23.895\); north portal
+\(x\approx 43.9\)--\(48.8\) vs \(-44.909\); south portal \(4221.093\) vs
+\(4225.7\); B31 and the remaining 51 T3D2 had no IC.
 
 \paragraph{Outlook.}
-The 20\,\% floor-line excess is a classification bound, not a live-load
-invention. It remains visible after the 21/142 topology audit closes.
+The table is the input to the new-main repair. It is not a reason to
+withhold \texttt{41fb3222}. Do not pin 21\,426 nodes.
 
-\section{Solver deck and the CalculiX 2.21 initial-stress gate (N12--N14)}
-\label{sec:ccx}
-
-\paragraph{Related work.}
-CalculiX CrunchiX 2.21 (\S6.11.7 and \S7.76) requires, for
-\texttt{TYPE=STRESS} without \texttt{USER}: element number, integration point,
-and six global second Piola--Kirchhoff components. T3D2 follows B31 and is
-expanded to C3D8I (\S6.2.35), so eight integration points are written.
-ELSET plus one axial number is not that contract. The previous G11 pre-solve
-gate did not cover this card.
-
-\paragraph{Method.}
-Frozen hash \texttt{82548e6a} keeps
-\begin{lstlisting}
-*INITIAL CONDITIONS, TYPE=STRESS
-E_FLOOR_ROPE, 3.549611e+08
-E_PORTAL_ROPE, 2.426295e+08
-\end{lstlisting}
-and is not patched. \texttt{write\_inp.py} now emits
-\(S=\sigma n\otimes n\) on eight integration points per floor/portal truss.
-The mesh is reread from the frozen deck and written to a \emph{new} path
-\texttt{zjg\_catwalk\_ccx221.inp}. Gate \texttt{IC-G-ccx221-pk2} rereads the
-text independently.
-
-\paragraph{Experiment.}
-The frozen copy still fails as given (exit 201,
-\texttt{E\_FLOOR\_ROPE,3.549611E+08}, no equations, \(<1\)\,s).
-The new deck SHA-256
-\texttt{41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a}
-has 204\,208 eight-field rows, zero ELSET-uniaxial rows, and
-\(\mathrm{tr}(S)=\sigma_{\mathrm{floor}}\) on the first row. Twenty-seven
-automated gates PASS. CalculiX 2.21 reads the new copy, assembles
-879\,076 equations, and reports \texttt{matrix found to be singular}
-(\texttt{spooles.out}), exit 255, wall-clock \(10.35\)\,s. The four-file set
-exists (\texttt{.frd} 80\,B, \texttt{.dat} 42\,B, header-only
-\texttt{.sta}/\texttt{.cvg}). A connectivity audit finds 22\,096 connected
-components (largest 129 nodes). Pinning every original node makes the matrix
-non-singular, so the singularity is a disconnected centre-line mechanism, not
-the PK2 card.
-
-\paragraph{Outlook.}
-The lexical gate now covers \S7.76. The next modelling step is connectivity,
-not another rewrite of the eight-field card, and not a silent edit of
-\texttt{82548e6a}.
-
-\section{Zhangjinggao results}
-\label{sec:results}
+\section{New main deck \texttt{c635dad7} and CalculiX 2.21}
+\label{sec:new}
 
 \paragraph{Related work.}
-The scientific object is one published centre-line STEP of one construction
-catwalk.
+CalculiX 2.21 \S7.76 requires, before the first \texttt{*STEP} and without
+\texttt{USER}: element number, integration point, and six global second
+Piola--Kirchhoff components. T3D2 expands like B31 to C3D8I (manual
+\S6.2.35), so eight integration points are written.
 
 \paragraph{Method.}
-Results are read back from both hashed decks, the gate JSON, the 142-frame
-ledger, the independent reread, and the CalculiX 2.21 logs. No displacement
-from a completed increment is reported.
-
-\paragraph{Experiment.}
+\texttt{repair\_topology.py} rereads the \texttt{41fb3222} mesh and does not
+write that path:
 \begin{enumerate}
-\item Coordinate convention holds without subtracting \(x_{\min}\).
-\item 21 passages and 142 portal frames, insertions 0 and 0.
-\item Anchor families disjoint (\(312\cap 16=\emptyset\)).
-\item Sag seed \(227.300\)\,m; \(255.56\) and \(0.0296\) absent from both decks.
-\item Frozen hash unchanged. New hash \texttt{41fb3222} submitted.
-\item Five unit-test modules PASS.
-\item New \texttt{TYPE=STRESS} is accepted; 879\,076 equations; singular tangent.
+\item Drawing-anchor stubs: 28 members at \(-23.895/-44.909/4225.7\).
+\item Floor yarn stitch: same role, side, and \(Y\) (3 decimals), consecutive
+\(X\), \(\Delta x\le 15\)\,m. 20\,948 T3D2 members. This is the 17\,756 T3D2
+fragment path, not a 57--2000\,m portal/handrail stitch.
+\item B31 pair stitch only: same side, \(|\Delta x|\le 4\)\,m, \(d\le 3.5\)\,m.
+485 members. This is the 1\,615 B31 fragment path.
+\item Couple floating beams/passages/portal ropes to the floor:
+724+21+156.
+\item Pin leftover unconstrained \emph{components} as
+\texttt{N\_ORPHAN\_UNCONSTRAINED}: 1\,012 components / 3\,596 nodes.
 \end{enumerate}
+\texttt{write\_inp.py} writes eight-field PK2 for every T3D2 and every B31.
+Floor and portal ropes use \(S=\sigma n\otimes n\); other roles use zero PK2.
+\texttt{emit\_bound\_main\_deck.py} refuses to touch the two frozen hashes.
+\texttt{emit\_new\_main\_deck.py} now refuses to overwrite \texttt{41fb3222}.
+
+\paragraph{Experiment.}
+Independent reread: 51\,924 nodes, 52\,679 elements, 421\,432 legal IC rows,
+0 ELSET+uniaxial rows, 1\,073 components, 477 remaining pairs
+(110 T3D2 + 367 B31), 4 unconstrained components under all BC cards,
+three-card union 1\,232, 29/29 gates PASS. Heading text states the
+\texttt{41fb3222} table, including ``21426 = components with ZERO constraint
+nodes''.
+
+CalculiX 2.21 on \texttt{/tmp/ccx-c635dad7}:
+\begin{lstlisting}
+This is Version 2.21
+copy_sha256 = c635dad7...70cda84
+parse_fail_ic = false
+number of equations = 1401126
+singular = false
+exit 201
+wall_s = 63.65
+has_disp = false
+n_sta_increment_rows = 1
+solved = false
+\end{lstlisting}
+
+\begin{table}[ht]
+\centering
+\caption{Solver four-file record on copies. Not a solved statics claim.}
+\label{tab:ccx}
+\begin{tabular}{lrrcccc}
+\toprule
+Hash & Eq. & Sing.\ & Inc.\ rows & DISP & exit & Wall (s) \\
+\midrule
+\texttt{82548e6a} & --- & --- & 0 & no & 201 & \(<1\) \\
+\texttt{41fb3222} & 879\,076 & yes & 0 & no & 255 & 10.35 \\
+\texttt{c635dad7} & 1\,401\,126 & no & 1 (\texttt{1U}) & no & 201 & 63.65 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The new-hash \texttt{.sta} line is \texttt{1 1 1U 2} (unconverged). The
+\texttt{.cvg} file has four iteration rows with residual
+\(10^{7}\)--\(10^{8}\,\%\) and 100\,\% displacement correction. Stdout ends
+in \texttt{no convergence} / \texttt{divergence} /
+\texttt{*ERROR in umpc\_mean\_rot} (node 78746). The \texttt{.frd} file is
+80\,B. After the run, both frozen hashes were unchanged.
 
 \paragraph{Outlook.}
-The supported claim is a \S7.76-legal new main deck plus an untouched illegal
-witness hash. It is not a static solution and not a fourteen-mode match.
+The lexical IC gate and ``first increment no longer immediately singular''
+are closed. Convergence is the next bound. Do not change the \S7.76 row
+format again, and do not rewrite the two frozen sites.
 
-\section{Discussion and conclusions}
+\section{Discussion and conclusion}
 \label{sec:disc}
 
 \paragraph{Related work.}
-PR \#18 shipped an empty \texttt{artifacts/}. PR \#19 first deposited
-\texttt{82548e6a}. This run changes the writer, submits \texttt{41fb3222},
-and leaves traces under \texttt{catwalk-fem/eval/}.
+PR \#18 shipped an empty directory. PR \#19 deposited \texttt{82548e6a} then
+\texttt{41fb3222}. This run emits \texttt{c635dad7} from the corrected
+definition table and leaves traces under \texttt{catwalk-fem/eval/}.
 
 \paragraph{Method.}
 Visible limits are bounds. Hard gates (identity, 21/142, disjoint anchors,
-\S7.76 lexicon, frozen hash, forbidden sources) close. Singularity is a bound,
-not a reason to withhold the new deck.
+\S7.76 lexicon, two frozen hashes, forbidden sources, the 21\,426
+definition) close. An unconverged first increment is a bound, not a reason
+to withhold the new deck.
 
 \paragraph{Experiment.}
-Bounds: north anchors are STEP-end proxies; portal-rope classification is
-incomplete (227 elements); geometric sag \(214.18\) vs \(227.30\)\,m;
-floor-line length \(\approx 20\)\,\% long; 22\,096 connected components;
-no converged increment; no spectrum.
+Bounds: \texttt{41fb3222} north anchors remain STEP-end proxies; the new
+main stubs north floor/portal and south portal; south floor still
+\(\Delta=0.38\)\,m; portal-rope classification is incomplete; geometric sag
+\(214.18\) vs \(227.30\)\,m; floor-line length is long; 1\,073 components
+and 477 pair fragments remain; orphan pins are leftover unconstrained
+components, not a statically determinate weld; the new-hash tangent factors
+but the first increment does not converge; no DISP; no spectrum.
 
 \paragraph{Outlook.}
 From the published STEP, under \(x=\mathrm{chainage}-K16+876.000\), a
 readable CalculiX deck exists; floor and portal anchors are separate; 21
 passages and 142 frames reconcile with zero insertions. Frozen
-\texttt{82548e6a} remains ELSET+uniaxial. New \texttt{41fb3222} emits
-element + integration point + six global PK2. CalculiX 2.21 reads it and
-assembles 879\,076 equations, then fails on a singular factorisation caused
-by 22\,096 disconnected components. No solved spectrum is claimed.
+\texttt{82548e6a} remains ELSET+uniaxial. \texttt{41fb3222} remains the
+IC-pass / first-increment-singular site; the independent table
+(22\,096 / 19\,371 \(=\) 17\,756\(+\)1\,615 / 21\,426 components / 50\,676
+nodes / 1\,220 union) matches the given arithmetic and is not rewritten.
+New \texttt{c635dad7} emits drawing stubs, yarn/pair consume, component
+pins, and 421\,432 eight-field PK2 rows. CalculiX 2.21 reads it and
+assembles 1\,401\,126 equations, then fails to converge. No solved spectrum
+is claimed. 21\,426 is not an unconstrained-node count.
 
 \section*{Reproduction}
 
@@ -427,21 +463,29 @@ python3 catwalk-fem/tests/test_write_inp.py
 python3 catwalk-fem/tests/test_reconcile.py
 python3 catwalk-fem/tests/test_audit_frozen_deck.py
 python3 catwalk-fem/tests/test_new_main_deck.py
-python3 catwalk-fem/pipeline/emit_new_main_deck.py
+python3 catwalk-fem/tests/test_singular_defs.py
+python3 catwalk-fem/tests/test_repair_topology.py
+python3 catwalk-fem/pipeline/singular_audit.py \
+    catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
+python3 catwalk-fem/pipeline/emit_bound_main_deck.py
 sha256sum catwalk-fem/artifacts/zjg_catwalk_coarsened.inp
 sha256sum catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
+sha256sum catwalk-fem/artifacts/zjg_catwalk_main.inp
 pdflatex -interaction=nonstopmode zjg_catwalk_agentic_fea.tex
 \end{lstlisting}
 Do not add the 77\,MB STEP to git. Do not feed
 \texttt{isolated/TARGET-FREQ.json} to the writer. Do not rewrite
-\texttt{zjg\_catwalk\_coarsened.inp}. This run does not push.
+\texttt{zjg\_catwalk\_coarsened.inp} or \texttt{zjg\_catwalk\_ccx221.inp}.
+This run does not push.
 
 \section*{Data availability}
 Artefacts live under \texttt{catwalk-fem/artifacts/} on branch
-\texttt{cursor/catwalk-main-deck-gate-f23d}. Frozen hash
-\texttt{82548e6a\(\ldots\)276ab6da}. New main hash
-\texttt{41fb3222\(\ldots\)bbca924a}. Evaluation traces:
-\texttt{catwalk-fem/eval/GROK\_SELF\_EVAL.md}.
+\texttt{cursor/catwalk-main-deck-bound-4c2c}. Frozen
+\texttt{82548e6a\(\ldots\)276ab6da}. Singular site
+\texttt{41fb3222\(\ldots\)bbca924a}. New main
+\texttt{c635dad7\(\ldots\)70cda84}. Evaluation traces:
+\texttt{catwalk-fem/eval/GROK\_SELF\_EVAL.md} and
+\texttt{eval/DEFINITION\_TABLE\_41fb3222.md}.
 
 \bibliographystyle{plain}
 \begin{thebibliography}{9}
@@ -474,13 +518,21 @@ Frozen hash (unchanged):
 *ERROR reading *INITIAL CONDITIONS. Card image:
        E_FLOOR_ROPE,3.549611E+08
 \end{lstlisting}
-New hash:
+Singular site (unchanged):
 \begin{lstlisting}
 number of equations
  879076
 matrix found to be singular
 \end{lstlisting}
-First legal stress row:
+New main:
+\begin{lstlisting}
+number of equations
+ 1401126
+no convergence
+*ERROR in umpc_mean_rot
+       node        78746
+\end{lstlisting}
+First legal stress row (both PK2 decks):
 \begin{lstlisting}
 *INITIAL CONDITIONS, TYPE=STRESS
 1, 1, 1.439957e+08, 0.000000e+00, 2.109655e+08, 0.000000e+00, 1.742932e+08, 0.000000e+00

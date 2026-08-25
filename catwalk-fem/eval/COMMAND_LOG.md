@@ -1,4 +1,43 @@
-# 命令留痕（本 run，不找用户，不 push）
+# 命令留痕（本 run，不找用户）
+
+评估人：Cursor Grok 4.6。工作目录 `/workspace`。
+
+## 本轮：把 c635dad7 交到 #19 分支（不合并）
+
+```
+$ git fetch origin cursor/catwalk-main-deck-gate-f23d
+$ git ls-tree -l origin/cursor/catwalk-main-deck-gate-f23d \
+    catwalk-fem/artifacts/zjg_catwalk_main.inp
+# 交付前：无该路径（不过门依据）
+
+$ git checkout cursor/catwalk-main-deck-gate-f23d
+$ sha256sum catwalk-fem/artifacts/zjg_catwalk_coarsened.inp \
+            catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
+82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da  catwalk-fem/artifacts/zjg_catwalk_coarsened.inp
+41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a  catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
+
+$ git checkout cursor/catwalk-main-deck-bound-4c2c -- \
+    catwalk-fem/artifacts/zjg_catwalk_main.inp \
+    catwalk-fem/artifacts/zjg_catwalk_main.inp.sha256 \
+    catwalk-fem/paper/zjg_catwalk_agentic_fea.md \
+    catwalk-fem/paper/zjg_catwalk_agentic_fea.tex \
+    catwalk-fem/paper/zjg_catwalk_agentic_fea.pdf \
+    catwalk-fem/eval/DEFINITION_TABLE_41fb3222.md \
+    catwalk-fem/eval/HASHES_THIS_RUN.sha256 \
+    catwalk-fem/eval/SINGULAR_DEFS_41fb3222.json \
+    catwalk-fem/eval/SINGULAR_DEFS_c635dad7.json
+
+$ sha256sum catwalk-fem/artifacts/zjg_catwalk_coarsened.inp \
+            catwalk-fem/artifacts/zjg_catwalk_ccx221.inp \
+            catwalk-fem/artifacts/zjg_catwalk_main.inp
+82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da  catwalk-fem/artifacts/zjg_catwalk_coarsened.inp
+41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a  catwalk-fem/artifacts/zjg_catwalk_ccx221.inp
+c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  catwalk-fem/artifacts/zjg_catwalk_main.inp
+```
+
+push 后独立回读命令见 `eval/DELIVER_C635DAD7_TO_PR19.md`。不 merge。
+
+---
 
 评估人：Cursor Grok 4.6。工作目录 `/workspace`。分支 `cursor/catwalk-main-deck-gate-f23d`。
 
