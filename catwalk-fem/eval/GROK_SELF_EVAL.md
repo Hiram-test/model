@@ -1,4 +1,30 @@
-# Grok 自评留痕（#19 交付 760c0ee4，供独立回读）
+# Grok 自评留痕（#19 账本独立回读 760c0ee4）
+
+评估人：本 run 的模型（Cursor Grok 4.6）。未向用户提问。不合并。未改写任何 `.inp`。
+
+| 用户句 | 本岗判定 | 依据 |
+|---|---|---|
+| 没进 #19 不算新主 | **已进** | `origin/cursor/catwalk-main-deck-gate-f23d` 有 `zjg_catwalk_cleared.inp` |
+| 760c0ee4 交进账本再回读 | **成立** | 账本行 = `git show \| sha256sum` = GitHub 同一字符串 |
+| c635dad7 不动 | **成立** | 远程 sha256 仍 `c635dad7…70cda84` |
+| 41fb3222 不动 | **成立** | 远程 sha256 仍 `41fb3222…bbca924a` |
+| 不合并 | **成立** | PR #19 `merged=false` |
+
+当场：
+
+```
+760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  cleared
+c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  main
+41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a  ccx221
+```
+
+`HASH_LEDGER.json` `new_main` = 760c0ee4。head=`ef59b52`。JSON：`eval/LEDGER_REREAD_760c0ee4_THIS_TURN.json`。
+
+**总评：760c0ee4 已在 #19 账本，本岗独立复算成立。c635dad7 / 41fb3222 未改。不合并。**
+
+---
+
+# 上一轮留痕（#19 交付 760c0ee4，供独立回读）
 
 评估人：本 run 的模型（Cursor Grok 4.6）。未向用户提问。不合并 PR #19。  
 依据只引用本仓库文件、本机命令、`git fetch`/`git show` 对 `origin/cursor/catwalk-main-deck-gate-f23d` 的输出。

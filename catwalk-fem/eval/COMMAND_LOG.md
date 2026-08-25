@@ -2,7 +2,27 @@
 
 评估人：Cursor Grok 4.6。工作目录 `/workspace`。
 
-## 本轮：把 760c0ee4 交到 #19 分支（不合并）
+## 本轮：#19 账本独立回读 760c0ee4（不改 inp，不合并）
+
+```
+$ git fetch origin cursor/catwalk-main-deck-gate-f23d
+$ git rev-parse origin/cursor/catwalk-main-deck-gate-f23d
+ef59b52ba1cbba14fa325fcdcfee590b3e2db7c1
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_cleared.inp | sha256sum
+760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  -
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_main.inp | sha256sum
+c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  -
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_ccx221.inp | sha256sum
+41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a  -
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/checksums.sha256 | grep zjg_catwalk_cleared.inp
+760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  zjg_catwalk_cleared.inp
+```
+
+未改写任何 `.inp`。不 merge。
+
+---
+
+## 上一轮：把 760c0ee4 交到 #19 分支（不合并）
 
 ```
 $ git fetch origin cursor/catwalk-main-deck-gate-f23d
