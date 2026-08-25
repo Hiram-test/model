@@ -1,0 +1,19 @@
+{
+  "pr": "https://github.com/Hiram-test/model/pull/19",
+  "branch": "cursor/catwalk-main-deck-gate-f23d",
+  "head_sha": "e3d53099bc4d3dac1171320ca98d8ccf2222941d",
+  "merged": false,
+  "rule": "not new main until listed in checksums.sha256 on PR #19; then git show | sha256sum must match the ledger line",
+  "ledger_file": "catwalk-fem/artifacts/checksums.sha256",
+  "role_ledger": "catwalk-fem/artifacts/HASH_LEDGER.json",
+  "github_checksums_has_c635dad7": true,
+  "github_HASH_LEDGER_new_main": "c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84",
+  "independent_sha256": {
+    "zjg_catwalk_main.inp": "c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84",
+    "zjg_catwalk_ccx221.inp": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+    "zjg_catwalk_coarsened.inp": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da"
+  },
+  "ledger_line_matches_sha256sum": true,
+  "site_41fb3222_untouched": true,
+  "pass": true
+}
