@@ -1,6 +1,8 @@
 # 974211b2 实验方案（#19 可读路径）
 
-路径：`catwalk-fem/eval/plan_974211b2/`。这是当前**执行**方案（扒线形、叠预应力、回读主 deck），不是 STEP 历史稿，不是 demo-rl-calculix。
+路径：`catwalk-fem/eval/plan_974211b2/`。这是当前**执行回读**（扒线形、叠预应力、回读主 deck），不是 STEP 历史稿，不是 demo-rl-calculix。
+
+送审逻辑主干（19 skill、八块锁、影响矩阵/PSO，本目录不替代）：`catwalk-fem/eval/SCHEME_974211b2_LINE_OVERLAY.md`。
 
 预注册（H-ZJG-CCX-OF-001）：`docs/catwalk-experiment-plan-ccx-operating-force/`。对照对象同样是 CCX 运营力；703.46 不得当论文结果。本目录把线形叠层做完并回读 `974211b2`。
 

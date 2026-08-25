@@ -1,8 +1,9 @@
 # 张靖皋猫道 Agentic FEA：坐标过门、完整 INP 与论文执行方案
 
-> **当前执行方案（#19 主 `974211b2`）**  
-> `catwalk-fem/eval/plan_974211b2/PLAN.md`  
-> 线形从 MCT 扒完再叠预应力。对照 CalculiX 自己的运营力。不换主。`760c0ee4` 不动。下文是 STEP 历史稿，不是本轮执行对象。
+> **当前执行回读（#19 主 `974211b2`）**  
+> `catwalk-fem/eval/plan_974211b2/PLAN.md`：MCT 线形已扒完并回读预应力。  
+> **送审逻辑主干（19 skill + 八块锁 + 影响矩阵/PSO）**  
+> `catwalk-fem/eval/SCHEME_974211b2_LINE_OVERLAY.md`。不换主。`760c0ee4` 不动。下文是 STEP 历史稿，不是本轮执行对象。
 
 本文件原是 STEP 坐标过门对话的方案。完成判据当时写成：**仓库里出现自洽的 CalculiX `.inp`，并且写出完整论文。**
 

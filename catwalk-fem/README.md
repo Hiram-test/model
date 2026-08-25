@@ -1,6 +1,8 @@
 # catwalk-fem
 
-当前执行方案：`eval/plan_974211b2/PLAN.md`。主 deck `artifacts/zjg_catwalk_migrate_main.inp`（SHA-256 `974211b2…267fd1`）。线形从 MCT 扒完再叠。`760c0ee4` 不动。
+当前执行回读：`eval/plan_974211b2/PLAN.md`。  
+送审逻辑主干：`eval/SCHEME_974211b2_LINE_OVERLAY.md`。  
+主 deck `artifacts/zjg_catwalk_migrate_main.inp`（SHA-256 `974211b2…e0267fd1`）。不换主。`760c0ee4` 不动。
 
 张靖皋施工猫道的 STEP → CalculiX `.inp` 管线，并执行坐标过门
 \(x=\text{桩号}-K16+876.000\)。面层锚与门架锚分开。21 道横通道。**142 榀门架**（不是榌）。
