@@ -227,8 +227,7 @@ def portal_ledger_summary(ledger: dict) -> dict:
             and int(ledger.get("inserted_portals") or 0) == 0
         ),
         "unit": "榀",
-        "not_unit": "槇",
-        "variant_this_turn": "榌",
+        "not_unit": "榌",
         "stations": rows,
     }
 
@@ -311,10 +310,10 @@ def run_ccx_on_copy(inp_path: Path, work: Path, timeout_s: float = 120.0) -> dic
 
 def write_portal_markdown(summary: dict, out: Path) -> None:
     lines = [
-        "# 142 榀门架逐站对账（不是槇）",
+        "# 142 榀门架逐站对账（不是榌）",
         "",
         f"单幅 {summary['expected_per_deck']} 站 × 两幅 = {summary['expected_both_decks']} 榀。",
-        f"缺站 {summary['n_missing']}，插入 {summary['inserted_portals']}。单位必须写「榀」（U+6980），不是「槇」（U+69C7）。",
+        f"缺站 {summary['n_missing']}，插入 {summary['inserted_portals']}。单位必须写「榀」（U+6980），不是「榌」（U+698C）。",
         "",
         "| 序号 | x (m) | 桩号 | 跨段 | 上游 | 下游 | n_up | n_dn | ok |",
         "|---:|---:|:---|:---|:---:|:---:|---:|---:|:---:|",

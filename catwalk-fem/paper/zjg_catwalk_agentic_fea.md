@@ -9,7 +9,7 @@ Run `catwalk-main-deck-gate-f23d`。仓库 `Hiram-test/model`，分支 `cursor/c
 SHA-256 `82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da`（7 702 117 字节）。**不改该哈希。**
 新主 deck：`catwalk-fem/artifacts/zjg_catwalk_ccx221.inp`
 SHA-256 `41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a`（26 839 981 字节）。
-门架计数单位是「榀」（U+6980），不是「槇」（U+69C7）。本轮原文「榌」视为榀的输入变体。
+门架计数单位是「榀」（U+6980），不是「榌」（U+698C）。
 
 ## 摘要
 
@@ -23,7 +23,7 @@ CalculiX 2.21 在新哈希副本上读入成功，组装 879 076 个方程，�
 
 ## Abstract (English)
 
-A millimetre centre-line STEP of the Zhangjinggao construction catwalk is mapped to \(x=\mathrm{chainage}-K16+876.000\). Floor-rope and portal-rope anchors are disjoint. Twenty-one passages and 142 portal frames (classifier U+6980, not U+69C7) reconcile with zero insertions. Frozen deck `82548e6a` keeps its illegal ELSET+uniaxial `TYPE=STRESS` card and is not rewritten. The writer now emits CalculiX 2.21 §7.76 rows: element number, integration point, six global second Piola–Kirchhoff components \(S=\sigma n\otimes n\). The new main deck `41fb3222` has 204 208 legal rows. CalculiX 2.21 reads it, assembles 879 076 equations, and stops on a singular factorisation. The coarsened centre-line graph has 22 096 connected components. Four solver files exist without a converged increment. No spectrum is claimed.
+A millimetre centre-line STEP of the Zhangjinggao construction catwalk is mapped to \(x=\mathrm{chainage}-K16+876.000\). Floor-rope and portal-rope anchors are disjoint. Twenty-one passages and 142 portal frames (classifier U+6980, not U+698C) reconcile with zero insertions. Frozen deck `82548e6a` keeps its illegal ELSET+uniaxial `TYPE=STRESS` card and is not rewritten. The writer now emits CalculiX 2.21 §7.76 rows: element number, integration point, six global second Piola–Kirchhoff components \(S=\sigma n\otimes n\). The new main deck `41fb3222` has 204 208 legal rows. CalculiX 2.21 reads it, assembles 879 076 equations, and stops on a singular factorisation. The coarsened centre-line graph has 22 096 connected components. Four solver files exist without a converged increment. No spectrum is claimed.
 
 ---
 
@@ -142,7 +142,7 @@ x_{\text{portal,S}}&=4225.700~\text{m}\ (K21+101.700).
 
 ### 5.2 方法
 
-`infer_x_transform` 对恒等、减 \(x_{\min}\)、减原始桩号三种变换打分。高程直方图峰在门架簇附近（约 700 m 与约 3023 m），不在鞍点。过门依据是鞍点邻域 \(Z_{p90}\)：在 \(x=666.679\) 与 \(x=2953.321\) 的 12 m 内。通道：21 个图纸站（3+13+3+2）。门架：71 站 × 2 幅 = **142 榀**。计数单位必须写「榀」（U+6980），不得写「槇」（U+69C7）。
+`infer_x_transform` 对恒等、减 \(x_{\min}\)、减原始桩号三种变换打分。高程直方图峰在门架簇附近（约 700 m 与约 3023 m），不在鞍点。过门依据是鞍点邻域 \(Z_{p90}\)：在 \(x=666.679\) 与 \(x=2953.321\) 的 12 m 内。通道：21 个图纸站（3+13+3+2）。门架：71 站 × 2 幅 = **142 榀**。计数单位必须写「榀」（U+6980），不得写「榌」（U+698C）。
 
 四跨门架尺寸链（理论 v1.2 §2.6，DRW-B）：
 
@@ -391,7 +391,7 @@ cd catwalk-fem/paper && pdflatex -interaction=nonstopmode zjg_catwalk_agentic_fe
 
 ## 数据
 
-分支 `cursor/catwalk-main-deck-gate-f23d`。冻结 `82548e6a…276ab6da`。新主 `41fb3222…bbca924a`。自评 `catwalk-fem/eval/GROK_SELF_EVAL.md`。142 榀表 `artifacts/portal_142_table.md`（榀，不是槇）。
+分支 `cursor/catwalk-main-deck-gate-f23d`。冻结 `82548e6a…276ab6da`。新主 `41fb3222…bbca924a`。自评 `catwalk-fem/eval/GROK_SELF_EVAL.md`。142 榀表 `artifacts/portal_142_table.md`（榀，不是榌）。
 
 ## 参考文献
 
@@ -404,7 +404,7 @@ cd catwalk-fem/paper && pdflatex -interaction=nonstopmode zjg_catwalk_agentic_fe
 
 ---
 
-## 附录 A　142 榀门架逐站对账（不是槇）
+## 附录 A　142 榀门架逐站对账（不是榌）
 
 单幅 71 站 × 两幅 = **142 榀**。缺站 0，插入 0。完整表见 `artifacts/portal_142_table.md`，由 `portal_142_ledger.json` 生成。下面按跨段汇总后再列全表。
 

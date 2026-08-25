@@ -150,7 +150,7 @@ def evaluate_gates(audit: dict, mesh: dict, inp_meta: dict, inp_text: str, topo:
             int(portals.get("n_hit", 0)) == 142,
             {"n_hit": portals.get("n_hit"), "n_missing": portals.get("n_missing"),
              "inserted": topo.get("n_inserted_portals"),
-             "unit": "榀", "not_unit": "槇"},
+             "unit": "榀", "not_unit": "榌"},
         )
 
     # Independent IC lexical gate. G11 pre-solve did not cover this card.

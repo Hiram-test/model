@@ -188,7 +188,7 @@ def write_calculix_inp(mesh: dict, out_path: Path, *, include_frequency: bool = 
     a("** properties: drawings / check report; NOT S10.db, NOT B00, NOT MCT, NOT TARGET-FREQ")
     a("** write_inp: complete deck (nodes, elsets, materials, BC, initial stress, load cases)")
     a("** anchors: floor-rope and portal-rope families are DISJOINT NSETs; do not mix")
-    a("** topology audit: 21 cross-passages, 71 portals/deck = 142 both decks (classifier 榀 U+6980, not 槇 U+69C7)")
+    a("** topology audit: 21 cross-passages, 71 portals/deck = 142 both decks (classifier 榀 U+6980, not 榌 U+698C)")
     a("** initial stress: ccx 2.21 §7.76 element, integration point, six global PK2")
     a("** not ELSET+uniaxial; frozen 82548e6a keeps that illegal card and is not rewritten")
     a(f"** nodes={n_nodes} elements={n_elem}")

@@ -19,8 +19,7 @@ from reconcile import sha256_file
 FROZEN_SHA256 = "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da"
 FROZEN_NAME = "zjg_catwalk_coarsened.inp"
 PORTAL_UNIT = "榀"
-PORTAL_NOT_UNIT = "槇"
-PORTAL_VARIANT = "榌"
+PORTAL_NOT_UNIT = "榌"
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -85,7 +84,6 @@ def reread_inp(path: Path) -> dict:
         },
         "portal_unit": PORTAL_UNIT,
         "portal_not_unit": PORTAL_NOT_UNIT,
-        "portal_variant_this_turn": PORTAL_VARIANT,
         "expected_passages": N_CROSS_PASSAGES,
         "expected_portals_per_deck": N_PORTALS_PER_DECK,
         "expected_portals_both": N_PORTALS_BOTH_DECKS,

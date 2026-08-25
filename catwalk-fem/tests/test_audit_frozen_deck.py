@@ -49,7 +49,7 @@ def test_142_portals_are_frames_not_wrong_glyph():
     ledger = json.loads((HERE / "artifacts" / "portal_142_ledger.json").read_text())
     summary = portal_ledger_summary(ledger)
     assert summary["unit"] == "榀"
-    assert summary["not_unit"] == "槇"
+    assert summary["not_unit"] == "榌"
     assert summary["pass_142"]
     assert summary["drawing_stations"] == 71
     assert summary["both_decks_hit"] == 142
