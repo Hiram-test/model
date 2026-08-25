@@ -2,7 +2,29 @@
 
 评估人：Cursor Grok 4.6。工作目录 `/workspace`。
 
-## 本轮：#19 账本独立回读 760c0ee4（不改 inp，不合并）
+## 本轮：#19 写下 974211b2 方案并从 MCT 扒线形叠预应力（不换主）
+
+```
+$ python3 catwalk-fem/eval/plan_974211b2/overlay.py
+main_sha 974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1
+pk2_max_rel 4.7582889546416025e-07
+sigma_eid1 703.4605548416231
+lock_703_46 false
+cleared_untouched true
+
+$ python3 catwalk-fem/tests/test_plan_974211b2_overlay.py
+$ python3 catwalk-fem/tests/test_mct_from_zero.py
+$ sha256sum catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp \
+            catwalk-fem/artifacts/zjg_catwalk_cleared.inp
+974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1  catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp
+760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  catwalk-fem/artifacts/zjg_catwalk_cleared.inp
+```
+
+方案：`catwalk-fem/eval/plan_974211b2/PLAN.md`。未改写主 inp。未跑 ccx（本 VM 无二进制）。不开新 PR。不合并。
+
+---
+
+## 上一轮：#19 账本独立回读 760c0ee4（不改 inp，不合并）
 
 ```
 $ git fetch origin cursor/catwalk-main-deck-gate-f23d

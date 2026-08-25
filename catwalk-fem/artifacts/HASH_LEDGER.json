@@ -4,7 +4,10 @@
   "pr": "https://github.com/Hiram-test/model/pull/19",
   "branch": "cursor/catwalk-main-deck-gate-f23d",
   "merged": false,
+  "current_main_path": "catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp",
+  "current_main_sha256": "974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1",
   "ccx_ran_this_turn": false,
+  "plan": "catwalk-fem/eval/plan_974211b2/PLAN.md",
   "entries": [
     {
       "role": "frozen_elset_uniaxial_fail_site",
@@ -32,14 +35,27 @@
       "note": "catwalk-check: after N_ORPHAN_UNCONSTRAINED 3596, still 4 unconstrained COMPONENTS / 12 B31 nodes at x≈656 and 2965–2968. 不过门. Not a calculation main."
     },
     {
-      "role": "new_main",
+      "role": "frozen_cleared_site",
       "path": "catwalk-fem/artifacts/zjg_catwalk_cleared.inp",
       "sha256": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
       "bytes": 47948916,
       "sidecar": "catwalk-fem/artifacts/zjg_catwalk_cleared.inp.sha256",
       "in_checksums_sha256": true,
       "on_pr19_branch": true,
-      "note": "copy of c635dad7 plus N_CLEAR_FOUR_B31 (12 nodes, UX/UY/UZ). Independent reread: 0 unconstrained components. IC still 421432 eight-field. Not a calculation. This turn did not run CalculiX."
+      "rewritten": false,
+      "note": "bytes untouched. No longer the calculation main. Independent reread still 760c0ee4."
+    },
+    {
+      "role": "current_main",
+      "path": "catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp",
+      "sha256": "974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1",
+      "bytes": 930300,
+      "sidecar": "catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp.sha256",
+      "in_checksums_sha256": true,
+      "on_pr19_branch": true,
+      "rewritten": false,
+      "plan": "catwalk-fem/eval/plan_974211b2/PLAN.md",
+      "note": "MCT alignment + prestress overlay. Linear static is mechanism; S≈IC is not equilibrium; worst −19.1%. 703.46 is not a locked paper number. This turn did not run CalculiX."
     }
   ]
 }

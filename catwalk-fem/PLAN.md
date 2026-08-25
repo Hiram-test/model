@@ -1,6 +1,10 @@
 # 张靖皋猫道 Agentic FEA：坐标过门、完整 INP 与论文执行方案
 
-本文件是本对话的可执行方案。完成判据只有一条：**仓库里出现自洽的 CalculiX `.inp`，并且写出完整论文。**
+> **当前执行方案（#19 主 `974211b2`）**  
+> `catwalk-fem/eval/plan_974211b2/PLAN.md`  
+> 线形从 MCT 扒完再叠预应力。对照 CalculiX 自己的运营力。不换主。`760c0ee4` 不动。下文是 STEP 历史稿，不是本轮执行对象。
+
+本文件原是 STEP 坐标过门对话的方案。完成判据当时写成：**仓库里出现自洽的 CalculiX `.inp`，并且写出完整论文。**
 
 定位：一篇 **agentic FEA** 论文，对象是悬索桥施工猫道；流程是从图纸/中心线翻模、索力迭代、静力计算到计算工况的全自动编排。实现落在 `Hiram-test/model` 的 `catwalk-fem/`（即用户所说的 catwalkskill 执行器），编排契约沿用已有 19 节点 `bridge-fem-skill-suite`。
 
