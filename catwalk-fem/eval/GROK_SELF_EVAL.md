@@ -53,28 +53,28 @@ sidecar：`c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  zjg
 
 论文一并放上同一分支（完整论文门）：`paper/zjg_catwalk_agentic_fea.{md,tex,pdf}`（11 页，277 730 B）。定义表：`eval/DEFINITION_TABLE_41fb3222.md`。
 
-## 4. 远程独立回读（本文件在 push 后补核）
-
-见同目录 `DELIVER_C635DAD7_TO_PR19.md` 与 `COMMAND_LOG.md`。过门条件：
+## 4. 远程独立回读（push 后当场核）
 
 ```
 git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_main.inp | sha256sum
 = c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84
 ```
 
-且 41fb3222 / 82548e6a 的 `git show | sha256sum` 仍为已给值。PR #19 `merged=false`。
+41fb3222 / 82548e6a 的 `git show | sha256sum` 仍为已给值。  
+PR #19 head=`298c616c8735162ebcf38d561f5987f8408637a9`，`merged=false`，`draft=true`。  
+GitHub 目录列举已出现 `zjg_catwalk_main.inp`。JSON：`eval/REMOTE_REREAD_C635DAD7.md` 与 `.json`。
 
 ## 5. 判定
 
 | 项 | 判定 | 一句依据 |
 |---|---|---|
-| 上一轮「#19 上无 c635dad7」 | **成立（不过门）** | `git ls-tree` 无该路径 |
-| 新主 inp 已在 #19 分支工作树 | **成立** | 本机 `sha256sum` = c635dad7 |
-| sidecar 已在工作树 | **成立** | 正文等于该哈希 |
-| 82548e6a 未改 | **成立** | 当场 + 远程 blob |
-| 41fb3222 未改 | **成立** | 当场 + 远程 blob |
-| 论文 md/tex/PDF 在分支 | **成立** | 已 checkout 进 #19 树 |
-| 远程可独立复算 | **push 后核** | `git show origin/… \| sha256sum` |
-| 未合并 | **成立** | 不调用 merge |
+| 上一轮「#19 上无 c635dad7」 | **成立（当时不过门）** | 交付前 `git ls-tree` 无该路径 |
+| 新主 inp 已在 #19 远程分支 | **成立** | `git show origin/… \| sha256sum` = c635dad7 |
+| sidecar 已在远程 | **成立** | 正文等于该哈希 |
+| 对方可独立复算 | **成立** | 路径在 PR #19 head；命令见 `DELIVER_C635DAD7_TO_PR19.md` |
+| 82548e6a 未改 | **成立** | 远程 `sha256sum` 仍 82548e6a |
+| 41fb3222 未改 | **成立** | 远程 `sha256sum` 仍 41fb3222 |
+| 论文 md/tex/PDF 在分支 | **成立** | 同 commit `298c616` |
+| 未合并 | **成立** | PR `merged=false` |
 
-**总评：认同不过门原因（哈希不在 #19）。本轮把 inp+sidecar 交到 `cursor/catwalk-main-deck-gate-f23d` 供独立回读。不合并。冻结两现场不动。**
+**总评：认同当时不过门（哈希不在 #19）。inp+sidecar 已交到 `cursor/catwalk-main-deck-gate-f23d`。本岗对远程独立复算 c635dad7 成立。冻结两现场不动。不合并。**

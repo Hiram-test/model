@@ -35,7 +35,20 @@ $ sha256sum catwalk-fem/artifacts/zjg_catwalk_coarsened.inp \
 c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  catwalk-fem/artifacts/zjg_catwalk_main.inp
 ```
 
-push 后独立回读命令见 `eval/DELIVER_C635DAD7_TO_PR19.md`。不 merge。
+```
+$ git push -u origin cursor/catwalk-main-deck-gate-f23d
+215bb01..298c616  cursor/catwalk-main-deck-gate-f23d -> cursor/catwalk-main-deck-gate-f23d
+
+$ git fetch origin cursor/catwalk-main-deck-gate-f23d
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_main.inp | sha256sum
+c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  -
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_ccx221.inp | sha256sum
+41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a  -
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_coarsened.inp | sha256sum
+82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da  -
+```
+
+PR #19 head=`298c616`，`merged=false`。不 merge。
 
 ---
 

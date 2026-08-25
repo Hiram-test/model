@@ -45,5 +45,31 @@ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_cat
 ```
 
 PR：https://github.com/Hiram-test/model/pull/19  
-head：`cursor/catwalk-main-deck-gate-f23d`  
-本轮不 `gh pr merge`，不点 Merge。
+head：`cursor/catwalk-main-deck-gate-f23d` @ `298c616c8735162ebcf38d561f5987f8408637a9`  
+本轮不 `gh pr merge`，不点 Merge。`merged=false`，`draft=true`。
+
+## 交付后本岗独立回读（远程）
+
+```
+$ git fetch origin cursor/catwalk-main-deck-gate-f23d
+$ git ls-tree -l origin/cursor/catwalk-main-deck-gate-f23d \
+    catwalk-fem/artifacts/zjg_catwalk_main.inp \
+    catwalk-fem/artifacts/zjg_catwalk_main.inp.sha256 \
+    catwalk-fem/artifacts/zjg_catwalk_ccx221.inp \
+    catwalk-fem/artifacts/zjg_catwalk_coarsened.inp
+100644 blob 661c5b45… 47948333  zjg_catwalk_main.inp
+100644 blob a7368bec…       87  zjg_catwalk_main.inp.sha256
+100644 blob 760a7b1e… 26839981  zjg_catwalk_ccx221.inp
+100644 blob e7d7dbc9…  7702117  zjg_catwalk_coarsened.inp
+
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_main.inp | sha256sum
+c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84  -
+
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_ccx221.inp | sha256sum
+41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a  -
+
+$ git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_coarsened.inp | sha256sum
+82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da  -
+```
+
+GitHub 目录列举 `catwalk-fem/artifacts/`（ref=`refs/heads/cursor/catwalk-main-deck-gate-f23d`）现含 `zjg_catwalk_main.inp`（47 948 333 B）与 sidecar。JSON：`eval/REMOTE_REREAD_C635DAD7.json`。
