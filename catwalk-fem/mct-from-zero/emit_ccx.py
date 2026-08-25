@@ -131,6 +131,8 @@ def emit_ccx(model: dict[str, Any], out_path: Path) -> dict[str, Any]:
         sec_used[sid] = {"area_mm2": area, "mat": mid, "formula": sec["area_formula"]}
         lines.append(f"*SOLID SECTION, ELSET=E_SEC{sid}, MATERIAL=MAT{mid}")
         lines.append(f"{area:.8g}")
+        # MCT Y≈0: first normal is +Y so T3D2 expansion is not parallel to the XZ axis.
+        lines.append("0, 1, 0")
 
     ic_eids = []
     ic_skipped = []
