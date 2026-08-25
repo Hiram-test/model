@@ -1,0 +1,47 @@
+{
+  "kind": "sidecar_mct_iniforce_1123",
+  "in_ledger": true,
+  "not_a_scientific_claim": true,
+  "from_zero": true,
+  "used_archive_csv_as_new_main": false,
+  "source": {
+    "path": "01_设计资料与规范/猫道 - 门架索合建模型2.mct",
+    "repo_copy": "catwalk-fem/mct-from-zero/source/01_设计资料与规范/猫道 - 门架索合建模型2.mct",
+    "archive_tag": "zhangjinggao-full-20260729",
+    "archive_shard": "archive-0001.tar.zst",
+    "manifest": "https://github.com/Hiram-test/model/releases/download/zhangjinggao-full-20260729/archive-manifest.csv",
+    "bytes": 448673,
+    "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+    "sha256_match": true,
+    "encoding": "GB18030",
+    "unicode_escape_filename": false,
+    "block": "*INIFORCE",
+    "block_line": 7200,
+    "block_comment": "Initial Forces for Geometric Stiffness",
+    "unit": "kN, mm"
+  },
+  "tenstr": {
+    "n_TENSTR": 1123,
+    "n_INIFORCE_eids": 1123,
+    "n_INIFORCE_rows_before_range_expand": 1056,
+    "n_INI_EFORCE": 1123,
+    "coverage": "every TENSTR has one *INIFORCE AXIAL after MIDAS list expand; 71 TRUSS 门架 have none"
+  },
+  "INIFORCE_AXIAL_kN": {
+    "n": 1123,
+    "min": 1482.74,
+    "max": 15724.3,
+    "sum": 8946571.59,
+    "mean": 7966.671050756901,
+    "elem_728_kN": 1482.74,
+    "elem_728_line": 7225,
+    "elem_729_kN": 1570.17,
+    "elem_729_line": 7578,
+    "elem_1_kN": 15686.3,
+    "elem_4_kN": 12209.3,
+    "elem_4_line": 7206
+  },
+  "read_from": "the .mct body, not 03_猫道动力分析/MCT基准复现_V1.0/ CSV",
+  "new_main": false,
+  "note": "预应力在mct也有. These 1123 rows were missing from the remote #19 ledger; this sidecar puts them on the branch."
+}
