@@ -1,65 +1,523 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage[margin=25mm]{geometry}
-\usepackage{hyperref,booktabs,amsmath}
-\title{Agentic FEA of the Zhangjinggao Construction Catwalk\\
-\large From a published centerline STEP to a hashed CalculiX deck}
-\author{Run catwalk-main-deck-gate-f23d}
+\usepackage{hyperref,booktabs,amsmath,amssymb,longtable,array,listings,xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,backgroundcolor=\color{black!3}}
+\title{Agentic FEA of the Zhangjinggao Construction Catwalk:\\
+\large Coordinate gate, 142-portal reconciliation, and a CalculiX 2.21\\
+initial-stress parse failure on a frozen hashed deck}
+\author{Run \texttt{catwalk-main-deck-gate-f23d}\\
+Repository \texttt{Hiram-test/model}, branch \texttt{cursor/catwalk-main-deck-gate-f23d}\\
+Pull request \#19}
 \date{2026-08-25}
 \begin{document}
 \maketitle
+
 \begin{abstract}
-A millimetre STEP of the Zhangjinggao catwalk centre-lines is mapped to
+This paper records a complete, auditable agentic finite-element modelling run
+for the Zhangjinggao construction catwalk. A 77\,MB millimetre centre-line STEP
+is parsed, mapped into the project convention
 \(x=\mathrm{chainage}-K16+876.000\), classified against drawing topology,
-and written as a complete CalculiX deck. Floor-rope and portal-rope anchors
-are disjoint. Twenty-one passages and 142 portal frames reconcile with zero
-drawing insertions. Main-deck SHA-256 is
-\texttt{82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da}.
-Twenty-six gates PASS. \texttt{ccx} was not run.
+coarsened, and written as a CalculiX deck. Floor-rope and portal-rope anchors
+are separate \texttt{*NSET}/\texttt{*BOUNDARY} families. Twenty-one
+cross-passages and 142 portal frames (71 stations per deck; Chinese classifier
+U+6980, not the look-alike U+69EC) reconcile against the drawing station lists
+with zero insertions. The frozen main deck
+\texttt{catwalk-fem/artifacts/zjg\_catwalk\_coarsened.inp} has SHA-256
+\texttt{82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da}
+and is not rewritten. CalculiX 2.21 was executed on a byte-identical copy.
+Reading \texttt{*INITIAL CONDITIONS, TYPE=STRESS} failed on the first data row
+\texttt{E\_FLOOR\_ROPE,3.549611E+08} with exit code 201. No \texttt{.frd} was
+written; the \texttt{.dat} is empty; \texttt{.sta} and \texttt{.cvg} contain
+headers only; wall-clock time was \(0.74\)--\(0.82\)\,s; no assembled equation
+count was issued. The card is ELSET name plus one uniaxial stress. CalculiX
+2.21 \S7.76 requires element number, integration point, and six global stress
+components. Twenty-six coordinate/topology gates PASS. Frequency targets remain
+isolated. This paper therefore certifies a hashed, coordinate-gated,
+topology-reconciled deck and a documented solver-parse failure---not a solved
+spectrum and not a fourteen-mode match.
 \end{abstract}
 
+\tableofcontents
+\listoftables
+
 \section{Introduction}
-The previous pull request shipped a pipeline and an empty \texttt{artifacts/}
-directory. A missing \texttt{.inp} cannot pass a coordinate gate. This paper
-records the run that produces a readable hashed deck.
+\label{sec:intro}
 
-\section{Isolation}
-Geometry is Release \texttt{catwalk-attachment23-v2.0-s10-20260716} STEP
-\texttt{d03d01e38b823df5af4c1ff9b0b175fdfb87b097b9cda9a03af5d14e9c763344}.
-Properties are drawings / CALC-INPUT / STD / named ASSUMP.
-Forbidden: S10.db, B00, MCT, TARGET-FREQ, sag \(255.56\,\mathrm{m}\).
+\paragraph{Related work.}
+Automated CAD-to-FEM pipelines exist for buildings and bridges, but they
+usually inherit an already-consistent coordinate system and a single support
+family. Construction catwalks of a multi-span suspension bridge break that
+assumption: two walkways, two rope families with different physical anchor
+stations, discrete portal frames, and discrete cross-passages, all written in
+highway chainage. A companion theory archive
+(\texttt{catwalk-theory/thirteen-mode-models}, v1.2) already freezes the
+drawing topology and the isolation protocol for fourteen low-order families.
+That archive is a theoretical model family, not a CalculiX deck.
 
-\section{Coordinate gate}
-Identity transform, \(x\in[0,4270.609]\,\mathrm{m}\). Saddle alignment uses
-local \(Z_{p90}\) at \(x=666.679\) and \(x=2953.321\) (330.78\,m and 324.85\,m),
-not high-\(Z\) histogram modes at \(\approx 700\) and \(\approx 3023\,\mathrm{m}\).
-Formed sag from geometry is \(214.18\,\mathrm{m}\) versus \(227.30\,\mathrm{m}\).
+\paragraph{Method.}
+The run follows \texttt{catwalk-fem/SKILL.md} and \texttt{PLAN.md}. Geometry is
+STEP-only. Materials, sag, and loads come from drawings and the check report.
+The coordinate gate is a hard stop: identity unless saddle-height evidence
+requires a shift, and never \(X-x_{\min}\). Topology is reconciled against
+frozen drawing lists: 21 passages and \(71\times 2=142\) portal frames.
+Anchors are two families, not one mixed set. The writer emits a complete
+keyword deck. After the hash is frozen, CalculiX may be run only on a copy.
 
-\section{Topology}
-Passages are tessellated (\(\Delta y\approx 1.7\,\mathrm{m}\)). Detection uses
-\(Y\)-span \([-24.3,24.3]\,\mathrm{m}\) at each of the 21 drawing stations.
-Portals: 71 stations \(\times\) 2 decks \(=142\). Insertions: 0 and 0.
+\paragraph{Experiment.}
+Release \texttt{catwalk-attachment23-v2.0-s10-20260716} file
+\texttt{cw\_S10\_0716t050342\_a4\_centerline.step} (SHA-256
+\texttt{d03d01e38b823df5af4c1ff9b0b175fdfb87b097b9cda9a03af5d14e9c763344},
+139\,991 trimmed curves, \texttt{SI\_UNIT(.MILLI.,.METRE.)}) is converted to
+metres. After identity mapping, \(X\in[0,4270.609]\)\,m and
+\(Z_{\max}=350.312\)\,m. The written deck has 51\,896 nodes and 30\,317
+elements (7\,702\,117 bytes). CalculiX CrunchiX 2.21, executed on a copy of
+hash \texttt{82548e6a}, dies while reading the first initial-stress row.
 
-\section{Disjoint anchors}
-\texttt{N\_FLOOR\_ANCHOR} (312 nodes) and \texttt{N\_PORTAL\_ANCHOR} (16 nodes)
-have empty intersection and separate \texttt{*BOUNDARY} cards.
-South floor \(x=4209.985\) versus south portal \(x=4221.093\).
-North physical anchors lie outside the STEP and are recorded as end proxies.
+\paragraph{Outlook.}
+A later run may emit a CalculiX-legal stress card without silently mutating
+this hash. North physical anchors lie outside this STEP and remain proxies.
+Fourteen-mode comparison stays forbidden until a solved spectrum exists.
 
-\section{Initial stress and loads}
+\section{Related work and isolation protocol}
+\label{sec:iso}
+
+\paragraph{Related work.}
+Agentic FEA here means a scripted, auditable chain with frozen constants, not a
+chat that invents sections. Dhondt's CalculiX is used as the open solver
+because its keyword deck is inspectable and its version is pinned. Abaqus-like
+ELSET-wide uniaxial prestress is a common authoring convenience; it is not the
+CalculiX 2.21 contract.
+
+\paragraph{Method.}
+Isolation rules, taken from theory v1.2 \S1 and the skill file:
+\begin{enumerate}
+\item STEP supplies coordinates only.
+\item Properties come from DRW-A/B, CALC-INPUT, STD, or a named ASSUMP.
+\item \texttt{TARGET-FREQ} lives in \texttt{catwalk-fem/isolated/} and is not
+imported by \texttt{write\_inp} or the solver deck.
+\item Formed sag is \(h=227.300\)\,m (\(340.600-113.300\)). The \(255.56\)\,m
+main-cable control sag is forbidden in the deck (verified absent).
+\item The two decks keep independent degrees of freedom; no mirror constraint.
+\item Floor-rope anchors and portal-rope anchors are never unioned.
+\item After SHA-256 \texttt{82548e6a} is frozen, the \texttt{.inp} is not
+rewritten to ``make the solver happy''.
+\end{enumerate}
+
+\paragraph{Experiment.}
+The isolated file lists fourteen frequencies starting at \(0.0296\)\,Hz. A
+full-text search of the frozen deck finds neither \(0.0296\) nor \(255.56\).
+\texttt{write\_inp.py} does not import \texttt{isolated/TARGET-FREQ.json}.
+The STEP sibling \texttt{cw\_S10\_0716t050342\_a4\_eq.db} is listed as a
+forbidden source in the heading.
+
+\paragraph{Outlook.}
+Isolation is a scientific claim, not a courtesy. Any later comparison table
+must load TARGET-FREQ only after the deck, the solve, and the mode-shape
+classification are frozen.
+
+\section{Charter, evidence grades, and frozen constants}
+\label{sec:charter}
+
+\paragraph{Related work.}
+Evidence grades follow theory v1.2: DRW-A/B, CALC-INPUT, STD, TEST, ASSUMP.
+Portal and passage stations are DRW-B dimension chains. Saddle coordinates are
+CALC-INPUT (check-report tables 1-5 / 1-9).
+
+\paragraph{Method.}
+The charter (\texttt{artifacts/analysis\_charter.json}) freezes: project
+\texttt{zjg-catwalk}, run \texttt{catwalk-main-deck-gate-f23d}, SI internal
+units, and the four load cases LC-DEAD-PRESTRESS, LC-PERSONNEL-UNIFORM,
+LC-WIND-Y, LC-FREQ. The coordinate origin is the nominal four-span north end,
+not a physical anchor:
 \[
-H=wL^2/(8h),\quad h=227.300\,\mathrm{m},\quad L=2286.642\,\mathrm{m}.
+x = \mathrm{chainage} - K16+876.000,\qquad
+y\ \text{upstream}\to\text{downstream},\qquad
+z\ \text{up}.
 \]
-\(H_{\mathrm{floor}}=7.954\,\mathrm{MN}\) per deck.
-Per-deck live/wind/extra-dead packages are split onto 16 floor ropes.
-Resultants close against \(wL\).
+Physical anchors stay in four named stations:
+\begin{align*}
+x_{\mathrm{floor,N}}&=-23.895~\mathrm{m}\ (K16+852.105),&
+x_{\mathrm{floor,S}}&=4210.368~\mathrm{m}\ (K21+086.368),\\
+x_{\mathrm{portal,N}}&=-44.909~\mathrm{m}\ (K16+831.091),&
+x_{\mathrm{portal,S}}&=4225.700~\mathrm{m}\ (K21+101.700).
+\end{align*}
+Nominal four-span breaks \(\{0,660,2960,3677,4180\}\) and physical saddles
+\(\{666.679,2953.321\}\) are registered together and are never silently mixed.
 
-\section{Deck}
-\texttt{zjg\_catwalk\_coarsened.inp}: 51896 nodes, 30317 elements, 7702117 bytes.
-Keywords required by the plan are present. TARGET-FREQ values are absent.
-Pre-solve only: no \texttt{ccx} in this environment.
+\paragraph{Experiment.}
+The heading of the frozen deck states the convention in plain text. Node
+\(x_{\min}=0\) equals the transformed geometry \(x_{\min}\). South floor and
+south portal selected means differ by \(11.1\)\,m.
 
-\section{Conclusion}
-The scientific claim supported by this run is the existence of a hashed,
-coordinate-gated, topology-reconciled CalculiX main deck---not a solved
-spectrum and not a fourteen-mode match.
+\paragraph{Outlook.}
+If a later STEP covers the north physical anchors, those four stations must
+still remain four sets.
+
+\section{Ingestion and classification (N02--N07)}
+\label{sec:ingest}
+
+\paragraph{Related work.}
+A centre-line STEP of 139\,991 trimmed curves is not a member-role model. Role
+assignment has to be recovered from geometry against drawing lattices.
+
+\paragraph{Method.}
+\texttt{parse\_step} stream-parses \texttt{CARTESIAN\_POINT} /
+\texttt{TRIMMED\_CURVE}, checks the STEP SHA-256, and scales millimetres to
+metres. \texttt{classify\_segments} labels floor ropes by the drawing
+\(y=\pm(21.45\pm(0.85+0.26k))\) lattice, long high members as portal/handrail
+ropes, short transverse members as \texttt{portal\_or\_beam}, and long
+inter-deck members as \texttt{cross\_passage}.
+
+\paragraph{Experiment.}
+Raw counts: \texttt{floor\_rope} 43\,200, \texttt{portal\_or\_beam} 4\,719,
+\texttt{portal\_rope} 356, \texttt{cross\_passage} 0, \texttt{short\_other}
+91\,618. No single segment has \(\Delta y\ge 15\)\,m, because each
+\(49.655\)\,m passage is tessellated into \(\approx 1.7\)\,m pieces. At every
+drawing passage \(X\), node \(Y\) already spans \([-24.3,24.3]\)\,m. Detection
+therefore uses \(Y\)-span, not a single long beam. Unclassified
+\texttt{short\_other} is dropped from the coarsened deck. Longitudinal chains
+keep drawing stations and a 12\,m target spacing.
+
+\paragraph{Outlook.}
+Portal-rope classification remains incomplete after coarsening (227 elements).
+That bound is reported in \S\ref{sec:results} and is not hidden by the 142
+frame count.
+
+\section{Coordinate and topology gates (N07/N09)}
+\label{sec:gates}
+
+\paragraph{Related work.}
+A previous pull request shipped the pipeline and left \texttt{artifacts/}
+empty. An empty directory cannot be a passed coordinate gate. Topology counts
+must be recovered from the mesh against drawing lists, with insertions booked
+rather than invented silently.
+
+\paragraph{Method.}
+\texttt{infer\_x\_transform} scores identity, minus-\(x_{\min}\), and minus
+raw chainage. High-\(Z\) histogram modes sit near portal clusters
+(\(\approx 700\)\,m and \(\approx 3023\)\,m), not on the saddles. Alignment is
+therefore confirmed by local \(Z_{p90}\) within 12\,m of \(x=666.679\) and
+\(x=2953.321\). Passages: 21 drawing stations (\(3+13+3+2\)). Portal frames:
+71 stations \(\times\) 2 decks \(=142\). The Chinese unit is U+6980
+(classifier for frames); U+69EC is a different character and is not used.
+
+\paragraph{Experiment.}
+\begin{table}[ht]
+\centering
+\caption{Coordinate and topology gates read from \texttt{coord\_gate.json}.}
+\label{tab:gates}
+\begin{tabular}{lll}
+\toprule
+Check & Result & Evidence \\
+\midrule
+Units & PASS & mm STEP \(\to\) m nodes; \(x_{\max}=4270.609<20\,000\) \\
+Transform & PASS & identity, shift \(=0\) \\
+Saddle \(Z\) & PASS & north \(Z_{p90}=330.78\)\,m, south \(324.85\)\,m vs \(340.6\)\,m \\
+Two decks & PASS & \(Y\) medians \(+20.6\) / \(-20.6\)\,m vs \(\pm 21.45\) \\
+Formed sag & PASS & geometry \(214.18\)\,m vs \(227.30\)\,m, \(|\Delta|=13.12\)\,m \\
+No \(x_{\min}\) shift in \texttt{.inp} & PASS & node \(x_{\min}=0\) equals geometry \\
+Passages & PASS & 21/21, insertions 0 \\
+Portal frames & PASS & 142/142, insertions 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Twenty-one passages close by \(Y\)-span at every DRW-B station
+(Table~\ref{tab:passages21}). Portal frames close station-by-station
+(Table~\ref{tab:portal142}): 11 north-span, 41 main-span, 11 south 717\,m, and
+8 south 503\,m stations, each hit on both decks. Missing stations: 0.
+Inserted drawing beams: 0.
+
+\input{passage_21_table.tex}
+
+\paragraph{Outlook.}
+The 13.12\,m sag residual is inside the 15\,m gate and is not a formed-line
+fit. Histogram modes must not be used as saddle evidence in later runs.
+
+\section{Materials, disjoint anchors, and cable seed (N08--N10)}
+\label{sec:anchors}
+
+\paragraph{Related work.}
+Theory v1.2 \S4 forbids using a floor-rope anchor as a portal-rope anchor.
+The two families differ by \(21\)\,m at the north end and by \(15.332\)\,m at
+the south end.
+
+\paragraph{Method.}
+Rope \(E=1.20\times 10^{11}\)\,Pa, floor/portal \(A=1400.42\times 10^{-6}\)\,m\(^2\),
+\(\mu=12.038\)\,kg/m (CALC-INPUT / DRW-A). Steel \(E=2.06\times 10^{11}\)\,Pa,
+\(\rho=7850\)\,kg/m\(^3\). Horizontal seed
+\[
+H=\frac{wL^2}{8h},\qquad h=227.300~\mathrm{m},\qquad L=2286.642~\mathrm{m}.
+\]
+Per deck, \(w_{\mathrm{floor}}=2.766\)\,kN/m and
+\(w_{\mathrm{portal}}=0.709\)\,kN/m give \(H_{\mathrm{floor}}=7.954\)\,MN and
+\(H_{\mathrm{portal}}=2.039\)\,MN. Axial seeds are
+\(\sigma_{\mathrm{floor}}=3.549611\times 10^{8}\)\,Pa and
+\(\sigma_{\mathrm{portal}}=2.426295\times 10^{8}\)\,Pa. L0 wave frequency
+\(f_1=\sqrt{g/32h}=0.036719\)\,Hz is a magnitude gate only.
+
+Floor and portal anchors use different node sets and two \texttt{*BOUNDARY}
+cards. A third card holds saddles and nominal ends.
+
+\paragraph{Experiment.}
+\begin{table}[ht]
+\centering
+\caption{Disjoint anchor families. North physical anchors lie outside the STEP.}
+\label{tab:anchors}
+\begin{tabular}{llrrr}
+\toprule
+Family & Station & Target \(x\) (m) & Selected \(x_{\mathrm{mean}}\) & Mode \\
+\midrule
+Floor N & K16+852.105 & \(-23.895\) & 0.000 & STEP north-end proxy \\
+Floor S & K21+086.368 & 4210.368 & 4209.985 & matched, \(\Delta=0.38\)\,m \\
+Portal N & K16+831.091 & \(-44.909\) & 46.358 & STEP north-end proxy \\
+Portal S & K21+101.700 & 4225.700 & 4221.093 & matched, \(\Delta=4.61\)\,m \\
+\bottomrule
+\end{tabular}
+\end{table}
+Intersection of \texttt{N\_FLOOR\_ANCHOR} (312 nodes) and
+\texttt{N\_PORTAL\_ANCHOR} (16 nodes) is empty. Three \texttt{*BOUNDARY} cards
+are present. South families remain \(11.1\)\,m apart in \(x\).
+
+\paragraph{Outlook.}
+The deck does not invent nodes at negative \(x\). A later STEP that includes
+the north anchorage must still keep the four families separate.
+
+\section{Load cases (N11)}
+\label{sec:loads}
+
+\paragraph{Related work.}
+CalculiX does not inherit \texttt{*DLOAD}/\texttt{*CLOAD} across steps. Each
+step must restate gravity and the active package.
+
+\paragraph{Method.}
+Per-deck packages are split equally onto 16 explicit floor ropes so that
+\(\sum_i w_{\mathrm{rope}}L_i=w_{\mathrm{deck}}L_{\mathrm{deck}}\).
+
+\paragraph{Experiment.}
+\begin{table}[ht]
+\centering
+\caption{Load-case resultants close against \(wL\) on the coarsened floor mesh.}
+\label{tab:loads}
+\begin{tabular}{lrrr}
+\toprule
+Case & Deck \(w\) & Per-rope \(w\) & Resultant \\
+\midrule
+Extra dead & 877.16\,N/m & 54.82\,N/m & 9.019\,MN \\
+Personnel & 8.400\,kN/m & 525\,N/m & 86.371\,MN \\
+Wind \(+Y\) & 0.50\,kN/m & 31.25\,N/m & 5.141\,MN \\
+\bottomrule
+\end{tabular}
+\end{table}
+Floor truss length in the coarsened mesh is 164\,516\,m (32 lines including
+sag and residual over-classified floor segments; \(\approx 5141\)\,m/line
+versus \(\approx 4300\)\,m expected). LC-FREQ requests 20 eigenvalues and does
+not contain \(0.0296\)\,Hz.
+
+\paragraph{Outlook.}
+The 20\,\% floor-line excess is a classification bound, not a live-load
+invention. It remains visible after the 21/142 topology audit closes.
+
+\section{Solver deck and the CalculiX 2.21 initial-stress gate (N12--N14)}
+\label{sec:ccx}
+
+\paragraph{Related work.}
+CalculiX CrunchiX 2.21 (\S6.11.7 and \S7.76 of the User's Manual) defines
+\texttt{*INITIAL CONDITIONS, TYPE=STRESS} before the first \texttt{*STEP}. If
+\texttt{USER} is not specified, each data line is
+\begin{quote}
+element number; integration point number; \(S_{xx}\), \(S_{yy}\), \(S_{zz}\),
+\(S_{xy}\), \(S_{xz}\), \(S_{yz}\)
+\end{quote}
+in the global rectangular frame, as second Piola--Kirchhoff components.
+Abaqus-style ELSET plus a single axial stress is not that contract.
+
+\paragraph{Method.}
+The writer currently emits
+\begin{lstlisting}
+*INITIAL CONDITIONS, TYPE=STRESS
+E_FLOOR_ROPE, 3.549611e+08
+E_PORTAL_ROPE, 2.426295e+08
+\end{lstlisting}
+at lines 90863--90865 of the frozen deck. That is ELSET + uniaxial. The hash
+\texttt{82548e6a} is frozen: the file is not patched. CalculiX is run only on
+a copy under \texttt{/tmp/ccx-82548e6a/}. The original is re-hashed before and
+after.
+
+\paragraph{Experiment.}
+A lexical audit (\texttt{artifacts/ic\_format\_audit.json}) classifies both
+rows as \texttt{elset\_plus\_uniaxial=true} and
+\texttt{ccx\_2\_21\_legal=false}. The formatted floor stress
+\texttt{3.549611e+08} equals the writer's
+\(\sigma_{\mathrm{floor}}=H_{\mathrm{floor}}/(16A)\).
+
+CalculiX 2.21 (\texttt{ccx -v}: ``This is Version 2.21'') was executed on the
+copy. The solver printed
+\begin{lstlisting}
+*ERROR reading *INITIAL CONDITIONS. Card image:
+       E_FLOOR_ROPE,3.549611E+08
+...
+*ERROR in calinput: at least one fatal
+       error message while reading the
+       input deck: CalculiX stops.
+\end{lstlisting}
+and exited 201. Observed artefacts: no \texttt{job.frd}; \texttt{job.dat} has
+0 bytes; \texttt{job.sta} and \texttt{job.cvg} contain the printed table
+headers only. Wall-clock time on this host was \(0.738\)--\(0.815\)\,s,
+matching the given bound \(<1\)\,s. The banner ``number of:'' block is
+explicitly ``estimated upper bounds'' issued while reading the deck; no
+assembled equation count appears. The original file hash after the run is
+still \texttt{82548e6a\(\ldots\)276ab6da}.
+
+These facts were first given as an external solve on the same hash and were
+then reproduced locally. Both records are stored in
+\texttt{artifacts/ccx\_run\_82548e6a.json} and the copied logs
+\texttt{ccx\_82548e6a.stdout.txt}, \texttt{.sta}, \texttt{.cvg}, \texttt{.dat}.
+
+\paragraph{Outlook.}
+A later deck may expand each tension element into an eight-field stress row
+without claiming that this frozen hash already did so. Expanding the card is a
+new artefact with a new hash. This paper does not perform that rewrite.
+
+\section{Zhangjinggao results}
+\label{sec:results}
+
+\paragraph{Related work.}
+The scientific object is one published centre-line STEP of one construction
+catwalk, not a generic benchmark.
+
+\paragraph{Method.}
+Results are read back from the frozen deck, the gate JSON, the 142-frame
+ledger, and the CalculiX 2.21 logs. No displacement, reaction, or frequency
+from a completed step is reported.
+
+\paragraph{Experiment.}
+\begin{enumerate}
+\item Coordinate convention holds without subtracting \(x_{\min}\).
+\item Topology reconcile: 21 passages, 142 portal frames, both from STEP
+evidence, insertions 0 and 0.
+\item Anchor families are lexically and set-wise separate
+(\(312\cap 16=\emptyset\)).
+\item Independent sag seed uses \(227.300\)\,m; \(255.56\)\,m is absent.
+\item All 26 automated gates PASS (\texttt{artifacts/coord\_gate.json}).
+\item Unit tests \texttt{test\_coord\_gate}, \texttt{test\_write\_inp},
+\texttt{test\_reconcile}, \texttt{test\_audit\_frozen\_deck} PASS without
+rewriting the deck.
+\item CalculiX 2.21 parse of \texttt{TYPE=STRESS} fails as specified; hash
+unchanged.
+\end{enumerate}
+
+Role counts in the written deck: \texttt{floor\_rope} 25\,299,
+\texttt{portal\_or\_beam} 4\,719, \texttt{portal\_rope} 227,
+\texttt{cross\_passage} 21, \texttt{handrail\_rope} 34,
+\texttt{longitudinal\_other} 17.
+
+\paragraph{Outlook.}
+The supported claim is the existence of a hashed, coordinate-gated,
+topology-reconciled deck plus a documented solver-parse failure. It is not a
+fourteen-mode reproduction.
+
+\section{Discussion and conclusions}
+\label{sec:disc}
+
+\paragraph{Related work.}
+Pull request \#18 shipped an empty \texttt{artifacts/} directory. Pull request
+\#19 first deposited the hashed deck. This run adds the 142-frame ledger, the
+CalculiX 2.21 parse record, and a complete paper, without changing
+\texttt{82548e6a}.
+
+\paragraph{Method.}
+Limits that remain visible in the evidence are stated as bounds, not as
+hidden FAIL marks. Hard gates (identity transform, 21/142, disjoint anchors,
+complete keywords, frozen hash, forbidden sources) all close.
+
+\paragraph{Experiment.}
+Bounds:
+\begin{itemize}
+\item North anchors are STEP-end proxies, not \(K16+852\) / \(K16+831\).
+\item Portal-rope classification is incomplete (227 coarsened elements);
+south portal nodes come from \texttt{portal\_or\_beam} at \(x=4221.093\).
+\item Geometric sag \(214.18\)\,m versus \(227.30\)\,m is inside the 15\,m
+gate but is not a formed-line fit.
+\item Floor-line length is about 20\,\% above a four-span catenary estimate.
+\item The stress card is not CalculiX-legal. The solver never assembled a
+system. No spectrum exists.
+\end{itemize}
+
+\paragraph{Outlook.}
+The next scientific step is a new hashed deck whose \texttt{TYPE=STRESS} rows
+are element number + integration point + six stresses, followed by a real
+nonlinear static solve, and only then a TARGET-FREQ comparison. That step is
+outside this frozen hash.
+
+\section*{Reproduction}
+
+\begin{lstlisting}[language=bash]
+python3 catwalk-fem/tests/test_coord_gate.py
+python3 catwalk-fem/tests/test_write_inp.py
+python3 catwalk-fem/tests/test_reconcile.py
+python3 catwalk-fem/tests/test_audit_frozen_deck.py
+python3 catwalk-fem/pipeline/audit_frozen_deck.py
+sha256sum -c catwalk-fem/artifacts/zjg_catwalk_coarsened.inp.sha256
+pdflatex -interaction=nonstopmode zjg_catwalk_agentic_fea.tex
+\end{lstlisting}
+Do not add the 77\,MB STEP to git. Do not feed
+\texttt{isolated/TARGET-FREQ.json} to the writer or the solver. Do not rewrite
+\texttt{zjg\_catwalk\_coarsened.inp}.
+
+\section*{Data availability}
+All artefacts cited here live under \texttt{catwalk-fem/artifacts/} on branch
+\texttt{cursor/catwalk-main-deck-gate-f23d}. The frozen deck hash is
+\texttt{82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da}.
+Self-evaluation traces are in \texttt{catwalk-fem/eval/GROK\_SELF\_EVAL.md}.
+
+\bibliographystyle{plain}
+\begin{thebibliography}{9}
+\bibitem{ccx221}
+G.~Dhondt, \emph{CalculiX CrunchiX USER'S MANUAL version 2.21}, 2023,
+\S6.11.7 and \S7.76.
+\bibitem{theory12}
+Zhangjinggao catwalk fourteen-mode independent theory archive, v1.2,
+\texttt{catwalk-theory/thirteen-mode-models}, 2026-08-08.
+\bibitem{skill}
+\texttt{catwalk-fem/SKILL.md} and \texttt{catwalk-fem/PLAN.md}, run
+\texttt{catwalk-main-deck-gate-f23d}.
+\bibitem{step}
+Release \texttt{catwalk-attachment23-v2.0-s10-20260716},
+\texttt{cw\_S10\_0716t050342\_a4\_centerline.step},
+SHA-256 \texttt{d03d01e3\(\ldots\)763344}.
+\end{thebibliography}
+
+\appendix
+\section{Station-by-station 142-frame ledger}
+\label{app:142}
+The following table is generated from
+\texttt{artifacts/portal\_142\_ledger.json} by
+\texttt{pipeline/audit\_frozen\_deck.py}. Every station is present on both
+decks. The counting unit is frames (Chinese U+6980), not U+69EC.
+
+\input{portal_142_table.tex}
+
+\section{CalculiX 2.21 transcript (abridged)}
+\label{app:ccx}
+The complete stdout is \texttt{artifacts/ccx\_82548e6a.stdout.txt}. The fatal
+lines are:
+\begin{lstlisting}
+*ERROR reading *INITIAL CONDITIONS. Card image:
+       E_FLOOR_ROPE,3.549611E+08
+*ERROR in calinput: at least one fatal
+       error message while reading the
+       input deck: CalculiX stops.
+\end{lstlisting}
+\texttt{job.sta}:
+\begin{lstlisting}
+SUMMARY OF JOB INFORMATION
+  STEP      INC     ATT  ITRS     TOT TIME     STEP TIME      INC TIME
+\end{lstlisting}
+\texttt{job.cvg} likewise contains only the convergence-table header.
+\texttt{job.dat} is empty. \texttt{job.frd} does not exist.
+
 \end{document}

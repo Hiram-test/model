@@ -1,0 +1,296 @@
+{
+  "deck": {
+    "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+    "bytes": 7702117,
+    "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "frozen_sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "hash_unchanged": true,
+    "bytes_match": true,
+    "heading_has_k16876": true,
+    "has_25556": false,
+    "has_00296": false,
+    "n_floor_anchor": 312,
+    "n_portal_anchor": 16,
+    "anchor_overlap": 0,
+    "anchors_disjoint": true,
+    "boundary": {
+      "n_cards": 3,
+      "sets": [
+        "N_FLOOR_ANCHOR",
+        "N_PORTAL_ANCHOR",
+        "N_SUPPORT_SADDLE_ENDS"
+      ]
+    },
+    "initial_conditions": {
+      "present": true,
+      "keyword_line": "*INITIAL CONDITIONS, TYPE=STRESS",
+      "keyword_line_no": 90863,
+      "rows": [
+        {
+          "raw": "E_FLOOR_ROPE, 3.549611e+08",
+          "fields": [
+            "E_FLOOR_ROPE",
+            "3.549611e+08"
+          ],
+          "n_fields": 2,
+          "first_token": "E_FLOOR_ROPE",
+          "elset_plus_uniaxial": true,
+          "ccx_2_21_legal": false,
+          "reason": "ELSET name + one axial stress; CalculiX 2.21 §7.76 TYPE=STRESS requires element number, integration point, Sxx Syy Szz Sxy Sxz Syz"
+        },
+        {
+          "raw": "E_PORTAL_ROPE, 2.426295e+08",
+          "fields": [
+            "E_PORTAL_ROPE",
+            "2.426295e+08"
+          ],
+          "n_fields": 2,
+          "first_token": "E_PORTAL_ROPE",
+          "elset_plus_uniaxial": true,
+          "ccx_2_21_legal": false,
+          "reason": "ELSET name + one axial stress; CalculiX 2.21 §7.76 TYPE=STRESS requires element number, integration point, Sxx Syy Szz Sxy Sxz Syz"
+        }
+      ],
+      "all_elset_uniaxial": true,
+      "any_ccx_2_21_legal": false
+    },
+    "sigma_floor_writer_Pa": 354961146.3121035,
+    "sigma_floor_writer_fmt": "3.549611e+08",
+    "floor_ic_matches_writer": true,
+    "ccx_2_21_requires": [
+      "element_number",
+      "integration_point",
+      "Sxx",
+      "Syy",
+      "Szz",
+      "Sxy",
+      "Sxz",
+      "Syz"
+    ],
+    "deck_ic_is_elset_uniaxial": true,
+    "do_not_rewrite_inp": true
+  },
+  "portals_142": {
+    "expected_per_deck": 71,
+    "expected_both_decks": 142,
+    "drawing_stations": 71,
+    "n_rows": 71,
+    "n_ok_both_decks": 142,
+    "upstream_hit": 71,
+    "downstream_hit": 71,
+    "both_decks_hit": 142,
+    "n_missing": 0,
+    "inserted_portals": 0,
+    "by_span_stations": {
+      "north_660": 11,
+      "main_2300": 41,
+      "south_717": 11,
+      "south_503": 8
+    },
+    "pass_142": true,
+    "unit": "榀",
+    "not_unit": "槬"
+  },
+  "portals_142_n_stations": 71,
+  "passages_21": {
+    "expected": 21,
+    "n": 21,
+    "stations": [
+      {
+        "index": 1,
+        "label": "P01",
+        "x": 159,
+        "chainage": "K17+035.000",
+        "span": "north_660"
+      },
+      {
+        "index": 2,
+        "label": "P02",
+        "x": 330,
+        "chainage": "K17+206.000",
+        "span": "north_660"
+      },
+      {
+        "index": 3,
+        "label": "P03",
+        "x": 501,
+        "chainage": "K17+377.000",
+        "span": "north_660"
+      },
+      {
+        "index": 4,
+        "label": "P04",
+        "x": 838,
+        "chainage": "K17+714.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 5,
+        "label": "P05",
+        "x": 1009,
+        "chainage": "K17+885.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 6,
+        "label": "P06",
+        "x": 1180,
+        "chainage": "K18+056.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 7,
+        "label": "P07",
+        "x": 1351,
+        "chainage": "K18+227.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 8,
+        "label": "P08",
+        "x": 1504,
+        "chainage": "K18+380.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 9,
+        "label": "P09",
+        "x": 1657,
+        "chainage": "K18+533.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 10,
+        "label": "H1",
+        "x": 1810,
+        "chainage": "K18+686.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 11,
+        "label": "H2",
+        "x": 1963,
+        "chainage": "K18+839.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 12,
+        "label": "H3",
+        "x": 2116,
+        "chainage": "K18+992.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 13,
+        "label": "H4",
+        "x": 2269,
+        "chainage": "K19+145.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 14,
+        "label": "H5",
+        "x": 2440,
+        "chainage": "K19+316.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 15,
+        "label": "H6",
+        "x": 2611,
+        "chainage": "K19+487.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 16,
+        "label": "H7",
+        "x": 2782,
+        "chainage": "K19+658.000",
+        "span": "main_2300"
+      },
+      {
+        "index": 17,
+        "label": "H8",
+        "x": 3138.5,
+        "chainage": "K20+014.500",
+        "span": "south_717"
+      },
+      {
+        "index": 18,
+        "label": "H9",
+        "x": 3318.5,
+        "chainage": "K20+194.500",
+        "span": "south_717"
+      },
+      {
+        "index": 19,
+        "label": "H10",
+        "x": 3498.5,
+        "chainage": "K20+374.500",
+        "span": "south_717"
+      },
+      {
+        "index": 20,
+        "label": "H11",
+        "x": 3843,
+        "chainage": "K20+719.000",
+        "span": "south_503"
+      },
+      {
+        "index": 21,
+        "label": "H12",
+        "x": 4014,
+        "chainage": "K20+890.000",
+        "span": "south_503"
+      }
+    ]
+  },
+  "given_ccx_run": {
+    "source": "user-supplied catwalk solve on hash 82548e6a; this run only re-reads and may reproduce",
+    "deck_sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "hash_must_not_change": true,
+    "failed_keyword": "*INITIAL CONDITIONS",
+    "failed_row": "E_FLOOR_ROPE,3.549611E+08",
+    "exit_code": 201,
+    "has_frd": false,
+    "dat_empty": true,
+    "sta_cvg_header_only": true,
+    "wall_clock": "<1 s",
+    "equation_count": null,
+    "diagnosis": "This deck TYPE=STRESS is ELSET + uniaxial; CalculiX 2.21 requires element number + integration point + six stresses"
+  },
+  "local_ccx_reproduction": {
+    "executed_here": true,
+    "ccx_binary": "/usr/bin/ccx",
+    "work": "/tmp/ccx-82548e6a",
+    "copy_sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "copy_matches_frozen": true,
+    "original_untouched": true,
+    "version_stdout": "This is Version 2.21",
+    "version_stderr": "",
+    "exit_code": 201,
+    "wall_s": 0.7376800000000117,
+    "stdout": "\n************************************************************\n\nCalculiX Version 2.21, Copyright(C) 1998-2023 Guido Dhondt\nCalculiX comes with ABSOLUTELY NO WARRANTY. This is free\nsoftware, and you are welcome to redistribute it under\ncertain conditions, see gpl.htm\n\n************************************************************\n\nYou are using an executable made on Sat Jul 29 10:52:01 CEST 2023\n\n  The numbers below are estimated upper bounds\n\n  number of:\n\n   nodes:      1689014\n   elements:        30317\n   one-dimensional elements:        30317\n   two-dimensional elements:            0\n   integration points per element:            8\n   degrees of freedom per node:            3\n   layers per element:            2\n\n   distributed facial loads:            0\n   distributed volumetric loads:            6\n   concentrated loads:      1674684\n   single point constraints:      2216088\n   multiple point constraints:      3638041\n   terms in all multiple point constraints:     23283457\n   tie constraints:            0\n   dependent nodes tied by cyclic constraints:            0\n   dependent nodes in pre-tension constraints:            0\n\n   sets:           23\n   terms in all sets:       141847\n\n   materials:            5\n   constants per material and temperature:            2\n   temperature points per material:            1\n   plastic data points per material:            0\n\n   orientations:            0\n   amplitudes:           10\n   data points in all amplitudes:           10\n   print requests:            0\n   transformations:            0\n   property cards:            0\n\n *ERROR reading *INITIAL CONDITIONS. Card image:\n        E_FLOOR_ROPE,3.549611E+08\n\n\n STEP            1\n\n *INFO reading *STEP: nonlinear geometric\n       effects are turned on\n\n *WARNING in calinput. Card image cannot be interpreted:\n *WARNING reading the input file. Card image:\n          LC-DEAD-PRESTRESS\n\n *WARNING reading *STATIC: a nonlinear analysis is requested\n          but no time increment nor step is specified\n          the defaults (1,1) are used\n\n *ERROR in calinput: at least one fatal\n        error message while reading the\n        input deck: CalculiX stops.\n\n",
+    "stderr": "",
+    "has.frd": false,
+    "has.dat": true,
+    ".dat_bytes": 0,
+    ".dat_text": "",
+    "has.sta": true,
+    ".sta_bytes": 98,
+    ".sta_text": "SUMMARY OF JOB INFORMATION\n  STEP      INC     ATT  ITRS     TOT TIME     STEP TIME      INC TIME\n",
+    "has.cvg": true,
+    ".cvg_bytes": 274,
+    ".cvg_text": "SUMMARY OF C0NVERGENCE INFORMATION\n  STEP   INC  ATT   ITER     CONT.   RESID.        CORR.      RESID.      CORR.\n                              EL.    FORCE         DISP       FLUX        TEMP.\n                              (#)     (%)           (%)        (%)         (%)\n",
+    "has.12d": false,
+    "has.equ": false,
+    "mentions_E_FLOOR_ROPE": true,
+    "mentions_3_549611": true,
+    "mentions_equations": false,
+    "parse_fail_ic": true
+  },
+  "original_hash_before": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+  "original_hash_after": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+  "original_untouched": true,
+  "scientific_claim": "hashed coordinate-gated deck exists; 21 passages and 142 榀 portals reconcile with zero insertions; floor/portal anchors are disjoint; ccx 2.21 parse of TYPE=STRESS fails on ELSET+uniaxial; no spectrum claimed"
+}

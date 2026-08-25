@@ -1,14 +1,39 @@
 {
-  "status": "PRE_SOLVE_ONLY",
-  "ccx_executed": false,
-  "reason": "CalculiX solver binary is not installed in this environment; skill forbids claiming a solved run",
+  "status": "CCX_PARSE_FAIL_IC",
+  "ccx_executed": true,
+  "ccx_executed_on": "byte-identical copy; original frozen hash not rewritten",
+  "ccx_version": "2.21",
+  "exit_code": 201,
+  "reason": "CalculiX 2.21 failed reading *INITIAL CONDITIONS, TYPE=STRESS on ELSET+uniaxial row E_FLOOR_ROPE,3.549611E+08. No assembled system. Frozen deck 82548e6a is not patched.",
   "deck": {
     "path": "catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
     "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
     "bytes": 7702117,
     "n_nodes": 51896,
     "n_elements": 30317,
-    "complete_keywords": true
+    "complete_keywords": true,
+    "ic_format": "ELSET+uniaxial",
+    "ccx_2_21_requires": "element number + integration point + six stresses"
+  },
+  "given_run": {
+    "hash": "82548e6a",
+    "failed_row": "E_FLOOR_ROPE,3.549611E+08",
+    "exit_code": 201,
+    "has_frd": false,
+    "dat_empty": true,
+    "sta_cvg_header_only": true,
+    "wall_clock": "<1 s",
+    "equation_count": null
+  },
+  "local_reproduction": {
+    "exit_code": 201,
+    "wall_s_range": [0.7376800000000117, 0.8152592800000207],
+    "has_frd": false,
+    "dat_bytes": 0,
+    "sta_header_only": true,
+    "cvg_header_only": true,
+    "fatal": "*ERROR reading *INITIAL CONDITIONS. Card image: E_FLOOR_ROPE,3.549611E+08",
+    "original_untouched": true
   },
   "gates": {
     "status": "PASS",
@@ -24,12 +49,16 @@
     "floor_portal_nsets_disjoint": true,
     "passages_21": true,
     "portals_142": true,
-    "load_resultants_closed": true
+    "portal_unit": "榀",
+    "not_portal_unit": "槬",
+    "load_resultants_closed": true,
+    "hash_unchanged": true
   },
   "l0_magnitude_gate": {
     "f1_hz": 0.03671855913145064,
     "formula": "sqrt(g/(32h))",
     "h_m": 227.3,
     "not_used_as_solver_input": true
-  }
+  },
+  "spectrum_claimed": false
 }
