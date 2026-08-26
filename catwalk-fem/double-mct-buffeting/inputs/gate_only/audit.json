@@ -1,0 +1,158 @@
+{
+  "source": {
+    "core_script": "tmp/gate_passage_condensation/condense_h10.py",
+    "formal_apdl": "tmp/mct_pair_sources/apply_finite_gates_and_passages_v2.inp",
+    "formal_apdl_sha256": "51dc4dabba9d4ad1464d033fa69aba80cbaea79bcbed163fadb81e3b63211b98",
+    "mct": "tmp/mct_pair_sources/catwalk_gantry_rope_combined_2.mct",
+    "mct_property3_section": "B161x161x8 equivalent, name denotes two B160x4 posts",
+    "representative_gate": "H10/CW1_GATE_32"
+  },
+  "topology": {
+    "beam188_elements": 30,
+    "physical_nodes": 34,
+    "orientation_nodes": 30,
+    "internal_ALL_rigid_links": 4,
+    "external_UXYZ_rope_links": 22,
+    "root_nodes": 30,
+    "root_dofs": 180,
+    "constraint_rows": 66,
+    "constraint_rank": 66,
+    "saddle_size": 246,
+    "rope_counts": {
+      "B": 16,
+      "T": 6
+    },
+    "beam_length_mm_min": 165.0,
+    "beam_length_mm_max": 7827.000000009997
+  },
+  "interfaces": {
+    "port_order": [
+      "B",
+      "T"
+    ],
+    "center_coordinates_apdl_mm": {
+      "B": [
+        1854909.0,
+        21450.0,
+        113300.0
+      ],
+      "T": [
+        1854917.5,
+        21450.0,
+        121300.00000001
+      ]
+    },
+    "center_length_mm": 8000.004515633723,
+    "mapping": "16/6 actual rope translations mapped by u_i=u_c+theta_c cross r_i; rope rotations absent"
+  },
+  "mass_policy": {
+    "source_material_densities_tonne_per_mm3": {
+      "61": 0.0,
+      "62": 0.0
+    },
+    "mass_matrix_generated": false,
+    "duplicate_mass_added": false
+  },
+  "retained_rotation_K12_audit": {
+    "symmetry_error": 0.0,
+    "rigid_body_residual": 2.1156072508794874e-15,
+    "scaled_eigenvalues": [
+      -3.7238500332235114e-08,
+      -3.5143721327575976e-09,
+      -1.1793865867341742e-09,
+      0.0,
+      1.4279577361751127e-14,
+      9.86777138374718e-11,
+      1.0679509929337543e-09,
+      2.7963563103417966e-08,
+      688.7316823276878,
+      2504.0797662805126,
+      49851.401635617796,
+      414018.4945058117
+    ],
+    "zero_mode_count_rel_1e_8": 8,
+    "positive_mode_count_rel_1e_8": 4,
+    "zero_mode_interpretation": "6 global rigid-body modes + independent RY drilling rotations at the two collinear rope groups"
+  },
+  "free_rotation_K6_audit": {
+    "raw_rigid_body_residual": 6.544711915459749e-12,
+    "psd_cleanup_relative_correction": 1.8779718236556637e-11,
+    "rigid_mode_matrix_rank": 5,
+    "symmetry_error": 0.0,
+    "rigid_body_residual": 3.3107318063323844e-19,
+    "eigenvalues_N_per_mm": [
+      -4.121197519592954e-18,
+      -9.28323034988205e-34,
+      7.003648761409237e-18,
+      1.322866775512701e-12,
+      8.48812635546499e-12,
+      49851.40163561758
+    ],
+    "zero_mode_count_rel_1e_8": 5,
+    "positive_mode_count_rel_1e_8": 1,
+    "axial_nonzero_eigenvalue_N_per_mm": 49851.40163561759,
+    "spherical_hinge_mechanism": true
+  },
+  "unit_axial_energy_audit": {
+    "prescribed_relative_displacement_mm": 1.0,
+    "component_energy_N_mm": {
+      "bottom_beam": 879.557562541523,
+      "top_beam": 7744.036952810605,
+      "posts": 3839.255893503113
+    },
+    "component_energy_fraction": {
+      "bottom_beam": 0.07057434966214231,
+      "top_beam": 0.6213696464901984,
+      "posts": 0.30805600384765935
+    },
+    "sum_energy_N_mm": 12462.85040885524,
+    "condensed_port_energy_N_mm": 12462.850408896897,
+    "relative_balance_error": 3.3424678114459327e-12,
+    "optimal_port_rotations_rad": [
+      7.763771023276088e-15,
+      1.6400068551629126e-29,
+      5.006457827982703e-13,
+      7.664229242675619e-15,
+      0.0,
+      -5.006621750707897e-13
+    ]
+  },
+  "fixed_rotation_portal_local_Krel_N_per_mm": [
+    [
+      1.5178146217794218e-11,
+      2.9572537890606234e-10,
+      6.601350195378023e-09
+    ],
+    [
+      2.9572537890606234e-10,
+      80.71558674757841,
+      6.827056259620144e-10
+    ],
+    [
+      6.601348322947638e-09,
+      6.827056259620144e-10,
+      24925.700817793797
+    ]
+  ],
+  "replacement_assessment": {
+    "ordinary_stations_per_catwalk": 50,
+    "translation_only_verdict": "yes, but only as an axial rank-one replacement for property-3 TRUSS; do not retain both",
+    "reason": "after free condensation of center rotations the two translation ports form spherical joints and have five zero modes; only centerline extension is objective",
+    "implementation": "use EA_eq=1.994057190978e8 N at each ordinary station and construct K_i=(EA_eq/L_i)[nn^T,-nn^T;-nn^T,nn^T] from that station's B-to-T direction; do not copy the H10 global matrix to differently inclined stations",
+    "cross_passage_rule": "apply gate-only replacement at the 50 ordinary stations per catwalk only; the 21 combined gate-passage K12 matrices already include both gates, so adding gate-only stiffness there would double count",
+    "axial_comparison": {
+      "finite_gate_k_N_per_mm": 24925.700817808793,
+      "finite_gate_equivalent_EA_N": 199405719.09780553,
+      "mct_property3_k_N_per_mm": 126071.92883816833,
+      "ratio": 0.1977101567931475,
+      "warning": "the finite-gate equivalent is only 19.77% of original property-3 axial stiffness, so replacing all 50 stations materially changes modes and requires full-bridge modal revalidation"
+    },
+    "portal_shear_verdict": "two translation-only ports cannot represent portal shear objectively; retained K12 captures transverse Sy behavior but longitudinal Sx remains a mechanism because B_RY/T_RY are unobservable",
+    "portal_options": [
+      "preferred when rotational states exist: retain K12_gate_ports_6dof.csv; omit the two zero RY drilling DOFs and retain the observable transverse portal rotations",
+      "translation-only sensitivity closure: axial k_N=24925.7008 N/mm plus transverse fixed-section upper-bound k_Sy=80.7156 N/mm, with k_Sx=0; this shear spring is non-objective under isolated rigid rotation and is not a formal replacement",
+      "strict objective translation-only ROM: use only the rank-one axial K6 and accept that ordinary gates add no portal shear"
+    ],
+    "mass_rule": "the gate-only condensed matrices contain stiffness only; preserve the existing concentrated gate/guide mass once and do not add BEAM188 mass"
+  }
+}
