@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "run_id": "X10_DOWNSTREAM_SOURCE_AUDIT",
+  "run_name": "X10_DOWNSTREAM_SOURCE_AUDIT_20260715T233443Z",
+  "created_at_utc": "2026-07-15T23:34:43Z",
+  "status": "COMPLETED_READ_ONLY_EVIDENCE_PACKAGE",
+  "decision": {
+    "c20": "UPSTREAM_NOT_EXECUTED",
+    "d10": "LEDGER_NOT_INTEGRATED",
+    "source_missing_rejected": true,
+    "construction_detail_source_status": "SOURCE_PRESENT",
+    "strict_mac_status": "HARD_SOURCE_EVIDENCE_BLOCK"
+  },
+  "construction_source_findings": {
+    "downpull_system": "4_GROUPS_80T_EACH_WITH_8_WIRE_ROPES_AND_EYE_PLATE_PIN_CONNECTIONS",
+    "gantry_system": "UPPER_AND_LOWER_HINGES_U_BOLTS_AND_EXPLICIT_ECCENTRIC_DETAILS_PRESENT",
+    "downstream_interpretation": "SOURCE_EXISTS_BUT_REQUIRED_UPSTREAM_EXECUTION_OR_LEDGER_INTEGRATION_IS_NOT_CLOSED"
+  },
+  "strict_mac_source_gate": {
+    "reference_target_count": 14,
+    "four_decimal_frequency_count": 14,
+    "r19_2_coarse_plot_scope": "EARLY_ORDER_MODES_ONLY",
+    "full_node_double_precision_reference_vectors_available": false,
+    "strict_mac_computable": false,
+    "status": "HARD_SOURCE_EVIDENCE_BLOCK",
+    "forced_computed_mode_assignment_allowed": false
+  },
+  "target_mapping": {
+    "path": "09_target_mapping.csv",
+    "data_row_count": 14,
+    "matched_mode_all_blank": true,
+    "row_status": "UNRESOLVED_SOURCE_VECTOR_MISSING",
+    "evidence_grade_counts": {
+      "A": 6,
+      "B": 5,
+      "C": 3
+    },
+    "grade_a_target_indices": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      7
+    ],
+    "grade_b_target_indices": [
+      6,
+      10,
+      11,
+      13,
+      14
+    ],
+    "grade_c_target_indices": [
+      8,
+      9,
+      12
+    ]
+  },
+  "execution_guard": {
+    "source_files_modified": false,
+    "model_files_modified": false,
+    "scripts_modified": false,
+    "mapdl_launch_attempted": false,
+    "mapdl_started": false,
+    "temporary_render_images_in_package": false
+  },
+  "package_integrity": {
+    "source_ledger": "source_hashes.sha256",
+    "artifact_ledger": "artifact_hashes.sha256",
+    "artifact_ledger_excludes_itself": true,
+    "adjacent_schema_documentation": "field_dictionary.md",
+    "read_only_sealed": true
+  }
+}

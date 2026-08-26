@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "VALIDATION_GATES_PENDING",
+  "blocking_for_generation": [],
+  "blocking_for_mapdl_launch": [
+    "C10-NUM-01",
+    "C10-RANK-01"
+  ],
+  "blocking_for_production_use": [
+    "C10-DWG-01",
+    "C10-NUM-01",
+    "C10-RANK-01"
+  ],
+  "inherited_parent_limitations": [
+    {
+      "id": "LEGACY_CONSTRAINT_EQUATION_LARGE_DEFLECTION",
+      "parent_description": "legacy 约束方程在大变形下的适用性 warning 仍存在；本次未改变连接运动学。",
+      "c10_status": "TARGETED_BY_MPC184_PATCH_NUMERICAL_CLOSURE_PENDING",
+      "description": "C10 已在输入层删除 5078 条 CERIG 并替换为 MPC184；是否消除大转动 warning、主元和条件数问题仍待数值执行。"
+    },
+    {
+      "id": "HIGH_COEFFICIENT_RATIO",
+      "parent_description": "矩阵系数比超过 1E8；虽无负/零主元且全部收敛，仍保留尺度病态边界。",
+      "c10_status": "INHERITED_PENDING_REEVALUATION",
+      "description": "矩阵系数比超过 1E8；虽无负/零主元且全部收敛，仍保留尺度病态边界。"
+    },
+    {
+      "id": "EFFECTIVE_MASS_X_80_BELOW_90_PERCENT",
+      "parent_description": "固定 80 阶合同未设置 90% 有效质量门槛；当前 X/Y/Z 累计比例分别为 13.155935%/89.061423%/82.427858%，若另行采用 90% 标准则不满足。",
+      "c10_status": "INHERITED_PENDING_REEVALUATION",
+      "description": "固定 80 阶合同未设置 90% 有效质量门槛；当前 X/Y/Z 累计比例分别为 13.155935%/89.061423%/82.427858%，若另行采用 90% 标准则不满足。"
+    },
+    {
+      "id": "NEAR_REPEATED_MODE_SUBSPACE",
+      "parent_description": "最小相邻频差为 2.957037958661868e-06 Hz，对应 47–48 阶；跨模型比较应按近重根子空间处理。",
+      "c10_status": "INHERITED_PENDING_REEVALUATION",
+      "description": "最小相邻频差为 2.957037958661868e-06 Hz，对应 47–48 阶；跨模型比较应按近重根子空间处理。"
+    },
+    {
+      "id": "STRICT_REPORT_MAC_SOURCE_UNAVAILABLE",
+      "parent_description": "用户确认报告原始全节点双精度模态向量无法取得；严格 MAC 与 14 目标一一物理映射保持 HARD_SOURCE_EVIDENCE_BLOCK，不得按频率或阶次强配。",
+      "c10_status": "INHERITED_PENDING_REEVALUATION",
+      "description": "用户确认报告原始全节点双精度模态向量无法取得；严格 MAC 与 14 目标一一物理映射保持 HARD_SOURCE_EVIDENCE_BLOCK，不得按频率或阶次强配。"
+    }
+  ]
+}

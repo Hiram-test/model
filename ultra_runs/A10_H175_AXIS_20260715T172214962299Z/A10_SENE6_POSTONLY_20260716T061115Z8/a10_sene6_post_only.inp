@@ -1,0 +1,315 @@
+! 清空当前空白会话且不读取启动文件；本输入仅只读既有 A10 模态数据库与 RSTP，并由命令行批处理开关控制无界面执行。
+/CLEAR,NOSTART
+! 只读恢复既有模态数据库；相对路径指向上一级 A10 运行目录中的 solver 子目录。
+RESUME,'..\solver\cw_A10_0715t172214_24_modal','db'
+! 进入通用后处理器，以便读取既有线性扰动结果集。
+/POST1
+! 显式绑定既有合并 RSTP；扩展名 rstp 表示预应力模态结果文件。
+FILE,'..\solver\cw_A10_0715t172214_24','rstp'
+! 恢复全部节点和单元选择，为结果集与组件计数建立统一起点。
+ALLSEL,ALL
+! 激活最后一个真实结果集，以便读取 RSTP 的实际结果集总数。
+SET,LAST
+! 读取结果集总数；任务要求该值恰为 80 阶。
+*GET,C_NSET,ACTIVE,0,SET,NSET
+! 仅选择门架下横梁组件，供读取其元素数量。
+CMSEL,S,GATE_BOTTOM_E
+! 读取门架下横梁组件元素数；冻结目标值为 2698 个。
+*GET,C_GB,ELEM,0,COUNT
+! 恢复全部实体，避免前一组件选择影响下一组件计数。
+ALLSEL,ALL
+! 仅选择门架顶柱组件，供读取其元素数量。
+CMSEL,S,GATE_TOPPOST_E
+! 读取门架顶柱组件元素数；冻结目标值为 1562 个。
+*GET,C_GT,ELEM,0,COUNT
+! 恢复全部实体，避免前一组件选择影响下一组件计数。
+ALLSEL,ALL
+! 仅选择通道弦杆组件，供读取其元素数量。
+CMSEL,S,PASS_CHORD152_E
+! 读取通道弦杆组件元素数；冻结目标值为 4011 个。
+*GET,C_PC,ELEM,0,COUNT
+! 恢复全部实体，避免前一组件选择影响下一组件计数。
+ALLSEL,ALL
+! 仅选择通道框架组件，供读取其元素数量。
+CMSEL,S,PASS_FRAME102_E
+! 读取通道框架组件元素数；冻结目标值为 1890 个。
+*GET,C_PF,ELEM,0,COUNT
+! 恢复全部实体，避免前一组件选择影响下一组件计数。
+ALLSEL,ALL
+! 仅选择通道斜撑组件，供读取其元素数量。
+CMSEL,S,PASS_BRACE51_E
+! 读取通道斜撑组件元素数；冻结目标值为 4620 个。
+*GET,C_PB,ELEM,0,COUNT
+! 恢复全部实体，避免前一组件选择影响下一组件计数。
+ALLSEL,ALL
+! 仅选择通道 RHS 组件，供读取其元素数量。
+CMSEL,S,PASS_RHS5030_E
+! 读取通道 RHS 组件元素数；冻结目标值为 2898 个。
+*GET,C_PR,ELEM,0,COUNT
+! 计算六个组件计数的算术和；冻结目标值为 17679 个。
+C_SUM=C_GB+C_GT+C_PC+C_PF+C_PB+C_PR
+! 从门架下横梁组件开始构造六组件并集。
+CMSEL,S,GATE_BOTTOM_E
+! 向并集加入门架顶柱组件。
+CMSEL,A,GATE_TOPPOST_E
+! 向并集加入通道弦杆组件。
+CMSEL,A,PASS_CHORD152_E
+! 向并集加入通道框架组件。
+CMSEL,A,PASS_FRAME102_E
+! 向并集加入通道斜撑组件。
+CMSEL,A,PASS_BRACE51_E
+! 向并集加入通道 RHS 组件。
+CMSEL,A,PASS_RHS5030_E
+! 读取六组件并集元素数；与算术和一致即可证明六组件互不重叠。
+*GET,C_UNION,ELEM,0,COUNT
+! 在六组件并集内进一步保留 TYPE70 元素，用于验证并集完全属于有限门架与通道单元类型。
+ESEL,R,TYPE,,70
+! 读取六组件并集与 TYPE70 的交集元素数；目标值同为 17679 个。
+*GET,C_INT,ELEM,0,COUNT
+! 恢复全部实体，为独立统计 TYPE70 总数建立统一选择。
+ALLSEL,ALL
+! 独立选择元素类型 70；该类型是有限门架与通道六组件的总集合。
+ESEL,S,TYPE,,70
+! 读取 TYPE70 全模型元素数；冻结目标值为 17679 个。
+*GET,C_T70,ELEM,0,COUNT
+! 恢复全部实体，保证后续能量总和覆盖全模型。
+ALLSEL,ALL
+! 打开纯数值计数 CSV；列顺序由 field_dictionary.md 固定且文件不写标题。
+*CFOPEN,a10_sene6_counts_numeric,csv
+! 写出六组件计数、算术和、并集、TYPE70 总数、交集和结果集数；后续格式行使用十个逗号分隔十一列整数。
+*VWRITE,C_GB,C_GT,C_PC,C_PF,C_PB,C_PR,C_SUM,C_UNION,C_T70,C_INT,C_NSET
+(F10.0,10(',',F10.0))
+! 关闭计数 CSV，确保即使后续门禁拒绝也保留计数证据。
+*CFCLOS
+! 结果集数不等于 80 时进入拒绝分支，避免不完整模态数据进入输出。
+*IF,C_NSET,NE,80,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位结果集数量错误。
+/COM,A10_SENE6_QA_FAIL_RESULT_SET_COUNT
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束结果集数量门禁分支。
+*ENDIF
+! 门架下横梁计数不等于 2698 时进入拒绝分支。
+*IF,C_GB,NE,2698,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位组件计数错误。
+/COM,A10_SENE6_QA_FAIL_GATE_BOTTOM_COUNT
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束门架下横梁计数门禁分支。
+*ENDIF
+! 门架顶柱计数不等于 1562 时进入拒绝分支。
+*IF,C_GT,NE,1562,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位组件计数错误。
+/COM,A10_SENE6_QA_FAIL_GATE_TOPPOST_COUNT
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束门架顶柱计数门禁分支。
+*ENDIF
+! 通道弦杆计数不等于 4011 时进入拒绝分支。
+*IF,C_PC,NE,4011,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位组件计数错误。
+/COM,A10_SENE6_QA_FAIL_PASS_CHORD_COUNT
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束通道弦杆计数门禁分支。
+*ENDIF
+! 通道框架计数不等于 1890 时进入拒绝分支。
+*IF,C_PF,NE,1890,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位组件计数错误。
+/COM,A10_SENE6_QA_FAIL_PASS_FRAME_COUNT
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束通道框架计数门禁分支。
+*ENDIF
+! 通道斜撑计数不等于 4620 时进入拒绝分支。
+*IF,C_PB,NE,4620,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位组件计数错误。
+/COM,A10_SENE6_QA_FAIL_PASS_BRACE_COUNT
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束通道斜撑计数门禁分支。
+*ENDIF
+! 通道 RHS 计数不等于 2898 时进入拒绝分支。
+*IF,C_PR,NE,2898,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位组件计数错误。
+/COM,A10_SENE6_QA_FAIL_PASS_RHS_COUNT
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束通道 RHS 计数门禁分支。
+*ENDIF
+! 六组件算术和不等于 17679 时进入拒绝分支。
+*IF,C_SUM,NE,17679,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位总数错误。
+/COM,A10_SENE6_QA_FAIL_COMPONENT_SUM
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束六组件算术和门禁分支。
+*ENDIF
+! 六组件并集不等于 17679 时进入拒绝分支；该门禁同时识别组件重叠或缺失。
+*IF,C_UNION,NE,17679,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位并集错误。
+/COM,A10_SENE6_QA_FAIL_COMPONENT_UNION
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束六组件并集门禁分支。
+*ENDIF
+! TYPE70 全模型总数不等于 17679 时进入拒绝分支。
+*IF,C_T70,NE,17679,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位类型总数错误。
+/COM,A10_SENE6_QA_FAIL_TYPE70_COUNT
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束 TYPE70 总数门禁分支。
+*ENDIF
+! 六组件并集与 TYPE70 的交集不等于 17679 时进入拒绝分支。
+*IF,C_INT,NE,17679,THEN
+! 向主 OUT 写入固定拒绝标记，便于外部 QA 定位集合不一致。
+/COM,A10_SENE6_QA_FAIL_COMPONENT_TYPE70_INTERSECTION
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束六组件与 TYPE70 集合一致性门禁分支。
+*ENDIF
+! 定义六项组件能量数组；索引 1 至 6 对应 field_dictionary.md 的组件代码。
+*DIM,E_COMP,ARRAY,6
+! 定义六项组件能量比例数组；每项等于对应组件能量除以全模型总能量。
+*DIM,R_COMP,ARRAY,6
+! 创建并清空 80 行总能量纯数值 CSV，防止附加到任何历史内容。
+*CFOPEN,a10_sene6_mode_totals_numeric,csv
+! 关闭空文件；循环将按阶以 APPEND 模式写入一行。
+*CFCLOS
+! 创建并清空 480 行长表纯数值 CSV，防止附加到任何历史内容。
+*CFOPEN,a10_sene6_modal_numeric,csv
+! 关闭空文件；循环将按 80 阶乘 6 个组件写入 480 行。
+*CFCLOS
+! 从第 1 阶遍历到第 80 阶；循环变量 I_MODE 表示模态阶次且单位为无量纲序号。
+*DO,I_MODE,1,80
+! 激活线性扰动载荷步 1 下的第 I_MODE 个模态结果集。
+SET,1,I_MODE
+! 恢复全部节点和单元选择，保证全模型总能量覆盖所有 172994 个元素。
+ALLSEL,ALL
+! 清空上一阶单元表，防止跨模态复用旧 SENE 数据。
+ETABLE,ERAS
+! 建立当前模态的元素应变能列；SENE 单位为 N·mm。
+ETABLE,POSTSENE,SENE
+! 对当前全模型元素应变能列求和。
+SSUM
+! 读取当前模态全模型总应变能；物理有效结果必须严格大于零。
+*GET,E_TOTAL,SSUM,0,ITEM,POSTSENE
+! 仅选择门架下横梁组件，准备计算组件应变能。
+CMSEL,S,GATE_BOTTOM_E
+! 对当前模态门架下横梁组件应变能求和。
+SSUM
+! 将门架下横梁组件应变能写入数组索引 1。
+*GET,E_COMP(1),SSUM,0,ITEM,POSTSENE
+! 恢复全部实体，为下一组件选择消除选择残留。
+ALLSEL,ALL
+! 仅选择门架顶柱组件，准备计算组件应变能。
+CMSEL,S,GATE_TOPPOST_E
+! 对当前模态门架顶柱组件应变能求和。
+SSUM
+! 将门架顶柱组件应变能写入数组索引 2。
+*GET,E_COMP(2),SSUM,0,ITEM,POSTSENE
+! 恢复全部实体，为下一组件选择消除选择残留。
+ALLSEL,ALL
+! 仅选择通道弦杆组件，准备计算组件应变能。
+CMSEL,S,PASS_CHORD152_E
+! 对当前模态通道弦杆组件应变能求和。
+SSUM
+! 将通道弦杆组件应变能写入数组索引 3。
+*GET,E_COMP(3),SSUM,0,ITEM,POSTSENE
+! 恢复全部实体，为下一组件选择消除选择残留。
+ALLSEL,ALL
+! 仅选择通道框架组件，准备计算组件应变能。
+CMSEL,S,PASS_FRAME102_E
+! 对当前模态通道框架组件应变能求和。
+SSUM
+! 将通道框架组件应变能写入数组索引 4。
+*GET,E_COMP(4),SSUM,0,ITEM,POSTSENE
+! 恢复全部实体，为下一组件选择消除选择残留。
+ALLSEL,ALL
+! 仅选择通道斜撑组件，准备计算组件应变能。
+CMSEL,S,PASS_BRACE51_E
+! 对当前模态通道斜撑组件应变能求和。
+SSUM
+! 将通道斜撑组件应变能写入数组索引 5。
+*GET,E_COMP(5),SSUM,0,ITEM,POSTSENE
+! 恢复全部实体，为下一组件选择消除选择残留。
+ALLSEL,ALL
+! 仅选择通道 RHS 组件，准备计算组件应变能。
+CMSEL,S,PASS_RHS5030_E
+! 对当前模态通道 RHS 组件应变能求和。
+SSUM
+! 将通道 RHS 组件应变能写入数组索引 6。
+*GET,E_COMP(6),SSUM,0,ITEM,POSTSENE
+! 恢复全部实体，保证当前模态结束时模型选择处于完整状态。
+ALLSEL,ALL
+! 当前模态全模型总能量非正时进入拒绝分支，禁止执行除法或写出无效比例。
+*IF,E_TOTAL,LE,0,THEN
+! 向主 OUT 写入固定拒绝标记，具体阶次可由此前 SET 回显定位。
+/COM,A10_SENE6_QA_FAIL_TOTAL_SENE_NONPOSITIVE
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束当前模态总能量门禁分支。
+*ENDIF
+! 从组件代码 1 遍历到 6，以统一计算并验证当前模态的组件比例。
+*DO,I_COMP,1,6
+! 当前组件能量为负时进入拒绝分支；零能量允许且比例应为零。
+*IF,E_COMP(I_COMP),LT,0,THEN
+! 向主 OUT 写入固定拒绝标记，具体模态和组件可由循环回显定位。
+/COM,A10_SENE6_QA_FAIL_COMPONENT_SENE_NEGATIVE
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束组件能量非负门禁分支。
+*ENDIF
+! 计算当前组件能量占当前模态全模型总能量的无量纲比例。
+R_COMP(I_COMP)=E_COMP(I_COMP)/E_TOTAL
+! 当前组件比例小于零时进入拒绝分支。
+*IF,R_COMP(I_COMP),LT,0,THEN
+! 向主 OUT 写入固定拒绝标记，具体模态和组件可由循环回显定位。
+/COM,A10_SENE6_QA_FAIL_COMPONENT_RATIO_BELOW_ZERO
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束组件比例下界门禁分支。
+*ENDIF
+! 当前组件比例大于一时进入拒绝分支；一表示该组件占据全模型全部能量。
+*IF,R_COMP(I_COMP),GT,1,THEN
+! 向主 OUT 写入固定拒绝标记，具体模态和组件可由循环回显定位。
+/COM,A10_SENE6_QA_FAIL_COMPONENT_RATIO_ABOVE_ONE
+! 无保存退出，保证既有 DB 与 RSTP 均不被修改。
+/EXIT,NOSAVE
+! 结束组件比例上界门禁分支。
+*ENDIF
+! 结束六组件比例计算与门禁循环。
+*ENDDO
+! 以追加模式打开总能量 CSV；每个模态仅写一行，最终应恰有 80 行。
+*CFOPEN,a10_sene6_mode_totals_numeric,csv,,APPEND
+! 写出模态阶次和全模型总 SENE；后续格式行以逗号分隔两列并保留十六位小数有效信息。
+*VWRITE,I_MODE,E_TOTAL
+(F4.0,',',E24.16)
+! 关闭总能量 CSV，确保当前模态记录立即落盘。
+*CFCLOS
+! 以追加模式打开长表 CSV；当前模态将连续写入六行组件记录。
+*CFOPEN,a10_sene6_modal_numeric,csv,,APPEND
+! 从组件代码 1 遍历到 6，以统一写出当前模态六条纯数值记录。
+*DO,I_COMP,1,6
+! 将当前数组项复制为标量组件能量，阻止 *VWRITE 自动向后展开数组余项。
+E_CURRENT=E_COMP(I_COMP)
+! 将当前数组项复制为标量组件比例，确保每次 *VWRITE 只生成一条记录。
+R_CURRENT=R_COMP(I_COMP)
+! 写出模态阶次、组件代码、总能量、标量组件能量和标量比例；后续格式行以逗号分隔五列。
+*VWRITE,I_MODE,I_COMP,E_TOTAL,E_CURRENT,R_CURRENT
+(F4.0,',',F2.0,3(',',E24.16))
+! 结束当前模态六条长表记录写出循环。
+*ENDDO
+! 关闭长表 CSV，确保当前模态六条记录立即落盘。
+*CFCLOS
+! 结束第 1 阶至第 80 阶结果遍历循环。
+*ENDDO
+! 恢复全部实体，确保后处理会话以完整选择状态结束。
+ALLSEL,ALL
+! 向主 OUT 写入唯一成功标记；外部 QA 还将独立重读全部数值 CSV。
+/COM,A10_SENE6_POSTONLY_QA_PASS
+! 离开通用后处理器，释放结果文件读取状态。
+FINISH
+! 无保存退出，明确禁止创建或覆盖任何数据库。
+/EXIT,NOSAVE

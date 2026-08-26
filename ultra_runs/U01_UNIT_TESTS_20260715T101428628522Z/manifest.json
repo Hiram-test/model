@@ -1,0 +1,466 @@
+{
+  "schema_version": 1,
+  "run_id": "U01_UNIT_TESTS",
+  "suite_id": "U01_UNIT_TESTS_20260715T101428628522Z",
+  "jobname": "u01_suite_0715t101428_c8",
+  "model_line": "UNIT_TEST",
+  "parent_run": "U00_SOURCE_GATE_20260715T024455Z",
+  "single_change": "eight isolated solver and element-chain known-answer tests",
+  "created_utc": "2026-07-15T10:14:28.628522+00:00",
+  "mapdl_version": "2026 R1 / v261",
+  "executable": "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+  "executable_sha256": "6c6327f6b906db8e6dd498bd38c97685d7e3e4acf52fccbf243b2dff7ed7af1b",
+  "orchestrator_source": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\ultra_u01_suite.py",
+  "orchestrator_sha256": "08717b637b4e41fb389e2fba325f4ec493b2737a1cd3a3c44c9b3e5a01154db3",
+  "orchestrator_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\orchestrator_snapshot\\ultra_u01_suite.py",
+  "units": "N-mm-tonne-s",
+  "coordinate_system": "X longitudinal, Y transverse, Z vertical",
+  "execute_requested": true,
+  "full_solve_memory_gate": {
+    "total_physical_bytes": 16556494848,
+    "available_physical_bytes": 7348350976,
+    "available_page_file_bytes": 18546933760,
+    "memory_load_percent": 55,
+    "full_solve_memory_ready": false
+  },
+  "cases": [
+    {
+      "case_id": "link_prestress",
+      "jobname": "cw_u01_01_0715t101428_c8",
+      "purpose": "LINK180 tension-only + INISTATE + NLGEOM + linear perturbation",
+      "parallel_mode": "SERIAL",
+      "processes": 1,
+      "mpi": "none",
+      "input_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\input_snapshot\\link_prestress.inp",
+      "input_sha256": "6360d7fcd43eb21796c116c688192f2d0513f5e4770bab3d0d45206c9c9fecc9",
+      "source_files": [
+        {
+          "path": "D:\\张靖皋大桥\\benchmark\\catwalk_dynamics_known_answer_20260713\\vm53_prestressed_string_modal.inp",
+          "sha256": "3214e0ce753395c4b96931139f180ddaef13f36d88960f396ab86410e0710507"
+        }
+      ],
+      "result_files": [
+        "vm53_result.csv"
+      ],
+      "status": "PASSED",
+      "started_utc": "2026-07-15T10:14:28.775885+00:00",
+      "return_code": 0,
+      "elapsed_seconds": 7.765999999999622,
+      "output_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\solver\\link_prestress\\cw_u01_01_0715t101428_c8.out",
+      "result_paths": [
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\link_prestress__vm53_result.csv"
+      ],
+      "errors": 0,
+      "warnings": 0,
+      "run_completed": true,
+      "finished_utc": "2026-07-15T10:14:36.560106+00:00"
+    },
+    {
+      "case_id": "beam_axis",
+      "jobname": "cw_u01_02_0715t101428_c8",
+      "purpose": "BEAM188 actual -Y axis and bidirectional bending",
+      "parallel_mode": "SERIAL",
+      "processes": 1,
+      "mpi": "none",
+      "input_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\input_snapshot\\beam_axis.inp",
+      "input_sha256": "b4d9cbc748ddfef6d0f10eb0e76ef61894d6b8580e21d5e1389bfebc52050ed7",
+      "source_files": [
+        {
+          "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\u01_templates\\u01_beam_axis.inp",
+          "sha256": "ebc5c43334f05557a1371191594ae0fced6d88d17e4ed4963888c525c44383c8"
+        }
+      ],
+      "result_files": [
+        "u01_beam_axis_result.csv"
+      ],
+      "status": "PASSED",
+      "started_utc": "2026-07-15T10:14:36.561809+00:00",
+      "return_code": 0,
+      "elapsed_seconds": 2.2340000000003783,
+      "output_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\solver\\beam_axis\\cw_u01_02_0715t101428_c8.out",
+      "result_paths": [
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\beam_axis__u01_beam_axis_result.csv"
+      ],
+      "errors": 0,
+      "warnings": 0,
+      "run_completed": true,
+      "finished_utc": "2026-07-15T10:14:38.810572+00:00"
+    },
+    {
+      "case_id": "sections",
+      "jobname": "cw_u01_03_0715t101428_c8",
+      "purpose": "six ASEC/native properties and short-beam shear",
+      "parallel_mode": "SERIAL",
+      "processes": 1,
+      "mpi": "none",
+      "input_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\input_snapshot\\sections.inp",
+      "input_sha256": "9cca232eb88746f6464e13e292259e94d1618aab03bba6298e77f3b9a89a780e",
+      "source_files": [
+        {
+          "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\u01_templates\\u01_sections.inp",
+          "sha256": "dd953fdb843ec2213c7444a24b692f96890c21862d7c9452d2edc5a81e247076"
+        }
+      ],
+      "result_files": [
+        "u01_section_properties.csv",
+        "u01_section_deflections.csv"
+      ],
+      "status": "PASSED",
+      "started_utc": "2026-07-15T10:14:38.813378+00:00",
+      "return_code": 0,
+      "elapsed_seconds": 2.188000000000102,
+      "output_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\solver\\sections\\cw_u01_03_0715t101428_c8.out",
+      "result_paths": [
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\sections__u01_section_properties.csv",
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\sections__u01_section_deflections.csv"
+      ],
+      "errors": 0,
+      "warnings": 0,
+      "run_completed": true,
+      "finished_utc": "2026-07-15T10:14:41.025585+00:00"
+    },
+    {
+      "case_id": "mpc_5e10",
+      "jobname": "cw_u01_04_0715t101428_c8",
+      "purpose": "MPC184 rigid arm and translation joint at 5E10 N/mm",
+      "parallel_mode": "SERIAL",
+      "processes": 1,
+      "mpi": "none",
+      "input_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\input_snapshot\\mpc_5e10.inp",
+      "input_sha256": "8f0cdc0ef48e97bcbdcbe7a3a7288c887894e343a4cc3845c15260be6092e10b",
+      "source_files": [
+        {
+          "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\runs\\modal_20260714_0627_penalty5e10_continue_stab1e4\\verification_snapshot\\mpc184_penalty_5e10.inp",
+          "sha256": "1dd1aa05a96988385e64f398ce68eeeaf8fa6e66e53081ead4b4c75544402c8e"
+        }
+      ],
+      "result_files": [
+        "mpc184_penalty_5e10_result.csv"
+      ],
+      "status": "PASSED",
+      "started_utc": "2026-07-15T10:14:41.027581+00:00",
+      "return_code": 0,
+      "elapsed_seconds": 2.5159999999996217,
+      "output_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\solver\\mpc_5e10\\cw_u01_04_0715t101428_c8.out",
+      "result_paths": [
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\mpc_5e10__mpc184_penalty_5e10_result.csv"
+      ],
+      "errors": 0,
+      "warnings": 0,
+      "run_completed": true,
+      "finished_utc": "2026-07-15T10:14:43.553792+00:00"
+    },
+    {
+      "case_id": "mpc_1e11",
+      "jobname": "cw_u01_05_0715t101428_c8",
+      "purpose": "adjacent MPC184 penalty convergence at 1E11 N/mm",
+      "parallel_mode": "SERIAL",
+      "processes": 1,
+      "mpi": "none",
+      "input_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\input_snapshot\\mpc_1e11.inp",
+      "input_sha256": "ece20830a75580b8a3f5599bec32bcf640faff7eb1122fc54dbefa80a4b5dc6f",
+      "source_files": [
+        {
+          "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\runs\\modal_20260714_0627_penalty5e10_continue_stab1e4\\verification_snapshot\\mpc184_penalty_5e10.inp",
+          "sha256": "1dd1aa05a96988385e64f398ce68eeeaf8fa6e66e53081ead4b4c75544402c8e"
+        }
+      ],
+      "result_files": [
+        "mpc184_penalty_1e11_result.csv"
+      ],
+      "status": "PASSED",
+      "started_utc": "2026-07-15T10:14:43.555778+00:00",
+      "return_code": 0,
+      "elapsed_seconds": 2.2340000000003783,
+      "output_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\solver\\mpc_1e11\\cw_u01_05_0715t101428_c8.out",
+      "result_paths": [
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\mpc_1e11__mpc184_penalty_1e11_result.csv"
+      ],
+      "errors": 0,
+      "warnings": 0,
+      "run_completed": true,
+      "finished_utc": "2026-07-15T10:14:45.807918+00:00"
+    },
+    {
+      "case_id": "revolute_6dof",
+      "jobname": "cw_u01_06_0715t101428_c8",
+      "purpose": "MPC184 revolute six unit load/moment cases",
+      "parallel_mode": "SERIAL",
+      "processes": 1,
+      "mpi": "none",
+      "input_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\input_snapshot\\revolute_6dof.inp",
+      "input_sha256": "7b3c850151c09390eb810095421b2df236028cbb185dbf7216e1af7e2837b72e",
+      "source_files": [
+        {
+          "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\u01_templates\\u01_revolute_6dof.inp",
+          "sha256": "5b803d299d0433927ebfb94a15e09b339736680a451099d4e8cbc62f70c95109"
+        }
+      ],
+      "result_files": [
+        "u01_revolute_6dof_result.csv",
+        "u01_revolute_joint_result.csv"
+      ],
+      "status": "PASSED",
+      "started_utc": "2026-07-15T10:14:45.810728+00:00",
+      "return_code": 0,
+      "elapsed_seconds": 2.3430000000007567,
+      "output_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\solver\\revolute_6dof\\cw_u01_06_0715t101428_c8.out",
+      "result_paths": [
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\revolute_6dof__u01_revolute_6dof_result.csv",
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\revolute_6dof__u01_revolute_joint_result.csv"
+      ],
+      "errors": 0,
+      "warnings": 3,
+      "run_completed": true,
+      "finished_utc": "2026-07-15T10:14:48.165620+00:00"
+    },
+    {
+      "case_id": "mass_serial",
+      "jobname": "cw_u01_07_0715t101428_c8",
+      "purpose": "MASS21 six-DOF analytic modal serial reference",
+      "parallel_mode": "SERIAL",
+      "processes": 1,
+      "mpi": "none",
+      "input_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\input_snapshot\\mass_serial.inp",
+      "input_sha256": "a62eb4022481eb475eca8a2b475f24cde1712cae9e580f78dfc988abe4e6791f",
+      "source_files": [
+        {
+          "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\u01_templates\\u01_mass_modal.inp",
+          "sha256": "173f0ad78e9ab26066475277a26e0e4f8db80d2496af7243fbed9411bc8f5213"
+        }
+      ],
+      "result_files": [
+        "u01_mass_modal_frequencies.csv",
+        "u01_mass_modal_vectors.csv",
+        "u01_mass_modal_closure.csv"
+      ],
+      "status": "PASSED",
+      "started_utc": "2026-07-15T10:14:48.168619+00:00",
+      "return_code": 0,
+      "elapsed_seconds": 2.2189999999991414,
+      "output_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\solver\\mass_serial\\cw_u01_07_0715t101428_c8.out",
+      "result_paths": [
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\mass_serial__u01_mass_modal_frequencies.csv",
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\mass_serial__u01_mass_modal_vectors.csv",
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\mass_serial__u01_mass_modal_closure.csv"
+      ],
+      "errors": 0,
+      "warnings": 1,
+      "run_completed": true,
+      "finished_utc": "2026-07-15T10:14:50.406794+00:00"
+    },
+    {
+      "case_id": "mass_dmp4",
+      "jobname": "cw_u01_08_0715t101428_c8",
+      "purpose": "MASS21 DMP4 merge and vector export",
+      "parallel_mode": "DMP",
+      "processes": 4,
+      "mpi": "intelmpi",
+      "input_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\input_snapshot\\mass_dmp4.inp",
+      "input_sha256": "625170dda37c144e60a4cdc0921ae1d640ad6ae6a16c5697487920284cd6d0ca",
+      "source_files": [
+        {
+          "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\u01_templates\\u01_mass_modal.inp",
+          "sha256": "173f0ad78e9ab26066475277a26e0e4f8db80d2496af7243fbed9411bc8f5213"
+        }
+      ],
+      "result_files": [
+        "u01_mass_modal_frequencies.csv",
+        "u01_mass_modal_vectors.csv",
+        "u01_mass_modal_closure.csv"
+      ],
+      "status": "PASSED",
+      "started_utc": "2026-07-15T10:14:50.409288+00:00",
+      "return_code": 0,
+      "elapsed_seconds": 3.7659999999996217,
+      "output_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\solver\\mass_dmp4\\cw_u01_08_0715t101428_c8.out",
+      "result_paths": [
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\mass_dmp4__u01_mass_modal_frequencies.csv",
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\mass_dmp4__u01_mass_modal_vectors.csv",
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\mass_dmp4__u01_mass_modal_closure.csv"
+      ],
+      "errors": 0,
+      "warnings": 1,
+      "run_completed": true,
+      "finished_utc": "2026-07-15T10:14:54.201938+00:00"
+    }
+  ],
+  "status": "PASSED",
+  "started_utc": "2026-07-15T10:14:28.774251+00:00",
+  "finished_utc": "2026-07-15T10:14:54.258886+00:00",
+  "final_memory_gate": {
+    "total_physical_bytes": 16556494848,
+    "available_physical_bytes": 7257460736,
+    "available_page_file_bytes": 18450644992,
+    "memory_load_percent": 56,
+    "full_solve_memory_ready": false
+  },
+  "tests": [
+    {
+      "test_id": "U01_01_LINK180_FULL_CHAIN",
+      "passed": true,
+      "maximum_relative_error": 1.7880805616140406e-05,
+      "threshold": 0.001,
+      "actual": [
+        499.998940224,
+        162974.40625,
+        74.8901197806,
+        150.8746474816,
+        229.0595320293
+      ],
+      "expected": [
+        499.99,
+        162974.0,
+        74.89,
+        150.875,
+        229.06
+      ]
+    },
+    {
+      "test_id": "U01_02_BEAM188_AXIS",
+      "passed": true,
+      "maximum_relative_error": 0.0008501817980253099,
+      "threshold": 0.002,
+      "orthogonality_max_abs_dot": 0.0,
+      "handedness": 1.0,
+      "mapdl": [
+        0.097032930908583,
+        0.277785225587319
+      ],
+      "theory": [
+        0.096950505353622,
+        0.277755098373893
+      ]
+    },
+    {
+      "test_id": "U01_03_SECTIONS",
+      "passed": true,
+      "maximum_property_relative_error": 3.5434996739929223e-16,
+      "property_threshold": 0.001,
+      "maximum_shear_mapping_relative_error": 4.428430504115966e-16,
+      "shear_threshold": 0.005,
+      "maximum_deflection_relative_error": 1.4042078936210875e-05,
+      "deflection_threshold": 0.005,
+      "maximum_reported_deflection_error_difference": 3.7792661930708196e-16,
+      "reported_error_consistency_threshold": 1e-10,
+      "maximum_native_torsion_difference_from_frozen_target": 0.07087934167231925,
+      "native_sections_role": "REFERENCE_ONLY_NOT_AUTOMATIC_PRODUCTION"
+    },
+    {
+      "test_id": "U01_04_MPC184",
+      "passed": true,
+      "maximum_rigid_arm_absolute_error_mm": 0.0,
+      "maximum_joint_slip_mm": 9.1944e-06,
+      "slip_threshold_mm": 1e-05,
+      "adjacent_penalty_flexibility_change": 4.616475073102893e-08,
+      "flexibility_threshold": 0.001,
+      "penalty_values_n_per_mm": [
+        50000000000.0,
+        100000000000.0
+      ]
+    },
+    {
+      "test_id": "U01_05_REVOLUTE_6DOF",
+      "passed": true,
+      "maximum_locked_relative_motion": 1.058791184067875e-22,
+      "locked_motion_threshold": 1e-08,
+      "nodal_free_relative_rotation_rad": 0.00099999997186313,
+      "official_jru4_free_relative_rotation_rad": 0.0009999999310821295,
+      "expected_free_rotation_rad": 0.001,
+      "free_rotation_absolute_error": 6.891787054236209e-11,
+      "free_rotation_error_threshold_rad": 1e-08,
+      "nodal_official_rotation_difference_rad": 4.078100053830913e-11,
+      "rotation_consistency_threshold_rad": 1e-08,
+      "free_axis_stiffness_n_mm_per_rad": 1000.00002813687,
+      "expected_free_axis_stiffness_n_mm_per_rad": 1000.0,
+      "free_stiffness_relative_error": 2.813687001435028e-08,
+      "free_stiffness_relative_error_threshold": 1e-05,
+      "free_axis_parasitic_moment_n_mm": 0.0,
+      "parasitic_moment_threshold_n_mm": 1e-08,
+      "official_jrp4_free_relative_position_rad": 0.0,
+      "target_constraint_responses": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "maximum_unit_constraint_response_error": 0.0,
+      "constrained_to_free_rotational_stiffness_ratio": 8583333.09182524,
+      "minimum_stiffness_ratio": 1000000.0
+    },
+    {
+      "test_id": "U01_06_MASS21_INERTIA",
+      "passed": true,
+      "maximum_frequency_relative_error": 1.9984014443252818e-15,
+      "threshold": 1e-06,
+      "actual_hz": [
+        1.000000000000002,
+        2.0,
+        2.999999999999997,
+        4.0,
+        4.999999999999999,
+        5.999999999999998
+      ],
+      "expected_hz": [
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+      ],
+      "minimum_modal_purity": 0.999999999999929
+    },
+    {
+      "test_id": "U01_07_BLOCK_LANCZOS_CLOSURE",
+      "passed": true,
+      "serial_observed_counts": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "serial_apdl_reported_counts": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "dmp_observed_counts": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "dmp_apdl_reported_counts": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "count_order": [
+        "requested_modes",
+        "frequency_rows",
+        "error_free_set_vector_rows",
+        "vector_rows"
+      ],
+      "frequency_band_hz": [
+        0.0,
+        7.0
+      ],
+      "known_physical_dof_count": 6
+    },
+    {
+      "test_id": "U01_08_DMP4_EXPORT",
+      "passed": true,
+      "maximum_frequency_difference_hz": 1.9984014443252818e-15,
+      "frequency_threshold_hz": 1e-08,
+      "maximum_normalized_vector_difference": 2.948631278478535e-14,
+      "vector_threshold": 1e-08,
+      "processes": 4,
+      "mpi": "intelmpi"
+    }
+  ],
+  "next_action": "PREPARE_B00_ISOLATED_INPUT_ONLY"
+}

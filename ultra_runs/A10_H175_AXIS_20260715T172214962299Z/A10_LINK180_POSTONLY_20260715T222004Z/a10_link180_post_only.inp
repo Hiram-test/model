@@ -1,0 +1,112 @@
+! 清空当前会话且不读取启动文件，确保本审计不继承任何未封存的内存状态。
+/CLEAR,NOSTART
+! 只读恢复 A10 的 LS2 平衡数据库；相对路径固定指向父运行目录的 solver 副本。
+RESUME,'..\solver\cw_A10_0715t172214_24_eq','db'
+! 进入通用后处理器，仅访问既有静态结果文件。
+/POST1
+! 显式绑定 A10 合并静态结果文件；扩展名 rst 表示非线性静力结果。
+FILE,'..\solver\cw_A10_0715t172214_24','rst'
+! 读取载荷步 2 的最后结果集；该结果集时间应为 1.001，且正是模态扰动基态。
+SET,2,LAST
+! 读取当前结果集的载荷步编号，用于证明审计读取的是 LS2。
+*GET,A10_LS,ACTIVE,0,SET,LSTP
+! 读取当前结果集时间，用于证明审计读取的是 1.001 终态。
+*GET,A10_TIME,ACTIVE,0,SET,TIME
+! 恢复全部实体选择，避免数据库保存时的选择状态影响审计范围。
+ALLSEL,ALL
+! 只选择 TYPE 4；A10 冻结模型规定 TYPE 4 为全部 LINK180 索单元。
+ESEL,S,TYPE,,4
+! 读取选中 LINK180 单元总数；硬门禁目标为 73692 个。
+*GET,A10_LINK_COUNT,ELEM,0,COUNT
+! 清空数据库内可能继承的单元表标签，避免同名结果列污染。
+ETABLE,ERAS
+! 从 LINK180 的 SMISC 第 1 项建立轴力列；单位沿用模型的 N。
+ETABLE,AXIAL_F,SMISC,1
+! 把已写出记录数初始化为 0，供 CSV 行数闭合。
+A10_WRITTEN=0
+! 把非正轴力计数初始化为 0；轴力小于或等于 0 N 均计入失败集合。
+A10_NONPOS=0
+! 用 1.0E199 N 初始化最小值哨兵；该值低于 APDL 的 1.0E200 输入上限且高于任何真实轴力。
+A10_MIN_FORCE=1.0E199
+! 把最小轴力对应单元号初始化为 0，表示尚未读取任何单元。
+A10_MIN_EID=0
+! 用 -1.0E199 N 初始化最大值哨兵；其绝对值低于 APDL 上限且任一真实轴力都会替换它。
+A10_MAX_FORCE=-1.0E199
+! 把最大轴力对应单元号初始化为 0，表示尚未读取任何单元。
+A10_MAX_EID=0
+! 读取当前选中集合的最小单元号，作为严格递增遍历起点。
+*GET,A10_EID,ELEM,0,NUM,MIN
+! 打开无标题纯数值 CSV；两列依次为 element_id 与 axial_force_n。
+*CFOPEN,a10_link180_axial_force_n,csv
+! 只有选中单元数大于 0 时才进入遍历，避免空集合产生伪记录。
+*IF,A10_LINK_COUNT,GT,0,THEN
+! 按实际选中单元数循环，确保循环次数与预期 CSV 记录数一致。
+*DO,A10_I,1,A10_LINK_COUNT
+! 读取当前 LINK180 单元的 SMISC,1 轴力，单位为 N。
+*GET,A10_FORCE,ELEM,A10_EID,ETAB,AXIAL_F
+! 写出当前单元号和轴力；下一行格式保证只有两个数值字段且用逗号分隔。
+*VWRITE,A10_EID,A10_FORCE
+(F12.0,',',E24.16)
+! 已写出记录数增加 1，用于和选择计数及外部 CSV 行数三方闭合。
+A10_WRITTEN=A10_WRITTEN+1
+! 当当前轴力小于已知最小值时，更新最小值及其单元号。
+*IF,A10_FORCE,LT,A10_MIN_FORCE,THEN
+! 保存更小的轴力值，单位为 N。
+A10_MIN_FORCE=A10_FORCE
+! 保存更小轴力对应的 LINK180 单元号。
+A10_MIN_EID=A10_EID
+! 结束最小值更新分支。
+*ENDIF
+! 当当前轴力大于已知最大值时，更新最大值及其单元号。
+*IF,A10_FORCE,GT,A10_MAX_FORCE,THEN
+! 保存更大的轴力值，单位为 N。
+A10_MAX_FORCE=A10_FORCE
+! 保存更大轴力对应的 LINK180 单元号。
+A10_MAX_EID=A10_EID
+! 结束最大值更新分支。
+*ENDIF
+! 轴力小于或等于 0 N 时进入非正计数分支。
+*IF,A10_FORCE,LE,0.0,THEN
+! 非正轴力计数增加 1；硬门禁要求最终值严格等于 0。
+A10_NONPOS=A10_NONPOS+1
+! 结束非正轴力计数分支。
+*ENDIF
+! 读取当前选中集合中的下一单元号，保持遍历严格覆盖全部 TYPE 4 单元。
+*GET,A10_EID,ELEM,A10_EID,NXTH
+! 结束 LINK180 单元遍历循环。
+*ENDDO
+! 结束非空选择集合分支。
+*ENDIF
+! 关闭纯数值 CSV，确保全部缓冲内容落盘。
+*CFCLOS
+! 把硬门禁初始状态设为 0，表示尚未同时满足数量与非正计数条件。
+A10_GATE_PASS=0
+! 只有实际选择数严格等于冻结目标 73692 时才检查第二项条件。
+*IF,A10_LINK_COUNT,EQ,73692,THEN
+! 只有非正轴力计数严格等于 0 时才允许门禁通过。
+*IF,A10_NONPOS,EQ,0,THEN
+! 两项硬条件均满足时把门禁状态设为 1。
+A10_GATE_PASS=1
+! 结束非正轴力为零分支。
+*ENDIF
+! 结束 LINK180 数量闭合分支。
+*ENDIF
+! 把机器可解析摘要重定向到独立文本文件，不污染纯数值 CSV。
+/OUTPUT,a10_link180_summary,txt
+! 写出实际选择数、CSV 写出数、非正计数和门禁布尔值；下一行给出固定字段名与数值格式。
+*VWRITE,A10_LINK_COUNT,A10_WRITTEN,A10_NONPOS,A10_GATE_PASS
+('ACTUAL_COUNT=',F12.0,',WRITTEN_COUNT=',F12.0,',NONPOSITIVE_COUNT=',F12.0,',GATE_PASS=',F4.0)
+! 写出最小轴力、对应单元号、最大轴力和对应单元号；下一行单位均明确为 N 或无量纲编号。
+*VWRITE,A10_MIN_FORCE,A10_MIN_EID,A10_MAX_FORCE,A10_MAX_EID
+('MIN_FORCE_N=',E24.16,',MIN_ELEMENT_ID=',F12.0,',MAX_FORCE_N=',E24.16,',MAX_ELEMENT_ID=',F12.0)
+! 写出结果集载荷步和时间；下一行用于证明本审计锁定 LS2、TIME=1.001。
+*VWRITE,A10_LS,A10_TIME
+('RESULT_LOAD_STEP=',F8.0,',RESULT_TIME=',E24.16)
+! 恢复主输出文件，使退出统计和任何诊断都保留在独立 OUT 中。
+/OUTPUT
+! 恢复全部实体选择，避免结束时留下局部选择状态。
+ALLSEL,ALL
+! 离开通用后处理器，不保存任何数据库变更。
+FINISH
+! 无保存退出独立会话，明确禁止覆盖源 DB 或创建派生数据库。
+/EXIT,NOSAVE

@@ -1,0 +1,3 @@
+# 恒总荷载位置迁移机器字段说明
+
+JSON 不允许注释，因此字段语义集中记录于此。`beta=1` 表示完整 ACEL 与空间化质量均已存在，同时施加 `old_FZ + mass*9806` 的零合力修正向量，使二期重力回到原 MCT 初始内力对应的旧节点位置；`beta=0` 表示在完全相同的 15,071 节点集以 replacement 方式显式写入零值，最终只保留真实 MASS21 重力。迁移 include 不执行 `FDELE`，避免求解器把删除节点力解释为阶跃卸载。LS2 使用 `KBC=0` 从 beta=1 连续插值到 beta=0；因为修正向量总和小于 1E-6 N，所以每个插值子步的全桥总竖向荷载保持不变。`mpc184_keyopt5_static=1` 表示只在本次非线性静力诊断中排除 TYPE72 rigid-beam 几何应力刚度；连接运动学、直接消元、初始内力、荷载、0.5% 子步和四项收敛标准均未改变。`prestressed_modal_requires_keyopt5_restore_to_zero=true` 表示即使静力通过也不得直接做模态，必须先在隔离副本中恢复 KEYOPT(5)=0 并通过重启微验证。 力单位 N，长度 mm，质量 tonne，加速度 mm/s²。`STATIC_DIAGNOSTIC_PREPARED` 只表示输入和证据门通过，不表示 MAPDL 已启动或静力已收敛。方程数恒定和无 small/zero/negative pivot 仍是不可删除硬门；`modal_requested=false` 与 `production_claim_allowed=false` 禁止本包产生模态或生产结论。

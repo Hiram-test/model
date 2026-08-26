@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "run_name": "C10_A0_DIRECT_SPATIAL_RAMP_20260802T033900229376Z",
+  "jobname": "cw_C10a0_0802t033900229376_d1",
+  "status": "STATIC_DIAGNOSTIC_PREPARED",
+  "diagnostic_subtype": "A0_CURRENT_TYPE72_S10_DIRECT_SPATIAL_GRAVITY_RAMP_STATIC_ONLY_NRRE",
+  "created_at_utc": "2026-08-02T03:39:00.229376+00:00",
+  "parent_run": "C10_MPC_ONLY_20260801T190630474559Z",
+  "successful_control_reference_run": "S10_SECTION_SHEAR_20260716T050342389124Z",
+  "constraint_topology": "SINGLE_TYPE72_NO_AUX_NO_TYPE73",
+  "constraint_imposition": "DIRECT_ELIMINATION",
+  "expected_topology": {
+    "nodes": 109086,
+    "elements": 178072,
+    "TYPE4": 73692,
+    "TYPE6": 48620,
+    "TYPE70": 17679,
+    "TYPE71": 33003,
+    "TYPE72": 5078,
+    "TYPE73": 0,
+    "CERIG_commands": 0,
+    "CP_commands": 12,
+    "D_commands": 3968
+  },
+  "expected_equation_count": 1234834,
+  "main_input": "solver/c10_a0_direct_spatial_ramp_main.inp",
+  "main_input_sha256": "d4af7c89f1dc8b27d5d0883dd5c0ecf7e4c58ad3c7a24cbf7e461074f7ca3940",
+  "controlled_include": "solver/apply_finite_gates_and_passages_v2.inp",
+  "controlled_include_sha256": "4f7da8425a25739c694880422c4d2188088b83c1d64170baf44accd922b5b01e",
+  "dependencies": [
+    {
+      "order": 1,
+      "name": "full_line_beam4_crossbeam_mesh_xlong.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+      "solver_sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+      "byte_invariant": true
+    },
+    {
+      "order": 2,
+      "name": "convert_crossbeams_beam4_to_beam188.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+      "solver_sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+      "byte_invariant": true
+    },
+    {
+      "order": 3,
+      "name": "apply_mct_downpull_equivalent_xlong.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+      "solver_sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+      "byte_invariant": true
+    },
+    {
+      "order": 4,
+      "name": "apply_mct_constraints_xlong.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+      "solver_sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+      "byte_invariant": true
+    },
+    {
+      "order": 5,
+      "name": "apply_mct_authoritative_initial_state_link180.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+      "solver_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+      "byte_invariant": true
+    },
+    {
+      "order": 6,
+      "name": "apply_finite_gates_and_passages_v2.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "4f7da8425a25739c694880422c4d2188088b83c1d64170baf44accd922b5b01e",
+      "solver_sha256": "4f7da8425a25739c694880422c4d2188088b83c1d64170baf44accd922b5b01e",
+      "byte_invariant": true
+    },
+    {
+      "order": 7,
+      "name": "apply_modal_roty_stabilization_xlong.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+      "solver_sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+      "byte_invariant": true
+    },
+    {
+      "order": 8,
+      "name": "define_representative_rope_component.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+      "solver_sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+      "byte_invariant": true
+    },
+    {
+      "order": 9,
+      "name": "apply_authoritative_mct_deadload_v1.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+      "solver_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+      "byte_invariant": true
+    },
+    {
+      "order": 10,
+      "name": "apply_dynamic_mass21_spatialized_v2.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+      "solver_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+      "byte_invariant": true
+    },
+    {
+      "order": 11,
+      "name": "apply_authoritative_mct_gravity_v1.inp",
+      "source_run": "C10_MPC_ONLY_20260801T190630474559Z",
+      "source_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+      "solver_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+      "byte_invariant": true
+    }
+  ],
+  "load_path_mode": "S10_DIRECT_SPATIAL_MASS21_GRAVITY_RAMP_NO_MIGRATION",
+  "ls1": {
+    "kbc": 0,
+    "autots": true,
+    "nsubst": [
+      20,
+      200,
+      20
+    ],
+    "pred": "OFF",
+    "time": 1.0
+  },
+  "ls2": {
+    "kbc": 0,
+    "autots": false,
+    "nsubst": [
+      1,
+      1,
+      1
+    ],
+    "time": 1.001,
+    "physical_load_increment": 0.0
+  },
+  "nrre": {
+    "enabled": true,
+    "label": "NRRE",
+    "maxfile": 50,
+    "eflg_enabled": false
+  },
+  "convergence_acceptance_scope": "DEFAULT_CNVTOL_DIAGNOSTIC_ONLY",
+  "default_cnvtol_log_auto_relaxation_allowed": false,
+  "cnvtol_explicit_command_count": 0,
+  "cnvtol_changed": false,
+  "if_a0_passes_next_run": "A0B_SAME_PATH_WITH_CURRENT_FOUR_EXPLICIT_CNVTOL_STATIC_ACCEPTANCE",
+  "a0_direct_production_promotion_allowed": false,
+  "mpc184_keyopt5_static": 0,
+  "keyopt_changed": false,
+  "initial_state_changed": false,
+  "mass_changed": false,
+  "load_changed": false,
+  "modal_requested": false,
+  "production_claim_allowed": false,
+  "static_result_expected": true,
+  "runtime_equation_count_change_allowed": false,
+  "runtime_small_zero_negative_pivot_allowed": false,
+  "mapdl_executable": "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+  "mapdl_executable_sha256": "6c6327f6b906db8e6dd498bd38c97685d7e3e4acf52fccbf243b2dff7ed7af1b",
+  "execution_mode": "SMP_SERIAL_NP1_DIAGNOSTIC_ONLY",
+  "launch_argv": [
+    "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+    "-b",
+    "-smp",
+    "-np",
+    "1",
+    "-j",
+    "cw_C10a0_0802t033900229376_d1",
+    "-dir",
+    "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_A0_DIRECT_SPATIAL_RAMP_20260802T033900229376Z\\solver",
+    "-i",
+    "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_A0_DIRECT_SPATIAL_RAMP_20260802T033900229376Z\\solver\\c10_a0_direct_spatial_ramp_main.inp",
+    "-o",
+    "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_A0_DIRECT_SPATIAL_RAMP_20260802T033900229376Z\\solver\\cw_C10a0_0802t033900229376_d1.out"
+  ],
+  "runtime_execute_script": "input_snapshot/ultra_c10_a0_execute.py",
+  "runtime_execute_script_sha256": "027070ebe0d555b112d05f0a461dc1d4eef0075e75f40a6b0c6415ee1f88133b",
+  "runtime_monitor_script": "input_snapshot/ultra_c10_a0_monitor.py",
+  "runtime_monitor_script_sha256": "b5b7c6557d6f3734472cc34a644aa358346d30fc3067a7a459b0815fa22a76b9",
+  "runtime_static_helper_script": "input_snapshot/ultra_c10_static_execute.py",
+  "runtime_static_helper_script_sha256": "7bee826507f21b2290100ce547e51313099a789d524aeea439be8a361ab76b95",
+  "runtime_monitor_helper_script": "input_snapshot/ultra_c10_adaptive_monitor.py",
+  "runtime_monitor_helper_script_sha256": "fc614f1d33da256cc644f671a21d173a01a4243a022fced09e5051161258d9c5"
+}

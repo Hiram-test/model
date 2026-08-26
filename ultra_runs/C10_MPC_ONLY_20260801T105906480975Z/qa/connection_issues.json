@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "status": "OPEN_ITEMS_RESTRICT_PRODUCTION_USE",
+  "issues": [
+    {
+      "id": "C10-DWG-01",
+      "severity": "MEDIUM",
+      "status": "OPEN",
+      "description": "5078 条连接有 S10/CERIG 和 builder 元数据来源，但没有逐条图纸编号引用。",
+      "effect": "candidate may be used for connection-repair validation only"
+    },
+    {
+      "id": "C10-NUM-01",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "description": "五档乘六工况、全桥静力、矩阵条件和模态敏感性尚未执行。",
+      "effect": "launch and production claims remain disabled"
+    },
+    {
+      "id": "C10-RANK-01",
+      "severity": "MEDIUM",
+      "status": "OPEN",
+      "description": "有限转动 MPC184 的装配切线数值秩必须在 MAPDL 组装后验证。",
+      "effect": "static symbolic audit is not a numerical rank proof"
+    },
+    {
+      "id": "C10-BUILDER-01",
+      "severity": "LOW",
+      "status": "DOCUMENTED",
+      "description": "旧物理 builder 所需 tail_nodes.csv 已缺失，且旧重生方法会污染最终 S10 编号边界。",
+      "effect": "this run uses an exact reversible patch instead"
+    }
+  ]
+}

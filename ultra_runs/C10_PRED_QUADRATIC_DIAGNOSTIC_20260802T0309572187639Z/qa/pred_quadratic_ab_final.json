@@ -1,0 +1,133 @@
+{
+  "schema": "c10_pred_quadratic_single_variable_ab_v1",
+  "generated_at_utc": "2026-08-02T03:38:56.3350040Z",
+  "status": "PRED_QUADRATIC_FAILED_TO_ACCEPT_SS3",
+  "decision": {
+    "ss3_accepted": false,
+    "new_equilibrium_iterations": 8,
+    "source_cumulative_iterations": 93,
+    "final_cumulative_iteration_limit": 101,
+    "termination": "MAPDL_NATIVE_CUMULATIVE_ITERATION_EXCEEDED",
+    "production_use_allowed": false,
+    "continuation_use_allowed": false,
+    "static_pass": false,
+    "modal_pass": false
+  },
+  "single_variable_contract": {
+    "baseline_predictor": "PRED,OFF",
+    "variant_predictor": "PRED,QUADRATIC",
+    "inherited_unchanged_controls": {
+      "newton_raphson": "FULL",
+      "line_search": "ON",
+      "restart": "ANTYPE,,REST,2,2,CONTINUE",
+      "target": "load_step_2_substep_3",
+      "loads_constraints_and_source_state": "UNCHANGED"
+    },
+    "diagnostic_limits": {
+      "neqit": 8,
+      "ncnv_cumulative": 101,
+      "nldiag": "NRRE,ON,50"
+    }
+  },
+  "source_restart_copy": {
+    "source_run": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z",
+    "copy_equality": "PASS_5_OF_5",
+    "files": {
+      "R001": {
+        "bytes": 867893248,
+        "sha256": "a1aa905c2393daddb0e0885cd0e4bbda8b3b6b9729617508942989f4cffe4218"
+      },
+      "R002": {
+        "bytes": 878837760,
+        "sha256": "8ac2cc008f8020d5cd0e15abfe4d0f7f23d5f3b315d3f44a4433777270ac324f"
+      },
+      "RDB": {
+        "bytes": 205389824,
+        "sha256": "f1cbbdad9ced630e967030c670780f7b36568218330836fa9ce51df39e2c168a"
+      },
+      "LDHI": {
+        "bytes": 1873942,
+        "sha256": "9ff90084693388cc33232d19b17d9ef8f0183aabce77be3bc6b1f0869a19de3d"
+      },
+      "RST": {
+        "bytes": 531628032,
+        "sha256": "66d595e30e9c4dffcc85927cb972e4409bccbd381b9eb6a1c4c11dfcbf3570ee"
+      }
+    },
+    "prepared_manifest_sha256": "48b66a8e4f98f3016b930693e6478101c261cf00c21ae9e687729205c730e1bf"
+  },
+  "runtime_evidence": {
+    "run_id": "C10_PRED_QUADRATIC_DIAGNOSTIC_20260802T0309572187639Z",
+    "jobname": "cw_C10pq_0802030957223",
+    "started_at_utc": "2026-08-02T03:15:53Z",
+    "wrapper_pid": 42412,
+    "solver_pid": 34276,
+    "natural_exit_confirmed": true,
+    "lock_present_after_exit": false,
+    "stable_file_check_seconds": 5,
+    "stable_file_change_count": 0,
+    "nrre_file_count": 8,
+    "nodes_per_nrre": 91407,
+    "nrre_iterations": [1, 2, 3, 4, 5, 6, 7, 8],
+    "r003_exists": false,
+    "mntr_accepted_ss3_rows": 0,
+    "solver_output_sha256": "acce9a994bb089e615a8c4f59039c5eef96b1f711e241eceebf5248496662d13",
+    "termination_signatures": [
+      "The number of iterations exceeds 101. The run is terminated at the user's request.",
+      "REASON FOR TERMINATION: CUMULATIVE ITERATION EXCEEDED",
+      "The unconverged solution (identified as time 1.001 substep 999999) is output for analysis debug purposes. Results should not be used for any other purpose."
+    ]
+  },
+  "solver_readback": {
+    "quadratic_predictor": "USE QUADRATIC PREDICTOR METHOD FOR ALL DEGREES OF FREEDOM",
+    "predictor_usage": "ON (ALL SUBSTEPS)",
+    "newton_raphson": "FULL",
+    "line_search": "ON",
+    "maximum_equilibrium_iterations": 8,
+    "maximum_cumulative_iterations": 101
+  },
+  "ab_comparison": {
+    "baseline_run": "C10_RESTART_NRRE_DIAGNOSTIC_20260802T0233180311824Z",
+    "baseline_outcome": "SS3_NOT_ACCEPTED_AFTER_12_ITERATIONS",
+    "variant_outcome": "SS3_NOT_ACCEPTED_AFTER_8_ITERATIONS",
+    "iterations_1_to_8": [
+      {"iteration": 1, "baseline_cnvv_n": 74.51, "quadratic_cnvv_n": 23980.0, "quadratic_to_baseline_ratio": 321.8359951684338, "change_percent": 32083.59951684338, "quadratic_cnvc_n": 47870.0},
+      {"iteration": 2, "baseline_cnvv_n": 8535000.0, "quadratic_cnvv_n": 7718000.0, "quadratic_to_baseline_ratio": 0.9042765084944347, "change_percent": -9.572349150556532, "quadratic_cnvc_n": 47870.0},
+      {"iteration": 3, "baseline_cnvv_n": 8541.0, "quadratic_cnvv_n": 7223.0, "quadratic_to_baseline_ratio": 0.8456855169183936, "change_percent": -15.431448308160637, "quadratic_cnvc_n": 47870.0},
+      {"iteration": 4, "baseline_cnvv_n": 914400.0, "quadratic_cnvv_n": 83300.0, "quadratic_to_baseline_ratio": 0.09109798775153106, "change_percent": -90.8902012248469, "quadratic_cnvc_n": 47870.0},
+      {"iteration": 5, "baseline_cnvv_n": 1077000.0, "quadratic_cnvv_n": 96110.0, "quadratic_to_baseline_ratio": 0.08923862581244197, "change_percent": -91.0761374187558, "quadratic_cnvc_n": 47870.0},
+      {"iteration": 6, "baseline_cnvv_n": 252.3, "quadratic_cnvv_n": 111100.0, "quadratic_to_baseline_ratio": 440.3487911216805, "change_percent": 43934.87911216805, "quadratic_cnvc_n": 47870.0},
+      {"iteration": 7, "baseline_cnvv_n": 79160.0, "quadratic_cnvv_n": 128600.0, "quadratic_to_baseline_ratio": 1.62455785750379, "change_percent": 62.45578575037898, "quadratic_cnvc_n": 47870.0},
+      {"iteration": 8, "baseline_cnvv_n": 90200.0, "quadratic_cnvv_n": 149000.0, "quadratic_to_baseline_ratio": 1.6518847006651885, "change_percent": 65.18847006651885, "quadratic_cnvc_n": 56260.0}
+    ],
+    "summary_metrics": {
+      "baseline_first8_peak_cnvv_n": 8535000.0,
+      "quadratic_first8_peak_cnvv_n": 7718000.0,
+      "peak_reduction_percent": 9.57234915055654,
+      "baseline_first8_median_cnvv_n": 84680.0,
+      "quadratic_first8_median_cnvv_n": 103605.0,
+      "median_change_percent": 22.3488427019367,
+      "iteration8_change_percent": 65.1884700665188,
+      "baseline_first8_numeric_force_pass_count": 3,
+      "quadratic_first8_numeric_force_pass_count": 2
+    }
+  },
+  "residual_localization": {
+    "all_eight_iterations_force_top50_type72_count": 50,
+    "all_eight_iterations_force_top50_all_mode_count": 50,
+    "all_eight_iterations_force_top50_migration_node_count": 50,
+    "persistent_master_examples": [2005065, 2000524, 2004873, 2000332],
+    "persistent_slave_examples": [2011246, 2011220, 2010268, 2010242],
+    "interpretation": "Quadratic prediction changed amplitudes and phase but did not move the residual away from the same TYPE72 ALL gate/Hxx and migration-node interface family."
+  },
+  "engineering_conclusion": {
+    "classification": "FAILED_NUMERICAL_CONTROL_ONLY_HYPOTHESIS",
+    "statement": "PRED,QUADRATIC suppresses the iteration-4/5 peaks but does not accept SS3, worsens the first-eight median and final residual, and leaves the same interface-localized hotspot family. It is not a valid repair.",
+    "next_action_boundary": "Do not continue this restart or use its debug solution. Repair and verify the physical connection/load-transfer abstraction before another endpoint solve."
+  },
+  "evidence": {
+    "baseline_nrre_audit_json_sha256": "a7b417c108cba851ae41e283d41eb6f157c7ba5d24687b063a0612d6cd433907",
+    "variant_nrre_audit_json_sha256": "bf5863337b7170b1b73c0f21cee4e7bc387925415ea155ca1d0e212ee5f213e2",
+    "variant_nrre_hash_manifest_sha256": "5812e41512b51b276f876856c1d00594f7283c4e36cc75bcc555364d3720e0a8"
+  }
+}

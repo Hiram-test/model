@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "run_id": "B00_LEGACY_COMPLETE",
+  "model_line": "LEGACY",
+  "status": "PREPARED_NOT_STARTED",
+  "next_action": "B00_PREFLIGHT_MEMORY_AND_INDEPENDENT_AUDIT_REQUIRED",
+  "created_utc": "2026-07-15T11:11:05.670409+00:00",
+  "run_dir_name": "B00_LEGACY_COMPLETE_20260715T111105670409Z",
+  "run_dir": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\B00_LEGACY_COMPLETE_20260715T111105670409Z",
+  "jobname": "cw_B00_0715t111105_ca",
+  "jobname_length": 21,
+  "parent_u00": "U00_SOURCE_GATE_20260715T024455Z",
+  "parent_u01": "U01_UNIT_TESTS_20260715T101428628522Z",
+  "u01_status": "PASSED",
+  "u01_passed_count": 8,
+  "u01_required_count": 8,
+  "mapdl_version": "2026 R1 / v261",
+  "mapdl_executable": "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+  "mapdl_executable_sha256": "6c6327f6b906db8e6dd498bd38c97685d7e3e4acf52fccbf243b2dff7ed7af1b",
+  "parallel_mode": "DMP",
+  "processes": 4,
+  "mpi": "intelmpi",
+  "units": "N-mm-tonne-s",
+  "coordinate_system": "X longitudinal, Y transverse, Z vertical",
+  "modes_requested": 80,
+  "upper_frequency_hz": 0.35,
+  "prepare_only": true,
+  "mapdl_execution_attempted": false,
+  "process_started": false,
+  "execution_policy": "NEVER_EXECUTE_MAPDL_REGARDLESS_OF_MEMORY_OR_DISK_BOOLEAN",
+  "memory_snapshot": {
+    "available": true,
+    "total_physical_bytes": 16556494848,
+    "available_physical_bytes": 7194312704,
+    "available_page_file_bytes": 18166005760,
+    "memory_load_percent": 56,
+    "minimum_available_memory_bytes": 8589934592,
+    "comfortable_available_memory_bytes": 10737418240,
+    "memory_ready": false,
+    "memory_comfortable": false,
+    "execution_attempted": false
+  },
+  "disk_snapshot": {
+    "volume_anchor": "D:\\",
+    "total_bytes": 215015747584,
+    "used_bytes": 187403718656,
+    "free_bytes": 27612028928,
+    "minimum_free_bytes_for_execution": 34359738368,
+    "disk_ready": false,
+    "budget_basis": "historical_incomplete_40_mode_attempt_7.857_GiB_times_about_4",
+    "execution_attempted": false
+  },
+  "dependencies": [
+    {
+      "order": 1,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\full_line_beam4_crossbeam_mesh_xlong.inp",
+      "basename": "full_line_beam4_crossbeam_mesh_xlong.inp",
+      "sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+      "graph_sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+      "input_snapshot": "input_snapshot/full_line_beam4_crossbeam_mesh_xlong.inp",
+      "solver_copy": "solver/full_line_beam4_crossbeam_mesh_xlong.inp",
+      "input_snapshot_sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+      "solver_copy_sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957"
+    },
+    {
+      "order": 2,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\convert_crossbeams_beam4_to_beam188.inp",
+      "basename": "convert_crossbeams_beam4_to_beam188.inp",
+      "sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+      "graph_sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+      "input_snapshot": "input_snapshot/convert_crossbeams_beam4_to_beam188.inp",
+      "solver_copy": "solver/convert_crossbeams_beam4_to_beam188.inp",
+      "input_snapshot_sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+      "solver_copy_sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f"
+    },
+    {
+      "order": 3,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_downpull_equivalent_xlong.inp",
+      "basename": "apply_mct_downpull_equivalent_xlong.inp",
+      "sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+      "graph_sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+      "input_snapshot": "input_snapshot/apply_mct_downpull_equivalent_xlong.inp",
+      "solver_copy": "solver/apply_mct_downpull_equivalent_xlong.inp",
+      "input_snapshot_sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+      "solver_copy_sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3"
+    },
+    {
+      "order": 4,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_constraints_xlong.inp",
+      "basename": "apply_mct_constraints_xlong.inp",
+      "sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+      "graph_sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+      "input_snapshot": "input_snapshot/apply_mct_constraints_xlong.inp",
+      "solver_copy": "solver/apply_mct_constraints_xlong.inp",
+      "input_snapshot_sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+      "solver_copy_sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022"
+    },
+    {
+      "order": 5,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_authoritative_initial_state_link180.inp",
+      "basename": "apply_mct_authoritative_initial_state_link180.inp",
+      "sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+      "graph_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+      "input_snapshot": "input_snapshot/apply_mct_authoritative_initial_state_link180.inp",
+      "solver_copy": "solver/apply_mct_authoritative_initial_state_link180.inp",
+      "input_snapshot_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+      "solver_copy_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53"
+    },
+    {
+      "order": 6,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\generated\\apply_finite_gates_and_passages_v2.inp",
+      "basename": "apply_finite_gates_and_passages_v2.inp",
+      "sha256": "51dc4dabba9d4ad1464d033fa69aba80cbaea79bcbed163fadb81e3b63211b98",
+      "graph_sha256": "51dc4dabba9d4ad1464d033fa69aba80cbaea79bcbed163fadb81e3b63211b98",
+      "input_snapshot": "input_snapshot/apply_finite_gates_and_passages_v2.inp",
+      "solver_copy": "solver/apply_finite_gates_and_passages_v2.inp",
+      "input_snapshot_sha256": "51dc4dabba9d4ad1464d033fa69aba80cbaea79bcbed163fadb81e3b63211b98",
+      "solver_copy_sha256": "51dc4dabba9d4ad1464d033fa69aba80cbaea79bcbed163fadb81e3b63211b98"
+    },
+    {
+      "order": 7,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_modal_roty_stabilization_xlong.inp",
+      "basename": "apply_modal_roty_stabilization_xlong.inp",
+      "sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+      "graph_sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+      "input_snapshot": "input_snapshot/apply_modal_roty_stabilization_xlong.inp",
+      "solver_copy": "solver/apply_modal_roty_stabilization_xlong.inp",
+      "input_snapshot_sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+      "solver_copy_sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253"
+    },
+    {
+      "order": 8,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\define_representative_rope_component.inp",
+      "basename": "define_representative_rope_component.inp",
+      "sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+      "graph_sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+      "input_snapshot": "input_snapshot/define_representative_rope_component.inp",
+      "solver_copy": "solver/define_representative_rope_component.inp",
+      "input_snapshot_sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+      "solver_copy_sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f"
+    },
+    {
+      "order": 9,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_authoritative_mct_deadload_v1.inp",
+      "basename": "apply_authoritative_mct_deadload_v1.inp",
+      "sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+      "graph_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+      "input_snapshot": "input_snapshot/apply_authoritative_mct_deadload_v1.inp",
+      "solver_copy": "solver/apply_authoritative_mct_deadload_v1.inp",
+      "input_snapshot_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+      "solver_copy_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e"
+    },
+    {
+      "order": 10,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\apply_dynamic_mass21_spatialized_v2.inp",
+      "basename": "apply_dynamic_mass21_spatialized_v2.inp",
+      "sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+      "graph_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+      "input_snapshot": "input_snapshot/apply_dynamic_mass21_spatialized_v2.inp",
+      "solver_copy": "solver/apply_dynamic_mass21_spatialized_v2.inp",
+      "input_snapshot_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+      "solver_copy_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f"
+    },
+    {
+      "order": 11,
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_authoritative_mct_gravity_v1.inp",
+      "basename": "apply_authoritative_mct_gravity_v1.inp",
+      "sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+      "graph_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+      "input_snapshot": "input_snapshot/apply_authoritative_mct_gravity_v1.inp",
+      "solver_copy": "solver/apply_authoritative_mct_gravity_v1.inp",
+      "input_snapshot_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+      "solver_copy_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e"
+    }
+  ],
+  "input_snapshot_dependency_count": 11,
+  "solver_dependency_copy_count": 11,
+  "solver_prepared_inp_count_including_main": 12,
+  "main_input": "solver/b00_legacy_complete_main.inp",
+  "main_input_sha256": "9474b445eb63746b731547191664fc50ec623890ecec744fac808e21ccbe4d56",
+  "future_main_output": "solver/cw_B00_0715t111105_ca.out",
+  "orchestrator_source": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\ultra_b00_prepare.py",
+  "orchestrator_sha256": "160c49d90162c28a772828cf87b35601bd324f53b854f157038e25a339f50862",
+  "orchestrator_snapshot": "orchestrator_snapshot/ultra_b00_prepare.py",
+  "lineage_evidence": [
+    {
+      "role": "root_builder_build_audit",
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\generated\\build_audit.json",
+      "copy": "lineage/root_builder_build_audit.json",
+      "sha256": "83d0972bff78021b22250c331967bf175221e22f009b72a77d2643cf8ee7bd9d"
+    },
+    {
+      "role": "root_mass21_audit",
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\mass21_spatialization_audit_v2.json",
+      "copy": "lineage/root_mass21_spatialization_audit_v2.json",
+      "sha256": "3df93394c22454c18ef9e5f9ce1305d2d798d40f55e2eadc6e53c22a2a2e7e50"
+    }
+  ],
+  "source_scan_counts": {
+    "order_3_cp": 12,
+    "order_3_d": 12,
+    "order_4_d": 1096,
+    "order_6_cerig": 5078,
+    "order_7_d": 2860,
+    "order_10_en": 33003,
+    "d_total_orders_3_4_7": 3968
+  },
+  "builder_anti_mix_counts": {
+    "CERIG": 5078,
+    "MPC184": 0,
+    "PNLT": 0
+  },
+  "topology_expectations": {
+    "node_count": 109086,
+    "element_count": 172994,
+    "element_type_counts": {
+      "4": 73692,
+      "6": 48620,
+      "70": 17679,
+      "71": 33003
+    }
+  },
+  "static_solution_contract": {
+    "ls1": {
+      "time": 1.0,
+      "nsubst": [
+        20,
+        200,
+        20
+      ],
+      "autots": true,
+      "stabilization": "OFF",
+      "cnvg_required": 1
+    },
+    "ls2": {
+      "time": 1.001,
+      "nsubst": [
+        1,
+        1,
+        1
+      ],
+      "autots": false,
+      "cutback_allowed": false,
+      "stabilization": "OFF",
+      "cnvg_required": 1
+    },
+    "gravity_mm_s2": 9806.0,
+    "ls1_abs_sten_over_sene_max": 0.01,
+    "ls2_abs_sten_over_sene_max": 1e-08,
+    "mass_expected_tonne": 4108.46690758,
+    "mass_absolute_tolerance_tonne": 1e-06,
+    "uz_support_count": 464,
+    "reaction_relative_tolerance": 0.0001
+  },
+  "modal_solution_contract": {
+    "restart": "ANTYPE,,RESTART,2,,PERTURB",
+    "perturb": "PERTURB,MODAL,AUTO,CURRENT,PARKEEP",
+    "eigensolver": "LANB",
+    "lumped_mass": false,
+    "mxpand_element_calculation": true,
+    "node_solution_output": "NSOL,ALL",
+    "frequency_precision": "E24.16",
+    "modal_properties": [
+      "FREQ",
+      "GENM",
+      "PFACT_X_Y_Z_ROTX_ROTY_ROTZ",
+      "EFFM_X_Y_Z_ROTX_ROTY_ROTZ"
+    ],
+    "prmass_command_used": false,
+    "displacement_export": "mode_XX_all_nodes.txt PRNSOL,U,COMP",
+    "rotation_export": "mode_XX_rotations.txt PRNSOL,ROT,COMP"
+  },
+  "execution_qa_required": [
+    "independent review of main INP before launch",
+    "memory_ready and disk_ready must both be true at launch time",
+    "main OUT must have zero ERROR and reviewed WARNING",
+    "requested/available/exported and frequency/vector file counts must close",
+    "RST RSTP MODE FULL and main OUT hashes must be sealed after execution",
+    "LINK180 nonpositive axial force review is required after execution and is intentionally not an unverified APDL gate"
+  ],
+  "future_launch": {
+    "status": "NOT_EXECUTED_PREPARED_COMMAND_ONLY",
+    "execution_attempted": false,
+    "argv": [
+      "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+      "-b",
+      "-dis",
+      "-mpi",
+      "intelmpi",
+      "-np",
+      "4",
+      "-j",
+      "cw_B00_0715t111105_ca",
+      "-dir",
+      "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\B00_LEGACY_COMPLETE_20260715T111105670409Z\\solver",
+      "-i",
+      "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\B00_LEGACY_COMPLETE_20260715T111105670409Z\\solver\\b00_legacy_complete_main.inp",
+      "-o",
+      "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\B00_LEGACY_COMPLETE_20260715T111105670409Z\\solver\\cw_B00_0715t111105_ca.out"
+    ],
+    "launch_command_file": "launch_command.txt"
+  }
+}

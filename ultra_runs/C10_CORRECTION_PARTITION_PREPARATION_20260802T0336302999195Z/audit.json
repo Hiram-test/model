@@ -1,0 +1,327 @@
+﻿{
+  "schema_version": 1,
+  "status": "PASS_PREPARATION_ONLY_NO_SOLVER_RUN",
+  "purpose": "为 gate-only、cross_passage_half-only 与 H03 完整配对静力 A/B 修复试验准备可审计修正分区；本工件自身不是可执行 APDL",
+  "solver_launched": false,
+  "frozen_sources_modified": false,
+  "units": {
+    "length": "mm",
+    "force": "N",
+    "moment": "N*mm",
+    "coordinate_system": "MAPDL X longitudinal, Y transverse, Z vertical"
+  },
+  "hard_gates": {
+    "force_zero_tolerance_n": "1E-6",
+    "node_source_match_tolerance_n": "1E-6",
+    "h03_coordinate_match_tolerance_mm": "1E-6",
+    "source_to_runtime_coordinate_tolerance_mm": "1E-3",
+    "moment_reference_tolerance_nmm": "1E-6"
+  },
+  "source_binding": {
+    "component_allocation_ledger": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\mass21_spatialized_v2_component_allocations.csv",
+      "sha256": "ad923f5bef3e6ef91b045f1f37d69c93c8970a6caca75a51bd377f1267c81213",
+      "snapshot_path": "input_snapshot/component_allocation_ledger__mass21_spatialized_v2_component_allocations.csv",
+      "size_bytes": 9927446
+    },
+    "correction_include": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\solver\\apply_constant_total_load_position_migration_v1.inp",
+      "sha256": "7a8c359c3f332f7b214b6f51e5e26ebf80899b15418388250033cfdc4e76d9d0",
+      "snapshot_path": "input_snapshot/correction_include__apply_constant_total_load_position_migration_v1.inp",
+      "size_bytes": 2614780
+    },
+    "authoritative_mapping": {
+      "path": "D:\\张靖皋大桥\\02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\authoritative_mct_deadload_v1_conload_mapping.csv",
+      "sha256": "99e3a14e3f368d4bc2262347387b64daafc46dedbe5a9fc30261eba1795fe475",
+      "snapshot_path": "input_snapshot/authoritative_mapping__authoritative_mct_deadload_v1_conload_mapping.csv",
+      "size_bytes": 831430
+    },
+    "original_nodes": {
+      "path": "D:\\张靖皋大桥\\02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\nodes.csv",
+      "sha256": "b8c7f44823f5648f59af7791dcc5468656725fcc5e0f67b034ed7f3804727e5a",
+      "snapshot_path": "input_snapshot/original_nodes__nodes.csv",
+      "size_bytes": 1854557
+    },
+    "resolved_stations": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\generated\\resolved_dedicated_stations.csv",
+      "sha256": "820a74e0e3d6f8b3334f0b153ce7da80b9452c874c7a0b64fdcc3a0da515c054",
+      "snapshot_path": "input_snapshot/resolved_stations__resolved_dedicated_stations.csv",
+      "size_bytes": 2966
+    },
+    "mass_audit": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\mass21_spatialization_audit_v2.json",
+      "sha256": "3df93394c22454c18ef9e5f9ce1305d2d798d40f55e2eadc6e53c22a2a2e7e50",
+      "snapshot_path": "input_snapshot/mass_audit__mass21_spatialization_audit_v2.json",
+      "size_bytes": 8132
+    },
+    "base_mesh": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\solver\\full_line_beam4_crossbeam_mesh_xlong.inp",
+      "sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+      "snapshot_path": "input_snapshot/base_mesh__full_line_beam4_crossbeam_mesh_xlong.inp",
+      "size_bytes": 5337905
+    },
+    "finite_geometry": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\solver\\apply_finite_gates_and_passages_v2.inp",
+      "sha256": "4f7da8425a25739c694880422c4d2188088b83c1d64170baf44accd922b5b01e",
+      "snapshot_path": "input_snapshot/finite_geometry__apply_finite_gates_and_passages_v2.inp",
+      "size_bytes": 3990667
+    },
+    "preparation_tool": {
+      "source_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\ultra_c10_correction_partition_prepare.py",
+      "snapshot_path": "input_snapshot/ultra_c10_correction_partition_prepare.py",
+      "sha256": "66b7198ae0cb9c9eb421fde26f62ed8749693697b2ba8e243f6c41056cb7d944",
+      "size_bytes": 93003
+    }
+  },
+  "source_vector": {
+    "correction_node_count": 15071,
+    "positive_node_count": 11947,
+    "negative_node_count": 3124,
+    "rendered_sum_fz_n": "2.08526E-10",
+    "rendered_sum_mx_nmm": "-5.224390902992340788830000000000000E+6",
+    "rendered_sum_my_nmm": "-2.973859392187681870950599594004727E+6",
+    "independent_expected_mx_nmm": "-5.22439090299234E+6",
+    "independent_expected_my_nmm": "-2.97385939218768E+6"
+  },
+  "exact_recomposition": {
+    "node_count": 15071,
+    "missing_node_count": 0,
+    "extra_node_count": 0,
+    "exact_node_recomposition": true,
+    "maximum_raw_source_error_n": "3.3333333333333333333333333333333333333333333E-13",
+    "render_adjusted_node_count": 12391,
+    "primary_partition_ids": [
+      "GATE_ONLY",
+      "CROSS_PASSAGE_HALF_ONLY"
+    ],
+    "primary_partitions_mutually_exclusive": true,
+    "primary_partitions_complete": true,
+    "per_node_sum_exactly_equals_frozen_include": true,
+    "full_sum_exactly_equals_frozen_include_force_and_moments": true,
+    "full_recomposition": {
+      "row_count": 17447,
+      "node_count": 15071,
+      "positive_row_count": 12799,
+      "negative_row_count": 4648,
+      "sum_fz_n": "2.0852600000000000000000000000000000000000000E-10",
+      "sum_mx_nmm": "-5.2243909029923407888300000000000000000000000000000000000E+6",
+      "sum_my_nmm": "-2.9738593921876818709505995940047270000000000000000000E+6",
+      "sum_mz_nmm": "0E+0",
+      "zero_force_tolerance_n": "1E-6",
+      "zero_force_status": "PASS"
+    },
+    "frozen_reference": {
+      "row_count": 15071,
+      "node_count": 15071,
+      "positive_row_count": 11947,
+      "negative_row_count": 3124,
+      "sum_fz_n": "2.08526E-10",
+      "sum_mx_nmm": "-5.224390902992340788830000000000000E+6",
+      "sum_my_nmm": "-2.973859392187681870950599594004727E+6",
+      "sum_mz_nmm": "0E+0",
+      "zero_force_tolerance_n": "1E-6",
+      "zero_force_status": "PASS"
+    }
+  },
+  "candidate_views": {
+    "gate_only": {
+      "row_count": 9656,
+      "node_count": 7952,
+      "positive_row_count": 5680,
+      "negative_row_count": 3976,
+      "sum_fz_n": "-5.92800000000000000000000000000000000000000E-12",
+      "sum_mx_nmm": "-3.489520000000000000000000000000000000000000E-7",
+      "sum_my_nmm": "5.25303310007845499889640000072076800000000000000000000E+6",
+      "sum_mz_nmm": "0E+0",
+      "zero_force_tolerance_n": "1E-6",
+      "zero_force_status": "PASS"
+    },
+    "cross_passage_half_only": {
+      "row_count": 7791,
+      "node_count": 7791,
+      "positive_row_count": 7119,
+      "negative_row_count": 672,
+      "sum_fz_n": "2.1445400000E-10",
+      "sum_mx_nmm": "-5.22439090299199183683000000000000000000E+6",
+      "sum_my_nmm": "-8.22689249226613686984699959472549500000E+6",
+      "sum_mz_nmm": "0E+0",
+      "zero_force_tolerance_n": "1E-6",
+      "zero_force_status": "PASS"
+    },
+    "h03_complete_paired": {
+      "row_count": 507,
+      "node_count": 451,
+      "positive_row_count": 419,
+      "negative_row_count": 88,
+      "sum_fz_n": "8.534000000000000000000000000000000000000000E-12",
+      "sum_mx_nmm": "-2.48778964877901929280000000000000000000000000000000000000E+5",
+      "sum_my_nmm": "-2.35388312936909740143961315357266520000000000000000000000E+7",
+      "sum_mz_nmm": "0E+0",
+      "zero_force_tolerance_n": "1E-6",
+      "zero_force_status": "PASS"
+    }
+  },
+  "h03_unique_pairing": {
+    "status": "PASS",
+    "passage_assembly": "H03",
+    "gate_assemblies": [
+      "CW1_GATE_09",
+      "CW2_GATE_09"
+    ],
+    "old_gate_mct_node": "1048",
+    "expected_old_bottom_x_mm": "5.45908999999999760E+5",
+    "old_bottom_station_evidence": [
+      {
+        "catwalk": "1",
+        "mct_node": "120",
+        "expected_x_mm": "5.45908999999999760E+5",
+        "actual_x_mm": "5.459090E+5",
+        "coordinate_error_mm": "2.40E-10",
+        "row_count": 16
+      },
+      {
+        "catwalk": "2",
+        "mct_node": "120",
+        "expected_x_mm": "5.45908999999999760E+5",
+        "actual_x_mm": "5.459090E+5",
+        "coordinate_error_mm": "2.40E-10",
+        "row_count": 16
+      }
+    ],
+    "old_gate_station_evidence": [
+      {
+        "catwalk": "1",
+        "mct_node": "1048",
+        "row_count": 6,
+        "pattern": {
+          "cross_passage_tri_gate": 1,
+          "guide_roller": 1
+        }
+      },
+      {
+        "catwalk": "2",
+        "mct_node": "1048",
+        "row_count": 6,
+        "pattern": {
+          "cross_passage_tri_gate": 1,
+          "guide_roller": 1
+        }
+      }
+    ],
+    "component_pair_closure": {
+      "cross_passage_half": {
+        "old_removal_fz_n": "-9.9380000E+4",
+        "new_addition_fz_n": "9.938000000000001190200000E+4",
+        "closure_fz_n": "1.190200000E-11",
+        "status": "PASS"
+      },
+      "cross_passage_tri_gate": {
+        "old_removal_fz_n": "-2.47200000000000039999999999999999999999999999999999999999997E+4",
+        "new_addition_fz_n": "2.47200000000000001770040E+4",
+        "closure_fz_n": "-3.8229959999999999999999999999999999999999997E-12",
+        "status": "PASS"
+      },
+      "gate_bottom_beam": {
+        "old_removal_fz_n": "-6.36000E+3",
+        "new_addition_fz_n": "6.35999999999999967200000E+3",
+        "closure_fz_n": "-3.2800000E-13",
+        "status": "PASS"
+      },
+      "guide_roller": {
+        "old_removal_fz_n": "-1.83920000000000000000000000000000000000000000000000000000002E+4",
+        "new_addition_fz_n": "1.83920000000000007829960E+4",
+        "closure_fz_n": "7.829959999999999999999999999999999999999998E-13",
+        "status": "PASS"
+      }
+    }
+  },
+  "component_closure": {
+    "cross_passage_half": {
+      "row_count": 7791,
+      "node_count": 7791,
+      "positive_row_count": 7119,
+      "negative_row_count": 672,
+      "sum_fz_n": "2.1445400000E-10",
+      "sum_mx_nmm": "-5.22439090299199183683000000000000000000E+6",
+      "sum_my_nmm": "-8.22689249226613686984699959472549500000E+6",
+      "sum_mz_nmm": "0E+0",
+      "zero_force_tolerance_n": "1E-6",
+      "zero_force_status": "PASS"
+    },
+    "cross_passage_tri_gate": {
+      "row_count": 840,
+      "node_count": 840,
+      "positive_row_count": 588,
+      "negative_row_count": 252,
+      "sum_fz_n": "-8.8186289599999999999999999999999999999999931E-11",
+      "sum_mx_nmm": "-1.280400000000000000000000000000000000000000E-8",
+      "sum_my_nmm": "1.94422800018193700993593124071109368560000000000000002E+6",
+      "sum_mz_nmm": "0E+0",
+      "zero_force_tolerance_n": "1E-6",
+      "zero_force_status": "PASS"
+    },
+    "gate_bottom_beam": {
+      "row_count": 5112,
+      "node_count": 5112,
+      "positive_row_count": 2840,
+      "negative_row_count": 2272,
+      "sum_fz_n": "-2.328800000E-11",
+      "sum_mx_nmm": "0E-32",
+      "sum_my_nmm": "-1.00297199994338811081760000039983200000E+6",
+      "sum_mz_nmm": "0E+0",
+      "zero_force_tolerance_n": "1E-6",
+      "zero_force_status": "PASS"
+    },
+    "guide_roller": {
+      "row_count": 1704,
+      "node_count": 1704,
+      "positive_row_count": 852,
+      "negative_row_count": 852,
+      "sum_fz_n": "1.5579948391999999999999999999999999999999914E-10",
+      "sum_mx_nmm": "-3.425500000000000000000000000000000000000000E-7",
+      "sum_my_nmm": "2.90041839970323963253684366568383507152000000000000012E+6",
+      "sum_mz_nmm": "0E+0",
+      "zero_force_tolerance_n": "1E-6",
+      "zero_force_status": "PASS"
+    },
+    "ordinary_gate": {
+      "row_count": 2000,
+      "node_count": 2000,
+      "positive_row_count": 1400,
+      "negative_row_count": 600,
+      "sum_fz_n": "-5.0253194319999999999999999999999999999999821E-11",
+      "sum_mx_nmm": "6.40200000000000000000000000000000000000000E-9",
+      "sum_my_nmm": "1.41135870013666646724122509472567124287999999999999994E+6",
+      "sum_mz_nmm": "0E+0",
+      "zero_force_tolerance_n": "1E-6",
+      "zero_force_status": "PASS"
+    }
+  },
+  "overlap_rule": "H03_COMPLETE_PAIRED 是从两个主分区中筛出的重叠局部诊断视图；不得与 GATE_ONLY、CROSS_PASSAGE_HALF_ONLY 再次相加。只有两个主分区用于完整 15071 节点重组。",
+  "authorization_boundary": {
+    "ansys_execution_allowed_by_this_artifact": false,
+    "executable_candidate_include_generated": false,
+    "production_claim_allowed": false,
+    "next_step_requires_separate_review_and_new_run": true
+  },
+  "runtime_coordinate_binding": {
+    "coordinate_authority": "FROZEN_SOLVER_DECK_N_COMMANDS",
+    "required_node_count": 15071,
+    "changed_record_count": 1136,
+    "maximum_abs_dx_mm": "2E-10",
+    "maximum_abs_dy_mm": "0E+0",
+    "maximum_abs_dz_mm": "5E-10",
+    "source_to_runtime_tolerance_mm": "1E-3",
+    "status": "PASS"
+  },
+  "output_binding": {
+    "correction_partition_ledger.csv": {
+      "sha256": "666f948b13e1c70593f1206c3b71ba1830590a2a2da17093b5a4eb7dbad402e5",
+      "size_bytes": 8364850
+    },
+    "字段说明.md": {
+      "sha256": "cbd4b57d44e42947379ac2b51f5bc62515171bc7e7b20e93748e1d40b0d4db67",
+      "size_bytes": 3301
+    }
+  }
+}

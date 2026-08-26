@@ -1,0 +1,105 @@
+! C10 UXYZ 单 TYPE72 生产拓扑装配秩测试；本文件由 prepare 生成但不自动执行。
+! 单位为 N、mm、N·mm、tonne、s；双侧 LINK180 初应力相等并在初始位置自平衡。
+/CLEAR,START ! 清空未来独立微模型会话。
+/FILNAME,c10sg_fx ! 设置当前案例唯一 ASCII 作业名。
+/PREP7 ! 进入前处理器定义生产同类自由度拓扑。
+ET,1,BEAM188 ! 定义承载 master 的可变形空间梁。
+KEYOPT,1,3,3 ! 采用三次插值以稳定几何非线性梁弯曲。
+MP,EX,1,210000 ! 设置梁钢弹性模量为 210000 N/mm2。
+MP,PRXY,1,0.3 ! 设置梁钢泊松比为 0.3。
+SECTYPE,1,BEAM,RECT,C10SG ! 定义 100 mm 乘 100 mm 矩形测试梁截面。
+SECDATA,100,100 ! 写入测试梁截面宽高，单位 mm。
+ET,2,LINK180 ! 定义与生产原索相同的三平移拉压杆自由度族。
+MP,EX,2,160000 ! 设置测试索等效弹性模量为 160000 N/mm2。
+MP,PRXY,2,0.3 ! 设置测试索材料泊松比为 0.3。
+SECTYPE,2,LINK ! 定义测试索杆截面。
+SECDATA,1393.668228093791 ! 使用与代表性 50 mm 级索相当的 1393.668 mm2 面积。
+ET,3,MASS21 ! 定义仅用于复现生产节点类型参与的集中质量。
+KEYOPT,3,3,2 ! MASS21 只激活 UX、UY、UZ 三个平移质量。
+R,3,0.001 ! 设置 0.001 tonne 的有限测试质量。
+ET,72,MPC184 ! 定义待验收的单个偏置 rigid beam。
+KEYOPT,72,1,1 ! 选择六自由度 rigid-beam 公式。
+KEYOPT,72,2,0 ! 使用 direct elimination 精确施加运动学。
+KEYOPT,72,5,0 ! 保留几何应力刚度以覆盖预应力模态需求。
+CSYS,0 ! 使用全局笛卡尔坐标定义非共线偏置。
+N,1,0,0,0 ! 定义可变形梁端的 master 节点。
+N,2,800,-600,500 ! 定义纯平移索 slave 节点。
+N,3,-200,-600,500 ! 定义 slave 左侧索段固定端。
+N,4,1800,-600,500 ! 定义 slave 右侧索段固定端。
+N,10,-1000,0,0 ! 定义 master 支承梁固定端。
+N,11,0,0,1000 ! 定义 BEAM188 截面方向节点。
+TYPE,1 ! 选择可变形 BEAM188。
+MAT,1 ! 选择测试梁材料。
+SECNUM,1 ! 选择测试梁矩形截面。
+EN,10,10,1,11 ! 建立固定端到 master 的可变形梁。
+TYPE,2 ! 选择 LINK180 索类型。
+MAT,2 ! 选择测试索材料。
+SECNUM,2 ! 选择测试索截面。
+EN,20,3,2 ! 建立左固定端到 slave 的 LINK180。
+EN,21,2,4 ! 建立 slave 到右固定端的 LINK180。
+TYPE,3 ! 选择仅平移 MASS21。
+REAL,3 ! 选择 0.001 tonne 测试质量。
+EN,30,2 ! 在 slave 建立仅三平移集中质量。
+TYPE,72 ! 选择单 TYPE72 rigid beam。
+EN,1,1,2 ! 直接连接 master 与原 slave，禁止 aux 和第二 MPC。
+INISTATE,SET,DTYP,S ! 选择初始应力数据类型。
+INISTATE,SET,CSYS,-2 ! 在单元坐标系定义 LINK180 轴向初应力。
+INISTATE,SET,NODE,0 ! 按单元而不是节点定义初始状态。
+INISTATE,SET,MATL,0 ! 使用当前单元材料坐标解释初始应力。
+INISTATE,DEFINE,20,,,,460 ! 给左索施加 460 N/mm2 初拉应力。
+INISTATE,DEFINE,21,,,,460 ! 给右索施加相同初拉应力以保持零合力。
+D,3,ALL,0 ! 固定左索远端全部有效平移自由度。
+D,4,ALL,0 ! 固定右索远端全部有效平移自由度。
+D,10,ALL,0 ! 固定 master 支承梁远端六自由度。
+F,2,FX,1 ! 在纯平移 slave 施加当前单位力。
+FINISH ! 完成生产拓扑微模型前处理。
+/SOLU ! 进入静力求解器。
+ANTYPE,STATIC ! 选择独立静力分析。
+NLGEOM,ON ! 启用与全桥一致的大转动运动学。
+PSTRES,ON ! 保留初应力对当前切线的贡献。
+NROPT,FULL ! 每次迭代更新完整切线。
+AUTOTS,OFF ! 关闭自动子步，避免测试路径被静默改写。
+NSUBST,5,5,5 ! 用五个固定子步施加单位力。
+CNVTOL,F,,0.005,2,1.0 ! 将 VALUE 留空，固定 0.5% 力容限、L2 范数和 1 N 最小参考值。
+CNVTOL,M,,0.005,2,1.0 ! 将 VALUE 留空，固定 0.5% 力矩容限、L2 范数和 1 N·mm 最小参考值。
+CNVTOL,U,,0.05,0 ! 将 VALUE 留空，固定 5% 平移修正容限和逐自由度无穷范数。
+CNVTOL,ROT,,0.05,0 ! 将 VALUE 留空，固定 5% 转角修正容限和逐自由度无穷范数。
+OUTRES,ALL,ALL ! 保存全部子步结果供运动学与秩复核。
+SOLVE ! 执行当前生产拓扑微测；prepare 本身不调用本文件。
+FINISH ! 结束求解阶段。
+/POST1 ! 进入结果后处理器。
+SET,LAST ! 读取第五个固定子步终态。
+*GET,C10_UMX,NODE,1,U,X ! 读取 master X 位移，单位 mm。
+*GET,C10_UMY,NODE,1,U,Y ! 读取 master Y 位移，单位 mm。
+*GET,C10_UMZ,NODE,1,U,Z ! 读取 master Z 位移，单位 mm。
+*GET,C10_RMX,NODE,1,ROT,X ! 读取 master 绕 X 转角，单位 rad。
+*GET,C10_RMY,NODE,1,ROT,Y ! 读取 master 绕 Y 转角，单位 rad。
+*GET,C10_RMZ,NODE,1,ROT,Z ! 读取 master 绕 Z 转角，单位 rad。
+*GET,C10_USX,NODE,2,U,X ! 读取 slave X 位移，单位 mm。
+*GET,C10_USY,NODE,2,U,Y ! 读取 slave Y 位移，单位 mm。
+*GET,C10_USZ,NODE,2,U,Z ! 读取 slave Z 位移，单位 mm。
+*GET,C10_RSX,NODE,2,ROT,X ! 读取 solver-only slave 绕 X 代数转角。
+*GET,C10_RSY,NODE,2,ROT,Y ! 读取 solver-only slave 绕 Y 代数转角。
+*GET,C10_RSZ,NODE,2,ROT,Z ! 读取 solver-only slave 绕 Z 代数转角。
+*GET,C10_R3X,NODE,3,RF,FX ! 读取左索锚点 X 反力。
+*GET,C10_R3Y,NODE,3,RF,FY ! 读取左索锚点 Y 反力。
+*GET,C10_R3Z,NODE,3,RF,FZ ! 读取左索锚点 Z 反力。
+*GET,C10_R4X,NODE,4,RF,FX ! 读取右索锚点 X 反力。
+*GET,C10_R4Y,NODE,4,RF,FY ! 读取右索锚点 Y 反力。
+*GET,C10_R4Z,NODE,4,RF,FZ ! 读取右索锚点 Z 反力。
+*GET,C10_R10X,NODE,10,RF,FX ! 读取梁支座 X 反力。
+*GET,C10_R10Y,NODE,10,RF,FY ! 读取梁支座 Y 反力。
+*GET,C10_R10Z,NODE,10,RF,FZ ! 读取梁支座 Z 反力。
+C10_GFX=C10_R3X+C10_R4X+C10_R10X ! 汇总三个支承的 X 反力。
+C10_GFY=C10_R3Y+C10_R4Y+C10_R10Y ! 汇总三个支承的 Y 反力。
+C10_GFZ=C10_R3Z+C10_R4Z+C10_R10Z ! 汇总三个支承的 Z 反力。
+/OUTPUT,c10sg_fx_results,txt ! 打开当前案例机器结果文件。
+*VWRITE,C10_UMX,C10_UMY,C10_UMZ,C10_RMX,C10_RMY,C10_RMZ ! 输出 master 六分量运动。
+('MASTER_U=',3(E24.16,','),'MASTER_ROT=',3(E24.16,','))
+*VWRITE,C10_USX,C10_USY,C10_USZ,C10_RSX,C10_RSY,C10_RSZ ! 输出 slave 六分量代数运动。
+('SLAVE_U=',3(E24.16,','),'SLAVE_ROT=',3(E24.16,','))
+*VWRITE,C10_GFX,C10_GFY,C10_GFZ ! 输出全部支承反力和。
+('GROUND_RF_F=',3(E24.16,','))
+/OUTPUT ! 恢复 MAPDL 主输出。
+FINISH ! 完成生产拓扑微测后处理。
+/EXIT,NOSAVE ! 退出且不保留微模型数据库。

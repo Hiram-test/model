@@ -1,0 +1,243 @@
+{
+  "schema_version": 3,
+  "status": "PREPARED_NOT_STARTED",
+  "purpose": "C10_SINGLE_MPC_PRODUCTION_TOPOLOGY_RANK_KINEMATICS_AND_TRANSFER",
+  "planned_case_count": 12,
+  "completed_case_count": 0,
+  "mapdl_execution_attempted": false,
+  "formulation": {
+    "UXYZ": "SINGLE_TYPE72_PROJECTED_TO_TRANSLATION_ONLY_SLAVE",
+    "ALL": "TYPE72_RIGID_BEAM",
+    "constraint_imposition": "DIRECT_ELIMINATION",
+    "aux_node_count": 0,
+    "type73_count": 0,
+    "penalty_factor": null
+  },
+  "acceptance": {
+    "max_rigid_body_translation_error_mm": 1e-06,
+    "finite_rotation_rodrigues_displacement_error_mm": 1e-06,
+    "finite_rotation_target_angle_error_rad": 0.0001,
+    "slave_algebraic_rotation_error_rad": 1e-12,
+    "force_equilibrium_absolute_tolerance_n": 2e-06,
+    "force_equilibrium_preload_cancellation_relative_scale": 2e-12,
+    "moment_equilibrium_absolute_tolerance_n_mm": 1e-06,
+    "all_slave_translation_and_rotation_max_abs": 1e-10,
+    "automatic_cnvtol_reset_allowed": false,
+    "ignored_cnvtol_command_allowed": false,
+    "solver_error_allowed": false,
+    "zero_small_or_negative_pivot_allowed": false,
+    "equation_count_change_within_case_allowed": false
+  },
+  "cases": [
+    {
+      "case_id": "UXYZ-FX",
+      "case_family": "UXYZ_PRODUCTION_TOPOLOGY_TRANSLATION_LOAD",
+      "load_label": "FX",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_uxyz_fx.inp",
+      "input_sha256": "2a325bdcbc0db0cbcba7917c7d0b528d24d1bbfa1b5e518755e561faeaf34081",
+      "future_result_file": "unit_tests/c10sg_fx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "UXYZ-FY",
+      "case_family": "UXYZ_PRODUCTION_TOPOLOGY_TRANSLATION_LOAD",
+      "load_label": "FY",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_uxyz_fy.inp",
+      "input_sha256": "3a054d64fd14aeebae01e9468d309bb030fbc7f9f3fecf08b5d0593cd9b5190b",
+      "future_result_file": "unit_tests/c10sg_fy_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "UXYZ-FZ",
+      "case_family": "UXYZ_PRODUCTION_TOPOLOGY_TRANSLATION_LOAD",
+      "load_label": "FZ",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_uxyz_fz.inp",
+      "input_sha256": "34aca5534fd5d3755448664f4bb408b5316314ba33e5f1b324442a5847cb831f",
+      "future_result_file": "unit_tests/c10sg_fz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "FINITE-RX",
+      "case_family": "UXYZ_SINGLE_MPC_FINITE_ROTATION_KINEMATICS",
+      "rotation_label": "ROTX",
+      "rotation_value_rad": 0.1,
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_finite_rx.inp",
+      "input_sha256": "535d9a352d9042463180f9874fdc8f3d9af844efeac122c164fe040bbdf64888",
+      "future_result_file": "unit_tests/c10sr_rx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "FINITE-RY",
+      "case_family": "UXYZ_SINGLE_MPC_FINITE_ROTATION_KINEMATICS",
+      "rotation_label": "ROTY",
+      "rotation_value_rad": 0.1,
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_finite_ry.inp",
+      "input_sha256": "7d6ddfd211534e485a0f9b3919e146a25412e469246008cf90c674d687c8f8ea",
+      "future_result_file": "unit_tests/c10sr_ry_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "FINITE-RZ",
+      "case_family": "UXYZ_SINGLE_MPC_FINITE_ROTATION_KINEMATICS",
+      "rotation_label": "ROTZ",
+      "rotation_value_rad": 0.1,
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_finite_rz.inp",
+      "input_sha256": "7a37090fc54b31dfac349f23c9f2f84ad14647fcc4cf941dfed8eb0b30eaaee6",
+      "future_result_file": "unit_tests/c10sr_rz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "ALL-FX",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "load_label": "FX",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_all_fx.inp",
+      "input_sha256": "7b4cac2a165bd0ac590ab211160ab1a9df8de18e2c42a0261386472dcff8854c",
+      "future_result_file": "unit_tests/c10all_fx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "ALL-FY",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "load_label": "FY",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_all_fy.inp",
+      "input_sha256": "ebe0563a88ca445b9000cc8609d6fe4140b33c1c1553a327bc35aefe1bd69fdd",
+      "future_result_file": "unit_tests/c10all_fy_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "ALL-FZ",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "load_label": "FZ",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_all_fz.inp",
+      "input_sha256": "93b79a2692d433481fb7d0054e0a1b944e85bb2d4c95d1146c743c861e3c2d7f",
+      "future_result_file": "unit_tests/c10all_fz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "ALL-MX",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "load_label": "MX",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_all_mx.inp",
+      "input_sha256": "80a623c13972375dbbd2188474c736a18ce9134143eb97f9d5112e7e66645096",
+      "future_result_file": "unit_tests/c10all_mx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "ALL-MY",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "load_label": "MY",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_all_my.inp",
+      "input_sha256": "9f6149056cb883cb651efc69492fd4e6d8d26567c85dd64c61c0194a361e5fd8",
+      "future_result_file": "unit_tests/c10all_my_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "ALL-MZ",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "load_label": "MZ",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "offset_vector_mm": [
+        800.0,
+        -600.0,
+        500.0
+      ],
+      "input_file": "unit_tests/c10_all_mz.inp",
+      "input_sha256": "d4e255d0bec358e8b07d7617088ab7743ce936eea9b5d15149748188aaf003ef",
+      "future_result_file": "unit_tests/c10all_mz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    }
+  ],
+  "result_contract": {
+    "reported_vectors": [
+      "MASTER_U_XYZ_MM",
+      "MASTER_ROT_XYZ_RAD",
+      "SLAVE_U_XYZ_MM",
+      "SLAVE_ALGEBRAIC_ROT_XYZ_RAD",
+      "GROUND_REACTION_FORCE_XYZ_N"
+    ],
+    "derived_checks": [
+      "SINGLE_MPC_RIGID_BODY_TRANSLATION",
+      "RODRIGUES_FINITE_ROTATION",
+      "ALL_ZERO_RELATIVE_SIX_DOF",
+      "GLOBAL_FORCE_EQUILIBRIUM",
+      "GLOBAL_MOMENT_EQUILIBRIUM_ABOUT_MASTER",
+      "NO_AUTOMATIC_CONVERGENCE_RELAXATION",
+      "NO_SOLVER_ERROR",
+      "NO_ZERO_SMALL_OR_NEGATIVE_PIVOT",
+      "EQUATION_COUNT_CONSTANT_WITHIN_CASE"
+    ],
+    "sufficient_for_declared_micro_acceptance": true
+  }
+}

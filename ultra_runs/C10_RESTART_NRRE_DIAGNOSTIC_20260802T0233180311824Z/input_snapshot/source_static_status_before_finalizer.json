@@ -1,0 +1,32 @@
+{
+  "schema_version": 3,
+  "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z",
+  "jobname": "cw_C10madp_0801t234415577134_d1",
+  "status": "STATIC_DIAGNOSTIC_PREPARED",
+  "diagnostic_subtype": "CONSTANT_TOTAL_LOAD_POSITION_MIGRATION_ADAPTIVE_CUTBACK_TO_0_05_PERCENT",
+  "created_at_utc": "2026-08-01T23:44:15.577134+00:00",
+  "parent_run": "C10_MPC_ONLY_20260801T190630474559Z",
+  "previous_migration_run": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T215406049179Z",
+  "authorization_evidence_run": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T222546216597Z",
+  "single_variable_change": "LS2_NSBMX_200_TO_2000_ONLY",
+  "ls2_nsubst": [
+    200,
+    2000,
+    200
+  ],
+  "ls2_initial_migration_fraction": 0.005,
+  "ls2_minimum_migration_fraction": 0.0005,
+  "mpc184_keyopt5_static": 0,
+  "prestressed_modal_requires_keyopt5_restore_to_zero": false,
+  "micro_validation_run": "C10_MICRO_VALIDATION_20260801T190634755506Z",
+  "mapdl_execution_attempted": false,
+  "mapdl_started": false,
+  "execution_mode": "SMP_SERIAL_NP1_DIAGNOSTIC_ONLY",
+  "resource_gate": "FORMAL_8_GIB_FAILED_DIAGNOSTIC_EXCEPTION_REQUIRES_RUNTIME_RECHECK",
+  "launch_allowed_for_diagnostic": true,
+  "launch_allowed_for_production": false,
+  "full_bridge_static_status": "LOAD_POSITION_MIGRATION_PREPARED_NOT_STARTED",
+  "full_bridge_modal_status": "NOT_RUN",
+  "valid_for_production": false,
+  "next_action": "RUNTIME_RESOURCE_RECHECK_THEN_EXECUTE_ADAPTIVE_MIGRATION_ALLOW_BISECTION_TO_0_05_PERCENT"
+}

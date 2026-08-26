@@ -1,0 +1,24 @@
+{
+  "schema_version": 2,
+  "status": "NOT_EVALUATED_PREPARE_ONLY",
+  "reference_coordinate_system": "GLOBAL_X_LONG_Y_TRANSVERSE_Z_VERTICAL",
+  "future_checks": [
+    {
+      "id": "REACTION-FORCE-01",
+      "rule": "sum_support_reactions_plus_applied_force_equals_zero",
+      "relative_tolerance": 1e-06
+    },
+    {
+      "id": "REACTION-MOMENT-01",
+      "rule": "sum_support_moments_plus_force_moments_about_frozen_origin_equals_zero",
+      "relative_tolerance": 1e-06
+    },
+    {
+      "id": "INTERFACE-FLOW-01",
+      "rule": "production_topology_micro_support_reactions_close_applied_translation_load",
+      "relative_tolerance": 1e-06
+    }
+  ],
+  "numeric_expected_values_available": false,
+  "reason": "full-bridge solve and 12 single-MPC/direct-elimination micro solves were intentionally not started"
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "audit_id": "A10_LINK180_POSTONLY_20260715T222004Z",
+  "generated_utc": "2026-07-15T22:33:36Z",
+  "status": "PASSED",
+  "gate_passed": true,
+  "hard_blocker_closed": "LINK180_NONPOSITIVE_AXIAL_FORCE_REVIEW",
+  "s10_startup_blocker_for_this_item": false,
+  "execution": {
+    "mode": "POST1_ONLY_SMP1",
+    "mapdl_exit_code": 0,
+    "processes": 1,
+    "input_path": "a10_link180_post_only.inp",
+    "input_sha256": "4f305143200c45fea50eb33133f5647bb587572bd8ab3921c8c2a21e48fd5426",
+    "input_forbidden_command_count": 0,
+    "uncommented_executable_line_count": 0,
+    "mapdl_warning_count": 0,
+    "mapdl_error_count": 0,
+    "err_length_bytes": 80,
+    "exit_without_saving_confirmed": true
+  },
+  "result_set": {
+    "load_step": 2,
+    "substep": 1,
+    "time": 1.001,
+    "basis": "A10 final no-stabilization hold state used by perturbation modal analysis"
+  },
+  "link180_axial_force": {
+    "result_item": "SMISC,1",
+    "unit": "N",
+    "expected_count": 73692,
+    "actual_count": 73692,
+    "written_count": 73692,
+    "csv_row_count": 73692,
+    "unique_element_count": 73692,
+    "duplicate_element_count": 0,
+    "invalid_numeric_line_count": 0,
+    "nonpositive_count": 0,
+    "minimum_force_n": 519006.875,
+    "minimum_element_id": 70029,
+    "maximum_force_n": 1573311.375,
+    "maximum_element_id": 400003,
+    "summary_gate_value": 1,
+    "csv_path": "a10_link180_axial_force_n.csv",
+    "csv_sha256": "1bf84509a6a0070ef837c6ec164d2982b88fc4e461f5bc1cca43b776f5c8d1c9"
+  },
+  "source_integrity": {
+    "source_integrity_passed": true,
+    "postflight_path": "postflight_source_integrity.json",
+    "equilibrium_database_sha256_before_after": "ad4ff75f99daa21e465a081568f5e7282026c05e83861eec33e7d56afdcb674b",
+    "static_result_sha256_before_after": "c533af1a5cf119f43a6b17a7b7e72c4f26e3365e4c8dc5405ea7d4148d80d0cc"
+  },
+  "attempt_history": {
+    "attempt1_preserved": true,
+    "attempt1_path": "attempt1_invalid_sentinel",
+    "attempt1_used_for_final_gate": false,
+    "final_attempt_warning_count": 0,
+    "final_attempt_error_count": 0
+  },
+  "artifact_hash_manifest": "artifact_hashes.sha256",
+  "artifact_hash_manifest_excludes": [
+    "artifact_hashes.sha256",
+    "qa_summary.json"
+  ]
+}

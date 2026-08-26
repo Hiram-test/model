@@ -1,0 +1,100 @@
+/CLEAR,NOSTART ! 清空数据库但不重启 MAPDL，确保质量模态算例不继承任何单元、质量或约束。
+/FILNAME,cw_u01_07_0715t225028_8a ! 使用准备器注入的唯一作业名，使串行与 DMP 作业各自拥有独立结果前缀。
+/TITLE,U01 MASS21 SIX DOF MODAL CLOSURE ! 标题说明本算例验证 MASS21 三平动、三转动惯量和六阶闭合。
+/PREP7 ! 进入前处理器，以建立一个六自由度点质量和六个互不耦合的弹簧。
+PI=ACOS(-1) ! 通过反余弦精确得到圆周率，避免使用截断字面值影响解析频率。
+MASSX=2 ! 将 X 向平动质量设为 2 tonne，对应目标第一阶 1 Hz。
+MASSY=3 ! 将 Y 向平动质量设为 3 tonne，对应目标第二阶 2 Hz。
+MASSZ=5 ! 将 Z 向平动质量设为 5 tonne，对应目标第三阶 3 Hz。
+INERTX=7000000 ! 将绕 X 转动惯量设为 7.0E6 tonne·mm^2，对应目标第四阶 4 Hz。
+INERTY=11000000 ! 将绕 Y 转动惯量设为 1.1E7 tonne·mm^2，对应目标第五阶 5 Hz。
+INERTZ=13000000 ! 将绕 Z 转动惯量设为 1.3E7 tonne·mm^2，对应目标第六阶 6 Hz。
+KX=MASSX*(2*PI*1)**2 ! 按 k=m(2πf)^2 计算 X 平动弹簧刚度，单位 N/mm。
+KY=MASSY*(2*PI*2)**2 ! 按目标 2 Hz 计算 Y 平动弹簧刚度，单位 N/mm。
+KZ=MASSZ*(2*PI*3)**2 ! 按目标 3 Hz 计算 Z 平动弹簧刚度，单位 N/mm。
+KRX=INERTX*(2*PI*4)**2 ! 按 kθ=I(2πf)^2 计算 ROTX 扭簧刚度，单位 N·mm/rad。
+KRY=INERTY*(2*PI*5)**2 ! 按目标 5 Hz 计算 ROTY 扭簧刚度，单位 N·mm/rad。
+KRZ=INERTZ*(2*PI*6)**2 ! 按目标 6 Hz 计算 ROTZ 扭簧刚度，单位 N·mm/rad。
+ET,1,COMBIN14 ! 定义 X 平动单自由度弹簧类型。
+KEYOPT,1,2,1 ! 激活 COMBIN14 的 UX 自由度，使第一弹簧只约束 X 平动。
+R,1,KX ! 将第一弹簧刚度设为解析计算得到的 KX。
+ET,2,COMBIN14 ! 定义 Y 平动单自由度弹簧类型。
+KEYOPT,2,2,2 ! 激活 COMBIN14 的 UY 自由度，使第二弹簧只约束 Y 平动。
+R,2,KY ! 将第二弹簧刚度设为解析计算得到的 KY。
+ET,3,COMBIN14 ! 定义 Z 平动单自由度弹簧类型。
+KEYOPT,3,2,3 ! 激活 COMBIN14 的 UZ 自由度，使第三弹簧只约束 Z 平动。
+R,3,KZ ! 将第三弹簧刚度设为解析计算得到的 KZ。
+ET,4,COMBIN14 ! 定义 X 转动单自由度扭簧类型。
+KEYOPT,4,2,4 ! 激活 COMBIN14 的 ROTX 自由度，使第四弹簧只约束绕 X 转动。
+R,4,KRX ! 将第四扭簧刚度设为解析计算得到的 KRX。
+ET,5,COMBIN14 ! 定义 Y 转动单自由度扭簧类型。
+KEYOPT,5,2,5 ! 激活 COMBIN14 的 ROTY 自由度，使第五弹簧只约束绕 Y 转动。
+R,5,KRY ! 将第五扭簧刚度设为解析计算得到的 KRY。
+ET,6,COMBIN14 ! 定义 Z 转动单自由度扭簧类型。
+KEYOPT,6,2,6 ! 激活 COMBIN14 的 ROTZ 自由度，使第六弹簧只约束绕 Z 转动。
+R,6,KRZ ! 将第六扭簧刚度设为解析计算得到的 KRZ。
+ET,10,MASS21 ! 定义具有三平动质量和三转动惯量的 MASS21 类型。
+KEYOPT,10,1,0 ! 将实常数直接解释为质量与转动惯量，而非体积乘密度或自定义矩阵。
+KEYOPT,10,2,0 ! 使质量单元坐标系初始与全局笛卡尔坐标系平行。
+KEYOPT,10,3,0 ! 启用完整三维质量和转动惯量六自由度选项。
+R,10,MASSX,MASSY,MASSZ,INERTX,INERTY,INERTZ ! 按 MASSX/MASSY/MASSZ/IXX/IYY/IZZ 顺序输入六项质量实常数。
+N,1,0,0,0 ! 建立承载 MASS21 的活动节点，坐标为全局原点。
+N,2,0,0,0 ! 建立与活动节点共点的固定地基节点；单自由度 COMBIN14 允许共点。
+D,2,ALL,0 ! 固定地基节点全部六个自由度，为六个独立振子提供共同参考。
+TYPE,10 ! 激活 MASS21 类型，准备创建唯一点质量单元。
+REAL,10 ! 激活包含三项质量和三项转动惯量的实常数集合。
+EN,10,1 ! 在活动节点 1 上创建 MASS21 单节点单元。
+*DO,II,1,6,1 ! 遍历六个 COMBIN14 类型，在活动节点和固定地基之间创建独立弹簧。
+TYPE,II ! 激活当前自由度对应的 COMBIN14 类型。
+REAL,II ! 激活当前自由度对应的解析刚度实常数。
+EN,II,1,2 ! 创建活动节点到固定地基节点的单自由度弹簧。
+*ENDDO ! 结束六个独立平动或转动弹簧的创建循环。
+ALLSEL,ALL ! 恢复全选状态，确保点质量和六个弹簧全部进入模态求解。
+FINISH ! 退出前处理器，完成六自由度解析振子定义。
+/SOLU ! 进入求解器，执行 0 至 7 Hz 的 Block Lanczos 模态提取。
+ANTYPE,MODAL ! 选择无阻尼线性模态分析，频率可直接与六个解析单自由度目标比较。
+MODOPT,LANB,6,0,7 ! 使用 Block Lanczos 请求六阶并固定 0 至 7 Hz 频带，完整覆盖 1 至 6 Hz 六个物理自由度。
+MXPAND,6,,,YES ! 展开全部六阶并写入位移与转角结果，保证每阶都有可导出的节点向量。
+OUTRES,ALL,ALL ! 保存全部六个模态结果集，供连续 SET 和节点向量闭合验证。
+SOLVE ! 求解六个互不耦合的解析振子，理论频率依次为 1、2、3、4、5、6 Hz。
+FINISH ! 退出求解器，准备读取频率和六自由度节点向量。
+/POST1 ! 进入通用后处理器，以访问六个已展开模态结果集。
+*DIM,FREQ6,ARRAY,6 ! 分配六项频率数组，用于保存 Block Lanczos 输出。
+NREQ=6 ! 记录 MODOPT 明确请求的六阶模态数，作为闭合 CSV 第一项运行期参数而非输出时硬编码字面值。
+NFREQ=0 ! 初始化成功执行频率提取的循环计数；任一 *GET 原生错误仍会被外部日志硬门禁拒绝。
+NSETOK=0 ! 初始化无原生错误结果集选择计数；每次 SET 后递增并与向量实际行数交叉核对。
+NVEC=0 ! 初始化完成六自由度节点向量读取的计数；仅在六项 *GET 全部发出后递增。
+*DO,II,1,6,1 ! 遍历六阶模态并通过 MODE 实体读取双精度频率。
+*GET,FREQ6(II),MODE,II,FREQ ! 读取当前模态频率，单位 Hz。
+NFREQ=NFREQ+1 ! 当前频率提取命令无原生错误时累计一项；日志门禁与最终 CSV 行数提供独立约束。
+*ENDDO ! 结束六项频率读取循环。
+*CFOPEN,u01_mass_modal_frequencies,csv ! 打开两列频率 CSV，列为模态序号和双精度频率。
+*DO,II,1,6,1 ! 遍历六阶模态并逐行写出原始频率。
+IDOUT=II ! 将当前模态序号复制到普通数值标量，避免 APDL 不支持的整数输出描述符写出星号。
+FOUT=FREQ6(II) ! 将当前模态频率复制到标量，阻止 *VWRITE 隐式续写后续频率数组项。
+*VWRITE,IDOUT,FOUT ! 仅写出当前模态的两个标量；紧随的纯格式行用 F4.0 表示数值序号并写双精度频率。
+(F4.0,',',ES24.15)
+*ENDDO ! 结束六行频率输出循环。
+*CFCLOS ! 关闭频率 CSV，确保六阶频率完整落盘。
+*CFOPEN,u01_mass_modal_vectors,csv ! 打开七列节点向量 CSV，列为一项阶次及节点 1 的六项自由度分量。
+*DO,II,1,6,1 ! 遍历六个连续结果集，任何缺失 SET 都会在原生日志中形成硬错误。
+SET,1,II ! 选择载荷步 1 的第 II 个模态结果集，实现请求阶次与 SET 的一一对应。
+NSETOK=NSETOK+1 ! 当前 SET 命令发出后累计一项；若 SET 失败，MAPDL 原生错误计数会使案例在解析 CSV 前被拒绝。
+*GET,VUX,NODE,1,U,X ! 读取当前模态节点 1 的 UX 分量。
+*GET,VUY,NODE,1,U,Y ! 读取当前模态节点 1 的 UY 分量。
+*GET,VUZ,NODE,1,U,Z ! 读取当前模态节点 1 的 UZ 分量。
+*GET,VRX,NODE,1,ROT,X ! 读取当前模态节点 1 的 ROTX 分量。
+*GET,VRY,NODE,1,ROT,Y ! 读取当前模态节点 1 的 ROTY 分量。
+*GET,VRZ,NODE,1,ROT,Z ! 读取当前模态节点 1 的 ROTZ 分量。
+NVEC=NVEC+1 ! 当前结果集六项节点分量读取完成后累计一行向量，随后与实际 CSV 行数严格比较。
+IDOUT=II ! 将当前向量的模态序号复制到数值标量，避免整数格式描述符导致首列不可解析。
+*VWRITE,IDOUT,VUX,VUY,VUZ,VRX,VRY,VRZ ! 写出数值序号和节点 1 的完整六自由度模态向量；紧随的纯格式行定义七列。
+(F4.0,6(',',ES24.15))
+*ENDDO ! 结束六阶连续 SET 与节点向量导出循环。
+*CFCLOS ! 关闭节点向量 CSV，确保六阶六自由度数据完整落盘。
+*CFOPEN,u01_mass_modal_closure,csv ! 打开请求—频率—SET—向量闭合计数文件。
+*VWRITE,NREQ,NFREQ,NSETOK,NVEC ! 写出运行期请求、频率提取、SET 选择和向量读取累计数；紧随的纯格式行输出四项整数计数。
+(F4.0,3(',',F4.0))
+*CFCLOS ! 关闭闭合计数 CSV，供外部编排器与实际文件行数交叉验证。
+FINISH ! 退出后处理器，完成 MASS21、全频带和节点向量导出验证。
+/EXIT,NOSAVE ! 正常退出且不保存 DB，防止六自由度小模型被误认作全桥模型。

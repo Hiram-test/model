@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "status": "PASSED_PREPARE_ONLY_NOT_SOLVED",
+  "run_name": "C10_A0_DIRECT_SPATIAL_RAMP_20260802T040827007333Z",
+  "units": {
+    "force": "N",
+    "length": "mm",
+    "mass": "tonne",
+    "time": "s"
+  },
+  "source_hashes_closed": true,
+  "dependency_count": 11,
+  "topology_expected": {
+    "nodes": 109086,
+    "elements": 178072,
+    "TYPE4": 73692,
+    "TYPE6": 48620,
+    "TYPE70": 17679,
+    "TYPE71": 33003,
+    "TYPE72": 5078,
+    "TYPE73": 0,
+    "CERIG_commands": 0,
+    "CP_commands": 12,
+    "D_commands": 3968
+  },
+  "current_type72_count": 5078,
+  "type73_count": 0,
+  "aux_node_count": 0,
+  "s10_controls_exact": {
+    "KBC_0_count": 2,
+    "AUTOTS_ON_count": 1,
+    "NSUBST_20_200_20_count": 1,
+    "PRED_OFF_count": 1
+  },
+  "ls2_hold_exact": true,
+  "nldiag_nrre_on_50_count": 1,
+  "eflg_count": 0,
+  "convergence_acceptance_scope": "DEFAULT_CNVTOL_DIAGNOSTIC_ONLY",
+  "cnvtol_explicit_count": 0,
+  "default_cnvtol_auto_relaxation_log_message_allowed": false,
+  "a0b_explicit_cnvtol_acceptance_required_if_a0_passes": true,
+  "keyopt_override_count_in_main": 0,
+  "initial_state_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+  "deadload_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+  "mass21_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+  "gravity_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+  "resource_gate": {
+    "minimum_free_disk_gib": 24,
+    "historical_largest_package_gib": 5.63,
+    "multiplier": 4.26,
+    "reference_extra_margin_gib": 14.653
+  },
+  "modal_commands_present": false,
+  "solve_count": 2,
+  "pre_solve_only": true,
+  "static_convergence": "NOT_RUN",
+  "solution_verification": "NOT_RUN"
+}

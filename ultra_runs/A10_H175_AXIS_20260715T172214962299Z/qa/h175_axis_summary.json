@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "status": "PASSED",
+  "formula": {
+    "ex": "normalize(J-I)",
+    "ey": "normalize(globalZ-dot(globalZ,ex)*ex)",
+    "ez": "cross(ex,ey)",
+    "K": "I+100*ez",
+    "orientation_length_mm": 100.0
+  },
+  "target": {
+    "material_id": 61,
+    "section_id": 61,
+    "type_id": 70,
+    "element_count": 2698,
+    "unique_k_node_count": 2698,
+    "changed_n_command_count": 2698,
+    "inline_comment_count": 2698
+  },
+  "exclusive_k_nodes": true,
+  "representative_element_id": 2000001,
+  "representative_new_k_minus_i_mm": {
+    "x": -100.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "representative_minus_global_x_error_mm": 0.0,
+  "max_orthogonality_error": 0.0,
+  "max_handedness_error": 0.0,
+  "max_reconstruction_error_mm": 0.0,
+  "source_line_count": 58727,
+  "changed_line_numbers_sha256": "47454937265fbe799cdb1f6e58be10257876c25467dd1b82dc76c53a24c20146",
+  "maximum_output_line_length": 111,
+  "apdl_line_length_limit": 640
+}

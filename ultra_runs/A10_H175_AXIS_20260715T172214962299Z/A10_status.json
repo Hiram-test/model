@@ -1,0 +1,47 @@
+{
+  "run_id": "A10_H175_AXIS",
+  "run_dir_name": "A10_H175_AXIS_20260715T172214962299Z",
+  "jobname": "cw_A10_0715t172214_24",
+  "model_line": "LEGACY_A10_H175_AXIS_ONLY",
+  "status": "PASS_WITH_LEGACY_LIMITATIONS",
+  "execution_status": "EXECUTED",
+  "prepare_status": "PREPARED_NOT_STARTED_USER_OVERRIDE",
+  "prepare_gate_passed": true,
+  "execution_attempted": true,
+  "process_started": true,
+  "mapdl_started": true,
+  "postrun_gate_passed": true,
+  "main_out_warning_markers": 5,
+  "main_out_errors": 0,
+  "negative_pivot_count": 0,
+  "zero_pivot_count": 0,
+  "modes_available": 80,
+  "modes_exported": 80,
+  "displacement_vector_files": 80,
+  "rotation_vector_files": 80,
+  "sene6_status": "PASSED",
+  "link180_status": "PASSED",
+  "source_integrity_status": "PASSED_FOUR_CURRENT_HASHES",
+  "legacy_limitations": [
+    {
+      "id": "LEGACY_CERIG_LARGE_DEFLECTION",
+      "description": "legacy CERIG 约束在大变形下的适用性 warning 仍存在；本轮未改变 legacy 连接运动学。"
+    },
+    {
+      "id": "HIGH_COEFFICIENT_RATIO",
+      "description": "静力矩阵系数比超过 1E8，虽无负/零主元且全部收敛，仍保留尺度病态限制。"
+    },
+    {
+      "id": "STEN_SUBSTEP_NUMERIC_HISTORY_UNAVAILABLE",
+      "description": "输入顺序与两次求解器 KEY=OFF 回显证明 LS1/LS2 全历程未启用稳定化，因而任务书全历程控制门禁通过；但 RST 只保存两个端点 VENG，逐子步 STEN 数值表不可恢复。"
+    }
+  ],
+  "finalized_utc": "2026-07-15T22:55:59.378708+00:00",
+  "next_action": "NONE_FINALIZED",
+  "prepare_lineage": {
+    "status": "lineage/A10_status.prepare_original.json",
+    "manifest": "lineage/manifest.prepare_original.json"
+  },
+  "postrun_gate": "qa/postrun_gate.json",
+  "external_completion_qa": "qa/a10_external_completion_qa.json"
+}

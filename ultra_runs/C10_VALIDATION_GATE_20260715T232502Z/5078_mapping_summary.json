@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "summary_type": "C10_5078_LOGICAL_CONNECTION_TO_MPC184_CLOSURE",
+  "created_at_utc": "2026-07-15T23:25:02Z",
+  "source_artifacts": {
+    "legacy_constraints": {
+      "absolute_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\generated\\generated_constraints.csv",
+      "sha256": "4533e7aa074b18d3fd9e38e899017bc87ffc9aafe27da2bcb5e76330ed6b1da8",
+      "detail_row_count": 5078
+    },
+    "mpc184_connections": {
+      "absolute_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U00_SOURCE_GATE_20260715T024455Z\\regenerated_source_chain\\builder_generated\\generated_rigid_connections.csv",
+      "sha256": "866788b40273e0451a8b2d484248ce9351205afccaa392354a280e063942f3cb",
+      "detail_row_count": 5078
+    },
+    "details_copied_into_gate": false
+  },
+  "mapping": {
+    "logical_connection_count": 5078,
+    "uxyz": {
+      "logical_connection_count": 3124,
+      "mpc184_elements_per_logical_connection": 2,
+      "generated_mpc184_element_count": 6248
+    },
+    "all": {
+      "logical_connection_count": 1954,
+      "mpc184_elements_per_logical_connection": 1,
+      "generated_mpc184_element_count": 1954
+    },
+    "generated_mpc184_element_count": 8202,
+    "closure_formula": "3124*2+1954*1=8202",
+    "stable_pair_fields": [
+      "dof_label_to_source_semantics",
+      "system",
+      "assembly_name",
+      "reason"
+    ],
+    "stable_field_pair_count": 5078,
+    "mapping_mismatch_count": 0
+  },
+  "structural_checks": {
+    "unique_mpc184_element_id_count": 8202,
+    "duplicate_mpc184_element_id_count": 0,
+    "uxyz_missing_primary_element_id_count": 0,
+    "uxyz_missing_offset_element_id_count": 0,
+    "all_missing_primary_element_id_count": 0,
+    "all_unexpected_offset_element_id_count": 0,
+    "unknown_source_semantics_count": 0
+  },
+  "drawing_traceability": {
+    "source_pdf_exists": true,
+    "mapping_rows_with_drawing_reference": 0,
+    "integration_status": "NOT_INTEGRATED"
+  },
+  "limitations": [
+    "MAPPING_CLOSURE_DOES_NOT_SATISFY_PENALTY_OR_FULL_BRIDGE_VALIDATION",
+    "REFERENCED_U00_CANDIDATE_CONTAINS_SEC61_BOUNDARY_CONTAMINATION",
+    "THIS_SUMMARY_IS_READ_ONLY_AND_DID_NOT_RUN_MAPDL_OR_MODIFY_THE_GENERATOR"
+  ]
+}

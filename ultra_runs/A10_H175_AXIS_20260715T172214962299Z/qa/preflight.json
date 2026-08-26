@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "run_id": "A10_H175_AXIS",
+  "generated_utc": "2026-07-15T17:22:14.962299+00:00",
+  "status": "PREPARED_NOT_STARTED_USER_OVERRIDE",
+  "prepare_gate_passed": true,
+  "checks": [
+    {
+      "check_id": "PARENT_B00_DELIVERY_COMPLETED",
+      "passed": true,
+      "actual": "COMPLETED",
+      "expected": "COMPLETED"
+    },
+    {
+      "check_id": "FROZEN_DEPENDENCIES_11",
+      "passed": true,
+      "actual": 11,
+      "expected": 11
+    },
+    {
+      "check_id": "INVARIANT_DEPENDENCIES_10",
+      "passed": true,
+      "actual": 10,
+      "expected": 10
+    },
+    {
+      "check_id": "CONTROLLED_PHYSICAL_CHANGE_FAMILY_1",
+      "passed": true,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "check_id": "H175_TARGET_ELEMENTS_2698",
+      "passed": true,
+      "actual": 2698,
+      "expected": 2698
+    },
+    {
+      "check_id": "CERIG_COUNT_UNCHANGED_5078",
+      "passed": true,
+      "actual": 5078,
+      "expected": 5078
+    },
+    {
+      "check_id": "CURRENT_B00_TEMPLATE_HASH",
+      "passed": true,
+      "actual": "6e51cffdfdc67773bd1b66e6dcb456e01565b9dfb80b5fa3e236d7884d71360f",
+      "expected": "6e51cffdfdc67773bd1b66e6dcb456e01565b9dfb80b5fa3e236d7884d71360f"
+    },
+    {
+      "check_id": "MAIN_SINGLE_JOB_TRUE_LS2",
+      "passed": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "check_id": "MODAL_UNBOUNDED_80_STRICT",
+      "passed": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "check_id": "MODAL_OUTRES_NSOL_AND_VENG_RESTORED",
+      "passed": true,
+      "actual": [
+        "OUTRES,ALL,NONE",
+        "OUTRES,NSOL,ALL",
+        "OUTRES,VENG,ALL",
+        "SOLVE"
+      ],
+      "expected": [
+        "OUTRES,ALL,NONE",
+        "OUTRES,NSOL,ALL",
+        "OUTRES,VENG,ALL",
+        "SOLVE"
+      ]
+    },
+    {
+      "check_id": "GATE_BOTTOM_MODAL_SENE_80",
+      "passed": true,
+      "actual": 80,
+      "expected": 80
+    },
+    {
+      "check_id": "MEMORY_GATE_POLICY_RECORDED",
+      "passed": true,
+      "actual": "USER_OVERRIDE",
+      "expected": "RECORDED_WITH_MEASURED_SNAPSHOT"
+    },
+    {
+      "check_id": "DISK_GATE_SNAPSHOT_RECORDED",
+      "passed": true,
+      "actual": true,
+      "expected": "RECORDED_WITHOUT_AUTOSTART"
+    },
+    {
+      "check_id": "PREPARE_ONLY_NO_EXECUTION",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    }
+  ],
+  "memory_snapshot": {
+    "available": true,
+    "total_physical_bytes": 16556494848,
+    "available_physical_bytes": 4738613248,
+    "available_page_file_bytes": 9082204160,
+    "memory_load_percent": 71,
+    "minimum_available_memory_bytes": 8589934592,
+    "comfortable_available_memory_bytes": 10737418240,
+    "memory_ready": false,
+    "memory_comfortable": false,
+    "execution_attempted": false
+  },
+  "disk_snapshot": {
+    "volume_anchor": "D:\\",
+    "total_bytes": 215015747584,
+    "used_bytes": 162472120320,
+    "free_bytes": 52543627264,
+    "minimum_free_bytes_for_execution": 34359738368,
+    "disk_ready": true,
+    "budget_basis": "historical_incomplete_40_mode_attempt_7.857_GiB_times_about_4",
+    "execution_attempted": false
+  },
+  "measured_resources_ready": false,
+  "memory_gate_policy": "USER_OVERRIDE",
+  "memory_gate_overridden_by_user": true,
+  "launch_policy_satisfied_after_override": true,
+  "resource_gate_is_nonexecuting": true,
+  "mapdl_execution_attempted": false,
+  "process_started": false,
+  "next_action": "USER_OVERRIDE_RECORDED_SEPARATE_EXPLICIT_LAUNCH_REQUIRED"
+}

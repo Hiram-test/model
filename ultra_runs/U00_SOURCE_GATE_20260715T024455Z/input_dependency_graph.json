@@ -1,0 +1,221 @@
+{
+  "schema_version": "1.0",
+  "nodes": [
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U00_SOURCE_GATE_20260715T024455Z\\regenerated_source_chain\\builder_generated\\apply_finite_gates_and_passages_v2.inp",
+      "type": "apdl_input",
+      "sha256": "63a25cec281511f06a8734ecedbdae9daf13231b171bd5b11df464a3832f9706"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U00_SOURCE_GATE_20260715T024455Z\\regenerated_source_chain\\mass_generated\\apply_dynamic_mass21_spatialized_v2.inp",
+      "type": "apdl_input",
+      "sha256": "fbcb56112f6783ea8654f231d06cd79aca491b0707dca2fd92fc9bbeb39a1f6d"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\generated\\apply_finite_gates_and_passages_v2.inp",
+      "type": "apdl_input",
+      "sha256": "51dc4dabba9d4ad1464d033fa69aba80cbaea79bcbed163fadb81e3b63211b98"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\apply_dynamic_mass21_spatialized_v2.inp",
+      "type": "apdl_input",
+      "sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\full_line_beam4_crossbeam_mesh_xlong.inp",
+      "type": "apdl_input",
+      "sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\convert_crossbeams_beam4_to_beam188.inp",
+      "type": "apdl_input",
+      "sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_downpull_equivalent_xlong.inp",
+      "type": "apdl_input",
+      "sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_constraints_xlong.inp",
+      "type": "apdl_input",
+      "sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_authoritative_initial_state_link180.inp",
+      "type": "apdl_input",
+      "sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_modal_roty_stabilization_xlong.inp",
+      "type": "apdl_input",
+      "sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\define_representative_rope_component.inp",
+      "type": "apdl_input",
+      "sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_authoritative_mct_deadload_v1.inp",
+      "type": "apdl_input",
+      "sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e"
+    },
+    {
+      "id": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_authoritative_mct_gravity_v1.inp",
+      "type": "apdl_input",
+      "sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e"
+    }
+  ],
+  "apdl_edges": [],
+  "generated_edges": [
+    {
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\prepare_and_run_v2.py",
+      "target": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "relation": "contains build template; shared runner disabled"
+    },
+    {
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\build_finite_gate_passage_apdl.py",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U00_SOURCE_GATE_20260715T024455Z\\regenerated_source_chain\\builder_generated\\apply_finite_gates_and_passages_v2.inp",
+      "relation": "generates"
+    },
+    {
+      "source": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\generate_spatialized_mass21_v2.py",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U00_SOURCE_GATE_20260715T024455Z\\regenerated_source_chain\\mass_generated\\apply_dynamic_mass21_spatialized_v2.inp",
+      "relation": "generates"
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\full_line_beam4_crossbeam_mesh_xlong.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 1
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\convert_crossbeams_beam4_to_beam188.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 2
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_downpull_equivalent_xlong.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 3
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_constraints_xlong.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 4
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_authoritative_initial_state_link180.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 5
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\generated\\apply_finite_gates_and_passages_v2.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 6
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_modal_roty_stabilization_xlong.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 7
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\define_representative_rope_component.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 8
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_authoritative_mct_deadload_v1.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 9
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\apply_dynamic_mass21_spatialized_v2.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 10
+    },
+    {
+      "source": "GENERATED:B00_LEGACY_COMPLETE_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_authoritative_mct_gravity_v1.inp",
+      "relation": "/INPUT LEGACY_FROZEN_APDL",
+      "order": 11
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\full_line_beam4_crossbeam_mesh_xlong.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 1
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\convert_crossbeams_beam4_to_beam188.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 2
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_downpull_equivalent_xlong.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 3
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_constraints_xlong.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 4
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_mct_authoritative_initial_state_link180.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 5
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U00_SOURCE_GATE_20260715T024455Z\\regenerated_source_chain\\builder_generated\\apply_finite_gates_and_passages_v2.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 6
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_modal_roty_stabilization_xlong.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 7
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\define_representative_rope_component.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 8
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_authoritative_mct_deadload_v1.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 9
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U00_SOURCE_GATE_20260715T024455Z\\regenerated_source_chain\\mass_generated\\apply_dynamic_mass21_spatialized_v2.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 10
+    },
+    {
+      "source": "GENERATED:C10_MPC_DIAGNOSTIC_main.inp",
+      "target": "D:\\张靖皋大桥\\03_猫道动力分析\\第一阶模态验证_V1.0\\apply_authoritative_mct_gravity_v1.inp",
+      "relation": "/INPUT MPC_DIAGNOSTIC_GENERATED",
+      "order": 11
+    }
+  ],
+  "unresolved_apdl_inputs": []
+}

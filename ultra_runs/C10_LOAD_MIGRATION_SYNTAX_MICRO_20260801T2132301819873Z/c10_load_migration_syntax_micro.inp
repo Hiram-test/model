@@ -1,0 +1,105 @@
+! 清空求解器会话并读取标准启动设置，防止继承其他作业数据库。
+/CLEAR,START
+! 设置本微验证唯一 ASCII 作业名，避免覆盖任何全桥运行文件。
+/FILNAME,c10mig_micro_0801t213230
+! 设置可辨识标题，明确本作业只验证 beta 表达式和固定节点 replacement 路径。
+/TITLE,C10 LOAD MIGRATION BETA EXPRESSION SYNTAX MICRO
+! 进入前处理器建立两节点竖直 LINK180 微型模型。
+/PREP7
+! 定义类型一为 LINK180 轴向杆单元。
+ET,1,LINK180
+! 定义实常数一的截面面积为 100 mm2，使微荷载位移保持小量级。
+R,1,100
+! 定义材料一弹性模量为 200000 N/mm2，代表普通钢材量级但不作工程验算。
+MP,EX,1,200000
+! 定义材料一泊松比为 0.3，满足材料数据完整性要求。
+MP,PRXY,1,0.3
+! 建立固定端节点一，坐标为原点，单位 mm。
+N,1,0,0,0
+! 建立自由端节点二，位于全局 Z 正向 1000 mm。
+N,2,0,0,1000
+! 激活 LINK180 类型一供下一条单元命令使用。
+TYPE,1
+! 激活材料一供下一条单元命令使用。
+MAT,1
+! 激活实常数一供下一条单元命令使用。
+REAL,1
+! 在节点一和节点二之间建立唯一竖直轴向杆。
+E,1,2
+! 固定节点一全部可用自由度，形成杆件底端支承。
+D,1,ALL,0
+! 固定节点二全局 X 位移，去除轴线外刚体自由度。
+D,2,UX,0
+! 固定节点二全局 Y 位移，保留唯一轴向 UZ 响应。
+D,2,UY,0
+! 离开前处理器并开始两载荷步静力语法验证。
+FINISH
+! 进入求解处理器。
+/SOLU
+! 指定新静力分析，不读取任何重启动文件。
+ANTYPE,STATIC
+! 关闭大变形，使微验证只检查命令语义和线性插值。
+NLGEOM,OFF
+! LS1 采用阶跃端点，直接施加 beta=1 的完整 1.25 N 力。
+KBC,1
+! LS1 关闭自动步长，只允许一个确定性子步。
+AUTOTS,OFF
+! LS1 固定一个子步。
+NSUBST,1,1,1
+! 将二值迁移参数设为一，定义完整修正力端点。
+C10_BETA=1
+! 调用与全桥相同语法的固定节点 replacement 力 include。
+/INPUT,c10_beta_force,inp
+! 设置 LS1 伪时间终点为 1.0。
+TIME,1
+! 保存 LS1 末全部结果供位移核查。
+OUTRES,ALL,LAST
+! 执行 beta=1 静力求解。
+SOLVE
+! 读取 LS1 收敛标志，预期为一。
+*GET,C10_CNVG1,ACTIVE,0,SOLU,CNVG
+! 将二值迁移参数设为零，在同一节点显式写入零力端点。
+C10_BETA=0
+! 再次调用同一 include，以 replacement 方式把节点二目标力改为零。
+/INPUT,c10_beta_force,inp
+! LS2 使用斜坡插值，使节点力从 1.25 N 连续迁移到 0 N。
+KBC,0
+! LS2 关闭自动步长，固定二十个结果可预期的子步。
+AUTOTS,OFF
+! LS2 固定二十个子步，模拟全桥迁移的起始离散密度。
+NSUBST,20,20,20
+! 设置 LS2 伪时间终点为 2.0，保证时间严格递增。
+TIME,2
+! 保存 LS2 全部子步结果，用于确认中间位移连续变化。
+OUTRES,ALL,ALL
+! 执行 beta 从一到零的节点力 replacement 迁移求解。
+SOLVE
+! 读取 LS2 最终收敛标志，预期为一。
+*GET,C10_CNVG2,ACTIVE,0,SOLU,CNVG
+! 离开求解处理器并进入只读结果核查。
+FINISH
+! 进入通用后处理器。
+/POST1
+! 显式选择本微验证的结果文件。
+FILE,c10mig_micro_0801t213230,rst
+! 读取 LS1 最后结果集。
+SET,1,LAST
+! 读取 beta=1 时节点二竖向位移，单位 mm，预期为正非零。
+*GET,C10_UZ1,NODE,2,U,Z
+! 读取 LS2 最后结果集。
+SET,2,LAST
+! 读取 beta=0 时节点二竖向位移，单位 mm，预期接近零。
+*GET,C10_UZ2,NODE,2,U,Z
+! 把两步收敛标志和端点位移写入独立证据文件。
+/OUTPUT,c10_load_migration_syntax_micro_result,txt
+! 写出 LS1/LS2 收敛标志和两个端点位移。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_CNVG1,C10_CNVG2,C10_UZ1,C10_UZ2
+('CNVG1=',F4.0,', CNVG2=',F4.0,', UZ1=',E24.16,', UZ2=',E24.16)
+! 恢复主输出并结束证据文件。
+/OUTPUT
+! 离开后处理器。
+FINISH
+! 正常结束本唯一微验证会话且不额外保存数据库。
+/EXIT,NOSAVE
+

@@ -1,0 +1,35 @@
+# U01 独立小作业正式启动命令
+
+以下命令仅用于审计；本脚本从 manifest 字段重建 argv，不解析或执行本文件。
+
+## link_prestress
+
+& 'D:\ANSYS2026\ANSYS Inc\v261\ansys\bin\winx64\ANSYS261.exe' '-b' '-np' '1' '-j' 'cw_u01_01_0715t225028_8a' '-dir' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\link_prestress' '-i' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\link_prestress\link_prestress.inp' '-o' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\link_prestress\cw_u01_01_0715t225028_8a.out'
+
+## beam_axis
+
+& 'D:\ANSYS2026\ANSYS Inc\v261\ansys\bin\winx64\ANSYS261.exe' '-b' '-np' '1' '-j' 'cw_u01_02_0715t225028_8a' '-dir' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\beam_axis' '-i' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\beam_axis\beam_axis.inp' '-o' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\beam_axis\cw_u01_02_0715t225028_8a.out'
+
+## sections
+
+& 'D:\ANSYS2026\ANSYS Inc\v261\ansys\bin\winx64\ANSYS261.exe' '-b' '-np' '1' '-j' 'cw_u01_03_0715t225028_8a' '-dir' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\sections' '-i' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\sections\sections.inp' '-o' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\sections\cw_u01_03_0715t225028_8a.out'
+
+## mpc_5e10
+
+& 'D:\ANSYS2026\ANSYS Inc\v261\ansys\bin\winx64\ANSYS261.exe' '-b' '-np' '1' '-j' 'cw_u01_04_0715t225028_8a' '-dir' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mpc_5e10' '-i' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mpc_5e10\mpc_5e10.inp' '-o' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mpc_5e10\cw_u01_04_0715t225028_8a.out'
+
+## mpc_1e11
+
+& 'D:\ANSYS2026\ANSYS Inc\v261\ansys\bin\winx64\ANSYS261.exe' '-b' '-np' '1' '-j' 'cw_u01_05_0715t225028_8a' '-dir' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mpc_1e11' '-i' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mpc_1e11\mpc_1e11.inp' '-o' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mpc_1e11\cw_u01_05_0715t225028_8a.out'
+
+## revolute_6dof
+
+& 'D:\ANSYS2026\ANSYS Inc\v261\ansys\bin\winx64\ANSYS261.exe' '-b' '-np' '1' '-j' 'cw_u01_06_0715t225028_8a' '-dir' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\revolute_6dof' '-i' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\revolute_6dof\revolute_6dof.inp' '-o' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\revolute_6dof\cw_u01_06_0715t225028_8a.out'
+
+## mass_serial
+
+& 'D:\ANSYS2026\ANSYS Inc\v261\ansys\bin\winx64\ANSYS261.exe' '-b' '-np' '1' '-j' 'cw_u01_07_0715t225028_8a' '-dir' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mass_serial' '-i' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mass_serial\mass_serial.inp' '-o' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mass_serial\cw_u01_07_0715t225028_8a.out'
+
+## mass_dmp4
+
+& 'D:\ANSYS2026\ANSYS Inc\v261\ansys\bin\winx64\ANSYS261.exe' '-b' '-dis' '-mpi' 'intelmpi' '-np' '4' '-j' 'cw_u01_08_0715t225028_8a' '-dir' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mass_dmp4' '-i' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mass_dmp4\mass_dmp4.inp' '-o' 'D:\张靖皋大桥\03_猫道动力分析\附件2-3全模态精确对齐_V2.0\ultra_runs\U01_UNIT_TESTS_20260715T225028311569Z\solver\mass_dmp4\cw_u01_08_0715t225028_8a.out'

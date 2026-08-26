@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "run_id": "F99_CHAIN_CLOSURE",
+  "run_name": "F99_CHAIN_CLOSURE_20260715T233221Z",
+  "model_line": "ULTRA_CHAIN_EVIDENCE_CLOSURE",
+  "status": "CLOSED_WITH_HARD_SOURCE_EVIDENCE_BLOCK",
+  "created_at_utc": "2026-07-15T23:32:21Z",
+  "read_only_evidence_consolidation": true,
+  "mapdl_execution_attempted": false,
+  "mapdl_started": false,
+  "authoritative_runs": [
+    "A10_H175_AXIS_20260715T172214962299Z",
+    "A20_RHS5030_AXIS_20260715T214637371159Z",
+    "A30_ALL_AXES_20260715T230922215766Z",
+    "S10_SOURCE_GATE_20260715T231708917397Z",
+    "S10_SECTION_SHEAR_20260715T232342329492Z",
+    "C10_VALIDATION_GATE_20260715T232502Z",
+    "X10_DOWNSTREAM_SOURCE_AUDIT_20260715T233443Z"
+  ],
+  "canonical_target_mapping": "../X10_DOWNSTREAM_SOURCE_AUDIT_20260715T233443Z/09_target_mapping.csv",
+  "outputs": [
+    "status.json",
+    "manifest.json",
+    "04_run_matrix_actual.csv",
+    "05_static_gates.csv",
+    "12_parameter_decisions.csv",
+    "final_diagnostic_report.md",
+    "unresolved_source_items.md",
+    "field_dictionary.md",
+    "source_hashes.sha256",
+    "artifact_hashes.sha256"
+  ],
+  "excluded_claims": [
+    "S10_FULL_BRIDGE_EXECUTED",
+    "C10_VALIDATED_OR_EXECUTED",
+    "C20_OR_LATER_EXECUTED",
+    "STRICT_REPORT_MAC_COMPLETED",
+    "FINAL_PRODUCTION_INP_AVAILABLE"
+  ]
+}

@@ -1,0 +1,160 @@
+/CLEAR,NOSTART ! 清空数据库但不重启 MAPDL，确保铰链算例不继承旧约束方程或关节截面。
+/FILNAME,cw_u01_06_0715t225028_8a ! 使用准备器注入的唯一作业名，隔离六自由度算例的全部可变文件。
+/TITLE,U01 MPC184 REVOLUTE SIX DOF ! 标题说明本算例用六个单位力或力矩检验 x 轴 revolute joint。
+/PREP7 ! 进入前处理器，以建立六套互不连接的梁—关节—梁组件。
+ET,1,BEAM188 ! 定义 BEAM188 作为关节两侧的可变形连接体，避免直接在关节节点施加边界条件。
+KEYOPT,1,3,3 ! 使用三次插值，使两侧短梁具有稳定且可重复的六自由度刚度。
+MP,EX,1,206000 ! 定义钢材弹性模量 206000 N/mm^2，为受限方向提供高但有限的参考刚度。
+MP,PRXY,1,0.31 ! 定义泊松比 0.31，使梁扭转和剪切刚度具有明确材料参数。
+SECTYPE,1,BEAM,RECT,RIGIDBODY ! 定义 100 mm×100 mm 实心方梁截面，作为关节两侧的高刚度连接体。
+SECDATA,100,100 ! 将矩形两边均设为 100 mm，避免强弱轴差异干扰铰链自由度判断。
+ET,2,MPC184 ! 定义 MPC184 关节单元类型。
+KEYOPT,2,1,6 ! 将 MPC184 设置为 revolute joint，官方定义中仅保留绕局部 x 轴相对转动。
+KEYOPT,2,2,0 ! 使用拉格朗日乘子精确施加五个受限相对自由度，避免罚刚度滑移影响本基础验证。
+KEYOPT,2,4,0 ! 选择局部 e1 即 x 轴为自由铰轴，受限方向为三平动及 local-y/local-z 转动。
+ET,3,COMBIN14 ! 定义只服务自由铰轴工况的单自由度正则化扭簧。
+KEYOPT,3,2,4 ! 将 COMBIN14 激活自由端 ROTX，使单位 MX 工况具有可解析的 1000 N·mm/rad 低刚度极限。
+R,3,1000 ! 将正则化扭簧刚度设为 1000 N·mm/rad，使单位力矩转角为 0.001 rad 并保持小转角线性范围。
+ARM=100 ! 将关节两侧梁长各设为 100 mm，使受限方向刚度远高于自由轴正则化刚度。
+*DO,II,1,6,1 ! 遍历六个单位载荷工况，每个工况使用独立节点、截面和局部坐标系。
+BASE=II*100 ! 为当前工况分配独立百位节点与单元编号区间。
+YOFF=II*1000 ! 沿全局 Y 每隔 1000 mm 布置一个组件，防止不同工况节点共点。
+N,BASE+1,-ARM,YOFF,0 ! 建立左侧固定端物理节点，边界条件不直接施加在关节节点上。
+N,BASE+2,0,YOFF,0 ! 建立 revolute joint 的 I 端节点，位于销轴中心。
+N,BASE+3,0,YOFF,0 ! 建立 revolute joint 的 J 端共点节点，初始坐标与 I 端严格一致。
+N,BASE+4,ARM,YOFF,0 ! 建立右侧单位载荷施加节点，避免违反关节节点不得直接施加边界的限制。
+N,BASE+5,-ARM,YOFF,100 ! 建立左梁方向节点，使左梁 local-z 指向全局 +Z。
+N,BASE+6,0,YOFF,100 ! 建立右梁方向节点，使右梁 local-z 同样指向全局 +Z。
+TYPE,1 ! 激活 BEAM188 类型，准备创建关节两侧可变形梁。
+MAT,1 ! 激活统一钢材材料，使六个工况的连接体刚度完全相同。
+SECNUM,1 ! 激活 100 mm×100 mm 方梁截面，消除截面方向敏感性。
+EN,BASE+1,BASE+1,BASE+2,BASE+5 ! 创建左侧梁，将固定端连接到关节 I 节点。
+EN,BASE+2,BASE+3,BASE+4,BASE+6 ! 创建右侧梁，将关节 J 节点连接到单位载荷节点。
+CSID=900+II ! 为当前关节分配 901 至 906 的独立局部坐标系编号。
+SECID=100+II ! 为当前关节分配 101 至 106 的独立关节截面编号。
+LOCAL,CSID,0,0,YOFF,0,0,0,0 ! 在销轴中心建立与全局轴平行的局部笛卡尔坐标系，使自由轴为全局 X。
+CSYS,0 ! LOCAL 会自动激活新定义的坐标系，因此立即恢复全局笛卡尔系，防止后续节点坐标被重复叠加 Y 偏移。
+SECTYPE,SECID,JOINT,REVO,HINGEX ! 定义当前组件的 revolute joint 截面，名称只说明自由轴方向。
+SECJOINT,LSYS,CSID,CSID ! 将相同局部坐标系绑定到关节 I/J 两端，避免初始角度偏置。
+TYPE,2 ! 激活 MPC184 revolute 类型，准备连接两个共点关节节点。
+SECNUM,SECID ! 激活当前组件独有的 revolute joint 截面。
+EN,BASE+3,BASE+2,BASE+3 ! 创建关节单元，并保持 I/J 节点顺序与局部坐标系定义一致。
+D,BASE+1,ALL,0 ! 固定左梁远端全部六个自由度，为单位载荷提供唯一反力路径。
+*IF,II,NE,4,THEN ! 对除自由轴单位力矩外的五个工况临时固定右端 ROTX，消除无关零刚度模态。
+D,BASE+4,ROTX,0 ! 固定未受测的自由铰轴转动；该约束位于远端梁节点而非关节节点。
+*ENDIF ! 结束五个受限自由度工况的数值稳定边界分支。
+*IF,II,EQ,1,THEN ! 当索引为 1 时执行全局 X 平动单位力工况。
+F,BASE+4,FX,1 ! 在右端施加 1 N 的 FX，检验关节相对 UX 是否被严格约束。
+*ELSEIF,II,EQ,2,THEN ! 当索引为 2 时执行全局 Y 平动单位力工况。
+F,BASE+4,FY,1 ! 在右端施加 1 N 的 FY，检验关节相对 UY 是否被严格约束。
+*ELSEIF,II,EQ,3,THEN ! 当索引为 3 时执行全局 Z 平动单位力工况。
+F,BASE+4,FZ,1 ! 在右端施加 1 N 的 FZ，检验关节相对 UZ 是否被严格约束。
+*ELSEIF,II,EQ,4,THEN ! 当索引为 4 时执行自由铰轴单位力矩工况。
+N,BASE+7,ARM,YOFF,0 ! 建立与右端共点的扭簧地基节点，仅激活正则化反力路径。
+D,BASE+7,ALL,0 ! 固定扭簧地基节点全部自由度，使 1000 N·mm/rad 低刚度极限具有明确基准。
+TYPE,3 ! 激活 ROTX 单自由度 COMBIN14 类型。
+REAL,3 ! 激活刚度为 1000 N·mm/rad 的实常数集合，使自由轴响应保持在线性小转角范围。
+EN,BASE+4,BASE+4,BASE+7 ! 在右端与固定地基间创建正则化扭簧，节点可共点因为 KEYOPT(2)>0。
+F,BASE+4,MX,1 ! 在右端施加 1 N·mm 的 MX，理论自由轴相对转角应为 0.001 rad。
+*ELSEIF,II,EQ,5,THEN ! 当索引为 5 时执行受限 Y 转动单位力矩工况。
+F,BASE+4,MY,1 ! 在右端施加 1 N·mm 的 MY，检验关节相对 ROTY 是否被严格约束。
+*ELSE ! 剩余索引 6 对应受限 Z 转动单位力矩工况。
+F,BASE+4,MZ,1 ! 在右端施加 1 N·mm 的 MZ，检验关节相对 ROTZ 是否被严格约束。
+*ENDIF ! 结束六个互斥单位载荷或力矩分支。
+*ENDDO ! 结束六套梁—revolute—梁组件创建循环。
+ALLSEL,ALL ! 恢复全选状态，确保六个组件、关节和自由轴正则化扭簧全部进入求解。
+FINISH ! 退出前处理器，完成六自由度单位载荷模型定义。
+/SOLU ! 进入求解器，执行几何线性的六组件静力分析。
+ANTYPE,STATIC ! 选择静力分析，使位移或转角倒数可以直接解释为单位载荷等效刚度。
+EQSLV,SPARSE ! 使用稀疏直接求解器，满足 MPC184 拉格朗日乘子关节的官方限制。
+OUTRES,ALL,LAST ! 只保存唯一末结果集，保证六个工况同时对应同一模型身份。
+SOLVE ! 求解六个彼此独立的单位载荷组件。
+FINISH ! 退出求解器，准备读取关节相对自由度和远端响应。
+/POST1 ! 进入通用后处理器，以读取唯一静力结果集。
+SET,LAST ! 显式选择最后结果集，避免读取隐式或旧结果。
+ESEL,S,TYPE,,2 ! 仅选择类型 2 的 MPC184 关节，避免 ETABLE 在 BEAM188 或 COMBIN14 上请求不存在的结果项。
+ETABLE,JFXVAL,NMISC,19 ! 按官方 NMISC 表读取节点 I 演化坐标系中的关节 X 约束力，单位 N。
+ETABLE,JFYVAL,NMISC,20 ! 按官方 NMISC 表读取节点 I 演化坐标系中的关节 Y 约束力，单位 N。
+ETABLE,JFZVAL,NMISC,21 ! 按官方 NMISC 表读取节点 I 演化坐标系中的关节 Z 约束力，单位 N。
+ETABLE,JMXVAL,NMISC,22 ! 按官方 NMISC 表读取节点 I 演化坐标系中的自由 X 轴约束力矩，单位 N·mm。
+ETABLE,JMYVAL,NMISC,23 ! 按官方 NMISC 表读取节点 I 演化坐标系中的关节 Y 约束力矩，单位 N·mm。
+ETABLE,JMZVAL,NMISC,24 ! 按官方 NMISC 表读取节点 I 演化坐标系中的关节 Z 约束力矩，单位 N·mm。
+ETABLE,JRP4VAL,SMISC,34 ! 按 x 轴 revolute 官方 SMISC 表读取自由轴关节相对位置 JRP4，单位 rad。
+ETABLE,JRU4VAL,SMISC,64 ! 按 x 轴 revolute 官方 SMISC 表读取自由轴关节相对转动 JRU4，单位 rad。
+ALLSEL,ALL ! 建立仅含 MPC184 数据的元素表后恢复全部实体选择，供后续节点和指定关节单元读取。
+*DIM,REL6,ARRAY,6 ! 分配六项关节目标相对自由度数组，前三项单位 mm、后三项单位 rad。
+*DIM,END6,ARRAY,6 ! 分配六项右端目标响应数组，用于计算单位载荷等效刚度。
+*DIM,JMX6,ARRAY,6 ! 分配六项关节局部 x 轴约束力矩数组，用于直接检查自由轴寄生力矩。
+*DIM,JFX6,ARRAY,6 ! 分配六项关节局部 X 约束力数组，用于记录各单位载荷工况的关节反力路径。
+*DIM,JFY6,ARRAY,6 ! 分配六项关节局部 Y 约束力数组，用于记录各单位载荷工况的关节反力路径。
+*DIM,JFZ6,ARRAY,6 ! 分配六项关节局部 Z 约束力数组，用于记录各单位载荷工况的关节反力路径。
+*DIM,JMY6,ARRAY,6 ! 分配六项关节局部 Y 约束力矩数组，用于记录受限 Y 转动的反力路径。
+*DIM,JMZ6,ARRAY,6 ! 分配六项关节局部 Z 约束力矩数组，用于记录受限 Z 转动的反力路径。
+*DIM,JRP46,ARRAY,6 ! 分配六项自由轴关节相对位置数组，直接保存 MPC184 的官方 JRP4 输出。
+*DIM,JRU46,ARRAY,6 ! 分配六项自由轴关节相对转动数组，直接保存 MPC184 的官方 JRU4 输出。
+*DO,II,1,6,1 ! 遍历六个组件并按其目标自由度读取 I/J 相对运动。
+BASE=II*100 ! 恢复当前组件的百位节点编号基址。
+*GET,JMX6(II),ELEM,BASE+3,ETAB,JMXVAL ! 读取当前 revolute 单元局部 x 轴约束力矩，元素编号固定为 BASE+3。
+*GET,JFX6(II),ELEM,BASE+3,ETAB,JFXVAL ! 读取当前 revolute 单元局部 X 约束力，单位 N。
+*GET,JFY6(II),ELEM,BASE+3,ETAB,JFYVAL ! 读取当前 revolute 单元局部 Y 约束力，单位 N。
+*GET,JFZ6(II),ELEM,BASE+3,ETAB,JFZVAL ! 读取当前 revolute 单元局部 Z 约束力，单位 N。
+*GET,JMY6(II),ELEM,BASE+3,ETAB,JMYVAL ! 读取当前 revolute 单元局部 Y 约束力矩，单位 N·mm。
+*GET,JMZ6(II),ELEM,BASE+3,ETAB,JMZVAL ! 读取当前 revolute 单元局部 Z 约束力矩，单位 N·mm。
+*GET,JRP46(II),ELEM,BASE+3,ETAB,JRP4VAL ! 读取当前 revolute 单元官方 JRP4 自由轴相对位置，单位 rad。
+*GET,JRU46(II),ELEM,BASE+3,ETAB,JRU4VAL ! 读取当前 revolute 单元官方 JRU4 自由轴相对转动，单位 rad。
+*IF,II,EQ,1,THEN ! 读取 UX 单位力工况的相对位移和右端 UX。
+*GET,UI,NODE,BASE+2,U,X ! 读取关节 I 节点全局 UX。
+*GET,UJ,NODE,BASE+3,U,X ! 读取关节 J 节点全局 UX。
+*GET,UE,NODE,BASE+4,U,X ! 读取右侧载荷节点全局 UX。
+*ELSEIF,II,EQ,2,THEN ! 读取 UY 单位力工况的相对位移和右端 UY。
+*GET,UI,NODE,BASE+2,U,Y ! 读取关节 I 节点全局 UY。
+*GET,UJ,NODE,BASE+3,U,Y ! 读取关节 J 节点全局 UY。
+*GET,UE,NODE,BASE+4,U,Y ! 读取右侧载荷节点全局 UY。
+*ELSEIF,II,EQ,3,THEN ! 读取 UZ 单位力工况的相对位移和右端 UZ。
+*GET,UI,NODE,BASE+2,U,Z ! 读取关节 I 节点全局 UZ。
+*GET,UJ,NODE,BASE+3,U,Z ! 读取关节 J 节点全局 UZ。
+*GET,UE,NODE,BASE+4,U,Z ! 读取右侧载荷节点全局 UZ。
+*ELSEIF,II,EQ,4,THEN ! 读取自由 ROTX 单位力矩工况的相对转角和右端 ROTX。
+*GET,UI,NODE,BASE+2,ROT,X ! 读取关节 I 节点绕全局 X 的转角。
+*GET,UJ,NODE,BASE+3,ROT,X ! 读取关节 J 节点绕全局 X 的转角。
+*GET,UE,NODE,BASE+4,ROT,X ! 读取右侧载荷节点绕全局 X 的转角。
+*ELSEIF,II,EQ,5,THEN ! 读取受限 ROTY 单位力矩工况的相对转角和右端 ROTY。
+*GET,UI,NODE,BASE+2,ROT,Y ! 读取关节 I 节点绕全局 Y 的转角。
+*GET,UJ,NODE,BASE+3,ROT,Y ! 读取关节 J 节点绕全局 Y 的转角。
+*GET,UE,NODE,BASE+4,ROT,Y ! 读取右侧载荷节点绕全局 Y 的转角。
+*ELSE ! 读取受限 ROTZ 单位力矩工况的相对转角和右端 ROTZ。
+*GET,UI,NODE,BASE+2,ROT,Z ! 读取关节 I 节点绕全局 Z 的转角。
+*GET,UJ,NODE,BASE+3,ROT,Z ! 读取关节 J 节点绕全局 Z 的转角。
+*GET,UE,NODE,BASE+4,ROT,Z ! 读取右侧载荷节点绕全局 Z 的转角。
+*ENDIF ! 结束当前目标自由度的读取分支。
+REL6(II)=UJ-UI ! 计算关节 J 相对 I 的目标位移或转角，受限方向应接近零。
+END6(II)=UE ! 保存单位载荷节点目标响应，倒数即该组件的等效刚度。
+*ENDDO ! 结束六个组件的目标响应提取循环。
+*CFOPEN,u01_revolute_6dof_result,csv ! 打开五列 CSV，固定输出工况序号、关节相对量、端点响应、等效刚度和局部 x 轴约束力矩。
+*DO,II,1,6,1 ! 遍历六个工况并写出机器可读结果。
+IDOUT=II ! 将当前工况编号复制到普通数值标量，避免 APDL 不支持的整数输出描述符写出星号。
+RELOUT=REL6(II) ! 将当前关节相对运动复制到标量，阻止 *VWRITE 隐式续写后续数组项。
+ENDOUT=END6(II) ! 将当前单位载荷端点响应复制到标量，确保六个工况逐行一一对应。
+KVAL=1/ABS(ENDOUT) ! 用单位力或力矩除以当前标量响应得到等效刚度，平动单位 N/mm、转动单位 N·mm/rad。
+JMXOUT=JMX6(II) ! 将当前关节局部 x 轴约束力矩复制到标量，阻止 *VWRITE 隐式续写数组。
+*VWRITE,IDOUT,RELOUT,ENDOUT,KVAL,JMXOUT ! 仅写出五个标量；紧随的纯格式行用 F4.0 表示数值工况编号并写四项科学计数值。
+(F4.0,4(',',ES24.15))
+*ENDDO ! 结束六行结果输出循环。
+*CFCLOS ! 关闭六自由度 CSV，确保所有结果完整落盘。
+*CFOPEN,u01_revolute_joint_result,csv ! 打开九列 MPC184 本体 CSV，固定输出工况号、六项约束分量、JRP4 和 JRU4。
+*DO,II,1,6,1 ! 遍历六个工况并逐行写出官方 MPC184 元素结果，禁止数组隐式续写。
+IDOUT=II ! 将当前工况编号复制到普通数值标量，保证第一列严格为 1 至 6。
+JFXOUT=JFX6(II) ! 将当前关节局部 X 约束力复制到标量，单位 N。
+JFYOUT=JFY6(II) ! 将当前关节局部 Y 约束力复制到标量，单位 N。
+JFZOUT=JFZ6(II) ! 将当前关节局部 Z 约束力复制到标量，单位 N。
+JMXOUT=JMX6(II) ! 将当前关节局部 X 约束力矩复制到标量，单位 N·mm。
+JMYOUT=JMY6(II) ! 将当前关节局部 Y 约束力矩复制到标量，单位 N·mm。
+JMZOUT=JMZ6(II) ! 将当前关节局部 Z 约束力矩复制到标量，单位 N·mm。
+JRPOUT=JRP46(II) ! 将当前关节官方 JRP4 自由轴相对位置复制到标量，单位 rad。
+JRUOUT=JRU46(II) ! 将当前关节官方 JRU4 自由轴相对转动复制到标量，单位 rad。
+*VWRITE,IDOUT,JFXOUT,JFYOUT,JFZOUT,JMXOUT,JMYOUT,JMZOUT,JRPOUT,JRUOUT ! 写出工况编号及八项官方 MPC184 元素结果。
+(F4.0,8(',',ES24.15))
+*ENDDO ! 结束六行 MPC184 本体结果输出循环。
+*CFCLOS ! 关闭九列关节 CSV 并刷新缓冲区，确保正式解析器读取完整文件。
+FINISH ! 退出后处理器，完成 revolute joint 六自由度验证。
+/EXIT,NOSAVE ! 正常退出且不保存 DB，避免铰链小算例数据库被误当作项目模型。

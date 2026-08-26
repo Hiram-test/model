@@ -1,0 +1,31 @@
+{
+  "case_id": "link_prestress",
+  "jobname": "cw_u01_01_0715t101428_c8",
+  "purpose": "LINK180 tension-only + INISTATE + NLGEOM + linear perturbation",
+  "parallel_mode": "SERIAL",
+  "processes": 1,
+  "mpi": "none",
+  "input_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\input_snapshot\\link_prestress.inp",
+  "input_sha256": "6360d7fcd43eb21796c116c688192f2d0513f5e4770bab3d0d45206c9c9fecc9",
+  "source_files": [
+    {
+      "path": "D:\\张靖皋大桥\\benchmark\\catwalk_dynamics_known_answer_20260713\\vm53_prestressed_string_modal.inp",
+      "sha256": "3214e0ce753395c4b96931139f180ddaef13f36d88960f396ab86410e0710507"
+    }
+  ],
+  "result_files": [
+    "vm53_result.csv"
+  ],
+  "status": "PASSED",
+  "started_utc": "2026-07-15T10:14:28.775885+00:00",
+  "return_code": 0,
+  "elapsed_seconds": 7.765999999999622,
+  "output_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\solver\\link_prestress\\cw_u01_01_0715t101428_c8.out",
+  "result_paths": [
+    "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\post\\link_prestress__vm53_result.csv"
+  ],
+  "errors": 0,
+  "warnings": 0,
+  "run_completed": true,
+  "finished_utc": "2026-07-15T10:14:36.560106+00:00"
+}

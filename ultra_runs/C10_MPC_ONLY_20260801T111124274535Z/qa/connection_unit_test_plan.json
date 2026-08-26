@@ -1,0 +1,392 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_NOT_STARTED",
+  "purpose": "C10_UXYZ_PENALTY_SENSITIVITY_AND_SIX_AXIS_TRANSFER",
+  "penalty_levels_n_per_mm": [
+    1000000000.0,
+    5000000000.0,
+    10000000000.0,
+    50000000000.0,
+    100000000000.0
+  ],
+  "load_cases": [
+    "FX",
+    "FY",
+    "FZ",
+    "MX",
+    "MY",
+    "MZ"
+  ],
+  "planned_case_count": 30,
+  "completed_case_count": 0,
+  "mapdl_execution_attempted": false,
+  "acceptance": {
+    "max_relative_translation_slip_mm": 1e-05,
+    "adjacent_penalty_same_physical_mode_frequency_change_percent": 0.05,
+    "matrix_coefficient_ratio_degradation_factor_max": 10.0,
+    "force_equilibrium_relative_tolerance": 1e-06,
+    "moment_equilibrium_relative_tolerance": 1e-06
+  },
+  "rotational_release_stabilization": {
+    "method": "THREE_COMBIN14_GROUND_SPRINGS",
+    "stiffness_n_mm_per_rad": 1.0,
+    "must_be_excluded_from_joint_transfer_claim": true
+  },
+  "cases": [
+    {
+      "case_id": "P1-FX",
+      "penalty_n_per_mm": 1000000000.0,
+      "load_label": "FX",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p1_fx.inp",
+      "input_sha256": "43e4935b0bafd6131f2d12783f7070ad58070ca13da091dca558dcad2b67eec4",
+      "future_result_file": "unit_tests/c10ut_p1_fx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P1-FY",
+      "penalty_n_per_mm": 1000000000.0,
+      "load_label": "FY",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p1_fy.inp",
+      "input_sha256": "bbe7d975d64cb41b70495edeb91a8e0f41096da21cb36799e95672003f0db394",
+      "future_result_file": "unit_tests/c10ut_p1_fy_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P1-FZ",
+      "penalty_n_per_mm": 1000000000.0,
+      "load_label": "FZ",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p1_fz.inp",
+      "input_sha256": "8b3c9d75777e53d9a2b398240381ff101443cbab5f0e969625e6205781a7d0b5",
+      "future_result_file": "unit_tests/c10ut_p1_fz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P1-MX",
+      "penalty_n_per_mm": 1000000000.0,
+      "load_label": "MX",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p1_mx.inp",
+      "input_sha256": "f12d4ef36f5b40855723b0510717813f36c0ff5e4c1576cc662f3102c94e0743",
+      "future_result_file": "unit_tests/c10ut_p1_mx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P1-MY",
+      "penalty_n_per_mm": 1000000000.0,
+      "load_label": "MY",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p1_my.inp",
+      "input_sha256": "34077603410d8afb489d2b9752ef233057e7d44781ba5443f7ba0b3c12beb964",
+      "future_result_file": "unit_tests/c10ut_p1_my_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P1-MZ",
+      "penalty_n_per_mm": 1000000000.0,
+      "load_label": "MZ",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p1_mz.inp",
+      "input_sha256": "8960bf85c1dfa389fe9991b7b9d10dfaca9ae52bda0967e7aeb411fab65fea15",
+      "future_result_file": "unit_tests/c10ut_p1_mz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P2-FX",
+      "penalty_n_per_mm": 5000000000.0,
+      "load_label": "FX",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p2_fx.inp",
+      "input_sha256": "6a968ce0f1732d8310dca5316140fe58e1037443a81aa963dbc25941c304677b",
+      "future_result_file": "unit_tests/c10ut_p2_fx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P2-FY",
+      "penalty_n_per_mm": 5000000000.0,
+      "load_label": "FY",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p2_fy.inp",
+      "input_sha256": "1a805002197812dd3d4832e89ea8151288a1e5070038df2362c16dec82479a0e",
+      "future_result_file": "unit_tests/c10ut_p2_fy_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P2-FZ",
+      "penalty_n_per_mm": 5000000000.0,
+      "load_label": "FZ",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p2_fz.inp",
+      "input_sha256": "b718344cb6bb5f0defc6170bb2eae908879bd16edf784979568499a054b2dd3f",
+      "future_result_file": "unit_tests/c10ut_p2_fz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P2-MX",
+      "penalty_n_per_mm": 5000000000.0,
+      "load_label": "MX",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p2_mx.inp",
+      "input_sha256": "80a238205c931fc7c522e8ad97a3aa2528b113d81ce962db85a96942caf700c7",
+      "future_result_file": "unit_tests/c10ut_p2_mx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P2-MY",
+      "penalty_n_per_mm": 5000000000.0,
+      "load_label": "MY",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p2_my.inp",
+      "input_sha256": "36cb4cc9f71bf90770ca6ff648f823137136e6039ee9b5f795325190ed4865b6",
+      "future_result_file": "unit_tests/c10ut_p2_my_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P2-MZ",
+      "penalty_n_per_mm": 5000000000.0,
+      "load_label": "MZ",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p2_mz.inp",
+      "input_sha256": "7c0d97cf4ecafd30eb5204e85a85c62c47f1214f70e876f03871b8a23806e9e0",
+      "future_result_file": "unit_tests/c10ut_p2_mz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P3-FX",
+      "penalty_n_per_mm": 10000000000.0,
+      "load_label": "FX",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p3_fx.inp",
+      "input_sha256": "a044d103fb5799174763a9c72bf374c4e997cf420699f79bdefc13f63ff9d791",
+      "future_result_file": "unit_tests/c10ut_p3_fx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P3-FY",
+      "penalty_n_per_mm": 10000000000.0,
+      "load_label": "FY",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p3_fy.inp",
+      "input_sha256": "420999e0bed48a1016e6ef4ef8b988c4c81e33ff6f402d66035e53be80e2dd27",
+      "future_result_file": "unit_tests/c10ut_p3_fy_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P3-FZ",
+      "penalty_n_per_mm": 10000000000.0,
+      "load_label": "FZ",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p3_fz.inp",
+      "input_sha256": "db32644cc2017698298824e063d89fb4e32d44e4d8967be892cb14b1d1c24ef1",
+      "future_result_file": "unit_tests/c10ut_p3_fz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P3-MX",
+      "penalty_n_per_mm": 10000000000.0,
+      "load_label": "MX",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p3_mx.inp",
+      "input_sha256": "430ec306f375a18c70834c3e2557855fdd0f98168fde2c8b8ab2387576bc09a7",
+      "future_result_file": "unit_tests/c10ut_p3_mx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P3-MY",
+      "penalty_n_per_mm": 10000000000.0,
+      "load_label": "MY",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p3_my.inp",
+      "input_sha256": "bd6843e5eebf84fe7762fe7cdb3c91fd1c4057159a7624d6291fb6154e79ac1b",
+      "future_result_file": "unit_tests/c10ut_p3_my_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P3-MZ",
+      "penalty_n_per_mm": 10000000000.0,
+      "load_label": "MZ",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p3_mz.inp",
+      "input_sha256": "a438376950acee9c71eb54d058f714906754ccb312509b5356bd165ee589fc60",
+      "future_result_file": "unit_tests/c10ut_p3_mz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P4-FX",
+      "penalty_n_per_mm": 50000000000.0,
+      "load_label": "FX",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p4_fx.inp",
+      "input_sha256": "04f6371d48b75e6abd137aba3fbc30a25541e82dc21e46ae31691262f99f7f5d",
+      "future_result_file": "unit_tests/c10ut_p4_fx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P4-FY",
+      "penalty_n_per_mm": 50000000000.0,
+      "load_label": "FY",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p4_fy.inp",
+      "input_sha256": "0cb612acb8270ceef03e8fafc8db749e137d42ebcc62bc80c6119691172b5a6f",
+      "future_result_file": "unit_tests/c10ut_p4_fy_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P4-FZ",
+      "penalty_n_per_mm": 50000000000.0,
+      "load_label": "FZ",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p4_fz.inp",
+      "input_sha256": "edf288cce7509646e666b7f38d20035cacf80b18271551ebf526f962d6c4e361",
+      "future_result_file": "unit_tests/c10ut_p4_fz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P4-MX",
+      "penalty_n_per_mm": 50000000000.0,
+      "load_label": "MX",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p4_mx.inp",
+      "input_sha256": "4c49f7ea438023af075be0c264cb40d2418b0b55cdf3a9675b5994a328a23b29",
+      "future_result_file": "unit_tests/c10ut_p4_mx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P4-MY",
+      "penalty_n_per_mm": 50000000000.0,
+      "load_label": "MY",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p4_my.inp",
+      "input_sha256": "6f6d75bdef216f418b91feaadc3eb7402cdc91063dc68062b971d009ae42b384",
+      "future_result_file": "unit_tests/c10ut_p4_my_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P4-MZ",
+      "penalty_n_per_mm": 50000000000.0,
+      "load_label": "MZ",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p4_mz.inp",
+      "input_sha256": "12879988157545c7d80e7bb70110fc20cce56b8ddb89ded5af28ae9228e2936b",
+      "future_result_file": "unit_tests/c10ut_p4_mz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P5-FX",
+      "penalty_n_per_mm": 100000000000.0,
+      "load_label": "FX",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p5_fx.inp",
+      "input_sha256": "ebc7015ad9041e6909449867cc80e1590e569cf003b70c93367cb10f150f6fd0",
+      "future_result_file": "unit_tests/c10ut_p5_fx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P5-FY",
+      "penalty_n_per_mm": 100000000000.0,
+      "load_label": "FY",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p5_fy.inp",
+      "input_sha256": "3a894360a613fab6ef9c38b6247f9c780f1c558c5c264515bb94b3031e9fdfc2",
+      "future_result_file": "unit_tests/c10ut_p5_fy_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P5-FZ",
+      "penalty_n_per_mm": 100000000000.0,
+      "load_label": "FZ",
+      "load_value": 1.0,
+      "load_unit": "N",
+      "input_file": "unit_tests/c10_ut_p5_fz.inp",
+      "input_sha256": "1f9185a92b17e1d5105ccbf80f48627cc4395d2c6bfb91c1bdf92e7ff37413c7",
+      "future_result_file": "unit_tests/c10ut_p5_fz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P5-MX",
+      "penalty_n_per_mm": 100000000000.0,
+      "load_label": "MX",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p5_mx.inp",
+      "input_sha256": "17b0959fb125ed8950e47d18ea397388045e9fb94c20362da8043a6beab3ae41",
+      "future_result_file": "unit_tests/c10ut_p5_mx_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P5-MY",
+      "penalty_n_per_mm": 100000000000.0,
+      "load_label": "MY",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p5_my.inp",
+      "input_sha256": "3838d6a194a17983232f6f172db2eb6cf26ccd17c148300e001f1cfc7f47b937",
+      "future_result_file": "unit_tests/c10ut_p5_my_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    },
+    {
+      "case_id": "P5-MZ",
+      "penalty_n_per_mm": 100000000000.0,
+      "load_label": "MZ",
+      "load_value": 1.0,
+      "load_unit": "N_mm",
+      "input_file": "unit_tests/c10_ut_p5_mz.inp",
+      "input_sha256": "05d37003a860dad034a06fd4a4598de569aeb9f4d04ddbc0e55a675d31b68517",
+      "future_result_file": "unit_tests/c10ut_p5_mz_results.txt",
+      "status": "PREPARED_NOT_STARTED"
+    }
+  ],
+  "additional_all_rigid_beam_cases": {
+    "planned_separately": true,
+    "case_count": 6,
+    "included_in_thirty_case_penalty_scan": false
+  },
+  "result_contract": {
+    "reported_vectors": [
+      "AUX_U_XYZ_MM",
+      "SLAVE_U_XYZ_MM",
+      "AUX_ROT_XYZ_RAD",
+      "SLAVE_ROT_XYZ_RAD",
+      "MASTER_REACTION_FORCE_XYZ_N",
+      "MASTER_REACTION_MOMENT_XYZ_N_MM",
+      "GROUND_STABILIZATION_REACTION_MOMENT_XYZ_N_MM"
+    ],
+    "derived_checks": [
+      "SLAVE_MINUS_AUX_TRANSLATION_SLIP",
+      "SLAVE_MINUS_AUX_RELATIVE_ROTATION",
+      "GLOBAL_FORCE_EQUILIBRIUM",
+      "GLOBAL_MOMENT_EQUILIBRIUM_ABOUT_MASTER",
+      "MASTER_VERSUS_GROUND_MOMENT_PARTITION",
+      "WEAK_SPRING_REACTION_EXCLUDED_FROM_JOINT_TRANSFER"
+    ],
+    "sufficient_for_declared_micro_acceptance": true
+  }
+}

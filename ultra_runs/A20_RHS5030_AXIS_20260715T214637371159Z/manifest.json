@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "run_id": "A20_RHS5030_AXIS_ONLY",
+  "run_name": "A20_RHS5030_AXIS_20260715T214637371159Z",
+  "model_line": "DIAGNOSTIC_ZERO_DIFFERENCE_SOURCE_GATE",
+  "parent_run": "B00_LEGACY_COMPLETE_20260715T111105670409Z",
+  "created_at_utc": "2026-07-15T21:46:37.371159+00:00",
+  "status": "COMPLETED_NO_SOLVE_ALREADY_CORRECT",
+  "source_contract": {
+    "path": "D:\\张靖皋大桥\\02_CAD几何模型\\猫道全线STEP模型\\build_full_catwalk_from_drawings.py",
+    "sha256": "53a3d4db845cc9f88120ba755a240e1eaae62591c9f1dffe3db1deae572ddc62",
+    "dimension_constant_line": 88,
+    "orientation_block_start_line": 1904,
+    "orientation_block_end_line": 1913,
+    "length_axis": "transverse",
+    "width_50mm_axis": "longitudinal",
+    "height_30mm_axis": "vertical"
+  },
+  "source_hashes": {
+    "script": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\ultra_a20_source_gate.py",
+      "sha256": "dd39e93cf74452003585144efc27bdc512376b9a3b7a37e6c17dcb92f97d7336"
+    },
+    "cad_generator": {
+      "path": "D:\\张靖皋大桥\\02_CAD几何模型\\猫道全线STEP模型\\build_full_catwalk_from_drawings.py",
+      "sha256": "53a3d4db845cc9f88120ba755a240e1eaae62591c9f1dffe3db1deae572ddc62"
+    },
+    "b00_frozen_include": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\B00_LEGACY_COMPLETE_20260715T111105670409Z\\input_snapshot\\apply_finite_gates_and_passages_v2.inp",
+      "sha256": "51dc4dabba9d4ad1464d033fa69aba80cbaea79bcbed163fadb81e3b63211b98"
+    },
+    "u00_axis_ledger": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U00_SOURCE_GATE_20260715T024455Z\\regenerated_source_chain\\builder_generated\\anisotropic_section_axis_audit.csv",
+      "sha256": "03231b1050ebd8af380c7f41fec57a5babab775b8d4676cc700999f4da8e0cbf"
+    },
+    "u01_status": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T101428628522Z\\U01_status.json",
+      "sha256": "13f1655396dbd4b63875019c3b884e612dd5a6f586e35ccc015310c86f4b39e4"
+    }
+  },
+  "gate_summary": {
+    "schema_version": 1,
+    "status": "PASSED_ALREADY_CORRECT_NO_SOLVE",
+    "target_element_count": 2898,
+    "passed_element_count": 2898,
+    "source_backed_orientation": {
+      "width_50mm_axis": "longitudinal/local-y",
+      "height_30mm_axis": "vertical/local-z"
+    },
+    "physical_change_required_count": 0,
+    "changed_n_command_count": 0,
+    "minimum_abs_local_z_dot_global_z": 1.0,
+    "maximum_b00_u00_local_z_component_difference": 0.0,
+    "maximum_orthogonality_error": 0.0,
+    "maximum_handedness_error": 0.0,
+    "decision": "B00 的 2,898 根 RHS50×30 已满足图纸/生成逻辑方向；A20 不得人为制造错误轴，也无需重复全桥求解。"
+  },
+  "physical_change_contract": {
+    "schema_version": 1,
+    "status": "PASSED",
+    "parent_run": "B00_LEGACY_COMPLETE_20260715T111105670409Z",
+    "candidate_run": "A20_RHS5030_AXIS_20260715T214637371159Z",
+    "physical_change_family_count": 0,
+    "physical_change_required_count": 0,
+    "changed_n_command_count": 0,
+    "b00_input_sha256": "51dc4dabba9d4ad1464d033fa69aba80cbaea79bcbed163fadb81e3b63211b98",
+    "a20_candidate_input_sha256": "51dc4dabba9d4ad1464d033fa69aba80cbaea79bcbed163fadb81e3b63211b98",
+    "byte_identical_to_b00": true,
+    "solver_run_required": false,
+    "solver_run_performed": false,
+    "reason": "2,898 根 RHS50×30 在 B00 中已与 CAD 源证及 U00 重建源链逐件一致；轴单变量不存在。"
+  },
+  "outputs": [
+    "rhs50_direction_ledger.csv",
+    "A20_status.json",
+    "manifest.json",
+    "result_packet.md",
+    "qa/a20_source_gate.json",
+    "qa/model_zero_difference_audit.json",
+    "qa/field_dictionary.md",
+    "source_hashes.sha256",
+    "artifact_hashes.sha256"
+  ]
+}

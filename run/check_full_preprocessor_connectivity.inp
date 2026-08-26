@@ -1,0 +1,48 @@
+! ============================================================================
+! V2.0 正式输入全链前处理检查；定位 CERIG 从节点在质量改写后是否仍连接结构单元。
+! 本文件不执行求解，只查询代表门架索节点和底索节点的相邻单元。
+! ============================================================================
+/CLEAR,START
+/FILNAME,check_full_preprocessor
+/INPUT,full_line_beam4_crossbeam_mesh_xlong,inp
+/INPUT,convert_crossbeams_beam4_to_beam188,inp
+/INPUT,apply_mct_downpull_equivalent_xlong,inp
+/INPUT,apply_mct_constraints_xlong,inp
+/INPUT,apply_mct_authoritative_initial_state_link180,inp
+/INPUT,apply_finite_gates_and_passages_v2,inp
+/INPUT,apply_modal_roty_stabilization_xlong,inp
+/INPUT,define_representative_rope_component,inp
+/INPUT,apply_authoritative_mct_deadload_v1,inp
+/INPUT,apply_dynamic_mass21_spatialized_v2,inp
+/INPUT,apply_authoritative_mct_gravity_v1,inp
+/PREP7
+ALLSEL,ALL
+! 节点11681是 H02 的一根门架索连接点；理论上相邻两根 LINK180。
+NSEL,S,NODE,,11681
+ESLN,S,0
+*GET,C11681,ELEM,0,COUNT
+/OUTPUT,check_node_11681_elements,txt
+*VWRITE,C11681
+('CONNECTED_ELEMENT_COUNT=',F12.0)
+ELIST,ALL
+/OUTPUT
+! 节点81是 H02 的一根底索连接点；理论上至少相邻两根 LINK180和横梁。
+ALLSEL,ALL
+NSEL,S,NODE,,81
+ESLN,S,0
+*GET,C81,ELEM,0,COUNT
+/OUTPUT,check_node_81_elements,txt
+*VWRITE,C81
+('CONNECTED_ELEMENT_COUNT=',F12.0)
+ELIST,ALL
+/OUTPUT
+! 记录全部类型4 LINK180数量，确认质量 include 没有删除索单元。
+ALLSEL,ALL
+ESEL,S,TYPE,,4
+*GET,NLINK180,ELEM,0,COUNT
+/OUTPUT,check_link180_count,txt
+*VWRITE,NLINK180
+('LINK180_COUNT=',F12.0)
+/OUTPUT
+FINISH
+/EXIT,NOSAVE

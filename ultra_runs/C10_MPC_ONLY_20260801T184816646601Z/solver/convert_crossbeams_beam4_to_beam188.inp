@@ -1,0 +1,27 @@
+! ============================================================================
+! 线性扰动模态专用：归档BEAM4横梁等截面转换为当前技术BEAM188。
+! 节点、单元号、材料号和拓扑不变；□100x100x4与□50x50x4的A/I精确保持。
+! BEAM188是MAPDL线性扰动支持的梁单元；原BEAM4不进入正式LP分支。
+! ============================================================================
+/PREP7
+ET,6,BEAM188
+KEYOPT,6,3,3
+! 大横梁：□100x100x4，A=1536 mm2，Iy=Iz=2.363392E6 mm4。
+SECTYPE,40,BEAM,HREC,LARGE100
+SECDATA,100,100,4,4,4,4
+! 小横梁：□50x50x4，A=736 mm2，Iy=Iz=2.615253333E5 mm4。
+SECTYPE,41,BEAM,HREC,SMALL050
+SECDATA,50,50,4,4,4,4
+! 原TYPE=2/MAT=3的19890个大横梁分段转为BEAM188截面40。
+ESEL,S,TYPE,,2
+ESEL,R,MAT,,3
+EMODIF,ALL,TYPE,6
+EMODIF,ALL,SECNUM,40
+! 原TYPE=2/MAT=4的28730个小横梁分段转为BEAM188截面41。
+ALLSEL,ALL
+ESEL,S,TYPE,,2
+ESEL,R,MAT,,4
+EMODIF,ALL,TYPE,6
+EMODIF,ALL,SECNUM,41
+ALLSEL,ALL
+FINISH

@@ -1,0 +1,301 @@
+{
+  "schema_version": 1,
+  "run_id": "A10_H175_AXIS",
+  "run_dir_name": "A10_H175_AXIS_20260715T172214962299Z",
+  "generated_utc": "2026-07-15T22:55:59.378708+00:00",
+  "execution_status": "EXECUTED",
+  "gate_status": "PASSED",
+  "final_status": "PASS_WITH_LEGACY_LIMITATIONS",
+  "checks": {
+    "main_out_zero_errors": true,
+    "main_out_zero_negative_pivots": true,
+    "main_out_zero_zero_pivots": true,
+    "all_five_warnings_disposed": true,
+    "ls1_converged": true,
+    "ls2_converged": true,
+    "mass_closed": true,
+    "reaction_closed": true,
+    "sten_control_proven_at_saved_endpoints": true,
+    "sten_full_history_threshold_proven_by_disabled_control": true,
+    "modal_properties_80": true,
+    "modal_displacement_vectors_80": true,
+    "modal_rotation_vectors_80": true,
+    "frequency_band_0_to_0_35_not_truncated": true,
+    "sene6_80_by_6_passed": true,
+    "taskbook_14_target_energy_basis_preserved_without_hard_order_pairing": true,
+    "link180_all_positive": true,
+    "four_solver_source_hashes_current": true,
+    "both_postonly_out_err_clean": true,
+    "solver_binary_metadata_unchanged": true
+  },
+  "main_out": {
+    "path": "solver/cw_a10_0715t172214_24.out",
+    "sha256": "1fee819b6f5f7da4eb33fecdb4473f9ee697f56f5815f29d9d44e61bcfb2387d",
+    "actual_warning_markers": 5,
+    "summary_warning_count": 4,
+    "tail_warning_after_summary_count": 1,
+    "error_count": 0,
+    "negative_pivot_count": 0,
+    "zero_pivot_count": 0,
+    "parallel_mode": "DMP",
+    "processes": 4,
+    "mpi": "INTELMPI"
+  },
+  "static": {
+    "ls1_cnvg": 1,
+    "ls2_cnvg": 1,
+    "ls2_load_step": 2,
+    "ls2_time": 1.001,
+    "ls1_sene_n_mm": 511599753.5376792,
+    "ls1_sten_n_mm": 1.364682034378037e-25,
+    "ls1_abs_sten_over_sene": 2.667479851077623e-34,
+    "ls2_sene_n_mm": 511599755.0170497,
+    "ls2_sten_n_mm": 1.364682034378037e-25,
+    "ls2_abs_sten_over_sene": 2.667479843364189e-34,
+    "mass_actual_tonne": 4108.466907581062,
+    "mass_expected_tonne": 4108.46690758,
+    "mass_abs_error_tonne": 1.061380316969007e-09,
+    "uz_support_count": 464,
+    "reaction_expected_n": 40287626.49573989,
+    "reaction_actual_n": 40287626.49650845,
+    "reaction_abs_error_n": 0.0007685571908950806,
+    "reaction_relative_error": 1.907675526569801e-11,
+    "source_path": "solver/a10_static_energy_mass_reaction.txt",
+    "source_sha256": "0e55c2b909913eccb6eda2f9d45967b52eb4ffc207dd3ee7a0446add9e13e7d2"
+  },
+  "sten_control": {
+    "input_stabilize_off_count": 2,
+    "out_key_off_count": 2,
+    "ls1_stabilization_control": "OFF_FOR_FULL_LOAD_STEP",
+    "ls2_stabilization_control": "OFF_FOR_FULL_LOAD_STEP",
+    "taskbook_full_history_peak_gate_status": "PASSED_BY_DISABLED_STABILIZATION_CONTROL",
+    "taskbook_full_history_threshold": 0.01,
+    "ls1_sten_n_mm": 1.364682034378037e-25,
+    "ls2_sten_n_mm": 1.364682034378037e-25,
+    "ls1_abs_sten_over_sene": 2.667479851077623e-34,
+    "ls2_abs_sten_over_sene": 2.667479843364189e-34,
+    "full_substep_numeric_history_available": false,
+    "evidence_limitation": "RST 仅保存 LS1/LS2 端点 VENG；逐子步数值不可由 POST1 恢复，但输入顺序与两次求解器 KEY=OFF 回显证明两个静力载荷步全历程均未启用非线性稳定化。"
+  },
+  "modal": {
+    "property_rows": 80,
+    "set_count": 80,
+    "frequency_first_hz": 0.03682163352861133,
+    "frequency_last_hz": 0.4122076645938122,
+    "frequency_in_0_to_0_35_hz_count": 58,
+    "first_frequency_above_0_35_hz": 0.3514567781917849,
+    "first_mode_above_0_35_hz": 59,
+    "unbounded_lanb_80": true,
+    "not_truncated_at_0_35_hz": true,
+    "displacement_vectors": {
+      "count": 80,
+      "minimum_bytes": 7495944,
+      "maximum_bytes": 7495944,
+      "first": "mode_01_all_nodes.txt",
+      "last": "mode_80_all_nodes.txt"
+    },
+    "rotation_vectors": {
+      "count": 80,
+      "minimum_bytes": 7495944,
+      "maximum_bytes": 7495944,
+      "first": "mode_01_rotations.txt",
+      "last": "mode_80_rotations.txt"
+    },
+    "properties_path": "solver/a10_modal_properties.csv",
+    "properties_sha256": "a9d16eac069a3e4816a293d4be08c59244e12b7fda9bcc8e9e5857d03d34d216",
+    "main_input_path": "solver/a10_h175_axis_main.inp",
+    "main_input_sha256": "5337c21bffa4bab089bcb5746e237e2a79dcb44d45672c0c23a7ae9f490c5fa2"
+  },
+  "warnings": {
+    "actual_warning_markers": 5,
+    "summary_warning_count": 4,
+    "tail_warning_after_summary_count": 1,
+    "error_markers": 0,
+    "summary_error_count": 0,
+    "negative_pivot_count": 0,
+    "zero_pivot_count": 0,
+    "all_warnings_disposed": true,
+    "records": [
+      {
+        "warning_id": 1,
+        "out_line": 1060589,
+        "recognition_fragment": "constraint equations may not be valid for elements that undergo large deflections",
+        "disposition": "保留为 legacy CERIG 大变形兼容性限制；由 LS1/LS2 收敛、质量反力闭合、LINK180 全正与 80 阶模态结果共同约束。",
+        "status": "DISPOSED",
+        "contributes_legacy_limitation": true
+      },
+      {
+        "warning_id": 2,
+        "out_line": 1060713,
+        "recognition_fragment": "coefficient ratio exceeds 1.0e8",
+        "disposition": "保留为刚度尺度病态限制；0 negative/zero pivot、两步收敛和 80 特征值收敛证明本次结果可用。",
+        "status": "DISPOSED",
+        "contributes_legacy_limitation": true
+      },
+      {
+        "warning_id": 3,
+        "out_line": 1060772,
+        "recognition_fragment": "reference moment convergence value = 7.05020414e-02",
+        "disposition": "LS1 参考弯矩低于内部阈值仅改变收敛参考尺度；该载荷步随后收敛且端点门禁全部通过。",
+        "status": "DISPOSED",
+        "contributes_legacy_limitation": false
+      },
+      {
+        "warning_id": 4,
+        "out_line": 1061238,
+        "recognition_fragment": "reference moment convergence value = 1.741355963e-03",
+        "disposition": "LS2 参考弯矩低于内部阈值仅改变收敛参考尺度；保持步在一次平衡迭代后收敛。",
+        "status": "DISPOSED",
+        "contributes_legacy_limitation": false
+      },
+      {
+        "warning_id": 5,
+        "out_line": 1066728,
+        "recognition_fragment": "elapsed time exceeds the cpu time by 33%",
+        "disposition": "退出后 elapsed/CPU 33% 差异属于内存与磁盘性能提示；发生在 0 error 正常退出之后，不改变数值结果。",
+        "status": "DISPOSED",
+        "contributes_legacy_limitation": false
+      }
+    ]
+  },
+  "sene6": {
+    "qa_path": "A10_SENE6_POSTONLY_20260716T061115Z8/qa_summary.json",
+    "qa_sha256": "7265a96186ada3c4e8a4d1d78120e7996a2407bf31dc69d0dc434a79a2500b99",
+    "status": "PASSED",
+    "directory": "A10_SENE6_POSTONLY_20260716T061115Z8",
+    "total_csv_path": "A10_SENE6_POSTONLY_20260716T061115Z8/a10_sene6_mode_totals_numeric.csv",
+    "total_csv_sha256": "2816a7e903f05b6cc6d26f1268ea1d3561b0df551b6238279c98b508c1f6406d",
+    "long_csv_path": "A10_SENE6_POSTONLY_20260716T061115Z8/a10_sene6_modal_numeric.csv",
+    "long_csv_sha256": "d4a80990f0c9e876a929a82170f6b747867ab3e71b92e232dbae5f1c62e65e09",
+    "count_csv_path": "A10_SENE6_POSTONLY_20260716T061115Z8/a10_sene6_counts_numeric.csv",
+    "count_csv_sha256": "22668a46528af0758bb6712fc4a296ce93bd761c2815477e78e909e69f89ef56",
+    "total_sene_min_n_mm": 5.325422306672562e-07,
+    "total_sene_max_n_mm": 1.302983862465603,
+    "ratio_min": 2.789164638526681e-06,
+    "ratio_max": 0.8775818848352154,
+    "energy_scope": {
+      "taskbook_target_mode_count": 14,
+      "raw_solver_mode_count": 80,
+      "component_count": 6,
+      "raw_energy_row_count": 480,
+      "all_raw_modes_preserved": true,
+      "hard_order_target_pairing_claimed": false,
+      "coverage_status": "ALL_80_RAW_MODES_AVAILABLE_FOR_DOWNSTREAM_PHYSICAL_TARGET_MAPPING"
+    },
+    "postonly_execution": {
+      "out_path": "A10_SENE6_POSTONLY_20260716T061115Z8/a10_sene6_post.out",
+      "out_length_bytes": 100641,
+      "out_sha256": "3c248b9d8ec1da637cf565c8c7bb8f09f0755fa95c983e41b81bd452a6666124",
+      "out_warning_count": 0,
+      "out_error_count": 0,
+      "err_path": "A10_SENE6_POSTONLY_20260716T061115Z8/a10_sene6_post_final.err",
+      "err_length_bytes": 80,
+      "err_sha256": "a5abbb73ba1158241f0f1ce94fed1e1620c2849a84de5fae72b4cae02da6a8ae",
+      "err_warning_count": 0,
+      "err_error_count": 0,
+      "exit_without_saving_confirmed": true
+    }
+  },
+  "link180": {
+    "qa_path": "A10_LINK180_POSTONLY_20260715T222004Z/qa_summary.json",
+    "qa_sha256": "49cff43cd069abd935d2aa466f13fd16c885774835c1ec4d775f2b2929044b01",
+    "status": "PASSED",
+    "actual_count": 73692,
+    "nonpositive_count": 0,
+    "minimum_force_n": 519006.875,
+    "maximum_force_n": 1573311.375,
+    "source_integrity_passed": true,
+    "postonly_execution": {
+      "out_path": "A10_LINK180_POSTONLY_20260715T222004Z/a10_link180_post.out",
+      "out_length_bytes": 23234,
+      "out_sha256": "ec05608a4da4e687f0a1e4534c116e97dd719a476b7c30b67ea7e54a89e83a2d",
+      "out_warning_count": 0,
+      "out_error_count": 0,
+      "err_path": "A10_LINK180_POSTONLY_20260715T222004Z/a10_link180_post.err",
+      "err_length_bytes": 80,
+      "err_sha256": "e2c321461630129d16bbd5c6bed0d407b145cb4b5d5b48643bcf8902e0da8871",
+      "err_warning_count": 0,
+      "err_error_count": 0,
+      "exit_without_saving_confirmed": true
+    },
+    "csv_path": "A10_LINK180_POSTONLY_20260715T222004Z/a10_link180_axial_force_n.csv",
+    "csv_sha256": "1bf84509a6a0070ef837c6ec164d2982b88fc4e461f5bc1cca43b776f5c8d1c9"
+  },
+  "source_integrity": {
+    "status": "PASSED",
+    "all_four_current_hashes_match_postonly_records": true,
+    "link180_static_sources": {
+      "equilibrium_database": {
+        "role": "equilibrium_database",
+        "path": "solver/cw_A10_0715t172214_24_eq.db",
+        "length_bytes": 700186624,
+        "last_write_time_ns": 1784139241954631100,
+        "sha256": "ad4ff75f99daa21e465a081568f5e7282026c05e83861eec33e7d56afdcb674b",
+        "matches_postonly_record": true
+      },
+      "static_result": {
+        "role": "static_result",
+        "path": "solver/cw_A10_0715t172214_24.rst",
+        "length_bytes": 529530880,
+        "last_write_time_ns": 1784139187854147100,
+        "sha256": "c533af1a5cf119f43a6b17a7b7e72c4f26e3365e4c8dc5405ea7d4148d80d0cc",
+        "matches_postonly_record": true
+      }
+    },
+    "sene6_modal_sources": {
+      "cw_A10_0715t172214_24_modal.db": {
+        "role": "cw_A10_0715t172214_24_modal.db",
+        "path": "solver/cw_A10_0715t172214_24_modal.db",
+        "length_bytes": 272629760,
+        "last_write_time_ns": 1784142261742940000,
+        "sha256": "69eb6f94e69c8ef445826e2e3b0220e48bcc12d86793484d0fa486b243030b7b",
+        "matches_postonly_record": true
+      },
+      "cw_A10_0715t172214_24.rstp": {
+        "role": "cw_A10_0715t172214_24.rstp",
+        "path": "solver/cw_A10_0715t172214_24.rstp",
+        "length_bytes": 3444375552,
+        "last_write_time_ns": 1784141975941023600,
+        "sha256": "15a14e680929679d34840e3fb057c5d66c9503e1c3a766a9fa27379273712d78",
+        "matches_postonly_record": true
+      }
+    },
+    "link180_postflight_path": "A10_LINK180_POSTONLY_20260715T222004Z/postflight_source_integrity.json",
+    "link180_postflight_sha256": "fb3cc6e5bfa269eab17bf67c3ea8518adee5602391c18a0882985a48764e0c86"
+  },
+  "prepare_lineage": {
+    "status_archive": "lineage/A10_status.prepare_original.json",
+    "status_original_sha256": "8759b5b7037e6abc676d1a2cd035b0dffe6628e96f1cef9c04e652a594d8f6bc",
+    "manifest_archive": "lineage/manifest.prepare_original.json",
+    "manifest_original_sha256": "58571d12cf5d4de575a8741000de37c6e1e07117d89d9fa701bb3725119fdb95"
+  },
+  "legacy_limitations": [
+    {
+      "id": "LEGACY_CERIG_LARGE_DEFLECTION",
+      "description": "legacy CERIG 约束在大变形下的适用性 warning 仍存在；本轮未改变 legacy 连接运动学。"
+    },
+    {
+      "id": "HIGH_COEFFICIENT_RATIO",
+      "description": "静力矩阵系数比超过 1E8，虽无负/零主元且全部收敛，仍保留尺度病态限制。"
+    },
+    {
+      "id": "STEN_SUBSTEP_NUMERIC_HISTORY_UNAVAILABLE",
+      "description": "输入顺序与两次求解器 KEY=OFF 回显证明 LS1/LS2 全历程未启用稳定化，因而任务书全历程控制门禁通过；但 RST 只保存两个端点 VENG，逐子步 STEN 数值表不可恢复。"
+    }
+  ],
+  "solver_binary_protection": {
+    "write_target_count": 0,
+    "metadata_file_count": 47,
+    "metadata_unchanged_before_commit": true,
+    "content_hashes_in_full_run_ledger": true
+  },
+  "artifact_ledger": {
+    "path": "artifact_hashes.sha256",
+    "coverage": "ALL_REGULAR_FILES_UNDER_RUN_EXCEPT_LEDGER_ITSELF",
+    "self_excluded": true
+  },
+  "authoritative_alias": {
+    "path": "qa/a10_external_completion_qa.json",
+    "byte_identical_to": "qa/postrun_gate.json"
+  }
+}

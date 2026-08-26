@@ -1,0 +1,642 @@
+! ============================================================================
+! C10_MPC_ONLY：继承最终 S10 十项不变量，并仅把受控连接 include 的 CERIG 替换为 MPC184。
+! 坐标为 X 顺桥、Y 横桥、Z 竖向；单位为 N、mm、tonne、s。
+! 本文件由 prepare-only 编排器生成；生成动作本身未启动 MAPDL。
+! ============================================================================
+! 清空未来 MAPDL 会话并按封板要求读取标准启动设置。
+/CLEAR,START
+! 设置本 run 唯一 ASCII jobname，所有 RST/RSTP/MODE/FULL 文件均由此绑定。
+/FILNAME,cw_C10mk5_0801t222546_d1
+! 设置可辨识英文标题，避免依赖本地代码页。
+/TITLE,C10 DIRECT MPC CONSTANT-LOAD MIGRATION K5-EXCLUDED STATIC DIAGNOSTIC
+! 初始化未来求解器唯一 gate 状态文件。
+/OUTPUT,c10_gate_status,txt
+! RUNNING 仅表示未来 MAPDL 已读入主输入，不表示任何工程门禁通过。
+/COM,STATUS=RUNNING PHASE=ASSEMBLY
+! 恢复未来 MAPDL 主输出文件。
+/OUTPUT
+! 按 U00 dependency graph order 1 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,full_line_beam4_crossbeam_mesh_xlong,inp
+! 按 U00 dependency graph order 2 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,convert_crossbeams_beam4_to_beam188,inp
+! 按 U00 dependency graph order 3 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,apply_mct_downpull_equivalent_xlong,inp
+! 按 U00 dependency graph order 4 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,apply_mct_constraints_xlong,inp
+! 按 U00 dependency graph order 5 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,apply_mct_authoritative_initial_state_link180,inp
+! 按 U00 dependency graph order 6 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,apply_finite_gates_and_passages_v2,inp
+! 按 U00 dependency graph order 7 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,apply_modal_roty_stabilization_xlong,inp
+! 按 U00 dependency graph order 8 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,define_representative_rope_component,inp
+! 按 U00 dependency graph order 9 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,apply_authoritative_mct_deadload_v1,inp
+! 按 U00 dependency graph order 10 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,apply_dynamic_mass21_spatialized_v2,inp
+! 按 U00 dependency graph order 11 读取冻结 include；其 SHA-256 已在准备期复算闭合。
+/INPUT,apply_authoritative_mct_gravity_v1,inp
+! 进入前处理器读取完整装配后的节点和单元身份。
+/PREP7
+! 按 MPC184 单元文档建议，仅在本静力诊断中排除 rigid-beam 几何应力刚度对切线矩阵的贡献。
+KEYOPT,72,5,1
+! 恢复全部节点和单元选择，保证计数覆盖完整模型。
+ALLSEL,ALL
+! 读取完整节点总数，预期 109086。
+*GET,C10_NCOUNT,NODE,0,COUNT
+! 读取完整单元总数，预期 178072。
+*GET,C10_ECOUNT,ELEM,0,COUNT
+! 只选择 TYPE 4 单元，用于封板分类型计数。
+ESEL,S,TYPE,,4
+! 读取 TYPE 4 单元数，预期 73692。
+*GET,C10_T4,ELEM,0,COUNT
+! 只选择 TYPE 6 单元，用于封板分类型计数。
+ESEL,S,TYPE,,6
+! 读取 TYPE 6 单元数，预期 48620。
+*GET,C10_T6,ELEM,0,COUNT
+! 只选择 TYPE 70 单元，用于封板分类型计数。
+ESEL,S,TYPE,,70
+! 读取 TYPE 70 单元数，预期 17679。
+*GET,C10_T70,ELEM,0,COUNT
+! 只选择 TYPE 71 单元，用于封板分类型计数。
+ESEL,S,TYPE,,71
+! 读取 TYPE 71 单元数，预期 33003。
+*GET,C10_T71,ELEM,0,COUNT
+! C10_MPC_TYPE_COUNT_QUERY_BEGIN
+! 只选择 TYPE72 rigid-beam 元素，用于执行期连接数量门禁。
+ESEL,S,TYPE,,72
+! 读取 TYPE72 数量，预期 5078。
+*GET,C10_T72,ELEM,0,COUNT
+! C10_MPC_TYPE_COUNT_QUERY_END
+! 类型计数后恢复全部实体，避免选择状态影响静力求解。
+ALLSEL,ALL
+! 把节点、单元和四类 TYPE 数量写入独立拓扑证据。
+/OUTPUT,c10_topology_counts,txt
+! 第一行写节点、单元、TYPE4 和 TYPE6 计数，全部为整数型数量。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_NCOUNT,C10_ECOUNT,C10_T4,C10_T6
+('NODE_COUNT=',F12.0,', ELEMENT_COUNT=',F12.0,', TYPE4=',F12.0,', TYPE6=',F12.0)
+! 第二行写 TYPE70 有限构件和 TYPE71 MASS21 计数。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_T70,C10_T71
+('TYPE70=',F12.0,', TYPE71=',F12.0)
+! C10_MPC_TYPE_COUNT_OUTPUT_BEGIN
+! 第三行只写 TYPE72 单刚臂计数，TYPE73 已按拓扑修复要求移除。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_T72
+('TYPE72=',F12.0)
+! C10_MPC_TYPE_COUNT_OUTPUT_END
+! 恢复主输出，结束拓扑计数文件。
+/OUTPUT
+! 把全部约束方程写入独立审计文件，供执行后确认没有 legacy CERIG 方程残留。
+/OUTPUT,c10_constraint_equations,txt
+! 列出全部当前约束方程；MAPDL 不提供可靠的通用 CE COUNT 查询。
+CELIST,ALL
+! 恢复主输出，结束约束方程证据文件。
+/OUTPUT
+! 把全部 CP 耦合自由度写入独立执行期审计文件。
+/OUTPUT,c10_coupled_dof,txt
+! 列出全部当前 CP 定义，供执行后与准备期 12 条 CP 身份闭合。
+CPLIST,ALL
+! 恢复主输出，结束 CP 列表证据文件。
+/OUTPUT
+! 把全部显式位移约束写入独立执行期审计文件。
+/OUTPUT,c10_displacement_constraints,txt
+! 列出全部当前 D 定义，供执行后与准备期 3968 条 D 身份闭合。
+DLIST,ALL
+! 恢复主输出，结束 D 列表证据文件。
+/OUTPUT
+! C10_MPC_ELEMENT_AUDIT_BEGIN
+! 把全部 C10 MPC184 元素写入独立执行期审计文件。
+/OUTPUT,c10_mpc184_elements,txt
+! 选择 prepare 阶段建立的 V2_MPC184_E 审计组件。
+CMSEL,S,V2_MPC184_E
+! 列出 5078 个单 TYPE72 MPC184 元素及其节点引用。
+ELIST,ALL
+! 恢复全部实体选择，避免影响后续拓扑门禁。
+ALLSEL,ALL
+! 恢复 MAPDL 主输出，结束 MPC184 元素证据文件。
+/OUTPUT
+! C10_MPC_ELEMENT_AUDIT_END
+! 节点总数不等于 109086 时拒绝，防止缺 include 或模型线混入。
+*IF,C10_NCOUNT,NE,109086,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 TOPOLOGY_NODE_COUNT_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=TOPOLOGY_NODE_COUNT_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! 单元总数不等于 178072 时拒绝。
+*IF,C10_ECOUNT,NE,178072,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 TOPOLOGY_ELEMENT_COUNT_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=TOPOLOGY_ELEMENT_COUNT_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! TYPE 4 单元数不等于封板值 73692 时拒绝。
+*IF,C10_T4,NE,73692,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 TYPE_4_COUNT_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=TYPE_4_COUNT_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! TYPE 6 单元数不等于封板值 48620 时拒绝。
+*IF,C10_T6,NE,48620,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 TYPE_6_COUNT_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=TYPE_6_COUNT_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! TYPE 70 单元数不等于封板值 17679 时拒绝。
+*IF,C10_T70,NE,17679,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 TYPE_70_COUNT_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=TYPE_70_COUNT_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! TYPE 71 单元数不等于封板值 33003 时拒绝。
+*IF,C10_T71,NE,33003,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 TYPE_71_COUNT_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=TYPE_71_COUNT_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! C10_MPC_TYPE_COUNT_GATE_BEGIN
+! TYPE72 数量不等于 5078 时拒绝，防止 ALL 或 UXYZ 单刚臂缺失。
+*IF,C10_T72,NE,5078,THEN
+! 把唯一拒绝原因写入 C10 gate 状态文件。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 TYPE_72_COUNT_MISMATCH。
+/COM,STATUS=REJECTED REASON=TYPE_72_COUNT_MISMATCH
+! 恢复 MAPDL 主输出。
+/OUTPUT
+! 门禁失败立即退出且不保存数据库。
+/EXIT,NOSAVE
+! 结束 TYPE72 fail-closed 条件分支。
+*ENDIF
+! C10_MPC_TYPE_COUNT_GATE_END
+! 离开前处理器；全部装配身份门禁通过后才允许建立静力基态。
+FINISH
+! 进入求解处理器，开始从零荷载加载的 LS1 非线性静力。
+/SOLU
+! 选择静力分析类型，禁止复用任何既有数据库或重启动文件。
+ANTYPE,STATIC
+! LS1 显式关闭稳定化，与 legacy 从零物理链一致并使全历程 STEN 目标为零。
+STABILIZE,OFF
+! 启用大变形几何非线性，更新索网平衡和切线刚度。
+NLGEOM,ON
+! 保留预应力效应供后续线性扰动模态使用。
+PSTRES,ON
+! 每次平衡迭代使用完整 Newton-Raphson 切线更新。
+NROPT,FULL
+! LS1 将完整恒载一步施加，与从 t=0 已存在的完整 INISTATE 直接组成形成态平衡对。
+KBC,1
+! LS1 禁止自动细分，避免求解器把形成态平衡对重新拆成无物理含义的部分恒载路径。
+AUTOTS,OFF
+! 启用线搜索抑制高刚度约束下的 Newton 过冲。
+LNSRCH,ON
+! 关闭位移预测器，避免索网初始加载阶段预测放大。
+PRED,OFF
+! 每个 LS1 子步最多允许 100 次平衡迭代。
+NEQIT,100
+! 显式固定力残差相对容限为 0.5%，防止 MAPDL 因收敛困难自动放宽默认标准。
+CNVTOL,F,,5.0E-3,2
+! 显式固定力矩残差相对容限为 0.5%，并用二范数覆盖含转动自由度的平衡方程。
+CNVTOL,M,,5.0E-3,2
+! 显式启用位移修正相对容限 5%，以无穷范数约束局部异常增量。
+CNVTOL,U,,5.0E-2,0
+! 显式启用转角修正相对容限 5%，以无穷范数约束 TYPE72 master 的局部异常增量。
+CNVTOL,ROT,,5.0E-2,0
+! 施加 +Z 参考加速度 9806 mm/s²，使结构承受 -Z 重力。
+ACEL,0,0,9806
+! 把二值迁移参数设为 1，使修正 include 恢复原 MCT 初态对应的平衡荷载位置。
+C10_BETA=1
+! 施加总和小于 1E-6 N 的位置修正向量；总重力大小保持不变。
+/INPUT,apply_constant_total_load_position_migration_v1,inp
+! 把完整重力加载终点定义为伪时间 1.0。
+TIME,1
+! 形成态平衡对只允许一个完整子步；三个参数均为 1，禁止扩大或缩小子步数量。
+NSUBST,1,1,1
+! 仅保存 LS1 末完整场，控制全桥位移、应力和反力结果体积。
+OUTRES,ALL,LAST
+! 保存 LS1 每个已收敛子步的 SENE/STEN，供任务书要求的全历程峰值门禁。
+OUTRES,VENG,ALL
+! 显式保存 LS1 末约束反力供重力闭合。
+OUTRES,RSOL,LAST
+! 只保留每载荷步末重启动帧，确保 LS2 扰动点可追溯。
+RESCONTROL,DEFINE,ALL,LAST
+! 执行 LS1 从零到完整重力的非线性静力求解。
+SOLVE
+! 读取 LS1 最后一次求解收敛标志；数值 1 才可继续。
+*GET,C10_CNVG1,ACTIVE,0,SOLU,CNVG
+! LS1 CNVG 不等于 1 时立即拒绝。
+*IF,C10_CNVG1,NE,1,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 LS1_SOLVE_NOT_CONVERGED 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=LS1_SOLVE_NOT_CONVERGED
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! LS1 收敛门禁通过后保持在同一 /SOLU 分析中，使下一次 SOLVE 自动形成真实载荷步 2。
+! 显式关闭 LS2 稳定化，验证完整重力平衡可以独立保持。
+STABILIZE,OFF
+! 把 LS2 终点设为单调递增伪时间 1.001。
+TIME,1.001
+! 重发同一重力加速度；LS2 只改变二期重力空间位置，不改变总荷载或 ACEL。
+ACEL,0,0,9806
+! 把二值迁移参数设为 0，使修正 include 在同一 15,071 节点集显式写入零值并定义最终荷载端点。
+C10_BETA=0
+! 用 replacement 重发 LS1 修正节点的零端点；随后 KBC,0 连续插值，ACEL 和总重力保持不变。
+/INPUT,apply_constant_total_load_position_migration_v1,inp
+! 使用斜坡定义把 beta=1 修正向量连续插值到 beta=0；修正向量总和为零，所以每个子步总荷载恒定。
+KBC,0
+! 保留 LS2 自动时间步框架，但 NSUBST 的初始、最大和最小值均为二百，因此实际增量固定为 0.5%。
+AUTOTS,ON
+! LS2 初始 200、最多 200、最少 200 个子步；每个冻结子步只迁移 0.5% 的荷载位置。
+NSUBST,200,200,200
+! 保存 LS2 末完整场作为唯一扰动基态。
+OUTRES,ALL,LAST
+! 保存 LS2 末 SENE/STEN 供关闭稳定化后的残余能量门禁。
+OUTRES,VENG,LAST
+! 保存 LS2 末支反力供质量—重力闭合。
+OUTRES,RSOL,LAST
+! 执行 LS2 无稳定化恒总荷载位置迁移，并在 beta=0 空间化 MASS21 端点取得最终平衡。
+SOLVE
+! 读取 LS2 最后一次求解收敛标志；数值 1 才可继续。
+*GET,C10_CNVG2,ACTIVE,0,SOLU,CNVG
+! LS2 最终端点 CNVG 不等于 1 时立即拒绝；允许的 cutback 只能增加路径分辨率，不能放宽收敛准则。
+*IF,C10_CNVG2,NE,1,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 LS2_HOLD_NOT_CONVERGED 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=LS2_LOAD_POSITION_MIGRATION_NOT_CONVERGED
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! 离开求解处理器，开始只读静力结果门禁。
+FINISH
+! 进入通用后处理器读取 LS1 与 LS2 末结果。
+/POST1
+! 显式指定本 job 的静力 RST，避免 FILE 状态歧义。
+FILE,cw_C10mk5_0801t222546_d1,rst
+! 恢复全部节点和单元选择以计算全模能量和质量。
+ALLSEL,ALL
+! 先激活静力 RST 最后一个结果集，供 NSET 读取全部已保存结果集数量。
+SET,LAST
+! 读取静力 RST 中全部已保存结果集数量，包含 LS1 能量子步和 LS2 端点。
+*GET,C10_HNSET,ACTIVE,0,SET,NSET
+! 初始化 LS1 已保存收敛子步计数；遍历后必须严格大于零。
+C10_HCOUNT=0
+! 初始化 LS1 全历程绝对 STEN/SENE 峰值为负哨兵，任何合法非负比值都会替换它。
+C10_PEAK1=-1
+! 初始化 LS1 峰值所在子步号为负哨兵，单位为无量纲整数序号。
+C10_PEAKSB=-1
+! 初始化 LS1 峰值所在伪时间为负哨兵，合法范围为零至一秒制伪时间。
+C10_PEAKTM=-1
+! 打开无标题纯数值 LS1 全历程 CSV；正常与拒绝路径均在峰值门禁前关闭。
+*CFOPEN,c10_ls1_energy_history,csv
+! 激活静力 RST 的第一个已保存结果集，按真实写入顺序开始遍历。
+SET,FIRST
+! 逐一遍历静力 RST 的全部结果集，并只统计载荷步一的已收敛能量记录。
+*DO,C10_HI,1,C10_HNSET
+! 读取当前结果集载荷步编号，用于排除 LS2 保持步。
+*GET,C10_HLS,ACTIVE,0,SET,LSTP
+! 读取当前结果集子步编号，供 CSV 与峰值位置追溯。
+*GET,C10_HSB,ACTIVE,0,SET,SBST
+! 读取当前结果集伪时间，供全历程横坐标与峰值位置追溯。
+*GET,C10_HTIME,ACTIVE,0,SET,TIME
+! 只有载荷步一结果集进入 LS1 能量统计，LS2 由独立端点门禁处理。
+*IF,C10_HLS,EQ,1,THEN
+! 把当前 LS1 已保存收敛子步加入全历程计数。
+C10_HCOUNT=C10_HCOUNT+1
+! 清空上一结果集的单元表定义，防止能量列跨子步残留。
+ETABLE,ERAS
+! 建立当前 LS1 子步的全单元势能列，单位 N·mm。
+ETABLE,B0HSENE,SENE
+! 建立当前 LS1 子步的全单元稳定化能列，单位 N·mm。
+ETABLE,B0HSTEN,STEN
+! 对当前 LS1 子步的 SENE 与 STEN 单元列分别求全模型总和。
+SSUM
+! 读取当前 LS1 子步全模型势能总和，单位 N·mm。
+*GET,C10_HSENE,SSUM,0,ITEM,B0HSENE
+! 读取当前 LS1 子步全模型稳定化能总和，单位 N·mm。
+*GET,C10_HSTEN,SSUM,0,ITEM,B0HSTEN
+! 以当前 LS1 子步势能绝对值构造稳定化能量比分母。
+C10_HDEN=ABS(C10_HSENE)
+! 当前 LS1 子步势能绝对值过小时进入 1E-30 N·mm 除零保护。
+*IF,C10_HDEN,LT,1.0E-30,THEN
+! 把当前 LS1 子步数值保护分母设为 1E-30 N·mm。
+C10_HDEN=1.0E-30
+! 结束当前 LS1 子步势能分母保护。
+*ENDIF
+! 计算当前 LS1 子步绝对 STEN/SENE 无量纲比值。
+C10_HRATIO=ABS(C10_HSTEN)/C10_HDEN
+! 写出载荷步、子步、伪时间、SENE、STEN 和绝对比值六列纯数值记录。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_HLS,C10_HSB,C10_HTIME,C10_HSENE,C10_HSTEN,C10_HRATIO
+(F12.0,',',F12.0,',',E24.16,',',E24.16,',',E24.16,',',E24.16)
+! 当前 LS1 子步比值大于既有峰值时更新峰值及其位置。
+*IF,C10_HRATIO,GT,C10_PEAK1,THEN
+! 保存新的 LS1 全历程绝对 STEN/SENE 峰值。
+C10_PEAK1=C10_HRATIO
+! 保存新峰值所在 LS1 子步号。
+C10_PEAKSB=C10_HSB
+! 保存新峰值所在 LS1 伪时间。
+C10_PEAKTM=C10_HTIME
+! 结束当前 LS1 子步峰值更新分支。
+*ENDIF
+! 结束载荷步一过滤分支；非 LS1 结果集不写入历程 CSV。
+*ENDIF
+! 尚未遍历最后一个结果集时才请求下一结果集，避免末尾越界警告。
+*IF,C10_HI,LT,C10_HNSET,THEN
+! 按静力 RST 原生顺序读取下一已保存结果集。
+SET,NEXT
+! 结束结果集推进保护。
+*ENDIF
+! 结束全部静力结果集遍历，LS1 全历程峰值和 CSV 已在内存与磁盘形成。
+*ENDDO
+! 关闭并刷新 LS1 全历程 CSV，确保后续任何 fail-closed 退出仍保留完整历程。
+*CFCLOS
+! 读取 LS1 最后收敛结果集作为稳定化端点。
+SET,1,LAST
+! 清空旧单元表定义，避免标签或结果集残留。
+ETABLE,ERAS
+! 建立 LS1 全单元势能列，单位 N·mm。
+ETABLE,B0SENE,SENE
+! 建立 LS1 全单元稳定化耗散能列，单位 N·mm。
+ETABLE,B0STEN,STEN
+! 对当前全部单元的 B0SENE 和 B0STEN 列求和。
+SSUM
+! 读取 LS1 全模型势能总和。
+*GET,C10_SENE1,SSUM,0,ITEM,B0SENE
+! 读取 LS1 全模型稳定化能总和。
+*GET,C10_STEN1,SSUM,0,ITEM,B0STEN
+! 以 LS1 势能绝对值构造稳定化能量比分母。
+C10_DEN1=ABS(C10_SENE1)
+! LS1 势能绝对值过小时进入除零保护。
+*IF,C10_DEN1,LT,1.0E-30,THEN
+! 把 LS1 数值保护分母设为 1E-30 N·mm。
+C10_DEN1=1.0E-30
+! 结束 LS1 势能分母保护。
+*ENDIF
+! 计算 LS1 端点绝对 STEN/SENE 比。
+C10_RATIO1=ABS(C10_STEN1)/C10_DEN1
+! 读取 LS2 无稳定化位置迁移的 beta=0 最后收敛结果。
+SET,2,LAST
+! 按 LS2 当前结果刷新 B0SENE 与 B0STEN 单元表。
+ETABLE,REFL
+! 对 LS2 当前全部单元的能量列重新求和。
+SSUM
+! 读取 LS2 全模型势能总和。
+*GET,C10_SENE2,SSUM,0,ITEM,B0SENE
+! 读取 LS2 全模型稳定化能总和。
+*GET,C10_STEN2,SSUM,0,ITEM,B0STEN
+! 以 LS2 势能绝对值构造残余能量比分母。
+C10_DEN2=ABS(C10_SENE2)
+! LS2 势能绝对值过小时进入除零保护。
+*IF,C10_DEN2,LT,1.0E-30,THEN
+! 把 LS2 数值保护分母设为 1E-30 N·mm。
+C10_DEN2=1.0E-30
+! 结束 LS2 势能分母保护。
+*ENDIF
+! 计算 LS2 当前绝对 STEN/SENE 比。
+C10_RATIO2=ABS(C10_STEN2)/C10_DEN2
+! 读取当前结果集载荷步编号，预期为 2。
+*GET,C10_LS2,ACTIVE,0,SET,LSTP
+! 读取当前结果集伪时间，预期为 1.001。
+*GET,C10_TIME2,ACTIVE,0,SET,TIME
+! 计算 LS2 当前时间与 1.001 的绝对误差。
+C10_TERR2=ABS(C10_TIME2-1.001)
+! 读取完整模型 X 向平动质量，单位 tonne。
+*GET,C10_MTOT,ELEM,0,MTOT,X
+! 设置封板全模质量 4108.46690758 tonne。
+C10_MEXP=4108.46690758000
+! 计算当前质量与封板值的绝对误差，单位 tonne。
+C10_MERR=ABS(C10_MTOT-C10_MEXP)
+! 只选择施加 UZ 位移约束的支承节点。
+NSEL,S,D,UZ
+! 读取 UZ 支承节点数，预期恰为 464。
+*GET,C10_QN,NODE,0,COUNT
+! UZ 支承节点数不等于 464 时拒绝，避免空或错支承反力闭合。
+*IF,C10_QN,NE,464,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 UZ_SUPPORT_COUNT_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=UZ_SUPPORT_COUNT_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! 读取当前 UZ 支承集合的最小节点号作为遍历起点。
+*GET,C10_NODE,NODE,0,NUM,MIN
+! 初始化全部 UZ 支承 Z 向约束反力累计值为 0 N。
+C10_RFZ=0
+! 遍历恰 464 个 UZ 支承节点并逐项累加 RF,FZ。
+*DO,C10_I,1,C10_QN
+! 读取当前支承节点的 Z 向约束反力，单位 N。
+*GET,C10_RF,NODE,C10_NODE,RF,FZ
+! 把当前节点反力加入全模型竖向支反力总和。
+C10_RFZ=C10_RFZ+C10_RF
+! 读取所选支承集合中的下一节点号。
+*GET,C10_NODE,NODE,C10_NODE,NXTH
+! 结束 UZ 支承节点反力累加循环。
+*ENDDO
+! 以当前 tonne 质量乘 9806 mm/s² 得到理论重力反力，单位 N。
+C10_RFEXP=C10_MTOT*9806
+! 以理论反力绝对值构造相对误差分母。
+C10_RFDEN=ABS(C10_RFEXP)
+! 理论反力小于 1 N 时进入除零保护。
+*IF,C10_RFDEN,LT,1.0,THEN
+! 把反力误差数值保护分母设为 1 N。
+C10_RFDEN=1.0
+! 结束反力相对误差分母保护。
+*ENDIF
+! 计算实际支反力与理论重力反力的有符号差，单位 N。
+C10_RFERR=C10_RFZ-C10_RFEXP
+! 计算竖向支反力相对闭合误差。
+C10_RFREL=ABS(C10_RFERR)/C10_RFDEN
+! 恢复全部节点和单元选择，避免支承选择影响后续保存和模态。
+ALLSEL,ALL
+! 输出 LS1/LS2 收敛、能量、质量、支承和反力完整静力门禁证据。
+/OUTPUT,c10_static_energy_mass_reaction,txt
+! 写出两步收敛标志、当前载荷步和 LS2 时间。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_CNVG1,C10_CNVG2,C10_LS2,C10_TIME2
+('LS1_CNVG=',F4.0,', LS2_CNVG=',F4.0,', LS2=',F8.0,', TIME2=',E24.16)
+! 写出 LS1 势能、稳定化能和无量纲比值。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_SENE1,C10_STEN1,C10_RATIO1
+('SENE1=',E24.16,', STEN1=',E24.16,', RATIO1=',E24.16)
+! 写出静力结果集总数、LS1 历程记录数以及峰值所在子步和伪时间。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_HNSET,C10_HCOUNT,C10_PEAKSB,C10_PEAKTM
+('STATIC_NSET=',F12.0,', LS1_HISTORY_COUNT=',F12.0,', PEAK_SUBSTEP=',F12.0,', PEAK_TIME=',E24.16)
+! 写出任务书要求的 LS1 全历程绝对 STEN/SENE 峰值。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_PEAK1
+('LS1_HISTORY_PEAK_ABS_STEN_OVER_SENE=',E24.16)
+! 写出 LS2 势能、稳定化能和无量纲比值。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_SENE2,C10_STEN2,C10_RATIO2
+('SENE2=',E24.16,', STEN2=',E24.16,', RATIO2=',E24.16)
+! 写出当前质量、封板质量、绝对误差和 UZ 支承数。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_MTOT,C10_MEXP,C10_MERR,C10_QN
+('MASS=',E24.16,', EXPECTED=',E24.16,', ABS_ERROR=',E24.16,', UZ=',F12.0)
+! 写出理论重力反力与实际支反力，两个值的单位均为 N；分行可保持单条物理记录短小且易解析。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_RFEXP,C10_RFZ
+('RF_EXPECTED=',E24.16,', RF_ACTUAL=',E24.16)
+! 写出支反力有符号误差与无量纲相对误差；与上一行共同组成完整反力闭合证据。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻，二者之间不得插入注释。
+*VWRITE,C10_RFERR,C10_RFREL
+('RF_ERROR=',E24.16,', RF_RELATIVE_ERROR=',E24.16)
+! 恢复主输出，结束静力门禁证据文件。
+/OUTPUT
+! 最终静力结果不在载荷步 2 时拒绝。
+*IF,C10_LS2,NE,2,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 LS2_RESULT_LOADSTEP_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=LS2_RESULT_LOADSTEP_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! LS2 时间与 1.001 的绝对误差超过 1E-10 时拒绝。
+*IF,C10_TERR2,GT,1.0E-10,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 LS2_TIME_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=LS2_TIME_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! LS1 没有任何已保存能量结果集时拒绝，禁止用端点替代全历程门禁。
+*IF,C10_HCOUNT,LE,0,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 LS1_ENERGY_HISTORY_EMPTY 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=LS1_ENERGY_HISTORY_EMPTY
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! LS1 绝对 STEN/SENE 超过 1E-2 时拒绝。
+*IF,C10_RATIO1,GT,1.0E-02,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 LS1_STABILIZATION_ENERGY_HIGH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=LS1_STABILIZATION_ENERGY_HIGH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! LS1 全历程峰值绝对 STEN/SENE 超过 1E-2 时拒绝。
+*IF,C10_PEAK1,GT,1.0E-02,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 LS1_HISTORY_STABILIZATION_ENERGY_HIGH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=LS1_HISTORY_STABILIZATION_ENERGY_HIGH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! LS2 绝对 STEN/SENE 超过 1E-8 时拒绝。
+*IF,C10_RATIO2,GT,1.0E-08,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 LS2_STABILIZATION_ENERGY_NOT_ZERO 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=LS2_STABILIZATION_ENERGY_NOT_ZERO
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! 总质量绝对误差超过 1E-6 tonne 时拒绝。
+*IF,C10_MERR,GT,1.0E-06,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 TOTAL_MASS_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=TOTAL_MASS_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! 竖向支反力相对误差超过 1E-4 时拒绝。
+*IF,C10_RFREL,GT,1.0E-04,THEN
+! 把本次唯一拒绝原因写入 c10_gate_status.txt，覆盖先前 RUNNING 阶段状态。
+/OUTPUT,c10_gate_status,txt
+! 固定拒绝原因 GRAVITY_REACTION_MISMATCH 供外部审计按字段解析。
+/COM,STATUS=REJECTED REASON=GRAVITY_REACTION_MISMATCH
+! 恢复 MAPDL 主输出，避免退出摘要滞留在 gate 状态文件。
+/OUTPUT
+! 门禁失败时立即退出且不保存数据库，禁止错误基态进入后续阶段。
+/EXIT,NOSAVE
+! 结束当前 fail-closed 条件分支；通过时继续下一门禁。
+*ENDIF
+! 唯一一次以本 run jobname 派生名称保存无稳定化平衡数据库。
+SAVE,cw_C10mk5_0801t222546_d1_eq,db
+! 离开后处理器；静力门禁已全部通过，本诊断按限定范围不进入扰动分析。
+FINISH
+! 把静力诊断全部门禁通过的终态写入唯一 gate 状态。
+/OUTPUT,c10_gate_status,txt
+! 该状态只表示静力诊断通过，仍不包含任何模态或生产结论。
+/COM,STATUS=STATIC_DIAGNOSTIC_GATES_PASSED PHASE=STATIC_ONLY_COMPLETE
+! 恢复主输出，准备结束静力专用 MAPDL 会话。
+/OUTPUT
+! 静力诊断在全部门禁通过后结束；本运行不生成或宣称任何模态结果。
+/EXIT,NOSAVE

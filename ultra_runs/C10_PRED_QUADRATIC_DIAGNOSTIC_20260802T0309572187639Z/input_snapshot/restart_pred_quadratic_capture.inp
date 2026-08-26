@@ -1,0 +1,25 @@
+! 本输入仅对冻结 LS2/SS2 重启状态执行 PRED,QUADRATIC 单变量 A/B 诊断，不构成静力终态。
+! 进入批处理模式，保证命令按冻结顺序执行且不依赖交互界面。
+/BATCH
+! 固定唯一 jobname，使全部读写只发生在本次专用复制目录。
+/FILNAME,cw_C10pq_0802030957223
+! 使用纯 ASCII 标题标识二次预测器诊断，避免与基线残差运行混淆。
+/TITLE,C10 PRED QUADRATIC SINGLE VARIABLE RESTART DIAGNOSTIC
+! 进入求解处理器，准备调用同版本多帧重启。
+/SOLU
+! 从冻结 R002 对应的载荷步 2、已接受子步 2 继续求解同一子步 3。
+ANTYPE,,REST,2,2,CONTINUE
+! 唯一算法变量：把来源状态 PRED,OFF 改为二次预测器；NROPT FULL 与 LNSRCH ON 均由冻结重启状态继承。
+PRED,QUADRATIC
+! 启用节点 Newton-Raphson 残差文件，最多允许写出五十个文件以保留定位证据。
+NLDIAG,NRRE,ON,50
+! 将当前子步最大新增平衡迭代限制为八次，防止该诊断扩展为长时间生产求解。
+NEQIT,8
+! 来源 R002 的累计迭代为九十三次；累计上限一百零一次对应最多八次新增迭代。
+NCNV,1,,101
+! 求解与基线完全相同的载荷步 2 子步 3；载荷、约束、NROPT 与 LNSRCH 不作修改。
+SOLVE
+! 若子步在八次内接受，则正常离开求解处理器；未接受时由 MAPDL 原生迭代上限结束。
+FINISH
+! 即使子步接受也不保存数据库为工程端点，仅保留专用诊断结果和日志。
+/EXIT,NOSAVE

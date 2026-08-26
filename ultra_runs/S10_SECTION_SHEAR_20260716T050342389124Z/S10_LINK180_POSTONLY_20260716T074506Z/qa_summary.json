@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "audit_id": "S10_LINK180_POSTONLY_20260716T074506Z",
+  "generated_utc": "2026-07-16T07:45:23.201877+00:00",
+  "status": "PASSED",
+  "gate_passed": true,
+  "hard_blocker_closed": "LINK180_NONPOSITIVE_AXIAL_FORCE_REVIEW",
+  "execution": {
+    "mode": "POST1_ONLY_SMP1",
+    "mapdl_exit_code": 0,
+    "processes": 1,
+    "input_path": "s10_link180_post_only.inp",
+    "input_sha256": "3766c2561d44ebee6be0ab721726de124b57f74b1c216d31b0cfb863a5480da8",
+    "input_forbidden_command_count": 0,
+    "uncommented_executable_line_count": 0,
+    "mapdl_warning_count": 0,
+    "mapdl_error_count": 0,
+    "err_length_bytes": 80,
+    "exit_without_saving_confirmed": true,
+    "out_sha256": "6e524a648c72f83cc179bb41b9b9344284cc744d096500f3f5907e89c2d46e16",
+    "err_sha256": "18e5e78a0b82a83f05c3f8ff4a4adf07813739e9a6c4549ce394bb955e120659"
+  },
+  "result_set": {
+    "load_step": 2,
+    "substep": 1,
+    "time": 1.001,
+    "basis": "S10 final no-stabilization LS2 hold state used by perturbation modal analysis"
+  },
+  "link180_axial_force": {
+    "result_item": "SMISC,1",
+    "unit": "N",
+    "expected_count": 73692,
+    "actual_count": 73692,
+    "written_count": 73692,
+    "csv_row_count": 73692,
+    "unique_element_count": 73692,
+    "duplicate_element_count": 0,
+    "invalid_numeric_line_count": 0,
+    "nonpositive_count": 0,
+    "minimum_force_n": 519002.6875,
+    "minimum_element_id": 70029,
+    "maximum_force_n": 1573314.125,
+    "maximum_element_id": 400003,
+    "csv_sha256": "80bf13d4648d23ca064ef3a8d1fe8f79be8092d8274e3ecfe9954da52485c47b",
+    "summary_gate_value": 1,
+    "csv_path": "s10_link180_axial_force_n.csv"
+  },
+  "source_integrity": {
+    "source_integrity_passed": true,
+    "postflight_path": "postflight_source_integrity.json",
+    "equilibrium_database_sha256_before_after": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd",
+    "static_result_sha256_before_after": "7d4aaff99da55a2f632195cd507c763d2f0c5bc576830fb13b1010472973128b"
+  },
+  "artifact_hash_manifest": "artifact_hashes.sha256",
+  "artifact_hash_manifest_excludes": [
+    "artifact_hashes.sha256"
+  ]
+}

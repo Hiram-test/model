@@ -1,0 +1,74 @@
+! C10 单 TYPE72 0.1 rad 有限转动解析测试；本文件由 prepare 生成但不自动执行。
+! slave 只连接两根极软 LINK180 与一个仅平移 MASS21，禁止任何物理转角消费者。
+/CLEAR,START ! 清空未来独立微模型会话。
+/FILNAME,c10sr_ry ! 设置当前案例唯一 ASCII 作业名。
+/PREP7 ! 进入前处理器定义单刚臂有限转动模型。
+ET,2,LINK180 ! 定义仅三平移自由度的极软测试索。
+MP,EX,2,1 ! 设置极软索弹性模量为 1 N/mm2。
+MP,PRXY,2,0.3 ! 设置测试索泊松比为 0.3。
+SECTYPE,2,LINK ! 定义极软测试索截面。
+SECDATA,0.000001 ! 设置 1e-6 mm2 极小面积。
+ET,3,MASS21 ! 定义仅三平移集中质量。
+KEYOPT,3,3,2 ! MASS21 只激活 UX、UY、UZ。
+R,3,0.001 ! 设置 0.001 tonne 测试质量。
+ET,72,MPC184 ! 定义单个偏置 rigid beam。
+KEYOPT,72,1,1 ! 选择六自由度 rigid-beam 公式。
+KEYOPT,72,2,0 ! 使用 direct elimination。
+KEYOPT,72,5,0 ! 保留几何应力刚度。
+CSYS,0 ! 使用全局笛卡尔坐标。
+N,1,0,0,0 ! 定义规定转动的 master。
+N,2,800,-600,500 ! 定义纯平移索 slave。
+N,3,-200,-600,500 ! 定义左侧极软索固定端。
+N,4,1800,-600,500 ! 定义右侧极软索固定端。
+TYPE,2 ! 选择极软 LINK180。
+MAT,2 ! 选择极软材料。
+SECNUM,2 ! 选择 1e-6 mm2 截面。
+EN,20,3,2 ! 建立左侧极软 LINK180。
+EN,21,2,4 ! 建立右侧极软 LINK180。
+TYPE,3 ! 选择仅平移 MASS21。
+REAL,3 ! 选择 0.001 tonne 实常数。
+EN,30,2 ! 在 slave 建立仅平移质量。
+TYPE,72 ! 选择单 TYPE72。
+EN,1,1,2 ! 直接连接 master 与原 slave。
+D,1,UX,0 ! 固定 master X 平移。
+D,1,UY,0 ! 固定 master Y 平移。
+D,1,UZ,0 ! 固定 master Z 平移。
+D,1,ROTX,0 ! 规定 master 绕 X 转角，单位 rad。
+D,1,ROTY,0.1 ! 规定 master 绕 Y 转角，单位 rad。
+D,1,ROTZ,0 ! 规定 master 绕 Z 转角，单位 rad。
+D,3,ALL,0 ! 固定左侧极软索远端。
+D,4,ALL,0 ! 固定右侧极软索远端。
+FINISH ! 完成有限转动模型前处理。
+/SOLU ! 进入静力求解器。
+ANTYPE,STATIC ! 选择静力分析。
+NLGEOM,ON ! 启用大转动运动学。
+NROPT,FULL ! 每次迭代更新完整切线。
+AUTOTS,OFF ! 关闭自动子步。
+NSUBST,20,20,20 ! 将 0.1 rad 分成二十个固定子步。
+CNVTOL,F,0.005,1.0,2 ! 固定力收敛阈值和最小参考值。
+CNVTOL,U,0.05,,2 ! 固定 5% 位移增量阈值。
+OUTRES,ALL,ALL ! 保存全部二十个子步结果。
+SOLVE ! 执行当前有限转动测试；prepare 本身不调用本文件。
+FINISH ! 结束求解阶段。
+/POST1 ! 进入结果后处理器。
+SET,LAST ! 读取 0.1 rad 终态结果。
+*GET,C10_UMX,NODE,1,U,X ! 读取 master X 位移。
+*GET,C10_UMY,NODE,1,U,Y ! 读取 master Y 位移。
+*GET,C10_UMZ,NODE,1,U,Z ! 读取 master Z 位移。
+*GET,C10_RMX,NODE,1,ROT,X ! 读取 master 绕 X 实际转角。
+*GET,C10_RMY,NODE,1,ROT,Y ! 读取 master 绕 Y 实际转角。
+*GET,C10_RMZ,NODE,1,ROT,Z ! 读取 master 绕 Z 实际转角。
+*GET,C10_USX,NODE,2,U,X ! 读取 slave X 位移。
+*GET,C10_USY,NODE,2,U,Y ! 读取 slave Y 位移。
+*GET,C10_USZ,NODE,2,U,Z ! 读取 slave Z 位移。
+*GET,C10_RSX,NODE,2,ROT,X ! 读取 solver-only slave 绕 X 代数转角。
+*GET,C10_RSY,NODE,2,ROT,Y ! 读取 solver-only slave 绕 Y 代数转角。
+*GET,C10_RSZ,NODE,2,ROT,Z ! 读取 solver-only slave 绕 Z 代数转角。
+/OUTPUT,c10sr_ry_results,txt ! 打开当前有限转动机器结果文件。
+*VWRITE,C10_UMX,C10_UMY,C10_UMZ,C10_RMX,C10_RMY,C10_RMZ ! 输出 master 六分量运动。
+('MASTER_U=',3(E24.16,','),'MASTER_ROT=',3(E24.16,','))
+*VWRITE,C10_USX,C10_USY,C10_USZ,C10_RSX,C10_RSY,C10_RSZ ! 输出 slave 六分量代数运动。
+('SLAVE_U=',3(E24.16,','),'SLAVE_ROT=',3(E24.16,','))
+/OUTPUT ! 恢复 MAPDL 主输出。
+FINISH ! 完成单刚臂有限转动后处理。
+/EXIT,NOSAVE ! 退出且不保留微模型数据库。

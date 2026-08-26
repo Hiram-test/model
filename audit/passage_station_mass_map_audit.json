@@ -1,0 +1,178 @@
+{
+  "schema": "attachment23_authoritative_passage_station_mass_map_v2",
+  "status": "PASS",
+  "authority_rule": "21个MCT门架索21.556 kN站（cross_passage_tri_gate+guide_roller）通过gate_fit中的原MCT property-3门架，与21个含cross_passage_half的底索组合站严格一一配对；旧比例映射不参与坐标。",
+  "source_binding_sha256": {
+    "01_设计资料与规范\\猫道 - 门架索合建模型2.mct": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+    "02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\authoritative_mct_deadload_v1_items.csv": "d781d7042273951ce45c1c9b311ad2bc3d214fdab5febf68680b4c02545cab25",
+    "02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\authoritative_mct_deadload_v1_conload_mapping.csv": "99e3a14e3f368d4bc2262347387b64daafc46dedbe5a9fc30261eba1795fe475",
+    "02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\full_line_beam4_nodes.csv": "2a3db73c7ae6b828d79cb21fca92da5b93920f1aaf1475779b45b00d74faa0ce",
+    "02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\full_line_beam4_elements.csv": "2bfc745fe21049dab13c0e85b6c962420db321ea4bc4cdd6c231442d41675b3f",
+    "02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\gate_fit_audit.csv": "b121e3c417fbd47ed6d1133696db90f8d913b9c142f7b1f77ff4ad5618a5f28f",
+    "02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\gate_centerline_nodes.csv": "f3a9604cf24adff7bb128cb858ddda40d87280762b8ae16247913be35eee061c",
+    "02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\gate_centerline_elements.csv": "5faf1c56e688d0198debd717acb9573fb861d4bf698b152e7f1d30b1518da858",
+    "02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\gate_rope_couplings.csv": "e64eab1344a8db880e92df63b5c796d02253f07526f5d5e5bab83f44ae397090",
+    "02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\cross_passage_21_stations.csv": "b5e5447d40456f822f30910627460b1536b7c85289ad42f7b4173df33be86fe1",
+    "03_猫道动力分析\\第一阶模态验证_V1.0\\apply_dynamic_mass21_from_conloads.inp": "79ee3cc632e684e50154894b20db80931c472987900e1875a7dd3d76eae80daa"
+  },
+  "counts": {
+    "passage_station_count": 21,
+    "dedicated_gate_mct_node_count": 21,
+    "passage_bottom_mct_node_count": 21,
+    "selected_mass21_node_count": 924,
+    "component_inventory_row_count": 274,
+    "component_allocation_row_count": 3544,
+    "gate_centerline_node_row_count": 336,
+    "gate_centerline_element_row_count": 168,
+    "gate_rope_coupling_row_count": 924
+  },
+  "authoritative_mct_nodes": {
+    "gate_21_556_kn": [
+      1018,
+      1033,
+      1048,
+      1083,
+      1098,
+      1113,
+      1128,
+      1143,
+      1158,
+      1173,
+      1188,
+      1203,
+      1218,
+      1233,
+      1248,
+      1263,
+      1300,
+      1315,
+      1330,
+      1363,
+      1378
+    ],
+    "bottom_contains_cross_passage_half": [
+      42,
+      81,
+      120,
+      180,
+      201,
+      222,
+      243,
+      262,
+      283,
+      302,
+      321,
+      342,
+      361,
+      382,
+      403,
+      424,
+      488,
+      528,
+      568,
+      646,
+      685
+    ],
+    "gate_indices": [
+      3,
+      6,
+      9,
+      14,
+      17,
+      20,
+      23,
+      26,
+      29,
+      32,
+      35,
+      38,
+      41,
+      44,
+      47,
+      50,
+      55,
+      58,
+      61,
+      66,
+      69
+    ]
+  },
+  "coordinate_check": {
+    "mct_x_minus_ansys_y_mean_mm": 831091.0,
+    "mct_x_minus_ansys_y_spread_mm": 0.0,
+    "expected_offset_mm": 831091.0,
+    "status": "PASS"
+  },
+  "old_proportional_mapping_error": {
+    "bottom_station_signed_min_mm": -5164.225941422395,
+    "bottom_station_signed_max_mm": 9141.543478260748,
+    "bottom_station_max_absolute_mm": 9141.543478260748,
+    "bottom_station_mean_absolute_mm": 5582.725481464244,
+    "gate_center_max_absolute_mm": 9141.543478260748,
+    "conclusion": "旧比例站位只保留为误差对照；精细FE必须使用本审计MCT专用站。"
+  },
+  "mass_closure": {
+    "selected_existing_combined_mass21_tonne": 390.0542524984779,
+    "component_allocation_sum_tonne": 390.05425249847036,
+    "absolute_difference_tonne": 7.560174708487466e-12,
+    "status": "PASS"
+  },
+  "component_totals_two_catwalks_all_21_stations": {
+    "cross_passage_half": {
+      "weight_kn": 2086.98,
+      "mass_tonne": 212.82684070976956,
+      "inventory_row_count": 42
+    },
+    "main_cable_restrainer": {
+      "weight_kn": 618.24,
+      "mass_tonne": 63.0471140118295,
+      "inventory_row_count": 42
+    },
+    "gate_bottom_beam": {
+      "weight_kn": 133.56,
+      "mass_tonne": 13.620232510707732,
+      "inventory_row_count": 42
+    },
+    "pws_roller": {
+      "weight_kn": 41.14,
+      "mass_tonne": 4.195390577197634,
+      "inventory_row_count": 34
+    },
+    "large_crossbeam": {
+      "weight_kn": 39.6,
+      "mass_tonne": 4.038343871099327,
+      "inventory_row_count": 30
+    },
+    "cross_passage_tri_gate": {
+      "weight_kn": 519.12,
+      "mass_tonne": 52.939016928411185,
+      "inventory_row_count": 42
+    },
+    "guide_roller": {
+      "weight_kn": 386.23199999999997,
+      "mass_tonne": 39.387313889455434,
+      "inventory_row_count": 42
+    }
+  },
+  "important_interpretation": {
+    "cross_passage_half": "49.69 kN是每幅计1/2；每品完整横向通道为99.38 kN，21品合计2086.98 kN。",
+    "dedicated_gate": "专用站使用cross_passage_tri_gate=12.360 kN/幅，不得再叠加ordinary_gate=8.927 kN/幅；门架下横梁3.18 kN/幅在底索组合中另计。",
+    "mass21": "现有MASS21是组合质量。component allocation CSV给出可迁移份额；不能把一个组合MASS21整单元删除后只恢复横向通道质量。"
+  },
+  "uncertainties": [
+    "H01～H21名称和分跨标签由附件旧表按北到南顺序继承；原MCT只保存节点/荷载类型，不保存H编号。21对21单调配对唯一，但名称本身不是MCT字段。",
+    "MCT/报告提供组件总重量，不提供横向通道、导轮和抑位器的质量质心与转动惯量；精细动力模型应利用CAD杆系空间分布，并逐组件保持本表总质量。",
+    "底索站、门架索站和门架中心线Y相差0～9.3 mm；这是上下索实际站位偏置。有限元中应保留三套坐标并用刚臂连接，不能再次用单个CP节点抹平。"
+  ],
+  "outputs": [
+    "passage_station_authoritative_map.csv",
+    "passage_component_authoritative_inventory.csv",
+    "passage_mass21_node_map.csv",
+    "passage_component_mass21_allocation.csv",
+    "passage_gate_centerline_nodes.csv",
+    "passage_gate_centerline_elements.csv",
+    "passage_gate_rope_couplings.csv",
+    "passage_station_mass_map_audit.json",
+    "README_权威站位与质量映射.md"
+  ]
+}

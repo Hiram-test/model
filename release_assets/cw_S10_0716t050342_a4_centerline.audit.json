@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "model_identity": "cw_S10_0716t050342_a4_eq.db",
+  "representation": "solver-reference centerline STEP",
+  "coordinate_system": {
+    "x": "longitudinal_mm",
+    "y": "transverse_mm",
+    "z": "vertical_mm",
+    "handedness": "right-handed"
+  },
+  "counts": {
+    "topology_nodes": 109086,
+    "structural_line_elements": 139991,
+    "step_edges": 139991,
+    "mass21_elements_not_geometrized": 33003
+  },
+  "groups": {
+    "base": {
+      "element_count": 122308,
+      "bbox_min_mm": [
+        0.0,
+        -24336.0,
+        22510.0
+      ],
+      "bbox_max_mm": [
+        4270609.0,
+        24336.0,
+        350312.000000003
+      ]
+    },
+    "finite": {
+      "element_count": 17679,
+      "bbox_min_mm": [
+        89913.65000000002,
+        -25140.0,
+        50404.0120226279
+      ],
+      "bbox_max_mm": [
+        4172918.3,
+        25140.0,
+        328479.474810063
+      ]
+    },
+    "downpull": {
+      "element_count": 4,
+      "bbox_min_mm": [
+        714504.0,
+        -21450.0,
+        326520.0
+      ],
+      "bbox_max_mm": [
+        2995314.0,
+        21450.0,
+        334645.0
+      ]
+    }
+  },
+  "sources": {
+    "base": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\S10_SECTION_SHEAR_20260716T050342389124Z\\solver\\full_line_beam4_crossbeam_mesh_xlong.inp",
+      "bytes": 5337905,
+      "sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957"
+    },
+    "finite": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\S10_SECTION_SHEAR_20260716T050342389124Z\\solver\\apply_finite_gates_and_passages_v2.inp",
+      "bytes": 3139087,
+      "sha256": "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330"
+    },
+    "downpull": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\S10_SECTION_SHEAR_20260716T050342389124Z\\solver\\apply_mct_downpull_equivalent_xlong.inp",
+      "bytes": 2178,
+      "sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3"
+    },
+    "equilibrium_db": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\S10_SECTION_SHEAR_20260716T050342389124Z\\solver\\cw_S10_0716t050342_a4_eq.db",
+      "bytes": 700186624,
+      "sha256": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd"
+    }
+  },
+  "output": {
+    "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\release_assets\\cw_S10_0716t050342_a4_centerline.step",
+    "bytes": 77600240,
+    "sha256": "d03d01e38b823df5af4c1ff9b0b175fdfb87b097b9cda9a03af5d14e9c763344"
+  },
+  "limitations": [
+    "STEP does not carry material, section, mass, MPC, prestress, or result data.",
+    "BEAM188 orientation nodes are counted in topology but are not physical STEP edges.",
+    "The export represents undeformed solver-reference geometry, not displaced shape."
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "schema_version": 6,
+  "status": "PASSED",
+  "source_sha256": "e537c411581ec86a7df4cccc0f5fa93450182f06e41084256fd0a11299155e94",
+  "candidate_sha256": "4dd423dd3f4dc0363f12d804195a394f1e1e9ada86e2a269e16b5fb2ec29f761",
+  "parent_jobname_reference_count": 5,
+  "diagnostic_jobname_reference_count": 3,
+  "change_families": [
+    "UNIQUE_DIAGNOSTIC_IDENTITY",
+    "EXPLICIT_NONRELAXING_CONVERGENCE_CRITERIA",
+    "FULL_FORMED_STATE_LOAD_PAIRED_WITH_INISTATE",
+    "STATIC_ONLY_TRUNCATION",
+    "CONSTANT_TOTAL_LOAD_POSITION_MIGRATION_BETA_1_TO_0",
+    "LS2_ADAPTIVE_CUTBACK_0_5_TO_0_05_PERCENT"
+  ],
+  "load_path_change_allowed": true,
+  "load_path_physical_basis": "MCT_INITIAL_FORCE_STATE_BALANCED_AT_OLD_DEADLOAD_POSITIONS_THEN_CONTINUOUSLY_MIGRATED_TO_SPATIAL_MASS21_AT_CONSTANT_TOTAL_LOAD",
+  "load_path_physical_approval": "DIAGNOSTIC_HYPOTHESIS_REQUIRES_FULL_STATIC_CONVERGENCE_BALANCE_AND_SENSITIVITY_CHECK",
+  "mpc184_keyopt5_static": 0,
+  "prestressed_modal_requires_keyopt5_restore_to_zero": false,
+  "ls1": {
+    "kbc": 1,
+    "autots": false,
+    "nsubst": [
+      1,
+      1,
+      1
+    ],
+    "time": 1.0,
+    "beta": 1.0,
+    "physical_role": "RESTORE_OLD_MCT_BALANCED_LOAD_POSITIONS_WITH_FULL_GRAVITY"
+  },
+  "ls2": {
+    "kbc": 0,
+    "autots": true,
+    "nsubst": [
+      200,
+      2000,
+      200
+    ],
+    "initial_migration_fraction": 0.005,
+    "minimum_migration_fraction": 0.0005,
+    "maximum_migration_fraction": 0.005,
+    "cutback_allowed": true,
+    "time": 1.001,
+    "beta_start": 1.0,
+    "beta_end": 0.0,
+    "total_vertical_load_change_n": "2.08526E-10",
+    "physical_role": "CONTINUOUS_LOAD_POSITION_MIGRATION_TO_FINAL_SPATIAL_MASS21"
+  },
+  "cnvtol": {
+    "force_relative": 0.005,
+    "moment_relative": 0.005,
+    "displacement_relative": 0.05,
+    "rotation_relative": 0.05,
+    "automatic_relaxation_allowed": false,
+    "ignored_command_allowed": false
+  },
+  "modal_commands_present": false,
+  "production_claim_allowed": false,
+  "load_position_correction": {
+    "schema_version": 1,
+    "status": "PASSED",
+    "old_fz_node_count": 23028,
+    "mass_node_count": 33003,
+    "union_node_count": 34975,
+    "intersection_node_count": 21056,
+    "correction_zero_tolerance_n": "1E-9",
+    "numerical_dust_node_count": 19904,
+    "maximum_numerical_dust_abs_n": "4.76742E-13",
+    "correction_node_count": 15071,
+    "positive_correction_node_count": 11947,
+    "negative_correction_node_count": 3124,
+    "minimum_retained_correction_abs_n": "10.25339799500433523656",
+    "old_fz_sum_n": "-9451134.40000000008400",
+    "mass_sum_tonne": "963.81138078727311813886",
+    "mass_gravity_sum_n": "9451134.40000000019646966116",
+    "full_source_correction_sum_n": "1.1246966116E-10",
+    "retained_correction_sum_n": "2.0913181412E-10",
+    "maximum_absolute_correction_node": 11666,
+    "maximum_absolute_correction_n": "-3592.666666666667",
+    "total_load_change_allowed_n": "0.000001",
+    "physical_identity": "FULL_GRAVITY_PLUS_BETA_TIMES_OLD_FZ_PLUS_MASS21_COUNTERFORCE",
+    "beta_1_role": "RESTORE_OLD_MCT_BALANCED_LOAD_POSITIONS",
+    "beta_0_role": "FINAL_SPATIAL_MASS21_GRAVITY_WITH_FIXED_NODE_SET_EXPLICIT_ZERO_CORRECTION",
+    "rendered_correction_sum_n": "2.08526E-10",
+    "rendered_force_significant_digits": 17,
+    "include_sha256": "7a8c359c3f332f7b214b6f51e5e26ebf80899b15418388250033cfdc4e76d9d0",
+    "include_command_count_f": 15071,
+    "include_fdele_count": 0,
+    "include_fcum_repl_count": 1,
+    "include_beta_scaled_replacement_count": 15071,
+    "fixed_update_node_set": true,
+    "mass_source_counts": {
+      "generated_node_record_count": 11947,
+      "original_node_record_count": 21056
+    },
+    "old_deadload_include_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+    "mass_csv_sha256": "067997d002caa3d41337ecf2ffc28d5c2f17f9abe4db7f27fbd875abbaa39db0",
+    "mass_include_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f"
+  },
+  "single_difference_input_baseline": {
+    "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T215406049179Z",
+    "main_sha256": "95692772a129acc9d37dab52df88472a9e3ebc4898b3aad83991c6a057bbaece",
+    "baseline_command_count": 312,
+    "candidate_command_count": 312,
+    "only_executable_change": "NSUBST,200,200,200_TO_NSUBST,200,2000,200",
+    "comparison_candidate_sha256": "592c8e615925929cc882b121ca7a3a424aac5e53eef86727542803def0e6fc23"
+  }
+}

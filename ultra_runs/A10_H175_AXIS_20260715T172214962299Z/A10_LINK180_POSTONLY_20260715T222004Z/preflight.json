@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "revision": 2,
+  "audit_id": "A10_LINK180_POSTONLY_20260715T222004Z",
+  "generated_utc": "2026-07-15T22:29:43Z",
+  "revision_reason": "Replace out-of-range 1E300 extrema sentinels with APDL-safe 1E199 values after preserving attempt 1 outputs",
+  "status": "PASSED",
+  "execution_mode": "POST1_ONLY_SMP1",
+  "launch_allowed": true,
+  "process_preflight": {
+    "active_mapdl_process_count": 0,
+    "active_solution_process_count": 0,
+    "inspection_method": "Win32_Process name and command-line inventory"
+  },
+  "input_preflight": {
+    "path": "a10_link180_post_only.inp",
+    "length_bytes": 5564,
+    "creation_time_utc": "2026-07-15T22:22:55.4887866Z",
+    "last_write_time_utc": "2026-07-15T22:29:27.8231799Z",
+    "sha256": "4f305143200c45fea50eb33133f5647bb587572bd8ab3921c8c2a21e48fd5426",
+    "previous_sha256": "6649dbd7d1f27c547c14ffb6bc53f33bb80e7d8ee6d88d643a1c5027df2b8ffb",
+    "line_count": 112,
+    "active_line_count": 58,
+    "forbidden_solve_command_count": 0,
+    "forbidden_solution_processor_command_count": 0,
+    "uncommented_executable_line_count": 0,
+    "has_resume_eq_db": true,
+    "has_static_rst_file_binding": true,
+    "has_ls2_last_set": true,
+    "has_type4_selection": true,
+    "has_smisc1_etable": true,
+    "has_exit_nosave": true
+  },
+  "source_files": [
+    {
+      "role": "equilibrium_database",
+      "path": "../solver/cw_A10_0715t172214_24_eq.db",
+      "length_bytes": 700186624,
+      "creation_time_utc": "2026-07-15T18:13:55.7600193Z",
+      "last_write_time_utc": "2026-07-15T18:14:01.9546311Z",
+      "sha256": "ad4ff75f99daa21e465a081568f5e7282026c05e83861eec33e7d56afdcb674b"
+    },
+    {
+      "role": "static_result",
+      "path": "../solver/cw_A10_0715t172214_24.rst",
+      "length_bytes": 529530880,
+      "creation_time_utc": "2026-07-15T18:13:00.3979312Z",
+      "last_write_time_utc": "2026-07-15T18:13:07.8541471Z",
+      "sha256": "c533af1a5cf119f43a6b17a7b7e72c4f26e3365e4c8dc5405ea7d4148d80d0cc"
+    }
+  ],
+  "source_protection": {
+    "audit_directory_isolated": true,
+    "source_paths_outside_audit_directory": true,
+    "database_save_prohibited": true,
+    "attempt1_source_integrity_passed": true,
+    "post_run_hash_and_mtime_recheck_required": true
+  },
+  "mapdl": {
+    "executable_path": "D:/ANSYS2026/ANSYS Inc/v261/ansys/bin/winx64/ANSYS261.exe",
+    "executable_length_bytes": 827608,
+    "executable_sha256": "6c6327f6b906db8e6dd498bd38c97685d7e3e4acf52fccbf243b2dff7ed7af1b",
+    "processes": 1,
+    "parallel_mode": "SMP"
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "run_id": "B00_LEGACY_COMPLETE",
+  "model_line": "LEGACY",
+  "generated_utc": "2026-07-15T11:11:05.670409+00:00",
+  "status": "PREPARED_NOT_STARTED",
+  "prepare_gate_passed": true,
+  "checks": [
+    {
+      "check_id": "U00_STATUS_PASS_A",
+      "passed": true,
+      "actual": "PASS_A",
+      "expected": "PASS_A"
+    },
+    {
+      "check_id": "MAPDL_EXECUTABLE_SHA256",
+      "passed": true,
+      "actual": "6c6327f6b906db8e6dd498bd38c97685d7e3e4acf52fccbf243b2dff7ed7af1b",
+      "expected": "6c6327f6b906db8e6dd498bd38c97685d7e3e4acf52fccbf243b2dff7ed7af1b"
+    },
+    {
+      "check_id": "U01_PASSED_8_OF_8",
+      "passed": true,
+      "actual": "8/8",
+      "expected": "8/8"
+    },
+    {
+      "check_id": "U01_PARENT_U00",
+      "passed": true,
+      "actual": "U00_SOURCE_GATE_20260715T024455Z",
+      "expected": "U00_SOURCE_GATE_20260715T024455Z"
+    },
+    {
+      "check_id": "U00_SOURCE_HASH_LEDGER",
+      "passed": true,
+      "actual": 41,
+      "expected": "all ledger entries hash-match"
+    },
+    {
+      "check_id": "U01_SOURCE_HASH_LEDGER",
+      "passed": true,
+      "actual": 18,
+      "expected": "all ledger entries hash-match"
+    },
+    {
+      "check_id": "U01_ARTIFACT_HASH_CLOSURE",
+      "passed": true,
+      "actual": 178,
+      "expected": 178
+    },
+    {
+      "check_id": "LEGACY_DEPENDENCIES_EXACTLY_11",
+      "passed": true,
+      "actual": 11,
+      "expected": 11
+    },
+    {
+      "check_id": "LEGACY_ORDER_1_TO_11",
+      "passed": true,
+      "actual": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "expected": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "check_id": "SOURCE_COMMAND_COUNTS",
+      "passed": true,
+      "actual": {
+        "order_3_cp": 12,
+        "order_3_d": 12,
+        "order_4_d": 1096,
+        "order_6_cerig": 5078,
+        "order_7_d": 2860,
+        "order_10_en": 33003,
+        "d_total_orders_3_4_7": 3968
+      },
+      "expected": {
+        "order_3_cp": 12,
+        "order_3_d": 12,
+        "order_4_d": 1096,
+        "order_6_cerig": 5078,
+        "order_7_d": 2860,
+        "order_10_en": 33003,
+        "d_total_orders_3_4_7": 3968
+      }
+    },
+    {
+      "check_id": "BUILDER_ANTI_MIX_WORD_COUNTS",
+      "passed": true,
+      "actual": {
+        "CERIG": 5078,
+        "MPC184": 0,
+        "PNLT": 0
+      },
+      "expected": {
+        "CERIG": 5078,
+        "MPC184": 0,
+        "PNLT": 0
+      }
+    },
+    {
+      "check_id": "INPUT_SNAPSHOT_COPY_COUNT",
+      "passed": true,
+      "actual": 11,
+      "expected": 11
+    },
+    {
+      "check_id": "SOLVER_DEPENDENCY_COPY_COUNT",
+      "passed": true,
+      "actual": 11,
+      "expected": 11
+    },
+    {
+      "check_id": "SOLVER_INP_COUNT_WITH_MAIN",
+      "passed": true,
+      "actual": 12,
+      "expected": 12
+    },
+    {
+      "check_id": "PREPARE_ONLY_NO_EXECUTION",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    }
+  ],
+  "u00_source_ledger_entry_count": 41,
+  "u01_source_ledger_entry_count": 18,
+  "u01_artifact_ledger_entry_count": 178,
+  "u01_artifact_actual_file_count_excluding_ledger": 178,
+  "memory_snapshot": {
+    "available": true,
+    "total_physical_bytes": 16556494848,
+    "available_physical_bytes": 7194312704,
+    "available_page_file_bytes": 18166005760,
+    "memory_load_percent": 56,
+    "minimum_available_memory_bytes": 8589934592,
+    "comfortable_available_memory_bytes": 10737418240,
+    "memory_ready": false,
+    "memory_comfortable": false,
+    "execution_attempted": false
+  },
+  "disk_snapshot": {
+    "volume_anchor": "D:\\",
+    "total_bytes": 215015747584,
+    "used_bytes": 187403718656,
+    "free_bytes": 27612028928,
+    "minimum_free_bytes_for_execution": 34359738368,
+    "disk_ready": false,
+    "budget_basis": "historical_incomplete_40_mode_attempt_7.857_GiB_times_about_4",
+    "execution_attempted": false
+  },
+  "execution_resources_ready": false,
+  "resource_gate_is_nonexecuting": true,
+  "mapdl_execution_attempted": false,
+  "next_action": "B00_PREFLIGHT_MEMORY_AND_INDEPENDENT_AUDIT_REQUIRED"
+}

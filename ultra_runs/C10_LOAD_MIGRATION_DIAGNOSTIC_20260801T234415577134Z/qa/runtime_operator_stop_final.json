@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "OPERATOR_SUFFICIENCY_STOP_REQUESTED_EXIT_NOT_CONFIRMED_TIMEOUT_NO_FORCE",
+  "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z",
+  "jobname": "cw_C10madp_0801t234415577134_d1",
+  "pre_abort_recheck_started_at_utc": "2026-08-02T01:48:43.454911+00:00",
+  "native_abort_created_at_utc": "2026-08-02T01:48:43.494250+00:00",
+  "finalized_at_utc": "2026-08-02T02:18:45.768002+00:00",
+  "operator_stop_claim_path": "qa/runtime_operator_stop_claim.json",
+  "operator_stop_claim_exists": true,
+  "operator_stop_claim_sha256": "72b99894cbc0a7b6e39e0971b8ac680c5a1ee41a19ffeeb893deae24874c8cb7",
+  "operator_stop_explanation_path": "qa/runtime_operator_stop_claim.md",
+  "operator_stop_explanation_exists": true,
+  "operator_stop_explanation_sha256": "68a45710a24e6213ace0662ede65ac42b67c71f14bf3c74f0686cf5a2d1813c8",
+  "native_abort_path": "solver/cw_C10madp_0801t234415577134_d1.abt",
+  "native_abort_created_exclusively": true,
+  "native_abort_initial_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "native_abort_exists_at_finalization": false,
+  "wait_seconds": 1802.2660000000615,
+  "poll_interval_seconds": 5.0,
+  "poll_count": 360,
+  "exit_confirmation_timeout_seconds": 1800.0,
+  "exact_process_tree_exit_confirmed": false,
+  "final_out_file": {
+    "exists": true,
+    "size_bytes": 35620319,
+    "mtime_ns": 1785637110727510000
+  },
+  "final_err_file": {
+    "exists": true,
+    "size_bytes": 1795,
+    "mtime_ns": 1785629441474270400
+  },
+  "final_mntr_file": {
+    "exists": true,
+    "size_bytes": 1125,
+    "mtime_ns": 1785634851264353600
+  },
+  "final_lock_file": {
+    "exists": true,
+    "size_bytes": 0,
+    "mtime_ns": 1785628226012460600
+  },
+  "frozen_monitor_final": null,
+  "block_reason": "PROCESS_TREE_OR_FILES_NOT_STABLE_WITHIN_1800_SECONDS_NO_FORCE_ACTION_TAKEN",
+  "operator_tool_process_terminate_api_called": false,
+  "operator_tool_process_kill_api_called": false,
+  "operator_tool_forced_process_action_allowed": false,
+  "valid_static_result_obtained": false,
+  "modal_execution_allowed": false,
+  "production_claim_allowed": false
+}

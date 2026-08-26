@@ -1,0 +1,26 @@
+{
+  "schema_version": 2,
+  "status": "PASSED",
+  "qa_status": "PASS_RESULT_REUSE_WITH_DOCUMENTED_LIMITATIONS",
+  "a30_definition": "A10_H175_AXIS_ONLY + A20_RHS5030_AXIS_ONLY",
+  "a10_physical_change_family": "H175_BEAM188_ORIENTATION_NODE_K_ONLY",
+  "a20_physical_change_required_count": 0,
+  "a30_dependency_identity": "305299d004a24fe00b29aa3c6d4f495da7ca58fcdc30e58f386c8da14508b573",
+  "a10_dependency_identity": "305299d004a24fe00b29aa3c6d4f495da7ca58fcdc30e58f386c8da14508b573",
+  "byte_identical_a30_candidate_to_a10": true,
+  "parent_run_metadata_audit_status": "PASSED",
+  "four_protected_source_hashes_closed": true,
+  "a10_final_status": "PASS_WITH_LEGACY_LIMITATIONS",
+  "a10_result_reuse_gate": "PASSED",
+  "taskbook_full_static_gate_status": "PASSED_BY_DISABLED_STABILIZATION_CONTROL_WITH_NUMERIC_HISTORY_LIMITATION",
+  "modal_numerical_completeness_status": "PASSED",
+  "target_physical_mapping_status": "REFERENCE_AND_80_MODE_POOL_CLOSED_PHYSICAL_MAPPING_OPEN",
+  "duplicate_solver_run_required": false,
+  "duplicate_solver_run_performed": false,
+  "result_reuse_basis": "A20 物理改动为零，A30 与 A10 的 11 项求解依赖字节相同；A10 已正式封板，LS1/LS2、日志、轴力、80 阶模态、能量、源完整性和关键结果均由原始证据复核。",
+  "next_physical_variant": "S10_SECTION_SHEAR",
+  "unresolved_source_items": [
+    "FULL_SUBSTEP_STEN_NUMERIC_CURVE_UNAVAILABLE_GATE_PASSED_BY_OFF_CONTROL",
+    "TARGET_PHYSICAL_MAPPING_AND_REPORT_MAC_OPEN"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "PASSED",
+  "source_sha256": "06d36bc8e078be2d72995cc7d5384120bc0304c0967097cbfaf5e26299d35bf8",
+  "candidate_sha256": "ebaeb2a224502d99ba66887615ed8d28fef8aee873179120521a0d1cf08d1a40",
+  "parent_jobname_reference_count": 5,
+  "diagnostic_jobname_reference_count": 3,
+  "change_families": [
+    "UNIQUE_DIAGNOSTIC_IDENTITY",
+    "INITIAL_EQUILIBRIUM_ENDPOINT_LOAD_PATH",
+    "EXPLICIT_NONRELAXING_CONVERGENCE_CRITERIA",
+    "STATIC_ONLY_TRUNCATION"
+  ],
+  "ls1": {
+    "kbc": 1,
+    "autots": false,
+    "nsubst": [
+      1,
+      1,
+      1
+    ],
+    "time": 1.0
+  },
+  "ls2": {
+    "kbc": 1,
+    "autots": false,
+    "nsubst": [
+      1,
+      1,
+      1
+    ],
+    "time": 1.001,
+    "physical_load_increment": 0.0
+  },
+  "cnvtol": {
+    "force_relative": 0.005,
+    "moment_relative": 0.005,
+    "displacement_relative": 0.05,
+    "automatic_relaxation_allowed": false
+  },
+  "modal_commands_present": false
+}

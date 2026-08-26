@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "status": "STATIC_DIAGNOSTIC_SUFFICIENCY_CONTROLLED_STOPPED_BEFORE_BETA_ZERO",
+  "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z",
+  "jobname": "cw_C10madp_0801t234415577134_d1",
+  "diagnostic_subtype": "CONSTANT_TOTAL_LOAD_POSITION_MIGRATION_ADAPTIVE_CUTBACK_TO_0_05_PERCENT",
+  "single_variable_change": "LS2_NSBMX_200_TO_2000_ONLY",
+  "finalized_at_utc": "2026-08-02T02:48:09.557754+00:00",
+  "finalized_by_script": "qa/ultra_c10_diagnostic_sufficiency_finalize.py",
+  "finalizer_script_sha256": "96b83d7b489f715fa6710adfdd9e54e61659915a9cd7dc076e3c68b987a8d623",
+  "preparation_chain": {
+    "manifest_path": "manifest.json",
+    "manifest_sha256": "52553d813ab6eb6d7ee60003a00278fa32dc0078ef1ec88014e5a9e9f13ce5b1",
+    "prepared_status_preserved": "STATIC_DIAGNOSTIC_PREPARED",
+    "prepared_ledger_path": "artifact_hashes.sha256",
+    "prepared_ledger_sha256": "b7a57c28ceb286de2cdc5752c55966b38fab83b6bd55a5c1cb840566cc276e96",
+    "prepared_ledger_entry_count": 29,
+    "all_prepared_entries_rehashed": true,
+    "manifest_and_prepared_status_overwritten": false
+  },
+  "launch_chain": {
+    "runtime_launch_claim_sha256": "a2ae9e068178423156a4aae9d2363a91b9d854d3893e933a82f35635e357de06",
+    "runtime_launch_sha256": "a4af8fd31d8b666ee39494bb1470e2cc2eefb351794483d4d16eb7ce056e7bb7",
+    "runtime_process_identity_sha256": "7f44f03b68d841a3eedcfea112f8286dba5381450e7d82a584fbdfed349aa6a5",
+    "main_pid": 32568,
+    "main_process_exact_identity_absent": true,
+    "active_job_process_count": 0,
+    "mapdl_executable_sha256": "6c6327f6b906db8e6dd498bd38c97685d7e3e4acf52fccbf243b2dff7ed7af1b",
+    "main_input_sha256": "c1f5fceb9afeeb4ba34297bc52d4de3ae130c87fed3e822a58486286b19ed78d",
+    "smp_np": 1
+  },
+  "runtime_monitor": {
+    "claim_path": "qa/runtime_hard_stop_monitor_claim.json",
+    "claim_sha256": "536cb72d13d88423b3830414f6212cef0d1c4d2cdb117ac98b8fc1f96bfbbf4a",
+    "samples_path": "qa/runtime_hard_stop_monitor_samples.jsonl",
+    "samples_sha256": "60afc397a92df93d4ca4da731feee20e96ee6dccbb6c34bf3dfcf21086d0e1ba",
+    "sample_count": 926,
+    "final_path": "qa/runtime_hard_stop_monitor_final.json",
+    "final_sha256": "65c4407203f67fb4e89fc2f3c75a35284eee3a5ab5ab66fd7dc75314c0bc18c8",
+    "status": "NATURAL_PROCESS_TREE_EXITED_STABLE_WITHOUT_MONITOR_HARD_STOP",
+    "hard_event_count": 0,
+    "controller_abort_requested": false,
+    "terminate_sent_pids": [],
+    "kill_sent_pids": [],
+    "minimum_physical_memory_available_bytes": 1465442304,
+    "minimum_disk_free_bytes": 53010219008,
+    "maximum_related_rss_bytes": 5580685312,
+    "files_stable_at_monitor_commit": true
+  },
+  "old_empty_abort_incident": {
+    "claim_path": "qa/runtime_operator_stop_claim.json",
+    "claim_sha256": "72b99894cbc0a7b6e39e0971b8ac680c5a1ee41a19ffeeb893deae24874c8cb7",
+    "claim_status": "OPERATOR_SUFFICIENCY_STOP_CLAIMED_BEFORE_NATIVE_ABORT",
+    "final_path": "qa/runtime_operator_stop_final.json",
+    "final_sha256": "6c35311d7e0133302c504e7c71906fb0a511ca99b890288ec14cf5c4b6c792d4",
+    "final_status": "OPERATOR_SUFFICIENCY_STOP_REQUESTED_EXIT_NOT_CONFIRMED_TIMEOUT_NO_FORCE",
+    "executed_old_tool_sha256": "5d8b17fe76a66cebe67ad1a2f3e6f681bb0e0453f830a666528861c624e92828",
+    "current_old_tool_source_sha256": "f0537fa37fee6fa4b5763add1e7dafc42a7e7137132c9a9f9387833128ffb810",
+    "current_old_tool_source_matches_executed_version": false,
+    "executed_version_proven_by_claim_and_recovery_pre_action_hash_gate": true,
+    "native_abort_created_exclusively": true,
+    "native_abort_initial_size_bytes": 0,
+    "native_abort_initial_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native_abort_consumed_without_exit": true,
+    "wait_seconds": 1802.2660000000615,
+    "exact_process_tree_exit_confirmed": false,
+    "operator_force_actions": false
+  },
+  "valid_abort_recovery": {
+    "claim_sha256": "3ea35feed35eb5401b1afbe679c3177e1639e9256899a43d26ee4494fed5d3f3",
+    "plan_sha256": "ad8bbaf8df325479845a090a1014a818e17457654b4e14876e5295b010c5310e",
+    "executed_sha256": "a9532f7e9883e8685a539a6b02990ab914ff55f59c7d2c1b09e7b05f4d64f79e",
+    "final_sha256": "efa6a21a4c25965feafc366fd5975833f670a5736524acaa16297ec35c385666",
+    "claim_status": "OPERATOR_STOP_RECOVERY_CLAIMED_BEFORE_VALID_NATIVE_ABORT",
+    "plan_status": "OPERATOR_STOP_RECOVERY_NATIVE_ABORT_PLANNED_NOT_CREATED",
+    "executed_status": "OPERATOR_STOP_RECOVERY_NATIVE_ABORT_CREATED_AND_SYNCED",
+    "final_status": "OPERATOR_STOP_RECOVERY_VALID_NATIVE_ABORT_REQUESTED_PROCESS_TREE_EXITED_STABLE",
+    "recovery_tool_sha256": "6dc4e2aef1e18910b91feaef159fb1ac4d3abedbc827d8d4f5ba14230c0bab7d",
+    "native_abort_created_at_utc": "2026-08-02T02:22:37.072045+00:00",
+    "payload": {
+      "bytes_length": 10,
+      "hex": "6e6f6e6c696e6561720a",
+      "sha256": "efc0d415f2fa6a5bea29d619ed2c58fb6ee8285e68bf671673dc2c56e43f8703",
+      "exclusive_create_succeeded": true,
+      "payload_written_fully": true,
+      "flush_and_fsync_completed": true,
+      "readback_matches_contract": true,
+      "consumed_by_mapdl": true
+    },
+    "exact_process_tree_exit_confirmed": true,
+    "monitor_event_classification": {
+      "effective_abort_created_at_utc": "2026-08-02T02:22:37.072045+00:00",
+      "approved_expected_event_kinds_for_this_frozen_monitor": [],
+      "expected_operator_abort_events": [],
+      "unexpected_hard_events": [],
+      "all_pre_action_samples_required_clean": true,
+      "generic_abort_or_terminated_text_is_not_a_frozen_monitor_hard_event": true
+    },
+    "operator_force_actions": false
+  },
+  "diagnostic_sufficiency": {
+    "accepted_ls2_substep_count": 2,
+    "accepted_ls2_rows": [
+      {
+        "load_step": 2,
+        "substep": 1,
+        "attempt": 4,
+        "iterations": 29,
+        "total_iterations": 48,
+        "increment": 5e-07,
+        "total_time_printed": 1.0,
+        "elapsed_seconds": 3735.7
+      },
+      {
+        "load_step": 2,
+        "substep": 2,
+        "attempt": 1,
+        "iterations": 45,
+        "total_iterations": 93,
+        "increment": 5e-07,
+        "total_time_printed": 1.0,
+        "elapsed_seconds": 6608.0
+      }
+    ],
+    "latest_two_ls2_rows": [
+      {
+        "load_step": 2,
+        "substep": 1,
+        "attempt": 4,
+        "iterations": 29,
+        "total_iterations": 48,
+        "increment": 5e-07,
+        "total_time_printed": 1.0,
+        "elapsed_seconds": 3735.7
+      },
+      {
+        "load_step": 2,
+        "substep": 2,
+        "attempt": 1,
+        "iterations": 45,
+        "total_iterations": 93,
+        "increment": 5e-07,
+        "total_time_printed": 1.0,
+        "elapsed_seconds": 6608.0
+      }
+    ],
+    "later_step_iterations": 45,
+    "measured_seconds_per_minimum_step": 2872.3,
+    "accepted_migration_time": 1e-06,
+    "remaining_migration_time": 0.000999,
+    "remaining_minimum_step_count": 1998,
+    "projected_remaining_seconds": 5738855.4,
+    "projection_threshold_seconds": 604800.0,
+    "projection_strictly_exceeds_seven_days": true,
+    "beta_zero_reached": false
+  },
+  "native_solver_evidence": {
+    "files": {
+      "out": {
+        "relative_path": "solver/cw_c10madp_0801t234415577134_d1.out",
+        "size_bytes": 35628029,
+        "sha256": "cf31b3f1b1b80fd434053a71a488bb0ac84c2cd36eab5c16e2169f1ff8afbe15"
+      },
+      "err": {
+        "relative_path": "solver/cw_C10madp_0801t234415577134_d1.err",
+        "size_bytes": 2271,
+        "sha256": "3022a80777da8b8cd2986cfcdb7453392008160eddd219dd7b5daf579a71ebf7"
+      },
+      "mntr": {
+        "relative_path": "solver/cw_C10madp_0801t234415577134_d1.mntr",
+        "size_bytes": 1125,
+        "sha256": "e365194eb9a41fbbf90597a32e93f725dd9f72ac9e0fe3da4c017a5689c16801"
+      }
+    },
+    "equation_count": {
+      "expected": 1234834,
+      "observed": [
+        1234834
+      ],
+      "unique": [
+        1234834
+      ],
+      "stable": true
+    },
+    "pivots": {
+      "observed": [
+        25.3126539
+      ],
+      "first_ls1": 25.3126539,
+      "minimum_positive": 25.3126539,
+      "all_finite_positive": true,
+      "hard_pivot_event_observed": false
+    },
+    "completed_steps": [
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    "forbidden_native_events": [],
+    "native_abort_acknowledgements": [
+      {
+        "signature": "TERMINATED_FROM_ABT_FILE",
+        "text_offset_in_post_action_tail": 2083,
+        "context": "ELAPSED TIME = 9164.551 TIME= 10:23:12 The run is terminated at the user's request from the ABT file. *** WARNING *** ELAPSED TIME = 9164.557 TIME= 10:23:12 The unconverged so"
+      },
+      {
+        "signature": "ABT_OR_USER_TERMINATION",
+        "text_offset_in_post_action_tail": 2083,
+        "context": "ELAPSED TIME = 9164.551 TIME= 10:23:12 The run is terminated at the user's request from the ABT file. *** WARNING *** ELAPSED TIME = 9164.557 TIME= 1"
+      }
+    ],
+    "native_abort_acknowledgement_proven_after_old_timeout_prefix": true,
+    "final_termination_reason": "VALID_NONLINEAR_ABT_CONTROLLED_STOP",
+    "gate_path": "solver/c10_gate_status.txt",
+    "gate_disposition": "REJECTED_OR_RUNNING_NOT_PASSED",
+    "beta_zero_reached": false,
+    "static_endpoint_reached": false,
+    "partial_result_or_restart_files": [
+      "solver/cw_C10madp_0801t234415577134_d1.db",
+      "solver/cw_C10madp_0801t234415577134_d1.esav",
+      "solver/cw_C10madp_0801t234415577134_d1.ldhi",
+      "solver/cw_C10madp_0801t234415577134_d1.r001",
+      "solver/cw_C10madp_0801t234415577134_d1.r002",
+      "solver/cw_C10madp_0801t234415577134_d1.rdb",
+      "solver/cw_C10madp_0801t234415577134_d1.rst"
+    ],
+    "partial_result_or_restart_files_allowed_as_project_restart_base": false,
+    "partial_result_or_restart_files_allowed_as_modal_basis": false
+  },
+  "engineering_disposition": {
+    "diagnostic_sufficiency_proven": true,
+    "static_numeric_completion": false,
+    "beta_zero_reached": false,
+    "static_endpoint_reached": false,
+    "valid_static_result_obtained": false,
+    "partial_rst_or_database_is_valid_static_endpoint": false,
+    "partial_rst_or_database_allowed_as_project_restart_base": false,
+    "partial_rst_or_database_allowed_as_modal_basis": false,
+    "modal_execution_attempted": false,
+    "modal_execution_allowed": false,
+    "modal_status": "BLOCKED_NOT_RUN",
+    "production_claim_allowed": false,
+    "valid_for_production": false,
+    "design_or_code_check_allowed": false,
+    "failure_closed_reason": "VALID_NONLINEAR_ABT_CONTROLLED_STOP_AFTER_EXACTLY_TWO_ACCEPTED_MINIMUM_LS2_STEPS_WITH_PROJECTED_REMAINING_RUNTIME_STRICTLY_OVER_SEVEN_DAYS_BEFORE_BETA_ZERO"
+  },
+  "appended_ledger": "artifact_hashes_diagnostic_sufficiency_final.sha256"
+}

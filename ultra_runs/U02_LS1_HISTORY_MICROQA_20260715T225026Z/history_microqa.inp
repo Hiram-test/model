@@ -1,0 +1,186 @@
+! 清空当前 MAPDL 会话，确保微型验证不继承任何数据库状态。
+/CLEAR,START
+! 使用唯一 ASCII 作业名绑定本验证的 RST、OUT 与 ERR 文件。
+/FILNAME,cw_histqa
+! 设置英文标题，说明本作业只验证 LS1 能量结果集遍历语法。
+/TITLE,B00 LS1 ENERGY HISTORY MICRO QA
+! 进入前处理器建立一根可解析的 BEAM188 悬臂梁。
+/PREP7
+! 定义单元类型 1 为 BEAM188 三维梁单元。
+ET,1,BEAM188
+! 使用三次插值 KEYOPT(3)=3，使微型验证与全桥梁公式口径一致。
+KEYOPT,1,3,3
+! 定义材料 1 的弹性模量为 200000 N/mm2。
+MP,EX,1,200000
+! 定义材料 1 的泊松比为 0.3，属于常规线弹性钢材验证值。
+MP,PRXY,1,0.3
+! 定义截面 1 为 10 mm 乘 10 mm 的实心矩形梁。
+SECTYPE,1,BEAM,RECT,HISTQA
+! 写入矩形截面 local-y 与 local-z 两个边长，单位均为 mm。
+SECDATA,10,10
+! 创建悬臂根节点 1，坐标为原点，单位 mm。
+N,1,0,0,0
+! 创建悬臂端节点 2，沿 global-X 距根部 100 mm。
+N,2,100,0,0
+! 使用当前类型、材料和截面连接节点 1 与节点 2。
+E,1,2
+! 固定根节点全部可用自由度，形成确定的悬臂边界。
+D,1,ALL,0
+! 在端节点施加 global-Y 方向 100 N 横向集中力。
+F,2,FY,100
+! 离开前处理器并保存完整微型模型定义。
+FINISH
+! 进入求解处理器开始从零加载的第一载荷步。
+/SOLU
+! 选择静力分析，禁止使用既有重启动帧。
+ANTYPE,STATIC
+! 启用几何非线性以覆盖全桥使用的 NLGEOM 控制路径。
+NLGEOM,ON
+! 启用能量口径稳定化，产生可读取的 STEN 结果字段。
+STABILIZE,REDUCE,ENERGY,1.0E-4,ANYTIME,0.05,1
+! 采用斜坡加载，使五个子步具有不同的势能水平。
+KBC,0
+! 关闭自动时间步，确保 LS1 恰好保存五个可预测子步。
+AUTOTS,OFF
+! 设置第一载荷步终点伪时间为 1.0。
+TIME,1
+! 固定 LS1 为五个子步，初始、最大和最小子步数均为 5。
+NSUBST,5,5,5
+! 仅在 LS1 端点保存常规结果，以隔离 VENG,ALL 的效果。
+OUTRES,ALL,LAST
+! 保存 LS1 每个已收敛子步的 SENE 与 STEN 单元能量。
+OUTRES,VENG,ALL
+! 执行 LS1 五子步非线性静力求解。
+SOLVE
+! 关闭 LS2 稳定化，模拟生产控制中的无稳定化保持步。
+STABILIZE,OFF
+! 设置第二载荷步终点伪时间为 1.001。
+TIME,1.001
+! 保持既有端力不变，因此 LS2 没有新增物理外载。
+KBC,0
+! 固定 LS2 为单一子步且禁止 cutback。
+AUTOTS,OFF
+! 设置 LS2 初始、最大和最小子步数均为 1。
+NSUBST,1,1,1
+! 保存 LS2 端点全部常规结果，供结果集身份检查。
+OUTRES,ALL,LAST
+! 仅保存 LS2 端点能量，不把 LS2 扩展为多子步历程。
+OUTRES,VENG,LAST
+! 执行无新增载荷的 LS2 保持求解。
+SOLVE
+! 离开求解处理器，开始只读结果遍历验证。
+FINISH
+! 进入通用后处理器读取本作业静力 RST。
+/POST1
+! 显式绑定唯一作业名的静力结果文件。
+FILE,cw_histqa,rst
+! 恢复全部节点和单元选择，确保能量求和覆盖整根梁。
+ALLSEL,ALL
+! 激活最后一个静力结果集，供 NSET 读取全部结果集数量。
+SET,LAST
+! 读取静力 RST 中全部已保存结果集数量。
+*GET,B00_HNSET,ACTIVE,0,SET,NSET
+! 初始化 LS1 历程记录数量为零。
+B00_HCOUNT=0
+! 初始化 LS1 全历程绝对 STEN/SENE 峰值为负哨兵。
+B00_PEAK1=-1
+! 初始化峰值所在子步号为负哨兵。
+B00_PEAKSB=-1
+! 初始化峰值所在伪时间为负哨兵。
+B00_PEAKTM=-1
+! 打开无标题六列纯数值 LS1 能量历程 CSV。
+*CFOPEN,hist,csv
+! 激活静力 RST 的首个已保存结果集。
+SET,FIRST
+! 按原生写入顺序遍历全部静力结果集。
+*DO,B00_HI,1,B00_HNSET
+! 读取当前结果集的载荷步编号。
+*GET,B00_HLS,ACTIVE,0,SET,LSTP
+! 读取当前结果集的子步编号。
+*GET,B00_HSB,ACTIVE,0,SET,SBST
+! 读取当前结果集的伪时间。
+*GET,B00_HTIME,ACTIVE,0,SET,TIME
+! 仅对载荷步一的结果集计算并输出能量比。
+*IF,B00_HLS,EQ,1,THEN
+! 累加已识别的 LS1 历程记录数量。
+B00_HCOUNT=B00_HCOUNT+1
+! 清空上一结果集的单元表定义。
+ETABLE,ERAS
+! 建立当前 LS1 子步的全单元势能列。
+ETABLE,B0HSENE,SENE
+! 建立当前 LS1 子步的全单元稳定化能列。
+ETABLE,B0HSTEN,STEN
+! 分别汇总当前结果集两个能量列。
+SSUM
+! 读取当前 LS1 子步的全模型势能总和，单位 N-mm。
+*GET,B00_HSENE,SSUM,0,ITEM,B0HSENE
+! 读取当前 LS1 子步的全模型稳定化能总和，单位 N-mm。
+*GET,B00_HSTEN,SSUM,0,ITEM,B0HSTEN
+! 以势能绝对值构造能量比分母。
+B00_HDEN=ABS(B00_HSENE)
+! 势能过小时进入 1E-30 N-mm 除零保护。
+*IF,B00_HDEN,LT,1.0E-30,THEN
+! 把数值保护分母设为 1E-30 N-mm。
+B00_HDEN=1.0E-30
+! 结束当前子步的除零保护分支。
+*ENDIF
+! 计算当前 LS1 子步绝对 STEN/SENE 无量纲比值。
+B00_HRATIO=ABS(B00_HSTEN)/B00_HDEN
+! 写出载荷步、子步、伪时间、SENE、STEN 和绝对比值。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻。
+*VWRITE,B00_HLS,B00_HSB,B00_HTIME,B00_HSENE,B00_HSTEN,B00_HRATIO
+(F12.0,',',F12.0,',',E24.16,',',E24.16,',',E24.16,',',E24.16)
+! 当前子步比值大于既有峰值时更新峰值位置。
+*IF,B00_HRATIO,GT,B00_PEAK1,THEN
+! 保存新的 LS1 全历程峰值。
+B00_PEAK1=B00_HRATIO
+! 保存新峰值所在子步号。
+B00_PEAKSB=B00_HSB
+! 保存新峰值所在伪时间。
+B00_PEAKTM=B00_HTIME
+! 结束峰值更新分支。
+*ENDIF
+! 结束载荷步一过滤分支。
+*ENDIF
+! 尚未到最后一个结果集时才请求下一结果集。
+*IF,B00_HI,LT,B00_HNSET,THEN
+! 激活静力 RST 原生顺序中的下一结果集。
+SET,NEXT
+! 结束结果集推进保护分支。
+*ENDIF
+! 结束静力结果集遍历循环。
+*ENDDO
+! 关闭并刷新完整 LS1 历程 CSV。
+*CFCLOS
+! 打开微型验证摘要文本文件。
+/OUTPUT,history_microqa_summary,txt
+! 写出静力总结果集数、LS1 记录数、峰值子步和峰值时间。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻。
+*VWRITE,B00_HNSET,B00_HCOUNT,B00_PEAKSB,B00_PEAKTM
+('STATIC_NSET=',F12.0,', LS1_HISTORY_COUNT=',F12.0,', PEAK_SUBSTEP=',F12.0,', PEAK_TIME=',E24.16)
+! 写出 LS1 全历程绝对 STEN/SENE 峰值。
+! 下一条 *VWRITE 与其后裸 Fortran 格式行必须相邻。
+*VWRITE,B00_PEAK1
+('LS1_HISTORY_PEAK_ABS_STEN_OVER_SENE=',E24.16)
+! 恢复 MAPDL 主输出并关闭摘要文件。
+/OUTPUT
+! LS1 历程记录数不是五时把验证状态写为拒绝。
+*IF,B00_HCOUNT,NE,5,THEN
+! 打开唯一状态文件并覆盖先前内容。
+/OUTPUT,history_microqa_status,txt
+! 写出结果集计数不闭合的机器拒绝原因。
+/COM,STATUS=REJECTED REASON=LS1_HISTORY_COUNT_MISMATCH
+! 恢复主输出，避免退出摘要进入状态文件。
+/OUTPUT
+! 立即无保存退出，阻止错误语法被标为通过。
+/EXIT,NOSAVE
+! 结束 LS1 历程数量拒绝分支。
+*ENDIF
+! 打开唯一状态文件并写成功状态。
+/OUTPUT,history_microqa_status,txt
+! 写出微型验证通过的机器状态。
+/COM,STATUS=PASSED
+! 恢复 MAPDL 主输出并关闭状态文件。
+/OUTPUT
+! 正常无保存退出，验证文件已全部落盘。
+/EXIT,NOSAVE

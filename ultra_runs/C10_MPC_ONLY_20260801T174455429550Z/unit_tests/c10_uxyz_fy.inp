@@ -1,0 +1,84 @@
+! C10 UXYZ 直接消元连接六向单位荷载测试；本文件由 prepare 生成但不自动执行。
+! 单位为 N、mm、N·mm、s；三个弱转动弹簧只稳定并测量已释放转角。
+/CLEAR,START ! 清空未来独立微模型会话。
+/FILNAME,c10ux_fy ! 设置当前案例唯一 ASCII 作业名。
+/PREP7 ! 进入前处理器定义节点、连接和稳定弹簧。
+ET,72,MPC184 ! 定义偏置 rigid beam。
+KEYOPT,72,1,1 ! 选择六自由度 rigid-beam 公式。
+KEYOPT,72,2,0 ! 使用直接消元实施刚臂约束。
+KEYOPT,72,5,0 ! 保留有限转动几何刚度。
+ET,73,MPC184 ! 定义共点三平移 rigid link。
+KEYOPT,73,1,0 ! 只激活 UX、UY、UZ。
+KEYOPT,73,2,0 ! 使用直接消元而不使用罚刚度。
+ET,80,COMBIN14 ! 定义绕 X 弱转动测量弹簧。
+KEYOPT,80,2,4 ! COMBIN14 使用 ROTX 自由度。
+R,80,1 ! 弱弹簧刚度为 1 N·mm/rad。
+ET,81,COMBIN14 ! 定义绕 Y 弱转动测量弹簧。
+KEYOPT,81,2,5 ! COMBIN14 使用 ROTY 自由度。
+R,81,1 ! 弱弹簧刚度为 1 N·mm/rad。
+ET,82,COMBIN14 ! 定义绕 Z 弱转动测量弹簧。
+KEYOPT,82,2,6 ! COMBIN14 使用 ROTZ 自由度。
+R,82,1 ! 弱弹簧刚度为 1 N·mm/rad。
+CSYS,0 ! 恢复全局笛卡尔坐标。
+N,1,0,0,0 ! 定义固定 master 节点，单位 mm。
+N,2,800,-600,500 ! 定义非共线偏置刚臂末端辅助节点，单位 mm。
+N,3,800,-600,500 ! 定义与辅助节点严格共点的 slave 节点。
+N,4,800,-600,500 ! 定义三个弱转动弹簧的固定端节点。
+TYPE,72 ! 选择偏置 rigid-beam 类型。
+EN,1,1,2 ! 建立 master 到辅助节点的六自由度刚臂。
+TYPE,73 ! 选择三平移 rigid-link 类型。
+EN,2,2,3 ! 建立辅助节点到 slave 的共点 UXYZ 直接消元连接。
+TYPE,80 ! 选择 ROTX 测量弹簧。
+REAL,80 ! 选择 ROTX 的 1 N·mm/rad 实常数。
+EN,80,3,4 ! 建立 slave 到固定端的 ROTX 弱弹簧。
+TYPE,81 ! 选择 ROTY 测量弹簧。
+REAL,81 ! 选择 ROTY 的 1 N·mm/rad 实常数。
+EN,81,3,4 ! 建立 slave 到固定端的 ROTY 弱弹簧。
+TYPE,82 ! 选择 ROTZ 测量弹簧。
+REAL,82 ! 选择 ROTZ 的 1 N·mm/rad 实常数。
+EN,82,3,4 ! 建立 slave 到固定端的 ROTZ 弱弹簧。
+D,1,ALL,0 ! 固定 master 全部有效自由度。
+D,4,ALL,0 ! 固定弱弹簧地基端全部有效自由度。
+F,3,FY,1 ! 在 slave 施加当前单位荷载。
+FINISH ! 完成微模型前处理。
+/SOLU ! 进入静力求解器。
+ANTYPE,STATIC ! 选择独立静力分析。
+NLGEOM,ON ! 启用与全桥一致的大转动运动学。
+NROPT,FULL ! 每次迭代更新完整切线。
+AUTOTS,OFF ! 关闭自动子步以禁止测试路径被静默改写。
+NSUBST,1,1,1 ! 用一个确定性子步施加当前单位荷载。
+OUTRES,ALL,ALL ! 保存全部结果供滑移、释放和反力复核。
+SOLVE ! 执行当前单位测试；prepare 生成器不会调用本文件。
+FINISH ! 结束求解阶段。
+/POST1 ! 进入结果后处理。
+SET,LAST ! 读取唯一收敛结果集。
+*GET,C10_UAX,NODE,2,U,X ! 读取辅助节点 X 位移，单位 mm。
+*GET,C10_UAY,NODE,2,U,Y ! 读取辅助节点 Y 位移，单位 mm。
+*GET,C10_UAZ,NODE,2,U,Z ! 读取辅助节点 Z 位移，单位 mm。
+*GET,C10_USX,NODE,3,U,X ! 读取 slave X 位移，单位 mm。
+*GET,C10_USY,NODE,3,U,Y ! 读取 slave Y 位移，单位 mm。
+*GET,C10_USZ,NODE,3,U,Z ! 读取 slave Z 位移，单位 mm。
+*GET,C10_RSX,NODE,3,ROT,X ! 读取 slave 绕 X 转角，单位 rad。
+*GET,C10_RSY,NODE,3,ROT,Y ! 读取 slave 绕 Y 转角，单位 rad。
+*GET,C10_RSZ,NODE,3,ROT,Z ! 读取 slave 绕 Z 转角，单位 rad。
+*GET,C10_MRFX,NODE,1,RF,FX ! 读取 master 的 X 向反力，单位 N。
+*GET,C10_MRFY,NODE,1,RF,FY ! 读取 master 的 Y 向反力，单位 N。
+*GET,C10_MRFZ,NODE,1,RF,FZ ! 读取 master 的 Z 向反力，单位 N。
+*GET,C10_MRMX,NODE,1,RF,MX ! 读取 master 的 X 向反力矩，单位 N·mm。
+*GET,C10_MRMY,NODE,1,RF,MY ! 读取 master 的 Y 向反力矩，单位 N·mm。
+*GET,C10_MRMZ,NODE,1,RF,MZ ! 读取 master 的 Z 向反力矩，单位 N·mm。
+*GET,C10_GRMX,NODE,4,RF,MX ! 读取 ROTX 弱弹簧固定端反力矩，单位 N·mm。
+*GET,C10_GRMY,NODE,4,RF,MY ! 读取 ROTY 弱弹簧固定端反力矩，单位 N·mm。
+*GET,C10_GRMZ,NODE,4,RF,MZ ! 读取 ROTZ 弱弹簧固定端反力矩，单位 N·mm。
+/OUTPUT,c10ux_fy_results,txt ! 打开当前案例机器结果文件。
+*VWRITE,C10_UAX,C10_UAY,C10_UAZ,C10_USX,C10_USY,C10_USZ ! 输出辅助与 slave 位移向量。
+('AUX_U=',3(E24.16,','),'SLAVE_U=',3(E24.16,','))
+*VWRITE,C10_RSX,C10_RSY,C10_RSZ ! 输出 slave 三转角以验证释放路径。
+('SLAVE_ROT=',3(E24.16,','))
+*VWRITE,C10_MRFX,C10_MRFY,C10_MRFZ,C10_MRMX,C10_MRMY,C10_MRMZ ! 输出 master 六分量反力。
+('MASTER_RF_F=',3(E24.16,','),'MASTER_RF_M=',3(E24.16,','))
+*VWRITE,C10_GRMX,C10_GRMY,C10_GRMZ ! 单独输出弱弹簧反力矩，禁止混入刚接传力声明。
+('GROUND_SPRING_RF_M=',3(E24.16,','))
+/OUTPUT ! 恢复主输出。
+FINISH ! 完成单位测试后处理。
+/EXIT,NOSAVE ! 退出且不保留微模型数据库。

@@ -1,0 +1,585 @@
+{
+  "schema_version": 1,
+  "run_id": "S10_SECTION_SHEAR",
+  "run_name": "S10_SECTION_SHEAR_20260716T050342389124Z",
+  "jobname": "cw_S10_0716t050342_a4",
+  "generated_utc": "2026-07-16T09:27:34.092058+00:00",
+  "execution_status": "EXECUTED",
+  "qa_status": "PASSED_FOR_S10_SECTION_SHEAR_TRIAL",
+  "gate_status": "PASSED",
+  "final_status": "PASS_WITH_LEGACY_LIMITATIONS",
+  "valid_for_s10_section_shear_trial": true,
+  "valid_for_production_model": false,
+  "checks": {
+    "main_out_run_completed": true,
+    "main_out_zero_errors_and_fatals": true,
+    "main_out_zero_negative_and_zero_pivots": true,
+    "all_five_warnings_disposed": true,
+    "four_rank_stats_mode_80": true,
+    "ls1_and_ls2_converged": true,
+    "ls1_history_20_rows_and_peak_passed": true,
+    "mass_and_reaction_closed": true,
+    "topology_counts_match": true,
+    "modal_properties_and_sets_80": true,
+    "modal_vectors_80_plus_80_structurally_complete": true,
+    "sene_80_by_16_passed": true,
+    "link180_73692_all_positive": true,
+    "link180_postonly_sources_current": true,
+    "prepare_ledger_52_entries_current": true,
+    "eleven_dependencies_current": true,
+    "critical_results_nonempty_and_hashed": true,
+    "solver_binary_metadata_unchanged": true
+  },
+  "main_out": {
+    "path": "solver/cw_s10_0716t050342_a4.out",
+    "length_bytes": 38268817,
+    "sha256": "434e4ffaaa4aeece538e1b4b559eaf039a5b638dfcb4aed12779b047c09197d2",
+    "warning_markers": 5,
+    "summary_warning_count": 4,
+    "tail_warning_after_summary_count": 1,
+    "error_count": 0,
+    "fatal_count": 0,
+    "negative_pivot_count": 0,
+    "zero_pivot_count": 0,
+    "run_completed": true,
+    "eigenvalues_converged": 80,
+    "records": [
+      {
+        "warning_id": "W1",
+        "out_line": 1070083,
+        "recognition_fragment": "constraint equations may not be valid for elements that undergo large deflections",
+        "disposition": "保留为 legacy 约束方程大变形适用性限制；由两步静力收敛、LINK180 全正和 80 阶模态共同约束。",
+        "status": "DISPOSED",
+        "contributes_legacy_limitation": true
+      },
+      {
+        "warning_id": "W2",
+        "out_line": 1070207,
+        "recognition_fragment": "coefficient ratio exceeds 1.0e8",
+        "disposition": "保留为矩阵尺度病态限制；本次无负/零主元、两步收敛且 80 个特征值全部收敛。",
+        "status": "DISPOSED",
+        "contributes_legacy_limitation": true
+      },
+      {
+        "warning_id": "W3",
+        "out_line": 1070266,
+        "recognition_fragment": "calculated reference moment convergence value = 7.085126611e-02",
+        "disposition": "LS1 参考力矩低于内部阈值仅影响收敛参考尺度；后续完整 20 子步收敛且全历程 STEN/SENE 通过。",
+        "status": "DISPOSED",
+        "contributes_legacy_limitation": false
+      },
+      {
+        "warning_id": "W4",
+        "out_line": 1070733,
+        "recognition_fragment": "calculated reference moment convergence value = 1.697185674e-03",
+        "disposition": "LS2 参考力矩低于内部阈值仅影响收敛参考尺度；保持步收敛、time=1.001 且反力质量闭合。",
+        "status": "DISPOSED",
+        "contributes_legacy_limitation": false
+      },
+      {
+        "warning_id": "W5",
+        "out_line": 1083374,
+        "recognition_fragment": "elapsed time exceeds the cpu time by 40%",
+        "disposition": "elapsed/CPU 40% 属资源性能提示；发生在 0 error 正常退出之后，不改变数值结果。",
+        "status": "DISPOSED",
+        "contributes_legacy_limitation": false
+      }
+    ],
+    "err_files": [
+      {
+        "path": "solver/cw_S10_0716t050342_a4_0.err",
+        "length_bytes": 2245,
+        "sha256": "55075e6b0c3a483341cc405eb31efbe4a2a0b5ce55ad1fe11251d148894e8b28",
+        "warning_count": 5,
+        "error_count": 0,
+        "fatal_count": 0,
+        "negative_pivot_count": 0,
+        "zero_pivot_count": 0
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4_1.err",
+        "length_bytes": 80,
+        "sha256": "1569470589eee9e01d7e8e20f9307ef15ab23f0688ee03c915e5070864e1639e",
+        "warning_count": 0,
+        "error_count": 0,
+        "fatal_count": 0,
+        "negative_pivot_count": 0,
+        "zero_pivot_count": 0
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4_2.err",
+        "length_bytes": 80,
+        "sha256": "1569470589eee9e01d7e8e20f9307ef15ab23f0688ee03c915e5070864e1639e",
+        "warning_count": 0,
+        "error_count": 0,
+        "fatal_count": 0,
+        "negative_pivot_count": 0,
+        "zero_pivot_count": 0
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4_3.err",
+        "length_bytes": 80,
+        "sha256": "1569470589eee9e01d7e8e20f9307ef15ab23f0688ee03c915e5070864e1639e",
+        "warning_count": 0,
+        "error_count": 0,
+        "fatal_count": 0,
+        "negative_pivot_count": 0,
+        "zero_pivot_count": 0
+      }
+    ],
+    "stat_files": [
+      {
+        "path": "solver/cw_S10_0716t050342_a4_0.stat",
+        "length_bytes": 120,
+        "sha256": "bc90c3686c56416c4be9ae08ecd861e055023dca173ad494be54dbbb07c8ea45",
+        "mode_80_completed": true
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4_1.stat",
+        "length_bytes": 120,
+        "sha256": "4732ed6293ac1c72a84ec10dcb8e0f9d87c8faef8622a559cb8b5316a4022e61",
+        "mode_80_completed": true
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4_2.stat",
+        "length_bytes": 120,
+        "sha256": "fecd7e2132e13ee2959d37feb35c61847952e36a2b6b94da9f74d3a956aa4984",
+        "mode_80_completed": true
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4_3.stat",
+        "length_bytes": 120,
+        "sha256": "d8f9cea8380a8883fd9f04fb6526bbacf117ec8b831867fcb22d25a00b3c7582",
+        "mode_80_completed": true
+      }
+    ]
+  },
+  "static": {
+    "ls1_converged": true,
+    "ls2_converged": true,
+    "ls2_load_step": 2,
+    "ls2_time": 1.001,
+    "ls1_sene_n_mm": 511706669.464178,
+    "ls1_sten_n_mm": 1.364682034378037e-25,
+    "ls1_abs_sten_over_sene": 2.666922508176477e-34,
+    "ls2_sene_n_mm": 511706671.0088018,
+    "ls2_sten_n_mm": 1.364682034378037e-25,
+    "ls2_abs_sten_over_sene": 2.666922500126178e-34,
+    "ls1_history_rows": 20,
+    "ls1_history_peak_substep": 1,
+    "ls1_history_peak_time": 0.05,
+    "ls1_history_peak_abs_sten_over_sene": 5.797346389239444e-33,
+    "mass_actual_tonne": 4108.466907581062,
+    "mass_expected_tonne": 4108.46690758,
+    "mass_abs_error_tonne": 1.061380316969007e-09,
+    "uz_support_count": 464,
+    "reaction_expected_n": 40287626.49573989,
+    "reaction_actual_n": 40287626.49717642,
+    "reaction_abs_error_n": 0.001436531543731689,
+    "reaction_relative_error": 3.565689192148343e-11,
+    "ls2_sene_relative_change_from_ls1": 3.0185727182115796e-09,
+    "source_path": "solver/s10_static_energy_mass_reaction.txt",
+    "source_sha256": "2bc35420c7fae45fc5bbebfed1fc621e6211cea9f6207f098c0bd3519085d0a3",
+    "history_path": "solver/s10_ls1_energy_history.csv",
+    "history_sha256": "672c336835bb295fe8ef830ceec9e794f2d9323e650da8b1fa24ae9b934a5ef0"
+  },
+  "topology": {
+    "status": "PASSED",
+    "counts": {
+      "NODE_COUNT": 109086,
+      "ELEMENT_COUNT": 172994,
+      "TYPE4": 73692,
+      "TYPE6": 48620,
+      "TYPE70": 17679,
+      "TYPE71": 33003
+    },
+    "source_path": "solver/s10_topology_counts.txt",
+    "source_sha256": "b7b49dd5f5b116619bbef8575bf80a88edb283feaa46cdc03b1d4174585cfcb4"
+  },
+  "modal": {
+    "property_rows": 80,
+    "property_columns": 15,
+    "frequency_first_hz": 0.03682163214586436,
+    "frequency_last_hz": 0.4122063826843537,
+    "frequency_strictly_increasing": true,
+    "frequency_0_to_0_35_hz_count": 58,
+    "first_mode_above_0_35_hz": 59,
+    "first_frequency_above_0_35_hz": 0.3511574897378528,
+    "minimum_adjacent_gap_hz": 2.957037958661868e-06,
+    "minimum_gap_mode_pair": [
+      47,
+      48
+    ],
+    "generalized_mass_minimum": 44.11273938105913,
+    "generalized_mass_maximum": 1631.453884787689,
+    "maximum_effm_equals_pfact_squared_residual": 1.200634659801408e-15,
+    "effective_mass_ratio_80_modes": {
+      "x": 0.13155935265409865,
+      "y": 0.8906142348009667,
+      "z": 0.8242785788704542
+    },
+    "mass_participation_90_percent_requirement_in_contract": false,
+    "set_count": 80,
+    "maximum_property_vs_set_frequency_error_hz": 4.917476592591896e-09,
+    "requested": 80,
+    "available": 80,
+    "exported": 80,
+    "displacement_vectors": {
+      "count": 80,
+      "result_rows_per_file": 91407,
+      "minimum_bytes": 7495944,
+      "maximum_bytes": 7495944,
+      "topology_node_count": 109086,
+      "direction_node_gap": 17679,
+      "direction_node_gap_equals_type70_count": true,
+      "pattern": "solver/mode_01..80_all_nodes.txt"
+    },
+    "rotation_vectors": {
+      "count": 80,
+      "result_rows_per_file": 91407,
+      "minimum_bytes": 7495944,
+      "maximum_bytes": 7495944,
+      "topology_node_count": 109086,
+      "direction_node_gap": 17679,
+      "direction_node_gap_equals_type70_count": true,
+      "pattern": "solver/mode_01..80_rotations.txt"
+    },
+    "properties_path": "solver/s10_modal_properties.csv",
+    "properties_sha256": "3bde9a8bba7a43cf2f9a41c1191b4a9a0f2e1696dd104da0166b45075cb971e4",
+    "set_list_path": "solver/s10_modal_set_list.txt",
+    "set_list_sha256": "6653a4b13ed90d68d6719465f5ef540062b98a3855dad22ebade3e536a1670e2",
+    "export_manifest_path": "solver/s10_modal_export_manifest.txt",
+    "export_manifest_sha256": "20c56b3950a6fb808f4d2dcb88b6865c4f8483ffb29ecdef6e0a975c83df26c7"
+  },
+  "section_modal_sene": {
+    "status": "PASSED",
+    "rows": 80,
+    "columns": 16,
+    "component_count": 6,
+    "component_counts": [
+      2698,
+      1562,
+      4011,
+      1890,
+      4620,
+      2898
+    ],
+    "component_total": 17679,
+    "component_total_equals_type70": true,
+    "total_sene_min_n_mm": 5.335842661605956e-07,
+    "total_sene_max_n_mm": 1.301593086101406,
+    "component_ratio_min": 2.842188643613742e-06,
+    "component_ratio_max": 0.8771345211679675,
+    "six_component_sum_ratio_min": 0.0003414065541699435,
+    "six_component_sum_ratio_max": 0.9962512949935062,
+    "maximum_component_ratio_error": 2.220446049250313e-16,
+    "maximum_component_sum_abs_error_n_mm": 6.661338147750939e-16,
+    "maximum_sum_ratio_error": 6.661338147750939e-16,
+    "source_path": "solver/s10_section_modal_sene.csv",
+    "source_sha256": "182ee90a214fdd49cf0635a42cae862d72de1c26aa189addfa313f2bd2b58569"
+  },
+  "link180": {
+    "status": "PASSED",
+    "audit_dir": "S10_LINK180_POSTONLY_20260716T092014206694Z",
+    "qa_path": "S10_LINK180_POSTONLY_20260716T092014206694Z/qa_summary.json",
+    "qa_sha256": "f073499ab04bf4965d9a8b989ca2b14d1cc581af0441533f6dd1d9909ed56324",
+    "package_ledger": {
+      "path": "S10_LINK180_POSTONLY_20260716T092014206694Z/artifact_hashes.sha256",
+      "entry_count": 13,
+      "sha256": "877dd53a4e14de0b39717c6f71aedce56fab65ac050799de621452c0635be829"
+    },
+    "actual_count": 73692,
+    "nonpositive_count": 0,
+    "minimum_force_n": 519002.6875,
+    "minimum_element_id": 70029,
+    "maximum_force_n": 1573314.125,
+    "maximum_element_id": 400003,
+    "csv_path": "S10_LINK180_POSTONLY_20260716T092014206694Z/s10_link180_axial_force_n.csv",
+    "csv_sha256": "80bf13d4648d23ca064ef3a8d1fe8f79be8092d8274e3ecfe9954da52485c47b",
+    "summary_path": "S10_LINK180_POSTONLY_20260716T092014206694Z/s10_link180_summary.txt",
+    "summary_sha256": "355de24fcb1a098b8a9972a24729446acc380b8bcf97bf87e7300cfcc340fc73",
+    "postflight_path": "S10_LINK180_POSTONLY_20260716T092014206694Z/postflight_source_integrity.json",
+    "postflight_sha256": "dc36e05b4663a76f520845fa47db06085be6fe2d03a501f9fbe1ee79b01c5072",
+    "orchestrator_snapshot_path": "S10_LINK180_POSTONLY_20260716T092014206694Z/ultra_s10_link180_postonly.py",
+    "orchestrator_snapshot_sha256": "db0f039678659e296fe5b73cf201879bb6f49ff20245717462e08b62553f301c",
+    "current_sources": {
+      "equilibrium_database": {
+        "path": "solver/cw_S10_0716t050342_a4_eq.db",
+        "length_bytes": 700186624,
+        "sha256": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd"
+      },
+      "static_result": {
+        "path": "solver/cw_S10_0716t050342_a4.rst",
+        "length_bytes": 811335680,
+        "sha256": "7d4aaff99da55a2f632195cd507c763d2f0c5bc576830fb13b1010472973128b"
+      }
+    },
+    "execution": {
+      "mode": "POST1_ONLY_SMP1",
+      "mapdl_exit_code": 0,
+      "processes": 1,
+      "input_path": "s10_link180_post_only.inp",
+      "input_sha256": "b74d41239ab8fee6b18412cef123712d47d4aae31e31e24290d7660e7523698e",
+      "input_forbidden_command_count": 0,
+      "input_allowlist_exact_match": true,
+      "uncommented_executable_line_count": 0,
+      "non_chinese_comment_line_count": 0,
+      "mapdl_warning_count": 0,
+      "mapdl_error_count": 0,
+      "mapdl_fatal_count": 0,
+      "negative_pivot_count": 0,
+      "zero_pivot_count": 0,
+      "summary_warning_counts": [
+        0
+      ],
+      "summary_error_counts": [
+        0
+      ],
+      "err_length_bytes": 80,
+      "exit_without_saving_confirmed": true,
+      "out_sha256": "2ed56a82a2a4ecb090d24072956ee56ff8b26dba1f2145e8d3370210f807d5c8",
+      "err_sha256": "2a939f2d6ab3777c9c7041476fe1c16dd920a7bc1091dd511e97e706c1fcfa4b"
+    },
+    "result_set": {
+      "load_step": 2,
+      "substep": 1,
+      "time": 1.001,
+      "basis": "S10 final no-stabilization LS2 hold state used by perturbation modal analysis"
+    }
+  },
+  "dependencies": {
+    "status": "PASSED",
+    "main_input_solver_path": "solver/s10_section_shear_main.inp",
+    "main_input_solver_sha256": "fbfc0501ea21278c0ea65d3733ce220912b89a5a2e3a5bb06679c5f8f77009e8",
+    "main_input_snapshot_path": "input_snapshot/s10_section_shear_main.inp",
+    "main_input_snapshot_sha256": "fbfc0501ea21278c0ea65d3733ce220912b89a5a2e3a5bb06679c5f8f77009e8",
+    "main_input_copies_identical": true,
+    "main_input_path": "solver/s10_section_shear_main.inp",
+    "main_input_sha256": "fbfc0501ea21278c0ea65d3733ce220912b89a5a2e3a5bb06679c5f8f77009e8",
+    "dependency_count": 11,
+    "dependency_orders": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "dependencies": [
+      {
+        "order": 1,
+        "basename": "full_line_beam4_crossbeam_mesh_xlong.inp",
+        "role": "invariant",
+        "input_snapshot_sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+        "solver_sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      },
+      {
+        "order": 2,
+        "basename": "convert_crossbeams_beam4_to_beam188.inp",
+        "role": "invariant",
+        "input_snapshot_sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+        "solver_sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      },
+      {
+        "order": 3,
+        "basename": "apply_mct_downpull_equivalent_xlong.inp",
+        "role": "invariant",
+        "input_snapshot_sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+        "solver_sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      },
+      {
+        "order": 4,
+        "basename": "apply_mct_constraints_xlong.inp",
+        "role": "invariant",
+        "input_snapshot_sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+        "solver_sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      },
+      {
+        "order": 5,
+        "basename": "apply_mct_authoritative_initial_state_link180.inp",
+        "role": "invariant",
+        "input_snapshot_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+        "solver_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      },
+      {
+        "order": 6,
+        "basename": "apply_finite_gates_and_passages_v2.inp",
+        "role": "controlled_section_shear_change",
+        "input_snapshot_sha256": "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330",
+        "solver_sha256": "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      },
+      {
+        "order": 7,
+        "basename": "apply_modal_roty_stabilization_xlong.inp",
+        "role": "invariant",
+        "input_snapshot_sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+        "solver_sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      },
+      {
+        "order": 8,
+        "basename": "define_representative_rope_component.inp",
+        "role": "invariant",
+        "input_snapshot_sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+        "solver_sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      },
+      {
+        "order": 9,
+        "basename": "apply_authoritative_mct_deadload_v1.inp",
+        "role": "invariant",
+        "input_snapshot_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+        "solver_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      },
+      {
+        "order": 10,
+        "basename": "apply_dynamic_mass21_spatialized_v2.inp",
+        "role": "invariant",
+        "input_snapshot_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+        "solver_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      },
+      {
+        "order": 11,
+        "basename": "apply_authoritative_mct_gravity_v1.inp",
+        "role": "invariant",
+        "input_snapshot_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+        "solver_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+        "matches_prepare_manifest": true,
+        "copies_identical": true
+      }
+    ]
+  },
+  "critical_results": {
+    "status": "PASSED",
+    "critical_file_count": 8,
+    "files": [
+      {
+        "path": "solver/cw_S10_0716t050342_a4_eq.db",
+        "length_bytes": 700186624,
+        "sha256": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd"
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4.rst",
+        "length_bytes": 811335680,
+        "sha256": "7d4aaff99da55a2f632195cd507c763d2f0c5bc576830fb13b1010472973128b"
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4_modal.db",
+        "length_bytes": 273547264,
+        "sha256": "e2d0e1c7480a32864f8ac8dcb9092610543fe74d750d7e229ef03be91493a2c2"
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4.rstp",
+        "length_bytes": 3444375552,
+        "sha256": "f0d32b0cdd4dd810e609e5b6cee67939e8a506a3567223e7b1b4ec040afe5900"
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4.mode",
+        "length_bytes": 1201602560,
+        "sha256": "23e67e334523c58cbe05db5fde41d6a99fe4fecbf8d95ed98a7d16fce266c4a3"
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4.full",
+        "length_bytes": 368443392,
+        "sha256": "f31bc2919810aa6ec96de0a78fab53fe4aafc9a41f49fee6c40bc5cdbb1cae12"
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4.rdb",
+        "length_bytes": 200278016,
+        "sha256": "b242612201647be796bf6b9f4d5bd25ccd2c20c2c4dee401df3849be5bfab057"
+      },
+      {
+        "path": "solver/cw_S10_0716t050342_a4.ldhi",
+        "length_bytes": 8751190,
+        "sha256": "4321ec16b33358d478f867c2e4d19c87b7f8ee7a32b864f7070b44960f4748bd"
+      }
+    ]
+  },
+  "solver_gate_original": {
+    "path": "solver/s10_gate_status.txt",
+    "value": "STATUS=SOLVER_EXPORT_COMPLETED PHASE=EXTERNAL_QA_REQUIRED",
+    "sha256": "052248959016eb1c4a5529e9d82d0007451691b9ba8530839836f0152eab1ece"
+  },
+  "prepare_lineage": {
+    "status_archive": "lineage/S10_status.prepare_original.json",
+    "status_original_sha256": "a9bc8f830752e526aa22f9c6b9291986b24a0a4bc410a7a19dcd9440b306fb31",
+    "manifest_archive": "lineage/manifest.prepare_original.json",
+    "manifest_original_sha256": "0b3c71406b59e0615234fa124d18df64880e6760f321826e27cb6f6a63c2df38",
+    "result_packet_archive": "lineage/result_packet.prepare_original.md",
+    "result_packet_original_sha256": "a4cfe71079b249c50327554d6d74a0dd6b071c6a48e77c6a8677a37e53aef970",
+    "prepare_ledger_archive": "lineage/artifact_hashes.prepare_original.sha256",
+    "prepare_ledger_original_sha256": "3cab18810ca9b4e062a46ffca19e9916eb93991c8d4608fbee91208da176bd3d",
+    "running_launch_archive": "lineage/runtime_launch.running_original.json",
+    "running_launch_original_sha256": "288f9353c8dba6864558c51195972f58efe58e7ee2c8c329269cd0a3f270d34f",
+    "running_status_archive": "lineage/runtime_status.running_original.md",
+    "running_status_original_sha256": "2914d7a9b85d627ea6be4b22dbc27069aee8d87698df8558592f2e599e4d5524"
+  },
+  "execution_policy": {
+    "parallel_mode": "DMP",
+    "processes": 4,
+    "mpi": "INTELMPI",
+    "memory_gate_overridden_by_user": true,
+    "disk_gate_passed_at_launch": true
+  },
+  "stale_lock_files": [],
+  "documented_limitations": [
+    {
+      "id": "LEGACY_CONSTRAINT_EQUATION_LARGE_DEFLECTION",
+      "description": "legacy 约束方程在大变形下的适用性 warning 仍存在；本次未改变连接运动学。"
+    },
+    {
+      "id": "HIGH_COEFFICIENT_RATIO",
+      "description": "矩阵系数比超过 1E8；虽无负/零主元且全部收敛，仍保留尺度病态边界。"
+    },
+    {
+      "id": "EFFECTIVE_MASS_X_80_BELOW_90_PERCENT",
+      "description": "固定 80 阶合同未设置 90% 有效质量门槛；当前 X/Y/Z 累计比例分别为 13.155935%/89.061423%/82.427858%，若另行采用 90% 标准则不满足。"
+    },
+    {
+      "id": "NEAR_REPEATED_MODE_SUBSPACE",
+      "description": "最小相邻频差为 2.957037958661868e-06 Hz，对应 47–48 阶；跨模型比较应按近重根子空间处理。"
+    },
+    {
+      "id": "STRICT_REPORT_MAC_SOURCE_UNAVAILABLE",
+      "description": "用户确认报告原始全节点双精度模态向量无法取得；严格 MAC 与 14 目标一一物理映射保持 HARD_SOURCE_EVIDENCE_BLOCK，不得按频率或阶次强配。"
+    }
+  ],
+  "target_physical_mapping_status": "HARD_SOURCE_EVIDENCE_BLOCK",
+  "hard_order_target_pairing_claimed": false,
+  "next_action": "NONE_FOR_THIS_RUN",
+  "pipeline_next_action": "REBUILD_C10_FROM_FINAL_S10_BOUNDARY",
+  "artifact_ledger": {
+    "path": "artifact_hashes.sha256",
+    "coverage": "ALL_REGULAR_FILES_UNDER_RUN_EXCEPT_LEDGER_ITSELF",
+    "self_excluded": true
+  },
+  "orchestrator_integrity": {
+    "finalizer_sha256": "079d7c4bfb4bbacd376caa4b30ab3102e796026ee2df390cb930d61fc9b41d01",
+    "helper_sha256": "5a92ec91e10793acd2de134214401857bb5123e980ce989bca2c3e9c9f97d313",
+    "finalizer_snapshot": "orchestrator_snapshot/ultra_s10_finalize.py",
+    "helper_snapshot": "orchestrator_snapshot/ultra_a10_finalize.helper.py"
+  }
+}

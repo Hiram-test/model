@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "ABORTED_BY_CONTROLLER_AFTER_LS2_FIRST_0_5_PERCENT_MIGRATION_DIVERGED",
+  "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T215406049179Z",
+  "jobname": "cw_C10m_0801t215406_d1",
+  "wrapper_pid": 47584,
+  "actual_solver_pid": 30956,
+  "exact_command_lines_verified_before_stop": true,
+  "processes_confirmed_absent_after_stop": true,
+  "stopped_at_utc": "2026-08-01T22:03:53.2000000Z",
+  "equation_count": 1234834,
+  "equation_count_constant": true,
+  "minimum_positive_pivot": 25.3126539,
+  "small_zero_negative_pivot_observed": false,
+  "ls1_beta": 1.0,
+  "ls1_converged": true,
+  "ls1_equilibrium_iterations": 4,
+  "ls1_final_force_residual_n": 0.7009,
+  "ls1_final_force_criterion_n": 47870.0,
+  "ls1_final_moment_residual_n_mm": 10.78,
+  "ls1_final_moment_criterion_n_mm": 7806000.0,
+  "ls1_final_displacement_increment_mm": 0.0001645,
+  "ls1_final_rotation_increment": 1.081e-7,
+  "ls2_target_beta_first_substep": 0.995,
+  "ls2_migration_fraction_first_substep": 0.005,
+  "ls2_completed_substeps": 0,
+  "ls2_force_residual_n_by_observed_state": [
+    522.4,
+    85003000.0
+  ],
+  "ls2_moment_residual_n_mm_by_observed_state": [
+    10.78,
+    1515300000.0
+  ],
+  "ls2_maximum_dof_increment_mm_by_completed_iteration": [
+    -0.8899,
+    -12.17
+  ],
+  "ls2_pending_third_iteration_displacement_norm_mm": 17.09,
+  "ls2_pending_third_iteration_rotation_norm_rad": 0.014948,
+  "static_result_obtained": false,
+  "modal_execution_attempted": false,
+  "production_claim_allowed": false,
+  "next_diagnostic_single_difference": "TYPE72_KEYOPT5_STATIC_FROM_0_TO_1_ONLY_DURING_LS2_MIGRATION"
+}

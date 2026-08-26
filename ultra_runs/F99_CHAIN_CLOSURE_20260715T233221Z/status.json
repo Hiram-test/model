@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "run_id": "F99_CHAIN_CLOSURE",
+  "run_name": "F99_CHAIN_CLOSURE_20260715T233221Z",
+  "created_at_utc": "2026-07-15T23:32:21Z",
+  "status": "CLOSED_WITH_HARD_SOURCE_EVIDENCE_BLOCK",
+  "production_model_available": false,
+  "final_production_inp_available": false,
+  "last_executed_full_bridge_run": "A10_H175_AXIS_20260715T172214962299Z",
+  "last_closed_effective_variant": "A30_ALL_AXES_20260715T230922215766Z",
+  "last_prepared_variant": "S10_SECTION_SHEAR_20260715T232342329492Z",
+  "connection_launch_rejected_variant": "C10_MPC_ONLY",
+  "hard_source_evidence_block": {
+    "id": "REPORT_R19_FULL_NODE_VECTORS_MISSING",
+    "scope": "STRICT_14_TARGET_MAC_AND_SUBSPACE_MAC",
+    "reference_target_count": 14,
+    "source_vector_available_count": 0,
+    "strict_mac_computable": false,
+    "forced_order_pairing_allowed": false,
+    "evidence_package": "X10_DOWNSTREAM_SOURCE_AUDIT_20260715T233443Z"
+  },
+  "completed_chain": {
+    "a20": "COMPLETED_NO_SOLVE_ALREADY_CORRECT",
+    "a30": "PASS_RESULT_REUSE_WITH_DOCUMENTED_LIMITATIONS",
+    "s10_source_gate": "PASS_TO_PREPARE",
+    "s10_execution": "PREPARED_WAITING_RESOURCE_GATE",
+    "c10_mapping": "PASS_5078_LOGICAL_TO_8202_MPC184_ZERO_MISMATCH",
+    "c10_launch": "VALIDATION_GATE_MISSING_REJECTED_TO_LAUNCH"
+  },
+  "s10_resource_block": {
+    "available_physical_bytes": 4451053568,
+    "minimum_available_memory_bytes": 8589934592,
+    "disk_free_bytes": 30100930560,
+    "minimum_disk_free_bytes": 34359738368,
+    "mapdl_started": false
+  },
+  "target_mapping": {
+    "canonical_file": "../X10_DOWNSTREAM_SOURCE_AUDIT_20260715T233443Z/09_target_mapping.csv",
+    "row_count": 14,
+    "matched_mode_nonblank_count": 0,
+    "evidence_grade_a_count": 6,
+    "evidence_grade_b_count": 5,
+    "evidence_grade_c_count": 3,
+    "status": "UNRESOLVED_SOURCE_VECTOR_MISSING"
+  },
+  "downstream": {
+    "c20": "NOT_STARTED_UPSTREAM_REJECTED_SOURCE_PRESENT",
+    "d10": "NOT_STARTED_LEDGER_NOT_INTEGRATED_SOURCE_PRESENT",
+    "m20": "NOT_STARTED_UPSTREAM_REJECTED",
+    "w_r_selected": "NOT_STARTED_UPSTREAM_REJECTED",
+    "f00": "NOT_CREATED",
+    "f10": "NOT_CREATED"
+  },
+  "mapdl_started_by_closure": false,
+  "artifact_ledger_entry_count_excluding_ledger": 9,
+  "next_action": "OBTAIN_R19_FULL_NODE_MODAL_VECTORS_AND_RELEASE_RESOURCES_BEFORE_RESUMING_S10"
+}

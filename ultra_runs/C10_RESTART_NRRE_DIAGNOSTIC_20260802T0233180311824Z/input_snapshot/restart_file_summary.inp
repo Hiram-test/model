@@ -1,0 +1,14 @@
+! 本输入只读取新运行目录中的复制重启帧摘要，不进入求解、不修改来源运行并且不生成工程结果。
+/BATCH
+! 将 MAPDL 文件族绑定到新运行唯一 jobname，防止读取或写入原诊断运行的文件名。
+/FILNAME,cw_C10rnr_0802023318096
+! 使用纯 ASCII 标题标识本次仅执行重启帧清单读取。
+/TITLE,C10 COPIED RESTART FILE SUMMARY READ ONLY
+! 进入求解处理器只是为了调用 RESCONTROL 的文件清单动作，不发出 ANTYPE 或 SOLVE。
+/SOLU
+! 列出复制的 R001/R002 所对应的载荷步、子步、时间和重启身份。
+RESCONTROL,FILE_SUMMARY
+! 离开求解处理器，确保没有任何继续求解动作。
+FINISH
+! 不保存数据库退出；复制的重启帧仅作为只读输入。
+/EXIT,NOSAVE

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "status": "PASSED",
+  "run_name": "C10_A0_DIRECT_SPATIAL_RAMP_20260802T033900229376Z",
+  "created_at_utc": "2026-08-02T03:39:00.229376+00:00",
+  "sources": {
+    "s10_main_sha256": "fbfc0501ea21278c0ea65d3733ce220912b89a5a2e3a5bb06679c5f8f77009e8",
+    "s10_gate_sha256": "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330",
+    "c10_main_sha256": "e537c411581ec86a7df4cccc0f5fa93450182f06e41084256fd0a11299155e94",
+    "c10_gate_sha256": "4f7da8425a25739c694880422c4d2188088b83c1d64170baf44accd922b5b01e",
+    "micro_run": "C10_MICRO_VALIDATION_20260801T190634755506Z"
+  },
+  "controlled_changes": [
+    "UNIQUE_RUN_AND_JOB_IDENTITY",
+    "ADD_NLDIAG_NRRE_ON_50",
+    "STATIC_ONLY_TRUNCATION",
+    "STATIC_GATE_PHASE_TO_EXTERNAL_QA_REQUIRED"
+  ],
+  "forbidden_changes_confirmed_absent": [
+    "CNVTOL",
+    "KEYOPT",
+    "INITIAL_STATE",
+    "MASS",
+    "LOAD",
+    "PRED",
+    "NEQIT",
+    "MIGRATION",
+    "MODAL_EXECUTION"
+  ],
+  "convergence_acceptance_scope": "DEFAULT_CNVTOL_DIAGNOSTIC_ONLY",
+  "a0b_same_path_explicit_cnvtol_acceptance_required_if_a0_passes": true,
+  "runtime_tools_frozen": true,
+  "mapdl_execution_attempted": false,
+  "mapdl_started": false
+}

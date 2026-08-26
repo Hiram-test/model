@@ -1,0 +1,176 @@
+{
+  "run_id": "U01_UNIT_TESTS",
+  "suite_id": "U01_UNIT_TESTS_20260715T101428628522Z",
+  "status": "PASSED",
+  "passed_count": 8,
+  "required_count": 8,
+  "tests": [
+    {
+      "test_id": "U01_01_LINK180_FULL_CHAIN",
+      "passed": true,
+      "maximum_relative_error": 1.7880805616140406e-05,
+      "threshold": 0.001,
+      "actual": [
+        499.998940224,
+        162974.40625,
+        74.8901197806,
+        150.8746474816,
+        229.0595320293
+      ],
+      "expected": [
+        499.99,
+        162974.0,
+        74.89,
+        150.875,
+        229.06
+      ]
+    },
+    {
+      "test_id": "U01_02_BEAM188_AXIS",
+      "passed": true,
+      "maximum_relative_error": 0.0008501817980253099,
+      "threshold": 0.002,
+      "orthogonality_max_abs_dot": 0.0,
+      "handedness": 1.0,
+      "mapdl": [
+        0.097032930908583,
+        0.277785225587319
+      ],
+      "theory": [
+        0.096950505353622,
+        0.277755098373893
+      ]
+    },
+    {
+      "test_id": "U01_03_SECTIONS",
+      "passed": true,
+      "maximum_property_relative_error": 3.5434996739929223e-16,
+      "property_threshold": 0.001,
+      "maximum_shear_mapping_relative_error": 4.428430504115966e-16,
+      "shear_threshold": 0.005,
+      "maximum_deflection_relative_error": 1.4042078936210875e-05,
+      "deflection_threshold": 0.005,
+      "maximum_reported_deflection_error_difference": 3.7792661930708196e-16,
+      "reported_error_consistency_threshold": 1e-10,
+      "maximum_native_torsion_difference_from_frozen_target": 0.07087934167231925,
+      "native_sections_role": "REFERENCE_ONLY_NOT_AUTOMATIC_PRODUCTION"
+    },
+    {
+      "test_id": "U01_04_MPC184",
+      "passed": true,
+      "maximum_rigid_arm_absolute_error_mm": 0.0,
+      "maximum_joint_slip_mm": 9.1944e-06,
+      "slip_threshold_mm": 1e-05,
+      "adjacent_penalty_flexibility_change": 4.616475073102893e-08,
+      "flexibility_threshold": 0.001,
+      "penalty_values_n_per_mm": [
+        50000000000.0,
+        100000000000.0
+      ]
+    },
+    {
+      "test_id": "U01_05_REVOLUTE_6DOF",
+      "passed": true,
+      "maximum_locked_relative_motion": 1.058791184067875e-22,
+      "locked_motion_threshold": 1e-08,
+      "nodal_free_relative_rotation_rad": 0.00099999997186313,
+      "official_jru4_free_relative_rotation_rad": 0.0009999999310821295,
+      "expected_free_rotation_rad": 0.001,
+      "free_rotation_absolute_error": 6.891787054236209e-11,
+      "free_rotation_error_threshold_rad": 1e-08,
+      "nodal_official_rotation_difference_rad": 4.078100053830913e-11,
+      "rotation_consistency_threshold_rad": 1e-08,
+      "free_axis_stiffness_n_mm_per_rad": 1000.00002813687,
+      "expected_free_axis_stiffness_n_mm_per_rad": 1000.0,
+      "free_stiffness_relative_error": 2.813687001435028e-08,
+      "free_stiffness_relative_error_threshold": 1e-05,
+      "free_axis_parasitic_moment_n_mm": 0.0,
+      "parasitic_moment_threshold_n_mm": 1e-08,
+      "official_jrp4_free_relative_position_rad": 0.0,
+      "target_constraint_responses": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "maximum_unit_constraint_response_error": 0.0,
+      "constrained_to_free_rotational_stiffness_ratio": 8583333.09182524,
+      "minimum_stiffness_ratio": 1000000.0
+    },
+    {
+      "test_id": "U01_06_MASS21_INERTIA",
+      "passed": true,
+      "maximum_frequency_relative_error": 1.9984014443252818e-15,
+      "threshold": 1e-06,
+      "actual_hz": [
+        1.000000000000002,
+        2.0,
+        2.999999999999997,
+        4.0,
+        4.999999999999999,
+        5.999999999999998
+      ],
+      "expected_hz": [
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+      ],
+      "minimum_modal_purity": 0.999999999999929
+    },
+    {
+      "test_id": "U01_07_BLOCK_LANCZOS_CLOSURE",
+      "passed": true,
+      "serial_observed_counts": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "serial_apdl_reported_counts": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "dmp_observed_counts": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "dmp_apdl_reported_counts": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "count_order": [
+        "requested_modes",
+        "frequency_rows",
+        "error_free_set_vector_rows",
+        "vector_rows"
+      ],
+      "frequency_band_hz": [
+        0.0,
+        7.0
+      ],
+      "known_physical_dof_count": 6
+    },
+    {
+      "test_id": "U01_08_DMP4_EXPORT",
+      "passed": true,
+      "maximum_frequency_difference_hz": 1.9984014443252818e-15,
+      "frequency_threshold_hz": 1e-08,
+      "maximum_normalized_vector_difference": 2.948631278478535e-14,
+      "vector_threshold": 1e-08,
+      "processes": 4,
+      "mpi": "intelmpi"
+    }
+  ],
+  "full_solve_memory_ready": false,
+  "next_action": "PREPARE_B00_ISOLATED_INPUT_ONLY"
+}

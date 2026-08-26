@@ -1,0 +1,46 @@
+{
+  "schema_version": 2,
+  "status": "ABORTED_BY_CONTROLLER_AFTER_LS2_FIRST_0_5_PERCENT_MIGRATION_DIVERGED_WITH_MPC184_STATIC_STRESS_STIFFNESS_EXCLUDED",
+  "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T222546216597Z",
+  "jobname": "cw_C10mk5_0801t222546_d1",
+  "wrapper_pid": 46496,
+  "actual_solver_pid": 15788,
+  "exact_command_lines_verified_before_stop": true,
+  "processes_confirmed_absent_after_stop": true,
+  "stopped_at_utc": "2026-08-01T22:36:55.843611+00:00",
+  "equation_count": 1234834,
+  "equation_count_constant": true,
+  "minimum_positive_pivot": 25.3126539,
+  "small_zero_negative_pivot_observed": false,
+  "ls1_beta": 1.0,
+  "ls1_converged": true,
+  "ls1_equilibrium_iterations": 4,
+  "ls1_final_force_residual_n": 0.7009,
+  "ls1_final_force_criterion_n": 47870.0,
+  "ls1_final_moment_residual_n_mm": 10.78,
+  "ls1_final_moment_criterion_n_mm": 7806000.0,
+  "ls1_final_displacement_increment_mm": 0.0001645,
+  "ls1_final_rotation_increment": 1.081e-07,
+  "ls2_target_beta_first_substep": 0.995,
+  "ls2_migration_fraction_first_substep": 0.005,
+  "ls2_completed_substeps": 0,
+  "ls2_force_residual_n_by_observed_state": [
+    522.4,
+    85000000.0
+  ],
+  "ls2_moment_residual_n_mm_by_observed_state": [
+    10.78,
+    1515000000.0
+  ],
+  "ls2_maximum_dof_increment_mm_by_completed_iteration": [
+    -0.8899,
+    -12.17
+  ],
+  "mpc184_keyopt5_static": 1,
+  "single_difference_baseline_run": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T215406049179Z",
+  "single_difference_observed_effect": "NO_CHANGE_IN_LS2_FIRST_TWO_NR_STATES_AT_PRINTED_PRECISION",
+  "static_result_obtained": false,
+  "modal_execution_attempted": false,
+  "production_claim_allowed": false,
+  "next_diagnostic_single_difference": "LS2_ADAPTIVE_SUBSTEPS_200_2000_200_ALLOW_0_05_PERCENT_MINIMUM_INCREMENT"
+}

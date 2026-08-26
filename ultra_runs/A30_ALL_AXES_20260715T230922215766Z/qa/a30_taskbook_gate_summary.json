@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "status": "PASS_RESULT_REUSE_WITH_DOCUMENTED_LIMITATIONS",
+  "result_reuse_gate": "PASSED",
+  "static": {
+    "ls1_converged": true,
+    "ls2_hold_converged": true,
+    "ls1_endpoint_abs_sten_over_sene": 2.667479851077623e-34,
+    "ls1_endpoint_limit": 0.01,
+    "ls2_abs_sten_over_sene": 2.667479843364189e-34,
+    "ls2_limit": 1e-08,
+    "full_substep_peak_gate_status": "PASSED_BY_DISABLED_STABILIZATION_CONTROL",
+    "full_substep_stabilization_control_bound": 0.0,
+    "full_substep_peak_abs_sten_over_sene_numeric_history": null,
+    "full_substep_numeric_history_available": false,
+    "mass_error_tonne": 1.061380316969007e-09,
+    "mass_limit_tonne": 1e-06,
+    "vertical_support_count": 464,
+    "reaction_relative_error": 1.907675526569801e-11,
+    "reaction_limit": 0.0001
+  },
+  "solver_messages": {
+    "mapdl_errors": 0,
+    "negative_pivots": 0,
+    "zero_pivots": 0,
+    "warning_markers": 5,
+    "all_warnings_disposed": true
+  },
+  "link180": {
+    "actual_count": 73692,
+    "unique_count": 73692,
+    "nonpositive_count": 0,
+    "minimum_force_n": 519006.875
+  },
+  "modal": {
+    "requested": 80,
+    "available_sets": 80,
+    "exported_properties": 80,
+    "displacement_vectors": 80,
+    "rotation_vectors": 80,
+    "band_complete_not_truncated": true,
+    "target_reference_count": 14,
+    "target_physical_mapping_closed": false
+  },
+  "source_integrity": {
+    "status": "PASSED_READ_ONLY_POSTPROCESSING_SOURCES_UNCHANGED",
+    "protected_source_count": 4,
+    "four_source_hashes_current_and_historical": true,
+    "source_metadata_unchanged_during_a30_qa": true,
+    "a10_a20_full_run_metadata_unchanged": true
+  },
+  "critical_results": {
+    "status": "PASSED",
+    "critical_file_count": 8,
+    "modal_vector_ledger_entries": 160
+  },
+  "limitations": [
+    "两个完整静力载荷步均由输入顺序和两次求解器 KEY=OFF 回显证明 STABILIZE,OFF，全历程稳定化能峰值门禁通过；RST 未保存逐子步数值曲线。",
+    "十四目标定义和 80 阶候选池已闭合，但 A10 尚无方向/跨别/对称性描述量与报告源向量 MAC，物理 mapping 未封板。"
+  ]
+}

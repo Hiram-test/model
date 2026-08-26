@@ -1,0 +1,111 @@
+{
+  "schema_version": 3,
+  "status": "PASSED",
+  "parent_run": "S10_SECTION_SHEAR_20260716T050342389124Z",
+  "physical_change_family_count": 1,
+  "physical_change_family": "CERIG_TO_SINGLE_MPC184_LARGE_ROTATION_CONNECTION_KINEMATICS_ONLY",
+  "invariant_dependency_count": 10,
+  "controlled_dependency_count": 1,
+  "include_reversible_audit": {
+    "schema_version": 2,
+    "status": "PASSED",
+    "source_sha256": "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330",
+    "candidate_sha256": "4f7da8425a25739c694880422c4d2188088b83c1d64170baf44accd922b5b01e",
+    "canonicalized_sha256": "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330",
+    "canonicalized_equals_source_bytes": true,
+    "source_cerig_count": 5078,
+    "candidate_cerig_count": 0,
+    "aux_node_count": 0,
+    "mpc184_type72_count": 5078,
+    "mpc184_type73_count": 0,
+    "mpc184_total_count": 5078,
+    "allowed_change_family_count": 1,
+    "allowed_change_family": "CERIG_TO_SINGLE_MPC184_LARGE_ROTATION_CONNECTION_KINEMATICS_ONLY"
+  },
+  "main_control_reversible_audit": {
+    "schema_version": 2,
+    "status": "PASSED",
+    "source_sha256": "fbfc0501ea21278c0ea65d3733ce220912b89a5a2e3a5bb06679c5f8f77009e8",
+    "candidate_sha256": "c97f3d54b2f1eef83471f4c3c712ec4f8b01fd52c111c29c31681bf9e8c99755",
+    "canonicalized_sha256": "fbfc0501ea21278c0ea65d3733ce220912b89a5a2e3a5bb06679c5f8f77009e8",
+    "canonicalized_equals_source_bytes": true,
+    "identity_changes": [
+      "S10_TO_C10_LABELS",
+      "UNIQUE_JOBNAME",
+      "OUTPUT_PREFIXES",
+      "THREE_C10_DOCUMENTATION_LINES"
+    ],
+    "topology_changes": {
+      "node_count": [
+        109086,
+        109086
+      ],
+      "element_count": [
+        172994,
+        178072
+      ],
+      "type72_expected": 5078,
+      "type73_expected": 0
+    },
+    "added_runtime_audits": [
+      "TYPE72_COUNT",
+      "V2_MPC184_E_ELIST"
+    ],
+    "unchanged_control_contract": [
+      "DEPENDENCY_ORDER",
+      "LS1_STATIC_FROM_ZERO",
+      "LS2_HOLD",
+      "NLGEOM",
+      "PSTRES",
+      "LANB_80_NO_FREQUENCY_CAP",
+      "MXPAND_ELEMENT_CALC",
+      "NSOL_VECTOR_EXPORT",
+      "VENG_HISTORY_EXPORT"
+    ]
+  },
+  "uxyz_projection_audit": {
+    "schema_version": 1,
+    "status": "PASSED",
+    "uxyz_slave_count": 3124,
+    "slave_reused_by_other_connection_count": 0,
+    "allowed_element_names": [
+      "LINK10",
+      "LINK180",
+      "MASS21"
+    ],
+    "link_reference_count_per_slave": 2,
+    "final_translation_mass_slave_count": 1152,
+    "rotational_element_consumer_count": 0,
+    "rotational_load_consumer_count": 0,
+    "explicit_d_overlap_count": 0,
+    "cp_overlap_count": 0,
+    "explicit_ce_command_count": 0,
+    "projection_equivalence": "CONDENSED_PHYSICAL_UXYZ_SPACE_UNCHANGED",
+    "hard_gate": "REJECT_IF_ANY_SLAVE_ROTATIONAL_CONSUMER_APPEARS"
+  },
+  "allowed_changes": {
+    "cerig_removed": 5078,
+    "aux_nodes_added": 0,
+    "type72_rigid_beams_added": 5078,
+    "type73_translation_rigid_links_added": 0,
+    "mpc_type_and_component_definitions_added": true
+  },
+  "forbidden_changes": {
+    "original_29626_node_commands": false,
+    "original_17679_beam_commands": false,
+    "materials": false,
+    "sections_61_to_66": false,
+    "beam_orientation_nodes": false,
+    "mass": false,
+    "loads": false,
+    "initial_state": false,
+    "boundary_d": false,
+    "boundary_cp": false,
+    "analysis_stages": false,
+    "modal_request": false,
+    "penalty_stiffness": false,
+    "auxiliary_constraint_nodes": false,
+    "type73_elements": false
+  },
+  "parent_section_61_exact_line_preserved": true
+}

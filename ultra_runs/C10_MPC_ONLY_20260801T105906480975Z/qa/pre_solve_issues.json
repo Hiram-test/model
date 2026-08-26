@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "status": "VALIDATION_GATES_PENDING",
+  "blocking_for_generation": [],
+  "blocking_for_mapdl_launch": [
+    "C10-NUM-01",
+    "C10-RANK-01"
+  ],
+  "blocking_for_production_use": [
+    "C10-DWG-01",
+    "C10-NUM-01",
+    "C10-RANK-01"
+  ],
+  "inherited_parent_limitations": [
+    {
+      "id": "LEGACY_CONSTRAINT_EQUATION_LARGE_DEFLECTION",
+      "description": "legacy 约束方程在大变形下的适用性 warning 仍存在；本次未改变连接运动学。"
+    },
+    {
+      "id": "HIGH_COEFFICIENT_RATIO",
+      "description": "矩阵系数比超过 1E8；虽无负/零主元且全部收敛，仍保留尺度病态边界。"
+    },
+    {
+      "id": "EFFECTIVE_MASS_X_80_BELOW_90_PERCENT",
+      "description": "固定 80 阶合同未设置 90% 有效质量门槛；当前 X/Y/Z 累计比例分别为 13.155935%/89.061423%/82.427858%，若另行采用 90% 标准则不满足。"
+    },
+    {
+      "id": "NEAR_REPEATED_MODE_SUBSPACE",
+      "description": "最小相邻频差为 2.957037958661868e-06 Hz，对应 47–48 阶；跨模型比较应按近重根子空间处理。"
+    },
+    {
+      "id": "STRICT_REPORT_MAC_SOURCE_UNAVAILABLE",
+      "description": "用户确认报告原始全节点双精度模态向量无法取得；严格 MAC 与 14 目标一一物理映射保持 HARD_SOURCE_EVIDENCE_BLOCK，不得按频率或阶次强配。"
+    }
+  ]
+}

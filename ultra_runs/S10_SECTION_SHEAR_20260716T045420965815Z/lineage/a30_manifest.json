@@ -1,0 +1,635 @@
+{
+  "schema_version": 2,
+  "run_id": "A30_ALL_AXES",
+  "run_name": "A30_ALL_AXES_20260715T230922215766Z",
+  "model_line": "PHYSICALLY_CORRECTED_ALL_NONCIRCULAR_AXES",
+  "status": "COMPLETED_BY_INPUT_IDENTITY_WITH_A10_RESULTS",
+  "qa_status": "PASS_RESULT_REUSE_WITH_DOCUMENTED_LIMITATIONS",
+  "created_at_utc": "2026-07-15T23:09:22.215766+00:00",
+  "parents": [
+    "A10_H175_AXIS_20260715T172214962299Z",
+    "A20_RHS5030_AXIS_20260715T214637371159Z"
+  ],
+  "parent_run_metadata_audit": {
+    "schema_version": 1,
+    "status": "PASSED",
+    "scope": "ALL_REGULAR_FILES_PATH_SIZE_MTIME_NS",
+    "parents": {
+      "A10": {
+        "run_name": "A10_H175_AXIS_20260715T172214962299Z",
+        "file_count_before": 320,
+        "file_count_after": 320,
+        "total_bytes_before": 22405363593,
+        "total_bytes_after": 22405363593,
+        "metadata_identity_sha256_before": "e3179d3e6428b0de6b1822b0f821ff74ce8f79b77cfd8b05be968dc5bce344e5",
+        "metadata_identity_sha256_after": "e3179d3e6428b0de6b1822b0f821ff74ce8f79b77cfd8b05be968dc5bce344e5",
+        "unchanged_during_a30_qa": true
+      },
+      "A20": {
+        "run_name": "A20_RHS5030_AXIS_20260715T214637371159Z",
+        "file_count_before": 9,
+        "file_count_after": 9,
+        "total_bytes_before": 1115246,
+        "total_bytes_after": 1115246,
+        "metadata_identity_sha256_before": "41136dda207379e9d994e06add48c7844428fb283c15da7421a8440fbc304497",
+        "metadata_identity_sha256_after": "41136dda207379e9d994e06add48c7844428fb283c15da7421a8440fbc304497",
+        "unchanged_during_a30_qa": true
+      }
+    }
+  },
+  "a20_evidence": {
+    "status_sha256": "b47dd191d5fa04788e7c4665abd2bc5d767b42de2579479197cddf2aef3463b7",
+    "ledger_sha256": "09c12ba91af8921a26faf7d3c03cc9c89d55d16846123df5e95b1a9c0002b54e",
+    "zero_difference_sha256": "f1535c146d83ac3965442ff346cb4e5b6efbb0e26a48fb24f45f091c0dedcbc9",
+    "passed_element_count": 2898,
+    "physical_change_required_count": 0
+  },
+  "a10_input_evidence": {
+    "dependency_count": 11,
+    "dependencies": [
+      {
+        "order": 1,
+        "basename": "full_line_beam4_crossbeam_mesh_xlong.inp",
+        "role": "invariant",
+        "sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+        "byte_identical_snapshot_solver": true
+      },
+      {
+        "order": 2,
+        "basename": "convert_crossbeams_beam4_to_beam188.inp",
+        "role": "invariant",
+        "sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+        "byte_identical_snapshot_solver": true
+      },
+      {
+        "order": 3,
+        "basename": "apply_mct_downpull_equivalent_xlong.inp",
+        "role": "invariant",
+        "sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+        "byte_identical_snapshot_solver": true
+      },
+      {
+        "order": 4,
+        "basename": "apply_mct_constraints_xlong.inp",
+        "role": "invariant",
+        "sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+        "byte_identical_snapshot_solver": true
+      },
+      {
+        "order": 5,
+        "basename": "apply_mct_authoritative_initial_state_link180.inp",
+        "role": "invariant",
+        "sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+        "byte_identical_snapshot_solver": true
+      },
+      {
+        "order": 6,
+        "basename": "apply_finite_gates_and_passages_v2.inp",
+        "role": "controlled_axis_change",
+        "sha256": "68d9dc11395baa39a8c3d9abaac113865949873fa704de8443f6b54e6055aa3c",
+        "byte_identical_snapshot_solver": true
+      },
+      {
+        "order": 7,
+        "basename": "apply_modal_roty_stabilization_xlong.inp",
+        "role": "invariant",
+        "sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+        "byte_identical_snapshot_solver": true
+      },
+      {
+        "order": 8,
+        "basename": "define_representative_rope_component.inp",
+        "role": "invariant",
+        "sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+        "byte_identical_snapshot_solver": true
+      },
+      {
+        "order": 9,
+        "basename": "apply_authoritative_mct_deadload_v1.inp",
+        "role": "invariant",
+        "sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+        "byte_identical_snapshot_solver": true
+      },
+      {
+        "order": 10,
+        "basename": "apply_dynamic_mass21_spatialized_v2.inp",
+        "role": "invariant",
+        "sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+        "byte_identical_snapshot_solver": true
+      },
+      {
+        "order": 11,
+        "basename": "apply_authoritative_mct_gravity_v1.inp",
+        "role": "invariant",
+        "sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+        "byte_identical_snapshot_solver": true
+      }
+    ],
+    "combined_dependency_identity": "305299d004a24fe00b29aa3c6d4f495da7ca58fcdc30e58f386c8da14508b573"
+  },
+  "a10_result_evidence": {
+    "schema_version": 2,
+    "status": "PASSED_RESULT_REUSE_WITH_DOCUMENTED_LIMITATIONS",
+    "run_id": "A10_H175_AXIS",
+    "run_name": "A10_H175_AXIS_20260715T172214962299Z",
+    "jobname": "cw_A10_0715t172214_24",
+    "result_reuse_gate_status": "PASSED",
+    "taskbook_full_static_gate_status": "PASSED_BY_DISABLED_STABILIZATION_CONTROL_WITH_NUMERIC_HISTORY_LIMITATION",
+    "modal_numerical_completeness_status": "PASSED",
+    "target_physical_mapping_status": "REFERENCE_AND_80_MODE_POOL_CLOSED_PHYSICAL_MAPPING_OPEN",
+    "a30_result_reuse_authorized": true,
+    "duplicate_full_bridge_solve_required": false,
+    "finalization": {
+      "status_path": "A10_status.json",
+      "status_sha256": "3caa9aa1d34248aca9da31453c95762293dd346b1d344f2e7b4be22491d5c8ea",
+      "manifest_sha256": "673f8f158e22ff970a70fce8f2155179b791a96f7e12591194d427422c6ae58c",
+      "postrun_gate_path": "qa/postrun_gate.json",
+      "postrun_gate_sha256": "1534c382365cc15f3e8385e18e576edb5de4e48e47a87c8b8f88251f24529dca",
+      "artifact_ledger_path": "artifact_hashes.sha256",
+      "artifact_ledger_sha256": "8b368c625eb2b8f3a5fe84199f37ca93ac3010cd56b19de89a9d1379d06880e7",
+      "legacy_limitations": [
+        {
+          "id": "LEGACY_CERIG_LARGE_DEFLECTION",
+          "description": "legacy CERIG 约束在大变形下的适用性 warning 仍存在；本轮未改变 legacy 连接运动学。"
+        },
+        {
+          "id": "HIGH_COEFFICIENT_RATIO",
+          "description": "静力矩阵系数比超过 1E8，虽无负/零主元且全部收敛，仍保留尺度病态限制。"
+        },
+        {
+          "id": "STEN_SUBSTEP_NUMERIC_HISTORY_UNAVAILABLE",
+          "description": "输入顺序与两次求解器 KEY=OFF 回显证明 LS1/LS2 全历程未启用稳定化，因而任务书全历程控制门禁通过；但 RST 只保存两个端点 VENG，逐子步 STEN 数值表不可恢复。"
+        }
+      ]
+    },
+    "solver_messages": {
+      "status": "PASSED_WITH_FIVE_DISPOSED_WARNINGS",
+      "main_output": "solver/cw_a10_0715t172214_24.out",
+      "main_warning_markers": 5,
+      "summary_warning_count": 4,
+      "tail_warning_after_summary_count": 1,
+      "summary_error_count": 0,
+      "negative_pivot_count": 0,
+      "zero_pivot_count": 0,
+      "all_warnings_disposed": true,
+      "files": [
+        {
+          "path": "solver/cw_a10_0715t172214_24.out",
+          "size_bytes": 37495900,
+          "sha256": "1fee819b6f5f7da4eb33fecdb4473f9ee697f56f5815f29d9d44e61bcfb2387d",
+          "warning_count": 5,
+          "error_count": 0,
+          "fatal_count": 0,
+          "negative_pivot_count": 0,
+          "zero_pivot_count": 0
+        },
+        {
+          "path": "solver/cw_A10_0715t172214_24_1.out",
+          "size_bytes": 115772,
+          "sha256": "e3844288a96e6856336b7b95d7467956e4e2b894b573c7dcc27ee573235cbbc1",
+          "warning_count": 0,
+          "error_count": 0,
+          "fatal_count": 0,
+          "negative_pivot_count": 0,
+          "zero_pivot_count": 0
+        },
+        {
+          "path": "solver/cw_A10_0715t172214_24_2.out",
+          "size_bytes": 115772,
+          "sha256": "3d6c2714464109f7478cf0253e1b20e5f568e72c8cdec33e9eea6512d0cb33bc",
+          "warning_count": 0,
+          "error_count": 0,
+          "fatal_count": 0,
+          "negative_pivot_count": 0,
+          "zero_pivot_count": 0
+        },
+        {
+          "path": "solver/cw_A10_0715t172214_24_3.out",
+          "size_bytes": 115772,
+          "sha256": "eba710d45aadbec04baf4b0e2f5ad78b7da4b46875211098e3db1f1e94a4a387",
+          "warning_count": 0,
+          "error_count": 0,
+          "fatal_count": 0,
+          "negative_pivot_count": 0,
+          "zero_pivot_count": 0
+        },
+        {
+          "path": "solver/cw_A10_0715t172214_24_0.err",
+          "size_bytes": 2245,
+          "sha256": "6cb02b5e2c0e133c3cfb455497b2611f52d5ab16d698997e93a08b48614693da",
+          "warning_count": 5,
+          "error_count": 0,
+          "fatal_count": 0,
+          "negative_pivot_count": 0,
+          "zero_pivot_count": 0
+        },
+        {
+          "path": "solver/cw_A10_0715t172214_24_1.err",
+          "size_bytes": 80,
+          "sha256": "d040c4fab94c20e819e2f1dca699aa62a01bfdea69cb6c4e6a4fb2bd6e7aa9c3",
+          "warning_count": 0,
+          "error_count": 0,
+          "fatal_count": 0,
+          "negative_pivot_count": 0,
+          "zero_pivot_count": 0
+        },
+        {
+          "path": "solver/cw_A10_0715t172214_24_2.err",
+          "size_bytes": 80,
+          "sha256": "d040c4fab94c20e819e2f1dca699aa62a01bfdea69cb6c4e6a4fb2bd6e7aa9c3",
+          "warning_count": 0,
+          "error_count": 0,
+          "fatal_count": 0,
+          "negative_pivot_count": 0,
+          "zero_pivot_count": 0
+        },
+        {
+          "path": "solver/cw_A10_0715t172214_24_3.err",
+          "size_bytes": 80,
+          "sha256": "d040c4fab94c20e819e2f1dca699aa62a01bfdea69cb6c4e6a4fb2bd6e7aa9c3",
+          "warning_count": 0,
+          "error_count": 0,
+          "fatal_count": 0,
+          "negative_pivot_count": 0,
+          "zero_pivot_count": 0
+        }
+      ]
+    },
+    "static_gate": {
+      "status": "PASSED_FULL_HISTORY_GATE_BY_DISABLED_STABILIZATION_CONTROL_WITH_NUMERIC_HISTORY_LIMITATION",
+      "ls1_converged": true,
+      "ls2_converged": true,
+      "ls2_load_step": 2,
+      "ls2_time": 1.001,
+      "ls1_sene_n_mm": 511599753.5376792,
+      "ls1_sten_n_mm": 1.364682034378037e-25,
+      "ls1_abs_sten_over_sene": 2.667479851077623e-34,
+      "ls1_limit": 0.01,
+      "ls2_sene_n_mm": 511599755.0170497,
+      "ls2_sten_n_mm": 1.364682034378037e-25,
+      "ls2_abs_sten_over_sene": 2.667479843364189e-34,
+      "ls2_limit": 1e-08,
+      "full_substep_peak_gate_status": "PASSED_BY_DISABLED_STABILIZATION_CONTROL",
+      "full_substep_stabilization_control_bound": 0.0,
+      "full_substep_peak_abs_sten_over_sene_numeric_history": null,
+      "full_substep_numeric_history_available": false,
+      "full_substep_history_limitation": "两个完整静力载荷步均由输入顺序和两次求解器 KEY=OFF 回显证明 STABILIZE,OFF，因此稳定化能峰值门禁通过；RST 仅保存端点 VENG，逐子步数值曲线不可恢复。",
+      "mass_actual_tonne": 4108.466907581062,
+      "mass_expected_tonne": 4108.46690758,
+      "mass_abs_error_tonne": 1.061380316969007e-09,
+      "mass_limit_tonne": 1e-06,
+      "uz_support_count": 464,
+      "reaction_expected_n": 40287626.49573989,
+      "reaction_actual_n": 40287626.49650845,
+      "reaction_abs_error_n": 0.0007685571908950806,
+      "reaction_relative_error": 1.907675526569801e-11,
+      "reaction_relative_limit": 0.0001,
+      "topology": {
+        "node_count": 109086,
+        "element_count": 172994,
+        "type4": 73692,
+        "type6": 48620,
+        "type70": 17679,
+        "type71": 33003
+      },
+      "constraint_command_counts": {
+        "D": 3968,
+        "CP": 12,
+        "CERIG": 5078,
+        "ROTY_ZERO": 2860
+      },
+      "static_source": {
+        "path": "solver/a10_static_energy_mass_reaction.txt",
+        "sha256": "0e55c2b909913eccb6eda2f9d45967b52eb4ffc207dd3ee7a0446add9e13e7d2"
+      },
+      "topology_source": {
+        "path": "solver/a10_topology_counts.txt",
+        "sha256": "b7b49dd5f5b116619bbef8575bf80a88edb283feaa46cdc03b1d4174585cfcb4"
+      }
+    },
+    "link180_gate": {
+      "status": "PASSED",
+      "actual_count": 73692,
+      "unique_count": 73692,
+      "nonpositive_count": 0,
+      "minimum_force_n": 519006.875,
+      "minimum_element_id": 70029,
+      "maximum_force_n": 1573311.375,
+      "maximum_element_id": 400003,
+      "qa_path": "A10_LINK180_POSTONLY_20260715T222004Z/qa_summary.json",
+      "qa_sha256": "49cff43cd069abd935d2aa466f13fd16c885774835c1ec4d775f2b2929044b01",
+      "csv_path": "A10_LINK180_POSTONLY_20260715T222004Z/a10_link180_axial_force_n.csv",
+      "csv_sha256": "1bf84509a6a0070ef837c6ec164d2982b88fc4e461f5bc1cca43b776f5c8d1c9",
+      "postflight_path": "A10_LINK180_POSTONLY_20260715T222004Z/postflight_source_integrity.json",
+      "postflight_sha256": "fb3cc6e5bfa269eab17bf67c3ea8518adee5602391c18a0882985a48764e0c86"
+    },
+    "modal_energy_gate": {
+      "status": "PASSED",
+      "result_set_count": 80,
+      "total_rows": 80,
+      "component_rows": 480,
+      "component_count": 6,
+      "total_sene_min_n_mm": 5.325422306672562e-07,
+      "total_sene_max_n_mm": 1.302983862465603,
+      "component_sene_min_n_mm": 6.363279930535094e-10,
+      "component_sene_max_n_mm": 1.119779258981981,
+      "ratio_min": 2.789164638526681e-06,
+      "ratio_max": 0.8775818848352154,
+      "qa_path": "A10_SENE6_POSTONLY_20260716T061115Z8/qa_summary.json",
+      "qa_sha256": "7265a96186ada3c4e8a4d1d78120e7996a2407bf31dc69d0dc434a79a2500b99"
+    },
+    "read_only_source_integrity": {
+      "status": "PASSED_READ_ONLY_POSTPROCESSING_SOURCES_UNCHANGED",
+      "source_metadata_unchanged_during_a30_qa": true,
+      "protected_sources": {
+        "cw_A10_0715t172214_24.rst": {
+          "path": "solver/cw_A10_0715t172214_24.rst",
+          "size_bytes": 529530880,
+          "mtime_ns": 1784139187854147100,
+          "sha256": "c533af1a5cf119f43a6b17a7b7e72c4f26e3365e4c8dc5405ea7d4148d80d0cc"
+        },
+        "cw_A10_0715t172214_24.rstp": {
+          "path": "solver/cw_A10_0715t172214_24.rstp",
+          "size_bytes": 3444375552,
+          "mtime_ns": 1784141975941023600,
+          "sha256": "15a14e680929679d34840e3fb057c5d66c9503e1c3a766a9fa27379273712d78"
+        },
+        "cw_A10_0715t172214_24_eq.db": {
+          "path": "solver/cw_A10_0715t172214_24_eq.db",
+          "size_bytes": 700186624,
+          "mtime_ns": 1784139241954631100,
+          "sha256": "ad4ff75f99daa21e465a081568f5e7282026c05e83861eec33e7d56afdcb674b"
+        },
+        "cw_A10_0715t172214_24_modal.db": {
+          "path": "solver/cw_A10_0715t172214_24_modal.db",
+          "size_bytes": 272629760,
+          "mtime_ns": 1784142261742940000,
+          "sha256": "69eb6f94e69c8ef445826e2e3b0220e48bcc12d86793484d0fa486b243030b7b"
+        }
+      }
+    },
+    "modal_gate": {
+      "status": "PASSED_NUMERICAL_RESULTS_TARGET_PHYSICAL_MAPPING_OPEN",
+      "requested": 80,
+      "available_sets": 80,
+      "exported_properties": 80,
+      "displacement_vectors": 80,
+      "rotation_vectors": 80,
+      "sene_rows": 80,
+      "minimum_frequency_hz": 0.03682163352861133,
+      "maximum_frequency_hz": 0.4122076645938122,
+      "frequency_strictly_increasing": true,
+      "nonpositive_or_unexplained_zero_modes": 0,
+      "frequency_0_to_0_35_hz_count": 58,
+      "first_mode_above_0_35_hz": 59,
+      "first_frequency_above_0_35_hz": 0.3514567781917849,
+      "band_complete_not_truncated": true,
+      "minimum_required_target_pool": 14,
+      "candidate_pool_count": 80,
+      "candidate_pool_sufficient_for_14_targets": true,
+      "target_mapping": {
+        "status": "REFERENCE_AND_80_MODE_POOL_CLOSED_PHYSICAL_MAPPING_OPEN",
+        "reference_target_count": 14,
+        "reference_target_ids": [
+          "LS1",
+          "VA1",
+          "LA1",
+          "TA1",
+          "VS1",
+          "LS2",
+          "TS1",
+          "SIDE1",
+          "SIDE2",
+          "VA2",
+          "LA2",
+          "SIDE3",
+          "TS2",
+          "VS2"
+        ],
+        "reference_sha256": "b3dcd8b2420bfa52bfacb62b43a5a80d5fd7243873c3e4470c58dd59bd54b31f",
+        "evidence_levels": {
+          "A": [
+            "LS1",
+            "VA1",
+            "LA1",
+            "TA1",
+            "VS1",
+            "TS1"
+          ],
+          "B": [
+            "LS2",
+            "VA2",
+            "LA2",
+            "TS2",
+            "VS2"
+          ],
+          "C": [
+            "SIDE1",
+            "SIDE2",
+            "SIDE3"
+          ]
+        },
+        "mode_descriptor_artifact_count": 0,
+        "target_mapping_artifact_count": 0,
+        "report_mac_artifact_count": 0,
+        "physical_target_mapping_closed": false,
+        "mac_against_report_available": false,
+        "mac_unavailable_reason": "附件未提供 R19.2 质量归一化源模态向量，A10 也尚无方向/跨别/对称性描述量与全局一对一分配产物。",
+        "prohibited_claim": "不得把 80 阶结果数闭合或频率近邻替代十四目标物理身份识别，也不得声称报告 MAC 已通过。",
+        "unresolved_item": "需要在 A10/A30 全节点向量上生成可审计方向、S/A、跨域、波腹和局部参与描述量，再按证据等级 A/B/C 做十四目标全局分配。"
+      },
+      "sources": {
+        "properties": {
+          "path": "solver/a10_modal_properties.csv",
+          "sha256": "a9d16eac069a3e4816a293d4be08c59244e12b7fda9bcc8e9e5857d03d34d216"
+        },
+        "set_list": {
+          "path": "solver/a10_modal_set_list.txt",
+          "sha256": "156249304ab702c1d2cf5703aedcbdf1a190d1573461af63f6487b4b92b161fb"
+        },
+        "export_manifest": {
+          "path": "solver/a10_modal_export_manifest.txt",
+          "sha256": "20c56b3950a6fb808f4d2dcb88b6865c4f8483ffb29ecdef6e0a975c83df26c7"
+        },
+        "gate_bottom_sene": {
+          "path": "solver/a10_gate_bottom_modal_sene.csv",
+          "sha256": "14c745562b7d4dd9cc3f96a85448b3f38e9cb3cc1c650dbdde40606a9d0af4d1"
+        }
+      }
+    },
+    "critical_results": {
+      "status": "PASSED",
+      "critical_file_count": 8,
+      "all_nonempty": true,
+      "all_current_hashes_match_final_ledger": true,
+      "modal_vector_ledger_entries": 160,
+      "files": {
+        "equilibrium_database": {
+          "path": "solver/cw_A10_0715t172214_24_eq.db",
+          "size_bytes": 700186624,
+          "sha256": "ad4ff75f99daa21e465a081568f5e7282026c05e83861eec33e7d56afdcb674b",
+          "ledger_match": true
+        },
+        "modal_database": {
+          "path": "solver/cw_A10_0715t172214_24_modal.db",
+          "size_bytes": 272629760,
+          "sha256": "69eb6f94e69c8ef445826e2e3b0220e48bcc12d86793484d0fa486b243030b7b",
+          "ledger_match": true
+        },
+        "static_result": {
+          "path": "solver/cw_A10_0715t172214_24.rst",
+          "size_bytes": 529530880,
+          "sha256": "c533af1a5cf119f43a6b17a7b7e72c4f26e3365e4c8dc5405ea7d4148d80d0cc",
+          "ledger_match": true
+        },
+        "perturbation_result": {
+          "path": "solver/cw_A10_0715t172214_24.rstp",
+          "size_bytes": 3444375552,
+          "sha256": "15a14e680929679d34840e3fb057c5d66c9503e1c3a766a9fa27379273712d78",
+          "ledger_match": true
+        },
+        "modal_vectors_binary": {
+          "path": "solver/cw_A10_0715t172214_24.mode",
+          "size_bytes": 1201602560,
+          "sha256": "6ba455cf3899006c23092cec8f6ea044460163f4a35648ca8c96d1676927479e",
+          "ledger_match": true
+        },
+        "assembled_matrix": {
+          "path": "solver/cw_A10_0715t172214_24.full",
+          "size_bytes": 368377856,
+          "sha256": "a95bdafc13aed17f2b2f2efd00e6803ac3ee500b3fc8d722ea8370a41b593ba5",
+          "ledger_match": true
+        },
+        "database_snapshot": {
+          "path": "solver/cw_A10_0715t172214_24.rdb",
+          "size_bytes": 200278016,
+          "sha256": "5d8e75dca5b896e14d017efcbeaa65d594ec931928fc0aa28d336e02d9025a98",
+          "ledger_match": true
+        },
+        "load_history": {
+          "path": "solver/cw_A10_0715t172214_24.ldhi",
+          "size_bytes": 8751190,
+          "sha256": "289d6cfe18c42aed0b47ec98e67fee4c104672d11ce9a6eab67d7c96aa0da68a",
+          "ledger_match": true
+        }
+      }
+    },
+    "documented_limitations": {
+      "legacy": [
+        {
+          "id": "LEGACY_CERIG_LARGE_DEFLECTION",
+          "description": "legacy CERIG 约束在大变形下的适用性 warning 仍存在；本轮未改变 legacy 连接运动学。"
+        },
+        {
+          "id": "HIGH_COEFFICIENT_RATIO",
+          "description": "静力矩阵系数比超过 1E8，虽无负/零主元且全部收敛，仍保留尺度病态限制。"
+        },
+        {
+          "id": "STEN_SUBSTEP_NUMERIC_HISTORY_UNAVAILABLE",
+          "description": "输入顺序与两次求解器 KEY=OFF 回显证明 LS1/LS2 全历程未启用稳定化，因而任务书全历程控制门禁通过；但 RST 只保存两个端点 VENG，逐子步 STEN 数值表不可恢复。"
+        }
+      ],
+      "full_substep_sten_numeric_history": "两个完整静力载荷步均由输入顺序和两次求解器 KEY=OFF 回显证明 STABILIZE,OFF，因此稳定化能峰值门禁通过；RST 仅保存端点 VENG，逐子步数值曲线不可恢复。",
+      "target_physical_mapping": "需要在 A10/A30 全节点向量上生成可审计方向、S/A、跨域、波腹和局部参与描述量，再按证据等级 A/B/C 做十四目标全局分配。"
+    }
+  },
+  "taskbook_gate_summary": {
+    "schema_version": 1,
+    "status": "PASS_RESULT_REUSE_WITH_DOCUMENTED_LIMITATIONS",
+    "result_reuse_gate": "PASSED",
+    "static": {
+      "ls1_converged": true,
+      "ls2_hold_converged": true,
+      "ls1_endpoint_abs_sten_over_sene": 2.667479851077623e-34,
+      "ls1_endpoint_limit": 0.01,
+      "ls2_abs_sten_over_sene": 2.667479843364189e-34,
+      "ls2_limit": 1e-08,
+      "full_substep_peak_gate_status": "PASSED_BY_DISABLED_STABILIZATION_CONTROL",
+      "full_substep_stabilization_control_bound": 0.0,
+      "full_substep_peak_abs_sten_over_sene_numeric_history": null,
+      "full_substep_numeric_history_available": false,
+      "mass_error_tonne": 1.061380316969007e-09,
+      "mass_limit_tonne": 1e-06,
+      "vertical_support_count": 464,
+      "reaction_relative_error": 1.907675526569801e-11,
+      "reaction_limit": 0.0001
+    },
+    "solver_messages": {
+      "mapdl_errors": 0,
+      "negative_pivots": 0,
+      "zero_pivots": 0,
+      "warning_markers": 5,
+      "all_warnings_disposed": true
+    },
+    "link180": {
+      "actual_count": 73692,
+      "unique_count": 73692,
+      "nonpositive_count": 0,
+      "minimum_force_n": 519006.875
+    },
+    "modal": {
+      "requested": 80,
+      "available_sets": 80,
+      "exported_properties": 80,
+      "displacement_vectors": 80,
+      "rotation_vectors": 80,
+      "band_complete_not_truncated": true,
+      "target_reference_count": 14,
+      "target_physical_mapping_closed": false
+    },
+    "source_integrity": {
+      "status": "PASSED_READ_ONLY_POSTPROCESSING_SOURCES_UNCHANGED",
+      "protected_source_count": 4,
+      "four_source_hashes_current_and_historical": true,
+      "source_metadata_unchanged_during_a30_qa": true,
+      "a10_a20_full_run_metadata_unchanged": true
+    },
+    "critical_results": {
+      "status": "PASSED",
+      "critical_file_count": 8,
+      "modal_vector_ledger_entries": 160
+    },
+    "limitations": [
+      "两个完整静力载荷步均由输入顺序和两次求解器 KEY=OFF 回显证明 STABILIZE,OFF，全历程稳定化能峰值门禁通过；RST 未保存逐子步数值曲线。",
+      "十四目标定义和 80 阶候选池已闭合，但 A10 尚无方向/跨别/对称性描述量与报告源向量 MAC，物理 mapping 未封板。"
+    ]
+  },
+  "equivalence_contract": {
+    "schema_version": 2,
+    "status": "PASSED",
+    "qa_status": "PASS_RESULT_REUSE_WITH_DOCUMENTED_LIMITATIONS",
+    "a30_definition": "A10_H175_AXIS_ONLY + A20_RHS5030_AXIS_ONLY",
+    "a10_physical_change_family": "H175_BEAM188_ORIENTATION_NODE_K_ONLY",
+    "a20_physical_change_required_count": 0,
+    "a30_dependency_identity": "305299d004a24fe00b29aa3c6d4f495da7ca58fcdc30e58f386c8da14508b573",
+    "a10_dependency_identity": "305299d004a24fe00b29aa3c6d4f495da7ca58fcdc30e58f386c8da14508b573",
+    "byte_identical_a30_candidate_to_a10": true,
+    "parent_run_metadata_audit_status": "PASSED",
+    "four_protected_source_hashes_closed": true,
+    "a10_final_status": "PASS_WITH_LEGACY_LIMITATIONS",
+    "a10_result_reuse_gate": "PASSED",
+    "taskbook_full_static_gate_status": "PASSED_BY_DISABLED_STABILIZATION_CONTROL_WITH_NUMERIC_HISTORY_LIMITATION",
+    "modal_numerical_completeness_status": "PASSED",
+    "target_physical_mapping_status": "REFERENCE_AND_80_MODE_POOL_CLOSED_PHYSICAL_MAPPING_OPEN",
+    "duplicate_solver_run_required": false,
+    "duplicate_solver_run_performed": false,
+    "result_reuse_basis": "A20 物理改动为零，A30 与 A10 的 11 项求解依赖字节相同；A10 已正式封板，LS1/LS2、日志、轴力、80 阶模态、能量、源完整性和关键结果均由原始证据复核。",
+    "next_physical_variant": "S10_SECTION_SHEAR",
+    "unresolved_source_items": [
+      "FULL_SUBSTEP_STEN_NUMERIC_CURVE_UNAVAILABLE_GATE_PASSED_BY_OFF_CONTROL",
+      "TARGET_PHYSICAL_MAPPING_AND_REPORT_MAC_OPEN"
+    ]
+  },
+  "outputs": [
+    "A30_status.json",
+    "manifest.json",
+    "result_packet.md",
+    "qa/a30_input_result_equivalence.json",
+    "qa/a30_taskbook_gate_summary.json",
+    "qa/a10_a20_source_metadata_audit.json",
+    "qa/a10_external_completion_qa.json",
+    "qa/field_dictionary.md",
+    "qa/unresolved_source_items.md",
+    "artifact_hashes.sha256"
+  ]
+}

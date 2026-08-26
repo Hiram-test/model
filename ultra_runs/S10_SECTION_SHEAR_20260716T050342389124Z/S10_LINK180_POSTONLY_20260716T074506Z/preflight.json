@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "audit_id": "S10_LINK180_POSTONLY_20260716T074506Z",
+  "generated_utc": "2026-07-16T07:45:08.429820+00:00",
+  "status": "PASSED",
+  "execution_mode": "POST1_ONLY_SMP1",
+  "launch_allowed": true,
+  "process_preflight": {
+    "active_mapdl_or_solution_process_count": 0,
+    "processes": []
+  },
+  "input_preflight": {
+    "path": "s10_link180_post_only.inp",
+    "length_bytes": 5381,
+    "sha256": "3766c2561d44ebee6be0ab721726de124b57f74b1c216d31b0cfb863a5480da8",
+    "line_count": 112,
+    "active_line_count": 58,
+    "forbidden_solve_command_count": 0,
+    "forbidden_solution_processor_command_count": 0,
+    "forbidden_save_command_count": 0,
+    "uncommented_executable_line_count": 0,
+    "has_resume_eq_db": true,
+    "has_static_rst_file_binding": true,
+    "has_ls2_last_set": true,
+    "has_type4_selection": true,
+    "has_smisc1_etable": true,
+    "has_exit_nosave": true
+  },
+  "source_files": [
+    {
+      "role": "equilibrium_database",
+      "path": "../solver/cw_S10_0716t050342_a4_eq.db",
+      "length_bytes": 700186624,
+      "creation_time_utc": "2026-07-16T06:20:02.690294+00:00",
+      "last_write_time_utc": "2026-07-16T06:20:28.220650+00:00",
+      "sha256": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd"
+    },
+    {
+      "role": "static_result",
+      "path": "../solver/cw_S10_0716t050342_a4.rst",
+      "length_bytes": 811335680,
+      "creation_time_utc": "2026-07-16T06:18:22.155356+00:00",
+      "last_write_time_utc": "2026-07-16T06:18:27.925350+00:00",
+      "sha256": "7d4aaff99da55a2f632195cd507c763d2f0c5bc576830fb13b1010472973128b"
+    }
+  ],
+  "source_protection": {
+    "audit_directory_isolated": true,
+    "source_paths_outside_audit_directory": true,
+    "database_save_prohibited": true,
+    "post_run_identity_recheck_required": true
+  },
+  "mapdl": {
+    "executable_path": "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+    "executable_length_bytes": 827608,
+    "executable_sha256": "6c6327f6b906db8e6dd498bd38c97685d7e3e4acf52fccbf243b2dff7ed7af1b",
+    "processes": 1,
+    "parallel_mode": "SMP"
+  }
+}

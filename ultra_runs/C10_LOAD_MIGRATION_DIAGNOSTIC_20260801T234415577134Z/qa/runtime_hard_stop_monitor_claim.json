@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "status": "MONITOR_CLAIMED",
+  "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z",
+  "jobname": "cw_C10madp_0801t234415577134_d1",
+  "claimed_at_utc": "2026-08-01T23:50:30.548958+00:00",
+  "monitor_script": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\input_snapshot\\ultra_c10_adaptive_monitor.py",
+  "monitor_script_sha256": "a46e7fdfbbd20c03245d42d6ad0706501a0e08274b4fc468b0b781ffa5032975",
+  "runtime_launch_sha256": "a4af8fd31d8b666ee39494bb1470e2cc2eefb351794483d4d16eb7ce056e7bb7",
+  "runtime_launch_claim_sha256": "a2ae9e068178423156a4aae9d2363a91b9d854d3893e933a82f35635e357de06",
+  "runtime_process_identity_sha256": "7f44f03b68d841a3eedcfea112f8286dba5381450e7d82a584fbdfed349aa6a5",
+  "manifest_sha256": "52553d813ab6eb6d7ee60003a00278fa32dc0078ef1ec88014e5a9e9f13ce5b1",
+  "prepared_ledger_sha256": "b7a57c28ceb286de2cdc5752c55966b38fab83b6bd55a5c1cb840566cc276e96",
+  "main_process_identity": {
+    "schema_version": 1,
+    "status": "MAIN_PROCESS_IDENTITY_CAPTURED",
+    "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z",
+    "jobname": "cw_C10madp_0801t234415577134_d1",
+    "captured_at_utc": "2026-08-01T23:50:24.998084+00:00",
+    "runtime_launch_sha256": "a4af8fd31d8b666ee39494bb1470e2cc2eefb351794483d4d16eb7ce056e7bb7",
+    "pid": 32568,
+    "create_time_epoch_seconds": 1785628224.9862149,
+    "executable": "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+    "command_line": [
+      "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+      "-b",
+      "-smp",
+      "-np",
+      "1",
+      "-j",
+      "cw_C10madp_0801t234415577134_d1",
+      "-dir",
+      "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\solver",
+      "-i",
+      "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\solver\\c10_load_migration_static_main.inp",
+      "-o",
+      "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\solver\\cw_C10madp_0801t234415577134_d1.out"
+    ]
+  },
+  "initial_related_processes": [
+    {
+      "pid": 32568,
+      "ppid": 52824,
+      "name": "ansys261.exe",
+      "create_time_epoch_seconds": 1785628224.9862149,
+      "executable": "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+      "rss_bytes": 5722112,
+      "vms_bytes": 1171456,
+      "cpu_seconds": 0.03125,
+      "command_line": [
+        "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+        "-b",
+        "-smp",
+        "-np",
+        "1",
+        "-j",
+        "cw_C10madp_0801t234415577134_d1",
+        "-dir",
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\solver",
+        "-i",
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\solver\\c10_load_migration_static_main.inp",
+        "-o",
+        "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\solver\\cw_C10madp_0801t234415577134_d1.out"
+      ]
+    }
+  ],
+  "initial_unrelated_solver_processes": [],
+  "hard_stop_thresholds": {
+    "available_ram_below_bytes": 536870912,
+    "available_ram_below_1_gib_sustained_seconds": 60,
+    "disk_free_below_bytes": 34359738368
+  },
+  "ordinary_ncnv_and_bisection_are_not_hard_stops": true
+}

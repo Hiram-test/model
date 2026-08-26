@@ -1,0 +1,25 @@
+! ============================================================================
+! V2.0 有限刚度拓扑的纯前处理语法检查；不施加载荷、不求静力或模态。
+! 目的：在耗时正式求解前验证 BEAM188 ASEC、方向节点、CERIG 和编号均被 MAPDL 接受。
+! ============================================================================
+/CLEAR,START
+/FILNAME,check_finite_topology
+/PREP7
+! 读取与正式求解相同的基础索网和 BEAM4→BEAM188 转换。
+/INPUT,full_line_beam4_crossbeam_mesh_xlong,inp
+/INPUT,convert_crossbeams_beam4_to_beam188,inp
+! 读取本轮生成的全部 142 品门架和 21 品完整横向通道。
+/INPUT,apply_finite_gates_and_passages_v2,inp
+ALLSEL,ALL
+! 记录前处理后的节点/单元数量，和 Python build_audit 作交叉校核。
+*GET,CHK_N,NODE,0,COUNT
+*GET,CHK_E,ELEM,0,COUNT
+/OUTPUT,check_finite_topology_counts,txt
+*VWRITE,CHK_N,CHK_E
+('NODE_COUNT=',F12.0,', ELEMENT_COUNT=',F12.0)
+/OUTPUT
+! CHECK 对选中模型执行单元形状、材料、实常数和截面完整性检查。
+/PREP7
+CHECK,ESEL
+FINISH
+/EXIT,NOSAVE

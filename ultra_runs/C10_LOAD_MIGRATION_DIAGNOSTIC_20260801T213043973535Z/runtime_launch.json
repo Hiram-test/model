@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T213043973535Z",
+  "jobname": "cw_C10m_0801t213043_d1",
+  "status": "EXACT_VERIFIED_MIGRATION_DIAGNOSTIC_PROCESSES_STOPPED",
+  "started_at_utc": "2026-08-01T21:35:05.334047+00:00",
+  "main_pid": 42584,
+  "actual_solver_pid": 54524,
+  "stopped_at_utc": "2026-08-01T21:45:21.3915685+00:00",
+  "stop_reason": "LS2_FIRST_5_PERCENT_LOAD_POSITION_MIGRATION_DIVERGED_AFTER_LS1_BETA_1_CONVERGED",
+  "exact_run_and_job_command_lines_verified_before_stop": true,
+  "static_result_obtained": false,
+  "modal_execution_attempted": false,
+  "execution_mode": "SMP_SERIAL_NP1_DIAGNOSTIC_ONLY",
+  "launch_argv": [
+    "D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe",
+    "-b",
+    "-smp",
+    "-np",
+    "1",
+    "-j",
+    "cw_C10m_0801t213043_d1",
+    "-dir",
+    "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T213043973535Z\\solver",
+    "-i",
+    "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T213043973535Z\\solver\\c10_load_migration_static_main.inp",
+    "-o",
+    "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T213043973535Z\\solver\\cw_C10m_0801t213043_d1.out"
+  ],
+  "prelaunch_resources": {
+    "physical_memory_total_bytes": 16556494848,
+    "physical_memory_available_bytes": 6782828544,
+    "formal_8_gib_gate_passed": false,
+    "diagnostic_4_gib_exception_gate_passed": true,
+    "disk_free_bytes": 55807324160,
+    "disk_50_gib_gate_passed": true,
+    "conflicting_solver_process_count": 0
+  },
+  "resource_gate_exception": "FORMAL_8_GIB_FAILED_DIAGNOSTIC_ONLY",
+  "production_claim_allowed": false,
+  "monitor_hard_stops": {
+    "available_ram_below_bytes": 536870912,
+    "available_ram_below_1_gib_sustained_seconds": 60,
+    "disk_free_below_bytes": 34359738368
+  }
+}

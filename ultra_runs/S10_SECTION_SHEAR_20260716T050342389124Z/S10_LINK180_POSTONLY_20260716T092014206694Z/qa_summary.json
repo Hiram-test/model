@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "audit_id": "S10_LINK180_POSTONLY_20260716T092014206694Z",
+  "generated_utc": "2026-07-16T09:20:34.412881+00:00",
+  "status": "PASSED",
+  "gate_passed": true,
+  "hard_blocker_closed": "LINK180_NONPOSITIVE_AXIAL_FORCE_REVIEW",
+  "publication_mode": "HIDDEN_STAGING_ATOMIC_RENAME",
+  "execution": {
+    "mode": "POST1_ONLY_SMP1",
+    "mapdl_exit_code": 0,
+    "processes": 1,
+    "input_path": "s10_link180_post_only.inp",
+    "input_sha256": "b74d41239ab8fee6b18412cef123712d47d4aae31e31e24290d7660e7523698e",
+    "input_forbidden_command_count": 0,
+    "input_allowlist_exact_match": true,
+    "uncommented_executable_line_count": 0,
+    "non_chinese_comment_line_count": 0,
+    "mapdl_warning_count": 0,
+    "mapdl_error_count": 0,
+    "mapdl_fatal_count": 0,
+    "negative_pivot_count": 0,
+    "zero_pivot_count": 0,
+    "summary_warning_counts": [
+      0
+    ],
+    "summary_error_counts": [
+      0
+    ],
+    "err_length_bytes": 80,
+    "exit_without_saving_confirmed": true,
+    "out_sha256": "2ed56a82a2a4ecb090d24072956ee56ff8b26dba1f2145e8d3370210f807d5c8",
+    "err_sha256": "2a939f2d6ab3777c9c7041476fe1c16dd920a7bc1091dd511e97e706c1fcfa4b"
+  },
+  "result_set": {
+    "load_step": 2,
+    "substep": 1,
+    "time": 1.001,
+    "basis": "S10 final no-stabilization LS2 hold state used by perturbation modal analysis"
+  },
+  "link180_axial_force": {
+    "result_item": "SMISC,1",
+    "unit": "N",
+    "expected_count": 73692,
+    "actual_count": 73692,
+    "written_count": 73692,
+    "csv_row_count": 73692,
+    "unique_element_count": 73692,
+    "duplicate_element_count": 0,
+    "invalid_numeric_line_count": 0,
+    "nonpositive_count": 0,
+    "minimum_force_n": 519002.6875,
+    "minimum_element_id": 70029,
+    "maximum_force_n": 1573314.125,
+    "maximum_element_id": 400003,
+    "csv_sha256": "80bf13d4648d23ca064ef3a8d1fe8f79be8092d8274e3ecfe9954da52485c47b",
+    "summary_gate_value": 1,
+    "csv_path": "s10_link180_axial_force_n.csv"
+  },
+  "source_integrity": {
+    "source_integrity_passed": true,
+    "postflight_path": "postflight_source_integrity.json",
+    "equilibrium_database_sha256_before_after": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd",
+    "static_result_sha256_before_after": "7d4aaff99da55a2f632195cd507c763d2f0c5bc576830fb13b1010472973128b"
+  },
+  "orchestrator": {
+    "snapshot_path": "ultra_s10_link180_postonly.py",
+    "sha256": "db0f039678659e296fe5b73cf201879bb6f49ff20245717462e08b62553f301c"
+  },
+  "artifact_hash_manifest": "artifact_hashes.sha256",
+  "artifact_hash_manifest_excludes": [
+    "artifact_hashes.sha256"
+  ]
+}

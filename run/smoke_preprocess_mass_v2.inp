@@ -1,0 +1,83 @@
+! ============================================================================
+! V2.0 完整前处理冒烟：只建立结构、约束、权威恒载和空间化 MASS21，不进入静力求解。
+! 目的：防止质量 include 的选择/删除命令误删 LINK180 或 BEAM188，并核对代表索节点连通。
+! ============================================================================
+/CLEAR,START
+/FILNAME,attachment23_v2_mass_smoke
+/TITLE,V2.0 Mass Include Full Preprocessing Smoke Test
+
+! 依照正式主输入的相同次序读取基础索网、横梁、下拉索、约束和权威初始索力。
+/INPUT,full_line_beam4_crossbeam_mesh_xlong,inp
+/INPUT,convert_crossbeams_beam4_to_beam188,inp
+/INPUT,apply_mct_downpull_equivalent_xlong,inp
+/INPUT,apply_mct_constraints_xlong,inp
+/INPUT,apply_mct_authoritative_initial_state_link180,inp
+
+! 读取 V2.0 有限门架与完整横通道；该文件新增 TYPE=70 的 17,679 根 BEAM188。
+/INPUT,apply_finite_gates_and_passages_v2,inp
+/INPUT,apply_modal_roty_stabilization_xlong,inp
+/INPUT,define_representative_rope_component,inp
+
+! 权威恒载先定义原 FZ；空间化文件随后只删除自身 TYPE=71 旧质量并重建 MASS21。
+/INPUT,apply_authoritative_mct_deadload_v1,inp
+/INPUT,apply_dynamic_mass21_spatialized_v2,inp
+/INPUT,apply_authoritative_mct_gravity_v1,inp
+
+/PREP7
+ALLSEL,ALL
+
+! TYPE=4 是经权威初始状态文件转换后的 LINK180；预期含底索、门架索和4根下拉索。
+ESEL,S,TYPE,,4
+*GET,V2_SMOKE_LINK180,ELEM,0,COUNT
+
+! TYPE=6 是基础模型48,620根横梁，TYPE=70 是新增17,679根门架/横通道梁。
+ESEL,S,TYPE,,6
+*GET,V2_SMOKE_BEAM_BASE,ELEM,0,COUNT
+ESEL,S,TYPE,,70
+*GET,V2_SMOKE_BEAM_NEW,ELEM,0,COUNT
+V2_SMOKE_BEAM188=V2_SMOKE_BEAM_BASE+V2_SMOKE_BEAM_NEW
+
+! TYPE=71 是本次空间化的所有正质量节点；预期与逐节点 CSV 的33,003行一致。
+ESEL,S,TYPE,,71
+*GET,V2_SMOKE_MASS21,ELEM,0,COUNT
+
+! 恢复全选后统计总单元数；三类实体总和应为172,994。
+ALLSEL,ALL
+*GET,V2_SMOKE_TOTAL,ELEM,0,COUNT
+
+! 节点11681是第一品横通道附近的代表门架索节点；只检查与其直接相连的 TYPE=4 索单元。
+NSEL,S,NODE,,11681
+ESLN,S,0,ALL
+ESEL,R,TYPE,,4
+*GET,V2_SMOKE_NODE11681_LINK,ELEM,0,COUNT
+ALLSEL,ALL
+
+! PASS 标志初值为1；任一拓扑计数不符时置0，输出文件可由脚本无歧义读取。
+V2_SMOKE_PASS=1
+*IF,V2_SMOKE_LINK180,NE,73692,THEN
+  V2_SMOKE_PASS=0
+*ENDIF
+*IF,V2_SMOKE_BEAM188,NE,66299,THEN
+  V2_SMOKE_PASS=0
+*ENDIF
+*IF,V2_SMOKE_MASS21,NE,33003,THEN
+  V2_SMOKE_PASS=0
+*ENDIF
+*IF,V2_SMOKE_TOTAL,NE,172994,THEN
+  V2_SMOKE_PASS=0
+*ENDIF
+*IF,V2_SMOKE_NODE11681_LINK,NE,2,THEN
+  V2_SMOKE_PASS=0
+*ENDIF
+
+! 输出各分项而不是只写PASS，便于定位以后基础模型或有限拓扑的正常版本变化。
+/OUTPUT,v2_mass_preprocess_smoke_counts,txt
+*VWRITE,V2_SMOKE_PASS,V2_SMOKE_LINK180,V2_SMOKE_BEAM_BASE,V2_SMOKE_BEAM_NEW
+('PASS_FLAG=',F3.0,', LINK180=',F12.0,', BEAM188_BASE=',F12.0,', BEAM188_NEW=',F12.0)
+*VWRITE,V2_SMOKE_BEAM188,V2_SMOKE_MASS21,V2_SMOKE_TOTAL,V2_SMOKE_NODE11681_LINK
+('BEAM188_TOTAL=',F12.0,', MASS21=',F12.0,', ELEMENT_TOTAL=',F12.0,', NODE11681_LINK180=',F6.0)
+/OUTPUT
+
+ALLSEL,ALL
+FINISH
+/EXIT,NOSAVE

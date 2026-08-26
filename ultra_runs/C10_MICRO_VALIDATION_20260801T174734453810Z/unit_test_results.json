@@ -1,0 +1,857 @@
+{
+  "schema_version": 2,
+  "status": "MICRO_VALIDATION_PASSED_FULL_BRIDGE_NOT_RUN",
+  "prepare_run": "C10_MPC_ONLY_20260801T174455429550Z",
+  "execution_run": "C10_MICRO_VALIDATION_20260801T174734453810Z",
+  "planned_case_count": 15,
+  "completed_case_count": 15,
+  "passed_case_count": 15,
+  "failed_case_count": 0,
+  "mapdl_execution_attempted": true,
+  "mapdl_started": true,
+  "constraint_imposition": "DIRECT_ELIMINATION",
+  "penalty_n_per_mm": null,
+  "full_bridge_static_status": "NOT_RUN",
+  "full_bridge_modal_status": "NOT_RUN",
+  "valid_for_production": false,
+  "thresholds": {
+    "max_relative_translation_slip_mm": 1e-09,
+    "finite_rotation_rodrigues_displacement_error_mm": 1e-06,
+    "force_equilibrium_absolute_tolerance_n": 1e-08,
+    "moment_equilibrium_absolute_tolerance_n_mm": 1e-06,
+    "all_slave_translation_and_rotation_max_abs": 1e-10,
+    "automatic_cnvtol_reset_allowed": false,
+    "zero_or_negative_pivot_allowed": false
+  },
+  "cases": [
+    {
+      "case_id": "UXYZ-FX",
+      "case_family": "UXYZ_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "translation_slip_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "released_rotation_path_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "translation_slip_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_translation_slip_mm": 0.0,
+        "force_residual_xyz_n": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_force_residual_n": 0.0,
+        "moment_residual_xyz_n_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_moment_residual_n_mm": 0.0,
+        "released_rotation_error_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_released_rotation_error_rad": 0.0
+      },
+      "input_sha256": "bad3fbc5d8df282be83d30d802bf0375dc1be1c707727041eff0ae9a045cdc68",
+      "output_sha256": "abc31555552c891c4e3ea5eac54e8108ed409c368ed9ac6a087c4221cab30a61",
+      "result_sha256": "e5de796c68ce8cad7fedf9295c103afb7a2979c972c0a7c30f1b3870611fe861"
+    },
+    {
+      "case_id": "UXYZ-FY",
+      "case_family": "UXYZ_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "translation_slip_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "released_rotation_path_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "translation_slip_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_translation_slip_mm": 0.0,
+        "force_residual_xyz_n": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_force_residual_n": 0.0,
+        "moment_residual_xyz_n_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_moment_residual_n_mm": 0.0,
+        "released_rotation_error_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_released_rotation_error_rad": 0.0
+      },
+      "input_sha256": "1d7d6881656c80628420e65be5e371d8c7d13577453e04857cf012586aff39d4",
+      "output_sha256": "acdf9a997db1c4155cacb34a96db6550306829e5c6e37703e4be949e76811358",
+      "result_sha256": "1c5b7d0f5f52fd5c6a191037872ae49ba1873f6094fe8e1862019e5dd7cc498a"
+    },
+    {
+      "case_id": "UXYZ-FZ",
+      "case_family": "UXYZ_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "translation_slip_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "released_rotation_path_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "translation_slip_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_translation_slip_mm": 0.0,
+        "force_residual_xyz_n": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_force_residual_n": 0.0,
+        "moment_residual_xyz_n_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_moment_residual_n_mm": 0.0,
+        "released_rotation_error_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_released_rotation_error_rad": 0.0
+      },
+      "input_sha256": "9bf78f534efd377133359beb893dca270b55576790ada036ee8cdfd7fb33a5b5",
+      "output_sha256": "e62302f7ecc7488f0edd08fd2e4c0ab825f31c04fbcf04640a75170ae1074a78",
+      "result_sha256": "47cddba04aa8c602ab4befb6d2a34ab0413b7218fc9d3572cfc27464a785d017"
+    },
+    {
+      "case_id": "UXYZ-MX",
+      "case_family": "UXYZ_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "translation_slip_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "released_rotation_path_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "translation_slip_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_translation_slip_mm": 0.0,
+        "force_residual_xyz_n": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_force_residual_n": 0.0,
+        "moment_residual_xyz_n_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_moment_residual_n_mm": 0.0,
+        "released_rotation_error_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_released_rotation_error_rad": 0.0
+      },
+      "input_sha256": "6eaa07e9f49c782383141b6a5259fc4be18fd542e3f1c718e2a0ada8c3cee7c7",
+      "output_sha256": "4c730e6a910e986359f2c24bd12bdfe8a9d373c1a00f2d153fd855b643ccb100",
+      "result_sha256": "fd4642f35ba5d6f275681f9c8977f40a0dda6c3df7e003d49a57a547b17bfa60"
+    },
+    {
+      "case_id": "UXYZ-MY",
+      "case_family": "UXYZ_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "translation_slip_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "released_rotation_path_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "translation_slip_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_translation_slip_mm": 0.0,
+        "force_residual_xyz_n": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_force_residual_n": 0.0,
+        "moment_residual_xyz_n_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_moment_residual_n_mm": 0.0,
+        "released_rotation_error_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_released_rotation_error_rad": 0.0
+      },
+      "input_sha256": "972123914229035ce50ff249ac3b541dbf6053bc6b4f59ee6b60b0e94cca33c2",
+      "output_sha256": "24635bfc72a44c305becb29dd9163651bad67062238b04d5cb0b202e6e5f63e9",
+      "result_sha256": "8e504ca1e03e6b89cb83831c3d5635cda13c6a9fe7aa9958a361290474826cf9"
+    },
+    {
+      "case_id": "UXYZ-MZ",
+      "case_family": "UXYZ_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "translation_slip_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "released_rotation_path_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "translation_slip_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_translation_slip_mm": 0.0,
+        "force_residual_xyz_n": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_force_residual_n": 0.0,
+        "moment_residual_xyz_n_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_moment_residual_n_mm": 0.0,
+        "released_rotation_error_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_released_rotation_error_rad": 0.0
+      },
+      "input_sha256": "b56d743f22ab2cd0412d12e8966d3bf13ff33e58877b0e4aeeefe267f2db3d4c",
+      "output_sha256": "3173433646ac2b3a75a3438b8baa33ab1083c93f72276892daf0ebddb7df13d5",
+      "result_sha256": "34df1e5ca7cb94ca84d65d31984beebb61591c8a8fe7e47d818cc4c895e53f1f"
+    },
+    {
+      "case_id": "FINITE-RX",
+      "case_family": "UXYZ_FINITE_ROTATION_KINEMATICS",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "rodrigues_displacement_within_limit": true,
+        "translation_slip_within_limit": true,
+        "prescribed_rotation_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "expected_displacement_xyz_mm": [
+          0.0,
+          -46.91920749022961,
+          -62.39796734908401
+        ],
+        "aux_displacement_error_xyz_mm": [
+          0.0,
+          -1.0658141036401503e-13,
+          -5.684341886080802e-14
+        ],
+        "slave_displacement_error_xyz_mm": [
+          0.0,
+          -1.0658141036401503e-13,
+          -5.684341886080802e-14
+        ],
+        "max_rodrigues_displacement_error_mm": 1.0658141036401503e-13,
+        "translation_slip_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_translation_slip_mm": 0.0,
+        "master_rotation_error_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_master_rotation_error_rad": 0.0
+      },
+      "input_sha256": "32502997707bc330295af4873a558e2a1ac465418fe7d91b17b6ca14508d3802",
+      "output_sha256": "ae32c9b2b57a80d796315b458c77a975b33e8edeea891833a6322d50fd4d3a6b",
+      "result_sha256": "40d9e880b9516116f4ed1dde59af19063a78556d97c4ad27e943448c0cfeb971"
+    },
+    {
+      "case_id": "FINITE-RY",
+      "case_family": "UXYZ_FINITE_ROTATION_KINEMATICS",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "rodrigues_displacement_within_limit": true,
+        "translation_slip_within_limit": true,
+        "prescribed_rotation_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "expected_displacement_xyz_mm": [
+          45.92004054583481,
+          0.0,
+          -82.3646506784496
+        ],
+        "aux_displacement_error_xyz_mm": [
+          1.1368683772161603e-13,
+          0.0,
+          -1.1368683772161603e-13
+        ],
+        "slave_displacement_error_xyz_mm": [
+          1.1368683772161603e-13,
+          0.0,
+          -1.1368683772161603e-13
+        ],
+        "max_rodrigues_displacement_error_mm": 1.1368683772161603e-13,
+        "translation_slip_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_translation_slip_mm": 0.0,
+        "master_rotation_error_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_master_rotation_error_rad": 0.0
+      },
+      "input_sha256": "1b8e3f2b21933ceb8e46153f78e0bfadf992b5033ebd87c3735e2ef3c9108569",
+      "output_sha256": "2e8e30b94fad580d5140423da4b0ddb60071488ff185164919f17479c8e5cf19",
+      "result_sha256": "31a0cbcbb319aa95c0ab346024f2bfa0e29f8e606eb83a810c038df954a43ded"
+    },
+    {
+      "case_id": "FINITE-RZ",
+      "case_family": "UXYZ_FINITE_ROTATION_KINEMATICS",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "rodrigues_displacement_within_limit": true,
+        "translation_slip_within_limit": true,
+        "prescribed_rotation_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "expected_displacement_xyz_mm": [
+          55.90338221051752,
+          82.86423415064701,
+          0.0
+        ],
+        "aux_displacement_error_xyz_mm": [
+          -1.1368683772161603e-13,
+          4.547473508864641e-13,
+          0.0
+        ],
+        "slave_displacement_error_xyz_mm": [
+          -1.1368683772161603e-13,
+          4.547473508864641e-13,
+          0.0
+        ],
+        "max_rodrigues_displacement_error_mm": 4.547473508864641e-13,
+        "translation_slip_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_translation_slip_mm": 0.0,
+        "master_rotation_error_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_master_rotation_error_rad": 0.0
+      },
+      "input_sha256": "daf31b40ea074139c5f48d85b02dd4e78cac8e957566c83e8817c41876a7e397",
+      "output_sha256": "2a01f1acf4c4b758ebd0ba12af8e681a695094f9f38055c641a1c68d369e36f6",
+      "result_sha256": "e4d1b6664562ceb9651df70c8aed75c4e82f632f0103de9bbc428079febde79c"
+    },
+    {
+      "case_id": "ALL-FX",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "all_slave_six_dof_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "slave_translation_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "slave_rotation_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_slave_six_dof_motion": 0.0,
+        "force_residual_xyz_n": [
+          2.613475482587439e-25,
+          -7.140713612178925e-39,
+          -1.7920090344516992e-39
+        ],
+        "max_force_residual_n": 2.613475482587439e-25,
+        "moment_residual_xyz_n_mm": [
+          4.28590459276428e-36,
+          1.306737741293721e-22,
+          -2.0897855136341815e-23
+        ],
+        "max_moment_residual_n_mm": 1.306737741293721e-22,
+        "coefficient_ratio_warning": false
+      },
+      "input_sha256": "7b4cac2a165bd0ac590ab211160ab1a9df8de18e2c42a0261386472dcff8854c",
+      "output_sha256": "57c734c8bcddc6c0f783ca5d9d18b2533ffd9aac70d300ed30fa410e99cd9910",
+      "result_sha256": "c20a1affca756941bb7bcd306b185bcb38eaa52550b130fb4939f170bd15c245"
+    },
+    {
+      "case_id": "ALL-FY",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "all_slave_six_dof_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "slave_translation_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "slave_rotation_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_slave_six_dof_motion": 0.0,
+        "force_residual_xyz_n": [
+          -2.23464463216601e-24,
+          4.177288888792736e-41,
+          -1.7920090344516992e-39
+        ],
+        "max_force_residual_n": 2.23464463216601e-24,
+        "moment_residual_xyz_n_mm": [
+          -8.041273858718068e-38,
+          -1.117322316083003e-21,
+          -2.0897855136341815e-23
+        ],
+        "max_moment_residual_n_mm": 1.117322316083003e-21,
+        "coefficient_ratio_warning": false
+      },
+      "input_sha256": "ebe0563a88ca445b9000cc8609d6fe4140b33c1c1553a327bc35aefe1bd69fdd",
+      "output_sha256": "2c73c820600cb90356cbe7a8dbc29580fc3f4d3126fdc8eaf3d82791e4fb06a2",
+      "result_sha256": "3d95330431bee7bbf0226b1a2790f79138c773b8c5199e189c3bc56d4b03df65"
+    },
+    {
+      "case_id": "ALL-FZ",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 1,
+      "coefficient_ratio_warning": false,
+      "warning_disposition": "REFERENCE_CONVERGENCE_WARNING_WITH_EXACT_EXTERNAL_CHECKS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "all_slave_six_dof_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "slave_translation_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "slave_rotation_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_slave_six_dof_motion": 0.0,
+        "force_residual_xyz_n": [
+          -2.23464463216601e-24,
+          -7.140713612178925e-39,
+          -1.079085963839041e-40
+        ],
+        "max_force_residual_n": 2.23464463216601e-24,
+        "moment_residual_xyz_n_mm": [
+          -8.041273858718068e-38,
+          1.306737741293721e-22,
+          -1.1617287664037548e-21
+        ],
+        "max_moment_residual_n_mm": 1.1617287664037548e-21,
+        "coefficient_ratio_warning": false
+      },
+      "input_sha256": "93b79a2692d433481fb7d0054e0a1b944e85bb2d4c95d1146c743c861e3c2d7f",
+      "output_sha256": "be9b804e844314dd2958e23d0ed16d2603861599e4d75e7a495d2bec43b5f2aa",
+      "result_sha256": "a5633a01e14b57d176de9ec9bea358040cec187d6bab99fa85d156bc628db46a"
+    },
+    {
+      "case_id": "ALL-MX",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 2,
+      "coefficient_ratio_warning": true,
+      "warning_disposition": "ACCEPTED_MICRO_FIXTURE_ONLY_IF_ALL_NUMERICAL_AND_PIVOT_GATES_PASS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "all_slave_six_dof_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "slave_translation_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "slave_rotation_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_slave_six_dof_motion": 0.0,
+        "force_residual_xyz_n": [
+          -2.23464463216601e-24,
+          -7.140713612178925e-39,
+          -1.7920090344516992e-39
+        ],
+        "max_force_residual_n": 2.23464463216601e-24,
+        "moment_residual_xyz_n_mm": [
+          -8.041273858718068e-38,
+          -1.117322316083003e-21,
+          -1.1617287664037548e-21
+        ],
+        "max_moment_residual_n_mm": 1.1617287664037548e-21,
+        "coefficient_ratio_warning": true
+      },
+      "input_sha256": "80a623c13972375dbbd2188474c736a18ce9134143eb97f9d5112e7e66645096",
+      "output_sha256": "ea7a215f1e0bbd15ba2069710336cce980b2cd0c87204292607525afb9d59fe2",
+      "result_sha256": "8fa98f58a048da1578fce9a3f44b7c029838f2c44c8a31375265db5dc9c75c1b"
+    },
+    {
+      "case_id": "ALL-MY",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 2,
+      "coefficient_ratio_warning": true,
+      "warning_disposition": "ACCEPTED_MICRO_FIXTURE_ONLY_IF_ALL_NUMERICAL_AND_PIVOT_GATES_PASS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "all_slave_six_dof_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "slave_translation_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "slave_rotation_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_slave_six_dof_motion": 0.0,
+        "force_residual_xyz_n": [
+          -2.23464463216601e-24,
+          -7.140713612178925e-39,
+          -1.7920090344516992e-39
+        ],
+        "max_force_residual_n": 2.23464463216601e-24,
+        "moment_residual_xyz_n_mm": [
+          4.28590459276428e-36,
+          1.306737741293721e-22,
+          -1.1617287664037548e-21
+        ],
+        "max_moment_residual_n_mm": 1.1617287664037548e-21,
+        "coefficient_ratio_warning": true
+      },
+      "input_sha256": "9f6149056cb883cb651efc69492fd4e6d8d26567c85dd64c61c0194a361e5fd8",
+      "output_sha256": "1e11dd11f81b7e17a9c9533ca5cdd0225f89eadcdb069abfb79e883bb8d162ad",
+      "result_sha256": "39a077412331210b242dfe2c92a57fc0726e855f61273bce004ea0dc235a2899"
+    },
+    {
+      "case_id": "ALL-MZ",
+      "case_family": "ALL_SIX_AXIS_LOAD_TRANSFER",
+      "status": "PASSED",
+      "warning_count": 2,
+      "coefficient_ratio_warning": true,
+      "warning_disposition": "ACCEPTED_MICRO_FIXTURE_ONLY_IF_ALL_NUMERICAL_AND_PIVOT_GATES_PASS",
+      "log_checks": {
+        "exit_code_zero": true,
+        "run_completed": true,
+        "error_count_zero": true,
+        "fatal_marker_absent": true,
+        "result_file_present": true,
+        "automatic_cnvtol_reset_absent": true,
+        "zero_pivot_absent": true,
+        "negative_pivot_absent": true,
+        "passed": true
+      },
+      "numeric_checks": {
+        "all_slave_six_dof_within_limit": true,
+        "force_equilibrium_within_limit": true,
+        "moment_equilibrium_within_limit": true,
+        "passed": true
+      },
+      "metrics": {
+        "slave_translation_xyz_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "slave_rotation_xyz_rad": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_slave_six_dof_motion": 0.0,
+        "force_residual_xyz_n": [
+          -2.23464463216601e-24,
+          -7.140713612178925e-39,
+          -1.7920090344516992e-39
+        ],
+        "max_force_residual_n": 2.23464463216601e-24,
+        "moment_residual_xyz_n_mm": [
+          4.28590459276428e-36,
+          -1.117322316083003e-21,
+          -2.0897855136341815e-23
+        ],
+        "max_moment_residual_n_mm": 1.117322316083003e-21,
+        "coefficient_ratio_warning": true
+      },
+      "input_sha256": "d4e255d0bec358e8b07d7617088ab7743ce936eea9b5d15149748188aaf003ef",
+      "output_sha256": "31dc1c727a23983af83046ed41c101a7916478a07e96314677d07ce68ba2914a",
+      "result_sha256": "1f5c92d3960c4ae529a9171d81164453b4a3ea4102a2707e375011a293048c66"
+    }
+  ],
+  "next_action": "FULL_BRIDGE_INITIAL_STATE_LOAD_PATH_DIAGNOSTIC_AFTER_RESOURCE_GATE"
+}

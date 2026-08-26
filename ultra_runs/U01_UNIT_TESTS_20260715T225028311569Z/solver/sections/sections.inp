@@ -1,0 +1,241 @@
+/CLEAR,NOSTART ! 清空数据库但不重启 MAPDL，保证截面算例不继承任何项目模型或旧截面表。
+/FILNAME,cw_u01_03_0715t225028_8a ! 使用准备器注入的唯一作业名，隔离本算例的 DB、RST、日志和临时文件。
+/TITLE,U01 ASEC NATIVE SECTION SHEAR ! 标题说明本算例验证六类截面的属性、原生剪切因子和短梁柔度。
+/PREP7 ! 进入前处理器，以定义六个原生参考截面、六个 ASEC 和十二根短悬臂梁。
+ET,1,BEAM188 ! 定义唯一 BEAM188 类型，使所有截面对照共享同一种单元公式。
+KEYOPT,1,3,3 ! 使用三次插值，降低单单元短梁的弯曲离散误差并保持与全桥 TYPE 6/70 一致。
+MP,EX,1,206000 ! 定义钢材弹性模量 206000 N/mm^2，作为全部短梁与解析式的共同输入。
+MP,PRXY,1,0.31 ! 定义泊松比 0.31，以便由 E/[2(1+nu)] 唯一计算剪切模量。
+SECTYPE,1,BEAM,I,H175N ! 定义 H175 原生 I 形参考截面，仅用于提取 MAPDL 积分属性和剪切因子。
+SECDATA,175,175,175,11,11,7.5 ! 输入上下翼缘宽 175 mm、总高 175 mm、翼缘厚 11 mm 和腹板厚 7.5 mm。
+SECTYPE,2,BEAM,HREC,R160N ! 定义 RHS160×160×4 原生空心矩形参考截面。
+SECDATA,160,160,4,4,4,4 ! 输入 160 mm 外宽高及四面 4 mm 壁厚，数值来自任务书冻结截面。
+SECTYPE,3,BEAM,CTUBE,C152N ! 定义 Φ152×6 原生圆管参考截面。
+SECDATA,70,76,120 ! 输入 70/76 mm 内外半径并用 120 个周向积分分段提高属性精度。
+SECTYPE,4,BEAM,CTUBE,C102N ! 定义 Φ102×4 原生圆管参考截面。
+SECDATA,47,51,120 ! 输入 47/51 mm 内外半径并采用 120 个周向积分分段。
+SECTYPE,5,BEAM,CTUBE,C51N ! 定义 Φ51×4 原生圆管参考截面。
+SECDATA,21.5,25.5,120 ! 输入 21.5/25.5 mm 内外半径并采用 120 个周向积分分段。
+SECTYPE,6,BEAM,HREC,R5030N ! 定义 RHS50×30×4 原生空心矩形参考截面。
+SECDATA,50,30,4,4,4,4 ! 输入 50 mm local-y 外宽、30 mm local-z 外高和四面 4 mm 壁厚。
+SECTYPE,61,BEAM,ASEC,H175A ! 定义保持冻结惯性矩次序的 H175 ASEC，禁止交换 Iyy/Izz 追强轴。
+SECDATA,4997.5,9830899.739583334,0,28164706.458333332,66066802083.333336,176798.95833333334,0,0,0,0,175,175,0.6712958043168660,0.2363842696133852 ! 输入目标 A/I/J，并把原生 I 截面的 y/z 剪切因子按物理旋转映射到目标局部轴。
+SECTYPE,62,BEAM,ASEC,R160A ! 定义 RHS160×160×4 的目标 ASEC。
+SECDATA,2496,10130432,0,10130432,0,15185664,0,0,0,0,160,160,0.4260313674231808,0.4260313674224075 ! 输入目标 A/I/J 和原生截面两方向剪切修正因子。
+SECTYPE,63,BEAM,ASEC,C152A ! 定义 Φ152×6 的目标 ASEC。
+SECDATA,2752.035164544659,7345181.854169695,0,7345181.854169695,0,14690363.70833939,0,0,0,0,152,152,0.5014069989778299,0.5014069989777504 ! 输入解析几何属性与原生圆管双向剪切因子。
+SECTYPE,64,BEAM,ASEC,C102A ! 定义 Φ102×4 的目标 ASEC。
+SECDATA,1231.5043202071988,1480883.9450491567,0,1480883.9450491567,0,2961767.8900983133,0,0,0,0,102,102,0.5013879262913112,0.5013879262914291 ! 输入解析几何属性与原生圆管双向剪切因子。
+SECTYPE,65,BEAM,ASEC,C51A ! 定义 Φ51×4 的目标 ASEC。
+SECDATA,590.6194188748811,164266.0258745763,0,164266.0258745763,0,328532.0517491526,0,0,0,0,51,51,0.5060286117392122,0.5060286117392480 ! 输入解析几何属性，并保留原生短管约 0.506 的双向剪切因子而非静默写成 0.5。
+SECTYPE,66,BEAM,ASEC,R5030A ! 定义 RHS50×30×4 的目标 ASEC。
+SECDATA,576,75232,0,176672,0,158935.11111111112,0,0,0,0,30,50,0.2874280543410113,0.6098841965465526 ! 输入目标 A/I/J 和原生空心矩形两方向剪切因子。
+*DIM,NPROP,ARRAY,6,6 ! 分配 6×6 原生属性数组，列依次为 A、Iyy、Izz、J、SCyy、SCzz。
+*DIM,APROP,ARRAY,6,6 ! 分配 6×6 ASEC 属性数组，用同一列序实现逐项机器比较。
+*DO,II,1,6,1 ! 遍历六类截面，直接从 MAPDL 截面数据库读取双精度积分属性。
+*GET,NPROP(II,1),SECP,II,PROP,AREA ! 读取原生截面的面积，单位 mm^2。
+*GET,NPROP(II,2),SECP,II,PROP,IYY ! 读取原生截面的 Iyy，单位 mm^4。
+*GET,NPROP(II,3),SECP,II,PROP,IZZ ! 读取原生截面的 Izz，单位 mm^4。
+*GET,NPROP(II,4),SECP,II,PROP,TORS ! 读取原生截面的扭转常数 J，单位 mm^4。
+*GET,NPROP(II,5),SECP,II,PROP,SCYY ! 读取原生截面的 xy 剪切修正因子，对应 ASEC 的 TSxy。
+*GET,NPROP(II,6),SECP,II,PROP,SCZZ ! 读取原生截面的 xz 剪切修正因子，对应 ASEC 的 TSxz。
+ASECID=60+II ! 将循环索引映射为 61 至 66 的目标 ASEC 编号。
+*GET,APROP(II,1),SECP,ASECID,PROP,AREA ! 读取 ASEC 面积，验证生成器输入没有字段错位。
+*GET,APROP(II,2),SECP,ASECID,PROP,IYY ! 读取 ASEC Iyy，验证冻结截面数值未被交换。
+*GET,APROP(II,3),SECP,ASECID,PROP,IZZ ! 读取 ASEC Izz，验证冻结截面数值未被交换。
+*GET,APROP(II,4),SECP,ASECID,PROP,TORS ! 读取 ASEC 扭转常数 J，验证目标属性完整保留。
+*GET,APROP(II,5),SECP,ASECID,PROP,SCYY ! 读取 ASEC xy 剪切修正因子，供原生映射对照。
+*GET,APROP(II,6),SECP,ASECID,PROP,SCZZ ! 读取 ASEC xz 剪切修正因子，供原生映射对照。
+*ENDDO ! 结束六类截面的双精度属性读取循环。
+*CFOPEN,u01_section_properties,csv ! 打开属性 CSV；每行由截面序号和两套六项属性组成。
+*DO,II,1,6,1 ! 遍历六类截面，将原生和 ASEC 属性按固定列序逐行输出。
+IDOUT=II ! 将当前截面序号复制到普通数值标量，避免使用 APDL 不支持的整数输出描述符。
+NAOUT=NPROP(II,1) ! 将当前原生截面面积复制到标量，阻止 *VWRITE 隐式续写后续数组行。
+NIYOUT=NPROP(II,2) ! 将当前原生截面 Iyy 复制到标量，确保每次循环只输出当前截面。
+NIZOUT=NPROP(II,3) ! 将当前原生截面 Izz 复制到标量，确保输出行与截面序号一一对应。
+NJOUT=NPROP(II,4) ! 将当前原生截面扭转常数 J 复制到标量，避免数组自动递增。
+NSYOUT=NPROP(II,5) ! 将当前原生截面 y 向剪切因子复制到标量，固定本行列序。
+NSZOUT=NPROP(II,6) ! 将当前原生截面 z 向剪切因子复制到标量，固定本行列序。
+AAOUT=APROP(II,1) ! 将当前 ASEC 面积复制到标量，禁止 *VWRITE 自动遍历 ASEC 数组。
+AIYOUT=APROP(II,2) ! 将当前 ASEC Iyy 复制到标量，确保只写出一个截面的属性。
+AIZOUT=APROP(II,3) ! 将当前 ASEC Izz 复制到标量，确保只写出一个截面的属性。
+AJOUT=APROP(II,4) ! 将当前 ASEC 扭转常数 J 复制到标量，保持目标属性列稳定。
+ASYOUT=APROP(II,5) ! 将当前 ASEC y 向剪切因子复制到标量，供原生映射门禁读取。
+ASZOUT=APROP(II,6) ! 将当前 ASEC z 向剪切因子复制到标量，供原生映射门禁读取。
+*VWRITE,IDOUT,NAOUT,NIYOUT,NIZOUT,NJOUT,NSYOUT,NSZOUT,AAOUT,AIYOUT,AIZOUT,AJOUT,ASYOUT,ASZOUT ! 仅写出十三个标量；紧随的纯格式行用 F4.0 表示数值序号并写十二项科学计数值。
+(F4.0,12(',',ES24.15))
+*ENDDO ! 结束属性 CSV 的六行输出循环。
+*CFCLOS ! 关闭属性 CSV，确保所有双精度截面数据完整落盘。
+*DIM,AREA6,ARRAY,6 ! 分配六项面积数组，供短梁 Timoshenko 解析式使用。
+*DIM,IYY6,ARRAY,6 ! 分配六项 Iyy 数组，供 local-z 加载的弯曲项使用。
+*DIM,IZZ6,ARRAY,6 ! 分配六项 Izz 数组，供 local-y 加载的弯曲项使用。
+*DIM,TSXZ6,ARRAY,6 ! 分配六项 xz 剪切因子数组，供 local-z 加载使用。
+*DIM,TSXY6,ARRAY,6 ! 分配六项 xy 剪切因子数组，供 local-y 加载使用。
+AREA6(1)=4997.5 ! 写入 H175 面积 4997.5 mm^2。
+AREA6(2)=2496 ! 写入 RHS160 面积 2496 mm^2。
+AREA6(3)=2752.035164544659 ! 写入 Φ152×6 面积 2752.035164544659 mm^2。
+AREA6(4)=1231.5043202071988 ! 写入 Φ102×4 面积 1231.5043202071988 mm^2。
+AREA6(5)=590.6194188748811 ! 写入 Φ51×4 面积 590.6194188748811 mm^2。
+AREA6(6)=576 ! 写入 RHS50×30 面积 576 mm^2。
+IYY6(1)=9830899.739583334 ! 写入 H175 未交换的弱轴 Iyy。
+IYY6(2)=10130432 ! 写入 RHS160 的 Iyy。
+IYY6(3)=7345181.854169695 ! 写入 Φ152×6 的 Iyy。
+IYY6(4)=1480883.9450491567 ! 写入 Φ102×4 的 Iyy。
+IYY6(5)=164266.0258745763 ! 写入 Φ51×4 的 Iyy。
+IYY6(6)=75232 ! 写入 RHS50×30 的弱轴 Iyy。
+IZZ6(1)=28164706.458333332 ! 写入 H175 未交换的强轴 Izz。
+IZZ6(2)=10130432 ! 写入 RHS160 的 Izz。
+IZZ6(3)=7345181.854169695 ! 写入 Φ152×6 的 Izz。
+IZZ6(4)=1480883.9450491567 ! 写入 Φ102×4 的 Izz。
+IZZ6(5)=164266.0258745763 ! 写入 Φ51×4 的 Izz。
+IZZ6(6)=176672 ! 写入 RHS50×30 的强轴 Izz。
+TSXZ6(1)=0.6712958043168660 ! 写入 H175 local-z 水平剪切修正因子。
+TSXZ6(2)=0.4260313674231808 ! 写入 RHS160 local-z 剪切修正因子。
+TSXZ6(3)=0.5014069989778299 ! 写入 Φ152×6 local-z 剪切修正因子。
+TSXZ6(4)=0.5013879262913112 ! 写入 Φ102×4 local-z 剪切修正因子。
+TSXZ6(5)=0.5060286117392122 ! 写入 Φ51×4 local-z 剪切修正因子。
+TSXZ6(6)=0.2874280543410113 ! 写入 RHS50×30 local-z 剪切修正因子。
+TSXY6(1)=0.2363842696133852 ! 写入 H175 local-y 竖向剪切修正因子。
+TSXY6(2)=0.4260313674224075 ! 写入 RHS160 local-y 剪切修正因子。
+TSXY6(3)=0.5014069989777504 ! 写入 Φ152×6 local-y 剪切修正因子。
+TSXY6(4)=0.5013879262914291 ! 写入 Φ102×4 local-y 剪切修正因子。
+TSXY6(5)=0.5060286117392480 ! 写入 Φ51×4 local-y 剪切修正因子。
+TSXY6(6)=0.6098841965465526 ! 写入 RHS50×30 local-y 剪切修正因子。
+BLEN=500 ! 将短悬臂长度设为 500 mm，使剪切变形具有可辨识占比而非被长梁弯曲淹没。
+PLOAD=1000 ! 将每根短梁自由端集中力设为 1000 N，保持线弹性且提高小位移分辨率。
+*DO,II,1,6,1 ! 为六类 ASEC 各建立 local-y 与 local-z 两根互不连接的短悬臂。
+BASE=II*100 ! 为当前截面分配不重叠的百位节点和单元编号区间。
+YOFF=II*2000 ! 按 2000 mm 间隔布置不同截面，避免任何节点或单元意外共点。
+N,BASE+1,0,YOFF,0 ! 建立 local-y 工况的固定端物理节点。
+N,BASE+2,BLEN,YOFF,0 ! 建立 local-y 工况的自由端物理节点。
+N,BASE+3,0,YOFF,100 ! 建立方向节点，使梁轴为 +X 且 local-z 为 +Z、local-y 为 +Y。
+TYPE,1 ! 激活唯一 BEAM188 类型，保持六类截面使用相同单元设置。
+MAT,1 ! 激活统一钢材材料，避免材料差异混入截面柔度比较。
+SECNUM,60+II ! 激活当前目标 ASEC，编号依次为 61 至 66。
+EN,BASE+1,BASE+1,BASE+2,BASE+3 ! 创建 local-y 短悬臂单元并显式指定方向节点。
+D,BASE+1,ALL,0 ! 固定 local-y 短悬臂根部全部六个结构自由度。
+F,BASE+2,FY,PLOAD ! 在自由端沿 local-y 施力，响应应使用 Izz 与 TSxy。
+N,BASE+11,0,YOFF+500,0 ! 建立 local-z 工况的固定端物理节点，并与前一工况错开 500 mm。
+N,BASE+12,BLEN,YOFF+500,0 ! 建立 local-z 工况的自由端物理节点。
+N,BASE+13,0,YOFF+500,100 ! 建立方向节点，使第二根梁保持相同 local-y/local-z 定义。
+TYPE,1 ! 继续激活同一 BEAM188 类型，使第二方向只改变载荷而不改变数值设置。
+MAT,1 ! 继续激活同一钢材材料，使双向柔度具有共同的 E 与 G。
+SECNUM,60+II ! 继续使用同一目标 ASEC，禁止按加载方向更换或交换截面参数。
+EN,BASE+11,BASE+11,BASE+12,BASE+13 ! 创建 local-z 短悬臂单元并显式指定方向节点。
+D,BASE+11,ALL,0 ! 固定 local-z 短悬臂根部全部六个结构自由度。
+F,BASE+12,FZ,PLOAD ! 在自由端沿 local-z 施力，响应应使用 Iyy 与 TSxz。
+*ENDDO ! 结束十二根短悬臂的几何、方向、边界和载荷创建循环。
+*DO,II,1,6,1 ! 为六类原生截面各建立 local-y 与 local-z 两根独立短梁，形成任务书要求的原生/ASEC 直接对照。
+NBASE=10000+II*100 ! 为当前原生截面分配与 ASEC 梁完全分离的五位节点和单元编号区间。
+YOFF=II*2000 ! 复用当前截面的纵向布置基准，并在横向增加偏移以杜绝原生梁与 ASEC 梁意外共点。
+N,NBASE+1,0,YOFF+1000,0 ! 建立原生截面 local-y 工况的固定端物理节点。
+N,NBASE+2,BLEN,YOFF+1000,0 ! 建立原生截面 local-y 工况的自由端物理节点。
+KDY=0 ! 默认把原生截面方向节点的全局 Y 偏移设为 0 mm，使 local-z 指向全局 +Z。
+KDZ=100 ! 默认把原生截面方向节点的全局 Z 偏移设为 100 mm，使五类非 H175 截面与 ASEC 采用相同局部轴。
+*IF,II,EQ,1,THEN ! H175 原生 I 截面需相对生产 ASEC 绕梁轴物理旋转 90 度，进入唯一方向调整分支。
+KDY=-100 ! H175 原生方向节点改为全局 -Y 偏移 100 mm，使同一全局 FY/FZ 载荷直接对应生产 ASEC 的物理强弱轴。
+KDZ=0 ! H175 原生方向节点的全局 Z 偏移归零，避免方向向量同时含 Y/Z 分量。
+*ENDIF ! 结束 H175 原生截面 90 度方向调整分支。
+N,NBASE+3,0,YOFF+1000+KDY,KDZ ! 建立原生截面 local-y 工况方向节点；H175 指向 -Y，其余五类指向 +Z。
+TYPE,1 ! 激活同一 BEAM188 类型，确保原生/ASEC 对照只改变截面表达而不改变单元公式。
+MAT,1 ! 激活同一钢材材料，确保原生/ASEC 对照具有完全相同的 E 与泊松比。
+SECNUM,II ! 激活当前原生截面，编号依次为 1 至 6。
+EN,NBASE+1,NBASE+1,NBASE+2,NBASE+3 ! 创建原生截面 local-y 短悬臂单元并显式指定方向节点。
+D,NBASE+1,ALL,0 ! 固定原生截面 local-y 短梁根部全部六个结构自由度。
+F,NBASE+2,FY,PLOAD ! 在原生截面自由端沿 local-y 施加 1000 N 集中力。
+N,NBASE+11,0,YOFF+1500,0 ! 建立原生截面 local-z 工况的固定端物理节点，并与同截面其他梁保持 500 mm 间距。
+N,NBASE+12,BLEN,YOFF+1500,0 ! 建立原生截面 local-z 工况的自由端物理节点。
+N,NBASE+13,0,YOFF+1500+KDY,KDZ ! 建立原生截面 local-z 工况方向节点，并沿用当前截面的同一物理旋转规则。
+TYPE,1 ! 继续激活同一 BEAM188 类型，禁止通过单元设置改变原生截面柔度。
+MAT,1 ! 继续激活同一钢材材料，禁止材料差异混入第二方向比较。
+SECNUM,II ! 继续使用当前原生截面，禁止按加载方向更换截面定义。
+EN,NBASE+11,NBASE+11,NBASE+12,NBASE+13 ! 创建原生截面 local-z 短悬臂单元并显式指定方向节点。
+D,NBASE+11,ALL,0 ! 固定原生截面 local-z 短梁根部全部六个结构自由度。
+F,NBASE+12,FZ,PLOAD ! 在原生截面自由端沿 local-z 施加 1000 N 集中力。
+*ENDDO ! 结束十二根原生短梁的几何、方向、边界和载荷创建循环。
+FINISH ! 退出前处理器，完成六类原生/ASEC 属性和二十四根短梁模型定义。
+/SOLU ! 进入求解器，执行二十四根互不连接短悬臂的线弹性静力分析。
+ANTYPE,STATIC ! 选择静力分析，并保持 NLGEOM 关闭以与一阶 Timoshenko 解析式一致。
+OUTRES,ALL,LAST ! 只保存唯一末结果集，避免多载荷步身份混淆。
+SOLVE ! 求解二十四根短梁，并形成可供双向原生/ASEC 柔度门禁读取的位移、转角和反力结果。
+FINISH ! 退出求解器，准备读取自由端位移并计算解析解。
+/POST1 ! 进入通用后处理器，读取唯一静力结果集。
+SET,LAST ! 显式选择最后结果集，防止读取到不存在或隐式结果集。
+*DIM,UY6,ARRAY,6 ! 分配六项 local-y MAPDL 位移数组。
+*DIM,UZ6,ARRAY,6 ! 分配六项 local-z MAPDL 位移数组。
+*DIM,DY6,ARRAY,6 ! 分配六项 local-y Timoshenko 解析位移数组。
+*DIM,DZ6,ARRAY,6 ! 分配六项 local-z Timoshenko 解析位移数组。
+*DIM,NUY6,ARRAY,6 ! 分配六项原生截面 local-y 数值位移数组，供直接柔度对照使用。
+*DIM,NUZ6,ARRAY,6 ! 分配六项原生截面 local-z 数值位移数组，供直接柔度对照使用。
+GMOD=206000/(2*(1+0.31)) ! 由 E=206000 N/mm^2 和泊松比 0.31 计算剪切模量 G。
+*DO,II,1,6,1 ! 遍历六类截面，读取双向位移并计算含剪切项的解析值。
+BASE=II*100 ! 恢复当前截面的百位节点编号基址。
+*GET,UY6(II),NODE,BASE+2,U,Y ! 读取 local-y 短梁自由端位移，单位 mm。
+*GET,UZ6(II),NODE,BASE+12,U,Z ! 读取 local-z 短梁自由端位移，单位 mm。
+NBASE=10000+II*100 ! 恢复当前原生截面的五位节点编号基址。
+*GET,NUY6(II),NODE,NBASE+2,U,Y ! 读取原生截面 local-y 短梁自由端位移，单位 mm。
+*GET,NUZ6(II),NODE,NBASE+12,U,Z ! 读取原生截面 local-z 短梁自由端位移，单位 mm。
+DY6(II)=PLOAD*BLEN**3/(3*206000*IZZ6(II))+PLOAD*BLEN/(TSXY6(II)*GMOD*AREA6(II)) ! 计算 local-y 弯曲加剪切解析位移。
+DZ6(II)=PLOAD*BLEN**3/(3*206000*IYY6(II))+PLOAD*BLEN/(TSXZ6(II)*GMOD*AREA6(II)) ! 计算 local-z 弯曲加剪切解析位移。
+*ENDDO ! 结束六类截面的双向位移读取与解析计算循环。
+*CFOPEN,u01_section_deflections,csv ! 打开七列短梁 CSV，依次输出截面序号及两向 MAPDL 值、解析值和相对误差。
+*DO,II,1,6,1 ! 遍历六类截面，将双向 MAPDL 与解析位移逐行写出。
+ERRY=ABS((UY6(II)-DY6(II))/DY6(II)) ! 计算当前截面 local-y 位移相对误差。
+ERRZ=ABS((UZ6(II)-DZ6(II))/DZ6(II)) ! 计算当前截面 local-z 位移相对误差。
+IDOUT=II ! 将当前截面序号复制到数值标量，避免 APDL 整数格式输出为星号。
+UYOUT=UY6(II) ! 将当前 local-y MAPDL 位移复制到标量，阻止数组隐式续写后续截面。
+DYOUT=DY6(II) ! 将当前 local-y 解析位移复制到标量，保证与数值位移位于同一行。
+UZOUT=UZ6(II) ! 将当前 local-z MAPDL 位移复制到标量，阻止数组隐式续写后续截面。
+DZOUT=DZ6(II) ! 将当前 local-z 解析位移复制到标量，保证与数值位移位于同一行。
+*VWRITE,IDOUT,UYOUT,DYOUT,ERRY,UZOUT,DZOUT,ERRZ ! 仅写出七个标量；紧随的纯格式行用 F4.0 表示数值序号并写六项科学计数值。
+(F4.0,6(',',ES24.15))
+*ENDDO ! 结束六行短梁柔度结果输出循环。
+*CFCLOS ! 关闭短梁 CSV，确保全部机器可读结果完整写盘。
+*CFOPEN,u01_section_native_deflections,csv ! 打开十四列原生/ASEC 柔度 CSV，分别保存总位移、扣弯曲后的剪切位移、误差和方向映射代码。
+*DO,II,1,6,1 ! 遍历六类截面，将相同全局 FY/FZ 下的 ASEC 与原生截面响应逐项直接比较。
+NCOMPY=NUY6(II) ! 把原生梁全局 Y 位移作为 ASEC 全局 Y 位移的同物理方向对照值。
+NCOMPZ=NUZ6(II) ! 把原生梁全局 Z 位移作为 ASEC 全局 Z 位移的同物理方向对照值。
+NBIY=NPROP(II,3) ! 默认用原生 Izz 计算全局 Y 工况的弯曲位移，因为五类截面的局部轴与 ASEC 同向。
+NBIZ=NPROP(II,2) ! 默认用原生 Iyy 计算全局 Z 工况的弯曲位移，因为五类截面的局部轴与 ASEC 同向。
+MAPCODE=0 ! 默认映射代码 0 表示原生与 ASEC 使用相同方向节点，截面局部轴不旋转。
+*IF,II,EQ,1,THEN ! H175 原生梁方向节点已相对 ASEC 绕梁轴旋转 90 度，因此进入弯曲惯性映射分支。
+NBIY=NPROP(II,2) ! H175 全局 Y 工况对应旋转后原生截面的 Iyy，与生产 ASEC 的 Izz 表示同一物理强轴。
+NBIZ=NPROP(II,3) ! H175 全局 Z 工况对应旋转后原生截面的 Izz，与生产 ASEC 的 Iyy 表示同一物理弱轴。
+MAPCODE=1 ! 映射代码 1 明确记录 H175 原生方向节点已物理旋转 90 度，但比较仍使用相同全局 FY/FZ。
+*ENDIF ! 结束 H175 原生截面弯曲惯性映射分支。
+NTOTERRY=ABS((UY6(II)-NCOMPY)/NCOMPY) ! 计算 ASEC 与原生截面全局 Y 总位移的无量纲相对差。
+NTOTERRZ=ABS((UZ6(II)-NCOMPZ)/NCOMPZ) ! 计算 ASEC 与原生截面全局 Z 总位移的无量纲相对差。
+ASHEARY=UY6(II)-PLOAD*BLEN**3/(3*206000*IZZ6(II)) ! 从 ASEC 全局 Y 总位移扣除按冻结 Izz 计算的弯曲项，得到剪切位移。
+ASHEARZ=UZ6(II)-PLOAD*BLEN**3/(3*206000*IYY6(II)) ! 从 ASEC 全局 Z 总位移扣除按冻结 Iyy 计算的弯曲项，得到剪切位移。
+NSHEARY=NCOMPY-PLOAD*BLEN**3/(3*206000*NBIY) ! 从原生全局 Y 总位移扣除其物理对应惯性矩的弯曲项，得到原生剪切位移。
+NSHEARZ=NCOMPZ-PLOAD*BLEN**3/(3*206000*NBIZ) ! 从原生全局 Z 总位移扣除其物理对应惯性矩的弯曲项，得到原生剪切位移。
+NSHERRY=ABS((ASHEARY-NSHEARY)/NSHEARY) ! 计算全局 Y 方向 ASEC 与原生剪切位移的无量纲相对差，主门槛为 0.5%。
+NSHERRZ=ABS((ASHEARZ-NSHEARZ)/NSHEARZ) ! 计算全局 Z 方向 ASEC 与原生剪切位移的无量纲相对差，主门槛为 0.5%。
+IDOUT=II ! 将当前截面序号复制到标量，保证输出编号严格连续 1 至 6。
+UYOUT=UY6(II) ! 将当前 ASEC 全局 Y 总位移复制到标量，避免数组参数在 *VWRITE 中自动展开。
+NYOUT=NCOMPY ! 将当前原生截面全局 Y 总位移复制到标量。
+UZOUT=UZ6(II) ! 将当前 ASEC 全局 Z 总位移复制到标量，避免数组参数在 *VWRITE 中自动展开。
+NZOUT=NCOMPZ ! 将当前原生截面全局 Z 总位移复制到标量。
+*VWRITE,IDOUT,UYOUT,NYOUT,NTOTERRY,ASHEARY,NSHEARY,NSHERRY,UZOUT,NZOUT,NTOTERRZ,ASHEARZ,NSHEARZ,NSHERRZ,MAPCODE ! 写十四列纯数值记录，供 Python 独立重算总位移差与剪切位移差。
+(F4.0,12(',',ES24.15),',',F4.0)
+*ENDDO ! 结束六行原生/ASEC 总位移与剪切位移直接对照输出循环。
+*CFCLOS ! 关闭原生/ASEC 柔度 CSV，确保六行十四列结果完整落盘。
+*CFOPEN,u01_section_torsion_audit,csv ! 打开九列无寄生扭转 CSV，记录四根梁的自由端 ROTX 与根部 MX。
+*DO,II,1,6,1 ! 遍历六类截面，读取 ASEC 和原生两方向短梁的扭转转角与根部扭矩。
+BASE=II*100 ! 恢复当前 ASEC 截面的百位节点编号基址。
+NBASE=10000+II*100 ! 恢复当前原生截面的五位节点编号基址。
+*GET,ARY,NODE,BASE+2,ROT,X ! 用 MAPDL 节点转角的合法 ROT,X 分量读取 ASEC 全局 Y 工况自由端 ROTX，单位 rad。
+*GET,AMY,NODE,BASE+1,RF,MX ! 读取 ASEC 全局 Y 工况根部关于全局 X 的反力矩，单位 N·mm。
+*GET,ARZ,NODE,BASE+12,ROT,X ! 用 MAPDL 节点转角的合法 ROT,X 分量读取 ASEC 全局 Z 工况自由端 ROTX，单位 rad。
+*GET,AMZ,NODE,BASE+11,RF,MX ! 读取 ASEC 全局 Z 工况根部关于全局 X 的反力矩，单位 N·mm。
+*GET,NRY,NODE,NBASE+2,ROT,X ! 用 MAPDL 节点转角的合法 ROT,X 分量读取原生截面全局 Y 工况自由端 ROTX，单位 rad。
+*GET,NMY,NODE,NBASE+1,RF,MX ! 读取原生截面全局 Y 工况根部关于全局 X 的反力矩，单位 N·mm。
+*GET,NRZ,NODE,NBASE+12,ROT,X ! 用 MAPDL 节点转角的合法 ROT,X 分量读取原生截面全局 Z 工况自由端 ROTX，单位 rad。
+*GET,NMZ,NODE,NBASE+11,RF,MX ! 读取原生截面全局 Z 工况根部关于全局 X 的反力矩，单位 N·mm。
+IDOUT=II ! 将当前截面序号复制到标量，保证扭转审计输出严格连续 1 至 6。
+*VWRITE,IDOUT,ARY,AMY,ARZ,AMZ,NRY,NMY,NRZ,NMZ ! 写出九个纯数值标量，证明质心横向加载没有激发截面扭转或根部扭矩。
+(F4.0,8(',',ES24.15))
+*ENDDO ! 结束六行无寄生扭转审计输出循环。
+*CFCLOS ! 关闭无寄生扭转 CSV，确保六行九列结果完整落盘。
+FINISH ! 退出后处理器，完成六类截面的属性和剪切柔度验证。
+/EXIT,NOSAVE ! 正常退出且不保存 DB，避免截面小算例被误认作全桥模型。

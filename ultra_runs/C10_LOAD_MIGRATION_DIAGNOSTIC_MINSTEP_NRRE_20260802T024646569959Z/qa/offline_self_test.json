@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "PASSED",
+  "writes_performed": false,
+  "mapdl_execution_attempted": false,
+  "parent_run": "C10_MPC_ONLY_20260801T190630474559Z",
+  "parent_main_sha256": "e537c411581ec86a7df4cccc0f5fa93450182f06e41084256fd0a11299155e94",
+  "micro_validation_run": "C10_MICRO_VALIDATION_20260801T190634755506Z",
+  "micro_validation_status": "MICRO_VALIDATION_PASSED_FULL_BRIDGE_NOT_RUN",
+  "authorization_run": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T222546216597Z",
+  "authorized_minimum_migration_fraction": 0.0005,
+  "candidate_sha256": "4d9959b3c124b0f7b0ece7779ae1e3e26fe07a847d2482b3a9106e663ba0cb3e",
+  "candidate_size_bytes": 32401,
+  "correction_include_sha256": "7a8c359c3f332f7b214b6f51e5e26ebf80899b15418388250033cfdc4e76d9d0",
+  "correction_include_size_bytes": 2614780,
+  "correction_node_count": 15071,
+  "rendered_correction_sum_n": "2.08526E-10",
+  "ls1_nsubst": [
+    1,
+    1,
+    1
+  ],
+  "ls2_nsubst": [
+    1,
+    1,
+    1
+  ],
+  "ls2_beta_end": 0.9995,
+  "ls2_time_end": 1.0000005,
+  "nldiag": {
+    "label": "NRRE",
+    "status": "ON",
+    "maxfile": 50,
+    "expected_filename_glob": "cw_C10mnr_selftest_d1.nr[0-9][0-9][0-9]",
+    "enabled_after_ls1_convergence": true,
+    "residual_use": "NODE_RESIDUAL_LOCALIZATION_ONLY"
+  },
+  "execute_script_sha256": "55f39935f0c2ce7c3768dedcd2476a39e77add4649888060eff351a63e28ab68",
+  "monitor_script_sha256": "50c7c7c439aec9c04ed1db8b542f87f7345ba36ab2232a8b5843f35fee8726ee",
+  "forbidden_process_calls": [],
+  "modal_commands_present": false,
+  "production_claim_allowed": false,
+  "prepared_candidate_sha256": "ff7fcf0705e25814b27d5be07509193d39e60a84b83b87949e2972868fb23aa7",
+  "prepared_at_utc": "2026-08-02T02:46:46.569959+00:00"
+}

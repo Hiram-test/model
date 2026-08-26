@@ -1,0 +1,265 @@
+{
+  "schema_version": 1,
+  "run_id": "C10_MPC_ONLY",
+  "run_name": "C10_MPC_ONLY_20260801T111124274535Z",
+  "model_line": "FINAL_S10_PLUS_MPC184_CONNECTION_PATCH_ONLY",
+  "status": "STATIC_PREPARE_GATE_PASSED_VALIDATION_PENDING",
+  "created_at_utc": "2026-08-01T11:11:24.274535+00:00",
+  "parent_run": "S10_SECTION_SHEAR_20260716T050342389124Z",
+  "parent_include_sha256": "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330",
+  "jobname": "cw_C10_0801t111124_c1",
+  "main_input": "solver/c10_mpc_only_main.inp",
+  "main_input_sha256": "8868104f9470cfa63e67bf2e30215a8ff10a14404b8b046275480d97fb566aaf",
+  "controlled_include": "solver/apply_finite_gates_and_passages_v2.inp",
+  "controlled_include_sha256": "b0c1934bfb30f8ee6a4441d95f0ee97456057f72b021ee6896fb6f105ea9c09c",
+  "modes_requested": 80,
+  "frequency_bounds_hz": null,
+  "from_scratch_static": true,
+  "ls1_time": 1.0,
+  "ls2_time": 1.001,
+  "baseline_penalty_n_per_mm": 50000000000.0,
+  "dependencies": [
+    {
+      "order": 1,
+      "name": "full_line_beam4_crossbeam_mesh_xlong.inp",
+      "change_class": "BYTE_INVARIANT",
+      "parent_name": "full_line_beam4_crossbeam_mesh_xlong.inp",
+      "parent_sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+      "input_snapshot_sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+      "solver_sha256": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 2,
+      "name": "convert_crossbeams_beam4_to_beam188.inp",
+      "change_class": "BYTE_INVARIANT",
+      "parent_name": "convert_crossbeams_beam4_to_beam188.inp",
+      "parent_sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+      "input_snapshot_sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+      "solver_sha256": "2b78c42fea4d7bd234794aeb620a7453a5f20bca5b4e735208fc1c514b7f919f",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 3,
+      "name": "apply_mct_downpull_equivalent_xlong.inp",
+      "change_class": "BYTE_INVARIANT",
+      "parent_name": "apply_mct_downpull_equivalent_xlong.inp",
+      "parent_sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+      "input_snapshot_sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+      "solver_sha256": "41e7282e8858626a111854c703d459baabe6541d4ca70d0771fd3a5dea8a58d3",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 4,
+      "name": "apply_mct_constraints_xlong.inp",
+      "change_class": "BYTE_INVARIANT",
+      "parent_name": "apply_mct_constraints_xlong.inp",
+      "parent_sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+      "input_snapshot_sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+      "solver_sha256": "aaabb8bf3f6ebfe075b7c5a2ffb837d1b0cd1cb8f5bcd397c5473b87db550022",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 5,
+      "name": "apply_mct_authoritative_initial_state_link180.inp",
+      "change_class": "BYTE_INVARIANT",
+      "parent_name": "apply_mct_authoritative_initial_state_link180.inp",
+      "parent_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+      "input_snapshot_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+      "solver_sha256": "d5958628a0e5b3159114aab35811bd2cceaffdc5ae865a4a295e359674ed9b53",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 6,
+      "name": "apply_finite_gates_and_passages_v2.inp",
+      "change_class": "CONTROLLED_CONNECTION_REPLACEMENT",
+      "parent_name": "apply_finite_gates_and_passages_v2.inp",
+      "parent_sha256": "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330",
+      "input_snapshot_sha256": "b0c1934bfb30f8ee6a4441d95f0ee97456057f72b021ee6896fb6f105ea9c09c",
+      "solver_sha256": "b0c1934bfb30f8ee6a4441d95f0ee97456057f72b021ee6896fb6f105ea9c09c",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 7,
+      "name": "apply_modal_roty_stabilization_xlong.inp",
+      "change_class": "BYTE_INVARIANT",
+      "parent_name": "apply_modal_roty_stabilization_xlong.inp",
+      "parent_sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+      "input_snapshot_sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+      "solver_sha256": "14b470525a3927233d4ec9da23b1b40c68e60611c767ae3c29758c728a08a253",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 8,
+      "name": "define_representative_rope_component.inp",
+      "change_class": "BYTE_INVARIANT",
+      "parent_name": "define_representative_rope_component.inp",
+      "parent_sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+      "input_snapshot_sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+      "solver_sha256": "647672b0e39eb1d5ecdf934d467771c34c038dd400e6737a0726d41999ca708f",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 9,
+      "name": "apply_authoritative_mct_deadload_v1.inp",
+      "change_class": "BYTE_INVARIANT",
+      "parent_name": "apply_authoritative_mct_deadload_v1.inp",
+      "parent_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+      "input_snapshot_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+      "solver_sha256": "3feb7eec692762d8324865611ae600a39e4b13cd777d8d5bb29896b2e1a1223e",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 10,
+      "name": "apply_dynamic_mass21_spatialized_v2.inp",
+      "change_class": "BYTE_INVARIANT",
+      "parent_name": "apply_dynamic_mass21_spatialized_v2.inp",
+      "parent_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+      "input_snapshot_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+      "solver_sha256": "4f9cf3cac4d1b032abccf0c3dcca208f3a9e5c7d064b25fb47ebcdd3e6bcbc9f",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 11,
+      "name": "apply_authoritative_mct_gravity_v1.inp",
+      "change_class": "BYTE_INVARIANT",
+      "parent_name": "apply_authoritative_mct_gravity_v1.inp",
+      "parent_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+      "input_snapshot_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+      "solver_sha256": "33238c02d9f8a0c7bfb4cd2d777e866453f5d51e5084254e21c09353337edb5e",
+      "all_expected_hashes_match": true
+    },
+    {
+      "order": 12,
+      "name": "c10_mpc_only_main.inp",
+      "change_class": "CONTROLLED_RUNTIME_IDENTITY_AND_TOPOLOGY_AUDIT",
+      "parent_name": "s10_section_shear_main.inp",
+      "parent_sha256": "fbfc0501ea21278c0ea65d3733ce220912b89a5a2e3a5bb06679c5f8f77009e8",
+      "input_snapshot_sha256": "8868104f9470cfa63e67bf2e30215a8ff10a14404b8b046275480d97fb566aaf",
+      "solver_sha256": "8868104f9470cfa63e67bf2e30215a8ff10a14404b8b046275480d97fb566aaf",
+      "all_expected_hashes_match": true
+    }
+  ],
+  "single_difference_contract": {
+    "schema_version": 1,
+    "status": "PASSED",
+    "parent_run": "S10_SECTION_SHEAR_20260716T050342389124Z",
+    "physical_change_family_count": 1,
+    "physical_change_family": "CERIG_TO_MPC184_LARGE_ROTATION_CONNECTION_KINEMATICS_ONLY",
+    "invariant_dependency_count": 10,
+    "controlled_dependency_count": 1,
+    "include_reversible_audit": {
+      "schema_version": 1,
+      "status": "PASSED",
+      "source_sha256": "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330",
+      "candidate_sha256": "b0c1934bfb30f8ee6a4441d95f0ee97456057f72b021ee6896fb6f105ea9c09c",
+      "canonicalized_sha256": "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330",
+      "canonicalized_equals_source_bytes": true,
+      "source_cerig_count": 5078,
+      "candidate_cerig_count": 0,
+      "aux_node_count": 3124,
+      "mpc184_type72_count": 5078,
+      "mpc184_type73_count": 3124,
+      "mpc184_total_count": 8202,
+      "allowed_change_family_count": 1,
+      "allowed_change_family": "CERIG_TO_MPC184_LARGE_ROTATION_CONNECTION_KINEMATICS_ONLY"
+    },
+    "main_control_reversible_audit": {
+      "schema_version": 1,
+      "status": "PASSED",
+      "source_sha256": "fbfc0501ea21278c0ea65d3733ce220912b89a5a2e3a5bb06679c5f8f77009e8",
+      "candidate_sha256": "8868104f9470cfa63e67bf2e30215a8ff10a14404b8b046275480d97fb566aaf",
+      "canonicalized_sha256": "fbfc0501ea21278c0ea65d3733ce220912b89a5a2e3a5bb06679c5f8f77009e8",
+      "canonicalized_equals_source_bytes": true,
+      "identity_changes": [
+        "S10_TO_C10_LABELS",
+        "UNIQUE_JOBNAME",
+        "OUTPUT_PREFIXES",
+        "THREE_C10_DOCUMENTATION_LINES"
+      ],
+      "topology_changes": {
+        "node_count": [
+          109086,
+          112210
+        ],
+        "element_count": [
+          172994,
+          181196
+        ],
+        "type72_expected": 5078,
+        "type73_expected": 3124
+      },
+      "added_runtime_audits": [
+        "TYPE72_COUNT",
+        "TYPE73_COUNT",
+        "V2_MPC184_E_ELIST"
+      ],
+      "unchanged_control_contract": [
+        "DEPENDENCY_ORDER",
+        "LS1_STATIC_FROM_ZERO",
+        "LS2_HOLD",
+        "NLGEOM",
+        "PSTRES",
+        "LANB_80_NO_FREQUENCY_CAP",
+        "MXPAND_ELEMENT_CALC",
+        "NSOL_VECTOR_EXPORT",
+        "VENG_HISTORY_EXPORT"
+      ]
+    },
+    "allowed_changes": {
+      "cerig_removed": 5078,
+      "aux_nodes_added": 3124,
+      "type72_added": 5078,
+      "type73_added": 3124,
+      "type_section_local_component_definitions_added": true
+    },
+    "forbidden_changes": {
+      "original_29626_node_commands": false,
+      "original_17679_beam_commands": false,
+      "materials": false,
+      "sections_61_to_66": false,
+      "beam_orientation_nodes": false,
+      "mass": false,
+      "loads": false,
+      "initial_state": false,
+      "boundary_d": false,
+      "boundary_cp": false,
+      "analysis_stages": false,
+      "modal_request": false
+    },
+    "parent_section_61_exact_line_preserved": true
+  },
+  "expected_topology": {
+    "nodes": 112210,
+    "elements": 181196,
+    "TYPE4": 73692,
+    "TYPE6": 48620,
+    "TYPE70": 17679,
+    "TYPE71": 33003,
+    "TYPE72": 5078,
+    "TYPE73": 3124,
+    "CERIG_commands": 0,
+    "CP_commands": 12,
+    "D_commands": 3968
+  },
+  "prepare_only": true,
+  "mapdl_execution_attempted": false,
+  "mapdl_started": false,
+  "launch_allowed": false,
+  "future_launch_command": "& 'D:\\ANSYS2026\\ANSYS Inc\\v261\\ansys\\bin\\winx64\\ANSYS261.exe' '-b' '-dis' '-mpi' 'intelmpi' '-np' '4' '-j' 'cw_C10_0801t111124_c1' '-dir' 'D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_MPC_ONLY_20260801T111124274535Z\\solver' '-i' 'D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_MPC_ONLY_20260801T111124274535Z\\solver\\c10_mpc_only_main.inp' '-o' 'D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_MPC_ONLY_20260801T111124274535Z\\solver\\cw_C10_0801t111124_c1.out'",
+  "outputs": [
+    "C10_status.json",
+    "manifest.json",
+    "result_packet.md",
+    "launch_command.txt",
+    "source_hashes.sha256",
+    "artifact_hashes.sha256",
+    "input_snapshot/",
+    "solver/",
+    "qa/",
+    "lineage/",
+    "unit_tests/",
+    "orchestrator_snapshot/",
+    "builder_generated/"
+  ]
+}

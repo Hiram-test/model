@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "status": "OPERATOR_STOP_RECOVERY_VALID_NATIVE_ABORT_REQUESTED_PROCESS_TREE_EXITED_STABLE",
+  "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z",
+  "jobname": "cw_C10madp_0801t234415577134_d1",
+  "finalized_at_utc": "2026-08-02T02:24:52.270089+00:00",
+  "recovery_tool_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\ultra_c10_diagnostic_sufficiency_stop_recovery.py",
+  "recovery_tool_sha256": "6dc4e2aef1e18910b91feaef159fb1ac4d3abedbc827d8d4f5ba14230c0bab7d",
+  "prior_tool_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\ultra_c10_diagnostic_sufficiency_stop.py",
+  "prior_tool_sha256": "5d8b17fe76a66cebe67ad1a2f3e6f681bb0e0453f830a666528861c624e92828",
+  "prior_operator_claim_sha256": "72b99894cbc0a7b6e39e0971b8ac680c5a1ee41a19ffeeb893deae24874c8cb7",
+  "prior_operator_final_sha256": "6c35311d7e0133302c504e7c71906fb0a511ca99b890288ec14cf5c4b6c792d4",
+  "prior_controller_pid": 14676,
+  "prior_controller_exact_identity_absent_before_recovery": true,
+  "recovery_claim": {
+    "path": "runtime_operator_stop_recovery_claim.json",
+    "exists": true,
+    "size_bytes": 3714,
+    "sha256": "3ea35feed35eb5401b1afbe679c3177e1639e9256899a43d26ee4494fed5d3f3"
+  },
+  "recovery_explanation": {
+    "path": "runtime_operator_stop_recovery_claim.md",
+    "exists": true,
+    "size_bytes": 973,
+    "sha256": "6e8b283b781ad10b37e93d39b4f1dc5436dceb24be447621dc99da8ec1bc406d"
+  },
+  "recovery_action_plan": {
+    "path": "runtime_operator_stop_recovery_action_plan.json",
+    "exists": true,
+    "size_bytes": 1150,
+    "sha256": "ad8bbaf8df325479845a090a1014a818e17457654b4e14876e5295b010c5310e"
+  },
+  "recovery_action_executed": {
+    "path": "runtime_operator_stop_recovery_action_executed.json",
+    "exists": true,
+    "size_bytes": 1360,
+    "sha256": "a9532f7e9883e8685a539a6b02990ab914ff55f59c7d2c1b09e7b05f4d64f79e"
+  },
+  "native_abort_path": "solver/cw_C10madp_0801t234415577134_d1.abt",
+  "native_abort_payload_text": "nonlinear\n",
+  "native_abort_payload_length_bytes": 10,
+  "native_abort_payload_hex": "6e6f6e6c696e6561720a",
+  "native_abort_payload_sha256": "efc0d415f2fa6a5bea29d619ed2c58fb6ee8285e68bf671673dc2c56e43f8703",
+  "native_abort_created_exclusively": true,
+  "native_abort_created_at_utc": "2026-08-02T02:22:37.072045+00:00",
+  "native_abort_payload_written_fully": true,
+  "native_abort_flush_and_fsync_completed": true,
+  "native_abort_readback_matches_contract": true,
+  "native_abort_exists_at_finalization": false,
+  "exact_process_tree_exit_confirmed": true,
+  "wait_seconds": 110.125,
+  "poll_interval_seconds": 5.0,
+  "poll_count": 23,
+  "exit_confirmation_timeout_seconds": 3600.0,
+  "final_out_file": {
+    "exists": true,
+    "size_bytes": 35628029,
+    "mtime_ns": 1785637460464736400
+  },
+  "final_err_file": {
+    "exists": true,
+    "size_bytes": 2271,
+    "mtime_ns": 1785637392333766000
+  },
+  "final_mntr_file": {
+    "exists": true,
+    "size_bytes": 1125,
+    "mtime_ns": 1785634851264353600
+  },
+  "final_lock_file": {
+    "exists": false,
+    "size_bytes": 0,
+    "mtime_ns": null
+  },
+  "frozen_monitor_final": {
+    "path": "qa/runtime_hard_stop_monitor_final.json",
+    "sha256": "65c4407203f67fb4e89fc2f3c75a35284eee3a5ab5ab66fd7dc75314c0bc18c8",
+    "schema_version": 1,
+    "run_name": "C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z",
+    "jobname": "cw_C10madp_0801t234415577134_d1",
+    "status": "NATURAL_PROCESS_TREE_EXITED_STABLE_WITHOUT_MONITOR_HARD_STOP",
+    "sample_count": 926,
+    "actual_sample_line_count": 926,
+    "sample_sequence_valid": true,
+    "samples_path_claimed": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\C10_LOAD_MIGRATION_DIAGNOSTIC_20260801T234415577134Z\\qa\\runtime_hard_stop_monitor_samples.jsonl",
+    "samples_path_matches": true,
+    "samples_sha256_claimed": "60afc397a92df93d4ca4da731feee20e96ee6dccbb6c34bf3dfcf21086d0e1ba",
+    "samples_sha256_actual": "60afc397a92df93d4ca4da731feee20e96ee6dccbb6c34bf3dfcf21086d0e1ba",
+    "hard_events": [],
+    "controller_abort": {
+      "requested": false,
+      "reason_kinds": [],
+      "abort_file": null,
+      "abort_file_action": "NOT_REQUESTED",
+      "process_disposition": null
+    },
+    "final_related_processes": [],
+    "final_lock_file": {
+      "exists": false,
+      "size_bytes": 0,
+      "mtime_ns": null
+    },
+    "monitor_block_reason": null,
+    "monitor_claim_sha256": "536cb72d13d88423b3830414f6212cef0d1c4d2cdb117ac98b8fc1f96bfbbf4a",
+    "operator_abort_event_classification": {
+      "effective_abort_created_at_utc": "2026-08-02T02:22:37.072045+00:00",
+      "approved_expected_event_kinds_for_this_frozen_monitor": [],
+      "expected_operator_abort_events": [],
+      "unexpected_hard_events": [],
+      "all_pre_action_samples_required_clean": true,
+      "generic_abort_or_terminated_text_is_not_a_frozen_monitor_hard_event": true
+    },
+    "frozen_monitor_independent_abort_contract_risk": {
+      "request_native_abort_first_line_prefix": "C10_ADAPTIVE_MONITOR_HARD_STOP ",
+      "mapdl_required_first_line_column_one": "nonlinear",
+      "native_abort_payload_contract_valid": false,
+      "recovery_tool_invoked_frozen_monitor_abort_function": false,
+      "monitor_controller_abort_requested": false,
+      "monitor_terminate_sent_pids": [],
+      "monitor_kill_sent_pids": []
+    }
+  },
+  "frozen_monitor_path": "input_snapshot/ultra_c10_adaptive_monitor.py",
+  "frozen_monitor_sha256": "a46e7fdfbbd20c03245d42d6ad0706501a0e08274b4fc468b0b781ffa5032975",
+  "frozen_monitor_native_abort_payload_contract_valid": false,
+  "frozen_monitor_invalid_abort_first_line_prefix": "C10_ADAPTIVE_MONITOR_HARD_STOP ",
+  "recovery_tool_called_frozen_monitor_abort_function": false,
+  "block_reason": null,
+  "causal_native_abort_acknowledgement_proven_by_process_exit_alone": false,
+  "operator_tool_process_terminate_api_called": false,
+  "operator_tool_process_kill_api_called": false,
+  "operator_tool_process_send_signal_api_called": false,
+  "operator_tool_forced_process_action_allowed": false,
+  "valid_static_result_obtained": false,
+  "modal_execution_allowed": false,
+  "production_claim_allowed": false
+}

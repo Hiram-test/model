@@ -1,0 +1,217 @@
+﻿{
+  "schema": "dynamic_mass21_spatialization_v2",
+  "status": "PASS",
+  "units": {
+    "length": "mm",
+    "mass": "tonne",
+    "force": "N",
+    "inertia": "tonne*mm^2",
+    "coordinate_system": "MAPDL X longitudinal, Y transverse, Z vertical"
+  },
+  "constants": {
+    "gravity_mm_s2": 9806.0,
+    "target_concentrated_mass_tonne": 963.811380787273,
+    "invariant_distributed_link_mass_tonne": 3144.655526792727,
+    "target_full_model_mass_tonne": 4108.46690758,
+    "mass_tolerance_tonne": 1e-09,
+    "mass21_type_id": 71,
+    "mass21_element_start": 2100001,
+    "mass21_real_start": 1000
+  },
+  "input_binding": {
+    "authoritative_items": {
+      "path": "D:\\张靖皋大桥\\02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\authoritative_mct_deadload_v1_items.csv",
+      "size_bytes": 5994,
+      "sha256": "d781d7042273951ce45c1c9b311ad2bc3d214fdab5febf68680b4c02545cab25"
+    },
+    "authoritative_conload_mapping": {
+      "path": "D:\\张靖皋大桥\\02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\authoritative_mct_deadload_v1_conload_mapping.csv",
+      "size_bytes": 831430,
+      "sha256": "99e3a14e3f368d4bc2262347387b64daafc46dedbe5a9fc30261eba1795fe475"
+    },
+    "original_rope_nodes": {
+      "path": "D:\\张靖皋大桥\\02_CAD几何模型\\Catwalk_FullLine_ANSYS_AIValidation_V1.0\\nodes.csv",
+      "size_bytes": 1854557,
+      "sha256": "b8c7f44823f5648f59af7791dcc5468656725fcc5e0f67b034ed7f3804727e5a"
+    },
+    "generated_nodes": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\generated\\generated_nodes.csv",
+      "size_bytes": 6673052,
+      "sha256": "a985de24cfd56337d060db5fc94e6d20baa5c755ce897d25ed89b5f151488d6b"
+    },
+    "generated_elements": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\generated\\generated_elements.csv",
+      "size_bytes": 2919861,
+      "sha256": "e3dffc3e622ee252eee4632275050805e90ca0ec8f73a3bcb03767c6267bd506"
+    },
+    "resolved_dedicated_stations": {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\generated\\resolved_dedicated_stations.csv",
+      "size_bytes": 2966,
+      "sha256": "820a74e0e3d6f8b3334f0b153ce7da80b9452c874c7a0b64fdcc3a0da515c054"
+    }
+  },
+  "topology_counts": {
+    "before_mass_node_count": 23028,
+    "after_mass_node_count": 33003,
+    "after_original_node_count": 21056,
+    "after_generated_gate_node_count": 4828,
+    "after_generated_passage_node_count": 7119
+  },
+  "mass_closure": {
+    "before_mass_tonne": 963.811380787273,
+    "before_error_tonne": 0.0,
+    "after_mass_tonne": 963.8113807872732,
+    "after_error_tonne": 1.1368683772161603e-13,
+    "predicted_full_model_mass_tonne": 4108.46690758,
+    "full_model_error_tonne": 0.0
+  },
+  "component_balance": {
+    "anchorage_frame": {
+      "quantity_two_catwalks": 4,
+      "before_mass_tonne": 25.582418927187433,
+      "after_mass_tonne": 25.582418927187433,
+      "error_tonne": 0.0
+    },
+    "aux_tower_frame": {
+      "quantity_two_catwalks": 4,
+      "before_mass_tonne": 24.34986742810524,
+      "after_mass_tonne": 24.34986742810524,
+      "error_tonne": 0.0
+    },
+    "cross_passage_half": {
+      "quantity_two_catwalks": 42,
+      "before_mass_tonne": 212.82684070976956,
+      "after_mass_tonne": 212.82684070976956,
+      "error_tonne": 0.0
+    },
+    "cross_passage_tri_gate": {
+      "quantity_two_catwalks": 42,
+      "before_mass_tonne": 52.93901692841118,
+      "after_mass_tonne": 52.93901692841118,
+      "error_tonne": 0.0
+    },
+    "gate_bottom_beam": {
+      "quantity_two_catwalks": 142,
+      "before_mass_tonne": 46.04935753620232,
+      "after_mass_tonne": 46.04935753620232,
+      "error_tonne": 0.0
+    },
+    "guide_roller": {
+      "quantity_two_catwalks": 142,
+      "before_mass_tonne": 133.16663267387312,
+      "after_mass_tonne": 133.16663267387315,
+      "error_tonne": 2.842170943040401e-14
+    },
+    "large_crossbeam": {
+      "quantity_two_catwalks": 1098,
+      "before_mass_tonne": 147.80338568223536,
+      "after_mass_tonne": 147.80338568223536,
+      "error_tonne": 0.0
+    },
+    "main_cable_restrainer": {
+      "quantity_two_catwalks": 42,
+      "before_mass_tonne": 63.04711401182949,
+      "after_mass_tonne": 63.04711401182949,
+      "error_tonne": 0.0
+    },
+    "main_tower_frame": {
+      "quantity_two_catwalks": 8,
+      "before_mass_tonne": 55.46261472567816,
+      "after_mass_tonne": 55.46261472567816,
+      "error_tonne": 0.0
+    },
+    "ordinary_gate": {
+      "quantity_two_catwalks": 100,
+      "before_mass_tonne": 91.03610034672649,
+      "after_mass_tonne": 91.03610034672649,
+      "error_tonne": 0.0
+    },
+    "pws_roller": {
+      "quantity_two_catwalks": 904,
+      "before_mass_tonne": 111.54803181725474,
+      "after_mass_tonne": 111.54803181725474,
+      "error_tonne": 0.0
+    }
+  },
+  "before_original_combined_mass21": {
+    "node_count": 23028,
+    "mass_tonne": 963.811380787273,
+    "center_of_mass_mm": {
+      "x": 2135356.9201254826,
+      "y": 0.0,
+      "z": 182765.56043928297
+    },
+    "inertia_about_origin": {
+      "Ixx_tonne_mm2": 38700113559133.92,
+      "Iyy_tonne_mm2": 5878903187872764.0,
+      "Izz_tonne_mm2": 5841096852461806.0,
+      "Ixy_tonne_mm2": 0.0,
+      "Ixz_tonne_mm2": -358009837172589.9,
+      "Iyz_tonne_mm2": 0.0
+    },
+    "inertia_about_center_of_mass": {
+      "Ixx_tonne_mm2": 6505680974158.507,
+      "Iyy_tonne_mm2": 1451970605607673.8,
+      "Izz_tonne_mm2": 1446358702781691.8,
+      "Ixy_tonne_mm2": 0.0,
+      "Ixz_tonne_mm2": 18136545354872.523,
+      "Iyz_tonne_mm2": 0.0
+    }
+  },
+  "after_spatialized_mass21": {
+    "node_count": 33003,
+    "mass_tonne": 963.8113807872732,
+    "center_of_mass_mm": {
+      "x": 2135357.234781826,
+      "y": -0.5527792412932271,
+      "z": 182247.28512616782
+    },
+    "inertia_about_origin": {
+      "Ixx_tonne_mm2": 38469687468127.234,
+      "Iyy_tonne_mm2": 5878702125541261.0,
+      "Izz_tonne_mm2": 5841023881307592.0,
+      "Ixy_tonne_mm2": 1098173789.5843267,
+      "Ixz_tonne_mm2": -356966337200576.5,
+      "Iyz_tonne_mm2": 91569157.22993988
+    },
+    "inertia_about_center_of_mass": {
+      "Ixx_tonne_mm2": 6457585969953.556,
+      "Iyy_tonne_mm2": 1451950579186497.2,
+      "Izz_tonne_mm2": 1446284436450413.8,
+      "Ixy_tonne_mm2": -39490998.50798418,
+      "Ixz_tonne_mm2": 18113447865870.074,
+      "Iyz_tonne_mm2": -5527626.219808352
+    }
+  },
+  "after_minus_before": {
+    "center_of_mass_mm": {
+      "x": 0.3146563433110714,
+      "y": -0.5527792412932271,
+      "z": -518.2753131151549
+    },
+    "inertia_about_origin": {
+      "Ixx_tonne_mm2": -230426091006.6875,
+      "Iyy_tonne_mm2": -201062331503.0,
+      "Izz_tonne_mm2": -72971154214.0,
+      "Ixy_tonne_mm2": 1098173789.5843267,
+      "Ixz_tonne_mm2": 1043499972013.375,
+      "Iyz_tonne_mm2": 91569157.22993988
+    },
+    "inertia_about_center_of_mass": {
+      "Ixx_tonne_mm2": -48095004204.95117,
+      "Iyy_tonne_mm2": -20026421176.5,
+      "Izz_tonne_mm2": -74266331278.0,
+      "Ixy_tonne_mm2": -39490998.50798418,
+      "Ixz_tonne_mm2": -23097489002.44922,
+      "Iyz_tonne_mm2": -5527626.219808352
+    }
+  },
+  "interpretation": {
+    "scope": "CG和惯量前后值针对963.811380787273 tonne的MCT二期集中质量；3144.655526792727 tonne索系分布质量在本次迁移中保持不变。",
+    "gate_bottom_rule": "3.18 kN按门架下横梁单元体积分配并半集中到梁端节点",
+    "gate_upper_rule": "8.927/12.36 kN按顶梁及两立柱单元体积分配并半集中到梁端节点",
+    "guide_rule": "9.196 kN等分到每幅门架顶梁6个门架索连接点",
+    "passage_rule": "两幅49.69 kN合并为99.38 kN并按整品横通道全部杆件体积分配",
+    "retained_rule": "大横梁、PWS、抑位器、塔架、锚碇架保留原索节点"
+  }
+}

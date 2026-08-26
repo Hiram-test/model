@@ -1,0 +1,35 @@
+{
+  "case_id": "mass_serial",
+  "jobname": "cw_u01_07_0715t225028_8a",
+  "purpose": "MASS21 six-DOF analytic modal serial reference",
+  "parallel_mode": "SERIAL",
+  "processes": 1,
+  "mpi": "none",
+  "input_snapshot": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T225028311569Z\\input_snapshot\\mass_serial.inp",
+  "input_sha256": "5a88034888f0f2baecb2b96f8b95acab4e29babea8d00239a6a34ad7e697cf40",
+  "source_files": [
+    {
+      "path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_tools\\u01_templates\\u01_mass_modal.inp",
+      "sha256": "173f0ad78e9ab26066475277a26e0e4f8db80d2496af7243fbed9411bc8f5213"
+    }
+  ],
+  "result_files": [
+    "u01_mass_modal_frequencies.csv",
+    "u01_mass_modal_vectors.csv",
+    "u01_mass_modal_closure.csv"
+  ],
+  "status": "PASSED",
+  "started_utc": "2026-07-15T22:50:41.738360+00:00",
+  "return_code": 0,
+  "elapsed_seconds": 2.0939999999973224,
+  "output_path": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T225028311569Z\\solver\\mass_serial\\cw_u01_07_0715t225028_8a.out",
+  "result_paths": [
+    "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T225028311569Z\\post\\mass_serial__u01_mass_modal_frequencies.csv",
+    "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T225028311569Z\\post\\mass_serial__u01_mass_modal_vectors.csv",
+    "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U01_UNIT_TESTS_20260715T225028311569Z\\post\\mass_serial__u01_mass_modal_closure.csv"
+  ],
+  "errors": 0,
+  "warnings": 1,
+  "run_completed": true,
+  "finished_utc": "2026-07-15T22:50:43.836348+00:00"
+}

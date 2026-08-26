@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "PASSED",
+  "source_sha256": "e537c411581ec86a7df4cccc0f5fa93450182f06e41084256fd0a11299155e94",
+  "candidate_sha256": "0a48a80e255840c962c69537a781242219eaa11b8f0cd6781fb977c50a292b60",
+  "diagnostic_subtype": "A0_CURRENT_TYPE72_S10_DIRECT_SPATIAL_GRAVITY_RAMP_STATIC_ONLY_NRRE",
+  "identity_change_only": true,
+  "physical_model_change": false,
+  "load_or_initial_state_change": false,
+  "numerical_control_change": {
+    "only_added_command": "NLDIAG,NRRE,ON,50",
+    "cnvtol_changed": false,
+    "keyopt_changed": false,
+    "pred_changed": false,
+    "neqit_changed": false
+  },
+  "ls1": {
+    "kbc": 0,
+    "autots": true,
+    "nsubst": [
+      20,
+      200,
+      20
+    ],
+    "pred": "OFF",
+    "time": 1.0
+  },
+  "ls2": {
+    "kbc": 0,
+    "autots": false,
+    "nsubst": [
+      1,
+      1,
+      1
+    ],
+    "time": 1.001,
+    "physical_load_increment": 0.0
+  },
+  "solve_count": 2,
+  "modal_commands_present": false,
+  "static_only_truncated": true,
+  "external_qa_required": true
+}

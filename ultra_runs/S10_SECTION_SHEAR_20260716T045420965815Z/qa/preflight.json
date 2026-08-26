@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "status": "PASSED_PREPARE_ONLY",
+  "run_name": "S10_SECTION_SHEAR_20260716T045420965815Z",
+  "jobname": "cw_S10_0716t045420_a6",
+  "parent_a30_status": "COMPLETED_BY_INPUT_IDENTITY_WITH_A10_RESULTS",
+  "a30_artifact_closure": {
+    "status": "PASSED",
+    "passed": true,
+    "ledger_entry_count": 9,
+    "actual_file_count_excluding_ledger": 9
+  },
+  "u01_status": "PASSED",
+  "u01_section_evidence": {
+    "status": "PASSED",
+    "pair_count": 12,
+    "native_total_error_max": 4.130876326567932e-08,
+    "native_shear_error_max": 1.566844100304836e-08,
+    "analytic_error_max": 1.404207893604802e-05,
+    "parasitic_rotx_max_rad": 2.55828801091052e-14,
+    "parasitic_root_mx_max_n_mm": 1.174285212635035e-06,
+    "properties_row_count": 6,
+    "template_audit": {
+      "section_count": 6,
+      "section_ids": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ],
+      "template_sha256": "fbd4fa531c1a010c9ad6f1a7904c40add02d23545d0118f0cc5e5c0e0d20e620",
+      "field_order": [
+        "A",
+        "Iyy",
+        "Iyz",
+        "Izz",
+        "Iw",
+        "J",
+        "CGy",
+        "CGz",
+        "SHy",
+        "SHz",
+        "TKz",
+        "TKy",
+        "TSxz",
+        "TSxy"
+      ],
+      "status": "PASSED"
+    },
+    "raw_csv_sha256": {
+      "properties": "c84dc9358fb50efc49b8026341a42a7463ddb7727c78b216193853f5e381657c",
+      "analytic_deflections": "88cc0816cdeab88b18f80ee9dc3495a344ec27b9d7904e05399506acbeb530a7",
+      "native_deflections": "0f931538cb07cbebf8a710d358e2d2fd933d4cb4737cbc636b82b9266278f0de",
+      "torsion_audit": "e48d4e5d32c380f95916df3f5d4c68cc1937d09f7d18a2d4741bd37ab470a6d1"
+    },
+    "artifact_closure": {
+      "passed": true,
+      "ledger_entry_count": 182,
+      "actual_file_count_excluding_ledger": 182
+    }
+  },
+  "history_microqa_evidence": {
+    "status": "PASSED",
+    "run_name": "U02_LS1_HISTORY_MICROQA_20260715T225026Z",
+    "manifest_sha256": "c892ebde94d288c86fca4287bfb248b98b33371b272d40abdda52eb1dbfd3d5e",
+    "status_sha256": "38ac6385d81b01fc55794662c20b3f5e27490e0cb0db35549bf939caa03ea153",
+    "artifact_ledger_entry_count": 19,
+    "actual_file_count_excluding_ledger": 19,
+    "validated_capability": "OUTRES_VENG_ALL_SET_FIRST_NEXT_SENE_STEN_HISTORY_AND_PEAK"
+  },
+  "section_change_count": 6,
+  "input_dependency_count": 11,
+  "input_double_copy_all_match": true,
+  "memory_snapshot": {
+    "available": true,
+    "total_physical_bytes": 16556494848,
+    "available_physical_bytes": 3732811776,
+    "available_page_file_bytes": 9476026368,
+    "memory_load_percent": 77,
+    "minimum_available_memory_bytes": 8589934592,
+    "comfortable_available_memory_bytes": 10737418240,
+    "memory_ready": false,
+    "memory_comfortable": false,
+    "execution_attempted": false
+  },
+  "disk_snapshot": {
+    "volume_anchor": "D:\\",
+    "total_bytes": 215015747584,
+    "used_bytes": 177166626816,
+    "free_bytes": 37849120768,
+    "minimum_free_bytes_for_execution": 34359738368,
+    "disk_ready": true,
+    "budget_basis": "historical_incomplete_40_mode_attempt_7.857_GiB_times_about_4",
+    "execution_attempted": false
+  },
+  "user_memory_gate_override": true,
+  "launch_policy_satisfied": true,
+  "mapdl_execution_attempted": false,
+  "mapdl_started": false
+}

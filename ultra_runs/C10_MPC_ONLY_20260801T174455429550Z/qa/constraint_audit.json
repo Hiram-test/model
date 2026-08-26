@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "status": "STATIC_MAPPING_PASSED_NUMERICAL_RANK_PENDING",
+  "logical_connections": 5078,
+  "source_semantics": {
+    "UXYZ": 3124,
+    "ALL": 1954
+  },
+  "candidate_elements": {
+    "TYPE72_RIGID_BEAM": 5078,
+    "TYPE73_TRANSLATION_RIGID_LINK": 3124,
+    "total": 8202
+  },
+  "constraint_imposition": {
+    "TYPE72": "DIRECT_ELIMINATION",
+    "TYPE73": "DIRECT_ELIMINATION",
+    "penalty_factor": null
+  },
+  "id_checks": {
+    "aux_ids_unique": true,
+    "aux_range": [
+      2029627,
+      2032750
+    ],
+    "mpc_ids_unique": true,
+    "mpc_range": [
+      2017680,
+      2025881
+    ],
+    "node_collision_count": 0,
+    "explicit_element_collision_count": 0,
+    "existing_explicit_element_id_count": 50686
+  },
+  "reference_checks": {
+    "all_master_slave_nodes_exist": true,
+    "uxyz_slave_unique_count": 3124,
+    "master_equals_slave_count": 0,
+    "duplicate_directed_semantic_pair_count": 0
+  },
+  "coincidence_checks": {
+    "authorized_zero_length_type73_rigid_link_count": 3124,
+    "aux_coordinate_strings_copied_from_slave": true,
+    "unexpected_zero_length_physical_beam_count": 0
+  },
+  "legacy_constraint_commands": {
+    "parent_cerig": 5078,
+    "candidate_cerig": 0,
+    "cp_unchanged": 12,
+    "d_unchanged": 3968
+  },
+  "symbolic_matrix": {
+    "row_count": 39840,
+    "duplicate_structural_row_count": 0,
+    "numeric_rank_evaluated": false
+  },
+  "graph_audit": {
+    "scope": "SOLVER_INDEPENDENT_NODE_GRAPH_NOT_DOF_RANK",
+    "full_graph_node_count": 112210,
+    "component_count": 1,
+    "anchored_component_count": 1,
+    "unanchored_component_count": 0,
+    "largest_component_node_count": 112210,
+    "aux_node_count": 3124,
+    "all_aux_nodes_connected": true,
+    "connection_endpoint_count": 8770,
+    "connection_endpoint_cp_overlap_count": 0,
+    "connection_endpoint_cp_overlap_sample": [],
+    "explicit_d_anchored_node_count": 3324,
+    "ignored_nonnumeric_element_fields": 0
+  }
+}

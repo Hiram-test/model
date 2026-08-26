@@ -1,0 +1,68 @@
+! C10 UXYZ 直接消元连接 0.1 rad 有限转动解析测试；本文件由 prepare 生成但不自动执行。
+! 初始偏置向量为 (800,-600,500) mm，外部验收按 Rodrigues 公式计算目标位移。
+/CLEAR,START ! 清空未来独立微模型会话。
+/FILNAME,c10fr_rx ! 设置当前案例唯一 ASCII 作业名。
+/PREP7 ! 进入前处理器定义可变形支撑梁与两段 MPC184。
+ET,1,BEAM188 ! 定义可变形支撑梁以满足刚性单元静力使用限制。
+KEYOPT,1,3,3 ! 采用三次插值稳定有限转动下的梁弯曲。
+MP,EX,1,210000 ! 设置钢材弹性模量 210000 MPa。
+MP,PRXY,1,0.3 ! 设置泊松比 0.3。
+SECTYPE,1,BEAM,RECT,C10FR ! 定义 10 mm 乘 10 mm 矩形测试截面。
+SECDATA,10,10 ! 写入矩形截面宽高，单位 mm。
+ET,72,MPC184 ! 定义偏置 rigid beam。
+KEYOPT,72,1,1 ! 选择六自由度 rigid-beam 公式。
+KEYOPT,72,2,0 ! 使用直接消元实施刚臂约束。
+KEYOPT,72,5,0 ! 保留有限转动几何刚度。
+ET,73,MPC184 ! 定义共点三平移 rigid link。
+KEYOPT,73,1,0 ! 只激活 UX、UY、UZ。
+KEYOPT,73,2,0 ! 使用直接消元而不使用罚刚度。
+CSYS,0 ! 使用全局笛卡尔坐标定义解析几何。
+N,1,0,0,0 ! 定义规定转角的 master 节点。
+N,2,800,-600,500 ! 定义偏置刚臂辅助节点，单位 mm。
+N,3,800,-600,500 ! 定义与辅助节点共点的 slave 节点。
+N,4,800,400,500 ! 定义可变形梁固定端，距 slave 1000 mm。
+N,5,800,-600,1500 ! 定义 BEAM188 截面方向节点。
+TYPE,1 ! 选择可变形 BEAM188 类型。
+MAT,1 ! 选择测试钢材。
+SECNUM,1 ! 选择 10 mm 乘 10 mm 测试截面。
+EN,10,3,4,5 ! 建立 slave 到固定端的可变形支撑梁。
+TYPE,72 ! 选择偏置 rigid-beam 类型。
+EN,1,1,2 ! 建立 master 到辅助节点的有限转动刚臂。
+TYPE,73 ! 选择共点三平移 rigid-link 类型。
+EN,2,2,3 ! 精确关联辅助节点与 slave 的三项平移。
+D,1,UX,0 ! 固定 master 的 X 平移。
+D,1,UY,0 ! 固定 master 的 Y 平移。
+D,1,UZ,0 ! 固定 master 的 Z 平移。
+D,1,ROTX,0.1 ! 规定 master 绕 X 转角，单位 rad。
+D,1,ROTY,0 ! 规定 master 绕 Y 转角，单位 rad。
+D,1,ROTZ,0 ! 规定 master 绕 Z 转角，单位 rad。
+D,4,ALL,0 ! 固定可变形支撑梁远端全部自由度。
+FINISH ! 完成有限转动测试前处理。
+/SOLU ! 进入静力求解器。
+ANTYPE,STATIC ! 选择静力分析。
+NLGEOM,ON ! 启用有限转动几何非线性。
+NROPT,FULL ! 每次迭代更新完整切线。
+AUTOTS,OFF ! 关闭自动子步以保持确定的 20 段转动路径。
+NSUBST,20,20,20 ! 将 0.1 rad 规定转角分成 20 个固定子步。
+OUTRES,ALL,ALL ! 保存全部子步结果供路径复核。
+SOLVE ! 执行当前有限转动测试；prepare 生成器不会调用本文件。
+FINISH ! 结束求解阶段。
+/POST1 ! 进入结果后处理。
+SET,LAST ! 读取 0.1 rad 终态结果。
+*GET,C10_UAX,NODE,2,U,X ! 读取辅助节点 X 位移，单位 mm。
+*GET,C10_UAY,NODE,2,U,Y ! 读取辅助节点 Y 位移，单位 mm。
+*GET,C10_UAZ,NODE,2,U,Z ! 读取辅助节点 Z 位移，单位 mm。
+*GET,C10_USX,NODE,3,U,X ! 读取 slave X 位移，单位 mm。
+*GET,C10_USY,NODE,3,U,Y ! 读取 slave Y 位移，单位 mm。
+*GET,C10_USZ,NODE,3,U,Z ! 读取 slave Z 位移，单位 mm。
+*GET,C10_MRX,NODE,1,ROT,X ! 读取 master 绕 X 实际转角，单位 rad。
+*GET,C10_MRY,NODE,1,ROT,Y ! 读取 master 绕 Y 实际转角，单位 rad。
+*GET,C10_MRZ,NODE,1,ROT,Z ! 读取 master 绕 Z 实际转角，单位 rad。
+/OUTPUT,c10fr_rx_results,txt ! 打开当前有限转动机器结果文件。
+*VWRITE,C10_UAX,C10_UAY,C10_UAZ,C10_USX,C10_USY,C10_USZ ! 输出辅助与 slave 位移。
+('AUX_U=',3(E24.16,','),'SLAVE_U=',3(E24.16,','))
+*VWRITE,C10_MRX,C10_MRY,C10_MRZ ! 输出 master 实际三转角。
+('MASTER_ROT=',3(E24.16,','))
+/OUTPUT ! 恢复主输出。
+FINISH ! 完成有限转动后处理。
+/EXIT,NOSAVE ! 退出且不保留微模型数据库。

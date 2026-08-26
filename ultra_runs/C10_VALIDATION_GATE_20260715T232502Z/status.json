@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "run_id": "C10_VALIDATION_GATE",
+  "run_name": "C10_VALIDATION_GATE_20260715T232502Z",
+  "created_at_utc": "2026-07-15T23:25:02Z",
+  "status": "VALIDATION_GATE_MISSING",
+  "decision": "REJECTED_TO_LAUNCH",
+  "source_blocked": false,
+  "mapping_audit_status": "PASS",
+  "validation_gate_status": "MISSING",
+  "mapdl_launch_allowed": false,
+  "mapdl_execution_attempted": false,
+  "mapdl_started": false,
+  "generator_modified": false,
+  "audit_mode": "READ_ONLY_EXISTING_EVIDENCE",
+  "mapping_closure": {
+    "logical_connection_count": 5078,
+    "uxyz_logical_connection_count": 3124,
+    "all_logical_connection_count": 1954,
+    "generated_mpc184_element_count": 8202,
+    "mapping_mismatch_count": 0,
+    "stable_field_pair_count": 5078,
+    "stable_field_pair_mismatch_count": 0,
+    "detail_copied": false,
+    "legacy_detail_reference": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\builder\\generated\\generated_constraints.csv",
+    "detail_reference": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\ultra_runs\\U00_SOURCE_GATE_20260715T024455Z\\regenerated_source_chain\\builder_generated\\generated_rigid_connections.csv"
+  },
+  "boundary_contamination": {
+    "present": true,
+    "candidate_lineage": "U00_C10_MPC_DIAGNOSTIC",
+    "reference_lineage": "S10_FINAL_A30_BOUNDARY",
+    "section_id": 61,
+    "difference": "IYY_IZZ_SWAPPED_IN_U00_CANDIDATE",
+    "pure_connection_delta": false,
+    "launch_effect": "HARD_REJECT"
+  },
+  "required_validation": {
+    "penalty_sweep": {
+      "absolute_penalty_values_n_per_mm": [
+        1000000000.0,
+        5000000000.0,
+        10000000000.0,
+        50000000000.0,
+        100000000000.0
+      ],
+      "tier_count": 5,
+      "unit_load_case_count_per_tier": 6,
+      "required_tier_case_pair_count": 30,
+      "completed_tier_case_pair_count": 0,
+      "target_translation_slip_limit_mm": 0.00001,
+      "status": "MISSING"
+    },
+    "full_bridge_adjacent_tier": {
+      "target_physical_mode_frequency_change_limit_fraction": 0.0005,
+      "target_physical_mode_frequency_change_limit_percent": 0.05,
+      "status": "MISSING"
+    },
+    "matrix_conditioning": {
+      "maximum_coefficient_ratio_degradation_vs_legacy": 10.0,
+      "status": "MISSING"
+    },
+    "full_bridge_static_gate": {
+      "status": "MISSING",
+      "checks": [
+        {
+          "id": "MAPDL_ERROR_COUNT",
+          "acceptance": "EQUALS_0"
+        },
+        {
+          "id": "NEGATIVE_PIVOT_COUNT",
+          "acceptance": "EQUALS_0"
+        },
+        {
+          "id": "LS1_CONVERGENCE",
+          "acceptance": "REQUIRED"
+        },
+        {
+          "id": "LS2_NO_STABILIZATION_HOLD_CONVERGENCE",
+          "acceptance": "REQUIRED"
+        },
+        {
+          "id": "LS1_ENDPOINT_ABS_STEN_OVER_SENE",
+          "acceptance": "LESS_THAN_OR_EQUALS_1E-2"
+        },
+        {
+          "id": "FULL_HISTORY_PEAK_ABS_STEN_OVER_SENE",
+          "acceptance": "LESS_THAN_OR_EQUALS_1E-2"
+        },
+        {
+          "id": "LS2_ABS_STEN_OVER_SENE",
+          "acceptance": "LESS_THAN_OR_EQUALS_1E-8"
+        },
+        {
+          "id": "GRAVITY_VERTICAL_REACTION_RELATIVE_ERROR",
+          "acceptance": "LESS_THAN_OR_EQUALS_1E-4"
+        },
+        {
+          "id": "UNCHANGED_MASS_VARIANT_TOTAL_MASS_ERROR_TONNE",
+          "acceptance": "LESS_THAN_OR_EQUALS_1E-6"
+        },
+        {
+          "id": "LINK180_NONPOSITIVE_AXIAL_FORCE_COUNT",
+          "acceptance": "EQUALS_0_UNLESS_PHYSICALLY_JUSTIFIED"
+        },
+        {
+          "id": "ZERO_LENGTH_DUPLICATE_ENDPOINT_MISSING_NODE_COUNT",
+          "acceptance": "EQUALS_0"
+        },
+        {
+          "id": "UNREGISTERED_CONSTRAINT_OR_COMPONENT_COUNT_DRIFT",
+          "acceptance": "EQUALS_0"
+        },
+        {
+          "id": "REQUESTED_MODES_ACTUAL_SETS_EXPORTED_FREQUENCIES_AND_VECTORS",
+          "acceptance": "EXACT_CLOSURE"
+        },
+        {
+          "id": "ZERO_TO_0P35_HZ_BAND",
+          "acceptance": "NOT_TRUNCATED_BY_MODE_COUNT"
+        },
+        {
+          "id": "UNEXPLAINED_ZERO_FREQUENCY_OR_NEGATIVE_EIGENVALUE_COUNT",
+          "acceptance": "EQUALS_0"
+        }
+      ]
+    }
+  },
+  "historical_negative_evidence": {
+    "penalty_absolute_value_n_per_mm": 50000000000.0,
+    "run_id": "modal_20260714_0221_penalty5e10",
+    "termination": "USER_REQUESTED_TERMINATION_FROM_ABT_FILE_ERROR_AT_LINE_983456",
+    "ls1_status": "INCOMPLETE_WITH_CONVERGED_AND_UNCONVERGED_SUBSTEP_STATES",
+    "result_validity": "NOT_A_PASS_AND_NOT_PENALTY_CONVERGENCE_EVIDENCE",
+    "coefficient_ratio_message": "EXCEEDS_1E8_CHECK_RESULTS",
+    "relative_to_legacy_degradation_ratio_quantified": false,
+    "evidence_reference": "D:\\张靖皋大桥\\03_猫道动力分析\\附件2-3全模态精确对齐_V2.0\\runs\\modal_20260714_0221_penalty5e10\\solve\\a23v2_20260714_0221.out",
+    "interpretation": "ABORTED_BEFORE_LS1_COMPLETION_NEGATIVE_EVIDENCE_ONLY_DOES_NOT_PROVE_5E10_CAUSED_DIVERGENCE_OR_CLOSE_ANY_C10_GATE"
+  },
+  "drawing_source_integration": {
+    "source_exists": true,
+    "source_reference": "D:\\张靖皋大桥\\01_设计资料与规范\\00张靖皋长江大桥南航道桥猫道图纸1225.pdf",
+    "source_sha256": "8df26c6b04f652b952e6cdf9575f34e76c8d014cbb61edf0b846c1c75d8bc113",
+    "mapping_rows_with_drawing_reference": 0,
+    "status": "SOURCE_EXISTS_NOT_INTEGRATED"
+  },
+  "hash_closure": {
+    "source_hash_entry_count": 15,
+    "source_hash_verified_count": 15,
+    "artifact_hash_entry_count_excluding_ledger": 6,
+    "artifact_file_count_excluding_ledger": 6,
+    "closed": true
+  },
+  "next_action": "REBUILD_C10_AS_A_PURE_CONNECTION_DELTA_FROM_FORMALLY_SEALED_S10_THEN_COMPLETE_ALL_VALIDATION_GATES_BEFORE_MAPDL_LAUNCH"
+}

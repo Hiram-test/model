@@ -1,0 +1,3 @@
+# 最小增量 NRRE 机器字段说明
+
+JSON 不允许注释，因此字段语义集中记录于此。`beta=1` 是完整 LS1 旧 MCT 平衡荷载位置；`beta=0.9995` 只迁移完整位置路径的 0.05%，不是最终 `beta=0` 空间 MASS21 端点。LS1 使用 `KBC=1`、`AUTOTS=OFF`、`NSUBST=1/1/1`；LS2 使用 `KBC=0`、`AUTOTS=OFF`、`NSUBST=1/1/1`，时间从 1 到 1.0000005。`NLDIAG,NRRE,ON,50` 只在 LS1 收敛并保存 `cw_C10mnr_0802t025121685942_d1_l1.db` 后启用，因此 `Jobname.nrxxx` 只对应局部 LS2 Newton 迭代；最多保留 50 个文本文件。若 LS2 收敛并通过局部数值门，另存 `cw_C10mnr_0802t025121685942_d1_ms.db`；RST 和重启动文件按本 job 独立生成。专用监控器硬事件只允许写精确十字节 `nonlinear\n` 原生 ABT，并等待进程自然退出；`terminate/kill/send_signal` 无调用路径。`STATIC_DIAGNOSTIC_PREPARED` 只表示输入、代码和证据已哈希，不表示 ANSYS 已启动。所有 NR、DB、RST 只供接口/初始状态残差定位，禁止作为完整静力、模态、规范或生产结果。力单位 N，长度 mm，质量 tonne，加速度 mm/s²，伪时间无物理时间含义。

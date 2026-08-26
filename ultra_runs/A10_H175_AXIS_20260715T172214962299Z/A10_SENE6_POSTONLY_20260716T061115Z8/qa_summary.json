@@ -1,0 +1,146 @@
+{
+  "status": "PASSED",
+  "scope": "A10 existing modal DB/RSTP read-only POST1 SENE extraction for 80 modes and 6 components",
+  "execution": {
+    "mapdl_version": "2026 R1 build 26.1 UP20260202",
+    "parallel_mode": "SMP",
+    "processors": 1,
+    "started_local": "2026-07-16T06:18:47+08:00",
+    "finished_local": "2026-07-16T06:20:45+08:00",
+    "elapsed_seconds_from_out": 118.299,
+    "warnings": 0,
+    "errors": 0,
+    "success_marker_count": 1,
+    "executed_fail_marker_count": 0
+  },
+  "safety": {
+    "solve_command_count": 0,
+    "solution_processor_command_count": 0,
+    "new_db_rst_rstp_file_count": 0,
+    "exit_without_saving": true,
+    "source_db_unchanged": true,
+    "source_rstp_unchanged": true,
+    "input_line_count": 159,
+    "uncommented_command_count": 0
+  },
+  "sources": [
+    {
+      "name": "cw_A10_0715t172214_24_modal.db",
+      "bytes": 272629760,
+      "last_write_time_before_and_after": "2026-07-16T03:04:21.7429400+08:00",
+      "sha256_before_and_after": "69EB6F94E69C8EF445826E2E3B0220E48BCC12D86793484D0FA486B243030B7B"
+    },
+    {
+      "name": "cw_A10_0715t172214_24.rstp",
+      "bytes": 3444375552,
+      "last_write_time_before_and_after": "2026-07-16T02:59:35.9410236+08:00",
+      "sha256_before_and_after": "15A14E680929679D34840E3FB057C5D66C9503E1C3A766A9FA27379273712D78"
+    }
+  ],
+  "component_counts": {
+    "GATE_BOTTOM_E": 2698,
+    "GATE_TOPPOST_E": 1562,
+    "PASS_CHORD152_E": 4011,
+    "PASS_FRAME102_E": 1890,
+    "PASS_BRACE51_E": 4620,
+    "PASS_RHS5030_E": 2898,
+    "arithmetic_sum": 17679,
+    "set_union": 17679,
+    "type70_total": 17679,
+    "union_intersection_type70": 17679,
+    "counts_exact": true,
+    "components_disjoint": true,
+    "components_equal_type70_set": true
+  },
+  "modal_qa": {
+    "result_set_count": 80,
+    "total_csv_rows": 80,
+    "mode_sequence_exact_1_to_80": true,
+    "all_totals_finite_and_positive": true,
+    "total_sene_min_n_mm": 5.3254223066725621e-7,
+    "total_sene_max_n_mm": 1.3029838624656029,
+    "long_csv_rows": 480,
+    "shape_exact_80_by_6": true,
+    "all_component_energies_finite_and_nonnegative": true,
+    "component_sene_min_n_mm": 6.3632799305350937e-10,
+    "component_sene_max_n_mm": 1.1197792589819811,
+    "all_ratios_finite_and_in_closed_interval_0_1": true,
+    "ratio_min": 2.7891646385266810e-6,
+    "ratio_max": 0.87758188483521538,
+    "ratio_recalculation_max_absolute_error": 5.5511151231257827e-16,
+    "long_vs_total_csv_max_absolute_error": 0.0,
+    "six_component_ratio_sum_min": 0.000340602136629903,
+    "six_component_ratio_sum_max": 0.99623091653150719
+  },
+  "component_stats": [
+    {
+      "code": 1,
+      "name": "GATE_BOTTOM_E",
+      "rows": 80,
+      "energy_min_n_mm": 3.7645894321496323e-8,
+      "energy_max_n_mm": 0.050733345740006187,
+      "ratio_min": 3.2553980191879379e-6,
+      "ratio_max": 0.070690908915012
+    },
+    {
+      "code": 2,
+      "name": "GATE_TOPPOST_E",
+      "rows": 80,
+      "energy_min_n_mm": 3.9511173184072989e-7,
+      "energy_max_n_mm": 1.1197792589819811,
+      "ratio_min": 3.2799226608169772e-5,
+      "ratio_max": 0.87758188483521538
+    },
+    {
+      "code": 3,
+      "name": "PASS_CHORD152_E",
+      "rows": 80,
+      "energy_min_n_mm": 1.5485631517812531e-8,
+      "energy_max_n_mm": 0.17612309679118909,
+      "ratio_min": 0.00026424133338395349,
+      "ratio_max": 0.60265478123057026
+    },
+    {
+      "code": 4,
+      "name": "PASS_FRAME102_E",
+      "rows": 80,
+      "energy_min_n_mm": 6.3632799305350937e-10,
+      "energy_max_n_mm": 0.002706349124217106,
+      "ratio_min": 2.7891646385266810e-6,
+      "ratio_max": 0.033534880348036922
+    },
+    {
+      "code": 5,
+      "name": "PASS_BRACE51_E",
+      "rows": 80,
+      "energy_min_n_mm": 4.4148993145083082e-9,
+      "energy_max_n_mm": 0.02626583462748544,
+      "ratio_min": 2.1061449708894800e-5,
+      "ratio_max": 0.52190851145090889
+    },
+    {
+      "code": 6,
+      "name": "PASS_RHS5030_E",
+      "rows": 80,
+      "energy_min_n_mm": 7.8047032213481400e-10,
+      "energy_max_n_mm": 0.01199454513901255,
+      "ratio_min": 1.5541223881587008e-5,
+      "ratio_max": 0.035207923670646013
+    }
+  ],
+  "crosscheck": {
+    "reference_file": "../solver/a10_gate_bottom_modal_sene.csv",
+    "reference_rows": 80,
+    "new_gate_bottom_rows": 80,
+    "total_sene_max_absolute_difference": 0.0,
+    "gate_bottom_sene_max_absolute_difference": 0.0,
+    "gate_bottom_ratio_max_absolute_difference": 0.0,
+    "exact_numeric_match": true
+  },
+  "first_attempt": {
+    "status": "REJECTED_AND_ARCHIVED",
+    "reason": "APDL array auto-expansion created 21 instead of 6 long-form rows per mode",
+    "archive": "attempt1_rejected_vectorwrite",
+    "used_in_final_qa": false
+  }
+}
