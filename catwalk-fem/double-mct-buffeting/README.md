@@ -53,6 +53,15 @@ xelatex -interaction=nonstopmode -halt-on-error -output-directory output/pdf out
 - `reaction_validation/`：108 个约束 DOF 的独立恢复、附件 Y/Z 对照和审计。
 - `SHA256SUMS.txt`：交付包内文件指纹。
 
+## 滚转升级（2026-08-27，理论推导修复）
+
+针对扭转族偏差的理论推导修复见 `report/double_mct_torsion_theory_fix_cn.pdf`：
+双索组等效（±b_B/±b_T）、双簇平动端口凝聚（`code/condense_h10_cluster_ports.py`）、
+二期质量空间化（`code/double_mct_roll_upgraded_model.py`，结果在 `roll_upgraded_results/`）。
+主跨 L/V 行改善、呼吸与门架索解耦分支治愈；T 族三行几乎不动，并被证明处于
+"审计部件扭转可达域"之外——附件 T 行隐含每品门架 ~1.5e4 N·m/rad 的滚转连接柔度，
+比审计钢结构刚接低 2–4 个数量级（详见 PDF 第 9 节与 `roll_upgraded_results/roll_upgraded_findings.md`）。
+
 ## 解释边界
 
 - 14 模态总体 MAE 5.92%，非扭转族 3.12%，扭转族 16.21%。
