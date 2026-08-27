@@ -144,7 +144,14 @@ def gate_rotation(chord: np.ndarray) -> np.ndarray:
     return np.column_stack((x_axis, y_axis, z_axis))
 
 
-def build_roll_model(production, parsed: dict[str, object], station_map: pd.DataFrame, b_bottom: float, b_top: float) -> dict[str, object]:
+def build_roll_model(
+    production,
+    parsed: dict[str, object],
+    station_map: pd.DataFrame,
+    b_bottom: float,
+    b_top: float,
+    passage_mode: str = "cerig-rigid",
+) -> dict[str, object]:
     """Assemble the four-line (two rope groups per chain per width) double-MCT system."""
     source_nodes = parsed["nodes"]
     source_elements = parsed["elements"]
@@ -263,21 +270,44 @@ def build_roll_model(production, parsed: dict[str, object], station_map: pd.Data
                 }
             )
 
-    # Passage stations: H10 cluster-port K24 rotated to each carrying-rope slope.
-    passage_cluster_si = read_cluster_matrix(PASSAGE_CLUSTER_PATH, 8)
-    passage_reference_mm = cluster_audit["passage_cluster"]["reference_points_apdl_mm"]
-    passage_positions = [
-        np.asarray(passage_reference_mm[k], dtype=float) / 1000.0
-        for k in ("B_Lp", "B_Lm", "T_Lp", "T_Lm", "B_Rp", "B_Rm", "T_Rp", "T_Rm")
-    ]
-    passage_rigid_residual = verify_cluster_rigid_null(passage_cluster_si, passage_positions, "passage cluster K24")
+    # Passage stations.
+    # cerig-rigid: audited K24 cluster assembly (74 CERIG ALL rigid links bind the
+    #   passage truss rigidly to both station gates).
+    # drawing-soft: per drawings MD5-16/17/24/25 the passage is carried on MC-nylon
+    #   rollers riding the carrying ropes, pinned tubes and chord hoop clamps, so it
+    #   transfers translational forces but no roll moment.  That is exactly the
+    #   kinematic content of the audited single-centre translation-port K12 (roll is
+    #   unobservable there), which is therefore assembled through the pair-mean map
+    #   u_centre = (u_+ + u_-)/2 -- roll-transparent by construction, no gate double
+    #   counting beyond the production convention.
+    passage_rigid_residual = float("nan")
     passage_records = []
+    if passage_mode == "cerig-rigid":
+        passage_matrix_si = read_cluster_matrix(PASSAGE_CLUSTER_PATH, 8)
+        passage_reference_mm = cluster_audit["passage_cluster"]["reference_points_apdl_mm"]
+        passage_positions = [
+            np.asarray(passage_reference_mm[k], dtype=float) / 1000.0
+            for k in ("B_Lp", "B_Lm", "T_Lp", "T_Lm", "B_Rp", "B_Rm", "T_Rp", "T_Rm")
+        ]
+        passage_rigid_residual = verify_cluster_rigid_null(passage_matrix_si, passage_positions, "passage cluster K24")
+    else:
+        k12_center_si, _ = production.read_four_port_matrix(PACKAGE / "inputs/gate_passage/K12_translation_ports.csv")
+        mean_map = np.zeros((12, 24))
+        for port in range(4):
+            for axis in range(3):
+                mean_map[3 * port + axis, 6 * port + axis] = 0.5
+                mean_map[3 * port + axis, 6 * port + 3 + axis] = 0.5
     for row in station_map.itertuples(index=False):
         bottom_id = int(row.mct_bottom_node)
         gate_id = int(row.mct_gate_node)
         rotation = production.station_local_to_global(float(row.bottom_central_chord_slope_degree))
-        t_blocks = rotation_blocks_translation(rotation, 8)
-        k_line = t_blocks @ passage_cluster_si @ t_blocks.T
+        if passage_mode == "cerig-rigid":
+            t_blocks = rotation_blocks_translation(rotation, 8)
+            k_line = t_blocks @ passage_matrix_si @ t_blocks.T
+        else:
+            t_blocks = rotation_blocks_translation(rotation, 4)
+            k_center_global = t_blocks @ k12_center_si @ t_blocks.T
+            k_line = mean_map.T @ k_center_global @ mean_map
         node_list = [
             index[(1, 1, bottom_id)],
             index[(1, -1, bottom_id)],
@@ -814,6 +844,18 @@ def make_figures(production, parsed, model, classification, reference_match, mod
 def main() -> None:
     parser = argparse.ArgumentParser(description="Double-MCT roll-upgraded model (theory-derived torsion fix)")
     parser.add_argument("--modes", type=int, default=80)
+    parser.add_argument(
+        "--passage-mode",
+        choices=("cerig-rigid", "drawing-soft"),
+        default="cerig-rigid",
+        help=(
+            "cerig-rigid: audited K24 cluster assembly (74 CERIG ALL rigid links); "
+            "drawing-soft: per drawings MD5-16/17/24/25 the passage rides on MC-nylon rollers, "
+            "pinned tubes and hoop clamps, so no passage stiffness is assembled and each "
+            "passage station carries two independent cluster gates instead"
+        ),
+    )
+    parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args()
 
     production = load_production_module()
@@ -826,7 +868,7 @@ def main() -> None:
         raise ValueError("Expected 21 passage stations")
 
     b_bottom, b_top, gauge_audit = rope_group_half_gauges()
-    model = build_roll_model(production, parsed, station_map, b_bottom, b_top)
+    model = build_roll_model(production, parsed, station_map, b_bottom, b_top, args.passage_mode)
     # Second-stage spatialized mass replaces the planar CONLOAD lumping (identical total).
     mass_stats = allocate_spatialized_mass(production, parsed, model)
     total_mass_t = float(np.sum(model["nodal_mass_kg"])) / 1000.0
@@ -840,15 +882,17 @@ def main() -> None:
     reference_match = match_reference(reference, classification)
     tracking = track_previous(production, parsed, model, station_map, classification, modes)
 
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    classification.to_csv(OUTPUT_DIR / "roll_upgraded_mode_classification.csv", index=False)
-    reference_match.to_csv(OUTPUT_DIR / "roll_upgraded_reference_table4_1_matching.csv", index=False)
-    tracking.to_csv(OUTPUT_DIR / "roll_upgraded_vs_gate_corrected_tracking.csv", index=False)
+    output_dir = args.output if args.output is not None else OUTPUT_DIR
+    output_dir.mkdir(parents=True, exist_ok=True)
+    classification.to_csv(output_dir / "roll_upgraded_mode_classification.csv", index=False)
+    reference_match.to_csv(output_dir / "roll_upgraded_reference_table4_1_matching.csv", index=False)
+    tracking.to_csv(output_dir / "roll_upgraded_vs_gate_corrected_tracking.csv", index=False)
 
     valid = reference_match.dropna(subset=["absolute_error_percent"])
     torsional = valid[valid["reference_id"].str.startswith("T")]
     non_torsional = valid[~valid["reference_id"].str.startswith("T")]
     statistics = {
+        "passage_mode": args.passage_mode,
         "b_bottom_rms_m": b_bottom,
         "b_top_rms_m": b_top,
         "total_mass_tonne": total_mass_t,
@@ -870,12 +914,12 @@ def main() -> None:
         "reference_maximum_absolute_error_percent": float(valid["absolute_error_percent"].max()),
         "gauge_audit": gauge_audit,
     }
-    (OUTPUT_DIR / "roll_upgraded_summary.json").write_text(
+    (output_dir / "roll_upgraded_summary.json").write_text(
         json.dumps(statistics, ensure_ascii=False, indent=2), encoding="utf-8"
     )
-    make_figures(production, parsed, model, classification, reference_match, modes, OUTPUT_DIR)
+    make_figures(production, parsed, model, classification, reference_match, modes, output_dir)
     np.savez_compressed(
-        OUTPUT_DIR / "roll_upgraded_mode_vectors_first24.npz",
+        output_dir / "roll_upgraded_mode_vectors_first24.npz",
         modes=modes[:, : min(24, modes.shape[1])],
         xyz=model["xyz"],
         free_dofs=model["free_dofs"],
