@@ -1,0 +1,42 @@
+{
+  "artifactType": "solution_verification_report",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-E20-PASSAGE-SPRINGS-20260827T150412217226Z",
+  "artifactId": "ART-E20-N15-SOLVER-VERIFICATION",
+  "createdAt": "2026-08-28T00:30:00Z",
+  "status": "PASS_WITH_BOUNDS",
+  "gateId": "G13",
+  "data": {
+    "overallDecision": "PASS_WITH_BOUNDS",
+    "bounds": [
+      "4158 COMBIN14 k=1e4 N/mm replaced 1386 passage UXYZ CERIG. Non-coincident node warnings are expected for rigid-arm endpoints.",
+      "TA1 moved from 0.07333 Hz to 0.08445 Hz (-15.2% vs 0.0996). Hybrid LA/TA pair split.",
+      "RSTP 80 sets; SENE exported 50 modes."
+    ],
+    "residualChecks": [
+      {"checkId": "N15-RES-LS1", "cnvg": 1, "decision": "PASS"},
+      {"checkId": "N15-RES-LS2", "cnvg": 1, "decision": "PASS"},
+      {
+        "checkId": "N15-RES-STEN",
+        "ls1Endpoint": 2.713754357694385e-34,
+        "ls2Endpoint": 2.713754044245038e-34,
+        "decision": "PASS"
+      }
+    ],
+    "globalEquilibriumChecks": [
+      {
+        "checkId": "N15-EQ-MASS",
+        "massTonne": 4108.639824770034,
+        "absErrorTonne": 2.728484105318785e-12,
+        "decision": "PASS"
+      },
+      {
+        "checkId": "N15-EQ-FZ",
+        "rfRelativeError": 2.223191536101478e-12,
+        "uzSupportCount": 464,
+        "decision": "PASS"
+      }
+    ]
+  }
+}

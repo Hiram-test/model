@@ -1,0 +1,25 @@
+{
+  "artifactType": "global_equilibrium_report",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-C20-HINGES-TOPPIN-ROTX-20260827T053427734492Z",
+  "artifactId": "ART-C20-N15-GLOBAL-EQUILIBRIUM",
+  "status": "PASS",
+  "gateId": "G13",
+  "data": {
+    "units": {"force": "N", "mass": "tonne", "length": "mm", "g": 9806.0},
+    "mass": {
+      "actual": 4108.466907580443,
+      "expected": 4108.46690758000,
+      "absError": 4.429239197634161e-10
+    },
+    "verticalReaction": {
+      "expected": 40287626.49573383,
+      "actual": 40287626.49566558,
+      "error": -6.824731826782227e-5,
+      "relativeError": 1.694001960503907e-12,
+      "uzSupportCount": 464
+    },
+    "source": "solver/c20_static_energy_mass_reaction.txt"
+  }
+}

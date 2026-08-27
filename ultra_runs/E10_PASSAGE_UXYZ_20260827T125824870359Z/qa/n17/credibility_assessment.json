@@ -1,0 +1,25 @@
+{
+  "artifactType": "credibility_assessment",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-E10-PASSAGE-UXYZ-20260827T125824870359Z",
+  "artifactId": "ART-E10-N17-CREDIBILITY",
+  "status": "PASS_WITH_BOUNDS",
+  "gateId": "G15",
+  "data": {
+    "claims": [
+      {
+        "claimId": "CLM-E10-NO-TA1-SHIFT",
+        "statement": "Releasing passage CERIG rotation (ALL->UXYZ) does not recover TA1",
+        "result": "PASS",
+        "femHz": 0.07332505793975658,
+        "d10Hz": 0.07336858500593386,
+        "deltaHz": -4.35e-5
+      }
+    ],
+    "notPermissible": [
+      "declare TA1 recovered to 0.0996 Hz",
+      "rename this deck to production F00"
+    ]
+  }
+}

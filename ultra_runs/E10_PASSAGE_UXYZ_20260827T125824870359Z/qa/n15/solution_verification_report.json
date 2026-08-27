@@ -1,0 +1,76 @@
+{
+  "artifactType": "solution_verification_report",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-E10-PASSAGE-UXYZ-20260827T125824870359Z",
+  "artifactId": "ART-E10-N15-SOLVER-VERIFICATION",
+  "createdAt": "2026-08-27T15:05:00Z",
+  "createdBy": {"role": "solution-verification", "skill": "15-bridge-solution-verification"},
+  "status": "PASS_WITH_BOUNDS",
+  "gateId": "G13",
+  "unitsPolicy": "N-mm-tonne-s",
+  "coordinateSystemId": "CS-ANSYS-XLONG-YLAT-ZVERT",
+  "data": {
+    "overallDecision": "PASS_WITH_BOUNDS",
+    "bounds": [
+      "1386 passage CERIG ALL -> UXYZ. TA1 remains 0.073325 Hz (-26.4% vs 0.0996). Four-port relative translation is still locked by UXYZ.",
+      "RSTP expanded 80 sets; SENE exported for 50 modes. Table 4-1 pairing unchanged vs D10.",
+      "No remesh. Sibling is D10 TOPPIN ROTX + 32 stays."
+    ],
+    "residualChecks": [
+      {
+        "checkId": "N15-RES-LS1",
+        "loadStep": 1,
+        "substeps": 20,
+        "cnvg": 1,
+        "decision": "PASS",
+        "evidence": "solver/e10_static_energy_mass_reaction.txt LS1_CNVG=1"
+      },
+      {
+        "checkId": "N15-RES-LS2",
+        "loadStep": 2,
+        "time": 1.001,
+        "cnvg": 1,
+        "decision": "PASS"
+      },
+      {
+        "checkId": "N15-RES-STEN",
+        "quantity": "abs(STEN/SENE)",
+        "ls1Endpoint": 2.637845880596229e-34,
+        "ls1HistoryPeak": 6.087038808236155e-33,
+        "ls2Endpoint": 2.637845586846840e-34,
+        "thresholdLs1": 1e-2,
+        "thresholdLs2": 1e-8,
+        "decision": "PASS"
+      }
+    ],
+    "globalEquilibriumChecks": [
+      {
+        "checkId": "N15-EQ-MASS",
+        "massTonne": 4108.639824770034,
+        "expectedTonne": 4108.639824770031,
+        "absErrorTonne": 2.728484105318785e-12,
+        "decision": "PASS"
+      },
+      {
+        "checkId": "N15-EQ-FZ",
+        "rfExpectedN": 40289322.12169495,
+        "rfActualN": 40289322.12240317,
+        "rfRelativeError": 1.757822920180719e-11,
+        "uzSupportCount": 464,
+        "decision": "PASS"
+      }
+    ],
+    "verifiedFieldRefs": [
+      "static.mass",
+      "static.reaction.FZ",
+      "static.energy.SENE",
+      "modal.frequency.lanczos_1_to_80",
+      "modal.sene.rstp_veng",
+      "modal.probes"
+    ],
+    "unverifiedFieldRefs": [
+      "modal.rstp.sets_51_to_80_sene_capped"
+    ]
+  }
+}

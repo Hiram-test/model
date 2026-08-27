@@ -1,0 +1,30 @@
+{
+  "artifactType": "static_review_summary",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-C20-HINGES-TOPPIN-ROTX-20260827T053427734492Z",
+  "artifactId": "ART-C20-N16-STATIC-REVIEW",
+  "status": "PASS_WITH_BOUNDS",
+  "gateId": "G14",
+  "data": {
+    "intendedUse": "prestressed-modal-pairing-against-attachment-2-3-table-4-1",
+    "excludedUse": ["member ULS design", "weld/bolt local check", "production frequency certification of TA1"],
+    "rulePackStatus": "NOT_FROZEN_FOR_CATWALK_ULS",
+    "verifiedInputs": ["ART-C20-N15-SOLVER-VERIFICATION"],
+    "gravityCase": {
+      "massTonne": 4108.466907580443,
+      "verticalReactionN": 40287626.49566558,
+      "maxMonitorDisplacementMm": -124.13,
+      "source": "c20_static_energy_mass_reaction.txt and mntr"
+    },
+    "decision": "PASS_WITH_BOUNDS",
+    "bounds": [
+      "Charter use is modal pairing, not member utilization.",
+      "No approved machine rule pack with clause hashes is present in this workspace; N16 cannot compute ULS utilization.",
+      "TA1 physical frequency remains 26% below measured 0.0996 Hz; not a production frequency claim."
+    ],
+    "modelExternalChecks": [
+      "Ear-plate, pin, hoop and saddle local details remain outside the beam/link model."
+    ]
+  }
+}

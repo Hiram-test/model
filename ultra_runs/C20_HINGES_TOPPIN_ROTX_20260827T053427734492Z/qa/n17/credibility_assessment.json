@@ -1,0 +1,43 @@
+{
+  "artifactType": "credibility_assessment",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-C20-HINGES-TOPPIN-ROTX-20260827T053427734492Z",
+  "artifactId": "ART-C20-N17-CREDIBILITY",
+  "status": "PASS_WITH_BOUNDS",
+  "gateId": "G15",
+  "data": {
+    "independence": ["method: station-probe L/V/T decomposition", "data: S10 sibling PFACT/EFFM by frequency match", "not: second solver"],
+    "claims": [
+      {
+        "claimId": "CLM-LS1",
+        "statement": "C20 mode 1 is LS1",
+        "tolerance": "frequency within 5% of 0.0365 Hz and UY-dominated symmetric main span",
+        "result": "PASS",
+        "femHz": 0.03682119593414085,
+        "refHz": 0.0365
+      },
+      {
+        "claimId": "CLM-TA1-PHYSICS",
+        "statement": "Antisymmetric torsion is hybridized with LA at 0.0734-0.0738 Hz, not a clean 0.0996 Hz TA1",
+        "result": "PASS_WITH_BOUNDS",
+        "note": "Physical pairing; frequency error vs table 4-1 is -26%."
+      },
+      {
+        "claimId": "CLM-ROTX-LOCAL",
+        "statement": "Releasing gate-top ROTX inserts a local cluster from 0.223 Hz",
+        "result": "PASS"
+      }
+    ],
+    "validationEvidence": "Attachment 2-3 table 4-1 frequencies only; no full-node measured MAC vectors (strict MAC still blocked).",
+    "permissibleUse": [
+      "connection study C20 toppin ROTX vs SPRING",
+      "parent line for D10 physical downpull",
+      "table 4-1 physical pairing discussion"
+    ],
+    "notPermissible": [
+      "declare TA1 recovered to 0.0996 Hz",
+      "rename this deck to production F00"
+    ]
+  }
+}

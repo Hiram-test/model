@@ -1,0 +1,56 @@
+{
+  "artifactType": "solver_warning_disposition",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-D10-DOWNPULL-20260827T075458947752Z",
+  "artifactId": "ART-D10-N15-WARNING-DISPOSITION",
+  "status": "PASS",
+  "gateId": "G13",
+  "data": {
+    "source": "solver/cw_D10x_0827t075458.err",
+    "sealedSolveStart": "2026-08-27T16:02:27+08:00",
+    "fatalCount": 0,
+    "supersededAbortedAttempt": {
+      "window": "15:58:25-16:01:31",
+      "items": [
+        "REAL 50000/50001 referenced before the successful restart defined them",
+        "I/O error 28 (disk full) on file unit 3"
+      ],
+      "disposition": "not_in_sealed_solve"
+    },
+    "items": [
+      {
+        "id": "W1",
+        "class": "modeling_concern",
+        "disposition": "benign_with_evidence",
+        "elapsedS": 13.887,
+        "text": "Constraint equations may not be valid for elements that undergo large deflections.",
+        "closeBasis": "CERIG gate posts and cables, NLGEOM on. LS1/LS2 CNVG=1, STEN/SENE 2.64e-34, FZ rel error 1.65e-11, no negative pivot in sealed solve."
+      },
+      {
+        "id": "W2",
+        "class": "numerical_concern",
+        "disposition": "benign_with_evidence",
+        "elapsedS": 28.503,
+        "text": "Coefficient ratio exceeds 1.0e8 - Check results.",
+        "closeBasis": "Prestressed LINK180 + rigid CERIG. Mass error 2.73e-12 t."
+      },
+      {
+        "id": "W3",
+        "class": "numerical_concern",
+        "disposition": "benign_with_evidence",
+        "elapsedS": 75.600,
+        "text": "MOMENT CONVERGENCE VALUE = 0.110392334 below MINREF.",
+        "closeBasis": "LS1 early ramp substep 1. Later substeps 2 iterations, CNVG=1."
+      },
+      {
+        "id": "W4",
+        "class": "numerical_concern",
+        "disposition": "benign_with_evidence",
+        "elapsedS": 2601.715,
+        "text": "MOMENT CONVERGENCE VALUE = 203.612366 below MINREF.",
+        "closeBasis": "LS2 0.001 hold, 1 iteration, CNVG=1, STEN/SENE 2.64e-34."
+      }
+    ]
+  }
+}

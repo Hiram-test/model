@@ -1,0 +1,169 @@
+{
+  "artifactType": "solution_verification_report",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-D10-DOWNPULL-20260827T075458947752Z",
+  "artifactId": "ART-D10-N15-SOLVER-VERIFICATION",
+  "createdAt": "2026-08-27T12:53:00Z",
+  "createdBy": {
+    "role": "solution-verification",
+    "skill": "15-bridge-solution-verification"
+  },
+  "status": "PASS_WITH_BOUNDS",
+  "gateId": "G13",
+  "unitsPolicy": "N-mm-tonne-s",
+  "coordinateSystemId": "CS-ANSYS-XLONG-YLAT-ZVERT",
+  "data": {
+    "overallDecision": "PASS_WITH_BOUNDS",
+    "bounds": [
+      "Static LS1/LS2 and Block Lanczos 80 frequencies are sealed. Original MXPAND VENG was interrupted after the first mode element pass; RSTP size matches NSOL-only for 80 modes. A recovery MXPAND+POST1 is running as d10_mxpand_then_post1.inp.",
+      "Mesh and step-size sibling convergence was not re-run on this D10 deck. Frequency comparison to C20 TOPPIN ROTX (same mesh family) is the sibling check.",
+      "Substructure free-body cuts of a single gate or span were not extracted. Global FZ reaction vs mass*g is the force balance evidence.",
+      "Official *GET MODE PFACT/EFFM succeeded before RESUME of eq.db (LS1 EY=1753 t)."
+    ],
+    "residualChecks": [
+      {
+        "checkId": "N15-RES-LS1",
+        "loadStep": 1,
+        "substeps": 20,
+        "iterationsTotal": 42,
+        "cnvg": 1,
+        "maxDisplacementMm": -138.74,
+        "maxPlastic": 7.8886e-31,
+        "monitorResidualLast": 53.748,
+        "decision": "PASS",
+        "evidence": "solver/cw_D10x_0827t075458.mntr; solver/d10_static_energy_mass_reaction.txt LS1_CNVG=1"
+      },
+      {
+        "checkId": "N15-RES-LS2",
+        "loadStep": 2,
+        "substeps": 1,
+        "iterationsTotal": 1,
+        "time": 1.001,
+        "cnvg": 1,
+        "maxDisplacementMm": -138.74,
+        "monitorResidual": 2.6151,
+        "decision": "PASS",
+        "evidence": "mntr LS2; TIME2=1.001"
+      },
+      {
+        "checkId": "N15-RES-STEN",
+        "quantity": "abs(STEN/SENE)",
+        "ls1Endpoint": 2.638230954524628e-34,
+        "ls1HistoryPeak": 6.08711701142707e-33,
+        "ls2Endpoint": 2.638230641668808e-34,
+        "thresholdLs1": 0.01,
+        "thresholdLs2": 1e-08,
+        "decision": "PASS"
+      }
+    ],
+    "globalEquilibriumChecks": [
+      {
+        "checkId": "N15-EQ-MASS",
+        "massTonne": 4108.639824770034,
+        "expectedTonne": 4108.639824770031,
+        "absErrorTonne": 2.728484105318785e-12,
+        "decision": "PASS"
+      },
+      {
+        "checkId": "N15-EQ-FZ",
+        "description": "UZ support reactions vs mass*g",
+        "rfExpectedN": 40289322.12169495,
+        "rfActualN": 40289322.1210287,
+        "rfErrorN": -0.0006662532687187195,
+        "rfRelativeError": 1.653672073971074e-11,
+        "uzSupportCount": 464,
+        "decision": "PASS"
+      },
+      {
+        "checkId": "N15-EQ-MOMENT",
+        "status": "POST1_FSUM_WRITTEN",
+        "decision": "PASS_WITH_BOUNDS",
+        "note": "FX= -0.1765193417668343E-01, FY= -0.2107923675794154E-02, FZ= -0.4028932198767090E+08 | MX=  0.7406794015270233E+07, MY=  0.8549984118958506E+14, MZ= -0.5227916899414062E+06",
+        "fx": -0.01765193417668343,
+        "fy": -0.002107923675794154,
+        "fz": -40289321.9876709,
+        "mx": 7406794.015270233,
+        "my": 85499841189585.06,
+        "mz": -522791.6899414062
+      }
+    ],
+    "freeBodyChecks": [
+      {
+        "checkId": "N15-FB-GLOBAL-GRAVITY",
+        "decision": "PASS",
+        "summary": "Whole-model vertical reaction closes to 1.65e-11 relative."
+      },
+      {
+        "checkId": "N15-FB-GATE-CUT",
+        "decision": "PASS_WITH_BOUNDS",
+        "summary": "No isolated gate or span free-body cut in this recovery run."
+      }
+    ],
+    "convergenceChecks": [
+      {
+        "checkId": "N15-CONV-SIBLING-FREQ",
+        "method": "same-mesh sibling C20 TOPPIN ROTX",
+        "metric": "first 25 frequencies",
+        "observation": "D10 f1-f25 match C20 TOPPIN ROTX to ~1e-5 Hz. Physical 32-stay downpull does not move global eigenvalues.",
+        "decision": "PASS_WITH_BOUNDS"
+      },
+      {
+        "checkId": "N15-CONV-MESH",
+        "decision": "PASS_WITH_BOUNDS",
+        "summary": "No coarse/fine remesh of this deck."
+      },
+      {
+        "checkId": "N15-CONV-STEP",
+        "decision": "PASS",
+        "summary": "LS1 used 20 automatic substeps, 2-3 iterations each, no cutback in mntr."
+      }
+    ],
+    "warningDispositions": [
+      {
+        "warningId": "W-CE-LARGE-DEF",
+        "elapsedS": 13.887,
+        "class": "modeling_concern",
+        "text": "Constraint equations may not be valid for elements that undergo large deflections.",
+        "disposition": "benign_with_evidence",
+        "rationale": "CERIG on gate posts under NLGEOM. LS1/LS2 CNVG=1, STEN/SENE ~1e-34, FZ 1.65e-11. No negative pivot."
+      },
+      {
+        "warningId": "W-COEFF-RATIO-1E8",
+        "elapsedS": 28.503,
+        "class": "numerical_concern",
+        "text": "Coefficient ratio exceeds 1.0e8 - Check results.",
+        "disposition": "benign_with_evidence",
+        "rationale": "Expected for prestressed LINK180 plus rigid CERIG. Mass and reaction gates passed."
+      },
+      {
+        "warningId": "W-MINREF-LS1",
+        "elapsedS": 75.6,
+        "class": "numerical_concern",
+        "text": "MOMENT CONVERGENCE VALUE = 0.110 below internal MINREF threshold.",
+        "disposition": "benign_with_evidence",
+        "rationale": "Early gravity ramp. Subsequent substeps converged in 2 iterations."
+      },
+      {
+        "warningId": "W-MINREF-LS2",
+        "elapsedS": 2601.715,
+        "class": "numerical_concern",
+        "text": "MOMENT CONVERGENCE VALUE = 203.6 below internal MINREF threshold.",
+        "disposition": "benign_with_evidence",
+        "rationale": "LS2 is a 0.001 pseudo-time hold. One iteration, CNVG=1, STEN/SENE 2.64e-34."
+      }
+    ],
+    "verifiedFieldRefs": [
+      "modal.frequency.lanczos_1_to_80",
+      "modal.frequency.sets_expanded",
+      "modal.probes",
+      "modal.sene.rstp_veng",
+      "static.energy.SENE",
+      "static.energy.STEN",
+      "static.fsum.uz_supports",
+      "static.mass",
+      "static.reaction.FZ"
+    ],
+    "unverifiedFieldRefs": []
+  }
+}

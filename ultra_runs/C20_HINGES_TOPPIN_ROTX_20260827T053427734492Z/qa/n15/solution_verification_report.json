@@ -1,0 +1,162 @@
+{
+  "artifactType": "solution_verification_report",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-C20-HINGES-TOPPIN-ROTX-20260827T053427734492Z",
+  "artifactId": "ART-C20-N15-SOLVER-VERIFICATION",
+  "createdAt": "2026-08-27T07:45:00Z",
+  "createdBy": {"role": "solution-verification", "skill": "15-bridge-solution-verification"},
+  "status": "PASS_WITH_BOUNDS",
+  "gateId": "G13",
+  "unitsPolicy": "N-mm-tonne-s",
+  "coordinateSystemId": "CS-ANSYS-XLONG-YLAT-ZVERT",
+  "data": {
+    "overallDecision": "PASS_WITH_BOUNDS",
+    "bounds": [
+      "Modal RSTP contains 51 expanded sets; Block Lanczos listed 80 frequencies. Table 4-1 lives below 0.18 Hz (inside sets 1-20). Modes 52-80 lack element energy and official PFACT because MXPAND was interrupted.",
+      "Mesh and step-size sibling convergence was not re-run on this TOPPIN ROTX deck. Frequency comparison to S10/C20 SPRING (same mesh family) is used as a sibling check, not a Richardson mesh study.",
+      "Substructure free-body cuts of a single gate or a single span were not extracted in this recovery POST1. Global FZ reaction vs mass*g is the force balance evidence.",
+      "Official *GET MODE PFACT/EFFM/GENM failed: MODE file is not attached after RESUME of the static eq.db. Direction class uses station probes, SENE groups, and S10 PFACT of frequency-matched siblings."
+    ],
+    "residualChecks": [
+      {
+        "checkId": "N15-RES-LS1",
+        "loadStep": 1,
+        "substeps": 20,
+        "iterationsTotal": 42,
+        "cnvg": 1,
+        "maxDisplacementMm": -124.13,
+        "maxPlastic": 7.8886e-31,
+        "monitorResidualLast": 0.99293,
+        "decision": "PASS",
+        "evidence": "solver/cw_C20x_0827t053427.mntr; solver/c20_static_energy_mass_reaction.txt LS1_CNVG=1"
+      },
+      {
+        "checkId": "N15-RES-LS2",
+        "loadStep": 2,
+        "substeps": 1,
+        "iterationsTotal": 1,
+        "time": 1.001,
+        "cnvg": 1,
+        "maxDisplacementMm": -124.13,
+        "monitorResidual": 0.15952,
+        "decision": "PASS",
+        "evidence": "mntr LS2; TIME2=1.001"
+      },
+      {
+        "checkId": "N15-RES-STEN",
+        "quantity": "abs(STEN/SENE)",
+        "ls1Endpoint": 2.655249223953265e-34,
+        "ls1HistoryPeak": 5.784962543607520e-33,
+        "ls2Endpoint": 2.655249215721600e-34,
+        "thresholdLs1": 1e-2,
+        "thresholdLs2": 1e-8,
+        "decision": "PASS"
+      }
+    ],
+    "globalEquilibriumChecks": [
+      {
+        "checkId": "N15-EQ-MASS",
+        "massTonne": 4108.466907580443,
+        "expectedTonne": 4108.46690758000,
+        "absErrorTonne": 4.429239197634161e-10,
+        "decision": "PASS"
+      },
+      {
+        "checkId": "N15-EQ-FZ",
+        "description": "UZ support reactions vs mass*g",
+        "rfExpectedN": 40287626.49573383,
+        "rfActualN": 40287626.49566558,
+        "rfErrorN": -6.824731826782227e-5,
+        "rfRelativeError": 1.694001960503907e-12,
+        "uzSupportCount": 464,
+        "decision": "PASS",
+        "note": "Printed RF_RELATIVE_ERROR in the static file is 1.694e-12 (user summary 1e-11 is the order of magnitude)."
+      },
+      {
+        "checkId": "N15-EQ-MOMENT",
+        "status": "PENDING_POST1_FSUM",
+        "decision": "PASS_WITH_BOUNDS",
+        "note": "Moment resultant at UZ supports is requested in c20_post1_continue.inp as FSUM MX/MY/MZ. File c20_static_fsum_uz_supports.txt is written at the end of POST1."
+      }
+    ],
+    "freeBodyChecks": [
+      {
+        "checkId": "N15-FB-GLOBAL-GRAVITY",
+        "decision": "PASS",
+        "summary": "Whole-model vertical reaction closes to 1.7e-12 relative."
+      },
+      {
+        "checkId": "N15-FB-GATE-CUT",
+        "decision": "PASS_WITH_BOUNDS",
+        "summary": "No isolated gate or span free-body cut in this recovery run."
+      }
+    ],
+    "convergenceChecks": [
+      {
+        "checkId": "N15-CONV-SIBLING-FREQ",
+        "method": "same-mesh sibling S10 and C20 SPRING",
+        "metric": "first 10 frequencies",
+        "observation": "C20 TOPPIN ROTX f1-f10 match S10 to ~1e-5 Hz; extra eigenvalues appear from mode 27 (~0.223 Hz).",
+        "decision": "PASS_WITH_BOUNDS"
+      },
+      {
+        "checkId": "N15-CONV-MESH",
+        "decision": "PASS_WITH_BOUNDS",
+        "summary": "No coarse/fine remesh of this deck."
+      },
+      {
+        "checkId": "N15-CONV-STEP",
+        "decision": "PASS",
+        "summary": "LS1 used 20 automatic substeps, 2-3 iterations each, no cutback in mntr."
+      }
+    ],
+    "warningDispositions": [
+      {
+        "warningId": "W-CE-LARGE-DEF",
+        "elapsedS": 14.078,
+        "class": "modeling_concern",
+        "text": "Constraint equations may not be valid for elements that undergo large deflections.",
+        "disposition": "benign_with_evidence",
+        "rationale": "CERIG on gate posts under NLGEOM. LS1/LS2 CNVG=1, STEN/SENE ~1e-33, FZ reaction 1.7e-12. No negative pivot."
+      },
+      {
+        "warningId": "W-COEFF-RATIO-1E8",
+        "elapsedS": 137.786,
+        "class": "numerical_concern",
+        "text": "Coefficient ratio exceeds 1.0e8 - Check results.",
+        "disposition": "benign_with_evidence",
+        "rationale": "Expected for prestressed LINK180 plus rigid CERIG. Mass and reaction gates passed."
+      },
+      {
+        "warningId": "W-MINREF-LS1",
+        "elapsedS": 165.247,
+        "class": "numerical_concern",
+        "text": "MOMENT CONVERGENCE VALUE = 7.286e-2 below internal MINREF threshold.",
+        "disposition": "benign_with_evidence",
+        "rationale": "Early gravity ramp, small moment reference. Subsequent substeps converged in 2 iterations."
+      },
+      {
+        "warningId": "W-MINREF-LS2",
+        "elapsedS": 3581.371,
+        "class": "numerical_concern",
+        "text": "MOMENT CONVERGENCE VALUE = 1.680e-3 below internal MINREF threshold.",
+        "disposition": "benign_with_evidence",
+        "rationale": "LS2 is a 0.001 pseudo-time hold with stabilization off. One iteration, CNVG=1, STEN/SENE 2.66e-34."
+      }
+    ],
+    "verifiedFieldRefs": [
+      "static.mass",
+      "static.reaction.FZ",
+      "static.energy.SENE",
+      "static.energy.STEN",
+      "modal.frequency.sets_1_to_51",
+      "modal.frequency.lanczos_1_to_80"
+    ],
+    "unverifiedFieldRefs": [
+      "modal.pfact.official_c20_mode_file",
+      "modal.rstp.sets_52_to_80",
+      "modal.full_node_shape.prnsol"
+    ]
+  }
+}

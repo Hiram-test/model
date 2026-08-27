@@ -1,0 +1,24 @@
+! E10 MXPAND recovery from sealed static eq.db, then compact POST1.
+! Lanczos 80 already printed in cw_d10x_0827t075458.out; RSTP has NSOL
+! but MXPAND VENG was interrupted after the first mode element pass.
+! Re-enter linear perturbation from LS2, expand 80 modes with VENG, then POST1.
+FINISH
+/FILNAME,cw_E10_0827t125824,0
+/NERR,100000,100000
+RESUME,cw_E10_0827t125824_eq,db
+/OUTPUT,e10_gate_status,txt
+/COM,STATUS=STATIC_GATES_PASSED PHASE=MXPAND_RECOVERY
+/OUTPUT
+/SOLU
+ANTYPE,,RESTART,2,,PERTURB
+PERTURB,MODAL,AUTO,CURRENT,PARKEEP
+SOLVE,ELFORM
+LUMPM,OFF
+MODOPT,LANB,80
+MXPAND,80,,,YES
+OUTRES,ALL,NONE
+OUTRES,NSOL,ALL
+OUTRES,VENG,ALL
+SOLVE
+FINISH
+/INPUT,e10_post1_continue,inp

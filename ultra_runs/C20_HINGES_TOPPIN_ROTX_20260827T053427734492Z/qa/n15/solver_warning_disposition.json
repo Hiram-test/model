@@ -1,0 +1,47 @@
+{
+  "artifactType": "solver_warning_disposition",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-C20-HINGES-TOPPIN-ROTX-20260827T053427734492Z",
+  "artifactId": "ART-C20-N15-WARNING-DISPOSITION",
+  "status": "PASS",
+  "gateId": "G13",
+  "data": {
+    "source": "solver/cw_C20x_0827t053427.err",
+    "fatalCount": 0,
+    "items": [
+      {
+        "id": "W1",
+        "class": "modeling_concern",
+        "disposition": "benign_with_evidence",
+        "elapsedS": 14.078,
+        "text": "Constraint equations may not be valid for elements that undergo large deflections.",
+        "closeBasis": "CERIG gate posts, NLGEOM on. LS1/LS2 CNVG=1, STEN/SENE 1e-33, FZ rel error 1.7e-12, no negative pivot."
+      },
+      {
+        "id": "W2",
+        "class": "numerical_concern",
+        "disposition": "benign_with_evidence",
+        "elapsedS": 137.786,
+        "text": "Coefficient ratio exceeds 1.0e8 - Check results.",
+        "closeBasis": "Prestressed LINK180 + rigid CERIG. Mass error 4.4e-10 t."
+      },
+      {
+        "id": "W3",
+        "class": "numerical_concern",
+        "disposition": "benign_with_evidence",
+        "elapsedS": 165.247,
+        "text": "MOMENT CONVERGENCE VALUE = 7.286e-2 below MINREF.",
+        "closeBasis": "LS1 early ramp. Later substeps 2 iterations, CNVG=1."
+      },
+      {
+        "id": "W4",
+        "class": "numerical_concern",
+        "disposition": "benign_with_evidence",
+        "elapsedS": 3581.371,
+        "text": "MOMENT CONVERGENCE VALUE = 1.680e-3 below MINREF.",
+        "closeBasis": "LS2 0.001 hold, 1 iteration, CNVG=1."
+      }
+    ]
+  }
+}

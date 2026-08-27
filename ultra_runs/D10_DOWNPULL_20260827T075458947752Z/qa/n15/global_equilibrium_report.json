@@ -1,0 +1,39 @@
+{
+  "artifactType": "global_equilibrium_report",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-D10-DOWNPULL-20260827T075458947752Z",
+  "artifactId": "ART-D10-N15-GLOBAL-EQUILIBRIUM",
+  "status": "PASS",
+  "gateId": "G13",
+  "data": {
+    "units": {
+      "force": "N",
+      "mass": "tonne",
+      "length": "mm",
+      "g": 9806.0
+    },
+    "mass": {
+      "actual": 4108.639824770034,
+      "expected": 4108.639824770031,
+      "absError": 2.728484105318785e-12
+    },
+    "verticalReaction": {
+      "expected": 40289322.12169495,
+      "actual": 40289322.1210287,
+      "error": -0.0006662532687187195,
+      "relativeError": 1.653672073971074e-11,
+      "uzSupportCount": 464
+    },
+    "source": "solver/d10_static_energy_mass_reaction.txt",
+    "uzSupportFsum": {
+      "FX": -0.01765193417668343,
+      "FY": -0.002107923675794154,
+      "FZ": -40289321.9876709,
+      "MX": 7406794.015270233,
+      "MY": 85499841189585.06,
+      "MZ": -522791.6899414062
+    },
+    "fsumSource": "solver/d10_static_fsum_uz_supports.txt"
+  }
+}

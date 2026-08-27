@@ -1,0 +1,33 @@
+{
+  "artifactType": "static_review_summary",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-D10-DOWNPULL-20260827T075458947752Z",
+  "artifactId": "ART-D10-N16-STATIC-REVIEW",
+  "status": "PASS_WITH_BOUNDS",
+  "gateId": "G14",
+  "data": {
+    "intendedUse": "prestressed-modal-pairing-against-attachment-2-3-table-4-1",
+    "excludedUse": [
+      "member ULS design",
+      "weld/bolt local check",
+      "production frequency certification of TA1"
+    ],
+    "rulePackStatus": "NOT_FROZEN_FOR_CATWALK_ULS",
+    "verifiedInputs": [
+      "ART-D10-N15-SOLVER-VERIFICATION"
+    ],
+    "gravityCase": {
+      "massTonne": 4108.639824770034,
+      "verticalReactionN": 40289322.1210287,
+      "maxMonitorDisplacementMm": -138.74,
+      "source": "d10_static_energy_mass_reaction.txt and mntr"
+    },
+    "decision": "PASS_WITH_BOUNDS",
+    "bounds": [
+      "Charter use is modal pairing, not member utilization.",
+      "D10 vs C20 first 25 frequencies differ at 1e-5 Hz; physical 32-stay downpull does not change global eigenvalues.",
+      "TA1 physical frequency remains 26% below measured 0.0996 Hz; not a production frequency claim."
+    ]
+  }
+}

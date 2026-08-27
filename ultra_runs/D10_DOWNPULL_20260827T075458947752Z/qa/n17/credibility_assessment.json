@@ -1,0 +1,45 @@
+{
+  "artifactType": "credibility_assessment",
+  "schemaVersion": "1.0.0",
+  "projectId": "PRJ-ZJG-CATWALK-MODAL",
+  "runId": "RUN-D10-DOWNPULL-20260827T075458947752Z",
+  "artifactId": "ART-D10-N17-CREDIBILITY",
+  "status": "PASS_WITH_BOUNDS",
+  "gateId": "G15",
+  "data": {
+    "independence": [
+      "method: C20 cross-check signs + S10 PFACT + toppost SENE vs cable amp",
+      "data: D10 POST1 probes/SENE and S10 sibling PFACT",
+      "not: second solver"
+    ],
+    "claims": [
+      {
+        "claimId": "CLM-D10-NO-FREQ-SHIFT",
+        "statement": "D10 32-stay downpull does not move the first 25 eigenvalues versus C20 TOPPIN ROTX",
+        "result": "PASS",
+        "note": "max |Δf| in first 25 is 3.5e-5 Hz at mode 25"
+      },
+      {
+        "claimId": "CLM-TA1-PHYSICS",
+        "statement": "Antisymmetric torsion remains hybridized near 0.0734 Hz, not 0.0996 Hz",
+        "result": "PASS_WITH_BOUNDS",
+        "femHz": 0.07336858500593386,
+        "refHz": 0.0996,
+        "mode": 3
+      },
+      {
+        "claimId": "CLM-PAIRING-UNCHANGED",
+        "statement": "D10 Table 4-1 pairing does not change C20 conclusions",
+        "result": "PASS"
+      }
+    ],
+    "permissibleUse": [
+      "parent line for E10 passage UXYZ four-port release",
+      "table 4-1 pairing discussion"
+    ],
+    "notPermissible": [
+      "declare TA1 recovered to 0.0996 Hz",
+      "rename this deck to production F00"
+    ]
+  }
+}
