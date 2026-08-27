@@ -55,7 +55,9 @@ xelatex -interaction=nonstopmode -halt-on-error -output-directory output/pdf out
 
 ## 滚转升级（2026-08-27，理论推导修复）
 
-针对扭转族偏差的理论推导修复见 `report/double_mct_torsion_theory_fix_cn.pdf`：
+讨论全过程整理（表 4-1 差异 → 理论修复 → 图纸核证 → f99 全模型对照）见
+`report/double_mct_torsion_discussion_cn.pdf`。
+针对扭转族偏差的公式推导见 `report/double_mct_torsion_theory_fix_cn.pdf`：
 双索组等效（±b_B/±b_T）、双簇平动端口凝聚（`code/condense_h10_cluster_ports.py`）、
 二期质量空间化（`code/double_mct_roll_upgraded_model.py`，结果在 `roll_upgraded_results/`）。
 主跨 L/V 行改善、呼吸与门架索解耦分支治愈；T 族三行几乎不动，并被证明处于

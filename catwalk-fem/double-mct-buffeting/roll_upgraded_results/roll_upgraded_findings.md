@@ -1,6 +1,6 @@
 # 双索组滚转升级：结论摘要（not_a_scientific_claim）
 
-完整推导过程见 `report/double_mct_torsion_theory_fix_cn.pdf`。全部参数取自仓库审计数据，无拟合。
+讨论全过程整理见 `report/double_mct_torsion_discussion_cn.pdf`；公式推导见 `report/double_mct_torsion_theory_fix_cn.pdf`。全部参数取自仓库审计数据，无拟合。
 
 ## 修复了什么（结构层面）
 
