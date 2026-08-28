@@ -33,6 +33,11 @@ def test_weather_library_conversion_lock():
     c_rows = [s for s in lib["scenarios"] if s["confidence"] == "C"]
     assert len(c_rows) == 15
     assert all(s.get("source") for s in lib["scenarios"])
+    blob = json.dumps(lib, ensure_ascii=False)
+    assert "颱" not in blob, "library is simplified Chinese; do not write 颱"
+    for s in lib["scenarios"]:
+        if s["category"] == "hurricane":
+            assert "台风" not in s["name_cn"] and "颱风" not in s["name_cn"], s["id"]
     ledger = json.loads((ART / "c_level_review.json").read_text())
     assert "15" in ledger["rule"]
     assert {s["id"] for s in c_rows} == {x["id"] for x in ledger["items"]}
