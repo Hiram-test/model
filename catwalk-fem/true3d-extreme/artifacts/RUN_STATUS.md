@@ -21,7 +21,11 @@ Follow-on this same day:
 - 陡振 Den Hartog H=0.733>0 on the catwalk section; single-rope Cl' 〔待填〕.
 - Knowledge graph 181 nodes / 323 edges.
 - Warning state machine `LEVEL=NOT_ARMED` (thresholds 〔待填〕).
-- Three workshops filled under `workshops/`.
+- Three workshops filled under `workshops/`. Formal 2-page PDF: `report/true3d_three_workshops_cn.pdf`.
+- COARSEN=2 extra file: TA1 shift −1.43%, TS1 −1.10%, LS1 −0.90% vs COARSEN=4. Mass still 4108.466 t.
+- C-level count in the library is 15 (A16/B12/C15), not the outline's "14". All stay unverified_C. Formal 2-page PDF: `report/true3d_three_workshops_cn.pdf`.
+- COARSEN=2 extra file: TA1 shift −1.43%, TS1 −1.10%, LS1 −0.90% vs COARSEN=4. Mass still 4108.466 t.
+- C-level 14 remain unverified_C (`c_level_review.json`). Thresholds cited but armed=false (`threshold_sources.json`).
 
 `.frd` is local-only (185 MB). Rebuild: `bash code/run_solver.sh`.
 Patrol is off on this agent.
