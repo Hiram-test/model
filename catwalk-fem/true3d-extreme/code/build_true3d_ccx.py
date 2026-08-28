@@ -37,6 +37,31 @@ ART = Path(__file__).resolve().parent.parent / "artifacts"
 SOL = Path(__file__).resolve().parent.parent / "solver"
 SOL.mkdir(parents=True, exist_ok=True)
 UY_FRAC_MAX = 0.05          # hard lock: catwalk UY must NOT be all-mesh pinned
+BUILDER_SCHEME_MIN = 100000  # nid = 100000*(g+1)+k ; S10 raw ids collide above this
+IMPORT_SHIFT = 2_000_000
+PASSAGE_CLUSTER_GAP_MM = 5000.0
+
+
+def deck_id_from_s10(n: int) -> int:
+    """Keep 100000*(g+1)+k reserved. S10 ids in that range are shifted."""
+    n = int(n)
+    if n < BUILDER_SCHEME_MIN:
+        return n
+    return IMPORT_SHIFT + n
+
+
+def cluster_x_stations(xs, gap: float = PASSAGE_CLUSTER_GAP_MM) -> list[float]:
+    """R5: one equivalent beam per passage, not one per sec-63 depth sample."""
+    xs = sorted(float(x) for x in xs)
+    if not xs:
+        return []
+    clusters = [[xs[0]]]
+    for x in xs[1:]:
+        if x - clusters[-1][-1] < gap:
+            clusters[-1].append(x)
+        else:
+            clusters.append([x])
+    return [float(sum(c) / len(c)) for c in clusters]
 
 BEARING_A = 1393.668228093791
 GANTRY_A = 1400.496622996084
@@ -60,29 +85,6 @@ CROSS_SMALL = (736.0, 261525.333333, 261525.333333, 389344.0)
 CROSS_SPACING = 2948.0
 PASS_CHORD_A = 2752.03516454
 PASS_CHORD_I = 7345181.85417
-S10_ID_SHIFT = 2_000_000          # keep S10 ids ≥100000 out of 100000*(g+1)+k
-
-
-def deck_id_from_s10(n: int) -> int:
-    """Map an S10 node id into deck space without colliding with nid()."""
-    n = int(n)
-    if n >= 100000:
-        return S10_ID_SHIFT + n
-    return n
-
-
-def cluster_x_stations(xs, gap: float = 5000.0) -> list[float]:
-    """Collapse nearby passage x-stations (sec-63 depth triplets) to one beam each."""
-    xs = sorted(float(x) for x in xs)
-    if not xs:
-        return []
-    clusters = [[xs[0]]]
-    for x in xs[1:]:
-        if x - clusters[-1][-1] < gap:
-            clusters[-1].append(x)
-        else:
-            clusters.append([x])
-    return [float(np.median(c)) for c in clusters]
 
 
 def rect_match(I_vert: float, I_lat: float) -> tuple[float, float]:
@@ -199,9 +201,8 @@ def main() -> None:
     ge = gate_elems
     gate_x = sorted({round(gpos[int(i)][0], 1) for e, i, j, s in ge if s == 61})
     pass_x_raw = sorted({round(gpos[int(i)][0], 1) for e, i, j, s in ge if s == 63})
-    pass_x = cluster_x_stations(pass_x_raw, gap=5000.0)
-    print(f"gate stations: {len(gate_x)}  passage stations: {len(pass_x)} "
-          f"(raw sec-63 x {len(pass_x_raw)})")
+    pass_x = cluster_x_stations(pass_x_raw)
+    print(f"gate stations: {len(gate_x)}  passage stations: {len(pass_x)} (raw {len(pass_x_raw)})")
 
     # ---- constraint / CP node stations -------------------------------------
     ds = ds_arr
@@ -273,10 +274,14 @@ def main() -> None:
 
     dp = dp_elems
     dp_nodes = sorted({int(n) for e in dp for n in e[1:]})
+    rope_ids = set(node_xyz)
     for n in dp_nodes:
+        i = deck_id_from_s10(n)
+        if i in rope_ids:
+            raise SystemExit(f"node id collision: S10 {n} -> {i} overlaps builder scheme")
         x, y, z = pos[n]
-        node_xyz[n] = (float(x), float(y), float(z))
-        push(f"{n}, {x:.3f}, {y:.3f}, {z:.3f}")
+        node_xyz[i] = (float(x), float(y), float(z))
+        push(f"{i}, {x:.3f}, {y:.3f}, {z:.3f}")
 
     # passage nodes: per passage, at 4 bearing crossings + 2 tips (y +-24860)
     pass_elems = []
@@ -327,7 +332,10 @@ def main() -> None:
                  for i in range(len(ks) - 1)]
         elsets[f"E_ROPE_{key}"] = emit_elems(pairs, "rope", key)
 
-    elsets["E_DOWNPULL"] = emit_elems([(int(a), int(b)) for _, a, b in dp], "downpull")
+    elsets["E_DOWNPULL"] = emit_elems(
+        [(deck_id_from_s10(int(a)), deck_id_from_s10(int(b))) for _, a, b in dp],
+        "downpull",
+    )
 
     portal_count = 0
     for gx in gate_x:
@@ -504,6 +512,7 @@ def main() -> None:
     dp_list = [(int(x[0]), int(x[1]), int(x[2])) for x in dp]
     for (edp, a, b), e_local in zip(dp_list, elsets["E_DOWNPULL"]):
         s_val = sig.get(edp, 0.0)
+        a, b = deck_id_from_s10(a), deck_id_from_s10(b)
         pa, pb = np.array(node_xyz[a]), np.array(node_xyz[b])
         n = (pb - pa) / np.linalg.norm(pb - pa)
         comp = (s_val * n[0] * n[0], s_val * n[1] * n[1], s_val * n[2] * n[2],
@@ -524,8 +533,9 @@ def main() -> None:
     for n, dof in d_other:
         if int(dof) == 4:
             continue
-        if n in node_xyz:
-            bmap[n].add(int(dof) + 1)
+        deck_n = deck_id_from_s10(n)
+        if deck_n in node_xyz:
+            bmap[deck_n].add(int(dof) + 1)
     n_uy = sum(1 for n, ds in bmap.items() if 2 in ds)
     uy_frac = n_uy / max(len(node_xyz), 1)
     print(f"BC nodes {len(bmap)}  UY nodes {n_uy}  uy_frac {uy_frac:.4f}")
@@ -559,8 +569,9 @@ def main() -> None:
     # ---- CP rings -> equations (masters remapped like slaves) -----------------
     def mapped_node(n: int):
         n = int(n)
-        if n in node_xyz:
-            return n
+        deck_n = deck_id_from_s10(n)
+        if deck_n in node_xyz:
+            return deck_n
         key = node_owner.get(n)
         if key is None:
             return None
@@ -609,7 +620,7 @@ def main() -> None:
     push("U")
     push("*NODE PRINT, NSET=NSUPP")
     push("RF")
-    push("** no TOTALS (ccx 2.21 *NODE PRINT,TOTALS segfault)")
+    push("** RF via NSUPP print without TOTALS (ccx 2.21 *NODE PRINT,TOTALS segfaults)")
     push("*END STEP")
     push("** STEP 2: perturbation frequency on the prestressed tangent stiffness.")
     push("** Does not read attachment 2-3 target frequencies.")
@@ -652,6 +663,12 @@ def main() -> None:
         "nodes_total": len(node_xyz),
         "portals": portal_count,
         "passages": len(pass_x),
+        "passages_raw_x_stations": len(pass_x_raw),
+        "passages_cluster_gap_mm": PASSAGE_CLUSTER_GAP_MM,
+        "passages_note": (
+            f"R5: {len(pass_x)} equivalent beams from {len(pass_x_raw)} sec-63 "
+            f"x-stations clustered at {PASSAGE_CLUSTER_GAP_MM:.0f} mm"
+        ),
         "ic_elements": ic_n,
         "boundary_nodes": len(bmap),
         "boundary_uy_nodes": n_uy,
