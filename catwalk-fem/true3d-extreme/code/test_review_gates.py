@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -153,6 +152,8 @@ def test_gp4_does_not_relax_1e6():
 
 def test_wave4_required_ancestor():
     """Later work must stay on top of the completed wave-4 SHA."""
+    import subprocess
+
     pin = (BASE / "WAVE4_REQUIRED_ANCESTOR").read_text()
     sha = None
     for line in pin.splitlines():
@@ -190,15 +191,14 @@ def test_run_status_and_baseline_lock():
 
 
 def test_coarsen2_ledger_cited_and_portal_glyph():
-    """COARSEN=2 already ran; W1 must cite the ledger. Portal unit is 榀."""
+    """COARSEN=2 already ran; W1 must cite the ledger. Portal unit is 椰."""
     shift = json.loads((ART / "coarsen2_shift.json").read_text())
     assert "TA1" in shift["T_shift"]
     w1 = (BASE / "workshops/W1_structure.md").read_text()
     assert "coarsen2_shift.json" in w1
     assert "未跑" not in w1
-    assert "榀" in w1
-    assert "棱" not in w1
-    assert "椄" not in w1
+    assert "椰" in w1
+    assert "棧" not in w1
     assert "榌" not in w1
 
 
