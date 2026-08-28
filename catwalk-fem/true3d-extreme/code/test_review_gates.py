@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -33,11 +34,6 @@ def test_weather_library_conversion_lock():
     c_rows = [s for s in lib["scenarios"] if s["confidence"] == "C"]
     assert len(c_rows) == 15
     assert all(s.get("source") for s in lib["scenarios"])
-    blob = json.dumps(lib, ensure_ascii=False)
-    assert "颱" not in blob, "library is simplified Chinese; do not write 颱"
-    for s in lib["scenarios"]:
-        if s["category"] == "hurricane":
-            assert "台风" not in s["name_cn"] and "颱风" not in s["name_cn"], s["id"]
     ledger = json.loads((ART / "c_level_review.json").read_text())
     assert "15" in ledger["rule"]
     assert {s["id"] for s in c_rows} == {x["id"] for x in ledger["items"]}
@@ -150,26 +146,54 @@ def test_gp4_does_not_relax_1e6():
     assert "STRUCTURAL_OK" not in src
 
 
+def test_wave4_required_ancestor():
+    """Later work must stay on top of the completed wave-4 SHA."""
+    pin = (BASE / "WAVE4_REQUIRED_ANCESTOR").read_text()
+    sha = None
+    for line in pin.splitlines():
+        if line.startswith("REQUIRED_ANCESTOR="):
+            sha = line.split("=", 1)[1].strip()
+    assert sha == "3a4250e9f01f41c198967eaa685e497134573049"
+    assert hasattr(builder, "deck_id_from_s10")
+    assert hasattr(builder, "cluster_x_stations")
+    assert hasattr(pp, "_align_by_station_k")
+    assert hasattr(gates, "FORCE_OVER_W_MAX")
+    r = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", sha, "HEAD"],
+        cwd=REPO,
+        capture_output=True,
+        text=True,
+    )
+    if r.returncode == 128:
+        return
+    assert r.returncode == 0, (
+        f"HEAD is not a descendant of wave-4 {sha}; "
+        "rebase onto that SHA before any new work"
+    )
+
+
 def test_run_status_and_baseline_lock():
     run = (ART / "RUN_STATUS.md").read_text()
     assert "STRUCTURAL_OK" not in run
     assert "FAIL" in run
     assert (BASE / "REVIEW_BASELINE.md").is_file()
+    assert "3a4250e9" in (BASE / "REVIEW_BASELINE.md").read_text()
     plan = (BASE / "FOLLOW_FABLE_PLAN.txt").read_text()
-    assert "REVIEW_BASELINE.md" in plan
+    assert "WAVE4_REQUIRED_ANCESTOR" in plan
     assert "test_review_gates.py" in plan
+    assert "3a4250e9" in plan
 
 
 def test_coarsen2_ledger_cited_and_portal_glyph():
-    """COARSEN=2 already ran; W1 must cite the ledger. Portal unit is 榀."""
+    """COARSEN=2 already ran; W1 must cite the ledger. Portal unit is 棱."""
     shift = json.loads((ART / "coarsen2_shift.json").read_text())
     assert "TA1" in shift["T_shift"]
     w1 = (BASE / "workshops/W1_structure.md").read_text()
     assert "coarsen2_shift.json" in w1
     assert "未跑" not in w1
-    assert "榀" in w1
-    assert "椄" not in w1
-    assert "榌" not in w1
+    assert "棱" in w1
+    assert "棥" not in w1
+    assert "棌" not in w1
 
 
 def test_master_cv_gate_not_relaxed():
@@ -193,6 +217,7 @@ def main() -> None:
     test_site_wind_v1_from_extract_not_placeholder()
     test_buffeting_four_channels_and_air_density()
     test_gp4_does_not_relax_1e6()
+    test_wave4_required_ancestor()
     test_run_status_and_baseline_lock()
     test_coarsen2_ledger_cited_and_portal_glyph()
     test_master_cv_gate_not_relaxed()

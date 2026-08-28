@@ -27,4 +27,4 @@ python3 test_review_gates.py
 - COARSEN=2 已跑：TA1 −1.43%，TS1 −1.10%，LS1 −0.90%。
 - 主曲线 CV 3.37% < 5%。
 
-已求解 COARSEN=4 deck（63 通道、安攀扫探 63.0）要等重跑 S3–S5 才更新。图谱在 G-P4 FAIL 期间只作对照，不是结论。
+已求解 COARSEN=4 deck（63 通道、安攀扫掠 63.0）要等重跑 S3–S5 才更新。图谱在 G-P4 FAIL 期间只作对照，不是结论。
