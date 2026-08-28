@@ -212,6 +212,18 @@ def test_master_cv_gate_not_relaxed():
     assert "待填" in warn["reason"]
 
 
+def test_lemma_a_audit_and_default_passage_scale():
+    """Default builder must not silently soften/drop passages; audit cites S10 floor."""
+    src = (CODE / "build_true3d_ccx.py").read_text()
+    assert 'os.environ.get("TRUE3D_PASSAGE_I_SCALE", "1")' in src
+    assert 'os.environ.get("TRUE3D_SKIP_PASSAGES") == "1"' in src
+    audit = json.loads((ART / "lateral_inertia_audit.json").read_text())
+    assert audit["locked_ansys_3d"]["TA1_Hz"] == 0.07333
+    assert abs(audit["deck"]["predicted_TA1_over_VA1"] - 1.0) < 0.02
+    assert audit["deck"]["solved_TA1_over_VA1"] > 1.3
+    assert "Comparison only" in audit["reading"]
+
+
 def test_plan_and_outline_not_gutted():
     """FOLLOW_FABLE_PLAN points at the experiment plan; outline keeps 1.2–3.4."""
     plan = (BASE / "report/true3d_extreme_experiment_plan_cn.tex").read_text()
@@ -245,6 +257,7 @@ def main() -> None:
     test_coarsen2_ledger_cited_and_portal_glyph()
     test_master_cv_gate_not_relaxed()
     test_plan_and_outline_not_gutted()
+    test_lemma_a_audit_and_default_passage_scale()
     print("review gates PASS")
 
 

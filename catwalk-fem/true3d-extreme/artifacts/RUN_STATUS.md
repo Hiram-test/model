@@ -11,7 +11,7 @@ R5 landed this run: 63 passage x-stations clustered to 21 equivalent beams (5 m 
 | G-P3 | PASS  static 3 Newton iters, Job finished, 151.8 s |
 | G-P4 | **FAIL**  4 residual-RB modes (~2e-4 Hz) still in the first 100 (dropped from modal_basis); last residual 195.3 N / W = 4.85e-6 > 1e-6. `conclusion_allowed=false`. RF print omitted: ccx 2.21 TOTALS segfault. |
 
-First structural: LS1-like 0.03904 Hz. Locked Table 4-1 pairing in `true3d_table41_pairing.csv` (comparison only): 14 rows, MAE 7.1% (63-station deck gave 15.3%). LS2 now pairs at 0.1222 Hz (+12.5%, half-waves 3); on the old 63-station deck the same locked rule landed on 0.2085 Hz (ratio 1.92, half-waves 5). T-family cited only via the three-stack bracket, not 复现/一致.
+First structural: LS1-like 0.03904 Hz. Locked Table 4-1 pairing in `true3d_table41_pairing.csv` (comparison only): 14 rows, MAE 7.1% (63-station deck gave 15.3%). LS2 now pairs at 0.1222 Hz (+12.5%, half-waves 3); on the old 63-station deck the same locked rule landed on 0.2085 Hz (ratio 1.92, half-waves 5). T-family cited only via the three-stack bracket, not 复现/一致. The bracket's lower edge is the 109k-node S10 ANSYS 3-D model itself (f99 S10/C20/D10/E10 TA1 = 0.0733 Hz, −26.4%, pinned to 2f*), not a planar-only bound. This deck's TA1 +6.5% sits *above* that locked 3-D floor. Lemma-A audit (`lateral_inertia_audit.json`): mass/tension rms_y both ~21.5 m → predict TA1/VA1 ≈ 1.00; solved 1.46. Passage EI/100 drops TA1 only 2.65% (skip/hinge/I=1e-4 diverge). Lift path not isolated; comparison only.
 
 43/43 extreme scenarios swept; Amphan row carries U10 = 63.5 (66.7/1.05) in the sweep CSV. Atlas A1–A5 in `artifacts/atlas/`. Tornado/downburst/derecho rows are `reference_only` and hatched.
 

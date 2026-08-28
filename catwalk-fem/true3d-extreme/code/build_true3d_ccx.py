@@ -284,11 +284,22 @@ def main() -> None:
         push(f"{i}, {x:.3f}, {y:.3f}, {z:.3f}")
 
     # passage nodes: per passage, at 4 bearing crossings + 2 tips (y +-24860)
+    # TRUE3D_SKIP_PASSAGES=1: wave-5 Lemma-A diagnostic — drop the 21 welded
+    # 2-chord passage beams (base rho ~0, folded mass re-bins to neighbours)
+    # to test whether they are the non-provenance path lifting antisym torsion.
+    skip_passages = os.environ.get("TRUE3D_SKIP_PASSAGES") == "1"
+    # TRUE3D_PASSAGE_HINGE=1: wave-5 diagnostic — keep the 21 passage beams but
+    # sever moment continuity at the 4 bearing crossings (duplicate node +
+    # *EQUATION on UX/UY/UZ only), i.e. the S10 CERIG-UXYZ semantics.
+    passage_hinge = os.environ.get("TRUE3D_PASSAGE_HINGE") == "1"
+    passage_i_scale = float(os.environ.get("TRUE3D_PASSAGE_I_SCALE", "1"))
     pass_elems = []
     PBASE = 900000
     pn = 0
     pass_records = []
-    for ip, px in enumerate(pass_x):
+    pass_hinge_pairs = []
+    pass_spin_ties = []
+    for ip, px in enumerate(pass_x if not skip_passages else []):
         k = int(np.argmin(np.abs(grid - px)))
         ys = [(groups[key]["y_eq"], key) for key in ("MOB", "MIB", "PIB", "POB")]
         zc = float(np.interp(grid[k], groups["PIB"]["rep_x"], groups["PIB"]["rep_z"]))
@@ -301,6 +312,20 @@ def main() -> None:
                 node_xyz[i] = (float(grid[k]), y, zc)
                 push(f"{i}, {grid[k]:.3f}, {y:.3f}, {zc:.3f}")
                 chain.append(i)
+            elif passage_hinge:
+                orig = node_id[(key, k)]
+                pn += 1
+                i = PBASE + pn
+                ox, oy, oz = node_xyz[orig]
+                node_xyz[i] = (ox, oy, oz)
+                push(f"{i}, {ox:.3f}, {oy:.3f}, {oz:.3f}")
+                chain.append(i)
+                if not any(p == ip for p, _, _ in pass_spin_ties):
+                    # one ROTY tie per passage kills the spin-about-own-axis
+                    # mechanism; RX/RZ stay released everywhere.
+                    pass_spin_ties.append((ip, i, orig))
+                else:
+                    pass_hinge_pairs.append((i, orig))
             else:
                 chain.append(node_id[(key, k)])
         pass_records.append({"x_m": round(px / 1e3, 2), "grid_k": k})
@@ -415,8 +440,8 @@ def main() -> None:
             side = (12.0 * I_avg) ** 0.25
             return side * side, RHO_STEEL_NIL
         if kind == "passage":
-            h1, h2 = rect_match(2.0 * PASS_CHORD_A * (1855.0 / 2.0) ** 2,
-                                2.0 * PASS_CHORD_I)
+            h1, h2 = rect_match(2.0 * PASS_CHORD_A * (1855.0 / 2.0) ** 2 * passage_i_scale,
+                                2.0 * PASS_CHORD_I * passage_i_scale)
             return h1 * h2, RHO_STEEL_NIL
         raise KeyError(kind)
 
@@ -475,8 +500,8 @@ def main() -> None:
             side = (12.0 * I_avg) ** 0.25
             return side, side
         if kind == "passage":
-            return rect_match(2.0 * PASS_CHORD_A * (1855.0 / 2.0) ** 2,
-                              2.0 * PASS_CHORD_I)
+            return rect_match(2.0 * PASS_CHORD_A * (1855.0 / 2.0) ** 2 * passage_i_scale,
+                              2.0 * PASS_CHORD_I * passage_i_scale)
         raise KeyError(kind)
 
     for i, (name, E, nu, rho, eids, kind) in enumerate(bmats):
@@ -598,6 +623,12 @@ def main() -> None:
             eq_lines.append((s_node, dof, master))
     if missing_master:
         raise SystemExit(f"CP master nodes missing from deck: {sorted(set(missing_master))}")
+    for dup, orig in pass_hinge_pairs:
+        for dof in (1, 2, 3):
+            eq_lines.append((dup, dof, orig))
+    for _, dup, orig in pass_spin_ties:
+        for dof in (1, 2, 3, 5):
+            eq_lines.append((dup, dof, orig))
     if eq_lines:
         push("*EQUATION")
         for s_node, dof, master in eq_lines:
@@ -662,7 +693,10 @@ def main() -> None:
         "elements_total": len(elem_def),
         "nodes_total": len(node_xyz),
         "portals": portal_count,
-        "passages": len(pass_x),
+        "passages": 0 if skip_passages else len(pass_x),
+        "diagnostic_skip_passages": skip_passages,
+        "diagnostic_passage_hinge": passage_hinge,
+        "diagnostic_passage_i_scale": passage_i_scale,
         "passages_raw_x_stations": len(pass_x_raw),
         "passages_cluster_gap_mm": PASSAGE_CLUSTER_GAP_MM,
         "passages_note": (
