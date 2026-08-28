@@ -34,6 +34,11 @@ def test_weather_library_conversion_lock():
     c_rows = [s for s in lib["scenarios"] if s["confidence"] == "C"]
     assert len(c_rows) == 15
     assert all(s.get("source") for s in lib["scenarios"])
+    blob = json.dumps(lib, ensure_ascii=False)
+    assert "颱" not in blob, "library is simplified Chinese; do not write 颱"
+    for s in lib["scenarios"]:
+        if s["category"] == "hurricane":
+            assert "台风" not in s["name_cn"] and "颱风" not in s["name_cn"], s["id"]
     ledger = json.loads((ART / "c_level_review.json").read_text())
     assert "15" in ledger["rule"]
     assert {s["id"] for s in c_rows} == {x["id"] for x in ledger["items"]}
@@ -185,15 +190,16 @@ def test_run_status_and_baseline_lock():
 
 
 def test_coarsen2_ledger_cited_and_portal_glyph():
-    """COARSEN=2 already ran; W1 must cite the ledger. Portal unit is 棱."""
+    """COARSEN=2 already ran; W1 must cite the ledger. Portal unit is 榀."""
     shift = json.loads((ART / "coarsen2_shift.json").read_text())
     assert "TA1" in shift["T_shift"]
     w1 = (BASE / "workshops/W1_structure.md").read_text()
     assert "coarsen2_shift.json" in w1
     assert "未跑" not in w1
-    assert "棱" in w1
-    assert "棥" not in w1
-    assert "棌" not in w1
+    assert "榀" in w1
+    assert "棱" not in w1
+    assert "椄" not in w1
+    assert "榌" not in w1
 
 
 def test_master_cv_gate_not_relaxed():
