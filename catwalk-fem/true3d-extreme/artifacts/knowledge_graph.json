@@ -1,0 +1,3230 @@
+{
+ "schema": "catwalk-true3d-kg/v0",
+ "n_nodes": 181,
+ "n_edges": 323,
+ "nodes": [
+  {
+   "id": "s10",
+   "type": "source",
+   "label": "S10 V2.0 APDL",
+   "mass_t": 4108.46690758
+  },
+  {
+   "id": "deck",
+   "type": "model",
+   "label": "true3d_ccx.inp",
+   "sha": "f089dee33377f1ea65ef7ec543525c85e39b323b091d3a5e27e8adfc14f4f242",
+   "coarsen": 4,
+   "nodes": 5422,
+   "elements": 7477
+  },
+  {
+   "id": "line:MIB",
+   "type": "rope_line",
+   "label": "MIB",
+   "n_ropes": 8,
+   "y_eq_m": -19.69,
+   "A_eq_mm2": 11149.35
+  },
+  {
+   "id": "line:MIG",
+   "type": "rope_line",
+   "label": "MIG",
+   "n_ropes": 3,
+   "y_eq_m": -19.5,
+   "A_eq_mm2": 4201.49
+  },
+  {
+   "id": "line:MOB",
+   "type": "rope_line",
+   "label": "MOB",
+   "n_ropes": 8,
+   "y_eq_m": -23.21,
+   "A_eq_mm2": 11149.35
+  },
+  {
+   "id": "line:MOG",
+   "type": "rope_line",
+   "label": "MOG",
+   "n_ropes": 3,
+   "y_eq_m": -23.4,
+   "A_eq_mm2": 4201.49
+  },
+  {
+   "id": "line:PIB",
+   "type": "rope_line",
+   "label": "PIB",
+   "n_ropes": 8,
+   "y_eq_m": 19.69,
+   "A_eq_mm2": 11149.35
+  },
+  {
+   "id": "line:PIG",
+   "type": "rope_line",
+   "label": "PIG",
+   "n_ropes": 3,
+   "y_eq_m": 19.5,
+   "A_eq_mm2": 4201.49
+  },
+  {
+   "id": "line:POB",
+   "type": "rope_line",
+   "label": "POB",
+   "n_ropes": 8,
+   "y_eq_m": 23.21,
+   "A_eq_mm2": 11149.35
+  },
+  {
+   "id": "line:POG",
+   "type": "rope_line",
+   "label": "POG",
+   "n_ropes": 3,
+   "y_eq_m": 23.4,
+   "A_eq_mm2": 4201.49
+  },
+  {
+   "id": "portals",
+   "type": "component",
+   "label": "142 parametric portals",
+   "n": 142
+  },
+  {
+   "id": "passages",
+   "type": "component",
+   "label": "passage stations",
+   "n_stations": 63,
+   "note": "63 x-stations = 21 clusters of 3"
+  },
+  {
+   "id": "gate:G-P1",
+   "type": "gate",
+   "label": "G-P1",
+   "pass": true
+  },
+  {
+   "id": "gate:G-P2",
+   "type": "gate",
+   "label": "G-P2",
+   "pass": true,
+   "rel": 2.3765418143813977e-07
+  },
+  {
+   "id": "gate:UY",
+   "type": "gate",
+   "label": "UY",
+   "pass": true,
+   "uy_frac": 0.01549243821468093
+  },
+  {
+   "id": "gate:G-P3",
+   "type": "gate",
+   "label": "G-P3",
+   "pass": true
+  },
+  {
+   "id": "gate:G-P4",
+   "type": "gate",
+   "label": "G-P4",
+   "verdict": "STRUCTURAL_OK_NUMERICAL_ZEROS_DROPPED"
+  },
+  {
+   "id": "family:L",
+   "type": "mode_family",
+   "label": "L family",
+   "n_modes": 18
+  },
+  {
+   "id": "family:V",
+   "type": "mode_family",
+   "label": "V family",
+   "n_modes": 26
+  },
+  {
+   "id": "family:T",
+   "type": "mode_family",
+   "label": "T family",
+   "n_modes": 52
+  },
+  {
+   "id": "table41:LS1",
+   "type": "table41_row",
+   "label": "LS1",
+   "reference_hz": 0.0365,
+   "matched_hz": 0.03981748,
+   "rel_pct": 9.088986301369877
+  },
+  {
+   "id": "table41:VA1",
+   "type": "table41_row",
+   "label": "VA1",
+   "reference_hz": 0.07,
+   "matched_hz": 0.07232187,
+   "rel_pct": 3.316957142857128
+  },
+  {
+   "id": "table41:LA1",
+   "type": "table41_row",
+   "label": "LA1",
+   "reference_hz": 0.0726,
+   "matched_hz": 0.0786004,
+   "rel_pct": 8.265013774104688
+  },
+  {
+   "id": "table41:TA1",
+   "type": "table41_row",
+   "label": "TA1",
+   "reference_hz": 0.0996,
+   "matched_hz": 0.1184279,
+   "rel_pct": 18.90351405622491
+  },
+  {
+   "id": "table41:VS1",
+   "type": "table41_row",
+   "label": "VS1",
+   "reference_hz": 0.1028,
+   "matched_hz": 0.1027106,
+   "rel_pct": -0.0869649805447503
+  },
+  {
+   "id": "table41:LS2",
+   "type": "table41_row",
+   "label": "LS2",
+   "reference_hz": 0.1087,
+   "matched_hz": 0.2085326,
+   "rel_pct": 91.84231830726772
+  },
+  {
+   "id": "table41:TS1",
+   "type": "table41_row",
+   "label": "TS1",
+   "reference_hz": 0.1147,
+   "matched_hz": 0.1125491,
+   "rel_pct": -1.8752397558849148
+  },
+  {
+   "id": "table41:SIDE1",
+   "type": "table41_row",
+   "label": "SIDE1",
+   "reference_hz": 0.1149,
+   "matched_hz": 0.1268577,
+   "rel_pct": 10.40704960835508
+  },
+  {
+   "id": "table41:SIDE2",
+   "type": "table41_row",
+   "label": "SIDE2",
+   "reference_hz": 0.1239,
+   "matched_hz": 0.1372065,
+   "rel_pct": 10.739709443099285
+  },
+  {
+   "id": "table41:VA2",
+   "type": "table41_row",
+   "label": "VA2",
+   "reference_hz": 0.1438,
+   "matched_hz": 0.1485789,
+   "rel_pct": 3.3232962447844248
+  },
+  {
+   "id": "table41:LA2",
+   "type": "table41_row",
+   "label": "LA2",
+   "reference_hz": 0.1449,
+   "matched_hz": 0.1683183,
+   "rel_pct": 16.16169772256729
+  },
+  {
+   "id": "table41:SIDE3",
+   "type": "table41_row",
+   "label": "SIDE3",
+   "reference_hz": 0.1557,
+   "matched_hz": 0.1436809,
+   "rel_pct": -7.719396274887607
+  },
+  {
+   "id": "table41:TS2",
+   "type": "table41_row",
+   "label": "TS2",
+   "reference_hz": 0.1571,
+   "matched_hz": 0.1290613,
+   "rel_pct": -17.84767663908339
+  },
+  {
+   "id": "table41:VS2",
+   "type": "table41_row",
+   "label": "VS2",
+   "reference_hz": 0.1744,
+   "matched_hz": 0.1491797,
+   "rel_pct": -14.461181192660552
+  },
+  {
+   "id": "attach23",
+   "type": "document",
+   "label": "附件2-3",
+   "usage": "comparison_and_site_fill_only; modeling/solver/deck scripts must not import this file. RMS stations belong only in A4. Aero/wind/break may be copied into config/site_wind.json with sources cited.",
+   "sha": "d17d4061c5726c10b88cc80f3f292b16f0dbf3408e032a30840b1bcaad9173d3"
+  },
+  {
+   "id": "mode:5",
+   "type": "mode",
+   "label": "mode 5",
+   "f_hz": 0.03981748,
+   "family": "L",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:6",
+   "type": "mode",
+   "label": "mode 6",
+   "f_hz": 0.07232187,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:7",
+   "type": "mode",
+   "label": "mode 7",
+   "f_hz": 0.0786004,
+   "family": "L",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:8",
+   "type": "mode",
+   "label": "mode 8",
+   "f_hz": 0.1027106,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:9",
+   "type": "mode",
+   "label": "mode 9",
+   "f_hz": 0.1125491,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:10",
+   "type": "mode",
+   "label": "mode 10",
+   "f_hz": 0.1184279,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:11",
+   "type": "mode",
+   "label": "mode 11",
+   "f_hz": 0.1268577,
+   "family": "L",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:12",
+   "type": "mode",
+   "label": "mode 12",
+   "f_hz": 0.1290613,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:13",
+   "type": "mode",
+   "label": "mode 13",
+   "f_hz": 0.1372065,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:14",
+   "type": "mode",
+   "label": "mode 14",
+   "f_hz": 0.1382598,
+   "family": "L",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:15",
+   "type": "mode",
+   "label": "mode 15",
+   "f_hz": 0.1436809,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:16",
+   "type": "mode",
+   "label": "mode 16",
+   "f_hz": 0.1485789,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:17",
+   "type": "mode",
+   "label": "mode 17",
+   "f_hz": 0.1491797,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:18",
+   "type": "mode",
+   "label": "mode 18",
+   "f_hz": 0.151007,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:19",
+   "type": "mode",
+   "label": "mode 19",
+   "f_hz": 0.1553435,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:20",
+   "type": "mode",
+   "label": "mode 20",
+   "f_hz": 0.1683183,
+   "family": "L",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:21",
+   "type": "mode",
+   "label": "mode 21",
+   "f_hz": 0.1689786,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:22",
+   "type": "mode",
+   "label": "mode 22",
+   "f_hz": 0.1699455,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:23",
+   "type": "mode",
+   "label": "mode 23",
+   "f_hz": 0.1819262,
+   "family": "L",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:24",
+   "type": "mode",
+   "label": "mode 24",
+   "f_hz": 0.1905501,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 5
+  },
+  {
+   "id": "mode:25",
+   "type": "mode",
+   "label": "mode 25",
+   "f_hz": 0.1932622,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 5
+  },
+  {
+   "id": "mode:26",
+   "type": "mode",
+   "label": "mode 26",
+   "f_hz": 0.20061,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:27",
+   "type": "mode",
+   "label": "mode 27",
+   "f_hz": 0.2019636,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:28",
+   "type": "mode",
+   "label": "mode 28",
+   "f_hz": 0.2085326,
+   "family": "L",
+   "parity": "S",
+   "half_waves": 5
+  },
+  {
+   "id": "mode:29",
+   "type": "mode",
+   "label": "mode 29",
+   "f_hz": 0.2244597,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 6
+  },
+  {
+   "id": "mode:30",
+   "type": "mode",
+   "label": "mode 30",
+   "f_hz": 0.2287947,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 6
+  },
+  {
+   "id": "mode:31",
+   "type": "mode",
+   "label": "mode 31",
+   "f_hz": 0.2342753,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:32",
+   "type": "mode",
+   "label": "mode 32",
+   "f_hz": 0.2374167,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:33",
+   "type": "mode",
+   "label": "mode 33",
+   "f_hz": 0.2509946,
+   "family": "L",
+   "parity": "A",
+   "half_waves": 6
+  },
+  {
+   "id": "mode:34",
+   "type": "mode",
+   "label": "mode 34",
+   "f_hz": 0.2520066,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:35",
+   "type": "mode",
+   "label": "mode 35",
+   "f_hz": 0.2551038,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:36",
+   "type": "mode",
+   "label": "mode 36",
+   "f_hz": 0.2574442,
+   "family": "L",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:37",
+   "type": "mode",
+   "label": "mode 37",
+   "f_hz": 0.2628033,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 7
+  },
+  {
+   "id": "mode:38",
+   "type": "mode",
+   "label": "mode 38",
+   "f_hz": 0.2662085,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 7
+  },
+  {
+   "id": "mode:39",
+   "type": "mode",
+   "label": "mode 39",
+   "f_hz": 0.2785326,
+   "family": "L",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:40",
+   "type": "mode",
+   "label": "mode 40",
+   "f_hz": 0.2928331,
+   "family": "L",
+   "parity": "S",
+   "half_waves": 7
+  },
+  {
+   "id": "mode:41",
+   "type": "mode",
+   "label": "mode 41",
+   "f_hz": 0.2991687,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 8
+  },
+  {
+   "id": "mode:42",
+   "type": "mode",
+   "label": "mode 42",
+   "f_hz": 0.3032299,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 8
+  },
+  {
+   "id": "mode:43",
+   "type": "mode",
+   "label": "mode 43",
+   "f_hz": 0.3346594,
+   "family": "L",
+   "parity": "A",
+   "half_waves": 8
+  },
+  {
+   "id": "mode:44",
+   "type": "mode",
+   "label": "mode 44",
+   "f_hz": 0.3365502,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:45",
+   "type": "mode",
+   "label": "mode 45",
+   "f_hz": 0.3377774,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 9
+  },
+  {
+   "id": "mode:46",
+   "type": "mode",
+   "label": "mode 46",
+   "f_hz": 0.3394166,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:47",
+   "type": "mode",
+   "label": "mode 47",
+   "f_hz": 0.341634,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 9
+  },
+  {
+   "id": "mode:48",
+   "type": "mode",
+   "label": "mode 48",
+   "f_hz": 0.3520591,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:49",
+   "type": "mode",
+   "label": "mode 49",
+   "f_hz": 0.3550569,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:50",
+   "type": "mode",
+   "label": "mode 50",
+   "f_hz": 0.3679635,
+   "family": "L",
+   "parity": "S",
+   "half_waves": 5
+  },
+  {
+   "id": "mode:51",
+   "type": "mode",
+   "label": "mode 51",
+   "f_hz": 0.3738224,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 10
+  },
+  {
+   "id": "mode:52",
+   "type": "mode",
+   "label": "mode 52",
+   "f_hz": 0.3774484,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:53",
+   "type": "mode",
+   "label": "mode 53",
+   "f_hz": 0.3782161,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 10
+  },
+  {
+   "id": "mode:54",
+   "type": "mode",
+   "label": "mode 54",
+   "f_hz": 0.3798059,
+   "family": "L",
+   "parity": "S",
+   "half_waves": 9
+  },
+  {
+   "id": "mode:55",
+   "type": "mode",
+   "label": "mode 55",
+   "f_hz": 0.3806527,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:56",
+   "type": "mode",
+   "label": "mode 56",
+   "f_hz": 0.3892142,
+   "family": "L",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:57",
+   "type": "mode",
+   "label": "mode 57",
+   "f_hz": 0.4099433,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 11
+  },
+  {
+   "id": "mode:58",
+   "type": "mode",
+   "label": "mode 58",
+   "f_hz": 0.4143223,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 11
+  },
+  {
+   "id": "mode:59",
+   "type": "mode",
+   "label": "mode 59",
+   "f_hz": 0.415491,
+   "family": "L",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:60",
+   "type": "mode",
+   "label": "mode 60",
+   "f_hz": 0.4187049,
+   "family": "L",
+   "parity": "A",
+   "half_waves": 10
+  },
+  {
+   "id": "mode:61",
+   "type": "mode",
+   "label": "mode 61",
+   "f_hz": 0.448087,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 12
+  },
+  {
+   "id": "mode:62",
+   "type": "mode",
+   "label": "mode 62",
+   "f_hz": 0.4528697,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 12
+  },
+  {
+   "id": "mode:63",
+   "type": "mode",
+   "label": "mode 63",
+   "f_hz": 0.4581735,
+   "family": "L",
+   "parity": "S",
+   "half_waves": 11
+  },
+  {
+   "id": "mode:64",
+   "type": "mode",
+   "label": "mode 64",
+   "f_hz": 0.4872896,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:65",
+   "type": "mode",
+   "label": "mode 65",
+   "f_hz": 0.4902349,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 13
+  },
+  {
+   "id": "mode:66",
+   "type": "mode",
+   "label": "mode 66",
+   "f_hz": 0.4909321,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:67",
+   "type": "mode",
+   "label": "mode 67",
+   "f_hz": 0.4931516,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:68",
+   "type": "mode",
+   "label": "mode 68",
+   "f_hz": 0.4956551,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 13
+  },
+  {
+   "id": "mode:69",
+   "type": "mode",
+   "label": "mode 69",
+   "f_hz": 0.5011055,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 12
+  },
+  {
+   "id": "mode:70",
+   "type": "mode",
+   "label": "mode 70",
+   "f_hz": 0.5022481,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:71",
+   "type": "mode",
+   "label": "mode 71",
+   "f_hz": 0.5076698,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:72",
+   "type": "mode",
+   "label": "mode 72",
+   "f_hz": 0.5106716,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:73",
+   "type": "mode",
+   "label": "mode 73",
+   "f_hz": 0.5136206,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:74",
+   "type": "mode",
+   "label": "mode 74",
+   "f_hz": 0.5167565,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:75",
+   "type": "mode",
+   "label": "mode 75",
+   "f_hz": 0.5179936,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:76",
+   "type": "mode",
+   "label": "mode 76",
+   "f_hz": 0.5193275,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:77",
+   "type": "mode",
+   "label": "mode 77",
+   "f_hz": 0.5201839,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:78",
+   "type": "mode",
+   "label": "mode 78",
+   "f_hz": 0.5217635,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 5
+  },
+  {
+   "id": "mode:79",
+   "type": "mode",
+   "label": "mode 79",
+   "f_hz": 0.5242243,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:80",
+   "type": "mode",
+   "label": "mode 80",
+   "f_hz": 0.5268063,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:81",
+   "type": "mode",
+   "label": "mode 81",
+   "f_hz": 0.5268248,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:82",
+   "type": "mode",
+   "label": "mode 82",
+   "f_hz": 0.5270338,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:83",
+   "type": "mode",
+   "label": "mode 83",
+   "f_hz": 0.5272106,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:84",
+   "type": "mode",
+   "label": "mode 84",
+   "f_hz": 0.5281464,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:85",
+   "type": "mode",
+   "label": "mode 85",
+   "f_hz": 0.5299702,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:86",
+   "type": "mode",
+   "label": "mode 86",
+   "f_hz": 0.5326572,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:87",
+   "type": "mode",
+   "label": "mode 87",
+   "f_hz": 0.5342135,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:88",
+   "type": "mode",
+   "label": "mode 88",
+   "f_hz": 0.5348351,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 7
+  },
+  {
+   "id": "mode:89",
+   "type": "mode",
+   "label": "mode 89",
+   "f_hz": 0.5358897,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 6
+  },
+  {
+   "id": "mode:90",
+   "type": "mode",
+   "label": "mode 90",
+   "f_hz": 0.5365265,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 9
+  },
+  {
+   "id": "mode:91",
+   "type": "mode",
+   "label": "mode 91",
+   "f_hz": 0.5366874,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 10
+  },
+  {
+   "id": "mode:92",
+   "type": "mode",
+   "label": "mode 92",
+   "f_hz": 0.5414313,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:93",
+   "type": "mode",
+   "label": "mode 93",
+   "f_hz": 0.5426558,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 14
+  },
+  {
+   "id": "mode:94",
+   "type": "mode",
+   "label": "mode 94",
+   "f_hz": 0.5430642,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 14
+  },
+  {
+   "id": "mode:95",
+   "type": "mode",
+   "label": "mode 95",
+   "f_hz": 0.5436539,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 10
+  },
+  {
+   "id": "mode:96",
+   "type": "mode",
+   "label": "mode 96",
+   "f_hz": 0.544739,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 12
+  },
+  {
+   "id": "mode:97",
+   "type": "mode",
+   "label": "mode 97",
+   "f_hz": 0.5481393,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 14
+  },
+  {
+   "id": "mode:98",
+   "type": "mode",
+   "label": "mode 98",
+   "f_hz": 0.5491638,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:99",
+   "type": "mode",
+   "label": "mode 99",
+   "f_hz": 0.5545611,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:100",
+   "type": "mode",
+   "label": "mode 100",
+   "f_hz": 0.5551421,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 13
+  },
+  {
+   "id": "event:site_gb50009_50yr",
+   "type": "wind_event",
+   "label": "site_gb50009_50yr",
+   "category": "design_code",
+   "confidence": "B",
+   "U10": 26.8,
+   "rms_L_max_mm": 3720.569215036649,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:site_gb50009_100yr",
+   "type": "wind_event",
+   "label": "site_gb50009_100yr",
+   "category": "design_code",
+   "confidence": "B",
+   "U10": 28.3,
+   "rms_L_max_mm": 4196.967560091192,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:site_sutong_100yr_obs",
+   "type": "wind_event",
+   "label": "site_sutong_100yr_obs",
+   "category": "design_code",
+   "confidence": "A",
+   "U10": 38.9,
+   "rms_L_max_mm": 7713.300663161026,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:hko_t10",
+   "type": "wind_event",
+   "label": "hko_t10",
+   "category": "design_code",
+   "confidence": "B",
+   "U10": 32.8,
+   "rms_L_max_mm": 5805.824641429615,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:asce7_risk4_fl",
+   "type": "wind_event",
+   "label": "asce7_risk4_fl",
+   "category": "design_code",
+   "confidence": "B",
+   "U10": 58.3,
+   "rms_L_max_mm": 19883.74943773713,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:ss_cat1",
+   "type": "wind_event",
+   "label": "ss_cat1",
+   "category": "hurricane",
+   "confidence": "B",
+   "U10": 28.9,
+   "rms_L_max_mm": 4395.914417973238,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:ss_cat2",
+   "type": "wind_event",
+   "label": "ss_cat2",
+   "category": "hurricane",
+   "confidence": "B",
+   "U10": 37.7,
+   "rms_L_max_mm": 7862.729302397441,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:ss_cat3",
+   "type": "wind_event",
+   "label": "ss_cat3",
+   "category": "hurricane",
+   "confidence": "B",
+   "U10": 43.9,
+   "rms_L_max_mm": 10914.835606044067,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:ss_cat4",
+   "type": "wind_event",
+   "label": "ss_cat4",
+   "category": "hurricane",
+   "confidence": "B",
+   "U10": 50.9,
+   "rms_L_max_mm": 14952.105761619028,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:ss_cat5",
+   "type": "wind_event",
+   "label": "ss_cat5",
+   "category": "hurricane",
+   "confidence": "B",
+   "U10": 61.4,
+   "rms_L_max_mm": 22147.365926811308,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:infa_2021_zhoushan",
+   "type": "wind_event",
+   "label": "infa_2021_zhoushan",
+   "category": "typhoon",
+   "confidence": "A",
+   "U10": 35.8,
+   "rms_L_max_mm": 7027.634850176886,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:doksuri_2023_jinjiang",
+   "type": "wind_event",
+   "label": "doksuri_2023_jinjiang",
+   "category": "typhoon",
+   "confidence": "A",
+   "U10": 47.2,
+   "rms_L_max_mm": 12740.91100905818,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:haiyan_2013_peak",
+   "type": "wind_event",
+   "label": "haiyan_2013_peak",
+   "category": "typhoon",
+   "confidence": "A",
+   "U10": 63.9,
+   "rms_L_max_mm": 24056.19981616857,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:meranti_2016_peak",
+   "type": "wind_event",
+   "label": "meranti_2016_peak",
+   "category": "typhoon",
+   "confidence": "A",
+   "U10": 61.1,
+   "rms_L_max_mm": 21923.284463986736,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:goni_2020_landfall",
+   "type": "wind_event",
+   "label": "goni_2020_landfall",
+   "category": "typhoon",
+   "confidence": "A",
+   "U10": 76.8,
+   "rms_L_max_mm": 35054.72671394862,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:tip_1979_peak",
+   "type": "wind_event",
+   "label": "tip_1979_peak",
+   "category": "typhoon",
+   "confidence": "C",
+   "U10": 72.0,
+   "rms_L_max_mm": 30741.132173419075,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:mangkhut_2018_peak",
+   "type": "wind_event",
+   "label": "mangkhut_2018_peak",
+   "category": "typhoon",
+   "confidence": "A",
+   "U10": 69.5,
+   "rms_L_max_mm": 28597.337849879565,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:lanyu_ryan_1995_gust",
+   "type": "wind_event",
+   "label": "lanyu_ryan_1995_gust",
+   "category": "typhoon",
+   "confidence": "C",
+   "U10": 60.1,
+   "rms_L_max_mm": 21184.096613471527,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:patricia_2015_peak",
+   "type": "wind_event",
+   "label": "patricia_2015_peak",
+   "category": "hurricane",
+   "confidence": "A",
+   "U10": 84.1,
+   "rms_L_max_mm": 42101.57369841067,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:dorian_2019_landfall",
+   "type": "wind_event",
+   "label": "dorian_2019_landfall",
+   "category": "hurricane",
+   "confidence": "C",
+   "U10": 71.9,
+   "rms_L_max_mm": 30654.017059416376,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:gustav_2008_cuba_gust",
+   "type": "wind_event",
+   "label": "gustav_2008_cuba_gust",
+   "category": "hurricane",
+   "confidence": "C",
+   "U10": 66.5,
+   "rms_L_max_mm": 28295.930594804147,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:amphan_2020_peak",
+   "type": "wind_event",
+   "label": "amphan_2020_peak",
+   "category": "monsoon",
+   "confidence": "A",
+   "U10": 63.0,
+   "rms_L_max_mm": 23360.50999797306,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:nargis_2008_peak",
+   "type": "wind_event",
+   "label": "nargis_2008_peak",
+   "category": "monsoon",
+   "confidence": "A",
+   "U10": 52.4,
+   "rms_L_max_mm": 15897.290897517156,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:bhola_1970_peak",
+   "type": "wind_event",
+   "label": "bhola_1970_peak",
+   "category": "monsoon",
+   "confidence": "A",
+   "U10": 49.0,
+   "rms_L_max_mm": 13795.149028646794,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:ef3_anchor",
+   "type": "wind_event",
+   "label": "ef3_anchor",
+   "category": "tornado",
+   "confidence": "B",
+   "U10": 47.2,
+   "rms_L_max_mm": 26543.564602204533,
+   "stationarity": "reference_only"
+  },
+  {
+   "id": "event:ef4_anchor",
+   "type": "wind_event",
+   "label": "ef4_anchor",
+   "category": "tornado",
+   "confidence": "B",
+   "U10": 57.7,
+   "rms_L_max_mm": 40539.523443488295,
+   "stationarity": "reference_only"
+  },
+  {
+   "id": "event:ef5_anchor",
+   "type": "wind_event",
+   "label": "ef5_anchor",
+   "category": "tornado",
+   "confidence": "B",
+   "U10": 66.9,
+   "rms_L_max_mm": 55091.0750969051,
+   "stationarity": "reference_only"
+  },
+  {
+   "id": "event:funing_2016_ef4",
+   "type": "wind_event",
+   "label": "funing_2016_ef4",
+   "category": "tornado",
+   "confidence": "A",
+   "U10": 51.8,
+   "rms_L_max_mm": 32324.715186727663,
+   "stationarity": "reference_only"
+  },
+  {
+   "id": "event:bridge_creek_1999_ref",
+   "type": "wind_event",
+   "label": "bridge_creek_1999_ref",
+   "category": "tornado",
+   "confidence": "C",
+   "U10": 95.1,
+   "rms_L_max_mm": 112060.97569005017,
+   "stationarity": "reference_only"
+  },
+  {
+   "id": "event:dongfangzhixing_2015_downburst",
+   "type": "wind_event",
+   "label": "dongfangzhixing_2015_downburst",
+   "category": "downburst",
+   "confidence": "A",
+   "U10": 30.6,
+   "rms_L_max_mm": 9140.303014619663,
+   "stationarity": "reference_only"
+  },
+  {
+   "id": "event:andrews_afb_1983_microburst",
+   "type": "wind_event",
+   "label": "andrews_afb_1983_microburst",
+   "category": "downburst",
+   "confidence": "C",
+   "U10": 46.9,
+   "rms_L_max_mm": 23043.50179324754,
+   "stationarity": "reference_only"
+  },
+  {
+   "id": "event:midwest_derecho_2020",
+   "type": "wind_event",
+   "label": "midwest_derecho_2020",
+   "category": "derecho",
+   "confidence": "C",
+   "U10": 44.1,
+   "rms_L_max_mm": 18369.25212211779,
+   "stationarity": "reference_only"
+  },
+  {
+   "id": "event:great_storm_1987",
+   "type": "wind_event",
+   "label": "great_storm_1987",
+   "category": "extratropical_storm",
+   "confidence": "C",
+   "U10": 35.2,
+   "rms_L_max_mm": 8467.217555581037,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:lothar_1999",
+   "type": "wind_event",
+   "label": "lothar_1999",
+   "category": "extratropical_storm",
+   "confidence": "C",
+   "U10": 33.0,
+   "rms_L_max_mm": 7844.765879398785,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:bora_adriatic",
+   "type": "wind_event",
+   "label": "bora_adriatic",
+   "category": "foehn_bora",
+   "confidence": "C",
+   "U10": 48.6,
+   "rms_L_max_mm": 20336.01884584928,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:mistral_strong",
+   "type": "wind_event",
+   "label": "mistral_strong",
+   "category": "foehn_bora",
+   "confidence": "C",
+   "U10": 28.0,
+   "rms_L_max_mm": 5465.721420712758,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:patagonia_westerlies",
+   "type": "wind_event",
+   "label": "patagonia_westerlies",
+   "category": "extratropical_storm",
+   "confidence": "C",
+   "U10": 28.0,
+   "rms_L_max_mm": 5124.11383191821,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:xinjiang_baili_fengqu",
+   "type": "wind_event",
+   "label": "xinjiang_baili_fengqu",
+   "category": "local_record",
+   "confidence": "A",
+   "U10": 30.0,
+   "rms_L_max_mm": 6364.1184733133005,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:cape_denison_katabatic",
+   "type": "wind_event",
+   "label": "cape_denison_katabatic",
+   "category": "katabatic",
+   "confidence": "C",
+   "U10": 19.4,
+   "rms_L_max_mm": 2260.1995515724107,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:thule_1972_gust",
+   "type": "wind_event",
+   "label": "thule_1972_gust",
+   "category": "katabatic",
+   "confidence": "C",
+   "U10": 65.1,
+   "rms_L_max_mm": 31248.240590306053,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:piteraq_tasiilaq",
+   "type": "wind_event",
+   "label": "piteraq_tasiilaq",
+   "category": "katabatic",
+   "confidence": "C",
+   "U10": 45.0,
+   "rms_L_max_mm": 15344.14075676242,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:barrow_olivia_1996",
+   "type": "wind_event",
+   "label": "barrow_olivia_1996",
+   "category": "local_record",
+   "confidence": "A",
+   "U10": 48.9,
+   "rms_L_max_mm": 13735.509681512383,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "event:mt_washington_1934",
+   "type": "wind_event",
+   "label": "mt_washington_1934",
+   "category": "local_record",
+   "confidence": "A",
+   "U10": 72.7,
+   "rms_L_max_mm": 39192.62871995757,
+   "stationarity": "stationary_ok"
+  },
+  {
+   "id": "channel:L",
+   "type": "response_channel",
+   "label": "L"
+  },
+  {
+   "id": "channel:V",
+   "type": "response_channel",
+   "label": "V"
+  },
+  {
+   "id": "channel:Tcw",
+   "type": "response_channel",
+   "label": "Tcw"
+  },
+  {
+   "id": "channel:Tg",
+   "type": "response_channel",
+   "label": "Tg"
+  },
+  {
+   "id": "atlas",
+   "type": "product",
+   "label": "response atlas A1-A5"
+  },
+  {
+   "id": "warning",
+   "type": "system",
+   "label": "early-warning state machine"
+  },
+  {
+   "id": "galloping",
+   "type": "workshop",
+   "label": "陡振 Den Hartog"
+  }
+ ],
+ "edges": [
+  {
+   "source": "s10",
+   "rel": "SIMPLIFIED_BY",
+   "target": "deck",
+   "contract": "R1-R7"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_LINE",
+   "target": "line:MIB"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_LINE",
+   "target": "line:MIG"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_LINE",
+   "target": "line:MOB"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_LINE",
+   "target": "line:MOG"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_LINE",
+   "target": "line:PIB"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_LINE",
+   "target": "line:PIG"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_LINE",
+   "target": "line:POB"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_LINE",
+   "target": "line:POG"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS",
+   "target": "portals"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS",
+   "target": "passages"
+  },
+  {
+   "source": "deck",
+   "rel": "CHECKED_BY",
+   "target": "gate:G-P1"
+  },
+  {
+   "source": "deck",
+   "rel": "CHECKED_BY",
+   "target": "gate:G-P2"
+  },
+  {
+   "source": "deck",
+   "rel": "CHECKED_BY",
+   "target": "gate:UY"
+  },
+  {
+   "source": "deck",
+   "rel": "CHECKED_BY",
+   "target": "gate:G-P3"
+  },
+  {
+   "source": "deck",
+   "rel": "CHECKED_BY",
+   "target": "gate:G-P4"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "deck",
+   "rel": "HAS_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "table41:LS1",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:LS1",
+   "rel": "PAIRED_WITH",
+   "target": "mode:5"
+  },
+  {
+   "source": "table41:VA1",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:VA1",
+   "rel": "PAIRED_WITH",
+   "target": "mode:6"
+  },
+  {
+   "source": "table41:LA1",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:LA1",
+   "rel": "PAIRED_WITH",
+   "target": "mode:7"
+  },
+  {
+   "source": "table41:TA1",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:TA1",
+   "rel": "PAIRED_WITH",
+   "target": "mode:10"
+  },
+  {
+   "source": "table41:VS1",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:VS1",
+   "rel": "PAIRED_WITH",
+   "target": "mode:8"
+  },
+  {
+   "source": "table41:LS2",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:LS2",
+   "rel": "PAIRED_WITH",
+   "target": "mode:28"
+  },
+  {
+   "source": "table41:TS1",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:TS1",
+   "rel": "PAIRED_WITH",
+   "target": "mode:9"
+  },
+  {
+   "source": "table41:SIDE1",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:SIDE1",
+   "rel": "PAIRED_WITH",
+   "target": "mode:11"
+  },
+  {
+   "source": "table41:SIDE2",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:SIDE2",
+   "rel": "PAIRED_WITH",
+   "target": "mode:13"
+  },
+  {
+   "source": "table41:VA2",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:VA2",
+   "rel": "PAIRED_WITH",
+   "target": "mode:16"
+  },
+  {
+   "source": "table41:LA2",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:LA2",
+   "rel": "PAIRED_WITH",
+   "target": "mode:20"
+  },
+  {
+   "source": "table41:SIDE3",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:SIDE3",
+   "rel": "PAIRED_WITH",
+   "target": "mode:15"
+  },
+  {
+   "source": "table41:TS2",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:TS2",
+   "rel": "PAIRED_WITH",
+   "target": "mode:12"
+  },
+  {
+   "source": "table41:VS2",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:VS2",
+   "rel": "PAIRED_WITH",
+   "target": "mode:17"
+  },
+  {
+   "source": "mode:5",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:6",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:7",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:8",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:9",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:10",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:11",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:12",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:13",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:14",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:15",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:16",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:17",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:18",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:19",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:20",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:21",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:22",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:23",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:24",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:25",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:26",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:27",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:28",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:29",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:30",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:31",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:32",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:33",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:34",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:35",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:36",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:37",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:38",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:39",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:40",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:41",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:42",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:43",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:44",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:45",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:46",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:47",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:48",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:49",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:50",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:51",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:52",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:53",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:54",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:55",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:56",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:57",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:58",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:59",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:60",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:61",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:62",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:63",
+   "rel": "IN_FAMILY",
+   "target": "family:L"
+  },
+  {
+   "source": "mode:64",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:65",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:66",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:67",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:68",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:69",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:70",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:71",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:72",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:73",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:74",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:75",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:76",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:77",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:78",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:79",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:80",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:81",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:82",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:83",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:84",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:85",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:86",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:87",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:88",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:89",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:90",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:91",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:92",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:93",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:94",
+   "rel": "IN_FAMILY",
+   "target": "family:V"
+  },
+  {
+   "source": "mode:95",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:96",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:97",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:98",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:99",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "mode:100",
+   "rel": "IN_FAMILY",
+   "target": "family:T"
+  },
+  {
+   "source": "event:site_gb50009_50yr",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:site_gb50009_50yr",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:site_gb50009_50yr",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:site_gb50009_50yr",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:site_gb50009_100yr",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:site_gb50009_100yr",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:site_gb50009_100yr",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:site_gb50009_100yr",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:site_sutong_100yr_obs",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:site_sutong_100yr_obs",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:site_sutong_100yr_obs",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:site_sutong_100yr_obs",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:hko_t10",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:hko_t10",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:hko_t10",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:hko_t10",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:asce7_risk4_fl",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:asce7_risk4_fl",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:asce7_risk4_fl",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:asce7_risk4_fl",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:ss_cat1",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:ss_cat1",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:ss_cat1",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:ss_cat1",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:ss_cat2",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:ss_cat2",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:ss_cat2",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:ss_cat2",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:ss_cat3",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:ss_cat3",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:ss_cat3",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:ss_cat3",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:ss_cat4",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:ss_cat4",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:ss_cat4",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:ss_cat4",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:ss_cat5",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:ss_cat5",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:ss_cat5",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:ss_cat5",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:infa_2021_zhoushan",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:infa_2021_zhoushan",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:infa_2021_zhoushan",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:infa_2021_zhoushan",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:doksuri_2023_jinjiang",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:doksuri_2023_jinjiang",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:doksuri_2023_jinjiang",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:doksuri_2023_jinjiang",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:haiyan_2013_peak",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:haiyan_2013_peak",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:haiyan_2013_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:haiyan_2013_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:meranti_2016_peak",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:meranti_2016_peak",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:meranti_2016_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:meranti_2016_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:goni_2020_landfall",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:goni_2020_landfall",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:goni_2020_landfall",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:goni_2020_landfall",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:tip_1979_peak",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:tip_1979_peak",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:tip_1979_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:tip_1979_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:mangkhut_2018_peak",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:mangkhut_2018_peak",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:mangkhut_2018_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:mangkhut_2018_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:lanyu_ryan_1995_gust",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:lanyu_ryan_1995_gust",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:lanyu_ryan_1995_gust",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:lanyu_ryan_1995_gust",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:patricia_2015_peak",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:patricia_2015_peak",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:patricia_2015_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:patricia_2015_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:dorian_2019_landfall",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:dorian_2019_landfall",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:dorian_2019_landfall",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:dorian_2019_landfall",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:gustav_2008_cuba_gust",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:gustav_2008_cuba_gust",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:gustav_2008_cuba_gust",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:gustav_2008_cuba_gust",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:amphan_2020_peak",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:amphan_2020_peak",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:amphan_2020_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:amphan_2020_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:nargis_2008_peak",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:nargis_2008_peak",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:nargis_2008_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:nargis_2008_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:bhola_1970_peak",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:bhola_1970_peak",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:bhola_1970_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:bhola_1970_peak",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:ef3_anchor",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:ef3_anchor",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:ef3_anchor",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:ef3_anchor",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:ef4_anchor",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:ef4_anchor",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:ef4_anchor",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:ef4_anchor",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:ef5_anchor",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:ef5_anchor",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:ef5_anchor",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:ef5_anchor",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:funing_2016_ef4",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:funing_2016_ef4",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:funing_2016_ef4",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:funing_2016_ef4",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:bridge_creek_1999_ref",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:bridge_creek_1999_ref",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:bridge_creek_1999_ref",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:bridge_creek_1999_ref",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:dongfangzhixing_2015_downburst",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:dongfangzhixing_2015_downburst",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:dongfangzhixing_2015_downburst",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:dongfangzhixing_2015_downburst",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:andrews_afb_1983_microburst",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:andrews_afb_1983_microburst",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:andrews_afb_1983_microburst",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:andrews_afb_1983_microburst",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:midwest_derecho_2020",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:midwest_derecho_2020",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:midwest_derecho_2020",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:midwest_derecho_2020",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:great_storm_1987",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:great_storm_1987",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:great_storm_1987",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:great_storm_1987",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:lothar_1999",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:lothar_1999",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:lothar_1999",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:lothar_1999",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:bora_adriatic",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:bora_adriatic",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:bora_adriatic",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:bora_adriatic",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:mistral_strong",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:mistral_strong",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:mistral_strong",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:mistral_strong",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:patagonia_westerlies",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:patagonia_westerlies",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:patagonia_westerlies",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:patagonia_westerlies",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:xinjiang_baili_fengqu",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:xinjiang_baili_fengqu",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:xinjiang_baili_fengqu",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:xinjiang_baili_fengqu",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:cape_denison_katabatic",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:cape_denison_katabatic",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:cape_denison_katabatic",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:cape_denison_katabatic",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:thule_1972_gust",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:thule_1972_gust",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:thule_1972_gust",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:thule_1972_gust",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:piteraq_tasiilaq",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:piteraq_tasiilaq",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:piteraq_tasiilaq",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:piteraq_tasiilaq",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:barrow_olivia_1996",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:barrow_olivia_1996",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:barrow_olivia_1996",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:barrow_olivia_1996",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "event:mt_washington_1934",
+   "rel": "DRIVES",
+   "target": "channel:L"
+  },
+  {
+   "source": "event:mt_washington_1934",
+   "rel": "DRIVES",
+   "target": "channel:V"
+  },
+  {
+   "source": "event:mt_washington_1934",
+   "rel": "DRIVES",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "event:mt_washington_1934",
+   "rel": "DRIVES",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "deck",
+   "rel": "OUTPUTS",
+   "target": "channel:L"
+  },
+  {
+   "source": "deck",
+   "rel": "OUTPUTS",
+   "target": "channel:V"
+  },
+  {
+   "source": "deck",
+   "rel": "OUTPUTS",
+   "target": "channel:Tcw"
+  },
+  {
+   "source": "deck",
+   "rel": "OUTPUTS",
+   "target": "channel:Tg"
+  },
+  {
+   "source": "deck",
+   "rel": "FEEDS",
+   "target": "atlas"
+  },
+  {
+   "source": "deck",
+   "rel": "FEEDS",
+   "target": "warning"
+  },
+  {
+   "source": "deck",
+   "rel": "FEEDS",
+   "target": "galloping"
+  },
+  {
+   "source": "atlas",
+   "rel": "QUERIED_BY",
+   "target": "warning"
+  }
+ ],
+ "claim": "inventory graph of this run; not a scientific conclusion"
+}

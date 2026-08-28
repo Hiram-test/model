@@ -1,0 +1,182 @@
+id,type,label,mass_t,sha,coarsen,nodes,elements,n_ropes,y_eq_m,A_eq_mm2,n,n_stations,note,pass,rel,uy_frac,verdict,n_modes,reference_hz,matched_hz,rel_pct,usage,f_hz,family,parity,half_waves,category,confidence,U10,rms_L_max_mm,stationarity
+s10,source,S10 V2.0 APDL,4108.46690758,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+deck,model,true3d_ccx.inp,,f089dee33377f1ea65ef7ec543525c85e39b323b091d3a5e27e8adfc14f4f242,4.0,5422.0,7477.0,,,,,,,,,,,,,,,,,,,,,,,,
+line:MIB,rope_line,MIB,,,,,,8.0,-19.69,11149.35,,,,,,,,,,,,,,,,,,,,,
+line:MIG,rope_line,MIG,,,,,,3.0,-19.5,4201.49,,,,,,,,,,,,,,,,,,,,,
+line:MOB,rope_line,MOB,,,,,,8.0,-23.21,11149.35,,,,,,,,,,,,,,,,,,,,,
+line:MOG,rope_line,MOG,,,,,,3.0,-23.4,4201.49,,,,,,,,,,,,,,,,,,,,,
+line:PIB,rope_line,PIB,,,,,,8.0,19.69,11149.35,,,,,,,,,,,,,,,,,,,,,
+line:PIG,rope_line,PIG,,,,,,3.0,19.5,4201.49,,,,,,,,,,,,,,,,,,,,,
+line:POB,rope_line,POB,,,,,,8.0,23.21,11149.35,,,,,,,,,,,,,,,,,,,,,
+line:POG,rope_line,POG,,,,,,3.0,23.4,4201.49,,,,,,,,,,,,,,,,,,,,,
+portals,component,142 parametric portals,,,,,,,,,142.0,,,,,,,,,,,,,,,,,,,,
+passages,component,passage stations,,,,,,,,,,63.0,63 x-stations = 21 clusters of 3,,,,,,,,,,,,,,,,,,
+gate:G-P1,gate,G-P1,,,,,,,,,,,,True,,,,,,,,,,,,,,,,,
+gate:G-P2,gate,G-P2,,,,,,,,,,,,True,2.3765418143813977e-07,,,,,,,,,,,,,,,,
+gate:UY,gate,UY,,,,,,,,,,,,True,,0.01549243821468093,,,,,,,,,,,,,,,
+gate:G-P3,gate,G-P3,,,,,,,,,,,,True,,,,,,,,,,,,,,,,,
+gate:G-P4,gate,G-P4,,,,,,,,,,,,,,,STRUCTURAL_OK_NUMERICAL_ZEROS_DROPPED,,,,,,,,,,,,,,
+family:L,mode_family,L family,,,,,,,,,,,,,,,,18.0,,,,,,,,,,,,,
+family:V,mode_family,V family,,,,,,,,,,,,,,,,26.0,,,,,,,,,,,,,
+family:T,mode_family,T family,,,,,,,,,,,,,,,,52.0,,,,,,,,,,,,,
+table41:LS1,table41_row,LS1,,,,,,,,,,,,,,,,,0.0365,0.03981748,9.088986301369877,,,,,,,,,,
+table41:VA1,table41_row,VA1,,,,,,,,,,,,,,,,,0.07,0.07232187,3.316957142857128,,,,,,,,,,
+table41:LA1,table41_row,LA1,,,,,,,,,,,,,,,,,0.0726,0.0786004,8.265013774104688,,,,,,,,,,
+table41:TA1,table41_row,TA1,,,,,,,,,,,,,,,,,0.0996,0.1184279,18.90351405622491,,,,,,,,,,
+table41:VS1,table41_row,VS1,,,,,,,,,,,,,,,,,0.1028,0.1027106,-0.0869649805447503,,,,,,,,,,
+table41:LS2,table41_row,LS2,,,,,,,,,,,,,,,,,0.1087,0.2085326,91.84231830726772,,,,,,,,,,
+table41:TS1,table41_row,TS1,,,,,,,,,,,,,,,,,0.1147,0.1125491,-1.8752397558849148,,,,,,,,,,
+table41:SIDE1,table41_row,SIDE1,,,,,,,,,,,,,,,,,0.1149,0.1268577,10.40704960835508,,,,,,,,,,
+table41:SIDE2,table41_row,SIDE2,,,,,,,,,,,,,,,,,0.1239,0.1372065,10.739709443099285,,,,,,,,,,
+table41:VA2,table41_row,VA2,,,,,,,,,,,,,,,,,0.1438,0.1485789,3.3232962447844248,,,,,,,,,,
+table41:LA2,table41_row,LA2,,,,,,,,,,,,,,,,,0.1449,0.1683183,16.16169772256729,,,,,,,,,,
+table41:SIDE3,table41_row,SIDE3,,,,,,,,,,,,,,,,,0.1557,0.1436809,-7.719396274887607,,,,,,,,,,
+table41:TS2,table41_row,TS2,,,,,,,,,,,,,,,,,0.1571,0.1290613,-17.84767663908339,,,,,,,,,,
+table41:VS2,table41_row,VS2,,,,,,,,,,,,,,,,,0.1744,0.1491797,-14.461181192660552,,,,,,,,,,
+attach23,document,附件2-3,,d17d4061c5726c10b88cc80f3f292b16f0dbf3408e032a30840b1bcaad9173d3,,,,,,,,,,,,,,,,,,comparison_and_site_fill_only; modeling/solver/deck scripts must not import this file. RMS stations belong only in A4. Aero/wind/break may be copied into config/site_wind.json with sources cited.,,,,,,,,,
+mode:5,mode,mode 5,,,,,,,,,,,,,,,,,,,,,0.03981748,L,S,1.0,,,,,
+mode:6,mode,mode 6,,,,,,,,,,,,,,,,,,,,,0.07232187,V,A,2.0,,,,,
+mode:7,mode,mode 7,,,,,,,,,,,,,,,,,,,,,0.0786004,L,A,2.0,,,,,
+mode:8,mode,mode 8,,,,,,,,,,,,,,,,,,,,,0.1027106,V,S,3.0,,,,,
+mode:9,mode,mode 9,,,,,,,,,,,,,,,,,,,,,0.1125491,T,S,3.0,,,,,
+mode:10,mode,mode 10,,,,,,,,,,,,,,,,,,,,,0.1184279,T,A,2.0,,,,,
+mode:11,mode,mode 11,,,,,,,,,,,,,,,,,,,,,0.1268577,L,A,2.0,,,,,
+mode:12,mode,mode 12,,,,,,,,,,,,,,,,,,,,,0.1290613,T,S,3.0,,,,,
+mode:13,mode,mode 13,,,,,,,,,,,,,,,,,,,,,0.1372065,V,A,2.0,,,,,
+mode:14,mode,mode 14,,,,,,,,,,,,,,,,,,,,,0.1382598,L,S,1.0,,,,,
+mode:15,mode,mode 15,,,,,,,,,,,,,,,,,,,,,0.1436809,T,A,2.0,,,,,
+mode:16,mode,mode 16,,,,,,,,,,,,,,,,,,,,,0.1485789,V,A,4.0,,,,,
+mode:17,mode,mode 17,,,,,,,,,,,,,,,,,,,,,0.1491797,V,S,1.0,,,,,
+mode:18,mode,mode 18,,,,,,,,,,,,,,,,,,,,,0.151007,T,S,1.0,,,,,
+mode:19,mode,mode 19,,,,,,,,,,,,,,,,,,,,,0.1553435,T,A,4.0,,,,,
+mode:20,mode,mode 20,,,,,,,,,,,,,,,,,,,,,0.1683183,L,A,4.0,,,,,
+mode:21,mode,mode 21,,,,,,,,,,,,,,,,,,,,,0.1689786,V,S,1.0,,,,,
+mode:22,mode,mode 22,,,,,,,,,,,,,,,,,,,,,0.1699455,T,S,1.0,,,,,
+mode:23,mode,mode 23,,,,,,,,,,,,,,,,,,,,,0.1819262,L,S,3.0,,,,,
+mode:24,mode,mode 24,,,,,,,,,,,,,,,,,,,,,0.1905501,V,S,5.0,,,,,
+mode:25,mode,mode 25,,,,,,,,,,,,,,,,,,,,,0.1932622,T,S,5.0,,,,,
+mode:26,mode,mode 26,,,,,,,,,,,,,,,,,,,,,0.20061,V,S,1.0,,,,,
+mode:27,mode,mode 27,,,,,,,,,,,,,,,,,,,,,0.2019636,T,S,1.0,,,,,
+mode:28,mode,mode 28,,,,,,,,,,,,,,,,,,,,,0.2085326,L,S,5.0,,,,,
+mode:29,mode,mode 29,,,,,,,,,,,,,,,,,,,,,0.2244597,V,A,6.0,,,,,
+mode:30,mode,mode 30,,,,,,,,,,,,,,,,,,,,,0.2287947,T,A,6.0,,,,,
+mode:31,mode,mode 31,,,,,,,,,,,,,,,,,,,,,0.2342753,V,A,2.0,,,,,
+mode:32,mode,mode 32,,,,,,,,,,,,,,,,,,,,,0.2374167,T,A,2.0,,,,,
+mode:33,mode,mode 33,,,,,,,,,,,,,,,,,,,,,0.2509946,L,A,6.0,,,,,
+mode:34,mode,mode 34,,,,,,,,,,,,,,,,,,,,,0.2520066,V,A,2.0,,,,,
+mode:35,mode,mode 35,,,,,,,,,,,,,,,,,,,,,0.2551038,T,A,2.0,,,,,
+mode:36,mode,mode 36,,,,,,,,,,,,,,,,,,,,,0.2574442,L,A,4.0,,,,,
+mode:37,mode,mode 37,,,,,,,,,,,,,,,,,,,,,0.2628033,V,S,7.0,,,,,
+mode:38,mode,mode 38,,,,,,,,,,,,,,,,,,,,,0.2662085,T,S,7.0,,,,,
+mode:39,mode,mode 39,,,,,,,,,,,,,,,,,,,,,0.2785326,L,A,2.0,,,,,
+mode:40,mode,mode 40,,,,,,,,,,,,,,,,,,,,,0.2928331,L,S,7.0,,,,,
+mode:41,mode,mode 41,,,,,,,,,,,,,,,,,,,,,0.2991687,V,A,8.0,,,,,
+mode:42,mode,mode 42,,,,,,,,,,,,,,,,,,,,,0.3032299,T,A,8.0,,,,,
+mode:43,mode,mode 43,,,,,,,,,,,,,,,,,,,,,0.3346594,L,A,8.0,,,,,
+mode:44,mode,mode 44,,,,,,,,,,,,,,,,,,,,,0.3365502,V,A,2.0,,,,,
+mode:45,mode,mode 45,,,,,,,,,,,,,,,,,,,,,0.3377774,V,S,9.0,,,,,
+mode:46,mode,mode 46,,,,,,,,,,,,,,,,,,,,,0.3394166,T,A,2.0,,,,,
+mode:47,mode,mode 47,,,,,,,,,,,,,,,,,,,,,0.341634,T,S,9.0,,,,,
+mode:48,mode,mode 48,,,,,,,,,,,,,,,,,,,,,0.3520591,V,S,3.0,,,,,
+mode:49,mode,mode 49,,,,,,,,,,,,,,,,,,,,,0.3550569,T,S,3.0,,,,,
+mode:50,mode,mode 50,,,,,,,,,,,,,,,,,,,,,0.3679635,L,S,5.0,,,,,
+mode:51,mode,mode 51,,,,,,,,,,,,,,,,,,,,,0.3738224,V,A,10.0,,,,,
+mode:52,mode,mode 52,,,,,,,,,,,,,,,,,,,,,0.3774484,V,S,3.0,,,,,
+mode:53,mode,mode 53,,,,,,,,,,,,,,,,,,,,,0.3782161,T,A,10.0,,,,,
+mode:54,mode,mode 54,,,,,,,,,,,,,,,,,,,,,0.3798059,L,S,9.0,,,,,
+mode:55,mode,mode 55,,,,,,,,,,,,,,,,,,,,,0.3806527,T,S,3.0,,,,,
+mode:56,mode,mode 56,,,,,,,,,,,,,,,,,,,,,0.3892142,L,A,4.0,,,,,
+mode:57,mode,mode 57,,,,,,,,,,,,,,,,,,,,,0.4099433,V,S,11.0,,,,,
+mode:58,mode,mode 58,,,,,,,,,,,,,,,,,,,,,0.4143223,T,S,11.0,,,,,
+mode:59,mode,mode 59,,,,,,,,,,,,,,,,,,,,,0.415491,L,S,3.0,,,,,
+mode:60,mode,mode 60,,,,,,,,,,,,,,,,,,,,,0.4187049,L,A,10.0,,,,,
+mode:61,mode,mode 61,,,,,,,,,,,,,,,,,,,,,0.448087,V,A,12.0,,,,,
+mode:62,mode,mode 62,,,,,,,,,,,,,,,,,,,,,0.4528697,T,A,12.0,,,,,
+mode:63,mode,mode 63,,,,,,,,,,,,,,,,,,,,,0.4581735,L,S,11.0,,,,,
+mode:64,mode,mode 64,,,,,,,,,,,,,,,,,,,,,0.4872896,V,A,4.0,,,,,
+mode:65,mode,mode 65,,,,,,,,,,,,,,,,,,,,,0.4902349,V,S,13.0,,,,,
+mode:66,mode,mode 66,,,,,,,,,,,,,,,,,,,,,0.4909321,V,A,4.0,,,,,
+mode:67,mode,mode 67,,,,,,,,,,,,,,,,,,,,,0.4931516,T,S,1.0,,,,,
+mode:68,mode,mode 68,,,,,,,,,,,,,,,,,,,,,0.4956551,T,S,13.0,,,,,
+mode:69,mode,mode 69,,,,,,,,,,,,,,,,,,,,,0.5011055,T,A,12.0,,,,,
+mode:70,mode,mode 70,,,,,,,,,,,,,,,,,,,,,0.5022481,T,A,2.0,,,,,
+mode:71,mode,mode 71,,,,,,,,,,,,,,,,,,,,,0.5076698,T,S,1.0,,,,,
+mode:72,mode,mode 72,,,,,,,,,,,,,,,,,,,,,0.5106716,T,S,3.0,,,,,
+mode:73,mode,mode 73,,,,,,,,,,,,,,,,,,,,,0.5136206,T,A,4.0,,,,,
+mode:74,mode,mode 74,,,,,,,,,,,,,,,,,,,,,0.5167565,T,S,1.0,,,,,
+mode:75,mode,mode 75,,,,,,,,,,,,,,,,,,,,,0.5179936,T,S,1.0,,,,,
+mode:76,mode,mode 76,,,,,,,,,,,,,,,,,,,,,0.5193275,T,A,2.0,,,,,
+mode:77,mode,mode 77,,,,,,,,,,,,,,,,,,,,,0.5201839,T,S,3.0,,,,,
+mode:78,mode,mode 78,,,,,,,,,,,,,,,,,,,,,0.5217635,T,S,5.0,,,,,
+mode:79,mode,mode 79,,,,,,,,,,,,,,,,,,,,,0.5242243,V,A,4.0,,,,,
+mode:80,mode,mode 80,,,,,,,,,,,,,,,,,,,,,0.5268063,T,A,4.0,,,,,
+mode:81,mode,mode 81,,,,,,,,,,,,,,,,,,,,,0.5268248,T,A,2.0,,,,,
+mode:82,mode,mode 82,,,,,,,,,,,,,,,,,,,,,0.5270338,T,A,4.0,,,,,
+mode:83,mode,mode 83,,,,,,,,,,,,,,,,,,,,,0.5272106,T,A,2.0,,,,,
+mode:84,mode,mode 84,,,,,,,,,,,,,,,,,,,,,0.5281464,T,A,2.0,,,,,
+mode:85,mode,mode 85,,,,,,,,,,,,,,,,,,,,,0.5299702,V,S,3.0,,,,,
+mode:86,mode,mode 86,,,,,,,,,,,,,,,,,,,,,0.5326572,T,A,4.0,,,,,
+mode:87,mode,mode 87,,,,,,,,,,,,,,,,,,,,,0.5342135,T,A,2.0,,,,,
+mode:88,mode,mode 88,,,,,,,,,,,,,,,,,,,,,0.5348351,T,S,7.0,,,,,
+mode:89,mode,mode 89,,,,,,,,,,,,,,,,,,,,,0.5358897,T,A,6.0,,,,,
+mode:90,mode,mode 90,,,,,,,,,,,,,,,,,,,,,0.5365265,T,S,9.0,,,,,
+mode:91,mode,mode 91,,,,,,,,,,,,,,,,,,,,,0.5366874,T,A,10.0,,,,,
+mode:92,mode,mode 92,,,,,,,,,,,,,,,,,,,,,0.5414313,T,A,4.0,,,,,
+mode:93,mode,mode 93,,,,,,,,,,,,,,,,,,,,,0.5426558,T,A,14.0,,,,,
+mode:94,mode,mode 94,,,,,,,,,,,,,,,,,,,,,0.5430642,V,A,14.0,,,,,
+mode:95,mode,mode 95,,,,,,,,,,,,,,,,,,,,,0.5436539,T,A,10.0,,,,,
+mode:96,mode,mode 96,,,,,,,,,,,,,,,,,,,,,0.544739,T,A,12.0,,,,,
+mode:97,mode,mode 97,,,,,,,,,,,,,,,,,,,,,0.5481393,T,A,14.0,,,,,
+mode:98,mode,mode 98,,,,,,,,,,,,,,,,,,,,,0.5491638,T,A,2.0,,,,,
+mode:99,mode,mode 99,,,,,,,,,,,,,,,,,,,,,0.5545611,T,A,2.0,,,,,
+mode:100,mode,mode 100,,,,,,,,,,,,,,,,,,,,,0.5551421,T,S,13.0,,,,,
+event:site_gb50009_50yr,wind_event,site_gb50009_50yr,,,,,,,,,,,,,,,,,,,,,,,,,design_code,B,26.8,3720.569215036649,stationary_ok
+event:site_gb50009_100yr,wind_event,site_gb50009_100yr,,,,,,,,,,,,,,,,,,,,,,,,,design_code,B,28.3,4196.967560091192,stationary_ok
+event:site_sutong_100yr_obs,wind_event,site_sutong_100yr_obs,,,,,,,,,,,,,,,,,,,,,,,,,design_code,A,38.9,7713.300663161026,stationary_ok
+event:hko_t10,wind_event,hko_t10,,,,,,,,,,,,,,,,,,,,,,,,,design_code,B,32.8,5805.824641429615,stationary_ok
+event:asce7_risk4_fl,wind_event,asce7_risk4_fl,,,,,,,,,,,,,,,,,,,,,,,,,design_code,B,58.3,19883.74943773713,stationary_ok
+event:ss_cat1,wind_event,ss_cat1,,,,,,,,,,,,,,,,,,,,,,,,,hurricane,B,28.9,4395.914417973238,stationary_ok
+event:ss_cat2,wind_event,ss_cat2,,,,,,,,,,,,,,,,,,,,,,,,,hurricane,B,37.7,7862.729302397441,stationary_ok
+event:ss_cat3,wind_event,ss_cat3,,,,,,,,,,,,,,,,,,,,,,,,,hurricane,B,43.9,10914.835606044067,stationary_ok
+event:ss_cat4,wind_event,ss_cat4,,,,,,,,,,,,,,,,,,,,,,,,,hurricane,B,50.9,14952.105761619028,stationary_ok
+event:ss_cat5,wind_event,ss_cat5,,,,,,,,,,,,,,,,,,,,,,,,,hurricane,B,61.4,22147.365926811308,stationary_ok
+event:infa_2021_zhoushan,wind_event,infa_2021_zhoushan,,,,,,,,,,,,,,,,,,,,,,,,,typhoon,A,35.8,7027.634850176886,stationary_ok
+event:doksuri_2023_jinjiang,wind_event,doksuri_2023_jinjiang,,,,,,,,,,,,,,,,,,,,,,,,,typhoon,A,47.2,12740.91100905818,stationary_ok
+event:haiyan_2013_peak,wind_event,haiyan_2013_peak,,,,,,,,,,,,,,,,,,,,,,,,,typhoon,A,63.9,24056.19981616857,stationary_ok
+event:meranti_2016_peak,wind_event,meranti_2016_peak,,,,,,,,,,,,,,,,,,,,,,,,,typhoon,A,61.1,21923.284463986736,stationary_ok
+event:goni_2020_landfall,wind_event,goni_2020_landfall,,,,,,,,,,,,,,,,,,,,,,,,,typhoon,A,76.8,35054.72671394862,stationary_ok
+event:tip_1979_peak,wind_event,tip_1979_peak,,,,,,,,,,,,,,,,,,,,,,,,,typhoon,C,72.0,30741.132173419075,stationary_ok
+event:mangkhut_2018_peak,wind_event,mangkhut_2018_peak,,,,,,,,,,,,,,,,,,,,,,,,,typhoon,A,69.5,28597.337849879565,stationary_ok
+event:lanyu_ryan_1995_gust,wind_event,lanyu_ryan_1995_gust,,,,,,,,,,,,,,,,,,,,,,,,,typhoon,C,60.1,21184.096613471527,stationary_ok
+event:patricia_2015_peak,wind_event,patricia_2015_peak,,,,,,,,,,,,,,,,,,,,,,,,,hurricane,A,84.1,42101.57369841067,stationary_ok
+event:dorian_2019_landfall,wind_event,dorian_2019_landfall,,,,,,,,,,,,,,,,,,,,,,,,,hurricane,C,71.9,30654.017059416376,stationary_ok
+event:gustav_2008_cuba_gust,wind_event,gustav_2008_cuba_gust,,,,,,,,,,,,,,,,,,,,,,,,,hurricane,C,66.5,28295.930594804147,stationary_ok
+event:amphan_2020_peak,wind_event,amphan_2020_peak,,,,,,,,,,,,,,,,,,,,,,,,,monsoon,A,63.0,23360.50999797306,stationary_ok
+event:nargis_2008_peak,wind_event,nargis_2008_peak,,,,,,,,,,,,,,,,,,,,,,,,,monsoon,A,52.4,15897.290897517156,stationary_ok
+event:bhola_1970_peak,wind_event,bhola_1970_peak,,,,,,,,,,,,,,,,,,,,,,,,,monsoon,A,49.0,13795.149028646794,stationary_ok
+event:ef3_anchor,wind_event,ef3_anchor,,,,,,,,,,,,,,,,,,,,,,,,,tornado,B,47.2,26543.564602204533,reference_only
+event:ef4_anchor,wind_event,ef4_anchor,,,,,,,,,,,,,,,,,,,,,,,,,tornado,B,57.7,40539.523443488295,reference_only
+event:ef5_anchor,wind_event,ef5_anchor,,,,,,,,,,,,,,,,,,,,,,,,,tornado,B,66.9,55091.0750969051,reference_only
+event:funing_2016_ef4,wind_event,funing_2016_ef4,,,,,,,,,,,,,,,,,,,,,,,,,tornado,A,51.8,32324.715186727663,reference_only
+event:bridge_creek_1999_ref,wind_event,bridge_creek_1999_ref,,,,,,,,,,,,,,,,,,,,,,,,,tornado,C,95.1,112060.97569005017,reference_only
+event:dongfangzhixing_2015_downburst,wind_event,dongfangzhixing_2015_downburst,,,,,,,,,,,,,,,,,,,,,,,,,downburst,A,30.6,9140.303014619663,reference_only
+event:andrews_afb_1983_microburst,wind_event,andrews_afb_1983_microburst,,,,,,,,,,,,,,,,,,,,,,,,,downburst,C,46.9,23043.50179324754,reference_only
+event:midwest_derecho_2020,wind_event,midwest_derecho_2020,,,,,,,,,,,,,,,,,,,,,,,,,derecho,C,44.1,18369.25212211779,reference_only
+event:great_storm_1987,wind_event,great_storm_1987,,,,,,,,,,,,,,,,,,,,,,,,,extratropical_storm,C,35.2,8467.217555581037,stationary_ok
+event:lothar_1999,wind_event,lothar_1999,,,,,,,,,,,,,,,,,,,,,,,,,extratropical_storm,C,33.0,7844.765879398785,stationary_ok
+event:bora_adriatic,wind_event,bora_adriatic,,,,,,,,,,,,,,,,,,,,,,,,,foehn_bora,C,48.6,20336.01884584928,stationary_ok
+event:mistral_strong,wind_event,mistral_strong,,,,,,,,,,,,,,,,,,,,,,,,,foehn_bora,C,28.0,5465.721420712758,stationary_ok
+event:patagonia_westerlies,wind_event,patagonia_westerlies,,,,,,,,,,,,,,,,,,,,,,,,,extratropical_storm,C,28.0,5124.11383191821,stationary_ok
+event:xinjiang_baili_fengqu,wind_event,xinjiang_baili_fengqu,,,,,,,,,,,,,,,,,,,,,,,,,local_record,A,30.0,6364.1184733133005,stationary_ok
+event:cape_denison_katabatic,wind_event,cape_denison_katabatic,,,,,,,,,,,,,,,,,,,,,,,,,katabatic,C,19.4,2260.1995515724107,stationary_ok
+event:thule_1972_gust,wind_event,thule_1972_gust,,,,,,,,,,,,,,,,,,,,,,,,,katabatic,C,65.1,31248.240590306053,stationary_ok
+event:piteraq_tasiilaq,wind_event,piteraq_tasiilaq,,,,,,,,,,,,,,,,,,,,,,,,,katabatic,C,45.0,15344.14075676242,stationary_ok
+event:barrow_olivia_1996,wind_event,barrow_olivia_1996,,,,,,,,,,,,,,,,,,,,,,,,,local_record,A,48.9,13735.509681512383,stationary_ok
+event:mt_washington_1934,wind_event,mt_washington_1934,,,,,,,,,,,,,,,,,,,,,,,,,local_record,A,72.7,39192.62871995757,stationary_ok
+channel:L,response_channel,L,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+channel:V,response_channel,V,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+channel:Tcw,response_channel,Tcw,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+channel:Tg,response_channel,Tg,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+atlas,product,response atlas A1-A5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+warning,system,early-warning state machine,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+galloping,workshop,陡振 Den Hartog,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
