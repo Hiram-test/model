@@ -38,27 +38,6 @@ from scipy.spatial import cKDTree
 BASE = Path(__file__).resolve().parent.parent
 SOL, ART = BASE / "solver", BASE / "artifacts"
 CCX_JOB = os.environ.get("CCX_JOB", "true3d_ccx")
-
-
-def _align_by_station_k(a: dict, b: dict, field: str):
-    """Align two station records by k; return x (sorted) and b[field]-a[field].
-
-    Do not zip arrays by storage order. k is the builder station index.
-    """
-    ka = {int(k): i for i, k in enumerate(a["k"])}
-    kb = {int(k): i for i, k in enumerate(b["k"])}
-    pairs = []
-    for k, ia in ka.items():
-        if k not in kb:
-            continue
-        pairs.append((float(a["x"][ia]),
-                      float(b[field][kb[k]] - a[field][ia])))
-    pairs.sort()
-    if not pairs:
-        return np.array([]), np.array([])
-    xs = np.array([p[0] for p in pairs])
-    du = np.array([p[1] for p in pairs])
-    return xs, du
 MANIFEST_NAME = os.environ.get("MANIFEST_NAME", "true3d_model_manifest.json")
 MODE_TABLE = os.environ.get("MODE_TABLE", "true3d_mode_table.csv")
 BASIS_NAME = os.environ.get("BASIS_NAME", "modal_basis.npz")
@@ -69,6 +48,30 @@ SNAP_MM = 400.0
 # S10 towers (mm); used only for span-energy split, not imported from attachment
 TOWER_X = (714.5e3, 2995.3e3)
 F_ZERO = 5e-3          # numerical residual-RB cutoff (Hz)
+
+
+def _align_by_station_k(a: dict, b: dict, comp: str) -> tuple[np.ndarray, np.ndarray]:
+    """Pair two line-group observables by station-k (node id % 100000)."""
+    ka = {int(k): i for i, k in enumerate(a["k"])}
+    kb = {int(k): i for i, k in enumerate(b["k"])}
+    common = sorted(set(ka) & set(kb))
+    if not common:
+        return np.array([]), np.array([])
+    xs = np.array([0.5 * (a["x"][ka[k]] + b["x"][kb[k]]) for k in common])
+    dv = np.array([b[comp][kb[k]] - a[comp][ka[k]] for k in common])
+    order = np.argsort(xs)
+    return xs[order], dv[order]
+
+
+def _mean_uz_by_k(inner: dict, outer: dict) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    ka = {int(k): i for i, k in enumerate(inner["k"])}
+    kb = {int(k): i for i, k in enumerate(outer["k"])}
+    common = sorted(set(ka) & set(kb))
+    xs = np.array([0.5 * (inner["x"][ka[k]] + outer["x"][kb[k]]) for k in common])
+    uz = np.array([0.5 * (inner["uz"][ka[k]] + outer["uz"][kb[k]]) for k in common])
+    ks = np.array(common, dtype=int)
+    order = np.argsort(xs)
+    return xs[order], uz[order], ks[order]
 
 
 def read_frd_coords(path: Path) -> tuple[np.ndarray, np.ndarray]:
@@ -194,26 +197,34 @@ def main() -> None:
         obs = {}
         for key in gk:
             s = gsel[key]
-            obs[key] = {"x": xyz[s][:, 0], "uy": sh[s][:, 1], "uz": sh[s][:, 2]}
+            obs[key] = {"x": xyz[s][:, 0], "uy": sh[s][:, 1], "uz": sh[s][:, 2],
+                        "k": ids[s] % 100000}
         def span_int(key, comp):
             o = obs[key]
             order = np.argsort(o["x"])
             return np.trapezoid(np.abs(o[comp][order]), o["x"][order])
         L = sum(span_int(k, "uy") for k in gk if k.endswith("B"))
         V = sum(span_int(k, "uz") for k in gk if k.endswith("B"))
-        # per-catwalk twist from band differential (bearing lines)
+        # per-catwalk twist: align inner/outer by station-k, not array index
         tw = []
         for cw in ("P", "M"):
-            i_, o_ = obs[f"{cw}IB"], obs[f"{cw}OB"]
-            n = min(len(i_["x"]), len(o_["x"]))
+            xs, duz = _align_by_station_k(obs[f"{cw}IB"], obs[f"{cw}OB"], "uz")
             dy = abs(y_eq[f"{cw}OB"] - y_eq[f"{cw}IB"])
-            tw.append(np.trapezoid(np.abs(o_["uz"][:n] - i_["uz"][:n]), o_["x"][:n]) / dy)
+            tw.append(np.trapezoid(np.abs(duz), xs) / dy if len(xs) > 1 else 0.0)
         Tcw = sum(tw)
-        zP = 0.5 * (obs["PIB"]["uz"] + obs["POB"]["uz"][: len(obs["PIB"]["uz"])])
-        zM = 0.5 * (obs["MIB"]["uz"] + obs["MOB"]["uz"][: len(obs["MIB"]["uz"])])
-        n = min(len(zP), len(zM))
+        xP, zP, kP = _mean_uz_by_k(obs["PIB"], obs["POB"])
+        xM, zM, kM = _mean_uz_by_k(obs["MIB"], obs["MOB"])
+        mp = {int(k): i for i, k in enumerate(kP)}
+        mm = {int(k): i for i, k in enumerate(kM)}
+        common = sorted(set(mp) & set(mm))
         dyg = abs(0.5 * (y_eq["PIB"] + y_eq["POB"]) - 0.5 * (y_eq["MIB"] + y_eq["MOB"]))
-        Tg = np.trapezoid(np.abs(zP[:n] - zM[:n]), obs["PIB"]["x"][:n]) / dyg
+        if len(common) > 1:
+            xsG = np.array([0.5 * (xP[mp[k]] + xM[mm[k]]) for k in common])
+            dz = np.array([zP[mp[k]] - zM[mm[k]] for k in common])
+            order = np.argsort(xsG)
+            Tg = np.trapezoid(np.abs(dz[order]), xsG[order]) / dyg
+        else:
+            Tg = 0.0
         fam = max((("L", L), ("V", V), ("T", (Tcw + Tg) * dyg)), key=lambda kv: kv[1])[0]
         # half waves on dominant bearing line; odd -> S (symmetric), even -> A
         o = obs["PIB"]
