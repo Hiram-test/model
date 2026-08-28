@@ -30,9 +30,11 @@
     "rf_print": "omitted (ccx 2.21 *NODE PRINT,TOTALS segfault); residual used as proxy",
     "pass_no_spin_in_structural": true,
     "pass_force_1e-6": false,
-    "verdict": "STRUCTURAL_OK_NUMERICAL_ZEROS_DROPPED"
+    "pass": false,
+    "verdict": "FAIL: 4 residual-zero modes in first 100; resid/W > 1e-06"
   },
-  "passages_note": "R5 asked 21 passages; builder saw 63 x-stations = 21 clusters of 3 (passage depth ~1.4 m). Extra beams kept this run.",
+  "conclusion_allowed": false,
+  "passages_note": "R5 contract 21 passages; this solved deck still has passages=63 (builder now clusters; rebuild S3 to apply)",
   "deck_sha256": "f089dee33377f1ea65ef7ec543525c85e39b323b091d3a5e27e8adfc14f4f242",
   "coarsen": 4
 }

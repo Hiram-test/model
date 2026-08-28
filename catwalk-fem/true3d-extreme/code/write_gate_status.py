@@ -10,6 +10,24 @@ import pandas as pd
 BASE = Path(__file__).resolve().parent.parent
 ART, SOL = BASE / "artifacts", BASE / "solver"
 W = 4108.46593118566 * 9806.0   # N, from mass ledger * g
+FORCE_OVER_W_MAX = 1e-6         # red line 2; do not relax the force ratio
+
+
+def gp4_verdict(n_zero: int, resid_over_w: float | None) -> dict:
+    """G-P4 FAIL if residual-RB modes sit in the first 100 or resid/W > 1e-6."""
+    force_pass = resid_over_w is not None and resid_over_w <= FORCE_OVER_W_MAX
+    no_residual_zeros = n_zero == 0
+    passed = bool(no_residual_zeros and force_pass)
+    reasons = []
+    if not no_residual_zeros:
+        reasons.append(f"{n_zero} residual-zero modes in first 100")
+    if not force_pass:
+        reasons.append(f"resid/W > {FORCE_OVER_W_MAX:g}")
+    return {
+        "pass": passed,
+        "pass_force_1e-6": force_pass,
+        "verdict": "PASS" if passed else ("FAIL: " + "; ".join(reasons)),
+    }
 
 
 def main() -> None:
@@ -29,15 +47,13 @@ def main() -> None:
     gp3 = "Job finished" in stdout and "1          1     1     3" in sta
 
     n_zero = int(tbl["residual_zero"].astype(bool).sum()) if "residual_zero" in tbl else -1
-    # last Newton residual from stdout
     resid = None
     for line in stdout.splitlines():
         if line.strip().startswith("largest residual force="):
             resid = float(line.split("=")[1].split()[0])
     resid_over_w = resid / W if resid is not None else None
-    # G-P4: no residual-zero in the structural set used for conclusions;
-    # numerical zeros are recorded, not promoted. Force residual vs weight.
-    gp4 = (n_zero > 0, resid_over_w is not None and resid_over_w <= 1e-5)
+    gp4 = gp4_verdict(n_zero, resid_over_w)
+    conclusion_allowed = bool(gp1 and gp2 and gp3 and gp4["pass"])
 
     status = {
         "G-P1": {"pass": gp1, "lines": len(parse["lines"]),
@@ -56,10 +72,15 @@ def main() -> None:
             "resid_over_weight": resid_over_w,
             "rf_print": "omitted (ccx 2.21 *NODE PRINT,TOTALS segfault); residual used as proxy",
             "pass_no_spin_in_structural": True,
-            "pass_force_1e-6": bool(resid_over_w is not None and resid_over_w <= 1e-6),
-            "verdict": "STRUCTURAL_OK_NUMERICAL_ZEROS_DROPPED",
+            "pass_force_1e-6": gp4["pass_force_1e-6"],
+            "pass": gp4["pass"],
+            "verdict": gp4["verdict"],
         },
-        "passages_note": "R5 asked 21 passages; builder saw 63 x-stations = 21 clusters of 3 (passage depth ~1.4 m). Extra beams kept this run.",
+        "conclusion_allowed": conclusion_allowed,
+        "passages_note": man.get("passages_note") or (
+            f"R5 contract 21 passages; this solved deck still has "
+            f"passages={man.get('passages')} (builder now clusters; rebuild S3 to apply)"
+        ),
         "deck_sha256": man["deck_sha256"],
         "coarsen": man["coarsen"],
     }
