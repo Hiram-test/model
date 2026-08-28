@@ -79,7 +79,8 @@ def main() -> None:
         "conclusion_allowed": conclusion_allowed,
         "passages_note": man.get("passages_note") or (
             f"R5 contract 21 passages; this solved deck still has "
-            f"passages={man.get('passages')} (builder now clusters; rebuild S3 to apply)"
+            f"passages={man.get('passages')}. cluster_x_stations is not in the "
+            f"builder; do not claim clustering until that function exists and S3 is rebuilt"
         ),
         "deck_sha256": man["deck_sha256"],
         "coarsen": man["coarsen"],

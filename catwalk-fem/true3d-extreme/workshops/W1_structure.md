@@ -17,7 +17,7 @@
 | G-P2 | PASS |
 | UY | PASS，84/5422，frac 0.0155 |
 | G-P3 | PASS，3 次牛顿，152 s |
-| G-P4 | 4 个 ~2×10⁻⁴ Hz 残差刚体已从模态基剔除；末残差/自重 = 1.4×10⁻⁶ |
+| G-P4 | **FAIL**（`conclusion_allowed=false`）。4 个 ~2×10⁻⁴ Hz 残差刚体已从模态基剔除；末残差/自重 = 1.42×10⁻⁶ > 10⁻⁶。不写 STRUCTURAL_OK。 |
 
 首个结构模态 0.03982 Hz（LS1 向）。锁定十四行配对见 `true3d_table41_pairing.csv`。
 
