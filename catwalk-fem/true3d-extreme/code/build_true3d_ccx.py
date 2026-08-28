@@ -95,16 +95,46 @@ def trace_lines(elem_arr):
     return lines
 
 
+def _rss_mb() -> float:
+    try:
+        with open("/proc/self/status") as f:
+            for line in f:
+                if line.startswith("VmRSS"):
+                    return int(line.split()[1]) / 1024.0
+    except OSError:
+        return -1.0
+    return -1.0
+
+
 def main() -> None:
+    # Bind each npz array once. NpzFile.__getitem__ decompresses a fresh copy
+    # per access; looping d["node_xyz"][k] over 79k ids OOMs a 15 GB VM.
     d = np.load(ART / "s10_model.npz", allow_pickle=True)
-    pos = {int(i): d["node_xyz"][k] for k, i in enumerate(d["node_ids"])}
-    gpos = {int(i): d["gnode_xyz"][k] for k, i in enumerate(d["gnode_ids"])}
-    sig = dict(zip(d["inistate_eids"].tolist(), d["inistate_sig"].tolist()))
+    node_ids = np.asarray(d["node_ids"])
+    node_xyz_arr = np.asarray(d["node_xyz"])
+    gnode_ids = np.asarray(d["gnode_ids"])
+    gnode_xyz_arr = np.asarray(d["gnode_xyz"])
+    inistate_eids = np.asarray(d["inistate_eids"])
+    inistate_sig = np.asarray(d["inistate_sig"])
+    bearing_arr = np.asarray(d["bearing"])
+    gantry_arr = np.asarray(d["gantry"])
+    gate_elems = np.asarray(d["gate_elems"])
+    ds_arr = np.asarray(d["ds"])
+    cp_sets = list(d["cp_sets"])
+    dp_elems = np.asarray(d["dp_elems"])
+    masses = np.asarray(d["masses"])
+    floads = np.asarray(d["floads"])
+    d.close()
+    print(f"npz loaded rss_mb={_rss_mb():.0f}")
+
+    pos = {int(i): node_xyz_arr[k] for k, i in enumerate(node_ids)}
+    gpos = {int(i): gnode_xyz_arr[k] for k, i in enumerate(gnode_ids)}
+    sig = dict(zip(inistate_eids.tolist(), inistate_sig.tolist()))
 
     # ---- rope line groups -------------------------------------------------
     groups: dict[str, dict] = {}
-    for tag, arr, a_single in (("bearing", d["bearing"], BEARING_A),
-                               ("gantry", d["gantry"], GANTRY_A)):
+    for tag, arr, a_single in (("bearing", bearing_arr, BEARING_A),
+                               ("gantry", gantry_arr, GANTRY_A)):
         for chain_n, chain_e in trace_lines(arr):
             y = float(np.mean([pos[n][1] for n in chain_n]))
             cw = "P" if y > 0 else "M"
@@ -141,16 +171,15 @@ def main() -> None:
             node_owner[n] = key
 
     # ---- gate / passage stations from generated components -----------------
-    ge = d["gate_elems"]
+    ge = gate_elems
     gate_x = sorted({round(gpos[int(i)][0], 1) for e, i, j, s in ge if s == 61})
     pass_x = sorted({round(gpos[int(i)][0], 1) for e, i, j, s in ge if s == 63})
     print(f"gate stations: {len(gate_x)}  passage stations: {len(pass_x)}")
 
     # ---- constraint / CP node stations -------------------------------------
-    ds = d["ds"]
+    ds = ds_arr
     d_rope = [(int(n), int(dof)) for n, dof in ds if int(n) in node_owner]
     d_other = [(int(n), int(dof)) for n, dof in ds if int(n) not in node_owner]
-    cp_sets = d["cp_sets"]
 
     forced_x = set()
     for n, _ in d_rope:
@@ -179,7 +208,7 @@ def main() -> None:
             continue
         grid.append(x)
     grid = np.array(grid)
-    print(f"kept X stations: {len(grid)}  range {grid[0]/1e3:.1f}..{grid[-1]/1e3:.1f} m")
+    print(f"kept X stations: {len(grid)}  range {grid[0]/1e3:.1f}..{grid[-1]/1e3:.1f} m  rss_mb={_rss_mb():.0f}")
 
     # ---- emit nodes ---------------------------------------------------------
     lines_out: list[str] = []
@@ -215,7 +244,7 @@ def main() -> None:
             node_xyz[i] = (x, g["y_eq"], z)
             push(f"{i}, {x:.3f}, {g['y_eq']:.3f}, {z:.3f}")
 
-    dp = d["dp_elems"]
+    dp = dp_elems
     dp_nodes = sorted({int(n) for e in dp for n in e[1:]})
     for n in dp_nodes:
         x, y, z = pos[n]
@@ -311,7 +340,7 @@ def main() -> None:
             push(f"{e}, {a}, {b}")
 
     # ---- masses -> nearest kept node -> element density bins ----------------
-    masses = d["masses"]
+    # masses already bound from npz
     kept_ids = np.array(sorted(node_xyz))
     kept_arr = np.array([node_xyz[i] for i in kept_ids])
     tree = cKDTree(kept_arr)
@@ -562,8 +591,19 @@ def main() -> None:
     push("U")
     push("*END STEP")
 
-    deck = "\n".join(lines_out) + "\n"
-    (SOL / "true3d_ccx.inp").write_text(deck)
+    dest = SOL / "true3d_ccx.inp"
+    h = hashlib.sha256()
+    nbytes = 0
+    with dest.open("w", encoding="utf-8") as fh:
+        for line in lines_out:
+            rec = line + "\n"
+            fh.write(rec)
+            raw = rec.encode()
+            h.update(raw)
+            nbytes += len(raw)
+    del lines_out
+    deck_sha = h.hexdigest()
+    print(f"deck written rss_mb={_rss_mb():.0f} bytes={nbytes}")
 
     rope_base_t = 0.0
     for key in GK:
@@ -573,7 +613,7 @@ def main() -> None:
     dp_base_t = sum(RHO["downpull"] * DOWNPULL_A * elem_meta[e]["L"] for e in elsets["E_DOWNPULL"])
     extra_t = sum(elem_extra.values())
     manifest = {
-        "deck_sha256": hashlib.sha256(deck.encode()).hexdigest(),
+        "deck_sha256": deck_sha,
         "grid_stations": int(len(grid)),
         "coarsen": COARSEN,
         "groups": {k: {"n_ropes": groups[k]["n"], "y_eq_m": round(groups[k]["y_eq"] / 1e3, 4),
@@ -601,8 +641,8 @@ def main() -> None:
             "total": rope_base_t + dp_base_t + extra_t,
             "s10_reference": 4108.466907580,
         },
-        "dropped_F_loads": {"n": int(len(d["floads"])),
-                            "sum_kN": float(d["floads"][:, 1].sum() / 1e3),
+        "dropped_F_loads": {"n": int(len(floads)),
+                            "sum_kN": float(floads[:, 1].sum() / 1e3),
                             "reason": "sum(F)/g == sum(MASS21) exactly; folded densities carry weight"},
         "simplifications": ["R1 band-merge 8/3 ropes", "R2 coarsen x4 (~7.9 m)",
                             "R3 parametric portals shared-node", "R4 smeared crossrows",
@@ -612,7 +652,7 @@ def main() -> None:
     (ART / "true3d_model_manifest.json").write_text(json.dumps(manifest, indent=1, ensure_ascii=False))
     print(json.dumps(manifest["mass_ledger_t"], indent=1))
     print(json.dumps(manifest["elements"], indent=1))
-    print("nodes:", manifest["nodes_total"], " deck bytes:", len(deck))
+    print("nodes:", manifest["nodes_total"], " deck bytes:", nbytes)
 
 
 if __name__ == "__main__":
