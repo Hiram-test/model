@@ -44,6 +44,9 @@ assert rel < 0.01, "G-P2 FAIL: mass ledger off by >1%"
 print('G-P2 PASS')
 EOF
 
+# --- S3b: independent UY reread (second lock; builder already gated) ----------
+python3 code/audit_uy_bc.py
+
 # --- S4: ccx 静力+摄动模态（门 G-P3: 静力收敛 exit 0；G-P4: 无伪模态低频段） -----
 cd solver
 time ccx -i true3d_ccx 2>&1 | tee true3d_ccx.stdout.txt
