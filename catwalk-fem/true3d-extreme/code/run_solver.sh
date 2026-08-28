@@ -55,6 +55,8 @@ cd ..
 
 # --- S5: 模态后处理 + 表 4-1 配对（锁定规则；产出 modal_basis.npz） --------------
 python3 code/postprocess_modes.py
+python3 code/pair_table41.py
+python3 code/write_gate_status.py
 
 echo "solver chain done; next: python3 code/buffeting.py --scenario site_sutong_100yr_obs"
 echo "then: python3 code/sweep_extreme.py && python3 code/make_atlas.py"

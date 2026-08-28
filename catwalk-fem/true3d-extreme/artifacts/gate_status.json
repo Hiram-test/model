@@ -1,0 +1,38 @@
+{
+  "G-P1": {
+    "pass": true,
+    "lines": 44,
+    "mass21_t": 963.811381,
+    "F_over_g_t": 963.811381
+  },
+  "G-P2": {
+    "pass": true,
+    "total_t": 4108.46593118566,
+    "s10_t": 4108.46690758,
+    "rel": 2.3765418143813977e-07
+  },
+  "UY": {
+    "pass": true,
+    "uy_frac": 0.01549243821468093,
+    "uy_nodes": 84
+  },
+  "G-P3": {
+    "pass": true,
+    "static_iterations": 3,
+    "ccx_s": 151.82
+  },
+  "G-P4": {
+    "residual_zero_modes": 4,
+    "residual_zero_note": "4 near-zero eigenvalues (~2e-4 Hz) treated as residual-RB, dropped from modal_basis; not spin of expanded B31",
+    "last_newton_residual_N": 57.154739,
+    "weight_N": 40287616.921206586,
+    "resid_over_weight": 1.4186676544254694e-06,
+    "rf_print": "omitted (ccx 2.21 *NODE PRINT,TOTALS segfault); residual used as proxy",
+    "pass_no_spin_in_structural": true,
+    "pass_force_1e-6": false,
+    "verdict": "STRUCTURAL_OK_NUMERICAL_ZEROS_DROPPED"
+  },
+  "passages_note": "R5 asked 21 passages; builder saw 63 x-stations = 21 clusters of 3 (passage depth ~1.4 m). Extra beams kept this run.",
+  "deck_sha256": "f089dee33377f1ea65ef7ec543525c85e39b323b091d3a5e27e8adfc14f4f242",
+  "coarsen": 4
+}

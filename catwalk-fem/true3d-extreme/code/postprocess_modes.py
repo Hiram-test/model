@@ -40,6 +40,9 @@ REPO = BASE.parent.parent
 REF_CSV = REPO / ("catwalk-fem/double-mct-buffeting/inputs/roll_upgrade_sources/"
                   "reference_attachment_2_3_table4_1.csv")
 SNAP_MM = 400.0
+# S10 towers (mm); used only for span-energy split, not imported from attachment
+TOWER_X = (714.5e3, 2995.3e3)
+F_ZERO = 5e-3          # numerical residual-RB cutoff (Hz)
 
 
 def read_frd_coords(path: Path) -> tuple[np.ndarray, np.ndarray]:
@@ -81,6 +84,30 @@ def read_frd_modes(path: Path):
     return freqs, blocks
 
 
+def read_dat_freqs(path: Path) -> list[float]:
+    """Authoritative cycles/time column from ccx .dat EIGENVALUE OUTPUT."""
+    freqs: list[float] = []
+    in_ev = False
+    with open(path) as f:
+        for raw in f:
+            line = raw.strip()
+            if "E I G E N V A L U E" in raw:
+                in_ev = True
+                continue
+            if not in_ev:
+                continue
+            if not line:
+                if freqs:
+                    break
+                continue
+            p = line.split()
+            if len(p) >= 4 and p[0].isdigit():
+                freqs.append(float(p[3]))
+    if not freqs:
+        raise SystemExit(f"no eigenvalues in {path}")
+    return freqs
+
+
 def main() -> None:
     manifest = json.loads((ART / "true3d_model_manifest.json").read_text())
     groups = manifest["groups"]
@@ -108,9 +135,14 @@ def main() -> None:
     keep = dist <= SNAP_MM
     bucket = {int(fi): int(j) for fi, j, k in zip(fids, idx, keep) if k}
 
-    freqs, blocks = read_frd_modes(SOL / "true3d_ccx.frd")
-    # static step also writes a DISP block; modal blocks follow. Identify by count:
-    modal = blocks[-len([f for f in freqs if not np.isnan(f)]):]
+    dat_freqs = read_dat_freqs(SOL / "true3d_ccx.dat")
+    frd_freqs, blocks = read_frd_modes(SOL / "true3d_ccx.frd")
+    # Static *NODE FILE writes one DISP block (100CL freq often 1.0 = step time).
+    # Modal blocks are the last N, N = eigenvalue count from .dat.
+    if len(blocks) < len(dat_freqs):
+        raise SystemExit(f"FRD DISP blocks {len(blocks)} < .dat modes {len(dat_freqs)}")
+    modal = blocks[-len(dat_freqs):]
+    freqs = dat_freqs
 
     def collapse(block):
         acc = np.zeros((len(ids), 3))
@@ -157,12 +189,32 @@ def main() -> None:
         dyg = abs(0.5 * (y_eq["PIB"] + y_eq["POB"]) - 0.5 * (y_eq["MIB"] + y_eq["MOB"]))
         Tg = np.trapezoid(np.abs(zP[:n] - zM[:n]), obs["PIB"]["x"][:n]) / dyg
         fam = max((("L", L), ("V", V), ("T", (Tcw + Tg) * dyg)), key=lambda kv: kv[1])[0]
-        # half waves on dominant bearing line
+        # half waves on dominant bearing line; odd -> S (symmetric), even -> A
         o = obs["PIB"]
-        comp = o["uy"] if fam == "L" else o["uz"]
-        sgn = np.sign(comp[np.abs(comp) > 0.05 * np.abs(comp).max()])
+        xord = np.argsort(o["x"])
+        comp = (o["uy"] if fam == "L" else o["uz"])[xord]
+        xo = o["x"][xord]
+        amp = np.abs(comp)
+        thr = 0.05 * (amp.max() if amp.max() > 0 else 1.0)
+        sgn = np.sign(comp[amp > thr])
         hw = int(np.sum(np.abs(np.diff(sgn)) > 0) + 1) if len(sgn) else 0
-        rows.append({"mode": m, "f_hz": f, "family": fam, "half_waves": hw,
+        parity = "S" if (hw % 2 == 1) else "A"
+        # main-span energy fraction on PIB (towers from S10 parse, not attachment)
+        main = (xo >= TOWER_X[0]) & (xo <= TOWER_X[1])
+        e_all = float(np.trapezoid(amp, xo)) if len(xo) > 1 else 0.0
+        e_main = float(np.trapezoid(amp[main], xo[main])) if main.sum() > 1 else 0.0
+        main_frac = e_main / e_all if e_all > 0 else 0.0
+        if main_frac >= 0.65:
+            span = "main"
+        elif float(np.trapezoid(amp[xo < TOWER_X[0]], xo[xo < TOWER_X[0]])) >= \
+                float(np.trapezoid(amp[xo > TOWER_X[1]], xo[xo > TOWER_X[1]])):
+            span = "side_NW"
+        else:
+            span = "side_SE"
+        residual_zero = bool(f < F_ZERO)
+        rows.append({"mode": m, "f_hz": f, "family": fam, "parity": parity,
+                     "half_waves": hw, "main_span_fraction": main_frac,
+                     "dominant_span": span, "residual_zero": residual_zero,
                      "L": L, "V": V, "T_catwalk": Tcw, "T_global": Tg})
 
     import csv
@@ -171,7 +223,8 @@ def main() -> None:
         w.writeheader()
         w.writerows(rows)
 
-    # modal basis for buffeting -------------------------------------------------
+    # modal basis for buffeting: drop numerical residual-RB (f < F_ZERO)
+    keep = np.array([not r["residual_zero"] for r in rows])
     trib = np.zeros(len(ids))
     for key in gk:
         s = np.where(gsel[key])[0]
@@ -180,16 +233,17 @@ def main() -> None:
         t = np.gradient(xs[o])
         trib[s[o]] = t
     np.savez_compressed(ART / "modal_basis.npz",
-                        freqs=np.array(freqs), shapes=shapes, node_ids=ids,
+                        freqs=np.array(freqs)[keep], shapes=shapes[keep], node_ids=ids,
                         node_xyz=xyz, tributary_mm=trib,
                         group_keys=np.array(gk),
                         group_mask=np.stack([gsel[k] for k in gk]),
-                        y_eq=np.array([y_eq[k] for k in gk]))
-    print(f"modes: {len(freqs)}; families:",
-          {f: sum(1 for r in rows if r['family'] == f) for f in 'LVT'})
+                        y_eq=np.array([y_eq[k] for k in gk]),
+                        dropped_residual_zeros=int((~keep).sum()),
+                        f_zero_hz=F_ZERO)
+    n_zero = int((~keep).sum())
+    print(f"modes: {len(freqs)} (structural {int(keep.sum())}, residual-zero {n_zero}); families:",
+          {f: sum(1 for r in rows if r['family'] == f and not r['residual_zero']) for f in 'LVT'})
     print("wrote modal_basis.npz + true3d_mode_table.csv")
-    print("table 4-1 pairing: run catwalk-fem/agentic-fea/code/pair_table41.py "
-          "with MODE_TABLE=artifacts/true3d_mode_table.csv (locked rules preserved)")
 
 
 if __name__ == "__main__":
