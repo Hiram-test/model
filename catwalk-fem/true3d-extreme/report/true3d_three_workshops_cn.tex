@@ -17,28 +17,32 @@
 \noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep}{
 \textbf{不是科学结论。} 附件 2--3 频率与 RMS 只在对照节点出现。
 T 族只引用三栈括弧（柔性端 $-29\%$ / 焊接端 $-19\%\sim-15\%$），不写复现。
-阈值未定版不可上线。deck sha \texttt{f089dee33377}，COARSEN=4 主档。}}
+阈值未定版不可上线。deck sha \texttt{5ebc64fae00a}，COARSEN=4 主档。}}
 
 \section{工坊一　结构基本计算}
 
-S10 V2.0 $\to$ 7477 个 B31，5422 节点，8 条并索线，门架 142 榀。
+S10 V2.0 $\to$ 6867 个 B31，5018 节点，8 条并索线，门架 142 榀；
+R5 已落地：63 个通道 x 站聚为 21 根等效梁，S10 大 id 经 \texttt{deck\_id\_from\_s10} 重映射。
 质量台账 $4108.466$ t 对 S10 $4108.467$ t。
-G-P1/P2/P3 通过。G-P4 \textbf{FAIL}（$\mathrm{resid}/W=1.42\times10^{-6}>10^{-6}$，
+G-P1/P2/P3 通过。G-P4 \textbf{FAIL}（$\mathrm{resid}/W=4.85\times10^{-6}>10^{-6}$，
 4 个残差刚体），\texttt{conclusion\_allowed=false}，不写 STRUCTURAL\_OK。
 
-LS2 锁定配对落到 $0.2085$ Hz（附件 $0.1087$，比 $1.92$），半波指纹 5。
-中间两个 L+S 主跨能量 $<0.65$，按规则进边跨池，禁止半波 MAC 改配。
-LS1 本身 $+9.1\%$。这不是整体刚度错一倍。
+十四行锁定配对 MAE $7.1\%$（63 x 站旧 deck 为 $15.3\%$）。
+LS2 本轮配到 $0.1222$ Hz（附件 $0.1087$，$+12.5\%$，半波指纹 3）；
+旧 deck 上同一规则曾落到 $0.2085$ Hz（比 $1.92$，指纹 5），R5 聚类后回到 3 半波。
+LS1 $+7.0\%$，TA1 $+6.5\%$（符号仍与焊接端括弧不同，只作对照）。
 
-COARSEN=2 附加档：相对 C4，TA1 $-1.43\%$、TS1 $-1.10\%$、LS1 $-0.90\%$
-（\texttt{artifacts/coarsen2\_shift.json}）。R2 不是 LS2 $1.92\times$ 的原因。
+COARSEN=2 附加档（独立 job，不覆盖 C4）：相对 C4，TA1 $-7.49\%$、TS1 $-1.61\%$、
+LS1 $-1.02\%$、VA1 $-0.36\%$（\texttt{artifacts/coarsen2\_shift.json}）。
+TA1 对 R2 粗化最敏感，其对照差与粗化误差同量级，只作记录。
 
 \section{工坊二　极端工况与图谱}
 
 43 工况已扫。龙卷 / 下击暴流 / derecho 为 \texttt{reference\_only}。
 C 级 15 项（库内计数，不是大纲约写的 14）本轮保持未复核角标，见 \texttt{c\_level\_review.json}，不升 A/B。
 
-主曲线：$(U_{10},I_u)$ 网格直算后插值。平稳事件交叉验证最大相对误差 $3.37\%<5\%$，门通过。
+主曲线：$(U_{10},I_u)$ 网格直算后插值（本轮已按新模态基重算）。
+平稳事件交叉验证最大相对误差 $3.43\%<5\%$，门通过。
 A1--A5 在 \texttt{artifacts/atlas/}。A5 是预警查询面。P16/P84 集合带〔待填〕。
 
 \begin{figure}[h]\centering
@@ -49,7 +53,7 @@ A1--A5 在 \texttt{artifacts/atlas/}。A5 是预警查询面。P16/P84 集合带
 \section{工坊三　系统预警}
 
 \texttt{code/warning.py} 按大纲 3.1：风侧查 A5，响应侧超带只升异常旗，预报侧接口空。
-苏通演示 $U_{10}=38.9$、$I_u=0.11$，插值 L RMS $7.72$ m，与直算 $7.71$ m 一致。
+苏通演示 $U_{10}=38.9$、$I_u=0.11$，插值 L RMS $7.71$ m，与直算 $7.71$ m 一致。
 \texttt{LEVEL=NOT\_ARMED}。
 
 阈值出处（\texttt{threshold\_sources.json}）：
