@@ -26,6 +26,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 from collections import defaultdict
 from pathlib import Path
 
@@ -35,6 +36,7 @@ from scipy.spatial import cKDTree
 ART = Path(__file__).resolve().parent.parent / "artifacts"
 SOL = Path(__file__).resolve().parent.parent / "solver"
 SOL.mkdir(parents=True, exist_ok=True)
+UY_FRAC_MAX = 0.05          # hard lock: catwalk UY must NOT be all-mesh pinned
 
 BEARING_A = 1393.668228093791
 GANTRY_A = 1400.496622996084
@@ -45,8 +47,8 @@ RHO_STEEL_NIL = 1.0e-17
 E_ROPE, NU_ROPE = 120000.0, 0.3
 E_STEEL, NU_STEEL = 206000.0, 0.31
 G_MM = 9806.0
-MODES = 100
-COARSEN = 4          # keep every 4th bearing node (~7.9 m)
+MODES = int(os.environ.get("MODES", "100"))
+COARSEN = int(os.environ.get("COARSEN", "4"))          # keep every Nth bearing node (~7.9 m at 4)
 
 # ASEC (A, I_vert, I_lat, J) from S10 include
 SEC_H175 = (4997.5, 28164706.4583, 9830899.73958, 176798.958333)
@@ -183,8 +185,13 @@ def main() -> None:
     lines_out: list[str] = []
     push = lines_out.append
     push("*HEADING")
-    push("True-3D simplified catwalk from S10 V2.0 (attachment-2-3 aligned); ccx 2.21")
-    push("** 8 merged rope lines (2 catwalks x 2 bands x bearing/gantry) + portals + passages")
+    push("True-3D simplified catwalk from S10 V2.0 APDL; units N / mm / tonne / s")
+    push("** X=longitudinal (chainage-K16+876, mm), Y=transverse, Z=up")
+    push("** R1-R7 contract; 8 merged rope lines (2 catwalks x 2 bands x bearing/gantry)")
+    push("** BOUNDARY: UX/UY/UZ only at S10-mapped support nodes (anchors / downpull).")
+    push("** HARD LOCK: do NOT restrain UY on NALL. All-mesh UY=0 is the 2-D MCT migrate")
+    push("** pattern and is forbidden on this deck. Lateral (L) modes must remain free.")
+    push(f"** COARSEN={COARSEN}  MODES={MODES}  TYPE=B31 SECTION=RECT  IC=8-IP global PK2")
     push("*NODE, NSET=NALL")
 
     GK = sorted(groups)  # MIB MIG MOB MOG PIB PIG POB POG
@@ -450,7 +457,7 @@ def main() -> None:
         ic_n += 1
     print(f"IC elements: {ic_n}")
 
-    # ---- boundaries -----------------------------------------------------------
+    # ---- boundaries (anchor-level only; UY is NOT all-mesh) -------------------
     bmap = defaultdict(set)
     for n, dof in d_rope:
         key = node_owner[n]
@@ -463,6 +470,18 @@ def main() -> None:
             continue
         if n in node_xyz:
             bmap[n].add(int(dof) + 1)
+    n_uy = sum(1 for n, ds in bmap.items() if 2 in ds)
+    uy_frac = n_uy / max(len(node_xyz), 1)
+    print(f"BC nodes {len(bmap)}  UY nodes {n_uy}  uy_frac {uy_frac:.4f}")
+    if n_uy >= len(node_xyz) * 0.90:
+        raise SystemExit("UY GATE FAIL: all-mesh UY pin detected (forbidden)")
+    if uy_frac >= UY_FRAC_MAX:
+        raise SystemExit(f"UY GATE FAIL: uy_frac={uy_frac:.4f} >= {UY_FRAC_MAX}")
+    if n_uy == 0:
+        raise SystemExit("UY GATE FAIL: zero UY supports (rigid-body Y unconstrained)")
+
+    push("** BOUNDARY cards written node-by-node from S10 D,UX/UY/UZ mapped to kept")
+    push("** stations plus downpull anchors. No NALL,UY card exists on this deck.")
     push("*BOUNDARY")
     for n in sorted(bmap):
         for dof in sorted(bmap[n]):
@@ -470,12 +489,26 @@ def main() -> None:
     push("*NSET, NSET=NSUPP")
     for n in sorted(bmap):
         push(f"{n}")
+    push("*NSET, NSET=N_UY")
+    uy_nodes = [n for n in sorted(bmap) if 2 in bmap[n]]
+    for n in uy_nodes:
+        push(f"{n}")
+    push("*NSET, NSET=N_UX")
+    for n in (n for n in sorted(bmap) if 1 in bmap[n]):
+        push(f"{n}")
+    push("*NSET, NSET=N_UZ")
+    for n in (n for n in sorted(bmap) if 3 in bmap[n]):
+        push(f"{n}")
 
     # ---- CP rings -> equations ------------------------------------------------
     eq_lines = []
+    missing_master = []
     for cp in cp_sets:
         dof = int(cp[1]) + 1
         master = int(cp[2])
+        if master not in node_xyz:
+            missing_master.append(master)
+            continue
         slaves = set()
         for n in cp[3:]:
             n = int(n)
@@ -487,7 +520,11 @@ def main() -> None:
             if (key, k) in node_id:
                 slaves.add(node_id[(key, k)])
         for s_node in sorted(slaves):
+            if s_node == master:
+                continue
             eq_lines.append((s_node, dof, master))
+    if missing_master:
+        raise SystemExit(f"CP master nodes missing from deck: {sorted(set(missing_master))}")
     if eq_lines:
         push("*EQUATION")
         for s_node, dof, master in eq_lines:
@@ -495,7 +532,10 @@ def main() -> None:
             push(f"{s_node}, {dof}, 1.0, {master}, {dof}, -1.0")
     print(f"equations: {len(eq_lines)}")
 
-    # ---- steps ----------------------------------------------------------------
+    # ---- steps (gravity + prestress only; no personnel / wind in this chain) -
+    push("** STEP 1: NLGEOM static, single increment. Load = GRAV only.")
+    push("** Prestress is *INITIAL CONDITIONS,TYPE=STRESS (8 IP, global PK2).")
+    push("** No CLOAD live load, no wind pressure on this step.")
     push("*STEP, NLGEOM, INC=200")
     push("*STATIC")
     push("1.0, 1.0, 1e-6, 1.0")
@@ -505,7 +545,11 @@ def main() -> None:
             push(f"{name}, GRAV, {G_MM}, 0.0, 0.0, -1.0")
     push("*NODE FILE")
     push("U")
+    push("*NODE PRINT, NSET=NSUPP, TOTALS=ONLY")
+    push("RF")
     push("*END STEP")
+    push("** STEP 2: perturbation frequency on the prestressed tangent stiffness.")
+    push("** Does not read attachment 2-3 target frequencies.")
     push("*STEP, PERTURBATION")
     push("*FREQUENCY")
     push(f"{MODES}")
@@ -536,6 +580,14 @@ def main() -> None:
         "passages": len(pass_x),
         "ic_elements": ic_n,
         "boundary_nodes": len(bmap),
+        "boundary_uy_nodes": n_uy,
+        "boundary_uy_frac": uy_frac,
+        "uy_gate": {
+            "rule": "UY only at S10-mapped supports; forbid all-mesh UY=0",
+            "uy_frac_max": UY_FRAC_MAX,
+            "uy_frac": uy_frac,
+            "pass": bool(uy_frac < UY_FRAC_MAX and n_uy < 0.9 * len(node_xyz) and n_uy > 0),
+        },
         "equations": len(eq_lines),
         "density_bins": len(bins),
         "mass_ledger_t": {
