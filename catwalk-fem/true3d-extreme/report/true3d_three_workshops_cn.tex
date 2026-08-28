@@ -1,0 +1,63 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,linkcolor=blue!50!black]{hyperref}
+\setCJKmainfont{Noto Sans CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
+\captionsetup{font=small}
+\title{\bfseries 张靖皋南航道桥施工猫道\\真实三维抖振：三工坊回填（结构 / 图谱 / 预警）}
+\author{分支 \texttt{cursor/agentic-catwalk-fea-d416} \quad 目录 \texttt{catwalk-fem/true3d-extreme/}}
+\date{2026-08-28}
+\begin{document}
+\maketitle
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep}{
+\textbf{不是科学结论。} 附件 2--3 频率与 RMS 只在对照节点出现。
+T 族只引用三栈括弧（柔性端 $-29\%$ / 焊接端 $-19\%\sim-15\%$），不写复现。
+阈值未定版不可上线。deck sha \texttt{f089dee33377}，COARSEN=4 主档。}}
+
+\section{工坊一　结构基本计算}
+
+S10 V2.0 $\to$ 7477 个 B31，5422 节点，8 条并索线，门架 142 榀。
+质量台账 $4108.466$ t 对 S10 $4108.467$ t。
+G-P1/P2/P3 通过。G-P4：4 个 $\sim 2\times10^{-4}$ Hz 残差刚体已从模态基剔除。
+
+LS2 锁定配对落到 $0.2085$ Hz（附件 $0.1087$，比 $1.92$），半波指纹 5。
+中间两个 L+S 主跨能量 $<0.65$，按规则进边跨池，禁止半波 MAC 改配。
+LS1 本身 $+9.1\%$。这不是整体刚度错一倍。
+
+COARSEN=2 是附加档，T 族频移写入 \texttt{artifacts/coarsen2\_shift.json}（若本编译时文件已在）。
+
+\section{工坊二　极端工况与图谱}
+
+43 工况已扫。龙卷 / 下击暴流 / derecho 为 \texttt{reference\_only}。
+C 级 14 项本轮保持未复核角标，见 \texttt{c\_level\_review.json}，不升 A/B。
+
+主曲线：$(U_{10},I_u)$ 网格直算后插值。平稳事件交叉验证最大相对误差 $3.37\%<5\%$，门通过。
+A1--A5 在 \texttt{artifacts/atlas/}。A5 是预警查询面。P16/P84 集合带〔待填〕。
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.92\linewidth]{../artifacts/atlas/A5_master_surface.png}
+\caption{A5 主曲线连续图谱（网格 P50）+ 43 事件点。叉为非平稳参考点。}
+\end{figure}
+
+\section{工坊三　系统预警}
+
+\texttt{code/warning.py} 按大纲 3.1：风侧查 A5，响应侧超带只升异常旗，预报侧接口空。
+苏通演示 $U_{10}=38.9$、$I_u=0.11$，插值 L RMS $7.72$ m，与直算 $7.71$ m 一致。
+\texttt{LEVEL=NOT\_ARMED}。
+
+阈值出处（\texttt{threshold\_sources.json}）：
+蓝档候选工作风速 $13.8$ m/s（附件 2--3 §2.2），\textbf{armed=false}（还不是施工停工规范条）；
+黄/橙/红仍〔待填〕。破断力 $2380$ kN/根已引用附件表 5--4 附近，利用率系数未定。
+
+\section*{附加：陡振与知识图谱}
+
+猫道截面 Den Hartog $H=dC_L/d\alpha+C_D=0.733>0$，线性不起振。
+单索升力斜率〔待填〕。知识图谱 181 节点 / 323 边，
+\texttt{knowledge\_graph.json}。
+
+\end{document}

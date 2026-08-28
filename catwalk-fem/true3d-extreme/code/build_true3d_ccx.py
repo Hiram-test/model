@@ -49,6 +49,8 @@ E_STEEL, NU_STEEL = 206000.0, 0.31
 G_MM = 9806.0
 MODES = int(os.environ.get("MODES", "100"))
 COARSEN = int(os.environ.get("COARSEN", "4"))          # keep every Nth bearing node (~7.9 m at 4)
+CCX_JOB = os.environ.get("CCX_JOB", "true3d_ccx")
+MANIFEST_NAME = os.environ.get("MANIFEST_NAME", "true3d_model_manifest.json")
 
 # ASEC (A, I_vert, I_lat, J) from S10 include
 SEC_H175 = (4997.5, 28164706.4583, 9830899.73958, 176798.958333)
@@ -591,7 +593,7 @@ def main() -> None:
     push("U")
     push("*END STEP")
 
-    dest = SOL / "true3d_ccx.inp"
+    dest = SOL / f"{CCX_JOB}.inp"
     h = hashlib.sha256()
     nbytes = 0
     with dest.open("w", encoding="utf-8") as fh:
@@ -649,7 +651,7 @@ def main() -> None:
                             "R5 passage 2-chord equivalent beam", "R6 MASS21->density bins",
                             "R7 ROTY file skipped"],
     }
-    (ART / "true3d_model_manifest.json").write_text(json.dumps(manifest, indent=1, ensure_ascii=False))
+    (ART / MANIFEST_NAME).write_text(json.dumps(manifest, indent=1, ensure_ascii=False))
     print(json.dumps(manifest["mass_ledger_t"], indent=1))
     print(json.dumps(manifest["elements"], indent=1))
     print("nodes:", manifest["nodes_total"], " deck bytes:", nbytes)

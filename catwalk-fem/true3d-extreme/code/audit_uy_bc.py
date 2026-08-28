@@ -7,11 +7,12 @@ migrate pattern). This script does not import the builder.
 from __future__ import annotations
 
 import json
+import os
 from collections import defaultdict
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent.parent
-INP = BASE / "solver" / "true3d_ccx.inp"
+INP = BASE / "solver" / f"{os.environ.get('CCX_JOB', 'true3d_ccx')}.inp"
 ART = BASE / "artifacts"
 UY_FRAC_MAX = 0.05
 
@@ -80,7 +81,9 @@ def main() -> None:
         "pass": (not all_mesh) and (0 < frac < UY_FRAC_MAX) and n_uy > 0,
         "nall_uy_card": False,
     }
-    (ART / "uy_bc_reread.json").write_text(json.dumps(report, indent=1))
+    tag = os.environ.get("CCX_JOB", "true3d_ccx")
+    dest = ART / ("uy_bc_reread.json" if tag == "true3d_ccx" else f"uy_bc_reread_{tag}.json")
+    dest.write_text(json.dumps(report, indent=1))
     print(json.dumps(report, indent=1))
     if not report["pass"]:
         raise SystemExit("UY GATE FAIL on independent reread")

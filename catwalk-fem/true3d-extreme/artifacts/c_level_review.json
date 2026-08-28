@@ -1,0 +1,22 @@
+{
+  "rule": "14 C-class events stay marked unverified unless a primary source is re-read this session",
+  "conversion_chain": "1-min/1.14  2-min/1.06  3-min/1.05  3s/1.42",
+  "items": [
+    {"id": "tip_1979_peak", "kept": "unverified_C", "note": "JMA 10-min 140 kt is textbook; not re-read from JMA best-track file this session"},
+    {"id": "lanyu_ryan_1995_gust", "kept": "unverified_C", "note": "station-gust compilation; keep C"},
+    {"id": "dorian_2019_landfall", "kept": "unverified_C", "note": "NHC landfall 185 kt is well known; still C until NHC TCR page is attached"},
+    {"id": "gustav_2008_cuba_gust", "kept": "unverified_C", "note": "Cuba station 211 mph via secondary tables"},
+    {"id": "bridge_creek_1999_ref", "kept": "unverified_C", "note": "DOW 135 m/s is not a 10 m 3-s gust; already reference_only as tornado"},
+    {"id": "andrews_afb_1983_microburst", "kept": "unverified_C", "note": "Fujita 1985 classic; keep C"},
+    {"id": "midwest_derecho_2020", "kept": "unverified_C", "note": "NWS Cedar Rapids 140 mph is widely reported; keep C until NWS PNS attached"},
+    {"id": "great_storm_1987", "kept": "unverified_C", "note": "Met Office review; keep C"},
+    {"id": "lothar_1999", "kept": "unverified_C", "note": "plain U10 ~33 is an estimate, mountain 212 km/h not used as U10"},
+    {"id": "bora_adriatic", "kept": "unverified_C", "note": "Maslenica bridge case; keep C"},
+    {"id": "mistral_strong", "kept": "unverified_C", "note": "climatic magnitude, not a dated event"},
+    {"id": "patagonia_westerlies", "kept": "unverified_C", "note": "climatic magnitude"},
+    {"id": "cape_denison_katabatic", "kept": "unverified_C", "note": "annual-mean 19.4 m/s is a climate statistic, not a storm U10"},
+    {"id": "thule_1972_gust", "kept": "unverified_C", "note": "USAF station list via secondary table"},
+    {"id": "piteraq_tasiilaq", "kept": "unverified_C", "note": "literature estimate 70-90 m/s"}
+  ],
+  "action": "atlas already hatches / marks C; no silent promotion to A/B"
+}

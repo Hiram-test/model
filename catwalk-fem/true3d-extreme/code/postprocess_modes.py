@@ -29,6 +29,7 @@ Run:  python3 code/postprocess_modes.py
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -36,6 +37,10 @@ from scipy.spatial import cKDTree
 
 BASE = Path(__file__).resolve().parent.parent
 SOL, ART = BASE / "solver", BASE / "artifacts"
+CCX_JOB = os.environ.get("CCX_JOB", "true3d_ccx")
+MANIFEST_NAME = os.environ.get("MANIFEST_NAME", "true3d_model_manifest.json")
+MODE_TABLE = os.environ.get("MODE_TABLE", "true3d_mode_table.csv")
+BASIS_NAME = os.environ.get("BASIS_NAME", "modal_basis.npz")
 REPO = BASE.parent.parent
 REF_CSV = REPO / ("catwalk-fem/double-mct-buffeting/inputs/roll_upgrade_sources/"
                   "reference_attachment_2_3_table4_1.csv")
@@ -109,12 +114,12 @@ def read_dat_freqs(path: Path) -> list[float]:
 
 
 def main() -> None:
-    manifest = json.loads((ART / "true3d_model_manifest.json").read_text())
+    manifest = json.loads((ART / MANIFEST_NAME).read_text())
     groups = manifest["groups"]
 
     # deck nodes from the inp (NODE block) -----------------------------------
     deck_nodes = {}
-    with open(SOL / "true3d_ccx.inp") as f:
+    with open(SOL / f"{CCX_JOB}.inp") as f:
         in_nodes = False
         for line in f:
             if line.startswith("*NODE"):
@@ -129,14 +134,14 @@ def main() -> None:
     xyz = np.array([deck_nodes[i] for i in ids])
 
     # bucket expanded FRD mesh back to deck nodes (Q1) ------------------------
-    fids, fxyz = read_frd_coords(SOL / "true3d_ccx.frd")
+    fids, fxyz = read_frd_coords(SOL / f"{CCX_JOB}.frd")
     tree = cKDTree(xyz)
     dist, idx = tree.query(fxyz, k=1)
     keep = dist <= SNAP_MM
     bucket = {int(fi): int(j) for fi, j, k in zip(fids, idx, keep) if k}
 
-    dat_freqs = read_dat_freqs(SOL / "true3d_ccx.dat")
-    frd_freqs, blocks = read_frd_modes(SOL / "true3d_ccx.frd")
+    dat_freqs = read_dat_freqs(SOL / f"{CCX_JOB}.dat")
+    frd_freqs, blocks = read_frd_modes(SOL / f"{CCX_JOB}.frd")
     # Static *NODE FILE writes one DISP block (100CL freq often 1.0 = step time).
     # Modal blocks are the last N, N = eigenvalue count from .dat.
     if len(blocks) < len(dat_freqs):
@@ -218,7 +223,7 @@ def main() -> None:
                      "L": L, "V": V, "T_catwalk": Tcw, "T_global": Tg})
 
     import csv
-    with open(ART / "true3d_mode_table.csv", "w", newline="") as f:
+    with open(ART / MODE_TABLE, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
         w.writerows(rows)
@@ -232,7 +237,7 @@ def main() -> None:
         o = np.argsort(xs)
         t = np.gradient(xs[o])
         trib[s[o]] = t
-    np.savez_compressed(ART / "modal_basis.npz",
+    np.savez_compressed(ART / BASIS_NAME,
                         freqs=np.array(freqs)[keep], shapes=shapes[keep], node_ids=ids,
                         node_xyz=xyz, tributary_mm=trib,
                         group_keys=np.array(gk),

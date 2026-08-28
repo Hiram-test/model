@@ -14,6 +14,14 @@ First structural: LS1-like 0.03982 Hz. Locked Table 4-1 pairing in `true3d_table
 
 43/43 extreme scenarios swept. Atlas A1–A4 in `artifacts/atlas/`. Tornado/downburst/derecho rows are `reference_only` and hatched.
 
-Known deviations kept this run: R5 asked 21 passages; builder emitted 63 x-stations = 21 clusters of 3 (passage depth ~1.4 m). LS2 locked-rule pair is the next main-span L+S at 0.209 Hz (+92 %); no re-pair.
+Known deviations kept this run: R5 asked 21 passages; builder emitted 63 x-stations = 21 clusters of 3 (passage depth ~1.4 m). LS2 locked-rule pair is the next main-span L+S at 0.209 Hz (ratio 1.92 to attach 0.1087, half-waves=5); no re-pair. LS1 is +9.1%.
+
+Follow-on this same day:
+- Master surface CV PASS (stationary max rel 3.37% < 5%). A5 written.
+- 陡振 Den Hartog H=0.733>0 on the catwalk section; single-rope Cl' 〔待填〕.
+- Knowledge graph 181 nodes / 323 edges.
+- Warning state machine `LEVEL=NOT_ARMED` (thresholds 〔待填〕).
+- Three workshops filled under `workshops/`.
 
 `.frd` is local-only (185 MB). Rebuild: `bash code/run_solver.sh`.
+Patrol is off on this agent.
