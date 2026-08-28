@@ -4,8 +4,9 @@
   - 44 physical rope lines, every station, T3D2 (tension only, like LINK10/180)
   - every BEAM188 gate/passage member, B31 RECT matched to S10 ASEC 61–66
   - every crossbeam row, B31
-  - CERIG ALL (80–800 mm offset) → *RIGID BODY per connected component
-  - CERIG UXYZ / CP → *EQUATION on UX/UY/UZ (pin)
+  - CERIG ALL (80–800 mm offset) → stiff B31 weld bar (RIGID BODY + B31 expansion diverges)
+  - CERIG UXYZ → three SPRING2 (UX/UY/UZ); *EQUATION + B31 expansion diverges
+  - CP → *EQUATION
   - S10 D / downpull copied; ROTY stab on B31 nodes (R7 off)
   - MASS21 folded to nearest T3D2 density (ccx 2.21 TYPE=MASS × PERTURBATION
     is a solver crash, not a geometry contract)
@@ -153,6 +154,32 @@ def main() -> None:
             for e, a, b in rows:
                 w(f"{e}, {a}, {b}\n")
 
+    weld_elsets = []
+    n_weld = 0
+    weld_buckets = defaultdict(list)
+    for row in cerigs:
+        m, s, kind = int(row[0]), int(row[1]), int(row[2])
+        if kind != 1 or m not in pos or s not in pos:
+            continue
+        n_weld += 1
+        weld_buckets[ori_key(m, s)].append((700000 + n_weld, m, s))
+    for ok, rows in sorted(weld_buckets.items()):
+        name = f"E_WELD_{ok}"
+        weld_elsets.append((name, rows[0][1], rows[0][2]))
+        w(f"*ELEMENT, TYPE=B31, ELSET={name}\n")
+        for e, a, b in rows:
+            w(f"{e}, {a}, {b}\n")
+
+    n_spring = 0
+    for row in cerigs:
+        m, s, kind = int(row[0]), int(row[1]), int(row[2])
+        if kind != 0 or m not in pos or s not in pos:
+            continue
+        for dof, tag in ((1, "X"), (2, "Y"), (3, "Z")):
+            n_spring += 1
+            w(f"*ELEMENT, TYPE=SPRING2, ELSET=SP_{tag}\n")
+            w(f"{800000 + n_spring}, {s}, {m}\n")
+
     rope_nodes, rope_xyz = [], []
     for arr in (bearing, gantry):
         for _, a, b in arr:
@@ -228,6 +255,12 @@ def main() -> None:
         ox, oy, oz = beam_ori(a, b)
         w(f"*BEAM SECTION, ELSET={name}, MATERIAL=MST, SECTION=RECT\n")
         w(f"{side:.6f}, {side:.6f}\n{ox:.1f}, {oy:.1f}, {oz:.1f}\n")
+    for name, a, b in weld_elsets:
+        ox, oy, oz = beam_ori(a, b)
+        w(f"*BEAM SECTION, ELSET={name}, MATERIAL=MST, SECTION=RECT\n")
+        w(f"40.000000, 40.000000\n{ox:.1f}, {oy:.1f}, {oz:.1f}\n")
+    for tag, dof in (("X", 1), ("Y", 2), ("Z", 3)):
+        w(f"*SPRING, ELSET=SP_{tag}\n{dof}\n1.e9\n")
 
     def write_ic(eid, a, b, s_val):
         if s_val == 0.0:
@@ -284,65 +317,7 @@ def main() -> None:
     for n in sorted(bmap):
         w(f"{n}\n")
 
-    parent: dict[int, int] = {}
-
-    def find(x: int) -> int:
-        parent.setdefault(x, x)
-        while parent[x] != x:
-            parent[x] = parent[parent[x]]
-            x = parent[x]
-        return x
-
-    def union(a: int, b: int) -> None:
-        ra, rb = find(a), find(b)
-        if ra != rb:
-            parent[rb] = ra
-
-    for row in cerigs:
-        m, s, kind = int(row[0]), int(row[1]), int(row[2])
-        if kind == 1 and m in pos and s in pos:
-            union(m, s)
-    comps: dict[int, list[int]] = defaultdict(list)
-    for n in parent:
-        comps[find(n)].append(n)
-    rb_items = [(i, nodes) for i, nodes in enumerate(
-        sorted(comps.values(), key=lambda t: min(t))) if len(nodes) >= 2]
-    n_rb = 0
-    if rb_items:
-        w("*NODE\n")
-        for i, nodes in rb_items:
-            ref = min(nodes)
-            rx, ry, rz = pos[ref]
-            w(f"{8_000_000 + i}, {rx:.6f}, {ry:.6f}, {rz:.6f}\n")
-            a = np.array(pos[nodes[0]])
-            b = np.array(pos[nodes[1] if len(nodes) > 1 else nodes[0]])
-            t = b - a
-            nrm = float(np.linalg.norm(t))
-            t = t / nrm if nrm > 1e-12 else np.array([1.0, 0.0, 0.0])
-            off = np.cross(t, np.array([0.0, 1.0, 0.0]))
-            if float(np.linalg.norm(off)) < 1e-9:
-                off = np.cross(t, np.array([1.0, 0.0, 0.0]))
-            off = 50.0 * off / float(np.linalg.norm(off))
-            hx, hy, hz = a + off
-            w(f"{8_100_000 + i}, {hx:.6f}, {hy:.6f}, {hz:.6f}\n")
-    for i, nodes in rb_items:
-        ref = min(nodes)
-        rot = 8_000_000 + i
-        helper = 8_100_000 + i
-        body = list(nodes) + [helper]
-        w(f"*NSET, NSET=RB{i:04d}\n")
-        for k in range(0, len(body), 16):
-            w(",".join(str(x) for x in body[k:k + 16]) + "\n")
-        w(f"*RIGID BODY, NSET=RB{i:04d}, REF NODE={ref}, ROT NODE={rot}\n")
-        n_rb += 1
-
     eqs = []
-    for row in cerigs:
-        m, s, kind = int(row[0]), int(row[1]), int(row[2])
-        if kind != 0:
-            continue
-        for dof in (1, 2, 3):
-            eqs.append((s, dof, m))
     for cp in cp_sets:
         dof = int(cp[1]) + 1
         master = int(cp[2])
@@ -358,7 +333,8 @@ def main() -> None:
 
     elsets = (["E_BEARING", "E_GANTRY", "E_DOWNPULL"]
               + [name for name, _, _, _ in gate_elsets]
-              + [name for name, _, _, _ in cross_elsets])
+              + [name for name, _, _, _ in cross_elsets]
+              + [name for name, _, _ in weld_elsets])
     w("*STEP, NLGEOM, INC=200\n*STATIC\n1.0, 1.0, 1e-6, 1.0\n*DLOAD\n")
     for name in elsets:
         w(f"{name}, GRAV, {G_MM}, 0.0, 0.0, -1.0\n")
@@ -373,8 +349,10 @@ def main() -> None:
         "contracts": "NONE — R1-R7 off",
         "rope_element": "T3D2",
         "prestress": "T3D2 INITIAL CONDITIONS TYPE=STRESS global PK2 (1 IP)",
-        "cerig_all": "*RIGID BODY per component (offset 80-800 mm; linear u-equal is wrong)",
-        "n_rigid_body": n_rb,
+        "cerig_all": "stiff B31 weld bar (RIGID BODY + B31 expansion diverges)",
+        "cerig_uxyz": "three SPRING2 1e9 N/mm (EQUATION + B31 expansion diverges)",
+        "n_weld": n_weld,
+        "n_spring": n_spring,
         "n_nodes_emitted": len(used),
         "n_bearing": int(len(bearing)),
         "n_gantry": int(len(gantry)),
