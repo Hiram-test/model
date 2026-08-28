@@ -10,7 +10,7 @@
 
 脚本 `code/master_surface.py`。规则 (U10, Iu) 网格上直算四通道跨最大，再双线性插值。43 个命名事件是曲面上的投影点。
 
-交叉验证门：平稳事件四点相对误差 < 5%。结果见 `artifacts/atlas/master_surface_cv.json`。不过门修方法，不放宽。
+交叉验证门：平稳事件四点相对误差 < 5%。本轮（deck `5ebc64fa`，21 通道）平稳 35 点最大相对误差 3.43%，`cape_denison_katabatic`，见 `artifacts/atlas/master_surface_cv.json`。不过门修方法，不放宽。43/43 扫掠 OK，安攀行 U10=63.5。
 
 P16/P84 气动不确定度带：〔待填:CdD 区间尚未做集合〕。v0 曲面是 P50 网格。
 
@@ -24,4 +24,4 @@ P16/P84 气动不确定度带：〔待填:CdD 区间尚未做集合〕。v0 曲�
 | A4 | `atlas/comparison_attach23.png` | 已出；三点不是全曲线数字化 |
 | A5 | `atlas/A5_master_surface.png` | 本轮补 |
 
-每图脚注 deck sha + 气动版本。
+每图脚注 deck sha + 气动版本。版本头：`atlas/atlas_version.json`。图谱只作对照，G-P4 FAIL 期间不写结论。
