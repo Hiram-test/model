@@ -10,13 +10,13 @@
 - CERIG UXYZ/ALL → `*EQUATION`；S10 的 D/CP/下拉索照抄
 - ROTY 稳定文件加在 B31 节点上（R7 关）
 - MASS21 仍折进 T3D2 密度：ccx 2.21 `TYPE=MASS` × `PERTURBATION` 会崩，这是求解器限制，不是几何契约
-- 预应力：T3D2 上 `*INITIAL CONDITIONS,TYPE=STRESS` 在 2.21 里不收敛（2 杆探针已复现）；改为温度预应力 σ = Eα|ΔT|
+- 预应力：成桥线形上用 `*INITIAL CONDITIONS,TYPE=STRESS`（全局 PK2，1 个积分点）。温度收缩会再缩短约 0.6% 索长，已弃。直索探针 3 次迭代收敛。
+- CERIG ALL（间距 80–800 mm）用 `*RIGID BODY` 按连通块；线性 `u_s=u_m` 运动学是错的。UXYZ/CP 仍是 UX/UY/UZ `*EQUATION`。
 
-## 本机第一次试算（pod 重启前）
+## 试算
 
 - 膨胀后约 2.83e6 方程，spooles 能分解，峰值内存 ~12–15 GB
-- `TYPE=STRESS` 第一迭代残力 ~1e24，已弃
-- 温度预应力 + 全步长 1.0：第一迭代残力仍 ~1e15，平均力 ~8e9；随后环境重启，求解中断
-- 当前 deck 把静力第一步改成 0.05，让 Newton 自己切步
+- 旧 deck：线性 CERIG ALL + 温度预应力 → 门架节点残力 10^15–10^31
+- 当前 deck sha 见 `artifacts/true3d_model_manifest_full.json`
 
 未收敛前不报频率，不写 STRUCTURAL_OK，不改 C4 图谱。

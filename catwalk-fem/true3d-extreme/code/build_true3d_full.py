@@ -4,12 +4,13 @@
   - 44 physical rope lines, every station, T3D2 (tension only, like LINK10/180)
   - every BEAM188 gate/passage member, B31 RECT matched to S10 ASEC 61–66
   - every crossbeam row, B31
-  - CERIG UXYZ/ALL → *EQUATION on the matching DOF
-  - S10 D / CP / downpull copied
-  - ROTY stab file applied on B31 nodes (R7 off)
+  - CERIG ALL (80–800 mm offset) → *RIGID BODY per connected component
+  - CERIG UXYZ / CP → *EQUATION on UX/UY/UZ (pin)
+  - S10 D / downpull copied; ROTY stab on B31 nodes (R7 off)
   - MASS21 folded to nearest T3D2 density (ccx 2.21 TYPE=MASS × PERTURBATION
     is a solver crash, not a geometry contract)
-  - prestress via temperature on T3D2 (TYPE=STRESS diverges on T3D2 in 2.21)
+  - prestress: *INITIAL CONDITIONS,TYPE=STRESS on T3D2 (global PK2, 1 IP).
+    Temperature prestress is wrong on the already-shaped S10 mesh (ΔL ≈ 0.6% L).
 
 Does not overwrite solver/true3d_ccx.inp. Job name true3d_full.
 """
@@ -36,7 +37,6 @@ JOB = os.environ.get("CCX_JOB", "true3d_full")
 MANIFEST_NAME = os.environ.get("MANIFEST_NAME", "true3d_model_manifest_full.json")
 MODES = int(os.environ.get("MODES", "100"))
 
-# S10 ASEC 61–66: (A, Izz, Iyy) → rect_match(I_vert=Izz, I_lat=Iyy)
 ASEC = {
     61: (4997.5, 28164706.4583, 9830899.73958),
     62: (2496.0, 10130432.0, 10130432.0),
@@ -116,7 +116,6 @@ def main() -> None:
         w(f"{900000 + k}, {int(rec[1])}, {int(rec[2])}\n")
 
     def beam_ori(a, b):
-        """n1 must not be parallel to the element tangent (ccx RECT)."""
         pa, pb = np.array(pos[int(a)]), np.array(pos[int(b)])
         t = pb - pa
         nrm = float(np.linalg.norm(t))
@@ -154,8 +153,7 @@ def main() -> None:
             for e, a, b in rows:
                 w(f"{e}, {a}, {b}\n")
 
-    rope_nodes = []
-    rope_xyz = []
+    rope_nodes, rope_xyz = [], []
     for arr in (bearing, gantry):
         for _, a, b in arr:
             for n in (int(a), int(b)):
@@ -187,35 +185,26 @@ def main() -> None:
         for e in els:
             extra_e[e] += share
 
-    # T3D2 + TYPE=STRESS diverges in ccx 2.21 (2-bar probe: cutbacks).
-    # Temperature prestress converges and stays tension-only: σ = E α |ΔT|, ΔT = -1.
     bins = defaultdict(list)
     for e, a, b in bearing:
         e, a, b = int(e), int(a), int(b)
         pa, pb = np.array(pos[a]), np.array(pos[b])
         L = float(np.linalg.norm(pb - pa))
         rho = RHO["bearing"] + extra_e.get(e, 0.0) / (BEARING_A * max(L, 1.0))
-        s_val = float(sig.get(e, 0.0))
-        key = ("B", int(round(math.log10(max(rho, 1e-18)) * 80)),
-               int(round(s_val / 5.0)))
-        bins[key].append((e, rho, BEARING_A, s_val))
+        key = ("B", int(round(math.log10(max(rho, 1e-18)) * 80)))
+        bins[key].append((e, rho, BEARING_A))
     for e, a, b in gantry:
         e, a, b = int(e), int(a), int(b)
         pa, pb = np.array(pos[a]), np.array(pos[b])
         L = float(np.linalg.norm(pb - pa))
         rho = RHO["gantry"] + extra_e.get(e, 0.0) / (GANTRY_A * max(L, 1.0))
-        s_val = float(sig.get(e, 0.0))
-        key = ("G", int(round(math.log10(max(rho, 1e-18)) * 80)),
-               int(round(s_val / 5.0)))
-        bins[key].append((e, rho, GANTRY_A, s_val))
+        key = ("G", int(round(math.log10(max(rho, 1e-18)) * 80)))
+        bins[key].append((e, rho, GANTRY_A))
 
     for i, (key, rows) in enumerate(sorted(bins.items())):
         rho = float(np.mean([r[1] for r in rows]))
-        s_mean = float(np.mean([r[3] for r in rows]))
-        alpha = s_mean / E_ROPE if E_ROPE else 0.0
         name = f"MR{i:04d}"
         w(f"*MATERIAL, NAME={name}\n*ELASTIC\n{E_ROPE:.1f}, {NU_ROPE}\n*DENSITY\n{rho:.9e}\n")
-        w(f"*EXPANSION\n{alpha:.9e}\n")
         w(f"*ELSET, ELSET=SR{i:04d}\n")
         ids = [r[0] for r in rows]
         for k in range(0, len(ids), 16):
@@ -223,11 +212,8 @@ def main() -> None:
         A = rows[0][2]
         w(f"*SOLID SECTION, ELSET=SR{i:04d}, MATERIAL={name}\n{A:.6f}\n")
 
-    dp_sig = [float(sig.get(int(rec[0]), 0.0)) for rec in dp]
-    dp_alpha = (float(np.mean(dp_sig)) / E_ROPE) if dp_sig else 0.0
     w("*MATERIAL, NAME=MDP\n*ELASTIC\n{:.1f}, {}\n*DENSITY\n{:.9e}\n".format(
         E_ROPE, NU_ROPE, RHO["downpull"]))
-    w(f"*EXPANSION\n{dp_alpha:.9e}\n")
     w(f"*SOLID SECTION, ELSET=E_DOWNPULL, MATERIAL=MDP\n{DOWNPULL_A:.6f}\n")
 
     w("*MATERIAL, NAME=MST\n*ELASTIC\n{:.1f}, {}\n*DENSITY\n1e-17\n".format(E_STEEL, NU_STEEL))
@@ -243,8 +229,26 @@ def main() -> None:
         w(f"*BEAM SECTION, ELSET={name}, MATERIAL=MST, SECTION=RECT\n")
         w(f"{side:.6f}, {side:.6f}\n{ox:.1f}, {oy:.1f}, {oz:.1f}\n")
 
-    ic_n = sum(1 for e, _, _ in list(bearing) + list(gantry) if sig.get(int(e), 0.0) != 0.0)
-    ic_n += sum(1 for rec in dp if sig.get(int(rec[0]), 0.0) != 0.0)
+    def write_ic(eid, a, b, s_val):
+        if s_val == 0.0:
+            return 0
+        pa, pb = np.array(pos[int(a)]), np.array(pos[int(b)])
+        nrm = float(np.linalg.norm(pb - pa))
+        if nrm < 1e-12:
+            return 0
+        nvec = (pb - pa) / nrm
+        comp = (s_val * nvec[0] * nvec[0], s_val * nvec[1] * nvec[1],
+                s_val * nvec[2] * nvec[2], s_val * nvec[0] * nvec[1],
+                s_val * nvec[0] * nvec[2], s_val * nvec[1] * nvec[2])
+        w(f"{int(eid)}, 1, " + ", ".join(f"{c:.6e}" for c in comp) + "\n")
+        return 1
+
+    w("*INITIAL CONDITIONS, TYPE=STRESS\n")
+    ic_n = 0
+    for e, a, b in list(bearing) + list(gantry):
+        ic_n += write_ic(e, a, b, sig.get(int(e), 0.0))
+    for k, rec in enumerate(dp, start=1):
+        ic_n += write_ic(900000 + k, rec[1], rec[2], sig.get(int(rec[0]), 0.0))
 
     beam_nodes = set()
     for arr in (gates, cross_L, cross_S):
@@ -280,11 +284,64 @@ def main() -> None:
     for n in sorted(bmap):
         w(f"{n}\n")
 
+    parent: dict[int, int] = {}
+
+    def find(x: int) -> int:
+        parent.setdefault(x, x)
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(a: int, b: int) -> None:
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[rb] = ra
+
+    for row in cerigs:
+        m, s, kind = int(row[0]), int(row[1]), int(row[2])
+        if kind == 1 and m in pos and s in pos:
+            union(m, s)
+    comps: dict[int, list[int]] = defaultdict(list)
+    for n in parent:
+        comps[find(n)].append(n)
+    rb_items = [(i, nodes) for i, nodes in enumerate(
+        sorted(comps.values(), key=lambda t: min(t))) if len(nodes) >= 2]
+    n_rb = 0
+    if rb_items:
+        w("*NODE\n")
+        for i, nodes in rb_items:
+            ref = min(nodes)
+            rx, ry, rz = pos[ref]
+            w(f"{8_000_000 + i}, {rx:.6f}, {ry:.6f}, {rz:.6f}\n")
+            a = np.array(pos[nodes[0]])
+            b = np.array(pos[nodes[1] if len(nodes) > 1 else nodes[0]])
+            t = b - a
+            nrm = float(np.linalg.norm(t))
+            t = t / nrm if nrm > 1e-12 else np.array([1.0, 0.0, 0.0])
+            off = np.cross(t, np.array([0.0, 1.0, 0.0]))
+            if float(np.linalg.norm(off)) < 1e-9:
+                off = np.cross(t, np.array([1.0, 0.0, 0.0]))
+            off = 50.0 * off / float(np.linalg.norm(off))
+            hx, hy, hz = a + off
+            w(f"{8_100_000 + i}, {hx:.6f}, {hy:.6f}, {hz:.6f}\n")
+    for i, nodes in rb_items:
+        ref = min(nodes)
+        rot = 8_000_000 + i
+        helper = 8_100_000 + i
+        body = list(nodes) + [helper]
+        w(f"*NSET, NSET=RB{i:04d}\n")
+        for k in range(0, len(body), 16):
+            w(",".join(str(x) for x in body[k:k + 16]) + "\n")
+        w(f"*RIGID BODY, NSET=RB{i:04d}, REF NODE={ref}, ROT NODE={rot}\n")
+        n_rb += 1
+
     eqs = []
     for row in cerigs:
         m, s, kind = int(row[0]), int(row[1]), int(row[2])
-        dofs = (1, 2, 3, 4, 5, 6) if kind == 1 else (1, 2, 3)
-        for dof in dofs:
+        if kind != 0:
+            continue
+        for dof in (1, 2, 3):
             eqs.append((s, dof, m))
     for cp in cp_sets:
         dof = int(cp[1]) + 1
@@ -302,9 +359,7 @@ def main() -> None:
     elsets = (["E_BEARING", "E_GANTRY", "E_DOWNPULL"]
               + [name for name, _, _, _ in gate_elsets]
               + [name for name, _, _, _ in cross_elsets])
-    w("*INITIAL CONDITIONS, TYPE=TEMPERATURE\nNALL, 0\n")
-    w("*STEP, NLGEOM, INC=200\n*STATIC\n0.05, 1.0, 1e-8, 1.0\n")
-    w("*TEMPERATURE\nNALL, -1\n*DLOAD\n")
+    w("*STEP, NLGEOM, INC=200\n*STATIC\n1.0, 1.0, 1e-6, 1.0\n*DLOAD\n")
     for name in elsets:
         w(f"{name}, GRAV, {G_MM}, 0.0, 0.0, -1.0\n")
     w("*NODE FILE\nU\n*NODE PRINT, NSET=NSUPP\nRF\n*END STEP\n")
@@ -317,7 +372,9 @@ def main() -> None:
         "deck_sha256": sha,
         "contracts": "NONE — R1-R7 off",
         "rope_element": "T3D2",
-        "prestress": "T3D2 temperature (TYPE=STRESS diverges on T3D2)",
+        "prestress": "T3D2 INITIAL CONDITIONS TYPE=STRESS global PK2 (1 IP)",
+        "cerig_all": "*RIGID BODY per component (offset 80-800 mm; linear u-equal is wrong)",
+        "n_rigid_body": n_rb,
         "n_nodes_emitted": len(used),
         "n_bearing": int(len(bearing)),
         "n_gantry": int(len(gantry)),
