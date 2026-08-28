@@ -1,11 +1,13 @@
 {
   "job": "true3d_full",
-  "deck_sha256": "e15f3102ac7c2436b008a318e9daa422ab0ef376fd7950673708f9b7c11df363",
+  "deck_sha256": "f04970023b6822edb9ed77df4f79b945b8f1dd844df218676793b174f2aace87",
   "contracts": "NONE \u2014 R1-R7 off",
   "rope_element": "T3D2",
   "prestress": "T3D2 INITIAL CONDITIONS TYPE=STRESS global PK2 (1 IP)",
-  "cerig_all": "*RIGID BODY per component (offset 80-800 mm; linear u-equal is wrong)",
-  "n_rigid_body": 1240,
+  "cerig_all": "stiff B31 weld bar (RIGID BODY + B31 expansion diverges)",
+  "cerig_uxyz": "three SPRING2 1e9 N/mm (EQUATION + B31 expansion diverges)",
+  "n_weld": 1954,
+  "n_spring": 9372,
   "n_nodes_emitted": 91407,
   "n_bearing": 68960,
   "n_gantry": 4728,
@@ -14,9 +16,9 @@
   "n_cerig": 5078,
   "n_ic": 73692,
   "n_rope_mats": 206,
-  "n_eq": 9564,
+  "n_eq": 192,
   "n_roty": 2860,
   "mass21_note": "folded to T3D2 density; ccx 2.21 TYPE=MASS x PERTURBATION crashes",
   "mass21_folded_t": 963.8113807872733,
-  "bytes": 15623213
+  "bytes": 15630663
 }
