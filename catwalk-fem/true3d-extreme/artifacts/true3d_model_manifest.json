@@ -1,6 +1,6 @@
 {
- "deck_sha256": "f089dee33377f1ea65ef7ec543525c85e39b323b091d3a5e27e8adfc14f4f242",
- "grid_stations": 662,
+ "deck_sha256": "5ebc64fae00a5c2b73ef7317002cbfe5403f44dfd9f52f2cde616f8ca3c04715",
+ "grid_stations": 622,
  "coarsen": 4,
  "groups": {
   "MIB": {
@@ -45,42 +45,45 @@
   }
  },
  "elements": {
-  "E_ROPE_MIB": 659,
-  "E_ROPE_MIG": 661,
-  "E_ROPE_MOB": 659,
-  "E_ROPE_MOG": 661,
-  "E_ROPE_PIB": 659,
-  "E_ROPE_PIG": 661,
-  "E_ROPE_POB": 659,
-  "E_ROPE_POG": 661,
+  "E_ROPE_MIB": 619,
+  "E_ROPE_MIG": 621,
+  "E_ROPE_MOB": 619,
+  "E_ROPE_MOG": 621,
+  "E_ROPE_PIB": 619,
+  "E_ROPE_PIG": 621,
+  "E_ROPE_POB": 619,
+  "E_ROPE_POG": 621,
   "E_DOWNPULL": 4,
   "E_GATE_BOT": 142,
   "E_GATE_POST": 284,
   "E_GATE_TOP": 142,
-  "E_CROSS": 1310,
-  "E_PASS": 315
+  "E_CROSS": 1230,
+  "E_PASS": 105
  },
- "elements_total": 7477,
- "nodes_total": 5422,
+ "elements_total": 6867,
+ "nodes_total": 5018,
  "portals": 142,
- "passages": 63,
- "ic_elements": 5284,
+ "passages": 21,
+ "passages_raw_x_stations": 63,
+ "passages_cluster_gap_mm": 5000.0,
+ "passages_note": "R5: 21 equivalent beams from 63 sec-63 x-stations clustered at 5000 mm",
+ "ic_elements": 4964,
  "boundary_nodes": 84,
  "boundary_uy_nodes": 84,
- "boundary_uy_frac": 0.01549243821468093,
+ "boundary_uy_frac": 0.016739736946990835,
  "uy_gate": {
   "rule": "UY only at S10-mapped supports; forbid all-mesh UY=0",
   "uy_frac_max": 0.05,
-  "uy_frac": 0.01549243821468093,
+  "uy_frac": 0.016739736946990835,
   "pass": true
  },
  "equations": 24,
- "density_bins": 804,
+ "density_bins": 771,
  "mass_ledger_t": {
-  "rope_base": 3132.0667265330876,
+  "rope_base": 3132.0667211262703,
   "downpull_base": 12.587823865299379,
   "mass21_folded": 963.8113807872732,
-  "total": 4108.46593118566,
+  "total": 4108.465925778843,
   "s10_reference": 4108.46690758
  },
  "dropped_F_loads": {
