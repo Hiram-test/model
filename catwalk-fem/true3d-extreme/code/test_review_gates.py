@@ -53,6 +53,8 @@ def test_isolation_no_attach23_in_solver_scripts():
 
 def test_no_nall_totals():
     text = (CODE / "build_true3d_ccx.py").read_text()
+    assert text.count("\n") > 400, "builder was emptied; restore from last good commit"
+    assert "def main" in text and "def nid" in text
     assert "*NODE PRINT, NSET=NALL" not in text
     assert "*NODE PRINT, NSET=NSUPP, TOTALS" not in text
     assert "*NODE PRINT, NSET=NSUPP" in text
