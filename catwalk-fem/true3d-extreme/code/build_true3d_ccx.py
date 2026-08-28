@@ -500,25 +500,31 @@ def main() -> None:
     for n in (n for n in sorted(bmap) if 3 in bmap[n]):
         push(f"{n}")
 
-    # ---- CP rings -> equations ------------------------------------------------
+    # ---- CP rings -> equations (masters remapped like slaves) -----------------
+    def mapped_node(n: int):
+        n = int(n)
+        if n in node_xyz:
+            return n
+        key = node_owner.get(n)
+        if key is None:
+            return None
+        x = pos[n][0]
+        k = int(np.argmin(np.abs(grid - x)))
+        return node_id.get((key, k))
+
     eq_lines = []
     missing_master = []
     for cp in cp_sets:
         dof = int(cp[1]) + 1
-        master = int(cp[2])
-        if master not in node_xyz:
-            missing_master.append(master)
+        master = mapped_node(int(cp[2]))
+        if master is None:
+            missing_master.append(int(cp[2]))
             continue
         slaves = set()
         for n in cp[3:]:
-            n = int(n)
-            key = node_owner.get(n)
-            if key is None:
-                continue
-            x = pos[n][0]
-            k = int(np.argmin(np.abs(grid - x)))
-            if (key, k) in node_id:
-                slaves.add(node_id[(key, k)])
+            s_node = mapped_node(int(n))
+            if s_node is not None:
+                slaves.add(s_node)
         for s_node in sorted(slaves):
             if s_node == master:
                 continue
@@ -545,8 +551,7 @@ def main() -> None:
             push(f"{name}, GRAV, {G_MM}, 0.0, 0.0, -1.0")
     push("*NODE FILE")
     push("U")
-    push("*NODE PRINT, NSET=NSUPP, TOTALS=ONLY")
-    push("RF")
+    push("** RF not via *NODE PRINT,TOTALS (ccx 2.21 segfault; postprocess FRD FORC)")
     push("*END STEP")
     push("** STEP 2: perturbation frequency on the prestressed tangent stiffness.")
     push("** Does not read attachment 2-3 target frequencies.")
