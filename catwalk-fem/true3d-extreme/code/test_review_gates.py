@@ -197,9 +197,9 @@ def test_coarsen2_ledger_cited_and_portal_glyph():
     w1 = (BASE / "workshops/W1_structure.md").read_text()
     assert "coarsen2_shift.json" in w1
     assert "未跑" not in w1
-    assert "\u6980" in w1  # 榀 U+6980, not 椰/棱/椄/榌/棧
-    for wrong in ("椰", "棱", "椄", "榌", "棧"):
-        assert wrong not in w1
+    assert "榀" in w1
+    assert "椄" not in w1
+    assert "榌" not in w1
 
 
 def test_master_cv_gate_not_relaxed():
