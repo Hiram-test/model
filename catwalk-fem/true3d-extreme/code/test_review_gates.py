@@ -153,6 +153,18 @@ def test_run_status_and_baseline_lock():
     assert "test_review_gates.py" in plan
 
 
+def test_coarsen2_ledger_cited_and_portal_glyph():
+    """COARSEN=2 already ran; W1 must cite the ledger. Portal unit is 榀."""
+    shift = json.loads((ART / "coarsen2_shift.json").read_text())
+    assert "TA1" in shift["T_shift"]
+    w1 = (BASE / "workshops/W1_structure.md").read_text()
+    assert "coarsen2_shift.json" in w1
+    assert "未跑" not in w1
+    assert "榀" in w1
+    assert "椄" not in w1
+    assert "榌" not in w1
+
+
 def test_master_cv_gate_not_relaxed():
     cv = json.loads((ART / "atlas/master_surface_cv.json").read_text())
     assert cv["threshold"] == 0.05
@@ -175,6 +187,7 @@ def main() -> None:
     test_buffeting_four_channels_and_air_density()
     test_gp4_does_not_relax_1e6()
     test_run_status_and_baseline_lock()
+    test_coarsen2_ledger_cited_and_portal_glyph()
     test_master_cv_gate_not_relaxed()
     print("review gates PASS")
 
