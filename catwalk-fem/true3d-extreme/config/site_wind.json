@@ -1,0 +1,45 @@
+{
+  "site": {
+    "name": "Zhangjinggao Yangtze bridge, south channel catwalk",
+    "z_deck_m": 60.0,
+    "z0_m": 0.003,
+    "rho_air": 1.225,
+    "kappa": 0.4,
+    "profile": "log",
+    "anchor_design_wind_U10": 38.9,
+    "anchor_source": "Sutong bridge site observational study (100-yr, 10-min); same reach"
+  },
+  "turbulence": {
+    "model": "kaimal",
+    "Lu_m": 120.0,
+    "Lw_m": 60.0,
+    "sigma_w_over_sigma_u": 0.5,
+    "coherence": {"model": "davenport_exp", "Cy_lateral": 8.0, "Cz_vertical": 8.0},
+    "note": "Iu per scenario from extreme_weather_library.json; sigma_u = Iu * U(z_ref=10m) scaled to deck by log profile"
+  },
+  "aero": {
+    "note": "TO FILL from attachment 2-3 wind tunnel report (per-metre coefficients, catwalk section with mesh + handrail; extraction path: 01_设计资料与规范/附件2-3：猫道结构抗风性能试验报告.pdf, archive shard archive-0001.tar.zst of release zhangjinggao-full-20260729)",
+    "placeholder_values_used_if_missing": true,
+    "catwalk_per_band": {
+      "Cd_D_m": 0.90,
+      "dCl_dalpha_B_m": 0.0,
+      "reference": "porous truss walkway: drag-dominated; placeholder Cd*D=0.9 m per band (solidity*width estimate) until attachment values extracted"
+    },
+    "gantry_rope_line": {"Cd": 1.0, "D_m": 0.20},
+    "downpull": {"Cd": 1.2, "D_m": 0.17}
+  },
+  "structure": {
+    "zeta_structural": 0.005,
+    "rope_break_force_kN_per_bearing_rope": null,
+    "rope_break_note": "TO FILL from drawings (bearing rope spec); utilization channel stays blank until filled",
+    "modal_basis_file": "artifacts/modal_basis.npz",
+    "n_modes_use": 60
+  },
+  "response_channels": ["L_lateral", "V_vertical", "T_torsion_per_catwalk", "T_torsion_global"],
+  "outputs": {
+    "rms_along_span_csv": "artifacts/buffeting_rms_alongspan_{scenario}.csv",
+    "sweep_table": "artifacts/extreme_sweep_responses.csv",
+    "atlas_dir": "artifacts/atlas/"
+  },
+  "peak_factor": {"T_s": 600.0, "formula": "davenport g=sqrt(2 ln(nu T))+0.5772/sqrt(2 ln(nu T))"}
+}
