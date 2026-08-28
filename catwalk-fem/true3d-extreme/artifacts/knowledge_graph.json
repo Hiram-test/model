@@ -13,10 +13,10 @@
    "id": "deck",
    "type": "model",
    "label": "true3d_ccx.inp",
-   "sha": "f089dee33377f1ea65ef7ec543525c85e39b323b091d3a5e27e8adfc14f4f242",
+   "sha": "5ebc64fae00a5c2b73ef7317002cbfe5403f44dfd9f52f2cde616f8ca3c04715",
    "coarsen": 4,
-   "nodes": 5422,
-   "elements": 7477
+   "nodes": 5018,
+   "elements": 6867
   },
   {
    "id": "line:MIB",
@@ -92,8 +92,9 @@
    "id": "passages",
    "type": "component",
    "label": "passage stations",
-   "n_stations": 63,
-   "note": "63 x-stations = 21 clusters of 3"
+   "n_stations": 21,
+   "raw_x": 63,
+   "note": "R5: 21 equivalent beams from 63 sec-63 x-stations clustered at 5000 mm"
   },
   {
    "id": "gate:G-P1",
@@ -106,14 +107,14 @@
    "type": "gate",
    "label": "G-P2",
    "pass": true,
-   "rel": 2.3765418143813977e-07
+   "rel": 2.3897019976928703e-07
   },
   {
    "id": "gate:UY",
    "type": "gate",
    "label": "UY",
    "pass": true,
-   "uy_frac": 0.01549243821468093
+   "uy_frac": 0.016739736946990835
   },
   {
    "id": "gate:G-P3",
@@ -125,19 +126,20 @@
    "id": "gate:G-P4",
    "type": "gate",
    "label": "G-P4",
+   "pass": false,
    "verdict": "FAIL: 4 residual-zero modes in first 100; resid/W > 1e-06"
   },
   {
    "id": "family:L",
    "type": "mode_family",
    "label": "L family",
-   "n_modes": 18
+   "n_modes": 19
   },
   {
    "id": "family:V",
    "type": "mode_family",
    "label": "V family",
-   "n_modes": 26
+   "n_modes": 25
   },
   {
    "id": "family:T",
@@ -150,112 +152,112 @@
    "type": "table41_row",
    "label": "LS1",
    "reference_hz": 0.0365,
-   "matched_hz": 0.03981748,
-   "rel_pct": 9.088986301369877
+   "matched_hz": 0.03904477,
+   "rel_pct": 6.971972602739732
   },
   {
    "id": "table41:VA1",
    "type": "table41_row",
    "label": "VA1",
    "reference_hz": 0.07,
-   "matched_hz": 0.07232187,
-   "rel_pct": 3.316957142857128
+   "matched_hz": 0.07239382,
+   "rel_pct": 3.419742857142844
   },
   {
    "id": "table41:LA1",
    "type": "table41_row",
    "label": "LA1",
    "reference_hz": 0.0726,
-   "matched_hz": 0.0786004,
-   "rel_pct": 8.265013774104688
+   "matched_hz": 0.07732622,
+   "rel_pct": 6.509944903581272
   },
   {
    "id": "table41:TA1",
    "type": "table41_row",
    "label": "TA1",
    "reference_hz": 0.0996,
-   "matched_hz": 0.1184279,
-   "rel_pct": 18.90351405622491
+   "matched_hz": 0.1060377,
+   "rel_pct": 6.463554216867474
   },
   {
    "id": "table41:VS1",
    "type": "table41_row",
    "label": "VS1",
    "reference_hz": 0.1028,
-   "matched_hz": 0.1027106,
-   "rel_pct": -0.0869649805447503
+   "matched_hz": 0.1028368,
+   "rel_pct": 0.0357976653696532
   },
   {
    "id": "table41:LS2",
    "type": "table41_row",
    "label": "LS2",
    "reference_hz": 0.1087,
-   "matched_hz": 0.2085326,
-   "rel_pct": 91.84231830726772
+   "matched_hz": 0.122247,
+   "rel_pct": 12.462741490340376
   },
   {
    "id": "table41:TS1",
    "type": "table41_row",
    "label": "TS1",
    "reference_hz": 0.1147,
-   "matched_hz": 0.1125491,
-   "rel_pct": -1.8752397558849148
+   "matched_hz": 0.1105746,
+   "rel_pct": -3.596687009590237
   },
   {
    "id": "table41:SIDE1",
    "type": "table41_row",
    "label": "SIDE1",
    "reference_hz": 0.1149,
-   "matched_hz": 0.1268577,
-   "rel_pct": 10.40704960835508
+   "matched_hz": 0.1236713,
+   "rel_pct": 7.633855526544818
   },
   {
    "id": "table41:SIDE2",
    "type": "table41_row",
    "label": "SIDE2",
    "reference_hz": 0.1239,
-   "matched_hz": 0.1372065,
-   "rel_pct": 10.739709443099285
+   "matched_hz": 0.1366368,
+   "rel_pct": 10.279903147699764
   },
   {
    "id": "table41:VA2",
    "type": "table41_row",
    "label": "VA2",
    "reference_hz": 0.1438,
-   "matched_hz": 0.1485789,
-   "rel_pct": 3.3232962447844248
+   "matched_hz": 0.1489371,
+   "rel_pct": 3.572392211404713
   },
   {
    "id": "table41:LA2",
    "type": "table41_row",
    "label": "LA2",
    "reference_hz": 0.1449,
-   "matched_hz": 0.1683183,
-   "rel_pct": 16.16169772256729
+   "matched_hz": 0.1615706,
+   "rel_pct": 11.504899930986891
   },
   {
    "id": "table41:SIDE3",
    "type": "table41_row",
    "label": "SIDE3",
    "reference_hz": 0.1557,
-   "matched_hz": 0.1436809,
-   "rel_pct": -7.719396274887607
+   "matched_hz": 0.1691286,
+   "rel_pct": 8.624662813102109
   },
   {
    "id": "table41:TS2",
    "type": "table41_row",
    "label": "TS2",
    "reference_hz": 0.1571,
-   "matched_hz": 0.1290613,
-   "rel_pct": -17.84767663908339
+   "matched_hz": 0.1505352,
+   "rel_pct": -4.17873965626988
   },
   {
    "id": "table41:VS2",
    "type": "table41_row",
    "label": "VS2",
    "reference_hz": 0.1744,
-   "matched_hz": 0.1491797,
-   "rel_pct": -14.461181192660552
+   "matched_hz": 0.1492284,
+   "rel_pct": -14.43325688073394
   },
   {
    "id": "attach23",
@@ -268,7 +270,7 @@
    "id": "mode:5",
    "type": "mode",
    "label": "mode 5",
-   "f_hz": 0.03981748,
+   "f_hz": 0.03904477,
    "family": "L",
    "parity": "S",
    "half_waves": 1
@@ -277,7 +279,7 @@
    "id": "mode:6",
    "type": "mode",
    "label": "mode 6",
-   "f_hz": 0.07232187,
+   "f_hz": 0.07239382,
    "family": "V",
    "parity": "A",
    "half_waves": 2
@@ -286,7 +288,7 @@
    "id": "mode:7",
    "type": "mode",
    "label": "mode 7",
-   "f_hz": 0.0786004,
+   "f_hz": 0.07732622,
    "family": "L",
    "parity": "A",
    "half_waves": 2
@@ -295,7 +297,7 @@
    "id": "mode:8",
    "type": "mode",
    "label": "mode 8",
-   "f_hz": 0.1027106,
+   "f_hz": 0.1028368,
    "family": "V",
    "parity": "S",
    "half_waves": 3
@@ -304,61 +306,61 @@
    "id": "mode:9",
    "type": "mode",
    "label": "mode 9",
-   "f_hz": 0.1125491,
+   "f_hz": 0.1060377,
    "family": "T",
-   "parity": "S",
-   "half_waves": 3
+   "parity": "A",
+   "half_waves": 2
   },
   {
    "id": "mode:10",
    "type": "mode",
    "label": "mode 10",
-   "f_hz": 0.1184279,
-   "family": "T",
-   "parity": "A",
-   "half_waves": 2
-  },
-  {
-   "id": "mode:11",
-   "type": "mode",
-   "label": "mode 11",
-   "f_hz": 0.1268577,
-   "family": "L",
-   "parity": "A",
-   "half_waves": 2
-  },
-  {
-   "id": "mode:12",
-   "type": "mode",
-   "label": "mode 12",
-   "f_hz": 0.1290613,
+   "f_hz": 0.1105746,
    "family": "T",
    "parity": "S",
    "half_waves": 3
   },
   {
-   "id": "mode:13",
+   "id": "mode:11",
    "type": "mode",
-   "label": "mode 13",
-   "f_hz": 0.1372065,
-   "family": "V",
+   "label": "mode 11",
+   "f_hz": 0.122247,
+   "family": "L",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:12",
+   "type": "mode",
+   "label": "mode 12",
+   "f_hz": 0.1236713,
+   "family": "L",
    "parity": "A",
    "half_waves": 2
   },
   {
-   "id": "mode:14",
+   "id": "mode:13",
    "type": "mode",
-   "label": "mode 14",
-   "f_hz": 0.1382598,
+   "label": "mode 13",
+   "f_hz": 0.1366368,
    "family": "L",
    "parity": "S",
    "half_waves": 1
   },
   {
+   "id": "mode:14",
+   "type": "mode",
+   "label": "mode 14",
+   "f_hz": 0.1372938,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
    "id": "mode:15",
    "type": "mode",
    "label": "mode 15",
-   "f_hz": 0.1436809,
+   "f_hz": 0.1404888,
    "family": "T",
    "parity": "A",
    "half_waves": 2
@@ -367,7 +369,7 @@
    "id": "mode:16",
    "type": "mode",
    "label": "mode 16",
-   "f_hz": 0.1485789,
+   "f_hz": 0.1489371,
    "family": "V",
    "parity": "A",
    "half_waves": 4
@@ -376,7 +378,7 @@
    "id": "mode:17",
    "type": "mode",
    "label": "mode 17",
-   "f_hz": 0.1491797,
+   "f_hz": 0.1492284,
    "family": "V",
    "parity": "S",
    "half_waves": 1
@@ -385,7 +387,7 @@
    "id": "mode:18",
    "type": "mode",
    "label": "mode 18",
-   "f_hz": 0.151007,
+   "f_hz": 0.1505352,
    "family": "T",
    "parity": "S",
    "half_waves": 1
@@ -394,7 +396,7 @@
    "id": "mode:19",
    "type": "mode",
    "label": "mode 19",
-   "f_hz": 0.1553435,
+   "f_hz": 0.1533778,
    "family": "T",
    "parity": "A",
    "half_waves": 4
@@ -403,7 +405,7 @@
    "id": "mode:20",
    "type": "mode",
    "label": "mode 20",
-   "f_hz": 0.1683183,
+   "f_hz": 0.1615706,
    "family": "L",
    "parity": "A",
    "half_waves": 4
@@ -412,7 +414,7 @@
    "id": "mode:21",
    "type": "mode",
    "label": "mode 21",
-   "f_hz": 0.1689786,
+   "f_hz": 0.1691286,
    "family": "V",
    "parity": "S",
    "half_waves": 1
@@ -421,7 +423,7 @@
    "id": "mode:22",
    "type": "mode",
    "label": "mode 22",
-   "f_hz": 0.1699455,
+   "f_hz": 0.1696232,
    "family": "T",
    "parity": "S",
    "half_waves": 1
@@ -430,7 +432,7 @@
    "id": "mode:23",
    "type": "mode",
    "label": "mode 23",
-   "f_hz": 0.1819262,
+   "f_hz": 0.1794795,
    "family": "L",
    "parity": "S",
    "half_waves": 3
@@ -439,7 +441,7 @@
    "id": "mode:24",
    "type": "mode",
    "label": "mode 24",
-   "f_hz": 0.1905501,
+   "f_hz": 0.1909453,
    "family": "V",
    "parity": "S",
    "half_waves": 5
@@ -448,7 +450,7 @@
    "id": "mode:25",
    "type": "mode",
    "label": "mode 25",
-   "f_hz": 0.1932622,
+   "f_hz": 0.1928147,
    "family": "T",
    "parity": "S",
    "half_waves": 5
@@ -457,7 +459,7 @@
    "id": "mode:26",
    "type": "mode",
    "label": "mode 26",
-   "f_hz": 0.20061,
+   "f_hz": 0.2006727,
    "family": "V",
    "parity": "S",
    "half_waves": 1
@@ -466,25 +468,25 @@
    "id": "mode:27",
    "type": "mode",
    "label": "mode 27",
-   "f_hz": 0.2019636,
-   "family": "T",
-   "parity": "S",
-   "half_waves": 1
-  },
-  {
-   "id": "mode:28",
-   "type": "mode",
-   "label": "mode 28",
-   "f_hz": 0.2085326,
+   "f_hz": 0.2007072,
    "family": "L",
    "parity": "S",
    "half_waves": 5
   },
   {
+   "id": "mode:28",
+   "type": "mode",
+   "label": "mode 28",
+   "f_hz": 0.2014654,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
    "id": "mode:29",
    "type": "mode",
    "label": "mode 29",
-   "f_hz": 0.2244597,
+   "f_hz": 0.2250967,
    "family": "V",
    "parity": "A",
    "half_waves": 6
@@ -493,7 +495,7 @@
    "id": "mode:30",
    "type": "mode",
    "label": "mode 30",
-   "f_hz": 0.2287947,
+   "f_hz": 0.2281632,
    "family": "T",
    "parity": "A",
    "half_waves": 6
@@ -502,7 +504,7 @@
    "id": "mode:31",
    "type": "mode",
    "label": "mode 31",
-   "f_hz": 0.2342753,
+   "f_hz": 0.2343328,
    "family": "V",
    "parity": "A",
    "half_waves": 2
@@ -511,7 +513,7 @@
    "id": "mode:32",
    "type": "mode",
    "label": "mode 32",
-   "f_hz": 0.2374167,
+   "f_hz": 0.2361094,
    "family": "T",
    "parity": "A",
    "half_waves": 2
@@ -520,7 +522,7 @@
    "id": "mode:33",
    "type": "mode",
    "label": "mode 33",
-   "f_hz": 0.2509946,
+   "f_hz": 0.241961,
    "family": "L",
    "parity": "A",
    "half_waves": 6
@@ -529,7 +531,7 @@
    "id": "mode:34",
    "type": "mode",
    "label": "mode 34",
-   "f_hz": 0.2520066,
+   "f_hz": 0.2524519,
    "family": "V",
    "parity": "A",
    "half_waves": 2
@@ -538,25 +540,25 @@
    "id": "mode:35",
    "type": "mode",
    "label": "mode 35",
-   "f_hz": 0.2551038,
-   "family": "T",
-   "parity": "A",
-   "half_waves": 2
-  },
-  {
-   "id": "mode:36",
-   "type": "mode",
-   "label": "mode 36",
-   "f_hz": 0.2574442,
+   "f_hz": 0.2536007,
    "family": "L",
    "parity": "A",
    "half_waves": 4
   },
   {
+   "id": "mode:36",
+   "type": "mode",
+   "label": "mode 36",
+   "f_hz": 0.2546468,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
    "id": "mode:37",
    "type": "mode",
    "label": "mode 37",
-   "f_hz": 0.2628033,
+   "f_hz": 0.263651,
    "family": "V",
    "parity": "S",
    "half_waves": 7
@@ -565,7 +567,7 @@
    "id": "mode:38",
    "type": "mode",
    "label": "mode 38",
-   "f_hz": 0.2662085,
+   "f_hz": 0.2660544,
    "family": "T",
    "parity": "S",
    "half_waves": 7
@@ -574,7 +576,7 @@
    "id": "mode:39",
    "type": "mode",
    "label": "mode 39",
-   "f_hz": 0.2785326,
+   "f_hz": 0.2760787,
    "family": "L",
    "parity": "A",
    "half_waves": 2
@@ -583,7 +585,7 @@
    "id": "mode:40",
    "type": "mode",
    "label": "mode 40",
-   "f_hz": 0.2928331,
+   "f_hz": 0.2837081,
    "family": "L",
    "parity": "S",
    "half_waves": 7
@@ -592,7 +594,7 @@
    "id": "mode:41",
    "type": "mode",
    "label": "mode 41",
-   "f_hz": 0.2991687,
+   "f_hz": 0.3000005,
    "family": "V",
    "parity": "A",
    "half_waves": 8
@@ -601,7 +603,7 @@
    "id": "mode:42",
    "type": "mode",
    "label": "mode 42",
-   "f_hz": 0.3032299,
+   "f_hz": 0.3029168,
    "family": "T",
    "parity": "A",
    "half_waves": 8
@@ -610,7 +612,7 @@
    "id": "mode:43",
    "type": "mode",
    "label": "mode 43",
-   "f_hz": 0.3346594,
+   "f_hz": 0.324214,
    "family": "L",
    "parity": "A",
    "half_waves": 8
@@ -619,7 +621,7 @@
    "id": "mode:44",
    "type": "mode",
    "label": "mode 44",
-   "f_hz": 0.3365502,
+   "f_hz": 0.3367824,
    "family": "V",
    "parity": "A",
    "half_waves": 2
@@ -628,7 +630,7 @@
    "id": "mode:45",
    "type": "mode",
    "label": "mode 45",
-   "f_hz": 0.3377774,
+   "f_hz": 0.338916,
    "family": "V",
    "parity": "S",
    "half_waves": 9
@@ -637,7 +639,7 @@
    "id": "mode:46",
    "type": "mode",
    "label": "mode 46",
-   "f_hz": 0.3394166,
+   "f_hz": 0.3392272,
    "family": "T",
    "parity": "A",
    "half_waves": 2
@@ -646,7 +648,7 @@
    "id": "mode:47",
    "type": "mode",
    "label": "mode 47",
-   "f_hz": 0.341634,
+   "f_hz": 0.3416372,
    "family": "T",
    "parity": "S",
    "half_waves": 9
@@ -655,7 +657,7 @@
    "id": "mode:48",
    "type": "mode",
    "label": "mode 48",
-   "f_hz": 0.3520591,
+   "f_hz": 0.3524797,
    "family": "V",
    "parity": "S",
    "half_waves": 3
@@ -664,7 +666,7 @@
    "id": "mode:49",
    "type": "mode",
    "label": "mode 49",
-   "f_hz": 0.3550569,
+   "f_hz": 0.3543623,
    "family": "T",
    "parity": "S",
    "half_waves": 3
@@ -673,7 +675,7 @@
    "id": "mode:50",
    "type": "mode",
    "label": "mode 50",
-   "f_hz": 0.3679635,
+   "f_hz": 0.3645123,
    "family": "L",
    "parity": "S",
    "half_waves": 5
@@ -682,43 +684,43 @@
    "id": "mode:51",
    "type": "mode",
    "label": "mode 51",
-   "f_hz": 0.3738224,
-   "family": "V",
-   "parity": "A",
-   "half_waves": 10
-  },
-  {
-   "id": "mode:52",
-   "type": "mode",
-   "label": "mode 52",
-   "f_hz": 0.3774484,
-   "family": "V",
-   "parity": "S",
-   "half_waves": 3
-  },
-  {
-   "id": "mode:53",
-   "type": "mode",
-   "label": "mode 53",
-   "f_hz": 0.3782161,
-   "family": "T",
-   "parity": "A",
-   "half_waves": 10
-  },
-  {
-   "id": "mode:54",
-   "type": "mode",
-   "label": "mode 54",
-   "f_hz": 0.3798059,
+   "f_hz": 0.3686867,
    "family": "L",
    "parity": "S",
    "half_waves": 9
   },
   {
+   "id": "mode:52",
+   "type": "mode",
+   "label": "mode 52",
+   "f_hz": 0.3750551,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 10
+  },
+  {
+   "id": "mode:53",
+   "type": "mode",
+   "label": "mode 53",
+   "f_hz": 0.3777093,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 3
+  },
+  {
+   "id": "mode:54",
+   "type": "mode",
+   "label": "mode 54",
+   "f_hz": 0.3780649,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 10
+  },
+  {
    "id": "mode:55",
    "type": "mode",
    "label": "mode 55",
-   "f_hz": 0.3806527,
+   "f_hz": 0.3800577,
    "family": "T",
    "parity": "S",
    "half_waves": 3
@@ -727,7 +729,7 @@
    "id": "mode:56",
    "type": "mode",
    "label": "mode 56",
-   "f_hz": 0.3892142,
+   "f_hz": 0.3841257,
    "family": "L",
    "parity": "A",
    "half_waves": 4
@@ -736,17 +738,17 @@
    "id": "mode:57",
    "type": "mode",
    "label": "mode 57",
-   "f_hz": 0.4099433,
-   "family": "V",
-   "parity": "S",
-   "half_waves": 11
+   "f_hz": 0.4105976,
+   "family": "L",
+   "parity": "A",
+   "half_waves": 10
   },
   {
    "id": "mode:58",
    "type": "mode",
    "label": "mode 58",
-   "f_hz": 0.4143223,
-   "family": "T",
+   "f_hz": 0.4110756,
+   "family": "V",
    "parity": "S",
    "half_waves": 11
   },
@@ -754,7 +756,7 @@
    "id": "mode:59",
    "type": "mode",
    "label": "mode 59",
-   "f_hz": 0.415491,
+   "f_hz": 0.4139471,
    "family": "L",
    "parity": "S",
    "half_waves": 3
@@ -763,16 +765,16 @@
    "id": "mode:60",
    "type": "mode",
    "label": "mode 60",
-   "f_hz": 0.4187049,
-   "family": "L",
-   "parity": "A",
-   "half_waves": 10
+   "f_hz": 0.4141553,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 11
   },
   {
    "id": "mode:61",
    "type": "mode",
    "label": "mode 61",
-   "f_hz": 0.448087,
+   "f_hz": 0.4494374,
    "family": "V",
    "parity": "A",
    "half_waves": 12
@@ -781,115 +783,115 @@
    "id": "mode:62",
    "type": "mode",
    "label": "mode 62",
-   "f_hz": 0.4528697,
-   "family": "T",
-   "parity": "A",
-   "half_waves": 12
-  },
-  {
-   "id": "mode:63",
-   "type": "mode",
-   "label": "mode 63",
-   "f_hz": 0.4581735,
+   "f_hz": 0.4503642,
    "family": "L",
    "parity": "S",
    "half_waves": 11
   },
   {
-   "id": "mode:64",
+   "id": "mode:63",
    "type": "mode",
-   "label": "mode 64",
-   "f_hz": 0.4872896,
-   "family": "V",
-   "parity": "A",
-   "half_waves": 4
-  },
-  {
-   "id": "mode:65",
-   "type": "mode",
-   "label": "mode 65",
-   "f_hz": 0.4902349,
-   "family": "V",
-   "parity": "S",
-   "half_waves": 13
-  },
-  {
-   "id": "mode:66",
-   "type": "mode",
-   "label": "mode 66",
-   "f_hz": 0.4909321,
-   "family": "V",
-   "parity": "A",
-   "half_waves": 4
-  },
-  {
-   "id": "mode:67",
-   "type": "mode",
-   "label": "mode 67",
-   "f_hz": 0.4931516,
-   "family": "T",
-   "parity": "S",
-   "half_waves": 1
-  },
-  {
-   "id": "mode:68",
-   "type": "mode",
-   "label": "mode 68",
-   "f_hz": 0.4956551,
-   "family": "T",
-   "parity": "S",
-   "half_waves": 13
-  },
-  {
-   "id": "mode:69",
-   "type": "mode",
-   "label": "mode 69",
-   "f_hz": 0.5011055,
+   "label": "mode 63",
+   "f_hz": 0.4531024,
    "family": "T",
    "parity": "A",
    "half_waves": 12
   },
   {
-   "id": "mode:70",
+   "id": "mode:64",
    "type": "mode",
-   "label": "mode 70",
-   "f_hz": 0.5022481,
-   "family": "T",
-   "parity": "A",
-   "half_waves": 2
-  },
-  {
-   "id": "mode:71",
-   "type": "mode",
-   "label": "mode 71",
-   "f_hz": 0.5076698,
+   "label": "mode 64",
+   "f_hz": 0.4632084,
    "family": "T",
    "parity": "S",
    "half_waves": 1
   },
   {
+   "id": "mode:65",
+   "type": "mode",
+   "label": "mode 65",
+   "f_hz": 0.4771483,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:66",
+   "type": "mode",
+   "label": "mode 66",
+   "f_hz": 0.4856055,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:67",
+   "type": "mode",
+   "label": "mode 67",
+   "f_hz": 0.4886384,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:68",
+   "type": "mode",
+   "label": "mode 68",
+   "f_hz": 0.4894952,
+   "family": "V",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
+   "id": "mode:69",
+   "type": "mode",
+   "label": "mode 69",
+   "f_hz": 0.4895227,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 2
+  },
+  {
+   "id": "mode:70",
+   "type": "mode",
+   "label": "mode 70",
+   "f_hz": 0.489732,
+   "family": "T",
+   "parity": "S",
+   "half_waves": 1
+  },
+  {
+   "id": "mode:71",
+   "type": "mode",
+   "label": "mode 71",
+   "f_hz": 0.4918809,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 13
+  },
+  {
    "id": "mode:72",
    "type": "mode",
    "label": "mode 72",
-   "f_hz": 0.5106716,
+   "f_hz": 0.4936753,
    "family": "T",
-   "parity": "S",
-   "half_waves": 3
+   "parity": "A",
+   "half_waves": 10
   },
   {
    "id": "mode:73",
    "type": "mode",
    "label": "mode 73",
-   "f_hz": 0.5136206,
+   "f_hz": 0.4958099,
    "family": "T",
-   "parity": "A",
-   "half_waves": 4
+   "parity": "S",
+   "half_waves": 13
   },
   {
    "id": "mode:74",
    "type": "mode",
    "label": "mode 74",
-   "f_hz": 0.5167565,
+   "f_hz": 0.5020248,
    "family": "T",
    "parity": "S",
    "half_waves": 1
@@ -898,16 +900,16 @@
    "id": "mode:75",
    "type": "mode",
    "label": "mode 75",
-   "f_hz": 0.5179936,
+   "f_hz": 0.5063794,
    "family": "T",
-   "parity": "S",
-   "half_waves": 1
+   "parity": "A",
+   "half_waves": 2
   },
   {
    "id": "mode:76",
    "type": "mode",
    "label": "mode 76",
-   "f_hz": 0.5193275,
+   "f_hz": 0.5067077,
    "family": "T",
    "parity": "A",
    "half_waves": 2
@@ -916,26 +918,26 @@
    "id": "mode:77",
    "type": "mode",
    "label": "mode 77",
-   "f_hz": 0.5201839,
+   "f_hz": 0.5073223,
    "family": "T",
-   "parity": "S",
-   "half_waves": 3
+   "parity": "A",
+   "half_waves": 2
   },
   {
    "id": "mode:78",
    "type": "mode",
    "label": "mode 78",
-   "f_hz": 0.5217635,
+   "f_hz": 0.5081653,
    "family": "T",
    "parity": "S",
-   "half_waves": 5
+   "half_waves": 3
   },
   {
    "id": "mode:79",
    "type": "mode",
    "label": "mode 79",
-   "f_hz": 0.5242243,
-   "family": "V",
+   "f_hz": 0.512823,
+   "family": "T",
    "parity": "A",
    "half_waves": 4
   },
@@ -943,61 +945,61 @@
    "id": "mode:80",
    "type": "mode",
    "label": "mode 80",
-   "f_hz": 0.5268063,
+   "f_hz": 0.5170197,
    "family": "T",
    "parity": "A",
-   "half_waves": 4
+   "half_waves": 2
   },
   {
    "id": "mode:81",
    "type": "mode",
    "label": "mode 81",
-   "f_hz": 0.5268248,
+   "f_hz": 0.5208234,
    "family": "T",
    "parity": "A",
-   "half_waves": 2
+   "half_waves": 6
   },
   {
    "id": "mode:82",
    "type": "mode",
    "label": "mode 82",
-   "f_hz": 0.5270338,
+   "f_hz": 0.5249415,
    "family": "T",
-   "parity": "A",
-   "half_waves": 4
+   "parity": "S",
+   "half_waves": 7
   },
   {
    "id": "mode:83",
    "type": "mode",
    "label": "mode 83",
-   "f_hz": 0.5272106,
+   "f_hz": 0.5251187,
    "family": "T",
-   "parity": "A",
-   "half_waves": 2
+   "parity": "S",
+   "half_waves": 5
   },
   {
    "id": "mode:84",
    "type": "mode",
    "label": "mode 84",
-   "f_hz": 0.5281464,
+   "f_hz": 0.5252907,
    "family": "T",
    "parity": "A",
-   "half_waves": 2
+   "half_waves": 6
   },
   {
    "id": "mode:85",
    "type": "mode",
    "label": "mode 85",
-   "f_hz": 0.5299702,
-   "family": "V",
-   "parity": "S",
-   "half_waves": 3
+   "f_hz": 0.5265151,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 4
   },
   {
    "id": "mode:86",
    "type": "mode",
    "label": "mode 86",
-   "f_hz": 0.5326572,
+   "f_hz": 0.5267167,
    "family": "T",
    "parity": "A",
    "half_waves": 4
@@ -1006,98 +1008,98 @@
    "id": "mode:87",
    "type": "mode",
    "label": "mode 87",
-   "f_hz": 0.5342135,
-   "family": "T",
-   "parity": "A",
-   "half_waves": 2
+   "f_hz": 0.5313585,
+   "family": "V",
+   "parity": "S",
+   "half_waves": 3
   },
   {
    "id": "mode:88",
    "type": "mode",
    "label": "mode 88",
-   "f_hz": 0.5348351,
-   "family": "T",
-   "parity": "S",
-   "half_waves": 7
-  },
-  {
-   "id": "mode:89",
-   "type": "mode",
-   "label": "mode 89",
-   "f_hz": 0.5358897,
-   "family": "T",
-   "parity": "A",
-   "half_waves": 6
-  },
-  {
-   "id": "mode:90",
-   "type": "mode",
-   "label": "mode 90",
-   "f_hz": 0.5365265,
-   "family": "T",
-   "parity": "S",
-   "half_waves": 9
-  },
-  {
-   "id": "mode:91",
-   "type": "mode",
-   "label": "mode 91",
-   "f_hz": 0.5366874,
-   "family": "T",
-   "parity": "A",
-   "half_waves": 10
-  },
-  {
-   "id": "mode:92",
-   "type": "mode",
-   "label": "mode 92",
-   "f_hz": 0.5414313,
+   "f_hz": 0.5319794,
    "family": "T",
    "parity": "A",
    "half_waves": 4
   },
   {
-   "id": "mode:93",
+   "id": "mode:89",
    "type": "mode",
-   "label": "mode 93",
-   "f_hz": 0.5426558,
+   "label": "mode 89",
+   "f_hz": 0.5326182,
    "family": "T",
-   "parity": "A",
-   "half_waves": 14
+   "parity": "S",
+   "half_waves": 5
   },
   {
-   "id": "mode:94",
+   "id": "mode:90",
    "type": "mode",
-   "label": "mode 94",
-   "f_hz": 0.5430642,
-   "family": "V",
-   "parity": "A",
-   "half_waves": 14
-  },
-  {
-   "id": "mode:95",
-   "type": "mode",
-   "label": "mode 95",
-   "f_hz": 0.5436539,
+   "label": "mode 90",
+   "f_hz": 0.5342103,
    "family": "T",
    "parity": "A",
    "half_waves": 10
   },
   {
+   "id": "mode:91",
+   "type": "mode",
+   "label": "mode 91",
+   "f_hz": 0.5342321,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 8
+  },
+  {
+   "id": "mode:92",
+   "type": "mode",
+   "label": "mode 92",
+   "f_hz": 0.536125,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 6
+  },
+  {
+   "id": "mode:93",
+   "type": "mode",
+   "label": "mode 93",
+   "f_hz": 0.5400681,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 8
+  },
+  {
+   "id": "mode:94",
+   "type": "mode",
+   "label": "mode 94",
+   "f_hz": 0.5417461,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 6
+  },
+  {
+   "id": "mode:95",
+   "type": "mode",
+   "label": "mode 95",
+   "f_hz": 0.5420504,
+   "family": "T",
+   "parity": "A",
+   "half_waves": 4
+  },
+  {
    "id": "mode:96",
    "type": "mode",
    "label": "mode 96",
-   "f_hz": 0.544739,
+   "f_hz": 0.5437045,
    "family": "T",
    "parity": "A",
-   "half_waves": 12
+   "half_waves": 14
   },
   {
    "id": "mode:97",
    "type": "mode",
    "label": "mode 97",
-   "f_hz": 0.5481393,
-   "family": "T",
+   "f_hz": 0.5459534,
+   "family": "V",
    "parity": "A",
    "half_waves": 14
   },
@@ -1105,7 +1107,7 @@
    "id": "mode:98",
    "type": "mode",
    "label": "mode 98",
-   "f_hz": 0.5491638,
+   "f_hz": 0.5465463,
    "family": "T",
    "parity": "A",
    "half_waves": 2
@@ -1114,19 +1116,19 @@
    "id": "mode:99",
    "type": "mode",
    "label": "mode 99",
-   "f_hz": 0.5545611,
+   "f_hz": 0.5479567,
    "family": "T",
    "parity": "A",
-   "half_waves": 2
+   "half_waves": 14
   },
   {
    "id": "mode:100",
    "type": "mode",
    "label": "mode 100",
-   "f_hz": 0.5551421,
+   "f_hz": 0.549877,
    "family": "T",
    "parity": "S",
-   "half_waves": 13
+   "half_waves": 7
   },
   {
    "id": "event:site_gb50009_50yr",
@@ -1135,7 +1137,7 @@
    "category": "design_code",
    "confidence": "B",
    "U10": 26.8,
-   "rms_L_max_mm": 3720.569215036649,
+   "rms_L_max_mm": 3719.881254407012,
    "stationarity": "stationary_ok"
   },
   {
@@ -1145,7 +1147,7 @@
    "category": "design_code",
    "confidence": "B",
    "U10": 28.3,
-   "rms_L_max_mm": 4196.967560091192,
+   "rms_L_max_mm": 4195.8198044692135,
    "stationarity": "stationary_ok"
   },
   {
@@ -1155,7 +1157,7 @@
    "category": "design_code",
    "confidence": "A",
    "U10": 38.9,
-   "rms_L_max_mm": 7713.300663161026,
+   "rms_L_max_mm": 7705.516894451661,
    "stationarity": "stationary_ok"
   },
   {
@@ -1165,7 +1167,7 @@
    "category": "design_code",
    "confidence": "B",
    "U10": 32.8,
-   "rms_L_max_mm": 5805.824641429615,
+   "rms_L_max_mm": 5802.386118377836,
    "stationarity": "stationary_ok"
   },
   {
@@ -1175,7 +1177,7 @@
    "category": "design_code",
    "confidence": "B",
    "U10": 58.3,
-   "rms_L_max_mm": 19883.74943773713,
+   "rms_L_max_mm": 19842.54313027674,
    "stationarity": "stationary_ok"
   },
   {
@@ -1185,7 +1187,7 @@
    "category": "hurricane",
    "confidence": "B",
    "U10": 28.9,
-   "rms_L_max_mm": 4395.914417973238,
+   "rms_L_max_mm": 4394.549008092804,
    "stationarity": "stationary_ok"
   },
   {
@@ -1195,7 +1197,7 @@
    "category": "hurricane",
    "confidence": "B",
    "U10": 37.7,
-   "rms_L_max_mm": 7862.729302397441,
+   "rms_L_max_mm": 7855.40176811567,
    "stationarity": "stationary_ok"
   },
   {
@@ -1205,7 +1207,7 @@
    "category": "hurricane",
    "confidence": "B",
    "U10": 43.9,
-   "rms_L_max_mm": 10914.835606044067,
+   "rms_L_max_mm": 10900.438664797592,
    "stationarity": "stationary_ok"
   },
   {
@@ -1215,7 +1217,7 @@
    "category": "hurricane",
    "confidence": "B",
    "U10": 50.9,
-   "rms_L_max_mm": 14952.105761619028,
+   "rms_L_max_mm": 14926.503417238726,
    "stationarity": "stationary_ok"
   },
   {
@@ -1225,7 +1227,7 @@
    "category": "hurricane",
    "confidence": "B",
    "U10": 61.4,
-   "rms_L_max_mm": 22147.365926811308,
+   "rms_L_max_mm": 22098.47673913948,
    "stationarity": "stationary_ok"
   },
   {
@@ -1235,7 +1237,7 @@
    "category": "typhoon",
    "confidence": "A",
    "U10": 35.8,
-   "rms_L_max_mm": 7027.634850176886,
+   "rms_L_max_mm": 7021.954913272575,
    "stationarity": "stationary_ok"
   },
   {
@@ -1245,7 +1247,7 @@
    "category": "typhoon",
    "confidence": "A",
    "U10": 47.2,
-   "rms_L_max_mm": 12740.91100905818,
+   "rms_L_max_mm": 12721.66292936224,
    "stationarity": "stationary_ok"
   },
   {
@@ -1255,7 +1257,7 @@
    "category": "typhoon",
    "confidence": "A",
    "U10": 63.9,
-   "rms_L_max_mm": 24056.19981616857,
+   "rms_L_max_mm": 24000.629189500185,
    "stationarity": "stationary_ok"
   },
   {
@@ -1265,7 +1267,7 @@
    "category": "typhoon",
    "confidence": "A",
    "U10": 61.1,
-   "rms_L_max_mm": 21923.284463986736,
+   "rms_L_max_mm": 21875.167902719582,
    "stationarity": "stationary_ok"
   },
   {
@@ -1275,7 +1277,7 @@
    "category": "typhoon",
    "confidence": "A",
    "U10": 76.8,
-   "rms_L_max_mm": 35054.72671394862,
+   "rms_L_max_mm": 34957.9164180278,
    "stationarity": "stationary_ok"
   },
   {
@@ -1285,7 +1287,7 @@
    "category": "typhoon",
    "confidence": "C",
    "U10": 72.0,
-   "rms_L_max_mm": 30741.132173419075,
+   "rms_L_max_mm": 30660.97038823253,
    "stationarity": "stationary_ok"
   },
   {
@@ -1295,7 +1297,7 @@
    "category": "typhoon",
    "confidence": "A",
    "U10": 69.5,
-   "rms_L_max_mm": 28597.337849879565,
+   "rms_L_max_mm": 28525.241280205868,
    "stationarity": "stationary_ok"
   },
   {
@@ -1305,7 +1307,7 @@
    "category": "typhoon",
    "confidence": "C",
    "U10": 60.1,
-   "rms_L_max_mm": 21184.096613471527,
+   "rms_L_max_mm": 21138.510196156945,
    "stationarity": "stationary_ok"
   },
   {
@@ -1315,7 +1317,7 @@
    "category": "hurricane",
    "confidence": "A",
    "U10": 84.1,
-   "rms_L_max_mm": 42101.57369841067,
+   "rms_L_max_mm": 41976.55153921923,
    "stationarity": "stationary_ok"
   },
   {
@@ -1325,7 +1327,7 @@
    "category": "hurricane",
    "confidence": "C",
    "U10": 71.9,
-   "rms_L_max_mm": 30654.017059416376,
+   "rms_L_max_mm": 30574.185950932493,
    "stationarity": "stationary_ok"
   },
   {
@@ -1335,7 +1337,7 @@
    "category": "hurricane",
    "confidence": "C",
    "U10": 66.5,
-   "rms_L_max_mm": 28295.930594804147,
+   "rms_L_max_mm": 28227.705756006224,
    "stationarity": "stationary_ok"
   },
   {
@@ -1344,8 +1346,8 @@
    "label": "amphan_2020_peak",
    "category": "monsoon",
    "confidence": "A",
-   "U10": 63.0,
-   "rms_L_max_mm": 23360.50999797306,
+   "U10": 63.5,
+   "rms_L_max_mm": 23691.35378475036,
    "stationarity": "stationary_ok"
   },
   {
@@ -1355,7 +1357,7 @@
    "category": "monsoon",
    "confidence": "A",
    "U10": 52.4,
-   "rms_L_max_mm": 15897.290897517156,
+   "rms_L_max_mm": 15868.835847355904,
    "stationarity": "stationary_ok"
   },
   {
@@ -1365,7 +1367,7 @@
    "category": "monsoon",
    "confidence": "A",
    "U10": 49.0,
-   "rms_L_max_mm": 13795.149028646794,
+   "rms_L_max_mm": 13772.930901233463,
    "stationarity": "stationary_ok"
   },
   {
@@ -1375,7 +1377,7 @@
    "category": "tornado",
    "confidence": "B",
    "U10": 47.2,
-   "rms_L_max_mm": 26543.564602204533,
+   "rms_L_max_mm": 26503.46443617134,
    "stationarity": "reference_only"
   },
   {
@@ -1385,7 +1387,7 @@
    "category": "tornado",
    "confidence": "B",
    "U10": 57.7,
-   "rms_L_max_mm": 40539.523443488295,
+   "rms_L_max_mm": 40456.61415727176,
    "stationarity": "reference_only"
   },
   {
@@ -1395,7 +1397,7 @@
    "category": "tornado",
    "confidence": "B",
    "U10": 66.9,
-   "rms_L_max_mm": 55091.0750969051,
+   "rms_L_max_mm": 54957.4140034863,
    "stationarity": "reference_only"
   },
   {
@@ -1405,7 +1407,7 @@
    "category": "tornado",
    "confidence": "A",
    "U10": 51.8,
-   "rms_L_max_mm": 32324.715186727663,
+   "rms_L_max_mm": 32267.85100562847,
    "stationarity": "reference_only"
   },
   {
@@ -1415,7 +1417,7 @@
    "category": "tornado",
    "confidence": "C",
    "U10": 95.1,
-   "rms_L_max_mm": 112060.97569005017,
+   "rms_L_max_mm": 111698.6284825567,
    "stationarity": "reference_only"
   },
   {
@@ -1425,7 +1427,7 @@
    "category": "downburst",
    "confidence": "A",
    "U10": 30.6,
-   "rms_L_max_mm": 9140.303014619663,
+   "rms_L_max_mm": 9136.430295659038,
    "stationarity": "reference_only"
   },
   {
@@ -1435,7 +1437,7 @@
    "category": "downburst",
    "confidence": "C",
    "U10": 46.9,
-   "rms_L_max_mm": 23043.50179324754,
+   "rms_L_max_mm": 23009.08029925581,
    "stationarity": "reference_only"
   },
   {
@@ -1445,7 +1447,7 @@
    "category": "derecho",
    "confidence": "C",
    "U10": 44.1,
-   "rms_L_max_mm": 18369.25212211779,
+   "rms_L_max_mm": 18344.80349598184,
    "stationarity": "reference_only"
   },
   {
@@ -1455,7 +1457,7 @@
    "category": "extratropical_storm",
    "confidence": "C",
    "U10": 35.2,
-   "rms_L_max_mm": 8467.217555581037,
+   "rms_L_max_mm": 8460.706911863397,
    "stationarity": "stationary_ok"
   },
   {
@@ -1465,7 +1467,7 @@
    "category": "extratropical_storm",
    "confidence": "C",
    "U10": 33.0,
-   "rms_L_max_mm": 7844.765879398785,
+   "rms_L_max_mm": 7839.9919505727985,
    "stationarity": "stationary_ok"
   },
   {
@@ -1475,7 +1477,7 @@
    "category": "foehn_bora",
    "confidence": "C",
    "U10": 48.6,
-   "rms_L_max_mm": 20336.01884584928,
+   "rms_L_max_mm": 20303.71141746843,
    "stationarity": "stationary_ok"
   },
   {
@@ -1485,7 +1487,7 @@
    "category": "foehn_bora",
    "confidence": "C",
    "U10": 28.0,
-   "rms_L_max_mm": 5465.721420712758,
+   "rms_L_max_mm": 5464.326380079878,
    "stationarity": "stationary_ok"
   },
   {
@@ -1495,7 +1497,7 @@
    "category": "extratropical_storm",
    "confidence": "C",
    "U10": 28.0,
-   "rms_L_max_mm": 5124.11383191821,
+   "rms_L_max_mm": 5122.805981324886,
    "stationarity": "stationary_ok"
   },
   {
@@ -1505,7 +1507,7 @@
    "category": "local_record",
    "confidence": "A",
    "U10": 30.0,
-   "rms_L_max_mm": 6364.1184733133005,
+   "rms_L_max_mm": 6361.69622096727,
    "stationarity": "stationary_ok"
   },
   {
@@ -1515,7 +1517,7 @@
    "category": "katabatic",
    "confidence": "C",
    "U10": 19.4,
-   "rms_L_max_mm": 2260.1995515724107,
+   "rms_L_max_mm": 2260.3236017003032,
    "stationarity": "stationary_ok"
   },
   {
@@ -1525,7 +1527,7 @@
    "category": "katabatic",
    "confidence": "C",
    "U10": 65.1,
-   "rms_L_max_mm": 31248.240590306053,
+   "rms_L_max_mm": 31174.57667708075,
    "stationarity": "stationary_ok"
   },
   {
@@ -1535,7 +1537,7 @@
    "category": "katabatic",
    "confidence": "C",
    "U10": 45.0,
-   "rms_L_max_mm": 15344.14075676242,
+   "rms_L_max_mm": 15322.902218787774,
    "stationarity": "stationary_ok"
   },
   {
@@ -1545,7 +1547,7 @@
    "category": "local_record",
    "confidence": "A",
    "U10": 48.9,
-   "rms_L_max_mm": 13735.509681512383,
+   "rms_L_max_mm": 13713.462577785744,
    "stationarity": "stationary_ok"
   },
   {
@@ -1555,7 +1557,7 @@
    "category": "local_record",
    "confidence": "A",
    "U10": 72.7,
-   "rms_L_max_mm": 39192.62871995757,
+   "rms_L_max_mm": 39089.50963174307,
    "stationarity": "stationary_ok"
   },
   {
@@ -1733,7 +1735,7 @@
   {
    "source": "table41:TA1",
    "rel": "PAIRED_WITH",
-   "target": "mode:10"
+   "target": "mode:9"
   },
   {
    "source": "table41:VS1",
@@ -1755,29 +1757,29 @@
   {
    "source": "table41:LS2",
    "rel": "PAIRED_WITH",
-   "target": "mode:28"
-  },
-  {
-   "source": "table41:TS1",
-   "rel": "COMPARED_TO",
-   "target": "attach23",
-   "note": "comparison_only"
-  },
-  {
-   "source": "table41:TS1",
-   "rel": "PAIRED_WITH",
-   "target": "mode:9"
-  },
-  {
-   "source": "table41:SIDE1",
-   "rel": "COMPARED_TO",
-   "target": "attach23",
-   "note": "comparison_only"
-  },
-  {
-   "source": "table41:SIDE1",
-   "rel": "PAIRED_WITH",
    "target": "mode:11"
+  },
+  {
+   "source": "table41:TS1",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:TS1",
+   "rel": "PAIRED_WITH",
+   "target": "mode:10"
+  },
+  {
+   "source": "table41:SIDE1",
+   "rel": "COMPARED_TO",
+   "target": "attach23",
+   "note": "comparison_only"
+  },
+  {
+   "source": "table41:SIDE1",
+   "rel": "PAIRED_WITH",
+   "target": "mode:12"
   },
   {
    "source": "table41:SIDE2",
@@ -1821,7 +1823,7 @@
   {
    "source": "table41:SIDE3",
    "rel": "PAIRED_WITH",
-   "target": "mode:15"
+   "target": "mode:21"
   },
   {
    "source": "table41:TS2",
@@ -1832,7 +1834,7 @@
   {
    "source": "table41:TS2",
    "rel": "PAIRED_WITH",
-   "target": "mode:12"
+   "target": "mode:18"
   },
   {
    "source": "table41:VS2",
@@ -1883,17 +1885,17 @@
   {
    "source": "mode:12",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:L"
   },
   {
    "source": "mode:13",
    "rel": "IN_FAMILY",
-   "target": "family:V"
+   "target": "family:L"
   },
   {
    "source": "mode:14",
    "rel": "IN_FAMILY",
-   "target": "family:L"
+   "target": "family:V"
   },
   {
    "source": "mode:15",
@@ -1958,12 +1960,12 @@
   {
    "source": "mode:27",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:L"
   },
   {
    "source": "mode:28",
    "rel": "IN_FAMILY",
-   "target": "family:L"
+   "target": "family:T"
   },
   {
    "source": "mode:29",
@@ -1998,12 +2000,12 @@
   {
    "source": "mode:35",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:L"
   },
   {
    "source": "mode:36",
    "rel": "IN_FAMILY",
-   "target": "family:L"
+   "target": "family:T"
   },
   {
    "source": "mode:37",
@@ -2078,7 +2080,7 @@
   {
    "source": "mode:51",
    "rel": "IN_FAMILY",
-   "target": "family:V"
+   "target": "family:L"
   },
   {
    "source": "mode:52",
@@ -2088,12 +2090,12 @@
   {
    "source": "mode:53",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:V"
   },
   {
    "source": "mode:54",
    "rel": "IN_FAMILY",
-   "target": "family:L"
+   "target": "family:T"
   },
   {
    "source": "mode:55",
@@ -2108,12 +2110,12 @@
   {
    "source": "mode:57",
    "rel": "IN_FAMILY",
-   "target": "family:V"
+   "target": "family:L"
   },
   {
    "source": "mode:58",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:V"
   },
   {
    "source": "mode:59",
@@ -2123,7 +2125,7 @@
   {
    "source": "mode:60",
    "rel": "IN_FAMILY",
-   "target": "family:L"
+   "target": "family:T"
   },
   {
    "source": "mode:61",
@@ -2133,37 +2135,37 @@
   {
    "source": "mode:62",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:L"
   },
   {
    "source": "mode:63",
    "rel": "IN_FAMILY",
-   "target": "family:L"
+   "target": "family:T"
   },
   {
    "source": "mode:64",
    "rel": "IN_FAMILY",
-   "target": "family:V"
+   "target": "family:T"
   },
   {
    "source": "mode:65",
    "rel": "IN_FAMILY",
-   "target": "family:V"
+   "target": "family:T"
   },
   {
    "source": "mode:66",
    "rel": "IN_FAMILY",
-   "target": "family:V"
+   "target": "family:T"
   },
   {
    "source": "mode:67",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:V"
   },
   {
    "source": "mode:68",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:V"
   },
   {
    "source": "mode:69",
@@ -2178,7 +2180,7 @@
   {
    "source": "mode:71",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:V"
   },
   {
    "source": "mode:72",
@@ -2218,7 +2220,7 @@
   {
    "source": "mode:79",
    "rel": "IN_FAMILY",
-   "target": "family:V"
+   "target": "family:T"
   },
   {
    "source": "mode:80",
@@ -2248,7 +2250,7 @@
   {
    "source": "mode:85",
    "rel": "IN_FAMILY",
-   "target": "family:V"
+   "target": "family:T"
   },
   {
    "source": "mode:86",
@@ -2258,7 +2260,7 @@
   {
    "source": "mode:87",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:V"
   },
   {
    "source": "mode:88",
@@ -2293,7 +2295,7 @@
   {
    "source": "mode:94",
    "rel": "IN_FAMILY",
-   "target": "family:V"
+   "target": "family:T"
   },
   {
    "source": "mode:95",
@@ -2308,7 +2310,7 @@
   {
    "source": "mode:97",
    "rel": "IN_FAMILY",
-   "target": "family:T"
+   "target": "family:V"
   },
   {
    "source": "mode:98",
