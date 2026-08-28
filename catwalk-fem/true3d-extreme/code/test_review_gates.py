@@ -212,6 +212,23 @@ def test_master_cv_gate_not_relaxed():
     assert "待填" in warn["reason"]
 
 
+def test_plan_and_outline_not_gutted():
+    """FOLLOW_FABLE_PLAN points at the experiment plan; outline keeps 1.2–3.4."""
+    plan = (BASE / "report/true3d_extreme_experiment_plan_cn.tex").read_text()
+    assert plan.count("\n") > 200, "experiment plan was gutted; restore from last full commit"
+    assert r"\end{document}" in plan
+    assert "执行清单" in plan
+    assert "G-P4" in plan
+    assert "榀" in plan
+    assert "15 项" in plan
+    assert "（14 项）" not in plan
+    outline = (BASE / "report/chapter_outline_for_grok.md").read_text()
+    assert outline.count("\n") > 150, "chapter outline was truncated; restore 1.2–3.4"
+    assert "### 1.2" in outline and "### 3.2" in outline
+    assert "Grok Build 总执行序" in outline
+    assert "寴" not in outline
+
+
 def main() -> None:
     test_weather_library_conversion_lock()
     test_isolation_no_attach23_in_solver_scripts()
@@ -227,6 +244,7 @@ def main() -> None:
     test_run_status_and_baseline_lock()
     test_coarsen2_ledger_cited_and_portal_glyph()
     test_master_cv_gate_not_relaxed()
+    test_plan_and_outline_not_gutted()
     print("review gates PASS")
 
 
