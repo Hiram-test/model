@@ -60,6 +60,29 @@ CROSS_SMALL = (736.0, 261525.333333, 261525.333333, 389344.0)
 CROSS_SPACING = 2948.0
 PASS_CHORD_A = 2752.03516454
 PASS_CHORD_I = 7345181.85417
+S10_ID_SHIFT = 2_000_000          # keep S10 ids ≥100000 out of 100000*(g+1)+k
+
+
+def deck_id_from_s10(n: int) -> int:
+    """Map an S10 node id into deck space without colliding with nid()."""
+    n = int(n)
+    if n >= 100000:
+        return S10_ID_SHIFT + n
+    return n
+
+
+def cluster_x_stations(xs, gap: float = 5000.0) -> list[float]:
+    """Collapse nearby passage x-stations (sec-63 depth triplets) to one beam each."""
+    xs = sorted(float(x) for x in xs)
+    if not xs:
+        return []
+    clusters = [[xs[0]]]
+    for x in xs[1:]:
+        if x - clusters[-1][-1] < gap:
+            clusters[-1].append(x)
+        else:
+            clusters.append([x])
+    return [float(np.median(c)) for c in clusters]
 
 
 def rect_match(I_vert: float, I_lat: float) -> tuple[float, float]:
@@ -175,8 +198,10 @@ def main() -> None:
     # ---- gate / passage stations from generated components -----------------
     ge = gate_elems
     gate_x = sorted({round(gpos[int(i)][0], 1) for e, i, j, s in ge if s == 61})
-    pass_x = sorted({round(gpos[int(i)][0], 1) for e, i, j, s in ge if s == 63})
-    print(f"gate stations: {len(gate_x)}  passage stations: {len(pass_x)}")
+    pass_x_raw = sorted({round(gpos[int(i)][0], 1) for e, i, j, s in ge if s == 63})
+    pass_x = cluster_x_stations(pass_x_raw, gap=5000.0)
+    print(f"gate stations: {len(gate_x)}  passage stations: {len(pass_x)} "
+          f"(raw sec-63 x {len(pass_x_raw)})")
 
     # ---- constraint / CP node stations -------------------------------------
     ds = ds_arr
@@ -582,7 +607,9 @@ def main() -> None:
             push(f"{name}, GRAV, {G_MM}, 0.0, 0.0, -1.0")
     push("*NODE FILE")
     push("U")
-    push("** RF not via *NODE PRINT,TOTALS (ccx 2.21 segfault; postprocess FRD FORC)")
+    push("*NODE PRINT, NSET=NSUPP")
+    push("RF")
+    push("** no TOTALS (ccx 2.21 *NODE PRINT,TOTALS segfault)")
     push("*END STEP")
     push("** STEP 2: perturbation frequency on the prestressed tangent stiffness.")
     push("** Does not read attachment 2-3 target frequencies.")

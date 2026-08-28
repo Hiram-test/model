@@ -14,7 +14,7 @@ First structural: LS1-like 0.03982 Hz. Locked Table 4-1 pairing in `true3d_table
 
 43/43 extreme scenarios swept. Atlas A1–A4 in `artifacts/atlas/`. Tornado/downburst/derecho rows are `reference_only` and hatched.
 
-Known deviations kept this run: solved COARSEN=4 deck still has 63 passage x-stations. `cluster_x_stations` is **not** in the builder (ce82b54 named it; source does not have it). LS2 locked-rule pair is the next main-span L+S at 0.209 Hz (ratio 1.92 to attach 0.1087, half-waves=5); no re-pair. LS1 is +9.1%. COARSEN=2 T-shift ledger is in `coarsen2_shift.json` (TA1 −1.43%, TS1 −1.10%, LS1 −0.90%).
+Known deviations kept this run: solved COARSEN=4 deck still has 63 passage x-stations. `cluster_x_stations` is now in the builder; rebuild S3 before claiming 21 beams. LS2 locked-rule pair is the next main-span L+S at 0.209 Hz (ratio 1.92 to attach 0.1087, half-waves=5); no re-pair. LS1 is +9.1%. COARSEN=2 T-shift ledger is in `coarsen2_shift.json` (TA1 −1.43%, TS1 −1.10%, LS1 −0.90%). Amphan library U10 is 63.5 (66.7/1.05); sweep CSV still 63.0.
 
 Follow-on this same day:
 - Master surface CV PASS (stationary max rel 3.37% < 5%). A5 written.

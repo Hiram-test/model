@@ -38,6 +38,27 @@ from scipy.spatial import cKDTree
 BASE = Path(__file__).resolve().parent.parent
 SOL, ART = BASE / "solver", BASE / "artifacts"
 CCX_JOB = os.environ.get("CCX_JOB", "true3d_ccx")
+
+
+def _align_by_station_k(a: dict, b: dict, field: str):
+    """Align two station records by k; return x (sorted) and b[field]-a[field].
+
+    Do not zip arrays by storage order. k is the builder station index.
+    """
+    ka = {int(k): i for i, k in enumerate(a["k"])}
+    kb = {int(k): i for i, k in enumerate(b["k"])}
+    pairs = []
+    for k, ia in ka.items():
+        if k not in kb:
+            continue
+        pairs.append((float(a["x"][ia]),
+                      float(b[field][kb[k]] - a[field][ia])))
+    pairs.sort()
+    if not pairs:
+        return np.array([]), np.array([])
+    xs = np.array([p[0] for p in pairs])
+    du = np.array([p[1] for p in pairs])
+    return xs, du
 MANIFEST_NAME = os.environ.get("MANIFEST_NAME", "true3d_model_manifest.json")
 MODE_TABLE = os.environ.get("MODE_TABLE", "true3d_mode_table.csv")
 BASIS_NAME = os.environ.get("BASIS_NAME", "modal_basis.npz")
