@@ -4,7 +4,7 @@
 
 ## 2.1 工况库
 
-43 项已入库（A16 / B12 / C15）。龙卷 / 下击暴流 / derecho 在扫掠表标 `stationarity=reference_only`（8 条），图上打叉或斜纹。C 级是 15 项不是 14；清单在 `artifacts/c_level_review.json`，本轮全部 `unverified_C`，不升 A/B。
+43 项已入库。龙卷 / 下击暴流 / derecho 在扫掠表标 `stationarity=reference_only`，图上打叉或斜纹。C 级 15 项未在线复核，保留角标。〔待填:C 级复核清单逐条〕
 
 ## 2.2 主曲线连续图谱
 

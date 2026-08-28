@@ -53,7 +53,8 @@ def main() -> None:
     nodes.append(node("portals", "component", "142 parametric portals", n=man["portals"]))
     nodes.append(node("passages", "component", "passage stations",
                       n_stations=man["passages"],
-                      note="63 x-stations = 21 clusters of 3"))
+                      raw_x=man.get("passages_raw_x_stations"),
+                      note=man.get("passages_note", "R5 equivalent beams")))
     edges.append(edge("deck", "HAS", "portals"))
     edges.append(edge("deck", "HAS", "passages"))
 
