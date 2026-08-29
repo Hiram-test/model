@@ -56,4 +56,8 @@ Deck sha `07e34750…`。ccx 2.21。作业目录 `/cursor/stores/self/true3d_ful
 
 cascade INFO 节点 `2029627` 仍出现；deck 最大节点号是 `2029623`，该号不在 `*NODE` 里，当作求解器内部号，不是残差点。
 
-这些力/位移不是物理量级（9 km 一阶修正）。作业在自动切步或 iteration 2 之前被杀，所以还不能判 solver 发散，也不能判收敛。G-P3 = FAIL（进程被杀）。不写频率，不写 STRUCTURAL_OK，不改 C4，不退回 B31 索或 R1–R7。
+这些力/位移不是物理量级（9 km 一阶修正）。
+
+2026-08-29T22:17:56Z 同 deck 再跑一次：iter 1 残差点不变（2005549 UX / 2005544 UZ，力仍 ~4e26、位移仍 9.031428e6 mm），随后求解器打印 **`no convergence`**，并开始 **iteration 2**（再次 Decascade + Determining the structure）。环境在 iter 2 装配时杀掉进程。原文：`artifacts/true3d_full_static_iter2start_20260829T222306Z.txt`。
+
+这是 increment 1 的第二次牛顿迭代，不是自动切步（步长仍是 1.0）。无 `*ERROR`，无 `Job finished`，`.sta` 仍空。G-P3 = FAIL（进程被杀）。不写频率，不写 STRUCTURAL_OK，不改 C4，不退回 B31 索或 R1–R7。
