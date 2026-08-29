@@ -21,11 +21,12 @@
 | `solver/02_define_probe_nodes.inp` | 确定十个主跨双幅索系探针节点 | 否 |
 | `solver/10_static_equilibrium.inp` | 非线性恒载平衡、零增量保持、质量与反力闭合 | 是 |
 | `solver/20_prestressed_modal.inp` | 重新建立同一静力基态后提取 80 阶线性摄动模态 | 是 |
+| `solver/20_perturb_from_eq.inp` | 从已通过静力门禁的 `cw_clean_modal_eq.db` 续算摄动模态，不重做 109k 静力 | 是 |
 | `solver/30_zero_load_transient.inp` | 同作业预加载后打开时间积分，检查零荷载漂移 | 是 |
 | `solver/40_ta1_twist_release.inp` | 施加相对平衡态的 TA1 型反对称扭转位移并释放 | 是 |
 | `solver/50_buffeting_not_armed.inp` | 抖振功能硬锁，防止动力基态未通过时直接加载 | 否 |
 
-这里“是否求解”描述输入文件被执行后的行为。本交付过程没有启动 ANSYS，因此目前没有数值通过结论。
+这里“是否求解”描述输入文件被执行后的行为。2026-08-29 已在 ANSYS 2026 R1 上跑过静力和一条摄动模态续算（见下节）。**没有**做附件配对，**没有**写复现/一致，**没有**打开 30/40/50。
 
 ## 3. 强制运行合同
 
@@ -85,3 +86,17 @@ Mechanical APDL 的工作目录必须设置为本目录下的 `solver`。四个�
 - `CW_USE_ROTY_GAUGE=1` 是真实物理约束。
 
 `50_buffeting_not_armed.inp` 会主动退出。只有静力、摄动模态、零荷载瞬态和有限振幅释放全部形成可追溯结果后，才应新建抖振载荷入口。
+
+## 7. 2026-08-29 已入库的求解痕迹
+
+这些是作业输出，不是科学结论。状态字是 `COMPARISON_NOT_PERFORMED`。
+
+| 作业 | 文件 | 读到的事实 |
+|---|---|---|
+| `cw_s10g1` 静力 | `solver/cw_s10g1_gt.txt` | `STATIC_GATE_PASSED`；MASS = 4108.46690758 t；RFREL = 4.96e-11；`DYNAMIC_NOT_RUN` |
+| `cw_clean_modal` 模态 | `solver/LOG_20260829_lanczos_dimension.txt` | Block Lanczos 第一移位 `Dimensions are not consistent`；0 阶；不是算出了怪频率 |
+| `cw_p20g1` 从平衡态续算 | `solver/cw_p20g1_export.txt`、`cw_p20g1_frequencies.csv`、`cw_p20g1_set_list.txt`、`cw_p20g1_status.txt` | 请求 80 / 得到 80；CSV 与 `SET,LIST` 同序；`MODAL_INPUT_COMPLETED COMPARISON_NOT_PERFORMED` |
+
+`cw_p20g1` 相对失败作业的修正只在 `20_perturb_from_eq.inp`：`PERTURB,MODAL,AUTO,CURRENT,PARKEEP` 与 `LANBOPTION,OFF,,ALT1,MININCORE`。未钉全网 UY。未按频率最近原则命名 LS/VA/LA/TA/VS/TS。
+
+总序第 1 阶 0.0368216 Hz，第 3 阶 0.0733593 Hz，第 5 阶 0.1012865 Hz。这三个数出现在原生频率表里，**不是**附件配对，也不得写成 TA1 复现。
