@@ -1,0 +1,246 @@
+! ============================================================================
+! 张靖皋猫道 ANSYS 干净动力链：零新增动力荷载全瞬态保持入口。
+! 本文件在同一个 full-transient 作业内先以 TIMINT,OFF 建立非线性平衡，
+! 再用两个相同保持步形成零初速度条件，最后打开时间积分但不施加新动力荷载。
+! 该入口用于判定动力状态继承、约束、质量和时间积分是否会自行漂移。
+! ============================================================================
+! 清空当前数据库并保留标准启动设置。
+/CLEAR,START
+! 设置本零荷载瞬态入口的唯一作业名。
+/FILNAME,cw_clean_zlt
+! 设置可辨识英文标题。
+/TITLE,CATWALK CLEAN ZERO LOAD FULL TRANSIENT HOLD
+! 默认禁用 ROTY 数值零空间约束，保持纯物理装配。
+CW_USE_ROTY_GAUGE=0
+! 设置零荷载动力保持时长，单位为 s。
+CW_HOLD_TIME=60.0
+! 设置固定动力时间步，单位为 s。
+CW_DT=0.05
+! 设置动力结果每十个子步保存一次。
+CW_OUT_EVERY=10
+! 初始化零荷载瞬态状态文件。
+/OUTPUT,cw_clean_zlt_status,txt
+! 记录输入已开始但求解器尚未完成。
+/COM,STATUS=INPUT_STARTED SOLVER_RESULT_PENDING
+! 恢复主输出文件。
+/OUTPUT
+! 读取统一物理装配入口。
+/INPUT,00_assemble_physical_model,inp
+! 读取装配后硬门禁。
+/INPUT,01_model_gate,inp
+! 读取十个主跨索系探针节点。
+/INPUT,02_define_probe_nodes,inp
+! 进入求解处理器并建立新的 full-transient 分析。
+/SOLU
+! 选择新的全瞬态结构分析。
+ANTYPE,TRANS,NEW
+! 使用 full 方法和默认 Newmark 时间积分。
+TRNOPT,FULL
+! 使用一致质量矩阵。
+LUMPM,OFF
+! 启用大变形几何非线性。
+NLGEOM,ON
+! 关闭人工稳定化。
+STABILIZE,OFF
+! 保留预应力效应和当前切线刚度。
+PSTRES,ON
+! 使用完整 Newton-Raphson 切线迭代。
+NROPT,FULL
+! 启用线搜索。
+LNSRCH,ON
+! 关闭位移预测器。
+PRED,OFF
+! 将每个子步最大平衡迭代次数设为 100。
+NEQIT,100
+! 在预加载阶段关闭时间积分，将该阶段作为静力平衡。
+TIMINT,OFF
+! 采用斜坡方式施加恒载。
+KBC,0
+! 允许自动子步细分。
+AUTOTS,ON
+! 施加正 Z 参考加速度，使结构承受负 Z 重力。
+ACEL,0,0,9806
+! 将非线性恒载平衡终点定义为时间 1.0 s。
+TIME,1.0
+! 设置初始 20、最多 200、最少 20 个静力子步。
+NSUBST,20,200,20
+! 保存预加载载荷步末完整结果。
+OUTRES,ALL,LAST
+! 保存预加载载荷步末约束反力。
+OUTRES,RSOL,LAST
+! 保存每个载荷步末重启动状态。
+RESCONTROL,DEFINE,ALL,LAST
+! 求解第一载荷步的非线性静力预加载。
+SOLVE
+! 读取第一载荷步收敛标志。
+*GET,CW_CNVG1,ACTIVE,0,SOLU,CNVG
+! 第一载荷步未收敛时立即拒绝。
+*IF,CW_CNVG1,NE,1,THEN
+! 写出预加载未收敛状态。
+/OUTPUT,cw_clean_zlt_status,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=TRANSIENT_PRELOAD_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第一载荷步收敛门禁分支。
+*ENDIF
+! 保持时间积分关闭，建立第一个零增量平衡保持步。
+TIMINT,OFF
+! 将第一个保持步终点设为时间 1.001 s。
+TIME,1.001
+! 重发相同重力加速度，保持外载不变。
+ACEL,0,0,9806
+! 关闭自动时间步，禁止 cutback 掩盖失稳。
+AUTOTS,OFF
+! 设置一个固定保持子步。
+NSUBST,1,1,1
+! 保存第一个保持步末完整结果。
+OUTRES,ALL,LAST
+! 保存第一个保持步末重启动状态。
+RESCONTROL,DEFINE,ALL,LAST
+! 求解第二载荷步的零增量平衡保持。
+SOLVE
+! 读取第二载荷步收敛标志。
+*GET,CW_CNVG2,ACTIVE,0,SOLU,CNVG
+! 第二载荷步未收敛时立即拒绝。
+*IF,CW_CNVG2,NE,1,THEN
+! 写出第一个保持步未收敛状态。
+/OUTPUT,cw_clean_zlt_status,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=FIRST_STATIC_HOLD_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第二载荷步收敛门禁分支。
+*ENDIF
+! 保持时间积分关闭，建立第二个相同平衡保持步。
+TIMINT,OFF
+! 将第二个保持步终点设为时间 1.002 s。
+TIME,1.002
+! 重发相同重力加速度，保持外载不变。
+ACEL,0,0,9806
+! 保持一个固定子步。
+NSUBST,1,1,1
+! 保存第二个保持步末完整结果。
+OUTRES,ALL,LAST
+! 保存第二个保持步末重启动状态。
+RESCONTROL,DEFINE,ALL,LAST
+! 求解第三载荷步的第二个零增量平衡保持。
+SOLVE
+! 读取第三载荷步收敛标志。
+*GET,CW_CNVG3,ACTIVE,0,SOLU,CNVG
+! 第三载荷步未收敛时立即拒绝。
+*IF,CW_CNVG3,NE,1,THEN
+! 写出第二个保持步未收敛状态。
+/OUTPUT,cw_clean_zlt_status,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=SECOND_STATIC_HOLD_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第三载荷步收敛门禁分支。
+*ENDIF
+! 保存打开时间积分前的平衡数据库快照。
+SAVE,cw_clean_zlt_eq,db
+! 打开结构时间积分，开始零新增动力荷载保持。
+TIMINT,ON
+! 关闭自动时间步，使用固定时间增量进行漂移诊断。
+AUTOTS,OFF
+! 将全部既有恒载在动力步内保持为阶跃常值。
+KBC,1
+! 将质量比例阻尼设为零，避免阻尼掩盖状态漂移。
+ALPHAD,0
+! 将刚度比例阻尼设为零，避免阻尼掩盖状态漂移。
+BETAD,0
+! 设置固定动力时间步及相同的最小、最大步长。
+DELTIM,CW_DT,CW_DT,CW_DT
+! 将零荷载动力保持终点设置为当前平衡时间加保持时长。
+TIME,1.002+CW_HOLD_TIME
+! 关闭默认全场结果输出。
+OUTRES,ALL,NONE
+! 每十个动力子步保存一次节点解。
+OUTRES,NSOL,CW_OUT_EVERY
+! 每十个动力子步保存一次约束反力。
+OUTRES,RSOL,CW_OUT_EVERY
+! 每十个动力子步保存一次能量结果。
+OUTRES,VENG,CW_OUT_EVERY
+! 求解第四载荷步的零新增动力荷载保持。
+SOLVE
+! 读取零荷载动力保持步收敛标志。
+*GET,CW_CNVG4,ACTIVE,0,SOLU,CNVG
+! 零荷载动力保持未收敛时写出拒绝状态。
+*IF,CW_CNVG4,NE,1,THEN
+! 写出动力保持未收敛状态。
+/OUTPUT,cw_clean_zlt_status,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=ZERO_LOAD_TRANSIENT_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束动力保持收敛门禁分支。
+*ENDIF
+! 离开求解处理器，开始探针漂移后处理。
+FINISH
+! 进入通用后处理器。
+/POST1
+! 显式指定零荷载瞬态结果文件。
+FILE,cw_clean_zlt,rst
+! 定义十个探针在动力打开前的竖向位移数组。
+*DIM,CW_UZ0,ARRAY,10
+! 定义十个探针在动力保持结束时的竖向位移数组。
+*DIM,CW_UZ1,ARRAY,10
+! 定义十个探针的竖向漂移数组。
+*DIM,CW_DUZ,ARRAY,10
+! 读取第三载荷步末的零初速度平衡状态。
+SET,3,LAST
+! 逐个读取十个探针的平衡态竖向位移。
+*DO,CW_I,1,10
+! 读取当前探针的平衡态 UZ。
+*GET,CW_UZ0(CW_I),NODE,CW_PROBE(CW_I),U,Z
+! 结束平衡态探针读取循环。
+*ENDDO
+! 读取全部结果中的最后一个动力结果集。
+SET,LAST
+! 将最大绝对探针漂移初始化为零。
+CW_DMAX=0
+! 逐个读取十个探针的动力末 UZ 并计算漂移。
+*DO,CW_I,1,10
+! 读取当前探针的动力末 UZ。
+*GET,CW_UZ1(CW_I),NODE,CW_PROBE(CW_I),U,Z
+! 计算当前探针相对平衡态的竖向漂移。
+CW_DUZ(CW_I)=CW_UZ1(CW_I)-CW_UZ0(CW_I)
+! 当前探针漂移绝对值更大时更新最大漂移。
+*IF,ABS(CW_DUZ(CW_I)),GT,CW_DMAX,THEN
+! 保存新的最大绝对探针漂移。
+CW_DMAX=ABS(CW_DUZ(CW_I))
+! 结束最大漂移更新分支。
+*ENDIF
+! 结束动力末探针读取循环。
+*ENDDO
+! 打开探针漂移 CSV 文件。
+*CFOPEN,cw_clean_zlt_probe_drift,csv
+! 逐个写出探针编号、节点号、平衡 UZ、动力末 UZ 和漂移。
+*DO,CW_I,1,10
+! 写出当前探针的一行漂移记录。
+*VWRITE,CW_I,CW_PROBE(CW_I),CW_UZ0(CW_I),CW_UZ1(CW_I),CW_DUZ(CW_I)
+(F8.0,',',F12.0,3(',',E24.16))
+! 结束探针漂移写出循环。
+*ENDDO
+! 关闭并刷新探针漂移 CSV 文件。
+*CFCLOS
+! 写出零荷载瞬态入口完成状态和最大漂移。
+/OUTPUT,cw_clean_zlt_status,txt
+! 写出四个载荷步收敛标志和最大绝对探针漂移。
+*VWRITE,CW_CNVG1,CW_CNVG2,CW_CNVG3,CW_CNVG4,CW_DMAX,CW_USE_ROTY_GAUGE
+('STATUS=ZERO_LOAD_TRANSIENT_COMPLETED, CNVG=',4(F4.0,','),', MAX_PROBE_DRIFT_MM=',E24.16,', GAUGE=',F4.0)
+! 恢复主输出文件。
+/OUTPUT
+! 离开通用后处理器。
+FINISH
+! 退出当前批处理作业且不重复保存数据库。
+/EXIT,NOSAVE
