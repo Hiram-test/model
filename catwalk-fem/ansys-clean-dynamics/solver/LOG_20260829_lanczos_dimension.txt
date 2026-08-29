@@ -1,0 +1,48 @@
+2026-08-29 20:57 CST  猫道干净动力链 20 预应力模态失败日志
+============================================================
+不要删本记录，也不要删下面列出的失败产物。
+
+分支: feat/catwalk-ansys-clean-dynamics @ 2f924fb
+作业名: cw_clean_modal
+入口: solver/20g1.inp（官方 20_prestressed_modal.inp 只改了 CW_USE_ROTY_GAUGE=1）
+求解: ANSYS 2026 R1  ANSYS261.exe -b -smp -np 2
+机器: DESKTOP-OKGOMRB  约 15G  2 核
+
+静力（同一张卡的前半）
+  装配门禁 cw_clean_model_gate.txt:
+    NODES=109086 ELEMS=172994 T4=73692 T6=48620 T70=17679 T71=33003
+    UZSUP=464 ROTY=2860 GAUGE=1  ASSEMBLY_GATE_PASSED
+  静力门禁 cw_clean_modal_static_gate.txt:
+    CNVG1=1 CNVG2=1 MASS=4108.466907580443 t
+    MERR=4.43e-10 RFREL=1.03e-11 UZSUP=464 GAUGE=1
+    STATUS=STATIC_GATE_PASSED DYNAMIC_NOT_RUN
+  监控 cw_clean_modal.mntr: 从 0.05 斜到 1.00，保持 1.001
+  平衡库: cw_clean_modal_eq.db 约 658 MB  20:52:50
+
+模态（失败）
+  时刻: 20:56:57  elapsed=3672.203 s
+  *** ERROR *** Dimensions are not consistent.
+  *** WARNING *** Fewer modes than requested (80). Only 0 modes beyond FREQB=0.
+  Block Lanczos 第一下移位 Shift #1 后立即失败。
+  NUMBER OF EQUATIONS=1234834
+  Lanczos INCORE workspace 要求约 6.18 GB
+  状态文件仍是 INPUT_STARTED SOLVER_RESULT_PENDING（后处理没跑到）
+  频率表 cw_clean_modal_frequencies.csv 不存在
+  导出 cw_clean_modal_export.txt 不存在
+
+产物（保留，禁止删除）
+  solver/cw_clean_modal.err
+  solver/cw_clean_modal.out
+  solver/cw_clean_modal.rstp
+  solver/cw_clean_modal.mode
+  solver/cw_clean_modal_eq.db
+  solver/cw_clean_modal_static_gate.txt
+  solver/cw_clean_modal_status.txt
+  solver/20g1.inp
+
+同日相关、不是本失败
+  10 诊断档 cw_s10g1 静力门禁已通过（18:51–19:45）
+  纯物理档 G0 18:14 横梁 ROTY 冲限退出，是另一趟
+
+分类: 求解器在摄动模态抽取上硬停。不是静力门禁失败，也不是算出了怪频率。
+S10–F99 / ultra_runs 未改。

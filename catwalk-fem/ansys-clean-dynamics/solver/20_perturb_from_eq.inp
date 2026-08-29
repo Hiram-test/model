@@ -1,0 +1,114 @@
+! ============================================================================
+! 从已通过静力门禁的 cw_clean_modal 平衡态做线性摄动模态。
+! 不重做 109k 节点静力。不覆盖 cw_clean_modal.* 失败产物。
+! 作业名 cw_p20g1。工作目录必须是本包 solver/。
+! 抽频修正相对 20g1.inp：
+!   PERTURB,MODAL,AUTO,CURRENT,PARKEEP 与冻结 S10 入口对齐。
+!   LANBOPTION,OFF,,ALT1,MININCORE 避开默认 INCORE 工作数组在
+!   Block Lanczos 第一移位报 Dimensions are not consistent。
+! 不钉全网 UY。不进入 30/40/50。
+! ============================================================================
+! 清空当前数据库并保留标准启动设置。
+/CLEAR,START
+! 设置本模态续算的唯一作业名。
+/FILNAME,cw_p20g1,0
+! 设置可辨识英文标题。
+/TITLE,CATWALK P20G1 PERTURB MODAL FROM EQ
+! 定义当前作业名字符参数，供后处理读取结果文件。
+CW_JOB='cw_p20g1'
+! 本续算沿用诊断档 20 的零空间约束状态。
+CW_USE_ROTY_GAUGE=1
+! 设置计划提取的模态数量。
+CW_NMODES=80
+! 初始化模态入口状态文件。
+/OUTPUT,cw_p20g1_status,txt
+! 记录输入已开始但求解器尚未完成。
+/COM,STATUS=INPUT_STARTED SOLVER_RESULT_PENDING
+/COM,SOURCE=cw_clean_modal_eq.db RESTART=LS2
+! 恢复主输出文件。
+/OUTPUT
+! 进入求解处理器，从第二载荷步最后子步启动线性摄动重启动。
+/SOLU
+! 指定线性摄动从第二载荷步最后可用子步恢复。
+ANTYPE,,RESTART,2,,PERTURB
+! 使用当前接触/材料切线并保留位移约束。
+PERTURB,MODAL,AUTO,CURRENT,PARKEEP
+! 重构最终非线性平衡态的切线单元矩阵。
+SOLVE,ELFORM
+! ELFORM 之后才允许改作业名；再次锁定，禁止写回 cw_clean_modal。
+/FILNAME,cw_p20g1,0
+! 使用一致质量矩阵，避免集中质量近似改变低阶谱。
+LUMPM,OFF
+! 关闭 Sturm 检查；ALT1 为困难特征值问题的交替 Block Lanczos。
+! MININCORE 将 Lanczos 工作数组大约减半，避开失败作业的 6.18 GB INCORE 路径。
+LANBOPTION,OFF,,ALT1,MININCORE
+! 使用 Block Lanczos 提取 80 阶最低模态。
+MODOPT,LANB,CW_NMODES
+! 展开全部请求模态；本续算只导出频率，不写单元能。
+MXPAND,CW_NMODES,,,NO
+! 关闭默认的冗余结果输出。
+OUTRES,ALL,NONE
+! 保存全部请求模态的节点解。
+OUTRES,NSOL,ALL
+! 执行线性摄动模态第二阶段求解。
+SOLVE
+! 离开求解处理器并完成并行结果合并。
+FINISH
+! 进入通用后处理器读取线性摄动结果文件。
+/POST1
+! 显式指定本作业的 RSTP 文件。
+FILE,cw_p20g1,rstp
+! 激活最后一个模态结果集。
+SET,LAST
+! 读取实际可用模态结果集数量。
+*GET,CW_AVAILABLE,ACTIVE,0,SET,NSET
+! 将实际可用模态数量写入导出状态文件。
+/OUTPUT,cw_p20g1_export,txt
+! 写出请求数量和实际可用数量。
+*VWRITE,CW_NMODES,CW_AVAILABLE,CW_USE_ROTY_GAUGE
+('REQUESTED=',F12.0,', AVAILABLE=',F12.0,', GAUGE=',F4.0)
+! 恢复主输出文件。
+/OUTPUT
+! 实际结果集数量不等于请求数量时立即拒绝。
+*IF,CW_AVAILABLE,NE,CW_NMODES,THEN
+! 写出模态结果数量不闭合状态。
+/OUTPUT,cw_p20g1_export,txt,,APPEND
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=MODAL_RESULT_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束模态数量门禁分支。
+*ENDIF
+! 将原生模态结果集列表写入独立文件。
+/OUTPUT,cw_p20g1_set_list,txt
+! 列出全部模态结果集和频率。
+SET,LIST
+! 恢复主输出文件。
+/OUTPUT
+! 打开无标题频率 CSV 文件。
+*CFOPEN,cw_p20g1_frequencies,csv
+! 逐阶读取并写出实际模态频率。
+*DO,CW_I,1,CW_AVAILABLE
+! 激活当前模态结果集。
+SET,1,CW_I
+! 读取当前模态频率，单位为 Hz。
+*GET,CW_FREQ,ACTIVE,0,SET,FREQ
+! 写出模态序号和频率两列。
+*VWRITE,CW_I,CW_FREQ
+(F8.0,',',E24.16)
+! 结束模态频率导出循环。
+*ENDDO
+! 关闭并刷新频率 CSV 文件。
+*CFCLOS
+! 写出模态入口完成状态。
+/OUTPUT,cw_p20g1_status,txt
+! 标记模态输入链执行完成，但不声明与附件频率一致。
+/COM,STATUS=MODAL_INPUT_COMPLETED COMPARISON_NOT_PERFORMED
+! 恢复主输出文件。
+/OUTPUT
+! 离开通用后处理器。
+FINISH
+! 退出当前批处理作业且不保存新的数据库副本。
+/EXIT,NOSAVE
