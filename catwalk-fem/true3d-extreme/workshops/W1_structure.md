@@ -17,7 +17,7 @@
 | G-P2 | PASS |
 | UY | PASS，84/5018，frac 0.0167 |
 | G-P3 | PASS，3 次牛顿，152 s |
-| G-P4 | **FAIL**。4 个 ~2×10⁻⁴ Hz 残差刚体仍在前 100 阶（已从模态基剔除）；末残差/自重 = 4.85×10⁻⁶ > 1×10⁻⁶（末牛顿残差 195 N）。`conclusion_allowed=false`，图谱只作对照。 |
+| G-P4 | **FAIL**。4 个 ~2×10⁻⁴ Hz 残差刚体仍在前 100 阶（已从模态基剔除）；末残差/自重 = 4.85×10⁻⁶ > 1×10⁻⁶（末牛顿残差 195 N）。`conclusion_allowed=false`，图谱只作对照。错误账 `artifacts/gp4_error_ledger.json`。 |
 
 首个结构模态 0.03904 Hz（LS1 向）。锁定十四行配对见 `true3d_table41_pairing.csv`：14 行 MAE 7.1%（63 x 站旧 deck 为 15.3%）。
 

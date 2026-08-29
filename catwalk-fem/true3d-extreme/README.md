@@ -34,11 +34,13 @@
 1. **附件 2-3 气动参数与 RMS 目标图**：
    release `zhangjinggao-full-20260729` 的 `archive-0001.tar.zst` 内
    `01_设计资料与规范/附件2-3：猫道结构抗风性能试验报告.pdf`（3.19 MB，
-   sha256 d17d4061…）。提取三分力系数与设计风速填入 `config/site_wind.json`，
-   RMS 图数字化为 `artifacts/attach23_rms_digitized.csv`。
-2. **承重索破断力**（图纸）：填 `config.structure.rope_break_force_kN_per_bearing_rope`，
-   解锁图谱 A3 的承载率通道。
-3. **C 级工况在线复核**（工况库 md 有清单），或保留"未复核"标注出图。
+   sha256 d17d4061…）。三分力与设计风速已写入 `config/site_wind.json`（来源
+   `artifacts/attach23_extract.json`）。RMS 沿跨图 PDF 本树不在；
+   `artifacts/attach23_rms_digitized.csv` 现为表 5-1 三点占位，禁止插值成曲线。
+2. **承重索破断力**（图纸）：`config.structure.rope_break_force_kN_per_bearing_rope=2380`
+   （附件表 5-4 附近）。A3 利用率通道仍未建（无重建索力）。
+3. **C 级工况在线复核**：15 项保持 `unverified_C`（`artifacts/c_level_review.json`），
+   出图带未复核角标，不升 A/B。
 
 ## 已知求解器陷阱（上一轮 agentic-fea 已二分定位，本链已内建规避）
 

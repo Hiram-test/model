@@ -51,7 +51,7 @@
 - 【方法要点】σ_q 模态谱积分 → SRSS 场；通道 L/V/T_cw/T_g；
   峰值因子 Davenport g=√(2ln νT)+0.5772/√(2ln νT)，T=600 s。
 - 【产出】`buffeting_rms_alongspan_site_sutong_100yr_obs.csv` + 沿跨图 +
-  与附件数字化曲线的 A4 对照图（`artifacts/attach23_rms_digitized.csv`〔待填〕）。
+  与附件数字化曲线的 A4 对照图（`artifacts/attach23_rms_digitized.csv` 现为表 5-1 三点占位，PDF 沿跨图本树不在，禁止插值成曲线）。
 - 【Grok 填写指令】气动参数没回填前，所有绝对值标注"占位气动 v0"；
   对照结论只写形状与量级，不写百分比符合度。
 

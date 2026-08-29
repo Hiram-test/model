@@ -21,7 +21,7 @@ P16/P84 气动不确定度带：〔待填:CdD 区间尚未做集合〕。v0 曲�
 | A1 | `atlas/heatmap_scenarios.png` | 已出 |
 | A2 | `atlas/alongspan_family.png` | 已出 |
 | A3 | `atlas/survival_frontier.png` | 已出；利用率通道未做（无重建索力） |
-| A4 | `atlas/comparison_attach23.png` | 已出；三点不是全曲线数字化 |
+| A4 | `atlas/comparison_attach23.png` | 已出；`attach23_rms_digitized.csv` 为表 5-1 三点占位，PDF 沿跨图本树不在，禁止插值 |
 | A5 | `atlas/A5_master_surface.png` | 本轮补 |
 
 每图脚注 deck sha + 气动版本。版本头：`atlas/atlas_version.json`。图谱只作对照，G-P4 FAIL 期间不写结论。
