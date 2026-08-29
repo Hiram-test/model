@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "parentBranch": "cursor/agentic-catwalk-fea-d416",
+  "parentCommit": "f9476d1bbf114bb607c69ef1aca145da53bb45d8",
+  "newBranch": "feat/catwalk-agentic-ccx-zeroform-v1",
+  "lineage": [
+    {"node": "N01-N04", "inputs": ["drawing/report constants", "registered STEP", "optional MCT coordinates"], "outputs": ["analysis_charter.json", "source_manifest.json", "target_geometry.json"]},
+    {"node": "N05-N09", "inputs": ["target geometry", "component facts"], "outputs": ["component_inventory.json", "abstraction_decisions.json", "material_section_mass.json", "connection_boundary.json"]},
+    {"node": "N10", "inputs": ["zero-stress reference seed", "dead load", "physical supports"], "outputs": ["initial_state_ir.json", "SMK-Z0-01_zero_stress_formfind.inp"], "status": "BLOCKED_NO_SOLVER_RESULT"},
+    {"node": "DX00-DX07", "inputs": ["accepted future static state"], "outputs": ["candidate dynamics Skill and locked templates"], "status": "NOT_ARMED"}
+  ],
+  "forbiddenLineage": ["MCT initial force to initial state", "S10 stress to initial state", "target frequency to stiffness or mass"]
+}

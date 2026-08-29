@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "nodeId": "N01",
+  "skill": "01-bridge-analysis-charter",
+  "status": "PASS_WITH_BOUNDS",
+  "reason": "Smoke-only charter; no engineering result authorized.",
+  "allowedInputs": ["frozen artifacts explicitly listed by the node packet"],
+  "forbiddenInputs": ["unregistered latest file", "MCT initial force", "S10 initial stress", "target frequency calibration"],
+  "outputPolicy": "Never overwrite an older artifact; blocked outputs are not consumable downstream."
+}

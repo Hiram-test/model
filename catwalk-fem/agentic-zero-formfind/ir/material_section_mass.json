@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0.0",
+  "artifactId": "CW-A08-PROPERTIES-0001",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "status": "PASS_WITH_BOUNDS",
+  "materials": [
+    {"materialId": "MAT-FLOOR-EQ", "E_Pa": 120000000000.0, "nu": 0.3, "density_kg_m3": 12587.897939086799, "sourceRef": "SRC-DRAW-CONTROL", "note": "Density is a smoke-only distributed-mass equivalent for the full per-deck dead load."},
+    {"materialId": "MAT-XTIE-SMOKE", "E_Pa": 206000000000.0, "nu": 0.3, "density_kg_m3": null, "sourceRef": "ASSUMP-SMOKE-XTIE", "note": "No gravity is applied to smoke ties."}
+  ],
+  "sections": [
+    {"sectionId": "SEC-FLOOR-EQ", "area_m2": 0.02240672, "sourceRef": "SRC-DRAW-CONTROL", "derivation": "16 * 1400.42e-6 m2"},
+    {"sectionId": "SEC-XTIE-SMOKE", "area_m2": 0.002, "sourceRef": "ASSUMP-SMOKE-XTIE"}
+  ],
+  "massLedger": {"equivalentDeadLoad_N_m_perDeck": 2766.0, "equivalentMass_kg_m_perDeck": 282.05350450969496, "gravity_m_s2": 9.80665, "doubleCountingCheck": "The effective density already includes the registered floor-system line load; no extra cable self-weight is added in the smoke deck."}
+}

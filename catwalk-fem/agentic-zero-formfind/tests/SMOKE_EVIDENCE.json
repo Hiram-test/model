@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "evidence": {
+    "smoke_report": {
+      "projectId": "CW-ZJG-AGENTIC-CATWALK",
+      "runId": "CW-CCX-ZF-SMK-20260829-01",
+      "status": "PASS_STATIC_SMOKE_ONLY",
+      "solverExecuted": false,
+      "engineeringConclusionAllowed": false,
+      "checks": [
+        {
+          "id": "SMK-001",
+          "name": "every_active_inp_line_is_preceded_by_comment",
+          "pass": true,
+          "details": []
+        },
+        {
+          "id": "SMK-002",
+          "name": "no_imported_prestress_or_target_frequency",
+          "pass": true,
+          "details": []
+        },
+        {
+          "id": "SMK-003",
+          "name": "required_zeroform_stages_and_keywords_present",
+          "pass": true,
+          "details": []
+        },
+        {
+          "id": "SMK-004",
+          "name": "dynamic_keywords_absent_from_static_formfind_deck",
+          "pass": true,
+          "details": []
+        },
+        {
+          "id": "SMK-005",
+          "name": "node_and_element_counts_match_ir",
+          "pass": true,
+          "details": {
+            "actualNodes": 34,
+            "expectedNodes": 34,
+            "actualElements": 49,
+            "expectedElements": 49
+          }
+        },
+        {
+          "id": "SMK-006",
+          "name": "no_dangling_element_node_references",
+          "pass": true,
+          "details": []
+        },
+        {
+          "id": "SMK-007",
+          "name": "all_element_lengths_are_positive_and_finite",
+          "pass": true,
+          "details": []
+        },
+        {
+          "id": "SMK-008",
+          "name": "target_sag_matches_registered_control",
+          "pass": true,
+          "details": 227.3
+        },
+        {
+          "id": "SMK-009",
+          "name": "both_deck_target_lines_are_vertically_symmetric",
+          "pass": true,
+          "details": 0.0
+        },
+        {
+          "id": "SMK-010",
+          "name": "analytical_force_is_audit_only_not_inserted_as_prestress",
+          "pass": true,
+          "details": {
+            "auditHorizontalForce_N_perDeck": 7953515.016294337
+          }
+        },
+        {
+          "id": "SMK-011",
+          "name": "effective_density_closes_dead_load_ledger",
+          "pass": true,
+          "details": 0.0
+        },
+        {
+          "id": "SMK-012",
+          "name": "all_nineteen_skill_task_packets_exist",
+          "pass": true,
+          "details": [
+            "N00.json",
+            "N01.json",
+            "N02.json",
+            "N03.json",
+            "N04.json",
+            "N05.json",
+            "N06.json",
+            "N07.json",
+            "N08.json",
+            "N09.json",
+            "N10.json",
+            "N11.json",
+            "N12.json",
+            "N13.json",
+            "N14.json",
+            "N15.json",
+            "N16.json",
+            "N17.json",
+            "N18.json"
+          ]
+        },
+        {
+          "id": "SMK-013",
+          "name": "formal_workflow_stops_at_g8b",
+          "pass": true,
+          "details": "BLOCKED_AT_G8B"
+        },
+        {
+          "id": "SMK-014",
+          "name": "all_dynamic_templates_are_not_armed",
+          "pass": true,
+          "details": []
+        },
+        {
+          "id": "SMK-015",
+          "name": "every_nonblank_python_line_has_a_comment",
+          "pass": true,
+          "details": {}
+        },
+        {
+          "id": "SMK-016",
+          "name": "solver_availability_is_reported_without_fabrication",
+          "pass": true,
+          "details": {
+            "detectedPath": null,
+            "formalRunExpected": false
+          }
+        }
+      ]
+    },
+    "outer_update_smoke": {
+      "projectId": "CW-ZJG-AGENTIC-CATWALK",
+      "runId": "CW-CCX-ZF-SMK-20260829-01",
+      "kind": "SYNTHETIC_SIGN_SMOKE_ONLY",
+      "engineeringConclusionAllowed": false,
+      "equation": "X0_next = X0_current - relaxation * (X_loaded - X_target)",
+      "metrics": {
+        "loaded_target_l2_m": 5.477225575051661,
+        "loaded_target_max_m": 1.0,
+        "support_reference_change_max_m": 0.0,
+        "mean_internal_z_reference_update_m": 0.3499999999999981,
+        "relaxation": 0.35
+      },
+      "status": "PASS_SIGN_TEST"
+    },
+    "analytic_seed_smoke": {
+      "projectId": "CW-ZJG-AGENTIC-CATWALK",
+      "runId": "CW-CCX-ZF-SMK-20260829-01",
+      "status": "PASS_ANALYTIC_SEED_SMOKE_ONLY",
+      "engineeringConclusionAllowed": false,
+      "referencePolylineLength_m": 2338.4041040731186,
+      "targetPolylineLength_m": 2345.3211257188354,
+      "kinematicExtensionStrain": 0.0029580095389280933,
+      "forceFromLinearEA_N_perDeck": 7953514.979530906,
+      "parabolicAuditHorizontalForce_N_perDeck": 7953515.016294336,
+      "relativeDifference": 4.622287072622172e-09,
+      "interpretation": "The reference sag seed is selected so that moving the zero-stress reference curve to the target curve produces axial extension of the same order as the independent parabolic force estimate. This is a geometry seed, not imported prestress and not a solved equilibrium."
+    }
+  }
+}

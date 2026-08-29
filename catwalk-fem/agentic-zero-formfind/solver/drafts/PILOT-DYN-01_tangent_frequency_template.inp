@@ -1,0 +1,15 @@
+** DYNAMIC_GATE=NOT_ARMED
+** Include a regenerated accepted static base before this perturbation step.
+*INCLUDE, INPUT=CONVERGED_ZEROFORM_STATIC_BASE.inp
+** Start small-amplitude tangent modal extraction.
+*STEP, NAME=DX_TANGENT_MODAL, PERTURBATION
+** Request frequencies without target-frequency filtering.
+*FREQUENCY
+** Request the first twenty modes.
+20
+** Request modal displacements.
+*NODE FILE
+** Write modal displacements.
+U
+** End tangent modal extraction.
+*END STEP

@@ -1,0 +1,43 @@
+schemaVersion: "1.0.0"  # Freeze the extension schema version.
+extensionId: "EXT-CATWALK-DYNAMICS-01"  # Assign a stable extension identity.
+baseWorkflow: "bridge-fem-skill-suite/workflow.yaml"  # Bind the extension to the existing nineteen-skill workflow.
+activationCondition: "G8B in [PASS, PASS_WITH_BOUNDS] and G11 in [PASS, PASS_WITH_BOUNDS]"  # Require an accepted static state and pre-solve model.
+defaultState: "NOT_ARMED"  # Keep the extension locked by default.
+nodes:  # Define the optional dynamics nodes.
+  - id: "DX00"  # Identify the dynamic state-contract node.
+    name: "dynamic-state-contract"  # Name the dynamic state-contract node.
+    dependsOn: ["N10", "N13", "N14"]  # Require initial state, pre-solve verification, and solver mapping.
+    gate: "DG0"  # Bind the node to the state-contract gate.
+  - id: "DX01"  # Identify the dynamic mass-and-inertia audit node.
+    name: "dynamic-mass-inertia-audit"  # Name the mass-and-inertia audit node.
+    dependsOn: ["DX00", "N08"]  # Require the state contract and property ledger.
+    gate: "DG1"  # Bind the node to the mass-and-inertia gate.
+  - id: "DX02"  # Identify the tangent-modal node.
+    name: "prestressed-tangent-modal"  # Name the tangent-modal node.
+    dependsOn: ["DX00", "DX01"]  # Require state and mass closure.
+    gate: "DG2"  # Bind the node to the tangent-modal gate.
+  - id: "DX03"  # Identify the zero-load transient node.
+    name: "zero-added-load-transient"  # Name the zero-load transient node.
+    dependsOn: ["DX00", "DX01", "DX02"]  # Require accepted state, mass, and modal baseline.
+    gate: "DG3"  # Bind the node to the zero-load stability gate.
+  - id: "DX04"  # Identify the micro-amplitude free-decay node.
+    name: "micro-amplitude-free-decay"  # Name the micro-amplitude free-decay node.
+    dependsOn: ["DX02", "DX03"]  # Require tangent modal and zero-load stability.
+    gate: "DG4"  # Bind the node to the small-amplitude consistency gate.
+  - id: "DX05"  # Identify the amplitude-sweep node.
+    name: "nonlinear-backbone-campaign"  # Name the amplitude-sweep node.
+    dependsOn: ["DX04"]  # Require successful micro-amplitude decay.
+    gate: "DG5"  # Bind the node to the amplitude-and-sensitivity gate.
+  - id: "DX06"  # Identify the deterministic dynamic-load smoke node.
+    name: "deterministic-dynamic-load-smoke"  # Name the deterministic load node.
+    dependsOn: ["DX03", "DX04", "DX05"]  # Require stable unforced and free-decay behavior.
+    gate: "DG6"  # Bind the node to the deterministic-load gate.
+  - id: "DX07"  # Identify the stochastic buffeting node.
+    name: "stochastic-buffeting-and-aero-stability"  # Name the stochastic buffeting node.
+    dependsOn: ["DX00", "DX01", "DX02", "DX03", "DX04", "DX05", "DX06"]  # Require all preceding dynamic gates.
+    gate: "DG7"  # Bind the node to the final buffeting gate.
+failClosedRules:  # Define non-negotiable workflow barriers.
+  buffetingAuthorization: "NOT_ARMED unless DG0-DG6 all satisfy release conditions"  # Prevent premature stochastic loading.
+  blockedArtifactPropagation: "forbidden"  # Prevent blocked dynamic artifacts from entering downstream nodes.
+  targetFrequencyCalibration: "forbidden"  # Prevent target-frequency leakage into model generation.
+  physicalInputMutationAfterFailure: "forbidden"  # Prevent silent physics changes after solver failures.

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0.0",
+  "artifactId": "CW-A10-INITIAL-STATE-0001",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "status": "BLOCKED_NO_CCX_EQUILIBRIUM_RESULT",
+  "initialStateType": "inverse_unloaded_geometry_from_zero_stress",
+  "targetControl": "loaded geometry under registered dead load",
+  "independentControls": [
+    "end coordinates",
+    "loaded target coordinates",
+    "dead load"
+  ],
+  "dependentResults": [
+    "equilibrium cable force",
+    "unstressed reference geometry",
+    "support reactions"
+  ],
+  "iterationZero": {
+    "axialStress_Pa": 0.0,
+    "referenceSagGuess_m": 213.20454130112813,
+    "referenceSagStatus": "NUMERICAL_GEOMETRY_SEED_FROM_TARGET_SHAPE_LOAD_AND_EA_NOT_ENGINEERING_RESULT",
+    "importedMctForce": false,
+    "importedS10Stress": false,
+    "referenceSagDerivation": "Choose an unstressed parabolic reference sag whose polyline extension to the target curve gives H/(EA), with H=qL^2/(8h); no initial stress is inserted."
+  },
+  "outerIteration": {
+    "equation": "X0_next = X0_current - alpha * (X_loaded - X_target)",
+    "alpha": 0.35,
+    "stressReset": "zero at each rebuilt reference deck",
+    "temporaryErectionPath": "prescribe target coordinate increment, then release under dead load"
+  },
+  "acceptance": {
+    "geometryError_m_max": 0.05,
+    "forceResidualOverWeight_max": 1e-06,
+    "minimumCableForce_N_min": 1.0,
+    "noAddedLoadHoldRequired": true
+  },
+  "currentBlockers": [
+    "No CalculiX executable in current environment.",
+    "No loaded coordinate field exists.",
+    "No reaction or cable-force result exists."
+  ]
+}

@@ -1,0 +1,15 @@
+** DYNAMIC_GATE=NOT_ARMED
+** Include a reproducible accepted static base before transient integration.
+*INCLUDE, INPUT=CONVERGED_ZEROFORM_STATIC_BASE.inp
+** Start a nonlinear transient with no new load.
+*STEP, NAME=DX_ZERO_LOAD_TRANSIENT, NLGEOM
+** Select implicit dynamic integration.
+*DYNAMIC
+** Use placeholder time controls pending a time-step study.
+0.05, 20.0
+** Request displacement and velocity histories.
+*NODE FILE
+** Write displacement and velocity histories.
+U, V
+** End zero-load transient.
+*END STEP

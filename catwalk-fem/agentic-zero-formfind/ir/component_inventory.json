@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0.0",
+  "artifactId": "CW-A05-COMPONENTS-0001",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "status": "PASS_WITH_BOUNDS",
+  "componentGroups": [
+    {"componentGroupId": "CG-FLOOR-P", "name": "positive-y catwalk equivalent floor rope group", "count": 1, "physicalMultiplicity": 16, "representation": "one T3D2 equivalent line", "scope": "SMOKE_ONLY"},
+    {"componentGroupId": "CG-FLOOR-M", "name": "negative-y catwalk equivalent floor rope group", "count": 1, "physicalMultiplicity": 16, "representation": "one T3D2 equivalent line", "scope": "SMOKE_ONLY"},
+    {"componentGroupId": "CG-XTIE", "name": "transverse topology smoke ties", "count": 17, "physicalMultiplicity": "not_authoritative", "representation": "T3D2 axial ties", "scope": "NUMERICAL_TOPOLOGY_SMOKE_ONLY"}
+  ],
+  "omittedFromSmoke": ["portal frames", "portal ropes", "hand ropes", "cross passages", "down-pull system", "accessory point masses", "wind ropes"],
+  "omissionEffect": "This deck cannot support production stiffness, modal, torsional, or buffeting conclusions."
+}

@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "overallStatus": "BLOCKED_AT_G8B",
+  "gates": [
+    {
+      "gateId": "G-ORCH",
+      "nodeId": "N00",
+      "status": "PASS",
+      "evidence": "Run initialized and fail-closed scope frozen."
+    },
+    {
+      "gateId": "G0",
+      "nodeId": "N01",
+      "status": "PASS_WITH_BOUNDS",
+      "evidence": "Smoke-only charter; no engineering result authorized."
+    },
+    {
+      "gateId": "G1",
+      "nodeId": "N02",
+      "status": "PASS_WITH_BOUNDS",
+      "evidence": "Sources registered; STEP/MCT files not materialized in this run."
+    },
+    {
+      "gateId": "G2",
+      "nodeId": "N03",
+      "status": "PASS_WITH_BOUNDS",
+      "evidence": "Only control points and constants are used; full drawing extraction not rerun."
+    },
+    {
+      "gateId": "G3",
+      "nodeId": "N04",
+      "status": "PASS_WITH_BOUNDS",
+      "evidence": "Coordinate convention and main-span controls reconciled; full overlay not rerun."
+    },
+    {
+      "gateId": "G4",
+      "nodeId": "N05",
+      "status": "PASS_WITH_BOUNDS",
+      "evidence": "Reduced smoke component inventory only."
+    },
+    {
+      "gateId": "G5",
+      "nodeId": "N06",
+      "status": "PASS_WITH_BOUNDS",
+      "evidence": "Lane-equivalent smoke abstraction explicitly bounded."
+    },
+    {
+      "gateId": "G6",
+      "nodeId": "N07",
+      "status": "PASS_WITH_BOUNDS",
+      "evidence": "Main-span target/reference smoke geometry generated."
+    },
+    {
+      "gateId": "G7",
+      "nodeId": "N08",
+      "status": "PASS_WITH_BOUNDS",
+      "evidence": "Equivalent EA and line mass defined for smoke only."
+    },
+    {
+      "gateId": "G8",
+      "nodeId": "N09",
+      "status": "PASS_WITH_BOUNDS",
+      "evidence": "Physical end supports and temporary erection controls separated."
+    },
+    {
+      "gateId": "G8B",
+      "nodeId": "N10",
+      "status": "BLOCKED",
+      "evidence": "No CCX equilibrium, cable force, reaction, or hold result exists."
+    },
+    {
+      "gateId": "G9",
+      "nodeId": "N11",
+      "status": "NOT_ACTIVATED",
+      "evidence": "Upstream G8B is BLOCKED; candidate stage plan is unregistered draft."
+    },
+    {
+      "gateId": "G10",
+      "nodeId": "N12",
+      "status": "NOT_ACTIVATED",
+      "evidence": "Upstream G8B is BLOCKED; candidate numerical plan is unregistered draft."
+    },
+    {
+      "gateId": "G11",
+      "nodeId": "N13",
+      "status": "NOT_ACTIVATED",
+      "evidence": "Formal FEM-IR cannot be registered while initial state is blocked."
+    },
+    {
+      "gateId": "G12",
+      "nodeId": "N14",
+      "status": "NOT_ACTIVATED",
+      "evidence": "No G11 pass and no CCX executable; draft decks are development artifacts only."
+    },
+    {
+      "gateId": "G13",
+      "nodeId": "N15",
+      "status": "NOT_ACTIVATED",
+      "evidence": "No raw solver result."
+    },
+    {
+      "gateId": "G14",
+      "nodeId": "N16",
+      "status": "NOT_ACTIVATED",
+      "evidence": "No verified static response."
+    },
+    {
+      "gateId": "G15",
+      "nodeId": "N17",
+      "status": "NOT_ACTIVATED",
+      "evidence": "No verified solution to check."
+    },
+    {
+      "gateId": "G16",
+      "nodeId": "N18",
+      "status": "NOT_ACTIVATED",
+      "evidence": "No engineering release; only this experimental audit package is published."
+    }
+  ],
+  "invariantCheck": {
+    "blockedArtifactConsumedDownstream": false,
+    "result": "PASS"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "createdDate": "2026-08-29",
+  "status": "EXPERIMENTAL_INPUT_AND_STATIC_SMOKE_ONLY",
+  "purpose": "Use the existing 19-skill governance model to prepare a fail-closed CalculiX catwalk pilot with zero imported prestress and an agentic inverse form-finding loop.",
+  "units": {
+    "length": "m",
+    "force": "N",
+    "mass": "kg",
+    "time": "s",
+    "stress": "Pa"
+  },
+  "coordinates": {
+    "x": "north_to_south",
+    "y": "upstream_to_downstream",
+    "z": "upward",
+    "originStation": "K16+876.000"
+  },
+  "geometry": {
+    "activeScope": "main_span_two_deck_lane_equivalent_smoke_model",
+    "sourcePriority": [
+      "drawing_report_control_points",
+      "released_STEP_geometry_only",
+      "MCT_node_coordinates_geometry_only"
+    ],
+    "mainSpan": {
+      "xNorthSaddle_m": 666.679,
+      "xSouthSaddle_m": 2953.321,
+      "length_m": 2286.642,
+      "saddleElevation_m": 340.6,
+      "targetMidspanElevation_m": 113.30000000000001,
+      "targetSag_m": 227.3
+    },
+    "deckCenterlineY_m": [
+      21.45,
+      -21.45
+    ],
+    "stationCountPerDeck": 17,
+    "targetInterpolation": "parabolic_smoke_only"
+  },
+  "formFinding": {
+    "method": "zero_stress_displacement_erection_plus_inverse_unloaded_geometry",
+    "importedPrestressAllowed": false,
+    "forbiddenSources": [
+      "MCT_INIFORCE",
+      "MCT_INISTATE",
+      "S10_DB_INITIAL_STRESS",
+      "TARGET_FREQUENCY_BACK_CALIBRATION"
+    ],
+    "initialAxialStress_Pa": 0.0,
+    "initialReferenceSagGuess_m": 213.20454130112813,
+    "referenceSagGuessStatus": "NUMERICAL_GEOMETRY_SEED_FROM_TARGET_SHAPE_LOAD_AND_EA_NOT_ENGINEERING_RESULT",
+    "outerUpdate": "X0_next = X0_current - relaxation * (X_loaded - X_target)",
+    "relaxation": 0.35,
+    "maxOuterIterations": 25,
+    "geometryTolerance_m": 0.05,
+    "forceResidualOverWeightTolerance": 1e-06,
+    "minimumCableForce_N": 1.0,
+    "requiredFinalCheck": "no_added_load_equilibrium_hold",
+    "referenceSagGuessDerivation": "Choose an unstressed parabolic reference sag whose polyline extension to the target curve gives H/(EA), with H=qL^2/(8h); no initial stress is inserted.",
+    "analyticalAuditHorizontalForce_N_perDeck": 7953515.016294336
+  },
+  "smokeModel": {
+    "floorRopeEquivalentArea_m2_perDeck": 0.02240672,
+    "ropeElasticModulus_Pa": 120000000000.0,
+    "ropePoisson": 0.3,
+    "equivalentDeadLoad_N_per_m_perDeck": 2766.0,
+    "equivalentMass_kg_per_m_perDeck": 282.05350450969496,
+    "effectiveDensity_kg_per_m3": 12587.897939086799,
+    "crossTieArea_m2": 0.002,
+    "crossTieDensity": "omitted_from_gravity"
+  },
+  "execution": {
+    "ccxBinaryDetected": false,
+    "formalSolverRunEnabled": false,
+    "allowedSmokeTests": [
+      "deck_static_lint",
+      "id_and_connectivity_check",
+      "unit_and_sign_check",
+      "forbidden_prestress_scan",
+      "outer_update_sign_test"
+    ],
+    "formalGate": "BLOCKED_NO_CCX_BINARY_AND_NO_FORM_FOUND_EQUILIBRIUM"
+  },
+  "dynamics": {
+    "extensionSkill": "19-catwalk-nonlinear-dynamics",
+    "state": "NOT_ARMED",
+    "unlockOrder": [
+      "form_found_equilibrium",
+      "tangent_frequency",
+      "zero_load_transient",
+      "micro_amplitude_free_decay",
+      "amplitude_sweep",
+      "deterministic_dynamic_load",
+      "buffeting"
+    ]
+  }
+}

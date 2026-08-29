@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0.0",
+  "artifactId": "CW-A09-CONNECTION-BC-0001",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "status": "PASS_WITH_BOUNDS",
+  "supports": [
+    {"supportId": "SUP-P-N", "nodeRole": "DECK-P north saddle", "dofs": ["UX", "UY", "UZ"]},
+    {"supportId": "SUP-P-S", "nodeRole": "DECK-P south saddle", "dofs": ["UX", "UY", "UZ"]},
+    {"supportId": "SUP-M-N", "nodeRole": "DECK-M north saddle", "dofs": ["UX", "UY", "UZ"]},
+    {"supportId": "SUP-M-S", "nodeRole": "DECK-M south saddle", "dofs": ["UX", "UY", "UZ"]}
+  ],
+  "temporaryErectionControls": {"scope": "all internal smoke cable nodes", "dofs": ["UX=0 incremental", "UY=0 incremental", "UZ=target-reference"], "mustBeRemovedBeforeEquilibriumAcceptance": true},
+  "prohibitedBoundaryEdits": ["fix_all_UY", "modal_only_rotation_constraints", "ad_hoc_springs_added_after_solver_failure"],
+  "releaseCheck": "After temporary controls are removed, only physical end supports remain."
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0.0",
+  "artifactId": "CW-A01-CHARTER-0001",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "status": "PASS_WITH_BOUNDS",
+  "analysisType": ["nonlinear_static_form_finding", "future_prestressed_tangent_modal", "future_full_transient_free_decay"],
+  "requiresInitialState": true,
+  "solverTarget": {"name": "CalculiX", "expectedVersion": "2.21_or_later", "availabilityInCurrentEnvironment": "NOT_AVAILABLE"},
+  "authorizedScope": ["Prepare a reduced main-span two-deck smoke deck.", "Prepare a scalable inverse form-finding controller that starts each outer iteration at zero axial stress.", "Run deterministic non-solver smoke checks.", "Draft a dynamics extension Skill and gate chain.", "Record prior and newly discovered failures."],
+  "excludedClaims": ["No claim that the full catwalk geometry is reproduced.", "No claim that nonlinear static equilibrium converges in CalculiX.", "No modal frequency, free-decay frequency, or buffeting result.", "No use of MCT initial force, S10 initial stress, or target frequency calibration."],
+  "controlMetrics": [
+    {"id": "M-GEO", "metric": "loaded_coordinate_error_norm", "threshold": 0.05, "unit": "m"},
+    {"id": "M-EQ", "metric": "force_residual_over_total_weight", "threshold": 1e-06, "unit": "1"},
+    {"id": "M-TEN", "metric": "minimum_cable_force", "threshold": 1.0, "unit": "N"},
+    {"id": "M-HOLD", "metric": "no_added_load_drift", "threshold": "to_be_frozen_before_solver_run", "unit": "m"}
+  ],
+  "approvalState": "EXPERIMENTAL_PREP_ONLY"
+}
