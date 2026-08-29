@@ -151,7 +151,13 @@ def test_gp4_does_not_relax_1e6():
 
 
 def test_wave4_required_ancestor():
-    """Later work must stay on top of the completed wave-4 SHA."""
+    """Wave-4 content lock. Prefer git ancestry; official squash is the exception.
+
+    GitHub HEAD dd59aac is a 1-commit orphan squash: 3a4250e is not a git
+    ancestor, but deck_id_from_s10 / cluster_x_stations / _align_by_station_k
+    / FORCE_OVER_W_MAX=1e-6 are in the tree. Do not rebase onto the dangling
+    3a4250e commit (that would be 退回旧树).
+    """
     import subprocess
 
     pin = (BASE / "WAVE4_REQUIRED_ANCESTOR").read_text()
@@ -170,12 +176,46 @@ def test_wave4_required_ancestor():
         capture_output=True,
         text=True,
     )
-    if r.returncode == 128:
+    if r.returncode in (0, 128):
         return
-    assert r.returncode == 0, (
-        f"HEAD is not a descendant of wave-4 {sha}; "
-        "rebase onto that SHA before any new work"
+    n = int(subprocess.check_output(
+        ["git", "rev-list", "--count", "HEAD"], cwd=REPO, text=True).strip())
+    run = (ART / "RUN_STATUS.md").read_text()
+    src_b = (CODE / "build_true3d_ccx.py").read_text()
+    src_p = (CODE / "postprocess_modes.py").read_text()
+    src_g = (CODE / "write_gate_status.py").read_text()
+    assert n == 1, (
+        f"HEAD is not a descendant of wave-4 {sha} and is not the official "
+        "1-commit squash; rebase onto that SHA before any new work"
     )
+    assert "STRUCTURAL_OK" not in run
+    assert "FAIL" in run
+    assert "def deck_id_from_s10" in src_b
+    assert "def cluster_x_stations" in src_b
+    assert "def _align_by_station_k" in src_p
+    assert "FORCE_OVER_W_MAX = 1e-6" in src_g
+
+
+def test_gp4_error_ledger_stop():
+    led = json.loads((ART / "gp4_error_ledger.json").read_text())
+    assert led["G-P4"]["pass"] is False
+    assert led["conclusion_allowed"] is False
+    assert led["stop"] is True
+    blob = json.dumps(led, ensure_ascii=False)
+    assert "STRUCTURAL_OK" not in blob
+    assert "复现" not in blob
+
+
+def test_rms_digitized_is_three_station_placeholder():
+    p = ART / "attach23_rms_digitized.csv"
+    assert p.is_file()
+    import csv
+    rows = list(csv.DictReader(p.open()))
+    assert len(rows) == 3
+    text = p.read_text()
+    assert "占位" in text
+    assert "lat_rms_m" in text
+    assert all(r["full_curve_status"].startswith("placeholder") for r in rows)
 
 
 def test_run_status_and_baseline_lock():
@@ -253,6 +293,8 @@ def main() -> None:
     test_buffeting_four_channels_and_air_density()
     test_gp4_does_not_relax_1e6()
     test_wave4_required_ancestor()
+    test_gp4_error_ledger_stop()
+    test_rms_digitized_is_three_station_placeholder()
     test_run_status_and_baseline_lock()
     test_coarsen2_ledger_cited_and_portal_glyph()
     test_master_cv_gate_not_relaxed()

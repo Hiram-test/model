@@ -8,7 +8,9 @@ Grok / 任何后续提交的 parent 必须已经包含该 SHA（wave-4 改完的
 ```bash
 git fetch origin cursor/agentic-catwalk-fea-d416
 git merge-base --is-ancestor 3a4250e9f01f41c198967eaa685e497134573049 HEAD
-# 必须成功（exit 0）。失败就先把工作叠到该提交之后，禁止从 078e76b / STRUCTURAL_OK 另起炉灶。
+# 线性历史上必须成功（exit 0）。正式版 HEAD dd59aac 是单提交压扁，
+# 该 SHA 不是 git 祖先；wave-4 内容已在树内。禁止 rebase/checkout 3a4250e
+#（退回旧树），禁止从 078e76b / STRUCTURAL_OK 另起炉灶。
 cd catwalk-fem/true3d-extreme/code
 python3 test_review_gates.py
 ```
