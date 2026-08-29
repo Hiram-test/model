@@ -38,7 +38,7 @@ ART = Path(__file__).resolve().parent.parent / "artifacts"
 SOL = Path(__file__).resolve().parent.parent / "solver"
 JOB = os.environ.get("CCX_JOB", "true3d_full")
 MANIFEST_NAME = os.environ.get("MANIFEST_NAME", "true3d_model_manifest_full.json")
-MODES = int(os.environ.get("MODES", "100"))
+# Static only. Do not emit *FREQUENCY / PERTURBATION on this job.
 
 ASEC = {
     61: (4997.5, 28164706.4583, 9830899.73958),
@@ -347,7 +347,6 @@ def main() -> None:
     for name in elsets:
         w(f"{name}, GRAV, {G_MM}, 0.0, 0.0, -1.0\n")
     w("*NODE FILE\nU\n*NODE PRINT, NSET=NSUPP\nRF\n*END STEP\n")
-    w(f"*STEP, PERTURBATION\n*FREQUENCY\n{MODES}\n*NODE FILE\nU\n*END STEP\n")
     f.close()
 
     sha = hashlib.sha256(dest.read_bytes()).hexdigest()
@@ -375,6 +374,7 @@ def main() -> None:
         "n_eq": len(eqs),
         "n_cp_eq": n_cp_eq,
         "n_roty": roty_n,
+        "steps": "NLGEOM STATIC only; no FREQUENCY",
         "mass21_note": "folded to T3D2 density; ccx 2.21 TYPE=MASS x PERTURBATION crashes",
         "mass21_folded_t": float(masses[:, 4].sum()),
         "bytes": dest.stat().st_size,

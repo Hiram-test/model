@@ -18,4 +18,5 @@
 
 旧 deck（焊杆 + SPRING2）运动学不是 S10，已删。
 
+本作业**只算静力**（`*STEP, NLGEOM` + `*STATIC`）。不写 `*FREQUENCY` / `PERTURBATION`。
 未收敛前不报频率，不写 STRUCTURAL_OK，不改 C4 图谱。
