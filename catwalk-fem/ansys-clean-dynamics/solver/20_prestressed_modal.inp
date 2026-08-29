@@ -1,0 +1,306 @@
+! ============================================================================
+! 张靖皋猫道 ANSYS 干净动力链：非线性平衡态线性摄动模态入口。
+! 本文件从冻结 APDL 源重新建立静力基态，再由第二载荷步末切线矩阵求模态。
+! 不恢复既有 S10 数据库，不按附件频率调参，不进入抖振。
+! 默认禁用 ROTY 数值零空间约束；必要时可将开关显式改为 1 做对照。
+! ============================================================================
+! 清空当前数据库并保留标准启动设置。
+/CLEAR,START
+! 设置本模态入口的唯一作业名。
+/FILNAME,cw_clean_modal
+! 设置可辨识英文标题。
+/TITLE,CATWALK CLEAN PRESTRESSED LINEAR PERTURBATION MODAL
+! 定义当前作业名字符参数，供统一静力后处理读取结果文件。
+CW_JOB='cw_clean_modal'
+! 定义平衡数据库名称字符参数。
+CW_EQDB='cw_clean_modal_eq'
+! 定义本入口状态文件名称字符参数。
+CW_STATUS='cw_clean_modal_status'
+! 定义本入口静力门禁文件名称字符参数。
+CW_GATE='cw_clean_modal_static_gate'
+! 默认禁用 ROTY 数值零空间约束，保持纯物理装配。
+CW_USE_ROTY_GAUGE=0
+! 设置计划提取的模态数量。
+CW_NMODES=80
+! 初始化模态入口状态文件。
+/OUTPUT,cw_clean_modal_status,txt
+! 记录输入已开始但求解器尚未完成。
+/COM,STATUS=INPUT_STARTED SOLVER_RESULT_PENDING
+! 恢复主输出文件。
+/OUTPUT
+! 读取统一物理装配入口。
+/INPUT,00_assemble_physical_model,inp
+! 读取装配后硬门禁。
+/INPUT,01_model_gate,inp
+! 进入求解处理器并建立从零荷载开始的非线性静力分析。
+/SOLU
+! 选择新的静力分析，禁止恢复既有 S10 数据库。
+ANTYPE,STATIC,NEW
+! 关闭人工稳定化，要求结构依靠物理刚度和明确的可选零空间约束达到平衡。
+STABILIZE,OFF
+! 启用大变形几何非线性，更新索网线形、轴力和几何刚度。
+NLGEOM,ON
+! 保留平衡态预应力效应，供后续线性摄动模态使用。
+PSTRES,ON
+! 使用完整 Newton-Raphson 切线迭代。
+NROPT,FULL
+! 将恒载在载荷步内平滑斜坡施加。
+KBC,0
+! 允许自动子步在收敛困难时细分。
+AUTOTS,ON
+! 启用线搜索抑制高刚度约束下的 Newton 过冲。
+LNSRCH,ON
+! 关闭位移预测器，避免索网初始加载阶段的预测放大。
+PRED,OFF
+! 将每个子步的最大平衡迭代次数设为 100。
+NEQIT,100
+! 施加正 Z 参考加速度，使结构承受负 Z 重力。
+ACEL,0,0,9806
+! 将完整恒载平衡终点定义为伪时间 1.0。
+TIME,1.0
+! 设置初始 20、最多 200、最少 20 个子步。
+NSUBST,20,200,20
+! 保存每个载荷步末的完整节点和单元场。
+OUTRES,ALL,LAST
+! 保存静力末端约束反力，供质量与重力闭合。
+OUTRES,RSOL,LAST
+! 保存全部重启动帧的载荷步末状态。
+RESCONTROL,DEFINE,ALL,LAST
+! 求解第一载荷步的非线性恒载平衡。
+SOLVE
+! 读取第一载荷步收敛标志。
+*GET,CW_CNVG1,ACTIVE,0,SOLU,CNVG
+! 第一载荷步未收敛时立即拒绝。
+*IF,CW_CNVG1,NE,1,THEN
+! 写出第一载荷步未收敛状态。
+/OUTPUT,%CW_STATUS%,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=STATIC_PRELOAD_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第一载荷步收敛门禁分支。
+*ENDIF
+! 明确保持关闭人工稳定化。
+STABILIZE,OFF
+! 将无新增外载保持步终点设为伪时间 1.001。
+TIME,1.001
+! 重发相同重力加速度，明确保持步外载不变。
+ACEL,0,0,9806
+! 保持斜坡定义；因起终点重力相同，实际外载增量为零。
+KBC,0
+! 关闭自动时间步，禁止 cutback 掩盖保持步失稳。
+AUTOTS,OFF
+! 设置一个固定保持子步。
+NSUBST,1,1,1
+! 保存保持步末完整场。
+OUTRES,ALL,LAST
+! 保存保持步末约束反力。
+OUTRES,RSOL,LAST
+! 保存保持步末重启动状态。
+RESCONTROL,DEFINE,ALL,LAST
+! 求解第二载荷步的零增量静力保持。
+SOLVE
+! 读取第二载荷步收敛标志。
+*GET,CW_CNVG2,ACTIVE,0,SOLU,CNVG
+! 第二载荷步未收敛时立即拒绝。
+*IF,CW_CNVG2,NE,1,THEN
+! 写出第二载荷步未收敛状态。
+/OUTPUT,%CW_STATUS%,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=STATIC_HOLD_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第二载荷步收敛门禁分支。
+*ENDIF
+! 在仍处于求解处理器且尚未进入 POST1 时保存平衡数据库候选。
+SAVE,%CW_EQDB%,db
+! 离开求解处理器，进入静力结果闭合检查。
+FINISH
+
+! 进入通用后处理器读取第二载荷步末平衡状态。
+/POST1
+! 显式指定当前作业的静力结果文件。
+FILE,%CW_JOB%,rst
+! 读取第二载荷步最后结果集。
+SET,2,LAST
+! 恢复全部节点和单元选择。
+ALLSEL,ALL
+! 读取完整模型 X 向平动质量，单位为 tonne。
+*GET,CW_MTOT,ELEM,0,MTOT,X
+! 设置冻结源模型的总质量合同，单位为 tonne。
+CW_MEXP=4108.46690758
+! 计算总质量绝对误差。
+CW_MERR=ABS(CW_MTOT-CW_MEXP)
+! 选择全部具有 UZ 约束的物理支承节点。
+NSEL,S,D,UZ
+! 读取 UZ 支承节点数量。
+*GET,CW_QN,NODE,0,COUNT
+! 读取所选支承集合中的最小节点号。
+*GET,CW_NODE,NODE,0,NUM,MIN
+! 初始化竖向约束反力总和。
+CW_RFZ=0
+! 逐个累加 UZ 支承节点的 Z 向约束反力。
+*DO,CW_I,1,CW_QN
+! 读取当前支承节点的 Z 向约束反力。
+*GET,CW_RF,NODE,CW_NODE,RF,FZ
+! 将当前支承反力加入全模型总和。
+CW_RFZ=CW_RFZ+CW_RF
+! 读取所选支承集合中的下一节点号。
+*GET,CW_NODE,NODE,CW_NODE,NXTH
+! 结束支承反力累加循环。
+*ENDDO
+! 恢复全部实体选择。
+ALLSEL,ALL
+! 按冻结 S10 口径计算质量对应的理论重力。
+CW_RFEXP=CW_MTOT*9806
+! 计算实际反力与理论重力的有符号差。
+CW_RFERR=CW_RFZ-CW_RFEXP
+! 以理论重力绝对值构造相对误差分母。
+CW_RFDEN=ABS(CW_RFEXP)
+! 在理论重力过小时设置数值保护分母。
+*IF,CW_RFDEN,LT,1.0,THEN
+! 将反力相对误差分母设为 1 N。
+CW_RFDEN=1.0
+! 结束反力分母数值保护分支。
+*ENDIF
+! 计算竖向反力相对闭合误差。
+CW_RFREL=ABS(CW_RFERR)/CW_RFDEN
+! 将静力闭合结果写入固定状态文件。
+/OUTPUT,%CW_GATE%,txt
+! 写出两步收敛标志、质量、反力和支承数量。
+*VWRITE,CW_CNVG1,CW_CNVG2,CW_MTOT,CW_MERR,CW_RFZ,CW_RFEXP,CW_RFREL,CW_QN,CW_USE_ROTY_GAUGE
+('CNVG1=',F4.0,', CNVG2=',F4.0,', MASS=',E24.16,', MERR=',E24.16,', RFZ=',E24.16,', RFEXP=',E24.16,', RFREL=',E24.16,', UZSUP=',F12.0,', GAUGE=',F4.0)
+! 恢复主输出文件。
+/OUTPUT
+! 总质量绝对误差超过 1E-6 tonne 时拒绝。
+*IF,CW_MERR,GT,1.0E-6,THEN
+! 写出总质量不闭合拒绝状态。
+/OUTPUT,%CW_GATE%,txt,,APPEND
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=TOTAL_MASS_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束总质量门禁分支。
+*ENDIF
+! 竖向支承节点数不等于 464 时拒绝。
+*IF,CW_QN,NE,464,THEN
+! 写出支承数量不闭合拒绝状态。
+/OUTPUT,%CW_GATE%,txt,,APPEND
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=UZ_SUPPORT_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束支承数量门禁分支。
+*ENDIF
+! 竖向反力相对误差超过 1E-4 时拒绝。
+*IF,CW_RFREL,GT,1.0E-4,THEN
+! 写出反力不闭合拒绝状态。
+/OUTPUT,%CW_GATE%,txt,,APPEND
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=GRAVITY_REACTION_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束反力闭合门禁分支。
+*ENDIF
+! 写出静力门禁通过状态。
+/OUTPUT,%CW_GATE%,txt,,APPEND
+! 标记静力闭合通过，但不标记动力或抖振通过。
+/COM,STATUS=STATIC_GATE_PASSED DYNAMIC_NOT_RUN
+! 恢复主输出文件。
+/OUTPUT
+! 离开通用后处理器。
+FINISH
+! 恢复进入 POST1 之前保存的平衡数据库，避免结果读取改变数据库中的边界条件状态。
+RESUME,%CW_EQDB%,db
+! 进入求解处理器，从第二载荷步最后子步启动线性摄动重启动。
+/SOLU
+! 指定线性摄动从第二载荷步最后可用子步恢复。
+ANTYPE,,RESTART,2,,PERTURB
+! 选择模态型线性摄动并保留已有参数。
+PERTURB,MODAL,,,PARKEEP
+! 重构最终非线性平衡态的切线单元矩阵。
+SOLVE,ELFORM
+! 使用一致质量矩阵，避免集中质量近似改变低阶谱。
+LUMPM,OFF
+! 使用 Block Lanczos 提取 80 阶最低模态。
+MODOPT,LANB,CW_NMODES
+! 展开全部请求模态并保存单元结果。
+MXPAND,CW_NMODES,,,YES
+! 关闭默认的冗余结果输出。
+OUTRES,ALL,NONE
+! 保存全部请求模态的节点解。
+OUTRES,NSOL,ALL
+! 保存全部请求模态的单元能量。
+OUTRES,VENG,ALL
+! 执行线性摄动模态第二阶段求解。
+SOLVE
+! 离开求解处理器并完成并行结果合并。
+FINISH
+! 进入通用后处理器读取线性摄动结果文件。
+/POST1
+! 显式指定本作业的 RSTP 文件。
+FILE,cw_clean_modal,rstp
+! 激活最后一个模态结果集。
+SET,LAST
+! 读取实际可用模态结果集数量。
+*GET,CW_AVAILABLE,ACTIVE,0,SET,NSET
+! 将实际可用模态数量写入导出状态文件。
+/OUTPUT,cw_clean_modal_export,txt
+! 写出请求数量和实际可用数量。
+*VWRITE,CW_NMODES,CW_AVAILABLE,CW_USE_ROTY_GAUGE
+('REQUESTED=',F12.0,', AVAILABLE=',F12.0,', GAUGE=',F4.0)
+! 恢复主输出文件。
+/OUTPUT
+! 实际结果集数量不等于请求数量时立即拒绝。
+*IF,CW_AVAILABLE,NE,CW_NMODES,THEN
+! 写出模态结果数量不闭合状态。
+/OUTPUT,cw_clean_modal_export,txt,,APPEND
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=MODAL_RESULT_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束模态数量门禁分支。
+*ENDIF
+! 将原生模态结果集列表写入独立文件。
+/OUTPUT,cw_clean_modal_set_list,txt
+! 列出全部模态结果集和频率。
+SET,LIST
+! 恢复主输出文件。
+/OUTPUT
+! 打开无标题频率 CSV 文件。
+*CFOPEN,cw_clean_modal_frequencies,csv
+! 逐阶读取并写出实际模态频率。
+*DO,CW_I,1,CW_AVAILABLE
+! 激活当前模态结果集。
+SET,1,CW_I
+! 读取当前模态频率，单位为 Hz。
+*GET,CW_FREQ,ACTIVE,0,SET,FREQ
+! 写出模态序号和频率两列。
+*VWRITE,CW_I,CW_FREQ
+(F8.0,',',E24.16)
+! 结束模态频率导出循环。
+*ENDDO
+! 关闭并刷新频率 CSV 文件。
+*CFCLOS
+! 写出模态入口完成状态。
+/OUTPUT,cw_clean_modal_status,txt
+! 标记模态输入链执行完成，但不声明与附件频率一致。
+/COM,STATUS=MODAL_INPUT_COMPLETED COMPARISON_NOT_PERFORMED
+! 恢复主输出文件。
+/OUTPUT
+! 离开通用后处理器。
+FINISH
+! 退出当前批处理作业且不保存新的数据库副本。
+/EXIT,NOSAVE
