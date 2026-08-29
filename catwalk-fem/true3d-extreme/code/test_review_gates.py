@@ -237,6 +237,17 @@ def test_run_status_and_baseline_lock():
     assert "WAVE4_REQUIRED_ANCESTOR" in plan
     assert "test_review_gates.py" in plan
     assert "3a4250e9" in plan
+    # This branch is a linear descendant of 3a4250e, not a squash.
+    for rel, text in (
+        ("artifacts/RUN_STATUS.md", run),
+        ("FOLLOW_FABLE_PLAN.txt", plan),
+        ("REVIEW_BASELINE.md", (BASE / "REVIEW_BASELINE.md").read_text()),
+        ("artifacts/gp4_error_ledger.md", (ART / "gp4_error_ledger.md").read_text()),
+    ):
+        assert "ancestry is lost" not in text, rel
+        assert "official 1-commit squash" not in text, rel
+        assert "为单提交压扁" not in text, rel
+        assert "不是 git 祖先" not in text, rel
 
 
 def test_coarsen2_ledger_cited_and_portal_glyph():

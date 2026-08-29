@@ -27,9 +27,9 @@ Follow-on same day, all on the new modal basis:
 
 `.frd` is local-only (179 MB). Rebuild: `bash code/run_solver.sh`.
 
-This session (continue from official HEAD `dd59aac`, do not rewind the tree):
+This session (continue from `5e60b1e` / `38728e7`, do not rewind the tree):
 - Did not re-run S10→ccx, Table 4-1 pairing, 43-sweep, or COARSEN=2.
 - G-P4 remains FAIL: error ledger `artifacts/gp4_error_ledger.json` (`stop=true`, `conclusion_allowed=false`).
 - External RMS input is a three-station placeholder (`attach23_rms_digitized.csv`); C-level stays unverified_C.
 - A1–A4 and the locked 14-row pairing table backfilled into `report/true3d_three_workshops_cn.tex` as comparison records only.
-- Wave-4 git ancestry is lost in the official 1-commit squash; content lock stays. Do not rebase onto `3a4250e`.
+- Wave-4 SHA `3a4250e9` is still a git ancestor (`merge-base --is-ancestor` exit 0). Do not claim a 1-commit squash; do not rebase onto an older tree.
