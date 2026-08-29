@@ -20,3 +20,19 @@
 
 本作业**只算静力**（`*STEP, NLGEOM` + `*STATIC`）。不写 `*FREQUENCY` / `PERTURBATION`。
 未收敛前不报频率，不写 STRUCTURAL_OK，不改 C4 图谱。
+
+## 静力尝试（未完成，不是 G-P3）
+
+Deck sha `07e34750…`。ccx 2.21。作业目录 `/cursor/stores/self/true3d_full_static/`（不覆盖 C4）。
+
+2026-08-29T13:23:23Z 一次活着的 stdout（stdbuf 行缓冲）读到：
+
+- cascade **INFO**（不是 ERROR）：线性与非线性 MPC 共用节点 `2029627` 方向 2
+- increment 1 / iteration 1，步长 1.0
+- **2,827,600** 方程，下三角非零元 **45,500,968**
+- 对称 spooles，4 CPU，RSS 约 13.4 GB / 15 GB（无 swap）
+
+约 5 分钟后环境把 `/workspace` 强制切到 `cursor/table41-fable5-diff-d416` 并杀掉 ccx。`.sta` 仍空，没有牛顿残差，没有真实 `Job finished`。
+
+14.66 s、17970 节点、0 单元的那次 `Job finished` 仍是假的，不能当 G-P3。
+G-P3 = FAIL（进程被杀，不是发散）。不写频率，不改 C4。
