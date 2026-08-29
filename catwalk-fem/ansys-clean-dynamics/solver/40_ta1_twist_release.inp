@@ -1,0 +1,301 @@
+! ============================================================================
+! 张靖皋猫道 ANSYS 干净动力链：TA1 型反对称扭转载荷释放入口。
+! 本文件不使用附件频率强配振型，而是在十个实体索探针上建立可审计的低阶反对称扭转位移。
+! 所有强制位移均以已求得平衡位移为基准叠加，避免把绝对位移误当作增量位移。
+! 两个相同的激励保持步用于形成近零初速度；随后删除临时 UZ 约束并打开全瞬态积分。
+! ============================================================================
+! 清空当前数据库并保留标准启动设置。
+/CLEAR,START
+! 设置本 TA1 型释放入口的唯一作业名。
+/FILNAME,cw_clean_ta1
+! 设置可辨识英文标题。
+/TITLE,CATWALK CLEAN TA1 LIKE ANTISYMMETRIC TORSION RELEASE
+! 默认禁用 ROTY 数值零空间约束，保持纯物理装配。
+CW_USE_ROTY_GAUGE=0
+! 设置单幅竖向峰值叠加位移，单位为 mm。
+CW_TWIST_AMP_MM=10.0
+! 设置释放后的无外加动力荷载计算时长，单位为 s。
+CW_RELEASE_TIME=120.0
+! 设置固定动力时间步，单位为 s。
+CW_DT=0.05
+! 设置结果每十个动力子步保存一次。
+CW_OUT_EVERY=10
+! 初始化 TA1 型释放状态文件。
+/OUTPUT,cw_clean_ta1_status,txt
+! 记录输入已开始但求解器尚未完成。
+/COM,STATUS=INPUT_STARTED SOLVER_RESULT_PENDING
+! 恢复主输出文件。
+/OUTPUT
+! 读取统一物理装配入口。
+/INPUT,00_assemble_physical_model,inp
+! 读取装配后硬门禁。
+/INPUT,01_model_gate,inp
+! 读取十个主跨索系探针节点。
+/INPUT,02_define_probe_nodes,inp
+! 定义五个顺桥反对称扭转形状系数。
+*DIM,CW_SHAPE,ARRAY,5
+! 设置主跨近端形状系数。
+CW_SHAPE(1)=-0.5
+! 设置第一四分点形状系数。
+CW_SHAPE(2)=-1.0
+! 设置跨中反对称节点形状系数。
+CW_SHAPE(3)=0.0
+! 设置第二四分点形状系数。
+CW_SHAPE(4)=1.0
+! 设置主跨远端形状系数。
+CW_SHAPE(5)=0.5
+! 进入求解处理器并建立新的 full-transient 分析。
+/SOLU
+! 选择新的全瞬态结构分析。
+ANTYPE,TRANS,NEW
+! 使用 full 方法和默认 Newmark 时间积分。
+TRNOPT,FULL
+! 使用一致质量矩阵。
+LUMPM,OFF
+! 启用大变形几何非线性。
+NLGEOM,ON
+! 关闭人工稳定化。
+STABILIZE,OFF
+! 保留预应力效应和当前切线刚度。
+PSTRES,ON
+! 使用完整 Newton-Raphson 切线迭代。
+NROPT,FULL
+! 启用线搜索。
+LNSRCH,ON
+! 关闭位移预测器。
+PRED,OFF
+! 将每个子步最大平衡迭代次数设为 100。
+NEQIT,100
+! 在预加载阶段关闭时间积分，将该阶段作为静力平衡。
+TIMINT,OFF
+! 采用斜坡方式施加恒载。
+KBC,0
+! 允许自动子步细分。
+AUTOTS,ON
+! 施加正 Z 参考加速度，使结构承受负 Z 重力。
+ACEL,0,0,9806
+! 将非线性恒载平衡终点定义为时间 1.0 s。
+TIME,1.0
+! 设置初始 20、最多 200、最少 20 个静力子步。
+NSUBST,20,200,20
+! 保存预加载载荷步末完整结果。
+OUTRES,ALL,LAST
+! 保存预加载载荷步末重启动状态。
+RESCONTROL,DEFINE,ALL,LAST
+! 求解第一载荷步的非线性静力预加载。
+SOLVE
+! 读取第一载荷步收敛标志。
+*GET,CW_CNVG1,ACTIVE,0,SOLU,CNVG
+! 第一载荷步未收敛时立即拒绝。
+*IF,CW_CNVG1,NE,1,THEN
+! 写出预加载未收敛状态。
+/OUTPUT,cw_clean_ta1_status,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=TRANSIENT_PRELOAD_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第一载荷步收敛门禁分支。
+*ENDIF
+! 保持时间积分关闭，建立零增量平衡保持步。
+TIMINT,OFF
+! 将平衡保持步终点设为时间 1.001 s。
+TIME,1.001
+! 重发相同重力加速度，保持外载不变。
+ACEL,0,0,9806
+! 关闭自动时间步。
+AUTOTS,OFF
+! 设置一个固定保持子步。
+NSUBST,1,1,1
+! 保存平衡保持步末完整结果。
+OUTRES,ALL,LAST
+! 保存平衡保持步末重启动状态。
+RESCONTROL,DEFINE,ALL,LAST
+! 求解第二载荷步的零增量平衡保持。
+SOLVE
+! 读取第二载荷步收敛标志。
+*GET,CW_CNVG2,ACTIVE,0,SOLU,CNVG
+! 第二载荷步未收敛时立即拒绝。
+*IF,CW_CNVG2,NE,1,THEN
+! 写出平衡保持步未收敛状态。
+/OUTPUT,cw_clean_ta1_status,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=STATIC_HOLD_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第二载荷步收敛门禁分支。
+*ENDIF
+! 离开求解处理器，读取十个探针的真实平衡位移。
+FINISH
+! 进入通用后处理器读取第二载荷步末结果。
+/POST1
+! 显式指定当前 TA1 型作业结果文件。
+FILE,cw_clean_ta1,rst
+! 读取第二载荷步最后结果集。
+SET,2,LAST
+! 定义十个探针的平衡态竖向位移数组。
+*DIM,CW_UZ_EQ,ARRAY,10
+! 逐个读取十个探针的平衡态 UZ。
+*DO,CW_I,1,10
+! 读取当前探针的平衡态竖向位移。
+*GET,CW_UZ_EQ(CW_I),NODE,CW_PROBE(CW_I),U,Z
+! 结束平衡态位移读取循环。
+*ENDDO
+! 离开后处理器，返回同一个全瞬态分析。
+FINISH
+! 重新进入求解处理器，施加相对平衡态的反对称扭转位移。
+/SOLU
+! 保持时间积分关闭，使位移激励阶段仍为非线性静力。
+TIMINT,OFF
+! 将反对称扭转位移激励终点设为时间 2.0 s。
+TIME,2.0
+! 使用斜坡方式施加临时位移约束。
+KBC,0
+! 允许位移激励阶段自动细分。
+AUTOTS,ON
+! 设置初始 20、最多 200、最少 20 个位移激励子步。
+NSUBST,20,200,20
+! 逐站在正负 Y 两幅猫道上施加方向相反的增量竖向位移。
+*DO,CW_I,1,5
+! 将正 Y 幅绝对 UZ 设为平衡 UZ 加当前形状增量。
+D,CW_PROBE(CW_I),UZ,CW_UZ_EQ(CW_I)+CW_TWIST_AMP_MM*CW_SHAPE(CW_I)
+! 将负 Y 幅绝对 UZ 设为平衡 UZ 减当前形状增量。
+D,CW_PROBE(CW_I+5),UZ,CW_UZ_EQ(CW_I+5)-CW_TWIST_AMP_MM*CW_SHAPE(CW_I)
+! 结束五个顺桥站位临时位移约束循环。
+*ENDDO
+! 保存位移激励步末完整结果。
+OUTRES,ALL,LAST
+! 保存位移激励步末重启动状态。
+RESCONTROL,DEFINE,ALL,LAST
+! 求解第三载荷步的非线性反对称扭转位移激励。
+SOLVE
+! 读取第三载荷步收敛标志。
+*GET,CW_CNVG3,ACTIVE,0,SOLU,CNVG
+! 位移激励未收敛时立即拒绝。
+*IF,CW_CNVG3,NE,1,THEN
+! 写出位移激励未收敛状态。
+/OUTPUT,cw_clean_ta1_status,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=TWIST_EXCITATION_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第三载荷步收敛门禁分支。
+*ENDIF
+! 保持时间积分关闭并保持相同临时位移，形成第一个零速度保持点。
+TIMINT,OFF
+! 将第一个激励保持步终点设为时间 2.001 s。
+TIME,2.001
+! 关闭自动时间步。
+AUTOTS,OFF
+! 设置一个固定保持子步。
+NSUBST,1,1,1
+! 保存第一个激励保持步末完整结果。
+OUTRES,ALL,LAST
+! 保存第一个激励保持步末重启动状态。
+RESCONTROL,DEFINE,ALL,LAST
+! 求解第四载荷步的第一个激励保持。
+SOLVE
+! 读取第四载荷步收敛标志。
+*GET,CW_CNVG4,ACTIVE,0,SOLU,CNVG
+! 第一个激励保持未收敛时立即拒绝。
+*IF,CW_CNVG4,NE,1,THEN
+! 写出第一个激励保持未收敛状态。
+/OUTPUT,cw_clean_ta1_status,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=FIRST_EXCITED_HOLD_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第四载荷步收敛门禁分支。
+*ENDIF
+! 保持时间积分关闭并保持相同临时位移，形成第二个零速度保持点。
+TIMINT,OFF
+! 将第二个激励保持步终点设为时间 2.002 s。
+TIME,2.002
+! 保持一个固定子步。
+NSUBST,1,1,1
+! 保存第二个激励保持步末完整结果。
+OUTRES,ALL,LAST
+! 保存第二个激励保持步末重启动状态。
+RESCONTROL,DEFINE,ALL,LAST
+! 求解第五载荷步的第二个激励保持。
+SOLVE
+! 读取第五载荷步收敛标志。
+*GET,CW_CNVG5,ACTIVE,0,SOLU,CNVG
+! 第二个激励保持未收敛时立即拒绝。
+*IF,CW_CNVG5,NE,1,THEN
+! 写出第二个激励保持未收敛状态。
+/OUTPUT,cw_clean_ta1_status,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=SECOND_EXCITED_HOLD_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第五载荷步收敛门禁分支。
+*ENDIF
+! 保存释放前的有限振幅变形数据库快照。
+SAVE,cw_clean_ta1_excited,db
+! 逐站删除十个探针上的临时 UZ 位移约束。
+*DO,CW_I,1,5
+! 删除正 Y 幅当前探针的临时 UZ 约束。
+DDELE,CW_PROBE(CW_I),UZ
+! 删除负 Y 幅当前探针的临时 UZ 约束。
+DDELE,CW_PROBE(CW_I+5),UZ
+! 结束临时 UZ 约束删除循环。
+*ENDDO
+! 打开结构时间积分，开始无新增动力荷载释放响应。
+TIMINT,ON
+! 关闭自动时间步，使用固定时间增量。
+AUTOTS,OFF
+! 将保留的恒载在释放步内保持为阶跃常值。
+KBC,1
+! 将质量比例阻尼设为零，避免预设阻尼改变识别频率。
+ALPHAD,0
+! 将刚度比例阻尼设为零，避免预设阻尼改变识别频率。
+BETAD,0
+! 设置固定动力时间步及相同的最小、最大步长。
+DELTIM,CW_DT,CW_DT,CW_DT
+! 将释放响应终点设置为当前激励时间加释放时长。
+TIME,2.002+CW_RELEASE_TIME
+! 关闭默认全场结果输出。
+OUTRES,ALL,NONE
+! 每十个动力子步保存一次节点解。
+OUTRES,NSOL,CW_OUT_EVERY
+! 每十个动力子步保存一次约束反力。
+OUTRES,RSOL,CW_OUT_EVERY
+! 每十个动力子步保存一次能量结果。
+OUTRES,VENG,CW_OUT_EVERY
+! 求解第六载荷步的有限振幅无外加动力荷载释放响应。
+SOLVE
+! 读取释放响应步收敛标志。
+*GET,CW_CNVG6,ACTIVE,0,SOLU,CNVG
+! 释放响应未收敛时立即拒绝。
+*IF,CW_CNVG6,NE,1,THEN
+! 写出释放响应未收敛状态。
+/OUTPUT,cw_clean_ta1_status,txt
+! 记录唯一拒绝原因。
+/COM,STATUS=REJECTED REASON=TA1_RELEASE_TRANSIENT_NOT_CONVERGED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束第六载荷步收敛门禁分支。
+*ENDIF
+! 离开求解处理器。
+FINISH
+! 写出 TA1 型释放入口完成状态。
+/OUTPUT,cw_clean_ta1_status,txt
+! 写出六个载荷步收敛标志、激励幅值和零空间开关。
+*VWRITE,CW_CNVG1,CW_CNVG2,CW_CNVG3,CW_CNVG4,CW_CNVG5,CW_CNVG6,CW_TWIST_AMP_MM,CW_USE_ROTY_GAUGE
+('STATUS=TA1_RELEASE_COMPLETED, CNVG=',6(F4.0,','),', AMP_MM=',E24.16,', GAUGE=',F4.0)
+! 恢复主输出文件。
+/OUTPUT
+! 退出当前批处理作业且不重复保存数据库。
+/EXIT,NOSAVE
