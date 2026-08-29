@@ -1,0 +1,204 @@
+! ============================================================================
+! 张靖皋猫道 ANSYS 干净动力链：装配后硬门禁。
+! 本文件不求解，只核对拓扑、单元族、支承和可选 ROTY 零空间约束数量。
+! 任一合同不满足时立即退出，不保存错误数据库。
+! ============================================================================
+! 进入前处理器读取完整装配后的实体身份。
+/PREP7
+! 恢复全部节点和单元选择，保证计数覆盖全模型。
+ALLSEL,ALL
+! 读取完整节点总数，冻结合同为 109086。
+*GET,CW_NCOUNT,NODE,0,COUNT
+! 读取完整单元总数，冻结合同为 172994。
+*GET,CW_ECOUNT,ELEM,0,COUNT
+! 只选择 LINK180 索单元。
+ESEL,S,TYPE,,4
+! 读取 LINK180 索单元数量，冻结合同为 73692。
+*GET,CW_T4,ELEM,0,COUNT
+! 恢复全部实体，避免上一选择影响下一单元族计数。
+ALLSEL,ALL
+! 只选择 BEAM188 横梁单元。
+ESEL,S,TYPE,,6
+! 读取 BEAM188 横梁单元数量，冻结合同为 48620。
+*GET,CW_T6,ELEM,0,COUNT
+! 恢复全部实体，避免上一选择影响下一单元族计数。
+ALLSEL,ALL
+! 只选择门架与横向通道有限构件单元。
+ESEL,S,TYPE,,70
+! 读取门架与横向通道有限构件数量，冻结合同为 17679。
+*GET,CW_T70,ELEM,0,COUNT
+! 恢复全部实体，避免上一选择影响下一单元族计数。
+ALLSEL,ALL
+! 只选择空间化动力集中质量单元。
+ESEL,S,TYPE,,71
+! 读取空间化动力集中质量数量，冻结合同为 33003。
+*GET,CW_T71,ELEM,0,COUNT
+! 恢复全部实体，准备检查位移约束集合。
+ALLSEL,ALL
+! 选择具有竖向位移约束的支承节点。
+NSEL,S,D,UZ
+! 读取竖向支承节点数量，冻结合同为 464。
+*GET,CW_NUZ,NODE,0,COUNT
+! 恢复全部实体，准备检查 ROTY 约束。
+ALLSEL,ALL
+! 选择具有 ROTY 位移约束的节点。
+NSEL,S,D,ROTY
+! 读取当前 ROTY 约束节点数量。
+*GET,CW_NROTY,NODE,0,COUNT
+! 恢复全部实体，避免门禁选择状态进入求解。
+ALLSEL,ALL
+! 将装配合同写入固定状态文件，便于批处理后直接读取。
+/OUTPUT,cw_clean_model_gate,txt
+! 说明下一条写出命令的字段顺序。
+*VWRITE,CW_NCOUNT,CW_ECOUNT,CW_T4,CW_T6,CW_T70,CW_T71,CW_NUZ,CW_NROTY,CW_USE_ROTY_GAUGE
+('NODES=',F12.0,', ELEMS=',F12.0,', T4=',F12.0,', T6=',F12.0,', T70=',F12.0,', T71=',F12.0,', UZSUP=',F12.0,', ROTY=',F12.0,', GAUGE=',F4.0)
+! 恢复主输出文件。
+/OUTPUT
+! 拒绝未设置为 0 或 1 的零空间约束开关。
+*IF,CW_USE_ROTY_GAUGE,LT,0,THEN
+! 写出非法开关拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=INVALID_ROTY_GAUGE_FLAG
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束非法开关下界分支。
+*ENDIF
+! 拒绝大于 1 的零空间约束开关。
+*IF,CW_USE_ROTY_GAUGE,GT,1,THEN
+! 写出非法开关拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=INVALID_ROTY_GAUGE_FLAG
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束非法开关上界分支。
+*ENDIF
+! 检查完整节点数量是否与冻结源合同一致。
+*IF,CW_NCOUNT,NE,109086,THEN
+! 写出节点数量拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=NODE_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束节点数量门禁分支。
+*ENDIF
+! 检查完整单元数量是否与冻结源合同一致。
+*IF,CW_ECOUNT,NE,172994,THEN
+! 写出单元数量拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=ELEMENT_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束单元数量门禁分支。
+*ENDIF
+! 检查 LINK180 索单元数量。
+*IF,CW_T4,NE,73692,THEN
+! 写出 LINK180 数量拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=TYPE4_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束 LINK180 数量门禁分支。
+*ENDIF
+! 检查 BEAM188 横梁单元数量。
+*IF,CW_T6,NE,48620,THEN
+! 写出 BEAM188 数量拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=TYPE6_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束 BEAM188 数量门禁分支。
+*ENDIF
+! 检查门架与横向通道有限构件数量。
+*IF,CW_T70,NE,17679,THEN
+! 写出 TYPE70 数量拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=TYPE70_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束 TYPE70 数量门禁分支。
+*ENDIF
+! 检查空间化动力集中质量数量。
+*IF,CW_T71,NE,33003,THEN
+! 写出 TYPE71 数量拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=TYPE71_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束 TYPE71 数量门禁分支。
+*ENDIF
+! 检查竖向物理支承节点数量。
+*IF,CW_NUZ,NE,464,THEN
+! 写出竖向支承数量拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=UZ_SUPPORT_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束竖向支承数量门禁分支。
+*ENDIF
+! 在纯物理装配模式下要求不存在任何 ROTY 人工基准约束。
+*IF,CW_USE_ROTY_GAUGE,EQ,0,THEN
+! 检查纯物理装配下 ROTY 约束数量必须为零。
+*IF,CW_NROTY,NE,0,THEN
+! 写出纯物理装配被污染的拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=UNEXPECTED_ROTY_CONSTRAINT_IN_PHYSICAL_MODEL
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束纯物理装配 ROTY 数量门禁分支。
+*ENDIF
+! 结束纯物理装配模式分支。
+*ENDIF
+! 在零空间诊断模式下要求完整读取 2860 个 ROTY 基准约束。
+*IF,CW_USE_ROTY_GAUGE,EQ,1,THEN
+! 检查诊断模式下 ROTY 约束数量必须为 2860。
+*IF,CW_NROTY,NE,2860,THEN
+! 写出零空间约束不完整的拒绝原因。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 将拒绝状态追加到模型门禁文件。
+/COM,STATUS=REJECTED REASON=ROTY_GAUGE_COUNT_MISMATCH
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束诊断模式 ROTY 数量门禁分支。
+*ENDIF
+! 结束零空间诊断模式分支。
+*ENDIF
+! 写出全部装配合同通过状态。
+/OUTPUT,cw_clean_model_gate,txt,,APPEND
+! 标记模型装配门禁通过，但不代表任何数值求解已经完成。
+/COM,STATUS=ASSEMBLY_GATE_PASSED SOLVER_NOT_RUN
+! 恢复主输出文件。
+/OUTPUT
+! 离开前处理器，将控制权交还上层求解入口。
+FINISH

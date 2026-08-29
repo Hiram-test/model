@@ -1,0 +1,41 @@
+! ============================================================================
+! 张靖皋猫道 ANSYS 干净动力链：统一物理装配入口。
+! 本文件只装配模型，不执行静力、模态、瞬态或抖振求解。
+! 运行工作目录必须设置为本包 solver 目录。
+! 参数 CW_USE_ROTY_GAUGE 必须由上层入口预先设置为 0 或 1。
+! 0 表示纯物理装配；1 表示额外启用显式 ROTY 零空间约束诊断。
+! ============================================================================
+! 进入前处理器，确保后续源文件在统一装配环境中读取。
+/PREP7
+! 读取冻结的四跨双幅猫道基础节点、索网和横梁拓扑。
+/INPUT,../../../ultra_runs/S10_SECTION_SHEAR_20260716T050342389124Z/solver/full_line_beam4_crossbeam_mesh_xlong,inp
+! 将旧 BEAM4 横梁等截面转换为 BEAM188，保持节点、拓扑、面积和双向惯性矩。
+/INPUT,../../../ultra_runs/S10_SECTION_SHEAR_20260716T050342389124Z/solver/convert_crossbeams_beam4_to_beam188,inp
+! 装配四组主塔猫道下拉索及其物理平动耦合。
+/INPUT,../../../ultra_runs/S10_SECTION_SHEAR_20260716T050342389124Z/solver/apply_mct_downpull_equivalent_xlong,inp
+! 装配由 MCT 坐标映射得到的真实平动支承条件。
+/INPUT,../../../ultra_runs/S10_SECTION_SHEAR_20260716T050342389124Z/solver/apply_mct_constraints_xlong,inp
+! 将权威 MCT 初始轴力映射为 44 根实体 LINK180 索的初始应力。
+/INPUT,../../../ultra_runs/S10_SECTION_SHEAR_20260716T050342389124Z/solver/apply_mct_authoritative_initial_state_link180,inp
+! 装配 142 道门架和 21 道横向通道的有限构件与连接关系。
+/INPUT,../../../ultra_runs/S10_SECTION_SHEAR_20260716T050342389124Z/solver/apply_finite_gates_and_passages_v2,inp
+! 装配权威恒载密度和节点恒载，并清除旧的重复质量与节点力。
+/INPUT,../../../ultra_runs/S10_SECTION_SHEAR_20260716T050342389124Z/solver/apply_authoritative_mct_deadload_v1,inp
+! 在原空间位置装配 33003 个动力集中质量单元，保留质心和横向质量分布。
+/INPUT,../../../ultra_runs/S10_SECTION_SHEAR_20260716T050342389124Z/solver/apply_dynamic_mass21_spatialized_v2,inp
+! 再次进入前处理器，消除各源文件内部 FINISH 命令造成的处理器状态差异。
+/PREP7
+! 恢复全部节点和单元选择，防止源文件遗留局部选择集。
+ALLSEL,ALL
+! 仅在上层明确要求数值零空间诊断时读取横梁 ROTY 基准约束。
+*IF,CW_USE_ROTY_GAUGE,EQ,1,THEN
+! 读取 2860 个横梁轴向自旋基准约束；该文件不是物理连接定义。
+/INPUT,../../../ultra_runs/S10_SECTION_SHEAR_20260716T050342389124Z/solver/apply_modal_roty_stabilization_xlong,inp
+! 结束可选零空间约束分支。
+*ENDIF
+! 再次进入前处理器，确保可选文件结束后模型处于可审计状态。
+/PREP7
+! 恢复全部实体选择，供后续统一门禁计数。
+ALLSEL,ALL
+! 离开前处理器，将求解控制权交还给上层入口。
+FINISH

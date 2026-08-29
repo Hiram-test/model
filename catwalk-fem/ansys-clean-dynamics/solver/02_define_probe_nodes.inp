@@ -1,0 +1,155 @@
+! ============================================================================
+! 张靖皋猫道 ANSYS 干净动力链：十个主跨索系探针的确定性选择。
+! 五个顺桥站位分别在主跨近端、四分点、跨中、四分点和远端附近。
+! 每个站位分别选择正 Y 与负 Y 猫道承重索上的最小节点号。
+! 本文件只定义参数和探针节点，不施加载荷、不施加约束、不求解。
+! ============================================================================
+! 进入前处理器以便按元素族和坐标筛选节点。
+/PREP7
+! 定义五个顺桥目标坐标数组。
+*DIM,CW_XS,ARRAY,5
+! 设置主跨近端目标坐标，单位为 mm。
+CW_XS(1)=372853
+! 设置第一四分点目标坐标，单位为 mm。
+CW_XS(2)=1272409
+! 设置主跨跨中目标坐标，单位为 mm。
+CW_XS(3)=1847909
+! 设置第二四分点目标坐标，单位为 mm。
+CW_XS(4)=2423409
+! 设置主跨远端目标坐标，单位为 mm。
+CW_XS(5)=3361547
+! 定义十个探针节点号数组，前五个为正 Y 幅，后五个为负 Y 幅。
+*DIM,CW_PROBE,ARRAY,10
+! 逐站选择正 Y 与负 Y 两幅猫道的承重索节点。
+*DO,CW_K,1,5
+! 恢复全部节点和单元，避免上一站位选择残留。
+ALLSEL,ALL
+! 只选择 LINK180 索单元。
+ESEL,S,TYPE,,4
+! 将所选 LINK180 单元关联节点加入节点选择。
+NSLE,S
+! 将节点限制在当前目标站位前后 1500 mm 的顺桥窗口。
+NSEL,R,LOC,X,CW_XS(CW_K)-1500,CW_XS(CW_K)+1500
+! 将节点限制在正 Y 猫道承重索横向带。
+NSEL,R,LOC,Y,18000,25000
+! 读取正 Y 横向带内候选节点数量。
+*GET,CW_NC,NODE,0,COUNT
+! 将正 Y 探针节点初始化为零哨兵。
+CW_NID=0
+! 仅在存在候选节点时读取最小节点号。
+*IF,CW_NC,GT,0,THEN
+! 读取正 Y 猫道候选集合中的最小节点号。
+*GET,CW_NID,NODE,0,NUM,MIN
+! 结束正 Y 候选存在分支。
+*ENDIF
+! 将正 Y 探针节点号写入数组前半段。
+CW_PROBE(CW_K)=CW_NID
+! 恢复全部节点和单元，开始选择负 Y 幅探针。
+ALLSEL,ALL
+! 只选择 LINK180 索单元。
+ESEL,S,TYPE,,4
+! 将所选 LINK180 单元关联节点加入节点选择。
+NSLE,S
+! 将节点限制在当前目标站位前后 1500 mm 的顺桥窗口。
+NSEL,R,LOC,X,CW_XS(CW_K)-1500,CW_XS(CW_K)+1500
+! 将节点限制在负 Y 猫道承重索横向带。
+NSEL,R,LOC,Y,-25000,-18000
+! 读取负 Y 横向带内候选节点数量。
+*GET,CW_NC,NODE,0,COUNT
+! 将负 Y 探针节点初始化为零哨兵。
+CW_NID=0
+! 仅在存在候选节点时读取最小节点号。
+*IF,CW_NC,GT,0,THEN
+! 读取负 Y 猫道候选集合中的最小节点号。
+*GET,CW_NID,NODE,0,NUM,MIN
+! 结束负 Y 候选存在分支。
+*ENDIF
+! 将负 Y 探针节点号写入数组后半段。
+CW_PROBE(CW_K+5)=CW_NID
+! 结束当前站位探针选择循环。
+*ENDDO
+! 恢复全部实体选择，避免探针筛选影响后续求解。
+ALLSEL,ALL
+! 将探针选择有效标志初始化为通过。
+CW_PROBE_OK=1
+! 将探针与既有 UZ 物理支承冲突数量初始化为零。
+CW_PROBE_UZ_CONFLICT=0
+! 将重复探针节点对数量初始化为零。
+CW_PROBE_DUPLICATE=0
+! 逐个检查十个探针节点号均为正数。
+*DO,CW_K,1,10
+! 当任一探针仍为零哨兵时将有效标志置为失败。
+*IF,CW_PROBE(CW_K),LE,0,THEN
+! 将探针选择有效标志置为失败。
+CW_PROBE_OK=0
+! 结束单个探针零哨兵检查分支。
+*ENDIF
+! 仅在当前探针节点号有效时检查其是否已有 UZ 物理约束。
+*IF,CW_PROBE(CW_K),GT,0,THEN
+! 恢复全部实体选择，准备选择当前单个探针节点。
+ALLSEL,ALL
+! 只选择当前探针节点。
+NSEL,S,NODE,,CW_PROBE(CW_K)
+! 在当前探针节点内进一步筛选已有 UZ 位移约束。
+NSEL,R,D,UZ
+! 读取当前探针是否与既有 UZ 物理支承冲突。
+*GET,CW_NC,NODE,0,COUNT
+! 将当前探针的 UZ 冲突数量加入总数。
+CW_PROBE_UZ_CONFLICT=CW_PROBE_UZ_CONFLICT+CW_NC
+! 恢复全部实体选择。
+ALLSEL,ALL
+! 结束有效探针的 UZ 物理约束检查分支。
+*ENDIF
+! 逐个比较当前探针与其后探针，检查节点号是否重复。
+*DO,CW_J,CW_K+1,10
+! 仅在两个节点号均有效且相等时累计重复节点对。
+*IF,CW_PROBE(CW_K),EQ,CW_PROBE(CW_J),THEN
+! 将重复探针节点对数量加一。
+CW_PROBE_DUPLICATE=CW_PROBE_DUPLICATE+1
+! 结束单个节点号重复检查分支。
+*ENDIF
+! 结束当前探针与后续探针的比较循环。
+*ENDDO
+! 结束十个探针有效性检查循环。
+*ENDDO
+! 恢复全部实体选择，避免冲突检查选择状态进入后续求解。
+ALLSEL,ALL
+! 任一探针与既有 UZ 物理支承冲突时将有效标志置为失败。
+*IF,CW_PROBE_UZ_CONFLICT,GT,0,THEN
+! 将探针选择有效标志置为失败。
+CW_PROBE_OK=0
+! 结束探针 UZ 物理支承冲突分支。
+*ENDIF
+! 任一探针节点重复时将有效标志置为失败。
+*IF,CW_PROBE_DUPLICATE,GT,0,THEN
+! 将探针选择有效标志置为失败。
+CW_PROBE_OK=0
+! 结束探针节点重复分支。
+*ENDIF
+! 将十个探针节点号写入固定清单文件。
+/OUTPUT,cw_clean_probe_nodes,txt
+! 写出正 Y 幅五个探针节点号。
+*VWRITE,CW_PROBE(1),CW_PROBE(2),CW_PROBE(3),CW_PROBE(4),CW_PROBE(5)
+('PPLUS=',5(F12.0,','))
+! 写出负 Y 幅五个探针节点号。
+*VWRITE,CW_PROBE(6),CW_PROBE(7),CW_PROBE(8),CW_PROBE(9),CW_PROBE(10)
+('PMINUS=',5(F12.0,','))
+! 写出探针选择有效标志、UZ 支承冲突数量和重复节点对数量。
+*VWRITE,CW_PROBE_OK,CW_PROBE_UZ_CONFLICT,CW_PROBE_DUPLICATE
+('PROBE_OK=',F4.0,', UZ_CONFLICT=',F12.0,', DUPLICATE_PAIRS=',F12.0)
+! 恢复主输出文件。
+/OUTPUT
+! 在任一探针未找到时拒绝后续动力求解。
+*IF,CW_PROBE_OK,NE,1,THEN
+! 写出探针选择失败状态。
+/OUTPUT,cw_clean_probe_nodes,txt,,APPEND
+! 将拒绝原因追加到探针清单。
+/COM,STATUS=REJECTED REASON=PROBE_NODE_SELECTION_FAILED
+! 恢复主输出文件。
+/OUTPUT
+! 立即退出且不保存错误数据库。
+/EXIT,NOSAVE
+! 结束探针选择硬门禁分支。
+*ENDIF
+! 离开前处理器，将十个探针参数保留给上层入口。
+FINISH
