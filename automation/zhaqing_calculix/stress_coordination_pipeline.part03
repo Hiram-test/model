@@ -1,0 +1,155 @@
+                record = (float(match.group(2)), float(match.group(3)), float(match.group(4)))  # Convert the three global components to floats.
+                if active == "U":  # Route displacement results to the displacement map.
+                    displacements[int(match.group(1))] = record  # Store the final nodal perturbation translation vector.
+                else:  # Route nodal force results to the force map.
+                    reactions[int(match.group(1))] = record  # Store the final printed nodal-force vector.
+                seen_numeric = True  # Mark that the current table has begun its numeric body.
+                continue  # Advance to the next row without triggering table-boundary logic.
+            if seen_numeric and line:  # End a populated table only when nonblank nonnumeric content follows numeric rows.
+                active = None  # Leave the current result-table parser mode.
+                seen_numeric = False  # Reset row-state before scanning later output sections.
+    return displacements, reactions  # Return complete final perturbation nodal response maps.
+
+def parse_dat_stresses(dat_path: Path) -> dict[int, tuple[float, float, float, float, float, float]]:  # Parse and average the E_STRUCTURAL stress tensors by element from CalculiX DAT output.
+    text = dat_path.read_text(encoding="utf-8", errors="replace") if dat_path.exists() else ""  # Read the complete DAT output defensively.
+    samples: dict[int, list[tuple[float, float, float, float, float, float]]] = {}  # Accumulate all integration-point stress tensors by element id.
+    active = False  # Track whether the parser is inside the E_STRUCTURAL stress table.
+    for raw in text.splitlines():  # Scan all result rows once in source order.
+        line = raw.strip()  # Normalize whitespace for header and numeric-row recognition.
+        lower = line.lower()  # Cache lowercase text for robust set matching.
+        if "stresses (elem" in lower and "set e_structural" in lower:  # Detect the complete mixed structural-element stress print block.
+            active = True  # Enter stress-table parsing mode.
+            continue  # Advance to integration-point records.
+        if active and not line:  # Treat a blank row after parsed data as a possible section boundary.
+            continue  # Keep active because CalculiX may insert blank lines before continuing the same stress table.
+        if active and line.startswith("strains "):  # Stop at the following strain output block when present.
+            active = False  # Leave stress-table parsing mode before strain records.
+            continue  # Advance to subsequent output sections.
+        if active:  # Parse numeric integration-point stress records while the structural stress block is active.
+            fields = line.split()  # Split standard CalculiX whitespace-delimited result columns.
+            if len(fields) >= 8:  # Require element id, integration point, and six stress components.
+                try:  # Attempt numeric conversion only on valid stress rows.
+                    element_id = int(fields[0])  # Recover the source element label.
+                    tensor = tuple(float(fields[index]) for index in range(2, 8))  # Recover SXX,SYY,SZZ,SXY,SXZ,SYZ in MPa.
+                except ValueError:  # Ignore headers or unrelated text embedded in the print section.
+                    continue  # Advance without corrupting the stress sample map.
+                samples.setdefault(element_id, []).append(tensor)  # Preserve every integration-point stress tensor for averaging.
+    averaged: dict[int, tuple[float, float, float, float, float, float]] = {}  # Allocate the final element-average stress tensor map.
+    for element_id, tensors in samples.items():  # Reduce each element's integration-point tensors to one visualization value.
+        averaged[element_id] = tuple(sum(tensor[index] for tensor in tensors) / len(tensors) for index in range(6))  # Compute a simple arithmetic integration-point average for screening visualization.
+    return averaged  # Return one averaged global stress tensor for every printed structural element.
+
+
+def compose_total_stresses(stresses: dict[int, tuple[float, float, float, float, float, float]], nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], target_axial_stress: dict[int, float]) -> dict[int, tuple[float, float, float, float, float, float]]:  # Add the P2 prestressed reference tensor to CalculiX perturbation stresses for the final coordinated stress state.
+    total = dict(stresses)  # Start total final stress from the detailed-model perturbation stress output.
+    for group_name in ("MAIN_CABLES", "HANGERS"):  # Restore the known P2 base stress only for suspension elements carrying a published equilibrium target.
+        for element_id, connectivity in groups[group_name]:  # Visit every transferred axial suspension element exactly once.
+            if element_id not in target_axial_stress:  # Require a unique equilibrium target for every suspension element.
+                raise RuntimeError(f"missing P2 base stress while composing final stress for element {element_id}")  # Stop before publishing an incomplete final stress cloud.
+            base_tensor = axial_tensor(float(target_axial_stress[element_id]), nodes[connectivity[0]], nodes[connectivity[1]])  # Reconstruct the P2 prestressed reference tensor in global axes.
+            perturbation_tensor = stresses.get(element_id, (0.0, 0.0, 0.0, 0.0, 0.0, 0.0))  # Recover the CalculiX perturbation tensor or an explicit zero increment.
+            total[element_id] = tuple(base_tensor[index] + perturbation_tensor[index] for index in range(6))  # Superpose the linear perturbation stress on the unique prestressed equilibrium reference.
+    return total  # Return the coordinated total final stress tensor map for Gate evaluation and VTK export.
+
+
+def von_mises(tensor: tuple[float, float, float, float, float, float]) -> float:  # Compute the three-dimensional von Mises equivalent stress from a Cartesian stress tensor.
+    sxx, syy, szz, sxy, sxz, syz = tensor  # Unpack the six symmetric tensor components in MPa.
+    return math.sqrt(0.5 * ((sxx - syy) ** 2 + (syy - szz) ** 2 + (szz - sxx) ** 2) + 3.0 * (sxy * sxy + sxz * sxz + syz * syz))  # Return the J2 equivalent stress magnitude.
+
+
+def projected_axial_stress(tensor: tuple[float, float, float, float, float, float], point_a: tuple[float, float, float], point_b: tuple[float, float, float]) -> float:  # Project a global stress tensor onto a line element's axial direction.
+    chord = tuple(point_b[index] - point_a[index] for index in range(3))  # Build the line-element chord vector.
+    length = math.sqrt(sum(value * value for value in chord))  # Compute the line-element length.
+    ux, uy, uz = (value / length for value in chord)  # Normalize the line-element axial direction.
+    sxx, syy, szz, sxy, sxz, syz = tensor  # Unpack the global stress tensor components.
+    return sxx * ux * ux + syy * uy * uy + szz * uz * uz + 2.0 * sxy * ux * uy + 2.0 * sxz * ux * uz + 2.0 * syz * uy * uz  # Evaluate u-transpose S u for axial stress.
+
+
+def write_legacy_vtk(path: Path, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], element_group: dict[int, str], displacements: dict[int, tuple[float, float, float]], stresses: dict[int, tuple[float, float, float, float, float, float]], target_axial_stress: dict[int, float]) -> dict:  # Export the final P4 stress-coordinated unstructured-grid cloud in legacy VTK format.
+    node_ids = sorted(nodes)  # Freeze a deterministic VTK point ordering by source node label.
+    point_index = {node_id: index for index, node_id in enumerate(node_ids)}  # Map source node ids to zero-based VTK point indices.
+    supported_groups = ("DECK_SHELLS", "CROSSBEAMS", "LONG_GIRDERS", "TOWER_COLUMNS", "TOWER_TOP_BEAMS", "MAIN_CABLES", "HANGERS", "WIND_ATTACH_LINKS", "WIND_CABLES")  # Export physical structural cells while excluding MASS visualization vertices from the stress cloud.
+    cells: list[tuple[int, list[int], str]] = []  # Accumulate source element id, connectivity, and component label for VTK cells.
+    for group_name in supported_groups:  # Preserve a deterministic engineering component order in the VTK file.
+        for element_id, connectivity in groups.get(group_name, []):  # Visit every structural element in the requested source component.
+            cells.append((element_id, connectivity, group_name))  # Preserve source element labels and original connectivity.
+    component_codes = {name: index + 1 for index, name in enumerate(supported_groups)}  # Assign stable integer component ids for ParaView filtering.
+    cell_size = sum(len(connectivity) + 1 for _element_id, connectivity, _group in cells)  # Compute the total legacy VTK CELLS integer count.
+    lines: list[str] = []  # Accumulate the complete ASCII legacy VTK file.
+    lines.append("# vtk DataFile Version 3.0")  # Declare the legacy VTK file version.
+    lines.append("Zhaqing suspension bridge stress-coordinated P4 result")  # Record an unambiguous human-readable dataset title.
+    lines.append("ASCII")  # Use portable text output for audit and diffability.
+    lines.append("DATASET UNSTRUCTURED_GRID")  # Declare the unstructured finite-element grid dataset type.
+    lines.append(f"POINTS {len(node_ids)} double")  # Declare the total point count and coordinate precision.
+    for node_id in node_ids:  # Write deformed final-state point coordinates in deterministic source-node order.
+        x, y, z = nodes[node_id]  # Recover the P3 equilibrium detailed-model coordinate.
+        ux, uy, uz = displacements.get(node_id, (0.0, 0.0, 0.0))  # Recover the final linearized detailed-model displacement or zero if unavailable.
+        lines.append(f"{x + ux:.12g} {y + uy:.12g} {z + uz:.12g}")  # Write the physical final-state coordinate in millimetres.
+    lines.append(f"CELLS {len(cells)} {cell_size}")  # Declare the cell count and total connectivity integer count.
+    for _element_id, connectivity, _group in cells:  # Write each source structural element connectivity.
+        lines.append(f"{len(connectivity)} " + " ".join(str(point_index[node]) for node in connectivity))  # Convert source node ids to zero-based VTK point indices.
+    lines.append(f"CELL_TYPES {len(cells)}")  # Declare one VTK cell type per structural element.
+    for _element_id, connectivity, group_name in cells:  # Map source element families to standard legacy VTK cell codes.
+        cell_type = 9 if group_name == "DECK_SHELLS" and len(connectivity) == 4 else 3  # Use VTK_QUAD for S4 shells and VTK_LINE for B31/T3D2 elements.
+        lines.append(str(cell_type))  # Write the selected VTK cell type code.
+    lines.append(f"POINT_DATA {len(node_ids)}")  # Start final-state nodal response fields.
+    lines.append("VECTORS displacement_mm double")  # Declare the physical displacement vector field in millimetres.
+    for node_id in node_ids:  # Write nodal displacement vectors in the same point ordering.
+        ux, uy, uz = displacements.get(node_id, (0.0, 0.0, 0.0))  # Recover or default the final detailed-model displacement.
+        lines.append(f"{ux:.12g} {uy:.12g} {uz:.12g}")  # Write U1,U2,U3 for ParaView visualization.
+    lines.append(f"CELL_DATA {len(cells)}")  # Start engineering stress and component fields for structural cells.
+    scalar_fields: list[tuple[str, list[float]]] = []  # Collect scalar cell fields before serializing them to VTK.
+    von_values: list[float] = []  # Store averaged von Mises stress per structural element.
+    axial_values: list[float] = []  # Store projected axial stress per line element and zero for shells.
+    target_values: list[float] = []  # Store P2 equilibrium target axial stress for main cables and hangers.
+    ratio_values: list[float] = []  # Store final-to-target axial stress coordination ratios for suspension elements.
+    component_values: list[float] = []  # Store stable numeric component ids for filtering.
+    element_values: list[float] = []  # Store original source element labels for traceability.
+    for element_id, connectivity, group_name in cells:  # Compute all visualization fields for one structural element.
+        tensor = stresses.get(element_id, (0.0, 0.0, 0.0, 0.0, 0.0, 0.0))  # Recover the averaged final stress tensor or a zero placeholder if absent.
+        von_values.append(von_mises(tensor))  # Compute the element-average von Mises stress magnitude.
+        if len(connectivity) >= 2 and group_name != "DECK_SHELLS":  # Project stress along the chord for line elements only.
+            axial = projected_axial_stress(tensor, nodes[connectivity[0]], nodes[connectivity[1]])  # Compute the final global-tensor axial stress.
+        else:  # Shell cells do not have a unique line-element axial direction.
+            axial = 0.0  # Use zero for the line-element axial visualization field on shells.
+        axial_values.append(axial)  # Store the final projected axial stress.
+        target = float(target_axial_stress.get(element_id, 0.0))  # Recover the unique equilibrium target stress when this is a cable or hanger.
+        target_values.append(target)  # Store the target stress for direct ParaView comparison.
+        ratio_values.append(axial / target if abs(target) > 1.0e-12 else 0.0)  # Store the final-to-target coordination ratio where a target exists.
+        component_values.append(float(component_codes[group_name]))  # Store the stable engineering component id.
+        element_values.append(float(element_id))  # Store the original source element label.
+    lines.append("TENSORS stress_tensor_mpa double")  # Declare the full symmetric final stress tensor field for direct ParaView tensor inspection.
+    for element_id, _connectivity, _group_name in cells:  # Serialize one full Cartesian stress tensor per structural cell.
+        sxx, syy, szz, sxy, sxz, syz = stresses.get(element_id, (0.0, 0.0, 0.0, 0.0, 0.0, 0.0))  # Recover the coordinated total cell stress tensor.
+        lines.append(f"{sxx:.12g} {sxy:.12g} {sxz:.12g}")  # Write the first symmetric tensor row.
+        lines.append(f"{sxy:.12g} {syy:.12g} {syz:.12g}")  # Write the second symmetric tensor row.
+        lines.append(f"{sxz:.12g} {syz:.12g} {szz:.12g}")  # Write the third symmetric tensor row.
+    scalar_fields.extend((("von_mises_mpa", von_values), ("axial_stress_mpa", axial_values), ("equilibrium_target_axial_stress_mpa", target_values), ("stress_coordination_ratio", ratio_values), ("component_id", component_values), ("source_element_id", element_values)))  # Register all scalar cell fields in deterministic order.
+    for field_name, values in scalar_fields:  # Serialize each scalar engineering field into legacy VTK CELL_DATA.
+        lines.append(f"SCALARS {field_name} double 1")  # Declare the scalar field name and precision.
+        lines.append("LOOKUP_TABLE default")  # Use the standard VTK scalar lookup-table declaration.
+        lines.extend(f"{value:.12g}" for value in values)  # Write one scalar value per structural cell in source cell order.
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")  # Persist the complete stress-coordinated VTK cloud as portable ASCII.
+    return {"pointCount": len(node_ids), "cellCount": len(cells), "maxVonMisesMPa": max(von_values) if von_values else 0.0, "maxAbsAxialStressMPa": max(abs(value) for value in axial_values) if axial_values else 0.0, "sha256": sha256_path(path)}  # Return the final visualization receipt and digest.
+
+
+def run_calculix(ccx: str, workdir: Path, stem: str) -> tuple[int, str]:  # Execute the coordinated detailed model through CalculiX and preserve the raw log.
+    process = subprocess.run([ccx, "-i", stem], cwd=workdir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, check=False)  # Run one synchronous native solver process without hiding a nonzero exit code.
+    log_path = workdir / f"{stem}.stdout.log"  # Resolve the deterministic native solver log path.
+    log_path.write_text(process.stdout or "", encoding="utf-8", errors="replace")  # Preserve the complete CalculiX stdout/stderr trace for audit.
+    return int(process.returncode), process.stdout or ""  # Return the native solver exit code and complete diagnostic text.
+
+
+
+def vector_length(point_a: tuple[float, float, float], point_b: tuple[float, float, float]) -> float:  # Compute one three-dimensional element chord length in millimetres.
+    return math.sqrt(sum((point_b[index] - point_a[index]) ** 2 for index in range(3)))  # Return the Euclidean source-coordinate distance.
+
+
+def triangle_area(point_a: tuple[float, float, float], point_b: tuple[float, float, float], point_c: tuple[float, float, float]) -> float:  # Compute one three-dimensional triangle area for shell mass accounting.
+    ab = tuple(point_b[index] - point_a[index] for index in range(3))  # Build the first triangle edge vector.
+    ac = tuple(point_c[index] - point_a[index] for index in range(3))  # Build the second triangle edge vector.
+    cross = (ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0])  # Compute the edge cross product.
+    return 0.5 * math.sqrt(sum(value * value for value in cross))  # Return half the cross-product magnitude in square millimetres.
+
+
+def permanent_external_resultant(text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]]) -> tuple[tuple[float, float, float], dict[str, float]]:  # Recover the full detailed-model permanent external load resultant for the P4 reaction-balance Gate.

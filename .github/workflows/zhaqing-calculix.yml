@@ -1,0 +1,109 @@
+name: Zhaqing prestressed reference perturbation verification # Verify a balanced initial-stress reference followed by second-order static response without NLGEOM Newton iterations.
+on: # Reuse the already registered PR9 branch-push execution route.
+  push: # Execute whenever this exact verification workflow changes.
+    branches: # Restrict numerical qualification to the temporary PR9 branch.
+      - agent/zhaqing-freecad-cad003 # Keep repository main isolated from the prestress research baseline.
+    paths: # Trigger only on this workflow or the balanced-reference generator.
+      - '.github/workflows/zhaqing-calculix.yml' # Re-run when the exact solver sequence changes.
+      - 'automation/zhaqing_calculix/prestress_reference_perturbation.py' # Re-run when the prestressed-reference construction changes.
+  workflow_dispatch: # Retain an explicit manual audit rerun entry point.
+permissions: # Grant only access required to recover source evidence and publish the result.
+  contents: write # Permit one compact numerical result commit back to the experimental branch.
+  actions: read # Permit download of the immutable successful PR9 baseline artifact.
+jobs: # Define one deterministic low-versus-design prestress comparison.
+  verify: # Generate, solve, parse, archive, and publish both balanced prestressed reference states.
+    runs-on: ubuntu-22.04 # Match the operating-system family used by the validated PR9 CalculiX calculation.
+    timeout-minutes: 30 # Bound package installation plus two whole-bridge linear/second-order solves.
+    steps: # Execute checkout, audited-source recovery, solver installation, baseline retrieval, generation, solution, parsing, and publication.
+      - name: Checkout exact verification commit # Materialize the precise PR9 branch revision under test.
+        uses: actions/checkout@v4 # Use GitHub's standard checkout action.
+        with: # Configure the checkout for deterministic evidence publication.
+          fetch-depth: 1 # Fetch only the exact branch revision required by this run.
+          persist-credentials: true # Retain workflow credentials solely for publishing the result to the same temporary branch.
+      - name: Recover audited native prestress modules # Export the previously audited force model and native initial-stress/balancing-load constructor.
+        run: | # Fetch the isolated native-prestress branch and materialize only its source modules.
+          set -euxo pipefail # Fail immediately if the audited source branch or module family cannot be recovered.
+          git fetch --depth=1 origin agent/zhaqing-native-solve-only # Fetch the exact isolated branch containing the native initial-stress implementation.
+          mkdir -p /tmp/zhaqing_native # Create a temporary import root outside the checked-out experimental branch.
+          git archive FETCH_HEAD automation/zhaqing_prestress | tar -x -C /tmp/zhaqing_native # Export the complete audited prestress module family with its relative paths intact.
+      - name: Install CalculiX # Install the same packaged solver family used by the successful PR9 baseline.
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx # Install ccx and its sparse-solver dependencies from Ubuntu repositories.
+      - name: Download validated PR9 L2 baseline # Recover the exact already-solved LC01 mother model from immutable Actions evidence.
+        env: # Scope the GitHub token to same-repository artifact retrieval.
+          GH_TOKEN: ${{ github.token }} # Authenticate GitHub CLI for the validated baseline artifact.
+        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline # Download the successful S4/B31/T3D2 L2 model package.
+      - name: Generate balanced prestress reference models # Build two identical equal-area T3D2 cable topologies with 0.5 and 1.02145 mechanics-derived native initial stress plus exact balancing loads.
+        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && python3 automation/zhaqing_calculix/prestress_reference_perturbation.py "$BASE" /tmp/zhaqing_native/automation/zhaqing_prestress build/zhaqing-reference-perturbation # Generate both reference-plus-perturbation decks from the immutable baseline.
+      - name: Solve both balanced reference states # Execute the low- and design-prestress models through their linear reference step and second-order perturbation step.
+        run: | # Run both CalculiX cases and preserve independent native process statuses.
+          set +e # Capture each solver status without terminating before the comparison is parsed.
+          cd build/zhaqing-reference-perturbation # Enter the isolated numerical comparison directory.
+          ccx -i ZQ_REF_LOW > ZQ_REF_LOW.stdout.log 2>&1 # Solve the half-prestress balanced reference and its one-kilonewton perturbation.
+          echo $? > ZQ_REF_LOW.exit # Preserve the native half-prestress CalculiX process status.
+          ccx -i ZQ_REF_DESIGN > ZQ_REF_DESIGN.stdout.log 2>&1 # Solve the design-prestress balanced reference and identical one-kilonewton perturbation.
+          echo $? > ZQ_REF_DESIGN.exit # Preserve the native design-prestress CalculiX process status.
+          exit 0 # Continue to deterministic parsing regardless of either raw process outcome.
+      - name: Compare reference equilibrium and perturbation stiffness # Verify both reference states solve, remain near the supplied completed geometry, and exhibit prestress-dependent tangent stiffness.
+        run: | # Parse all printed node-291 displacement tables and emit one machine-readable qualification receipt.
+          python3 - <<'PY' # Start the documented comparison parser.
+          from pathlib import Path  # Resolve generated solver evidence paths portably.
+          import json  # Serialize the final prestress-reference verification receipt.
+          import re  # Parse standard CalculiX displacement-table rows and fatal solver diagnostics.
+          root = Path('build/zhaqing-reference-perturbation')  # Resolve the isolated low/design prestress comparison directory.
+          def parse_case(stem):  # Parse one two-step prestressed reference job into base-state and perturbation response evidence.
+              exit_code = int((root / f'{stem}.exit').read_text().strip()) if (root / f'{stem}.exit').exists() else 999  # Normalize the native solver status to an explicit integer fallback.
+              log = (root / f'{stem}.stdout.log').read_text(errors='ignore') if (root / f'{stem}.stdout.log').exists() else ''  # Load the complete solver trace for fatal-error screening.
+              dat = root / f'{stem}.dat'  # Locate the requested CalculiX text result file containing both analysis steps.
+              values = []  # Accumulate every printed node-291 vertical displacement in chronological order across both steps.
+              if dat.exists():  # Parse displacement tables only when CalculiX emitted the requested DAT output.
+                  active = False  # Track whether the current DAT rows belong to a nodal displacement table.
+                  for line in dat.read_text(errors='ignore').splitlines():  # Scan every printed state chronologically.
+                      if 'displacements (vx,vy,vz)' in line.lower():  # Detect the standard CalculiX displacement-table header.
+                          active = True  # Enable numeric displacement-row parsing.
+                          continue  # Advance directly to the first possible data row.
+                      if active and line.strip().lower().startswith('forces ('):  # Detect the reaction-force table that terminates displacement output.
+                          active = False  # Stop interpreting subsequent numeric records as displacements.
+                      if active:  # Parse numeric rows only while a displacement table is active.
+                          match = re.match(r'\s*(\d+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$', line)  # Match one node identifier and three global displacement components.
+                          if match and int(match.group(1)) == 291:  # Select the validated bridge-deck centerline midspan monitor node.
+                              values.append(float(match.group(4)))  # Preserve the vertical displacement printed for this analysis state.
+              clean = exit_code == 0 and '*ERROR' not in log.upper() and len(values) >= 2  # Require native process success, no fatal diagnostic, and observable outputs from both reference and perturbation steps.
+              reference_u3 = values[0] if values else None  # Interpret the first printed node-291 displacement as the balanced linear prestress-reference drift.
+              perturbation_u3 = values[-1] if len(values) >= 2 else None  # Interpret the final printed node-291 displacement as the second-order perturbation response about that reference state.
+              return {'solverExitCode': exit_code, 'clean': clean, 'printedMidspanU3Mm': values, 'referenceU3Mm': reference_u3, 'perturbationU3Mm': perturbation_u3}  # Return all load-bearing scalar evidence for this prestress state.
+          low = parse_case('ZQ_REF_LOW')  # Parse the half-prestress reference and perturbation response.
+          design = parse_case('ZQ_REF_DESIGN')  # Parse the force-found design-prestress reference and perturbation response.
+          stiffness_ratio = None  # Initialize the effective design-to-low tangent stiffness ratio until both clean perturbation responses exist.
+          if low['clean'] and design['clean'] and abs(low['perturbationU3Mm']) > 1.0e-15 and abs(design['perturbationU3Mm']) > 1.0e-15:  # Compare stiffness only from finite clean incremental responses.
+              stiffness_ratio = abs(low['perturbationU3Mm'] / design['perturbationU3Mm'])  # Convert equal-load displacement change into an effective incremental stiffness ratio.
+          reference_equilibrium = low['clean'] and design['clean'] and abs(low['referenceU3Mm']) <= 1.0e-3 and abs(design['referenceU3Mm']) <= 1.0e-3  # Require both exactly balanced prestress-reference states to remain within one micron of the supplied completed geometry at midspan.
+          stress_stiffness_detected = stiffness_ratio is not None and abs(stiffness_ratio - 1.0) > 1.0e-4  # Require a clearly nonzero prestress-induced change in tangent response.
+          physically_ordered = stiffness_ratio is not None and stiffness_ratio > 1.0  # Require the higher main-cable tension to reduce equal-load displacement and therefore increase tangent stiffness.
+          status = 'PASS' if reference_equilibrium and stress_stiffness_detected and physically_ordered else 'FAIL'  # Accept the bypass only when equilibrium, solver integrity, and prestress-stiffness physics all hold simultaneously.
+          receipt = {'status': status, 'lowPrestress': low, 'designPrestress': design, 'effectiveDesignToLowStiffnessRatio': stiffness_ratio, 'referenceEquilibriumWithin0p001mm': reference_equilibrium, 'stressStiffnessEffectDetected': stress_stiffness_detected, 'higherPrestressIsStiffer': physically_ordered, 'analysisPath': 'linear balanced prestress reference then STEP PERTURBATION + STATIC', 'testLoadN': -1000.0, 'testNode': 291, 'lowScale': 0.5, 'designScale': 1.0214524479201714, 'designMainCableHorizontalForceTargetN': 716150.2048515677}  # Assemble the complete numerical qualification record.
+          (root / 'verification_summary.json').write_text(json.dumps(receipt, indent=2))  # Persist the machine-readable result beside raw CalculiX evidence.
+          print(json.dumps(receipt, indent=2))  # Mirror the same receipt into the GitHub Actions log for redundant auditability.
+          PY # End the documented inline parser.
+      - name: Upload prestressed-reference verification evidence # Preserve both generated INPs and their complete CalculiX results.
+        if: always() # Archive evidence after numerical success or failure.
+        uses: actions/upload-artifact@v4 # Store the complete comparison directory as immutable Actions evidence.
+        with: # Configure artifact identity and retention.
+          name: zhaqing-prestress-reference-perturbation-${{ github.sha }} # Bind the numerical package to the exact verification implementation commit.
+          path: build/zhaqing-reference-perturbation # Upload both decks, result files, logs, and verification receipt.
+          if-no-files-found: error # Treat absence of numerical evidence as workflow infrastructure failure.
+          retention-days: 30 # Retain the package for final AFEM mother-model handoff and independent audit.
+          compression-level: 6 # Apply standard compression to mixed text and FRD result files.
+      - name: Publish prestressed-reference result # Make the decisive result and design-prestress candidate directly readable from the branch.
+        if: always() # Publish any generated comparison evidence after solver execution.
+        run: | # Copy compact results and the design candidate to a stable temporary repository path.
+          set -e # Stop publication if the generated verification receipt or design input is unexpectedly missing.
+          mkdir -p automation/zhaqing_calculix/prestress_reference_result # Create the stable prestress-reference result directory on the temporary branch.
+          cp build/zhaqing-reference-perturbation/verification_summary.json automation/zhaqing_calculix/prestress_reference_result/verification_summary.json # Publish the machine-readable equilibrium and stress-stiffness qualification receipt.
+          cp build/zhaqing-reference-perturbation/ZQ_REF_DESIGN.inp automation/zhaqing_calculix/prestress_reference_result/ZQ_REF_DESIGN.inp # Publish the exact force-found design-prestress reference-plus-perturbation model.
+          cp build/zhaqing-reference-perturbation/ZQ_REF_DESIGN.stdout.log automation/zhaqing_calculix/prestress_reference_result/ZQ_REF_DESIGN.stdout.log # Publish the complete design-case solver trace for independent review.
+          if test -s build/zhaqing-reference-perturbation/ZQ_REF_DESIGN.dat; then cp build/zhaqing-reference-perturbation/ZQ_REF_DESIGN.dat automation/zhaqing_calculix/prestress_reference_result/ZQ_REF_DESIGN.dat; fi # Publish requested text results when available.
+          git config user.name github-actions # Identify the automated numerical evidence publisher explicitly.
+          git config user.email github-actions@github.com # Use GitHub Actions' conventional non-personal commit identity.
+          git add automation/zhaqing_calculix/prestress_reference_result # Stage only final prestress-reference evidence.
+          git diff --cached --quiet || git commit -m "publish Zhaqing prestress reference perturbation result" # Create one result commit only when numerical evidence changed.
+          git push origin HEAD:agent/zhaqing-freecad-cad003 # Publish the decisive result atomically back to the same temporary branch.

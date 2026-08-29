@@ -1,0 +1,45 @@
+name: Solve Zhaqing L2 completed-state prestress
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/zhaqing-calculix-static-shell-pr.yml'
+      - 'automation/zhaqing_calculix/prestress_l2_calibrate.py'
+      - 'automation/zhaqing_calculix/prestress_trigger.txt'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  calibrate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Install CalculiX
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx
+      - name: Download validated L2 baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline
+      - name: Run completed-state prestress calibration
+        id: calibration
+        continue-on-error: true
+        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && python3 automation/zhaqing_calculix/prestress_l2_calibrate.py "$BASE" build/zhaqing-prestress
+      - name: Upload complete calibration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zhaqing-l2-completed-prestress-${{ github.event.pull_request.head.sha || github.sha }}
+          path: build/zhaqing-prestress
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
+      - name: Enforce calibrated completed state
+        if: always()
+        run: test -s build/zhaqing-prestress/calibration_summary.json && grep -q '"status": "PASS"' build/zhaqing-prestress/calibration_summary.json && test -s build/zhaqing-prestress/SELECTED_MODEL.inp && test -s build/zhaqing-prestress/SELECTED_MODEL.dat && test "${{ steps.calibration.outcome }}" = "success"

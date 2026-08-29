@@ -1,0 +1,314 @@
+def write_canonical_response(path: Path, raw: dict, recovery: dict, groups: dict[str, list[tuple[int, list[int]]]], removed_suspension_element_ids: set[int] | None = None) -> dict:  # Compose a complete primary DAT while keeping retained native tokens, analytic active-suspension increments, and explicit removed-member release distinct.
+    retained_elements = {element_id for group_name in PRIMARY_STRESS_GROUPS for element_id, _connectivity in groups[group_name]}  # Freeze the exact 824 retained CalculiX stress elements.
+    removed_elements = set(removed_suspension_element_ids or set())  # Freeze the explicit stable source IDs removed by a reviewed damage event while preserving an empty nominal path.
+    nominal_suspension_elements = {element_id for group_name in SUSPENSION_GROUPS for element_id, _connectivity in groups[group_name]}  # Freeze the exact nominal 246-element suspension inventory.
+    if not removed_elements.issubset(nominal_suspension_elements):  # Refuse a damage receipt that identifies a retained or unknown source element.
+        raise RuntimeError(f"removed suspension response IDs are outside nominal topology: {sorted(removed_elements - nominal_suspension_elements)}")  # Stop before fabricating a release field for another component.
+    suspension_elements = nominal_suspension_elements - removed_elements  # Restrict analytic active response to stable survivor IDs without renumbering.
+    primary_elements = retained_elements | nominal_suspension_elements  # Form the stable exact 1070-cell primary response set while removed members remain explicit zero-total ghosts.
+    expected_points = set(range(1, 9))  # Require the CalculiX-compatible eight-record tensor table for every primary element.
+    if set(raw["stressTokens"]) != retained_elements:  # Require native stress output for every and only retained physical element.
+        raise RuntimeError("raw retained E_STRUCTURAL element coverage is not exactly 824")  # Stop before filling or dropping retained stress.
+    for element_id in sorted(retained_elements):  # Validate every native retained integration-point table independently.
+        if set(raw["stressTokens"][element_id]) != expected_points:  # Require all eight native stress records without averaging away missing evidence.
+            raise RuntimeError(f"raw retained element {element_id} does not contain integration points 1..8 exactly")  # Stop before canonical serialization.
+    if set(recovery["incrementalTensors"]) != suspension_elements:  # Require a real analytic stress increment for every active suspension element.
+        raise RuntimeError(f"analytic suspension stress coverage is not exact for active topology expected={len(suspension_elements)} actual={len(recovery['incrementalTensors'])}")  # Stop before copying or filling any survivor response.
+    removed_release_tensors = recovery.get("removedReleaseTensors", {})  # Recover explicit negative-base increments only when a reviewed damage serializer keeps ghost source topology.
+    if set(removed_release_tensors) != removed_elements:  # Require every removed source member to carry one exact release increment and prohibit undeclared ghosts.
+        raise RuntimeError("removed suspension release tensor coverage is incomplete or surplus")  # Stop before a damaged total field can retain nonzero ghost stress.
+    node_ids = sorted(recovery["displacements"])  # Freeze exact 1..783 primary response ordering.
+    if node_ids != list(range(1, 784)):  # Require complete primary topology without wind-only or auxiliary nodes.
+        raise RuntimeError("canonical displacement node ids must be exactly 1..783")  # Stop before writing a topologically incomplete DAT.
+    lines: list[str] = []  # Accumulate one explicitly labeled canonical DAT-compatible response stream.
+    lines.append("** ZHAQING CANONICAL PRIMARY RESPONSE; WIND INVENTORY EXCLUDED BY wind-exclusion.json")  # Declare the response boundary before any numeric table.
+    lines.append("** U SOURCE: RETAINED=VERBATIM NATIVE DAT TOKENS; SUSPENSION=ANALYTIC EQUILIBRIUM RECOVERY")  # Declare nodal response provenance generically for tangent condensation or fixed-L0 nonlinear inner equilibrium.
+    lines.append(" displacements (vx,vy,vz) for set NALL and time  0.1000000E+01")  # Emit the strict CalculiX-compatible primary displacement header.
+    lines.append("")  # Preserve the conventional DAT header separator.
+    for node_id in node_ids:  # Serialize every physical primary displacement exactly once.
+        if node_id in raw["displacementTokens"]:  # Preserve retained CalculiX numeric spellings literally.
+            tokens = raw["displacementTokens"][node_id]  # Recover the three native retained U tokens.
+        else:  # Serialize only genuinely recovered suspension-only translations analytically.
+            tokens = tuple(f"{value:.12E}" for value in recovery["displacements"][node_id])  # Format finite tangent-recovery values deterministically.
+        lines.append(f"{node_id:10d} {tokens[0]:>16s} {tokens[1]:>16s} {tokens[2]:>16s}")  # Write one strict node plus three-component vector row.
+    lines.append("")  # Terminate the displacement data body before its explicit provenance boundary.
+    lines.append("** END CANONICAL PRIMARY DISPLACEMENTS")  # Provide the nonnumeric terminator required by fail-closed DAT parsing.
+    lines.append("** S SOURCE: RETAINED=VERBATIM NATIVE DAT TOKENS; MAIN_CABLES/HANGERS=ANALYTIC CURRENT-MINUS-F3 INCREMENT")  # Declare mixed stress semantics for both tangent and fixed-L0 co-rotational response before the tensor table.
+    lines.append(" stresses (elem, integ.pnt.,sxx,syy,szz,sxy,sxz,syz) for set E_STRUCTURAL and time  0.1000000E+01")  # Emit the strict canonical primary stress header.
+    lines.append("")  # Preserve the conventional DAT header separator.
+    for element_id in sorted(primary_elements):  # Serialize every physical primary element in source-label order.
+        if element_id in retained_elements:  # Preserve every native retained integration-point tensor spelling literally.
+            for integration_point in range(1, 9):  # Visit all eight native retained records in exact CalculiX order.
+                tokens = raw["stressTokens"][element_id][integration_point]  # Recover the six unchanged retained stress tokens.
+                lines.append(f"{element_id:10d} {integration_point:3d} " + " ".join(f"{token:>16s}" for token in tokens))  # Reuse all six native values without numeric reserialization.
+        else:  # Serialize a real active response or explicit negative-base release under the validator's base-plus-increment contract.
+            tensor = removed_release_tensors[element_id] if element_id in removed_elements else recovery["incrementalTensors"][element_id]  # Select the stable source member's analytic current-minus-F3 increment or its reviewed complete-release increment.
+            tokens = tuple(f"{value:.12E}" for value in tensor)  # Format the finite analytic active or release tensor deterministically.
+            for integration_point in range(1, 9):  # Expand the uniform axial line-element increment to the complete eight-record contract.
+                lines.append(f"{element_id:10d} {integration_point:3d} " + " ".join(f"{token:>16s}" for token in tokens))  # Publish one explicitly non-placeholder tensor at every required record.
+    lines.append("")  # Terminate the canonical primary stress data body.
+    lines.append(" strains (elem, integ.pnt.,exx,eyy,ezz,exy,exz,eyz) for set E_STRUCTURAL and time  0.1000000E+01")  # Provide an explicit nonnumeric stress-frame terminator recognizable to strict DAT parsers.
+    lines.append("** STRAIN TABLE INTENTIONALLY NOT PART OF THE CANONICAL U/S RESPONSE CONTRACT")  # Prevent the terminator from being mistaken for invented strain evidence.
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")  # Persist the separate canonical response without modifying the raw CalculiX DAT.
+    canonical = parse_raw_response(path)  # Reparse only the persisted canonical bytes to verify exact coverage and token identity.
+    if set(canonical["displacements"]) != set(node_ids) or set(canonical["stressTokens"]) != primary_elements:  # Require persisted full primary U/S coverage after round trip.
+        raise RuntimeError("canonical-response.dat did not reparse with exact primary coverage")  # Stop before using a truncated or malformed response.
+    retained_u_identity = all(canonical["displacementTokens"][node] == tokens for node, tokens in raw["displacementTokens"].items())  # Compare every retained U token spelling literally.
+    retained_s_identity = all(canonical["stressTokens"][element][point] == tokens for element, records in raw["stressTokens"].items() for point, tokens in records.items())  # Compare every retained S token spelling literally.
+    if not retained_u_identity or not retained_s_identity:  # Require exact token reuse rather than merely numerically close values.
+        raise RuntimeError("canonical response changed one or more retained raw DAT numeric tokens")  # Stop before claiming verbatim provenance.
+    return {"path": str(path), "sha256": sha256_path(path), "nodeCount": len(node_ids), "elementCount": len(primary_elements), "integrationPointCountPerElement": 8, "stressRecordCount": 8 * len(primary_elements), "activeSuspensionElementCount": len(suspension_elements), "removedSuspensionElementIds": sorted(removed_elements), "retainedDisplacementTokenIdentity": retained_u_identity, "retainedStressTokenIdentity": retained_s_identity, "stressSemantics": {"retainedStructure": "raw CalculiX total tensor", "MAIN_CABLES": "analytic current-minus-F3 increment; P2 base added only in total-response VTK", "HANGERS": "analytic active current-minus-F3 increment, with any reviewed ghost member storing exact negative-P2-base release so its total is zero"}}  # Return the complete canonical response and stable-source damage receipt for tangent or nonlinear recovery.
+
+
+def write_wind_exclusion(path: Path, groups: dict[str, list[tuple[int, list[int]]]]) -> dict:  # Publish the exact G3/G5 source-inventory boundary required by primary response validation.
+    excluded_groups = {group_name: [element_id for element_id, _connectivity in groups[group_name]] for group_name in ("WIND_ATTACH_LINKS", "WIND_CABLES")}  # Preserve exact source ordering for both excluded wind groups.
+    excluded_elements = sorted(element_id for values in excluded_groups.values() for element_id in values)  # Flatten the complete eight-element source inventory deterministically.
+    primary_nodes = {node for group_name in PRIMARY_VTK_GROUPS for _element_id, connectivity in groups[group_name] for node in connectivity}  # Derive physical primary nodes independently.
+    wind_nodes = {node for group_name in ("WIND_ATTACH_LINKS", "WIND_CABLES") for _element_id, connectivity in groups[group_name] for node in connectivity}  # Derive all nodes touched by wind source cells.
+    wind_only_nodes = sorted(wind_nodes - primary_nodes)  # Restrict exclusion to source points used only by the blocked wind subsystem.
+    receipt = {"schema": "zhaqing-wind-exclusion-v1", "status": "BLOCKED_G3_G5", "formalResponseComputed": False, "excludedFrom": ["canonical-response.dat", "stress-coordinated.vtk", "P3 numerical acceptance Gates"], "excludedGroups": excluded_groups, "excludedElementIds": excluded_elements, "windOnlyNodeIds": wind_only_nodes, "blockerIssueIds": ["C-WIND-ATTACH-NUMBER-001", "C-WIND-HORIZONTAL-ANGLE-001", "U-WIND-001"], "reason": "formal wind response is not calculated until G3 source geometry/attachment evidence and G5 wind-system evidence close", "prohibitedFallbacks": ["zero response", "NaN response", "baseline response relabeled as P3", "unevidenced stiffness inclusion"]}  # Declare exact topology, blockers, and absence of a formal wind response without placeholders.
+    path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # Persist the strict exclusion receipt as finite deterministic JSON.
+    receipt["sha256"] = sha256_path(path)  # Return the exact persisted byte identity without changing those bytes afterward.
+    return receipt  # Return the complete wind-response boundary receipt.
+
+
+def write_primary_vtk(path: Path, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], displacements: dict[int, tuple[float, float, float]], stresses: dict[int, tuple[float, float, float, float, float, float]], target_axial_stress: dict[int, float]) -> dict:  # Export the exact 783-point/1070-cell primary total response with no missing-field defaults.
+    primary_node_ids = {node for group_name in PRIMARY_VTK_GROUPS for _element_id, connectivity in groups[group_name] for node in connectivity}  # Derive the response point population directly from primary cell topology.
+    node_ids = sorted(primary_node_ids)  # Freeze deterministic source node order.
+    cells = [(element_id, connectivity, group_name) for group_name in PRIMARY_VTK_GROUPS for element_id, connectivity in groups[group_name]]  # Freeze deterministic seven-component source cell order.
+    element_ids = {element_id for element_id, _connectivity, _group_name in cells}  # Freeze exact primary stress coverage.
+    if node_ids != list(range(1, 784)) or len(cells) != 1070:  # Require the agreed topology after wind-only exclusion.
+        raise RuntimeError("primary VTK topology is not exactly 783 nodes and 1070 cells")  # Stop before serializing a shifted response boundary.
+    if set(displacements) != primary_node_ids or set(stresses) != element_ids:  # Require every U and total S value with no surplus or fallback opportunity.
+        raise RuntimeError("primary VTK response fields do not exactly cover topology")  # Stop before zero-filling any missing response.
+    point_index = {node_id: index for index, node_id in enumerate(node_ids)}  # Map source node labels to zero-based VTK indices.
+    component_codes = {name: index + 1 for index, name in enumerate(PRIMARY_VTK_GROUPS)}  # Assign stable seven-group component ids.
+    cell_size = sum(len(connectivity) + 1 for _element_id, connectivity, _group_name in cells)  # Compute the exact legacy connectivity integer count.
+    scalar_fields: list[tuple[str, list[float]]] = []  # Accumulate all required scalar arrays in canonical order.
+    von_values: list[float] = []  # Preserve total-response J2 stress by source cell.
+    axial_values: list[float] = []  # Preserve total-response projected line stress and the defined shell value.
+    target_values: list[float] = []  # Preserve P2 targets only where a suspension target exists.
+    ratio_values: list[float] = []  # Preserve total-to-P2 suspension coordination ratios.
+    component_values: list[float] = []  # Preserve stable component ids.
+    element_values: list[float] = []  # Preserve source element ids.
+    for element_id, connectivity, group_name in cells:  # Derive every scalar from one complete total tensor.
+        tensor = stresses[element_id]  # Recover the required finite total tensor without a default.
+        if any(not math.isfinite(value) for value in tensor):  # Reject a nonfinite total response before text serialization.
+            raise RuntimeError(f"nonfinite VTK stress tensor for element {element_id}")  # Stop before publishing invalid visualization values.
+        von_values.append(von_mises(tensor))  # Compute the established three-dimensional J2 magnitude.
+        axial = projected_axial_stress(tensor, nodes[connectivity[0]], nodes[connectivity[1]]) if group_name != "DECK_SHELLS" else 0.0  # Project only physical line cells while using the defined non-line shell scalar.
+        axial_values.append(axial)  # Preserve the complete signed axial scalar field.
+        target = float(target_axial_stress.get(element_id, 0.0))  # Use an explicit not-applicable zero only for the derived target field outside suspension groups.
+        target_values.append(target)  # Preserve the target scalar in source cell order.
+        ratio_values.append(axial / target if abs(target) > 1.0e-12 else 0.0)  # Use an explicit not-applicable zero only where no suspension target exists.
+        component_values.append(float(component_codes[group_name]))  # Preserve the stable primary component code.
+        element_values.append(float(element_id))  # Preserve the exact source element label.
+    scalar_fields.extend((("von_mises_mpa", von_values), ("axial_stress_mpa", axial_values), ("equilibrium_target_axial_stress_mpa", target_values), ("stress_coordination_ratio", ratio_values), ("component_id", component_values), ("source_element_id", element_values)))  # Register the strict six-field order.
+    lines: list[str] = []  # Accumulate the exact no-blank-line legacy VTK stream.
+    lines.append("# vtk DataFile Version 3.0")  # Declare the required legacy VTK version.
+    lines.append("Zhaqing suspension bridge stress-coordinated P4 result")  # Preserve the strict canonical dataset title.
+    lines.append("ASCII")  # Use portable auditable text encoding.
+    lines.append("DATASET UNSTRUCTURED_GRID")  # Declare the finite-element grid dataset.
+    lines.append(f"POINTS {len(node_ids)} double")  # Declare exact primary point count and coordinate precision.
+    for node_id in node_ids:  # Serialize every deformed primary point in source order.
+        coordinate = nodes[node_id]  # Recover its authoritative v3 equilibrium coordinate.
+        displacement = displacements[node_id]  # Recover its required raw or analytic translation.
+        lines.append(" ".join(f"{coordinate[axis] + displacement[axis]:.12g}" for axis in range(3)))  # Write deformed Cartesian coordinates deterministically.
+    lines.append(f"CELLS {len(cells)} {cell_size}")  # Declare exact primary cell and connectivity-integer counts.
+    for _element_id, connectivity, _group_name in cells:  # Serialize source topology without reordering connectivity.
+        lines.append(f"{len(connectivity)} " + " ".join(str(point_index[node]) for node in connectivity))  # Convert source node labels to zero-based VTK indices.
+    lines.append(f"CELL_TYPES {len(cells)}")  # Declare one topology code per primary cell.
+    for _element_id, _connectivity, group_name in cells:  # Map source component formulation to a VTK cell family.
+        lines.append("9" if group_name == "DECK_SHELLS" else "3")  # Use VTK_QUAD for S4 and VTK_LINE for all physical line components.
+    lines.append(f"POINT_DATA {len(node_ids)}")  # Begin the complete physical nodal response field.
+    lines.append("VECTORS displacement_mm double")  # Declare displacement components and units.
+    for node_id in node_ids:  # Serialize every required retained or analytically recovered translation.
+        lines.append(" ".join(f"{value:.12g}" for value in displacements[node_id]))  # Write U1,U2,U3 without missing-node fallback.
+    lines.append(f"CELL_DATA {len(cells)}")  # Begin complete total stress and engineering metadata fields.
+    lines.append("TENSORS stress_tensor_mpa double")  # Declare the symmetric total-response tensor field.
+    for element_id, _connectivity, _group_name in cells:  # Serialize every complete primary tensor.
+        sxx, syy, szz, sxy, sxz, syz = stresses[element_id]  # Unpack the required six symmetric components.
+        lines.append(f"{sxx:.12g} {sxy:.12g} {sxz:.12g}")  # Write the first symmetric tensor row.
+        lines.append(f"{sxy:.12g} {syy:.12g} {syz:.12g}")  # Write the second symmetric tensor row.
+        lines.append(f"{sxz:.12g} {syz:.12g} {szz:.12g}")  # Write the third symmetric tensor row.
+    for field_name, values in scalar_fields:  # Serialize all six scalar arrays in strict contract order.
+        lines.append(f"SCALARS {field_name} double 1")  # Declare one scalar field and precision.
+        lines.append("LOOKUP_TABLE default")  # Use the standard legacy lookup-table declaration.
+        lines.extend(f"{value:.12g}" for value in values)  # Write one finite deterministic scalar per primary cell.
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")  # Persist the canonical no-blank-line VTK bytes.
+    return {"pointCount": len(node_ids), "cellCount": len(cells), "connectivityIntegerCount": cell_size, "lineCount": len(lines), "maxVonMisesMPa": max(von_values), "maxAbsAxialStressMPa": max(abs(value) for value in axial_values), "sha256": sha256_path(path)}  # Return the strict visualization receipt and digest.
+
+
+def sum_vectors(vectors: list[tuple[float, float, float] | list[float]]) -> tuple[float, float, float]:  # Sum a collection of three-component physical action vectors deterministically.
+    return tuple(sum(float(vector[axis]) for vector in vectors) for axis in range(3))  # Return the complete Cartesian resultant.
+
+
+def explicit_set_members(text: str, keyword: str, parameter: str, target: str) -> set[int]:  # Parse one explicit integer NSET or ELSET membership body independently for audit topology checks.
+    members: set[int] = set()  # Accumulate exact explicit integer labels without accepting GENERATE semantics implicitly.
+    active = False  # Track whether the current data body belongs to the requested set.
+    for raw_line in text.splitlines():  # Visit every deck row in source order.
+        line = raw_line.strip()  # Normalize surrounding whitespace only for keyword decisions.
+        if line.upper().startswith(keyword.upper()):  # Detect one keyword of the requested family.
+            match = re.search(rf"(?:^|,)\s*{re.escape(parameter)}\s*=\s*([^,\s]+)", line, re.I)  # Recover its named-set parameter exactly.
+            active = match is not None and match.group(1).upper() == target.upper()  # Enter only the exact requested set body.
+            if active and "GENERATE" in line.upper():  # Refuse to guess generated ranges in this fixed explicit audit contract.
+                raise RuntimeError(f"{target} unexpectedly uses GENERATE semantics")  # Stop before an incomplete load-free membership audit.
+            continue  # Advance to this keyword's data body or the next keyword.
+        if line.startswith("*"):  # Detect every unrelated keyword boundary.
+            active = False  # Leave the requested set body.
+            continue  # Advance without treating keyword text as membership.
+        if active and line and not line.startswith("**"):  # Parse only nonempty explicit membership rows.
+            members.update(int(token.strip()) for token in line.split(",") if token.strip().isdigit())  # Add every explicit integer label once.
+    return members  # Return the exact parsed set membership.
+
+
+def explicit_cload_nodes(text: str) -> set[int]:  # Recover every physical node carrying an explicit canonical or audit concentrated load.
+    nodes: set[int] = set()  # Accumulate node labels from all explicit CLOAD blocks.
+    active = False  # Track whether the current data body belongs to CLOAD.
+    for raw_line in text.splitlines():  # Visit every deck row once.
+        line = raw_line.strip()  # Normalize whitespace for keyword and numeric recognition.
+        if line.upper().startswith("*CLOAD"):  # Detect one explicit concentrated-load block.
+            active = True  # Enter its numeric records.
+            continue  # Advance to the first record.
+        if line.startswith("*"):  # Detect the next keyword boundary.
+            active = False  # Leave CLOAD parsing mode.
+            continue  # Advance under the new keyword.
+        if active and line and not line.startswith("**"):  # Parse one nonempty explicit load record.
+            fields = [field.strip() for field in line.split(",")]  # Tokenize the standard node,dof,value form.
+            if len(fields) >= 3 and fields[0].isdigit():  # Accept only explicit numeric source node labels.
+                nodes.add(int(fields[0]))  # Preserve the loaded node identity.
+    return nodes  # Return every explicit CLOAD node for collector exclusion checks.
+
+
+def run_reaction_audit_level(ccx: str, output: Path, base_text: str, coordinated_nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], element_states: dict[int, dict], condensation: dict, stiffness_n_per_mm: float, label: str, delta_cloads: dict[tuple[int, int], float] | None = None) -> dict:  # Execute one independent finite-stiffness SPRING2 support audit and recover its matching cable-anchor action under the same audited case increment as the primary solve.
+    audit_deck = build_fine_deck(base_text, coordinated_nodes, groups, condensation, reaction_sensor_stiffness_n_per_mm=stiffness_n_per_mm, delta_cloads=delta_cloads)  # Build a sensor-supported audit with the identical optional case increment while leaving canonical U/S evidence independent.
+    audit_stem = f"ZQ_REACTION_AUDIT_{label}"  # Bind this source-frozen stiffness level to a deterministic native solver basename.
+    audit_path = output / f"{audit_stem}.inp"  # Resolve the exact independent audit input path.
+    audit_path.write_text(audit_deck, encoding="ascii")  # Persist the auditable sensor topology before execution.
+    solver_exit, solver_log = run_calculix(ccx, output, audit_stem)  # Execute this independent reaction audit through the same pinned native solver.
+    dat_path = output / f"{audit_stem}.dat"  # Resolve its immutable native nodal response evidence.
+    raw = parse_raw_response(dat_path)  # Parse exact NALL U and separate collector RF without reading loaded-node RF as reaction.
+    recovery = recover_suspension_response(raw["displacements"], coordinated_nodes, groups, element_states, condensation)  # Recover anchor reactions from this same finite-support audit displacement state.
+    mapping = reaction_collector_contract(audit_deck)  # Reconstruct the exact 22-degree sensor map independently from result tables.
+    collector_nodes = {int(record["collectorNode"]) for record in mapping}  # Freeze the expected clean RF node population.
+    proxy_nodes = {int(record["proxyNode"]) for record in mapping}  # Freeze the expected scalar support-proxy displacement population.
+    collector_coverage = set(raw["collectorForces"]) == collector_nodes and set(raw["proxyDisplacements"]) == proxy_nodes and all(math.isfinite(value) for vector in [*raw["collectorForces"].values(), *raw["proxyDisplacements"].values()] for value in vector)  # Require exact finite collector RF and proxy U output.
+    audit_nodes, audit_groups, _audit_ownership = parse_model(audit_deck)  # Parse complete generated audit topology independently for load-free checks.
+    sensor_ids = {int(record["sensorElement"]) for record in mapping}  # Freeze the exact SPRING2 sensor population.
+    gravity_ids = explicit_set_members(audit_deck, "*ELSET", "ELSET", "E_GRAV")  # Recover every element carrying audit gravity.
+    loaded_nodes = explicit_cload_nodes(audit_deck)  # Recover every explicit concentrated-load node.
+    collector_members = explicit_set_members(audit_deck, "*NSET", "NSET", "P3_REACTION_COLLECTORS")  # Recover the exact fixed clean-node population.
+    proxy_members = explicit_set_members(audit_deck, "*NSET", "NSET", "P3_REACTION_PROXIES")  # Recover the exact scalar support-proxy population.
+    expected_sensor_topology = {int(record["sensorElement"]): [int(record["collectorNode"]), int(record["proxyNode"])] for record in mapping}  # Build the required collector-first and proxy-second SPRING2 connectivity map.
+    actual_sensor_topology = {element_id: connectivity for group_name, elements in audit_groups.items() if group_name.startswith("P3_RF_") for element_id, connectivity in elements}  # Recover all and only generated reaction sensors.
+    collector_incidence = {collector: sorted(element_id for elements in audit_groups.values() for element_id, connectivity in elements if collector in connectivity) for collector in collector_nodes}  # Enumerate every finite element incident to each supposedly load-free collector.
+    proxy_incidence = {proxy: sorted(element_id for elements in audit_groups.values() for element_id, connectivity in elements if proxy in connectivity) for proxy in proxy_nodes}  # Enumerate every finite element incident to each scalar proxy independently.
+    load_free = collector_members == collector_nodes and proxy_members == proxy_nodes and not ((collector_nodes | proxy_nodes) & loaded_nodes) and not (sensor_ids & gravity_ids) and actual_sensor_topology == expected_sensor_topology and all(collector_incidence[int(record["collectorNode"])] == [int(record["sensorElement"])] and proxy_incidence[int(record["proxyNode"])] == [int(record["sensorElement"])] for record in mapping)  # Require each collector/proxy pair to carry only its one sensor and no physical load.
+    retained_components = [0.0, 0.0, 0.0]  # Accumulate support-on-structure collector RF into physical bridge axes.
+    constitutive_relative = 0.0  # Track RF1 plus K times directly connected scalar-proxy displacement identity error at printed precision.
+    maximum_support_translation = 0.0  # Track the largest finite-stiffness physical support movement.
+    maximum_reported_physical_knot_translation = 0.0  # Track expanded physical-knot U separately because it is not the scalar SPRING2 extension used for the support-limit Gate.
+    for record in mapping:  # Visit every physical constrained translation and its unique sensor once.
+        physical_node = int(record["physicalNode"])  # Recover the physical support node identity.
+        physical_dof = int(record["physicalDof"])  # Recover its global bridge direction.
+        collector_node = int(record["collectorNode"])  # Recover the load-free scalar result node.
+        proxy_node = int(record["proxyNode"])  # Recover the knot-isolated scalar support-proxy result node.
+        collector_force = float(raw["collectorForces"][collector_node][0]) if collector_coverage else float("inf")  # Read only active RF1 or force fail-closed nonfinite evidence.
+        physical_displacement = float(raw["displacements"][physical_node][physical_dof - 1])  # Read the physical support translation solely for the finite-stiffness support-movement screen.
+        proxy_displacement = float(raw["proxyDisplacements"][proxy_node][0]) if collector_coverage else float("inf")  # Read the actual scalar SPRING2 extension on the proxy side rather than a shell-and-beam knot output surrogate.
+        retained_components[physical_dof - 1] += collector_force  # Map support-on-structure RF1 back to X, Y, or Z.
+        constitutive_relative = max(constitutive_relative, abs(collector_force + stiffness_n_per_mm * proxy_displacement) / max(abs(collector_force), 1.0))  # Enforce RFcollector equals minus K times the directly connected scalar proxy displacement.
+        maximum_support_translation = max(maximum_support_translation, abs(proxy_displacement))  # Screen the actual scalar SPRING2 support extension consumed by the reaction constitutive equation.
+        maximum_reported_physical_knot_translation = max(maximum_reported_physical_knot_translation, abs(physical_displacement))  # Preserve the solver-expanded physical-knot translation as a nondecisive diagnostic only.
+    retained_resultant = tuple(retained_components)  # Freeze this level's clean retained support resultant.
+    anchor_resultant = tuple(float(value) for value in recovery["receipt"]["anchorReactionResultantN"])  # Recover matching analytic cable-anchor reactions from this audit U field.
+    total_resultant = tuple(retained_resultant[axis] + anchor_resultant[axis] for axis in range(3))  # Form the full physical support resultant for stiffness convergence.
+    fatal_hits = [token for token in FATAL_TOKENS if token in solver_log.upper()]  # Detect native fatal, pivot, singularity, and MPC diagnostics independently.
+    return {"label": label, "stiffnessNPerMm": stiffness_n_per_mm, "solverExitCode": solver_exit, "fatalDiagnostics": fatal_hits, "deckSha256": sha256_path(audit_path), "rawDatSha256": sha256_path(dat_path), "stdoutSha256": sha256_path(output / f"{audit_stem}.stdout.log"), "collectorMap": mapping, "collectorNodeIds": sorted(collector_nodes), "proxyNodeIds": sorted(proxy_nodes), "collectorCoveragePass": collector_coverage, "collectorsLoadFreePass": load_free, "maximumConstitutiveResidualRelative": constitutive_relative, "maximumSupportTranslationMm": maximum_support_translation, "maximumReportedPhysicalKnotTranslationMm": maximum_reported_physical_knot_translation, "retainedSupportResultantN": retained_resultant, "analyticAnchorReactionResultantN": anchor_resultant, "physicalSupportResultantN": total_resultant, "anchorRecovery": recovery["receipt"]}  # Return complete finite audit evidence while distinguishing decisive scalar support extension from expanded-knot diagnostic U.
+
+
+def evaluate_canonical_gate(fine_deck: str, coordinated_nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], state: dict, condensation: dict, solver_exit: int, solver_log: str, raw: dict, recovery: dict, reaction_audits: list[dict], canonical_receipt: dict, vtk_receipt: dict, wind_receipt: dict) -> dict:  # Apply fail-closed P3 numerical Gates to canonical response and two independent load-free reaction audits.
+    retained_elements = {element_id for group_name in PRIMARY_STRESS_GROUPS for element_id, _connectivity in groups[group_name]}  # Freeze the exact raw retained stress population.
+    primary_elements = {element_id for group_name in PRIMARY_VTK_GROUPS for element_id, _connectivity in groups[group_name]}  # Freeze the exact canonical primary stress population.
+    retained_nodes = {node for group_name in PRIMARY_RETAINED_GROUPS for _element_id, connectivity in groups[group_name] for node in connectivity}  # Freeze the exact raw retained nodal population.
+    fatal_hits = [token for token in FATAL_TOKENS if token in solver_log.upper()]  # Detect solver fatal, singularity, pivot, and MPC-dependence diagnostics.
+    raw_stress_coverage = set(raw["stressTokens"]) == retained_elements and all(set(records) == set(range(1, 9)) for records in raw["stressTokens"].values())  # Require exact 824-by-eight native retained stress evidence.
+    canonical_stress_coverage = canonical_receipt["elementCount"] == len(primary_elements) and canonical_receipt["stressRecordCount"] == 8 * len(primary_elements)  # Require exact 1070-by-eight canonical stress evidence.
+    nsets = parse_nsets(fine_deck)  # Recover retained physical support membership from the exact canonical direct-support deck.
+    retained_support_nodes = set().union(*(nsets.get(name, set()) for name in ("TOWER_BASES", "DECK_LEFT_PIN", "DECK_RIGHT_ROLLER")))  # Preserve the physical support-node identity independently from audit collectors.
+    fine_nodes, fine_groups, _fine_ownership = parse_model(fine_deck)  # Parse the exact retained solver topology independently for load accounting.
+    fine_external, fine_external_audit = permanent_external_resultant(fine_deck, fine_nodes, fine_groups)  # Recover retained permanent loads plus transferred base interface actions.
+    interface_resultant = tuple(sum(value for (_node, dof), value in condensation["interfaceLoads"].items() if dof == axis + 1) for axis in range(3))  # Sum the transferred base interface action included in the retained solver load.
+    suspension_weight = float(recovery["receipt"]["suspensionSelfWeightN"])  # Recover complete physical main-cable and hanger self-weight.
+    full_external = (fine_external[0] - interface_resultant[0], fine_external[1] - interface_resultant[1], fine_external[2] - interface_resultant[2] - suspension_weight)  # Replace subsystem interface transfer by actual full-suspension external self-weight for whole-bridge balance.
+    if sorted(float(level["stiffnessNPerMm"]) for level in reaction_audits) != list(REACTION_AUDIT_STIFFNESSES_N_PER_MM):  # Require both precommitted stiffness levels exactly once.
+        raise RuntimeError("reaction audit does not contain exact K and 10K levels")  # Stop before selecting or tuning an unapproved force audit.
+    ordered_audits = sorted(reaction_audits, key=lambda level: float(level["stiffnessNPerMm"]))  # Order K before 10K independently from execution order.
+    low_audit, selected_audit = ordered_audits  # Use K only for convergence and the frozen 10K level for formal reactions.
+    retained_support_resultant = tuple(float(value) for value in selected_audit["retainedSupportResultantN"])  # Select uncontaminated 10K retained support reactions.
+    anchor_resultant = tuple(float(value) for value in selected_audit["analyticAnchorReactionResultantN"])  # Select anchor recovery from the same 10K displacement field.
+    physical_support_resultant = tuple(float(value) for value in selected_audit["physicalSupportResultantN"])  # Select the matching complete physical support resultant.
+    force_balance_residual = tuple(physical_support_resultant[axis] + full_external[axis] for axis in range(3))  # Apply the unique support-on-structure plus external-load equals zero convention.
+    reference_weight = max(abs(full_external[2]), 1.0)  # Normalize vertical balance by complete primary permanent weight.
+    vertical_balance_relative = abs(force_balance_residual[2]) / reference_weight  # Enforce vertical closure without same/opposite sign fallback.
+    global_force_balance_relative = vector_norm(force_balance_residual) / max(vector_norm(full_external), 1.0)  # Enforce all three bridge-force components under the same unique sign convention.
+    convergence_difference = tuple(float(selected_audit["physicalSupportResultantN"][axis]) - float(low_audit["physicalSupportResultantN"][axis]) for axis in range(3))  # Compare complete support results including matching recovered anchors.
+    reaction_convergence_relative = vector_norm(convergence_difference) / max(vector_norm(tuple(float(value) for value in selected_audit["physicalSupportResultantN"])), abs(full_external[2]), 1.0)  # Normalize two-level support convergence by the full force scale.
+    maximum_displacement = max(vector_norm(vector) for vector in recovery["displacements"].values())  # Measure the largest real retained or recovered primary translation.
+    gates = {"solverExitZero": solver_exit == 0, "fatalDiagnosticsAbsent": not fatal_hits, "equilibriumStateV3Accepted": state.get("schema") == STATE_SCHEMA and state.get("status") == "PASS", "equilibriumStateWriteReloadShaVerified": True, "rawRetainedNodeCoverage": set(raw["displacements"]) == retained_nodes, "rawRetainedStressEightPointCoverage": raw_stress_coverage, "canonicalPrimaryNodeCoverage": canonical_receipt["nodeCount"] == 783, "canonicalPrimaryStressEightPointCoverage": canonical_stress_coverage, "retainedRawTokenIdentity": canonical_receipt["retainedDisplacementTokenIdentity"] and canonical_receipt["retainedStressTokenIdentity"], "condensedTangentNoRegularization": all(float(plane["regularizationAddedNPerMm"]) == 0.0 for plane in condensation["receipt"]["planes"]), "suspensionRecoveryClosure": float(recovery["receipt"]["maximumInternalIncrementalResidualN"]) <= 1.0e-5 and float(recovery["receipt"]["maximumInterfaceTangentErrorN"]) <= 1.0e-5, "positiveFinalSuspensionTension": float(recovery["receipt"]["minimumFinalSuspensionAxialStressMPa"]) >= MIN_TENSION_MPA, "suspensionIncrementScreeningPass": float(recovery["receipt"]["maximumSuspensionIncrementToBaseRatio"]) <= 0.50, "formFindingResidualPass": float(state["gates"]["maxFormFindingResidualN"]) <= FORM_RESIDUAL_TOL_N, "reactionAuditBothSolversExitZero": all(int(level["solverExitCode"]) == 0 for level in ordered_audits), "reactionAuditFatalDiagnosticsAbsent": all(not level["fatalDiagnostics"] for level in ordered_audits), "reactionCollectorCoveragePass": all(level["collectorCoveragePass"] for level in ordered_audits), "reactionCollectorsLoadFreePass": all(level["collectorsLoadFreePass"] for level in ordered_audits), "reactionCollectorConstitutivePass": all(float(level["maximumConstitutiveResidualRelative"]) <= 1.0e-5 for level in ordered_audits), "reactionAuditKConvergencePass": reaction_convergence_relative <= REACTION_AUDIT_CONVERGENCE_REL_TOL, "reactionAuditSupportLimitPass": float(selected_audit["maximumSupportTranslationMm"]) <= REACTION_AUDIT_SUPPORT_TRANSLATION_TOL_MM, "verticalReactionBalanceScreeningPass": vertical_balance_relative <= FORCE_BALANCE_REL_TOL, "globalForceBalancePass": global_force_balance_relative <= FORCE_BALANCE_REL_TOL, "maximumDisplacementScreeningPass": math.isfinite(maximum_displacement) and maximum_displacement <= 1000.0, "vtkPrimaryCoverage": vtk_receipt["pointCount"] == 783 and vtk_receipt["cellCount"] == 1070 and vtk_receipt["lineCount"] == 13359, "windFormalResponseExcluded": wind_receipt["status"] == "BLOCKED_G3_G5" and wind_receipt["formalResponseComputed"] is False}  # Publish every decisive canonical response, all-axis force, two-level reaction, topology, numerical, and evidence-boundary Gate.
+    status = "PASS" if all(gates.values()) else "FAIL"  # Accept P3 only when all real-response Gates pass simultaneously.
+    reaction_summary = {"selectedLevel": selected_audit["label"], "selectedStiffnessNPerMm": selected_audit["stiffnessNPerMm"], "levels": ordered_audits, "resultantConvergenceRelative": reaction_convergence_relative, "convergenceTolerance": REACTION_AUDIT_CONVERGENCE_REL_TOL, "supportTranslationToleranceMm": REACTION_AUDIT_SUPPORT_TRANSLATION_TOL_MM}  # Publish both source-frozen audits and their complete-support convergence.
+    return {"status": status, "gates": gates, "solverExitCode": solver_exit, "fatalDiagnostics": fatal_hits, "maximumDisplacementMm": maximum_displacement, "forceBalanceResidualN": force_balance_residual, "verticalReactionBalanceRelative": vertical_balance_relative, "globalForceBalanceRelative": global_force_balance_relative, "retainedSupportNodeIds": sorted(retained_support_nodes), "reactionCollectorNodeIds": selected_audit["collectorNodeIds"], "retainedSupportResultantN": retained_support_resultant, "analyticAnchorReactionResultantN": anchor_resultant, "physicalSupportReactionResultantN": physical_support_resultant, "fullPrimaryExternalLoadResultantN": full_external, "retainedSolverExternalLoadResultantN": fine_external, "transferredInterfaceLoadResultantN": interface_resultant, "retainedLoadAudit": fine_external_audit, "reactionAudit": reaction_summary, "supportReactionConvention": {"retained": "support-on-structure global RF1 at unloaded collector-first SPRING2 endpoint; RF1=-K*uProxy1, where proxy DOF1 is MPC-coupled to the original physical support direction before CalculiX knot expansion", "anchors": selected_audit["anchorRecovery"]["anchorReactionConvention"], "balance": "selected 10K retained collector reactions plus same-level recovered cable-anchor reactions plus full physical external loads equals zero with no sign fallback"}, "engineeringReleaseStatus": "BLOCKED_G3_G5", "engineeringReleaseBlockerIssueIds": wind_receipt["blockerIssueIds"]}  # Return the complete numerical Gate and independent two-level support-reaction evidence.
+
+
+def main() -> int:  # Execute P1/P2 v3 publication, exact tangent condensation, retained CalculiX solve, analytic recovery, and canonical primary serialization.
+    parser = argparse.ArgumentParser()  # Build the deterministic canonical adapter command line.
+    parser.add_argument("--module", type=Path, required=True)  # Require the exact workflow-reconstructed P0-P2 v3 calculation module.
+    parser.add_argument("--base", type=Path, required=True)  # Require the immutable verified LC01_G_DEAD mother deck.
+    parser.add_argument("--output", type=Path, required=True)  # Require an isolated calculation evidence directory.
+    parser.add_argument("--ccx", required=True)  # Require the pinned CalculiX executable path or command.
+    args = parser.parse_args()  # Resolve all explicit inputs before creating evidence.
+    pipeline = load_pipeline(args.module)  # Load the unchanged reconstructed P0-P2 implementation.
+    bind_globals(pipeline)  # Bind only audited constants and shared parsing utilities.
+    args.output.mkdir(parents=True, exist_ok=True)  # Create the requested append-only calculation directory.
+    base_text = args.base.read_text(encoding="ascii")  # Read the immutable baseline deck without replacement or normalization.
+    source_nodes, source_groups, _source_ownership = pipeline.parse_model(base_text)  # Parse complete source topology through the audited base parser.
+    generated_state, _generated_nodes, _generated_targets = pipeline.build_equilibrium_state(args.base, base_text, source_nodes, source_groups)  # Execute the unchanged P1/P2 v3 fabrication and staged-equilibrium calculation.
+    equilibrium_path = args.output / "equilibrium_state.json"  # Resolve the unique P2-to-P3 state-transfer path.
+    state, equilibrium_sha = publish_reload_state(equilibrium_path, generated_state, args.base)  # Publish, reread, SHA-check, and consume only persisted v3 bytes.
+    coordinated_nodes, element_states, target_axial_stress = validate_state_v3(state, args.base, source_nodes, source_groups)  # Validate complete v3 geometry, constitutive, and topology coverage despite the legacy helper name.
+    condensation = build_suspension_condensation(base_text, source_nodes, source_groups, coordinated_nodes, element_states, state)  # Assemble both exact physical Schur complements and recovery operators.
+    fine_deck = build_fine_deck(base_text, coordinated_nodes, source_groups, condensation)  # Build one full-load retained static deck with no perturbation double count.
+    fine_stem = "ZQ_STRESS_COORDINATED"  # Preserve the canonical native CalculiX basename.
+    fine_path = args.output / f"{fine_stem}.inp"  # Resolve the exact retained solver input path.
+    fine_path.write_text(fine_deck, encoding="ascii")  # Persist the auditable exact tangent-condensation deck before execution.
+    solver_exit, solver_log = pipeline.run_calculix(args.ccx, args.output, fine_stem)  # Execute the retained physical response through the pinned solver.
+    raw_dat_path = args.output / f"{fine_stem}.dat"  # Resolve the immutable native CalculiX DAT response.
+    raw_digest_before = sha256_path(raw_dat_path)  # Freeze native response identity before any canonical composition.
+    raw = parse_raw_response(raw_dat_path)  # Parse retained native U/RF/S while preserving every required token spelling.
+    recovery = recover_suspension_response(raw["displacements"], coordinated_nodes, source_groups, element_states, condensation)  # Recover real eliminated U, incremental S, and cable-anchor reactions.
+    reaction_audits = [run_reaction_audit_level(args.ccx, args.output, base_text, coordinated_nodes, source_groups, element_states, condensation, stiffness, label) for stiffness, label in zip(REACTION_AUDIT_STIFFNESSES_N_PER_MM, ("K1E9", "K1E10"))]  # Execute both precommitted independent support-sensor levels and recover matching anchor actions.
+    canonical_path = args.output / "canonical-response.dat"  # Resolve the separate complete primary response table required by strict validation.
+    canonical_receipt = write_canonical_response(canonical_path, raw, recovery, source_groups)  # Combine verbatim retained tokens and analytic suspension increments without touching native DAT.
+    if sha256_path(raw_dat_path) != raw_digest_before:  # Prove canonical serialization did not overwrite or mutate the solver-native result.
+        raise RuntimeError("raw ZQ_STRESS_COORDINATED.dat changed during canonical response composition")  # Stop before publishing a broken provenance chain.
+    retained_total = {element_id: average_stress_records(records) for element_id, records in raw["stressTokens"].items()}  # Average each complete native retained eight-record tensor for VTK.
+    total_stresses = {**retained_total, **recovery["totalTensors"]}  # Compose exact retained totals and P2-base-plus-analytic suspension totals without defaults.
+    wind_path = args.output / "wind-exclusion.json"  # Resolve the mandatory G3/G5 exclusion contract.
+    wind_receipt = write_wind_exclusion(wind_path, source_groups)  # Publish exact wind source ids and the absence of formal response.
+    vtk_path = args.output / "stress-coordinated.vtk"  # Resolve the strict primary total-response stress cloud.
+    vtk_receipt = write_primary_vtk(vtk_path, coordinated_nodes, source_groups, recovery["displacements"], total_stresses, target_axial_stress)  # Serialize all 783 U and 1070 total S fields without missing-value fallbacks.
+    summary = evaluate_canonical_gate(fine_deck, coordinated_nodes, source_groups, state, condensation, solver_exit, solver_log, raw, recovery, reaction_audits, canonical_receipt, vtk_receipt, wind_receipt)  # Apply canonical response and two-level independent reaction Gates.
+    response_sources = {group_name: {"displacement": "verbatim numeric tokens from raw ZQ_STRESS_COORDINATED.dat", "stress": "verbatim eight-point total tensor tokens from raw ZQ_STRESS_COORDINATED.dat"} for group_name in PRIMARY_STRESS_GROUPS}  # Declare retained response provenance by engineering group.
+    response_sources["DECK_ACCESSORY_MASS"] = {"displacement": "verbatim shared-node numeric tokens from raw ZQ_STRESS_COORDINATED.dat", "stress": "NOT_APPLICABLE_NON_STRESS_MASS_ELEMENT", "loadRole": "retained original accessory nodal CLOAD distribution"}  # Declare the non-stress accessory-mass contribution without inventing cell tensors.
+    response_sources.update({group_name: {"displacement": "analytic static-condensation recovery uJ=-KJJ^-1*KJI*uI; interface U remains raw; fixed anchors are prescribed U=0", "stress": "analytic tangent incremental axial tensor in canonical-response.dat; P2 v3 base tensor added only for total-response VTK"} for group_name in SUSPENSION_GROUPS})  # Declare real suspension response provenance by group.
+    response_sources.update({group_name: {"status": "EXCLUDED_BLOCKED_G3_G5", "formalResponseComputed": False, "evidence": "wind-exclusion.json"} for group_name in ("WIND_ATTACH_LINKS", "WIND_CABLES")})  # Declare the unresolved wind boundary without values.
+    summary.update({"schema": "zhaqing-canonical-p3-summary-v1", "responseSourceByGroup": response_sources, "stressComposition": "retained structure uses raw CalculiX total tensor; MAIN_CABLES/HANGERS canonical DAT stores analytic tangent increment and VTK adds the P2 v3 equilibrium base tensor", "sourceBaselineSha256": pipeline.sha256_path(args.base), "equilibriumStateSchema": STATE_SCHEMA, "equilibriumStateSha256": equilibrium_sha, "fineDeckSha256": pipeline.sha256_path(fine_path), "rawDatSha256": raw_digest_before, "canonicalResponseDatSha256": canonical_receipt["sha256"], "windExclusionSha256": wind_receipt["sha256"], "vtkSha256": vtk_receipt["sha256"], "canonicalResponse": canonical_receipt, "condensation": condensation["receipt"], "suspensionRecovery": recovery["receipt"], "vtk": vtk_receipt})  # Bind the complete artifact chain, response-source contract, physical operators, and support recovery into one summary.
+    summary_path = args.output / "summary.json"  # Resolve the decisive machine-readable P3 Gate path.
+    summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # Persist finite deterministic summary evidence after all digests exist.
+    print(json.dumps(summary, ensure_ascii=False, indent=2))  # Mirror the complete receipt into the Actions log for auditability.
+    return 0 if summary["status"] == "PASS" else 2  # Make process success follow all canonical physical and evidence Gates.
+
+
+if __name__ == "__main__":  # Execute the adapter only when the dedicated workflow invokes it explicitly.
+    raise SystemExit(main())  # Return the fail-closed P3 status through the native process exit code.
