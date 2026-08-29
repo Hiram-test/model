@@ -33,4 +33,4 @@
 - RMS 沿跨图：PDF 本树不在；`attach23_rms_digitized.csv` 只有表 5-1 三点，禁止插值
 - C 级 15 项：保持 `unverified_C`
 
-正式版 HEAD `dd59aac` 是单提交压扁，wave-4 SHA 不是 git 祖先；内容锁仍在。禁止 rebase 到 `3a4250e`。
+wave-4 SHA `3a4250e9` 仍是本分支 git 祖先（`merge-base --is-ancestor` exit 0）。禁止把缺失对象或单提交压扁当成通过，禁止 rebase 退回旧树。

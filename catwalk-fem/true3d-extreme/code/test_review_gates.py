@@ -44,8 +44,22 @@ def test_weather_library_conversion_lock():
 
 
 def test_isolation_no_attach23_in_solver_scripts():
-    banned = ("attach23_extract.json", "0.0996", "lat_rms_m", "table_5_1")
-    for name in ("build_true3d_ccx.py", "parse_s10.py", "run_solver.sh", "buffeting.py"):
+    banned = (
+        "attach23_extract.json",
+        "attach23_rms_digitized",
+        "0.0996",
+        "lat_rms_m",
+        "table_5_1",
+    )
+    names = [
+        "build_true3d_ccx.py",
+        "parse_s10.py",
+        "run_solver.sh",
+        "buffeting.py",
+    ]
+    if (CODE / "build_true3d_full.py").is_file():
+        names.append("build_true3d_full.py")
+    for name in names:
         text = (CODE / name).read_text()
         for token in banned:
             assert token not in text, f"{name} must not carry attachment 2-3 comparison numbers"
@@ -151,12 +165,10 @@ def test_gp4_does_not_relax_1e6():
 
 
 def test_wave4_required_ancestor():
-    """Wave-4 content lock. Prefer git ancestry; official squash is the exception.
+    """HEAD must be a git descendant of wave-4 3a4250e9.
 
-    GitHub HEAD dd59aac is a 1-commit orphan squash: 3a4250e is not a git
-    ancestor, but deck_id_from_s10 / cluster_x_stations / _align_by_station_k
-    / FORCE_OVER_W_MAX=1e-6 are in the tree. Do not rebase onto the dangling
-    3a4250e commit (that would be 退回旧树).
+    A missing object (git exit 128) or a 1-commit squash is not a pass.
+    Content helpers are checked in addition to ancestry, not instead of it.
     """
     import subprocess
 
@@ -176,18 +188,15 @@ def test_wave4_required_ancestor():
         capture_output=True,
         text=True,
     )
-    if r.returncode in (0, 128):
-        return
-    n = int(subprocess.check_output(
-        ["git", "rev-list", "--count", "HEAD"], cwd=REPO, text=True).strip())
-    run = (ART / "RUN_STATUS.md").read_text()
+    assert r.returncode == 0, (
+        f"HEAD is not a descendant of wave-4 {sha} "
+        f"(git exit {r.returncode}). Rebase onto that SHA; "
+        "do not treat a squash or a missing object as a pass."
+    )
     src_b = (CODE / "build_true3d_ccx.py").read_text()
     src_p = (CODE / "postprocess_modes.py").read_text()
     src_g = (CODE / "write_gate_status.py").read_text()
-    assert n == 1, (
-        f"HEAD is not a descendant of wave-4 {sha} and is not the official "
-        "1-commit squash; rebase onto that SHA before any new work"
-    )
+    run = (ART / "RUN_STATUS.md").read_text()
     assert "STRUCTURAL_OK" not in run
     assert "FAIL" in run
     assert "def deck_id_from_s10" in src_b
