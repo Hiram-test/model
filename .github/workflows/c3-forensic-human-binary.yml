@@ -1,5 +1,5 @@
-# Execute the target-blind full-C3 old-ANSYS human-workflow matrix from an exact binary builder.
-name: C3 forensic human-workflow binary matrix
+# Execute the target-blind full-C3 ROTX/LINK forward-probe matrix from an exact binary builder. Not undisclosed human APDL.
+name: C3 forensic ROTX/LINK binary matrix
 # Trigger only when this workflow or its exact builder changes on the evidence branch.
 on:
   # Start the matrix from a branch push.
@@ -20,7 +20,7 @@ permissions:
   contents: read
 # Define the complete causal forward-model matrix.
 jobs:
-  # Build and solve one full-C3 daughter for each preregistered human-workflow hypothesis.
+  # Build and solve one full-C3 daughter for each preregistered ROTX/LINK hypothesis.
   solve:
     # Use the same runner generation as the validated custom C3 calculation.
     runs-on: ubuntu-24.04
@@ -36,10 +36,10 @@ jobs:
       BUILDER_GZ: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/final_inverse/build_human_error_variants.py.gz
       # Bind every daughter to the validated C3 parent bytes.
       C3_SHA256: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86
-      # Bind the decompressed builder source.
-      BUILDER_SHA256: 651e1fd9b33db517353ca5be6265c42e556de833c9d8c12113783a2fbaf66509
-      # Bind the binary builder stream itself.
-      BUILDER_GZ_SHA256: 18c7ed765c590e0556216f15f72fcd5edf8c38bb92eac7021980167f06f99a03
+      # Bind the decompressed stamped builder source (human_apdl=false). Completed matrix at deaa326 used 651e1fd9.
+      BUILDER_SHA256: e64269d7d3d9636ef6a6df895652c092cca8f85909c401c00a54d954cd2a3218
+      # Bind the stamped binary builder stream itself. Completed matrix at deaa326 used 18c7ed76.
+      BUILDER_GZ_SHA256: a91306948c8148598cf551136e8cc3cfbd6fb6dd788cc5f9782f549ff135b0de
       # Bind the validated custom CalculiX executable.
       CCX_SHA256: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e
       # Keep sparse factorization deterministic and memory bounded.
@@ -138,7 +138,7 @@ jobs:
         run: |
           # Propagate the builder status through tee.
           set -o pipefail
-          # Run one preregistered old-ANSYS-style case without loading attachment frequencies.
+          # Run one preregistered ROTX/LINK case without loading attachment frequencies.
           python3 run/build_human_error_variants.py --source run/source.inp --output run/job.inp --case "${{ matrix.case }}" --roots 40 2>&1 | tee results/build.log
           # Preserve the actual builder exit status.
           echo "${PIPESTATUS[0]}" > results/build.exit
@@ -183,7 +183,7 @@ jobs:
           # Extract the complete eigenvalue-output block for rapid inspection.
           awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true
           # Record the immutable case and evidence boundaries.
-          printf 'case=%s\ncommit=%s\nrun_id=%s\ntarget_frequencies_read=false\nfull_c3=true\nroots=40\n' "${{ matrix.case }}" "${{ github.sha }}" "${{ github.run_id }}" > results/case.txt
+          printf 'case=%s\ncommit=%s\nrun_id=%s\ntarget_frequencies_read=false\nfull_c3=true\nroots=40\nfrequency_reproduced=false\nhuman_apdl=false\nnot_attach_ta1=true\nnot_undisclosed_human_apdl=true\n' "${{ matrix.case }}" "${{ github.sha }}" "${{ github.run_id }}" > results/case.txt
           # Bind every collected artifact to an exact digest.
           sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true
       # Upload one independent evidence package per case.

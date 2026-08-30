@@ -1,4 +1,4 @@
-# Test the natural tower/downpull extension of the strongest target-blind gate-top ROTX cleanup case.
+# Test tower/downpull ROTX added to the gate-top cleanup case. Hypothesis only; not undisclosed human APDL.
 name: C3 forensic gate-top plus tower-end matrix
 # Trigger only when this preregistered diagnostic workflow changes.
 on:
@@ -16,7 +16,7 @@ on:
 permissions:
   # Permit checkout of the immutable repository snapshot.
   contents: read
-# Define the discrete old-ANSYS-style end-master scope matrix.
+# Define the discrete end-master ROTX scope matrix. Not human APDL.
 jobs:
   # Build and solve one complete C3 daughter per natural topology scope.
   solve:
@@ -34,10 +34,10 @@ jobs:
       BUILDER_GZ: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/final_inverse/build_human_error_variants.py.gz
       # Bind the exact C3 parent bytes.
       C3_SHA256: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86
-      # Bind the exact builder source bytes.
-      BUILDER_SHA256: 651e1fd9b33db517353ca5be6265c42e556de833c9d8c12113783a2fbaf66509
-      # Bind the exact binary builder stream.
-      BUILDER_GZ_SHA256: 18c7ed765c590e0556216f15f72fcd5edf8c38bb92eac7021980167f06f99a03
+      # Bind the stamped builder source (human_apdl=false). Completed 14-case matrix at deaa326 used 651e1fd9.
+      BUILDER_SHA256: e64269d7d3d9636ef6a6df895652c092cca8f85909c401c00a54d954cd2a3218
+      # Bind the stamped binary builder stream. Completed 14-case matrix at deaa326 used 18c7ed76.
+      BUILDER_GZ_SHA256: a91306948c8148598cf551136e8cc3cfbd6fb6dd788cc5f9782f549ff135b0de
       # Bind the validated custom CalculiX executable.
       CCX_SHA256: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e
       # Keep sparse factorization deterministic and memory bounded.
@@ -146,19 +146,19 @@ jobs:
             *) exit 64 ;;
           esac
           # Record the exact natural end-master scope before modifying the daughter.
-          printf 'case=%s\nparent_case=%s\nend_scope=%s\nend_nodes=%s\ntarget_frequencies_read=false\n' "${{ matrix.case }}" "${{ matrix.parent_case }}" "${{ matrix.end_scope }}" "$END_NODES" > results/end-scope.txt
+          printf 'case=%s\nparent_case=%s\nend_scope=%s\nend_nodes=%s\ntarget_frequencies_read=false\nfrequency_reproduced=false\nhuman_apdl=false\nnot_attach_ta1=true\nnot_undisclosed_human_apdl=true\n' "${{ matrix.case }}" "${{ matrix.parent_case }}" "${{ matrix.end_scope }}" "$END_NODES" > results/end-scope.txt
           # Insert one additional ROTX cleanup block immediately before the modal step.
           awk -v nodes="$END_NODES" -v case_name="${{ matrix.case }}" '
             # Split the preregistered space-delimited end-node scope before reading the input.
             BEGIN { count = split(nodes, selected, " "); inserted = 0 }
-            # Insert the old-ANSYS-style end-master cleanup exactly once before the first step.
+            # Insert the end-master ROTX cleanup exactly once before the first step.
             /^\*STEP/ && inserted == 0 {
-              # Document the causal extension in the generated CalculiX input.
-              print "** OLD-ANSYS ANALOG: ACTIVE TOWER/DOWNPULL MASTER ROTX CLEANUP; CASE=" case_name
+              # Document the discrete extension. Hypothesis only; not recovered human APDL.
+              print "** FORWARD PROBE: ACTIVE TOWER/DOWNPULL MASTER ROTX CLEANUP; CASE=" case_name "; frequency_reproduced=false"
               # Start one explicit boundary block.
               print "*BOUNDARY"
               # Emit one global longitudinal-rotation constraint per selected active end master.
-              for (index = 1; index <= count; index++) print selected[index] ", 4, 4, 0."
+              for (idx = 1; idx <= count; idx++) print selected[idx] ", 4, 4, 0."
               # Prevent duplicate insertion at later steps.
               inserted = 1
             }
