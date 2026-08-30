@@ -1,0 +1,65 @@
+name: Run C3 FT14 modal with custom CCX
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/c3-ft14-modal-main.yml"]
+permissions:
+  contents: write
+jobs:
+  modal:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    env:
+      TAG: c3-ft14-parser-safe-667c5047
+      PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3
+      DECK_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e
+      OMP_NUM_THREADS: "1"
+    steps:
+      - name: Checkout frozen C3 package
+        uses: actions/checkout@v4
+        with:
+          ref: feat/catwalk-c0-c5-physical-reproduction
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Reconstruct exact deck and custom solver
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p run results
+          cat "$PARTS"/*.inp.gz.part* | gzip -dc > run/job.inp
+          cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx
+          chmod +x run/ccx
+          printf '%s  %s\n' "$DECK_SHA" run/job.inp | sha256sum -c -
+          printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c -
+      - name: Solve fourteen modes
+        shell: bash
+        run: |
+          set -o pipefail
+          cd run
+          /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt
+      - name: Collect modal evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cp -a run/job.dat run/job.frd run/job.sta run/job.stdout.txt results/ 2>/dev/null || true
+          cp -a run/job.eig run/job.cvg results/ 2>/dev/null || true
+          sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true
+          awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true
+      - name: Upload modal results artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: C3-FT14-UCOR6-UCAB3-modal-results
+          path: results/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+      - name: Publish compact results to Release
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: gh release upload "$TAG" results/job.dat results/job.sta results/modal-table.txt results/SHA256SUMS.txt --clobber --repo "$GITHUB_REPOSITORY"
