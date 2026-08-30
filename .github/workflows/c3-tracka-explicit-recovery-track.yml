@@ -1,0 +1,328 @@
+# Track the recovered explicit high-master Track A calculation against the unchanged C3 baseline.
+name: Track recovered explicit C3 TrackA model # Give the mode-tracking workflow an explicit name.
+on: # Define the deterministic trigger.
+  push: # Run when this workflow definition is committed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated Track A branch.
+    paths: [".github/workflows/c3-tracka-explicit-recovery-track.yml"] # Avoid unrelated branch pushes.
+permissions: # Declare the minimum repository permissions.
+  contents: read # Permit checkout of solver and C3 fragments.
+  actions: read # Permit read-only download of recovery and baseline artifacts.
+jobs: # Define the single recovery-and-tracking job.
+  track: # Wait for the recovered explicit model, solve when needed, and perform one-to-one mode tracking.
+    runs-on: ubuntu-24.04 # Match the validated custom-solver runner generation.
+    timeout-minutes: 90 # Bound recovery polling, optional solution, and tracking.
+    env: # Freeze source identities and artifact names.
+      RECOVERY_ARTIFACT_NAME: C3-TrackA-explicit-height-recovery # Select the explicit no-spring recovery package.
+      BASELINE_ARTIFACT_ID: "9737911706" # Select the completed unchanged-C3 forty-mode common-observation package.
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3 # Locate the validated custom solver fragments.
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e # Lock the validated solver identity.
+      OMP_NUM_THREADS: "1" # Keep optional sparse modal extraction deterministic.
+    steps: # Execute the complete tracking chain.
+      - name: Checkout immutable analysis branch # Fetch the exact triggering snapshot.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.sha }} # Bind the run to the triggering commit.
+          fetch-depth: 1 # Fetch only the immutable snapshot.
+          persist-credentials: false # Keep repository contents read-only.
+      - name: Install numerical and solver runtime # Supply mode-tracking and custom-solver dependencies.
+        shell: bash # Execute deterministic package commands.
+        run: | # Install only required packages.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          sudo apt-get update -qq # Refresh the runner package index quietly.
+          sudo apt-get install -y -qq liblapack3 libblas3 libgfortran5 python3-numpy python3-scipy # Install validated solver libraries and numerical Python.
+      - name: Download latest explicit recovery and unchanged C3 baseline # Retrieve both immutable evidence packages.
+        shell: bash # Execute the line-commented artifact downloader.
+        env: # Provide the ephemeral read-only Actions token.
+          GH_TOKEN: ${{ github.token }} # Authorize repository artifact reads.
+          GH_REPOSITORY: ${{ github.repository }} # Bind the current owner/name repository identity.
+        run: | # Emit and execute the deterministic downloader.
+          cat > download_artifacts.py <<'PY' # Write the complete artifact downloader.
+          from pathlib import Path  # Resolve download and extraction paths deterministically.
+          import io  # Hold ZIP archive bytes before extraction.
+          import json  # Parse GitHub REST metadata.
+          import os  # Read the ephemeral GitHub token and frozen artifact identifiers.
+          import time  # Poll for the preceding recovery artifact without external orchestration.
+          import urllib.request  # Call the GitHub REST API with read-only credentials.
+          import zipfile  # Extract Actions artifact archives.
+          TOKEN = os.environ['GH_TOKEN']  # Read the ephemeral workflow token.
+          REPOSITORY = os.environ['GH_REPOSITORY']  # Read the owner/name repository identity.
+          RECOVERY_NAME = os.environ['RECOVERY_ARTIFACT_NAME']  # Read the recovery artifact name.
+          BASELINE_ID = int(os.environ['BASELINE_ARTIFACT_ID'])  # Read the immutable baseline artifact identity.
+          ROOT = Path('artifact_inputs')  # Bind the local artifact root.
+          ROOT.mkdir(parents=True, exist_ok=True)  # Create the artifact root.
+          def request_json(url: str) -> dict[str, object]:  # Fetch one GitHub REST JSON document.
+              request = urllib.request.Request(url, headers={'Authorization': f'Bearer {TOKEN}', 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})  # Build the authenticated request.
+              with urllib.request.urlopen(request, timeout=120) as response:  # Execute the bounded request.
+                  return json.load(response)  # Decode and return the JSON document.
+          def request_bytes(url: str) -> bytes:  # Download one Actions artifact archive.
+              request = urllib.request.Request(url, headers={'Authorization': f'Bearer {TOKEN}', 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})  # Build the authenticated request.
+              with urllib.request.urlopen(request, timeout=300) as response:  # Follow redirects and download bounded bytes.
+                  return response.read()  # Return the complete archive bytes.
+          def extract_artifact(artifact_id: int, destination: Path) -> None:  # Download and extract one artifact by immutable identity.
+              archive = request_bytes(f'https://api.github.com/repos/{REPOSITORY}/actions/artifacts/{artifact_id}/zip')  # Download the ZIP archive.
+              destination.mkdir(parents=True, exist_ok=True)  # Create the extraction directory.
+              with zipfile.ZipFile(io.BytesIO(archive)) as handle:  # Open the in-memory ZIP archive.
+                  handle.extractall(destination)  # Extract every evidence file.
+          recovery_artifact: dict[str, object] | None = None  # Initialize the latest recovery artifact selection.
+          for attempt in range(60):  # Poll for at most ten minutes.
+              payload = request_json(f'https://api.github.com/repos/{REPOSITORY}/actions/artifacts?name={RECOVERY_NAME}&per_page=100')  # List matching recovery artifacts.
+              artifacts = payload.get('artifacts', [])  # Select the artifact list.
+              valid = [artifact for artifact in artifacts if not artifact.get('expired', False)] if isinstance(artifacts, list) else []  # Retain nonexpired artifacts only.
+              if valid:  # Stop when at least one recovery artifact is available.
+                  recovery_artifact = max(valid, key=lambda artifact: str(artifact.get('created_at', '')))  # Select the newest recovery package.
+                  break  # Exit the polling loop.
+              time.sleep(10)  # Wait ten seconds before the next read-only poll.
+          if recovery_artifact is None:  # Reject an unavailable recovery package after bounded polling.
+              raise RuntimeError(f'No nonexpired artifact named {RECOVERY_NAME} became available')  # Surface the missing prerequisite.
+          extract_artifact(int(recovery_artifact['id']), ROOT / 'recovery')  # Extract the newest explicit recovery package.
+          extract_artifact(BASELINE_ID, ROOT / 'baseline')  # Extract the immutable unchanged-C3 baseline package.
+          metadata = {'recovery_artifact': recovery_artifact, 'baseline_artifact_id': BASELINE_ID}  # Build the download provenance record.
+          (ROOT / 'download_metadata.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish artifact identities.
+          PY
+          python3 download_artifacts.py # Execute the deterministic artifact downloader.
+      - name: Prepare explicit Track A native result # Use recovered native output or solve the recovered full C3 input unchanged.
+        shell: bash # Execute deterministic preparation commands.
+        run: | # Prepare one conventional CalculiX job directory.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          mkdir -p track_job tracking_results # Create isolated solver and analysis directories.
+          audit=$(find artifact_inputs/recovery -type f -name 'RECOVERY_AUDIT.json' | head -n1) # Locate the explicit recovery audit.
+          test -n "$audit" # Require the recovery audit to exist.
+          python3 - "$audit" <<'PY' # Verify that a structurally eligible explicit model was recovered.
+          from pathlib import Path  # Resolve the audit path.
+          import json  # Parse the recovery audit.
+          import sys  # Read the audit path argument.
+          audit = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))  # Decode the machine-readable recovery record.
+          if not audit.get('selection_found', False):  # Reject continuation when no explicit no-spring candidate was recovered.
+              raise SystemExit('Recovery audit did not find an explicit Track A model')  # Stop before any surrogate reconstruction.
+          PY
+          model=$(find artifact_inputs/recovery -type f -name 'C3_TrackA_explicit_high_master.inp' -printf '%s %p\n' | sort -nr | head -n1 | cut -d' ' -f2-) # Select the recovered full C3 input.
+          test -n "$model" # Require the recovered full-size input.
+          cp "$model" track_job/job.inp # Preserve the recovered model bytes under the conventional solver stem.
+          dat=$(find artifact_inputs/recovery -type f -name '*.dat' -printf '%s %p\n' | sort -nr | head -n1 | cut -d' ' -f2- || true) # Locate the largest recovered DAT output.
+          frd=$(find artifact_inputs/recovery -type f -name '*.frd' -printf '%s %p\n' | sort -nr | head -n1 | cut -d' ' -f2- || true) # Locate the largest recovered FRD output.
+          if [ -n "$dat" ] && [ -n "$frd" ]; then # Reuse complete native evidence when both files exist.
+            cp "$dat" track_job/job.dat # Preserve the recovered frequency output.
+            cp "$frd" track_job/job.frd # Preserve the recovered mode-shape output.
+            printf 'reused_recovered_native_outputs=true\n' > track_job/preparation.txt # Record that no recomputation was required.
+          else # Recompute only when the selected historical artifact lacks native output.
+            cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > track_job/ccx # Reconstruct the validated custom CalculiX executable.
+            chmod +x track_job/ccx # Make the reconstructed solver executable.
+            printf '%s  %s\n' "$CCX_SHA" track_job/ccx | sha256sum -c - # Reject solver identity drift.
+            cd track_job # Enter the isolated solver directory.
+            /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt # Solve the recovered explicit model without changing its entities or parameters.
+            test "${PIPESTATUS[0]}" = "0" # Require a zero native solver exit status.
+            grep -q 'Job finished' job.stdout.txt # Require complete CalculiX termination.
+            cd .. # Return to the workflow root.
+            printf 'reused_recovered_native_outputs=false\n' > track_job/preparation.txt # Record the bounded recomputation.
+          fi # Complete native-result preparation.
+      - name: Perform global one-to-one MAC and old-workflow signatures # Track physical branches without nearest-frequency selection.
+        shell: bash # Execute the line-commented mode-tracking program.
+        run: | # Emit and execute the deterministic tracker.
+          cat > track_modes.py <<'PY' # Write the complete mode-tracking program.
+          from __future__ import annotations  # Keep annotations deterministic on the runner Python version.
+          from pathlib import Path  # Resolve native result files deterministically.
+          import csv  # Publish the complete tracking table.
+          import json  # Publish machine-readable evidence.
+          import math  # Evaluate finite norms and frequency changes.
+          import re  # Parse CalculiX DAT and FRD records.
+          import numpy as np  # Compute MAC and modal signatures.
+          from scipy.optimize import linear_sum_assignment  # Compute global one-to-one mode assignment.
+          BASE = Path('artifact_inputs/baseline')  # Bind the unchanged C3 baseline artifact directory.
+          TEST = Path('track_job')  # Bind the recovered explicit Track A result directory.
+          OUT = Path('tracking_results')  # Bind the stable analysis output directory.
+          LABELS = {1: 'LS1', 2: 'VA1', 3: 'TA1', 4: 'LA1', 5: 'VS1', 6: 'TS1', 7: 'LS2', 8: 'SIDE1', 9: 'SIDE2', 11: 'VA2', 12: 'LA2', 13: 'TS2', 15: 'SIDE3', 21: 'VS2'}  # Freeze previously verified C3 physical branch labels.
+          TARGET_LABELS = ('TA1', 'TS1', 'TS2', 'SIDE3', 'VS2')  # Select the five branches under forensic study.
+          def largest(directory: Path, suffix: str) -> Path:  # Select the largest complete native file with one suffix.
+              files = [path for path in directory.rglob(f'*{suffix}') if path.is_file()]  # Collect matching files recursively.
+              if not files:  # Reject a missing native result.
+                  raise FileNotFoundError(f'No {suffix} file under {directory}')  # Surface the missing file.
+              return max(files, key=lambda path: path.stat().st_size)  # Return the largest matching file.
+          def parse_frequencies(path: Path) -> list[float]:  # Parse the ordered CalculiX eigenfrequency table.
+              text = path.read_text(encoding='ascii', errors='ignore')  # Decode the native DAT output.
+              frequencies: dict[int, float] = {}  # Map one-based modes to frequencies.
+              active = False  # Track entry into the eigenvalue table.
+              for raw in text.splitlines():  # Traverse every DAT line.
+                  upper = raw.upper()  # Normalize header matching.
+                  if 'E I G E N V A L U E' in upper or ('MODE' in upper and 'FREQUENCY' in upper):  # Detect an eigenvalue-table header.
+                      active = True  # Enable numeric-row parsing.
+                      continue  # Continue to the next line.
+                  if not active:  # Ignore output preceding the table.
+                      continue  # Continue scanning.
+                  tokens = re.findall(r'[-+]?(?:\d+\.\d*|\.\d+|\d+)(?:[EeDd][-+]?\d+)?', raw)  # Extract numeric tokens.
+                  if len(tokens) < 3:  # Require a mode number and numerical columns.
+                      continue  # Skip nonnumeric table lines.
+                  try:  # Parse candidate columns defensively.
+                      values = [float(token.replace('D', 'E').replace('d', 'e')) for token in tokens]  # Convert Fortran exponents.
+                  except ValueError:  # Ignore malformed rows.
+                      continue  # Continue scanning.
+                  mode = int(round(values[0]))  # Interpret the first column as a mode number.
+                  if abs(values[0] - mode) > 1.0e-9 or not 1 <= mode <= 500:  # Reject nonintegral or implausible mode labels.
+                      continue  # Continue scanning.
+                  candidates = [value for value in values[1:] if math.isfinite(value) and 0.0 < value < 10.0]  # Retain plausible frequency values.
+                  if candidates and mode not in frequencies:  # Preserve the first complete row per mode.
+                      frequencies[mode] = candidates[-1]  # Store the final positive sub-ten column as frequency.
+              if not frequencies:  # Reject an unparsed DAT table.
+                  raise ValueError(f'No eigenfrequencies parsed from {path}')  # Surface the parser failure.
+              maximum = max(frequencies)  # Select the highest contiguous mode candidate.
+              return [frequencies[index] for index in range(1, maximum + 1) if index in frequencies]  # Return frequencies in one-based order.
+          def parse_frd(path: Path) -> tuple[list[dict[int, np.ndarray]], dict[int, np.ndarray]]:  # Parse sequential displacement blocks and coordinates.
+              modes: list[dict[int, np.ndarray]] = []  # Accumulate one node-vector mapping per mode.
+              coordinates: dict[int, np.ndarray] = {}  # Accumulate available node coordinates.
+              current: dict[int, np.ndarray] | None = None  # Hold the active displacement block.
+              in_coordinates = False  # Track coordinate rows.
+              in_displacement = False  # Track displacement rows.
+              with path.open('r', encoding='ascii', errors='ignore') as handle:  # Stream the native FRD file once.
+                  for raw in handle:  # Traverse every FRD record.
+                      code = raw[:3]  # Read the standard record code.
+                      upper = raw.upper()  # Normalize labels.
+                      if '2C' in raw[:10] and not modes:  # Detect the first coordinate block.
+                          in_coordinates = True  # Enable coordinate parsing.
+                          continue  # Continue to data rows.
+                      if code == ' -3' and in_coordinates:  # Detect the coordinate terminator.
+                          in_coordinates = False  # Close coordinate parsing.
+                          continue  # Continue to result blocks.
+                      if code == ' -4' and 'DISP' in upper:  # Detect one displacement dataset.
+                          if current:  # Preserve a nonempty prior block defensively.
+                              modes.append(current)  # Append the prior block.
+                          current = {}  # Start a fresh displacement mapping.
+                          in_displacement = True  # Enable displacement parsing.
+                          continue  # Continue to component and data rows.
+                      if code == ' -3' and in_displacement:  # Detect the displacement terminator.
+                          if current:  # Preserve the complete block.
+                              modes.append(current)  # Append the mode block.
+                          current = None  # Clear the active mapping.
+                          in_displacement = False  # Close displacement parsing.
+                          continue  # Continue to the next result block.
+                      if code != ' -1':  # Admit data rows only.
+                          continue  # Skip other FRD records.
+                      tokens = re.findall(r'[-+]?(?:\d+\.\d*|\.\d+|\d+)(?:[EeDd][-+]?\d+)?', raw[3:])  # Extract node and vector values.
+                      if len(tokens) < 4:  # Require a node label and three components.
+                          continue  # Skip incomplete rows.
+                      try:  # Parse the data row defensively.
+                          node = int(tokens[0])  # Parse the node label.
+                          vector = np.asarray([float(token.replace('D', 'E').replace('d', 'e')) for token in tokens[1:4]], dtype=float)  # Parse XYZ components.
+                      except ValueError:  # Ignore malformed rows.
+                          continue  # Continue scanning.
+                      if in_coordinates:  # Store coordinate rows.
+                          coordinates[node] = vector  # Preserve the node coordinate.
+                      elif in_displacement and current is not None:  # Store modal displacement rows.
+                          current[node] = vector  # Preserve the nodal vector.
+              if current:  # Preserve an unterminated final mode defensively.
+                  modes.append(current)  # Append the final block.
+              if not modes:  # Reject an FRD without displacement results.
+                  raise ValueError(f'No displacement blocks parsed from {path}')  # Surface the parser failure.
+              return modes, coordinates  # Return ordered modes and coordinates.
+          def flatten(mode: dict[int, np.ndarray], nodes: list[int]) -> np.ndarray:  # Flatten one mode on a frozen common node set.
+              return np.concatenate([mode[node] for node in nodes]).astype(float, copy=False)  # Concatenate XYZ vectors in node order.
+          def infer_pairs(coordinates: dict[int, np.ndarray], nodes: list[int]) -> list[tuple[int, int, float]]:  # Infer old-engineering left-right stations from geometry.
+              available = [(node, coordinates[node]) for node in nodes if node in coordinates]  # Retain common nodes with coordinates.
+              negative = [(node, xyz) for node, xyz in available if xyz[1] < 0.0]  # Select one transverse side.
+              positive = [(node, xyz) for node, xyz in available if xyz[1] > 0.0]  # Select the opposite transverse side.
+              pairs: list[tuple[int, int, float]] = []  # Accumulate paired stations.
+              used: set[int] = set()  # Prevent repeated opposite-side assignments.
+              for left, left_xyz in sorted(negative, key=lambda item: item[1][0]):  # Traverse negative-side nodes along the bridge.
+                  candidates: list[tuple[float, int, np.ndarray]] = []  # Accumulate symmetric geometry candidates.
+                  for right, right_xyz in positive:  # Compare unused opposite-side nodes.
+                      if right in used:  # Skip already assigned nodes.
+                          continue  # Continue to the next candidate.
+                      longitudinal = abs(float(left_xyz[0] - right_xyz[0])) / max(1.0, abs(float(left_xyz[0])), abs(float(right_xyz[0])))  # Measure normalized station mismatch.
+                      elevation = abs(float(left_xyz[2] - right_xyz[2])) / max(1.0, abs(float(left_xyz[2])), abs(float(right_xyz[2])))  # Measure normalized elevation mismatch.
+                      symmetry = abs(abs(float(left_xyz[1])) - abs(float(right_xyz[1]))) / max(1.0, abs(float(left_xyz[1])), abs(float(right_xyz[1])))  # Measure transverse symmetry mismatch.
+                      candidates.append((longitudinal + elevation + symmetry, right, right_xyz))  # Preserve the total mismatch.
+                  if not candidates:  # Stop when no opposite-side nodes remain.
+                      break  # Exit the pairing loop.
+                  score, right, right_xyz = min(candidates, key=lambda item: item[0])  # Select the closest symmetric partner.
+                  if score <= 0.05:  # Admit a reasonably symmetric station pair.
+                      used.add(right)  # Reserve the opposite-side node.
+                      pairs.append((left, right, 0.5 * float(left_xyz[0] + right_xyz[0])))  # Preserve the pair and station coordinate.
+              return sorted(pairs, key=lambda item: item[2])  # Return longitudinally ordered pairs.
+          def signature(mode: dict[int, np.ndarray], pairs: list[tuple[int, int, float]]) -> dict[str, float | int | None]:  # Compute signatures visible to an old ANSYS user inspecting deformed shapes.
+              if len(pairs) < 3:  # Require several stations for a longitudinal signature.
+                  return {'pair_count': len(pairs), 'lr_vertical_correlation': None, 'roll_participation': None, 'half_wave_sign_changes': None}  # Return explicit missing indicators.
+              left = np.asarray([mode[first][2] for first, _, _ in pairs], dtype=float)  # Collect one-side vertical components.
+              right = np.asarray([mode[second][2] for _, second, _ in pairs], dtype=float)  # Collect opposite-side vertical components.
+              differential = right - left  # Form the roll-sensitive differential signal.
+              common = 0.5 * (right + left)  # Form the common vertical-bending signal.
+              correlation = float(np.corrcoef(left, right)[0, 1]) if np.std(left) > 0.0 and np.std(right) > 0.0 else None  # Compute left-right phase correlation.
+              roll_norm = float(np.linalg.norm(differential))  # Measure roll-sensitive amplitude.
+              common_norm = float(np.linalg.norm(common))  # Measure common vertical amplitude.
+              participation = roll_norm / max(roll_norm + common_norm, 1.0e-30)  # Form a bounded roll participation indicator.
+              threshold = 0.05 * float(np.max(np.abs(differential))) if differential.size else 0.0  # Define a relative nodal-noise threshold.
+              signs = [int(np.sign(value)) for value in differential if abs(float(value)) > threshold]  # Remove near-zero station values.
+              changes = sum(first != second for first, second in zip(signs, signs[1:]))  # Count longitudinal sign changes.
+              return {'pair_count': len(pairs), 'lr_vertical_correlation': correlation, 'roll_participation': participation, 'half_wave_sign_changes': changes}  # Return the complete visual signature.
+          OUT.mkdir(parents=True, exist_ok=True)  # Create the stable output directory.
+          base_dat = largest(BASE, '.dat')  # Select the unchanged C3 DAT output.
+          base_frd = largest(BASE, '.frd')  # Select the unchanged C3 FRD output.
+          test_dat = largest(TEST, '.dat')  # Select the explicit Track A DAT output.
+          test_frd = largest(TEST, '.frd')  # Select the explicit Track A FRD output.
+          base_frequency = parse_frequencies(base_dat)  # Parse baseline frequencies.
+          test_frequency = parse_frequencies(test_dat)  # Parse Track A frequencies.
+          base_modes, base_coordinates = parse_frd(base_frd)  # Parse baseline eigenvectors and coordinates.
+          test_modes, test_coordinates = parse_frd(test_frd)  # Parse Track A eigenvectors and coordinates.
+          count = min(40, len(base_frequency), len(test_frequency), len(base_modes), len(test_modes))  # Freeze the common comparison range.
+          base_frequency = base_frequency[:count]  # Truncate baseline frequencies consistently.
+          test_frequency = test_frequency[:count]  # Truncate Track A frequencies consistently.
+          base_modes = base_modes[:count]  # Truncate baseline eigenvectors consistently.
+          test_modes = test_modes[:count]  # Truncate Track A eigenvectors consistently.
+          common_nodes = sorted(set.intersection(*(set(mode) for mode in base_modes + test_modes)))  # Require nodes available in every compared mode.
+          if not common_nodes:  # Reject disjoint result fields.
+              raise RuntimeError('No common observation nodes between baseline and explicit Track A FRD files')  # Surface the incompatibility.
+          base_vectors = np.vstack([flatten(mode, common_nodes) for mode in base_modes])  # Form the baseline mode matrix.
+          test_vectors = np.vstack([flatten(mode, common_nodes) for mode in test_modes])  # Form the Track A mode matrix.
+          numerator = np.abs(base_vectors @ test_vectors.T) ** 2  # Compute squared modal cross products.
+          denominator = np.sum(base_vectors * base_vectors, axis=1)[:, None] * np.sum(test_vectors * test_vectors, axis=1)[None, :]  # Form MAC denominators.
+          mac = np.divide(numerator, denominator, out=np.zeros_like(numerator), where=denominator > 0.0)  # Evaluate the full MAC matrix safely.
+          baseline_indices, test_indices = linear_sum_assignment(-mac)  # Compute the global maximum-MAC one-to-one assignment.
+          assignment = {int(first): int(second) for first, second in zip(baseline_indices, test_indices)}  # Map zero-based baseline modes to Track A modes.
+          coordinates = dict(base_coordinates)  # Start with baseline coordinates.
+          coordinates.update(test_coordinates)  # Fill coordinates available only in the Track A result.
+          pairs = infer_pairs(coordinates, common_nodes)  # Infer left-right stations for visual signatures.
+          rows: list[dict[str, object]] = []  # Initialize the complete tracking table.
+          for baseline_index in range(count):  # Traverse every baseline mode in order.
+              track_index = assignment[baseline_index]  # Select its globally assigned Track A partner.
+              baseline_mode = baseline_index + 1  # Convert to one-based mode numbering.
+              track_mode = track_index + 1  # Convert to one-based mode numbering.
+              base_signature = signature(base_modes[baseline_index], pairs)  # Compute baseline visual signatures.
+              track_signature = signature(test_modes[track_index], pairs)  # Compute Track A visual signatures.
+              rows.append({'baseline_mode': baseline_mode, 'label': LABELS.get(baseline_mode, ''), 'baseline_frequency_hz': base_frequency[baseline_index], 'track_mode': track_mode, 'track_frequency_hz': test_frequency[track_index], 'frequency_change_percent': 100.0 * (test_frequency[track_index] / base_frequency[baseline_index] - 1.0), 'mac': float(mac[baseline_index, track_index]), 'within_first_14_track_modes': track_mode <= 14, 'baseline_lr_vertical_correlation': base_signature['lr_vertical_correlation'], 'track_lr_vertical_correlation': track_signature['lr_vertical_correlation'], 'baseline_roll_participation': base_signature['roll_participation'], 'track_roll_participation': track_signature['roll_participation'], 'baseline_half_wave_sign_changes': base_signature['half_wave_sign_changes'], 'track_half_wave_sign_changes': track_signature['half_wave_sign_changes']})  # Preserve one complete tracking row.
+          with (OUT / 'all40_global_one_to_one_tracking.csv').open('w', encoding='utf-8', newline='') as handle:  # Open the complete CSV output.
+              writer = csv.DictWriter(handle, fieldnames=list(rows[0]))  # Bind the stable output schema.
+              writer.writeheader()  # Write the CSV header.
+              writer.writerows(rows)  # Write all tracking rows.
+          np.savetxt(OUT / 'mac_matrix.csv', mac, delimiter=',', fmt='%.10g')  # Publish the full MAC matrix.
+          selected = [row for row in rows if row['label'] in TARGET_LABELS]  # Select the five forensic branches.
+          first14 = [{'mode': index + 1, 'frequency_hz': frequency} for index, frequency in enumerate(test_frequency[:14])]  # Preserve the natural first-fourteen ordering an old ANSYS user would inspect.
+          report = {'status': 'EXPLICIT_TRACK_A_TRACKED', 'selection_uses_no_target_frequency_for_model_construction': True, 'assignment_method': 'global one-to-one maximum MAC on common observation DOFs', 'old_ansys_interpretation': 'The first fourteen modes are retained in natural solver order; visual left-right phase, roll participation, and longitudinal sign changes are reported without nearest-frequency relabeling.', 'mode_count': count, 'common_observation_nodes': len(common_nodes), 'left_right_pair_count': len(pairs), 'first14_solver_order': first14, 'selected_branches': selected}  # Build the machine-readable tracking record.
+          (OUT / 'TRACK_A_MODE_TRACKING.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the JSON record.
+          lines = ['# 显式高位 master Track A 与 C3 的模态追踪', '', '构模阶段未读取附件目标频率。分支由共同观测自由度上的全局一对一 MAC 追踪，随后只用左右幅相位、滚转参与率和纵向符号变化解释旧版 ANSYS 人工命名。', '', '| 分支 | C3阶次/Hz | Track A阶次/Hz | 变化 | MAC | 前14阶内 | 左右幅相关 | 滚转参与率 | 纵向符号变化 |', '|---|---:|---:|---:|---:|---:|---:|---:|---:|']  # Initialize the compact Markdown report.
+          for row in selected:  # Format the five selected branches.
+              correlation = row['track_lr_vertical_correlation']  # Select the Track A phase indicator.
+              participation = row['track_roll_participation']  # Select the Track A roll indicator.
+              changes = row['track_half_wave_sign_changes']  # Select the Track A longitudinal indicator.
+              lines.append(f"| {row['label']} | M{row['baseline_mode']} / {row['baseline_frequency_hz']:.8f} | M{row['track_mode']} / {row['track_frequency_hz']:.8f} | {row['frequency_change_percent']:+.3f}% | {row['mac']:.4f} | {'是' if row['within_first_14_track_modes'] else '否'} | {correlation if correlation is not None else 'NA'} | {participation if participation is not None else 'NA'} | {changes if changes is not None else 'NA'} |")  # Append one branch row.
+          lines.extend(['', '## Track A 自然前14阶', '', '| 阶次 | 频率/Hz |', '|---:|---:|'])  # Add the old-workflow first-fourteen table.
+          for item in first14:  # Format each natural solver-order mode.
+              lines.append(f"| {item['mode']} | {item['frequency_hz']:.8f} |")  # Append one frequency row.
+          (OUT / 'TRACK_A_MODE_TRACKING.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')  # Publish the human-readable report.
+          PY
+          python3 track_modes.py # Execute the deterministic global mode tracker.
+          cp artifact_inputs/recovery/RECOVERY_AUDIT.json tracking_results/ 2>/dev/null || find artifact_inputs/recovery -name RECOVERY_AUDIT.json -exec cp {} tracking_results/ \; # Preserve the structural recovery audit.
+          cp track_job/preparation.txt tracking_results/ # Preserve whether native outputs were reused or recomputed.
+          sha256sum track_job/job.inp track_job/job.dat track_job/job.frd tracking_results/* > tracking_results/SHA256SUMS.txt # Record exact identities for model, native output, and tracking evidence.
+      - name: Upload explicit Track A model tracking evidence # Publish the complete model and analysis package.
+        if: always() # Preserve diagnostics if recovery or tracking fails.
+        uses: actions/upload-artifact@v4 # Store the evidence as an Actions artifact.
+        with: # Configure a stable artifact name and strict presence check.
+          name: C3-TrackA-explicit-model-tracking # Identify the explicit no-spring Track A tracking package.
+          path: | # Upload the model, native outputs, and analysis records.
+            track_job/job.inp
+            track_job/job.dat
+            track_job/job.frd
+            track_job/job.stdout.txt
+            track_job/preparation.txt
+            tracking_results/
+            artifact_inputs/download_metadata.json
+          if-no-files-found: warn # Preserve partial diagnostics without introducing an acceptance gate.
+          retention-days: 30 # Keep evidence available for independent review.
+          compression-level: 9 # Compress large ASCII and FRD files efficiently.
