@@ -1,4 +1,4 @@
-#!/usr/bin/env python3  # Execute the deterministic full-C3 human-error variant builder.
+#!/usr/bin/env python3  # Target-blind C3 ROTX/LINK forward probes. Not undisclosed human APDL. frequency_reproduced=false. human_apdl=false.
 from __future__ import annotations  # Preserve modern type annotations on the GitHub Actions Python runtime.
 import argparse  # Parse explicit source, case, output, and root-count arguments.
 import hashlib  # Bind the exact parent and every generated daughter to immutable SHA-256 identities.
@@ -16,7 +16,7 @@ CENTER_NEGATIVE = (82028, 82130, 82232, 82334, 82436, 82538, 82640, 82742, 82844
 SUPPORT_OBSERVATIONS = tuple(range(79453, 79461))  # Preserve the eight tower/downpull observation nodes used by prior C3 tracking.
 MAIN13_STATIONS = tuple(range(4, 17))  # Identify the thirteen main-span passage stations in the twenty-one-station order.
 UNIFORM_MCT_HEIGHT_MM = 9080.0  # Preserve the independently noticed 9.08 m MCT gate-height clue without using target frequencies.
-VALID_CASES = (  # Enumerate every preregistered target-blind human-workflow variant.
+VALID_CASES = (  # Enumerate every preregistered target-blind ROTX/LINK forward probe.
     "BASE40",  # Recompute the unmodified parent with forty roots and compact observations.
     "ROT_MAIN13_CENTER",  # Clear global ROTX at the twenty-six main-span passage-center masters.
     "ROT_ALL21_CENTER",  # Clear global ROTX at all forty-two passage-center masters.
@@ -307,14 +307,14 @@ def build(source: Path, output: Path, case: str, roots: int) -> dict[str, object
                 generated_equations.append(combine_terms(terms))  # Merge repeated sparse terms before serialization.
     observation_nodes = sorted(set(CENTER_POSITIVE + CENTER_NEGATIVE + SUPPORT_OBSERVATIONS + tuple(int(chain["bottom"]) for chain in chains) + tuple(int(chain["top"]) for chain in chains) + tuple(int(chain["link"]) for chain in chains)))  # Assemble the common physical tracking set.
     require(len(observation_nodes) == 230, "OBSERVATION_NODE_COUNT_MISMATCH", str(len(observation_nodes)))  # Freeze the compact observation cardinality.
-    inserted: list[str] = ["** TARGET-BLIND OLD-ANSYS HUMAN-WORKFLOW FORENSIC VARIANT", f"** CASE={case}", "*NSET, NSET=N_FORENSIC_OBS"]  # Begin the deterministic pre-step insertion block.
+    inserted: list[str] = ["** TARGET-BLIND C3 ROTX/LINK FORWARD PROBE. NOT human APDL. frequency_reproduced=false.", f"** CASE={case}", "*NSET, NSET=N_FORENSIC_OBS"]  # Begin the deterministic pre-step insertion block.
     for start in range(0, len(observation_nodes), 16):  # Wrap observation labels into bounded CalculiX rows.
         inserted.append(", ".join(str(node) for node in observation_nodes[start:start + 16]))  # Emit at most sixteen node labels per row.
     if rotation_nodes:  # Add an explicit old-ANSYS-style rotational cleanup boundary block when selected.
-        inserted.extend(["** ANALOG OF D,MASTER,ROTX,0 AFTER CERIG/CP/CE ASSEMBLY", "*BOUNDARY"])  # Document the exact human action being represented.
+        inserted.extend(["** ANALOG OF D,MASTER,ROTX,0. Hypothesis only; not recovered human APDL.", "*BOUNDARY"])  # Document the discrete ROTX boundary being tested.
         inserted.extend(f"{node}, 4, 4, 0." for node in rotation_nodes)  # Fix only global longitudinal rotation at each selected master.
     if generated_equations:  # Add translation-only LINK/high-reference constraints for the selected kinematic variant.
-        inserted.append("** ANALOG OF A HIGH PILOT/MASTER CONNECTED TO A TRANSLATION-ONLY LINK NODE")  # Document the human-workflow interpretation.
+        inserted.append("** ANALOG OF A HIGH PILOT/MASTER TO A TRANSLATION-ONLY LINK NODE. Hypothesis only; not human APDL.")  # Document the discrete LINK hypothesis being tested.
         for equation in generated_equations:  # Serialize every generated sparse row.
             inserted.extend(equation_lines(equation))  # Append one complete CalculiX equation block.
     if not rotation_nodes and not generated_equations:  # Preserve an explicit no-op marker for the BASE40 control.
@@ -324,20 +324,24 @@ def build(source: Path, output: Path, case: str, roots: int) -> dict[str, object
     daughter_lines = insert_before_first(daughter_lines, "*STEP", inserted)  # Insert observations and selected kinematics immediately before the modal step.
     heading_index = next((index for index, line in enumerate(daughter_lines) if line.strip().upper() == "*HEADING"), None)  # Locate the parent heading keyword.
     require(heading_index is not None, "HEADING_MISSING", str(source))  # Require the validated heading structure.
-    daughter_lines.insert(heading_index + 1, f"FORENSIC HUMAN ERROR {case}; full C3; target-blind; old ANSYS workflow analogue")  # Stamp the exact case into native solver outputs.
+    daughter_lines.insert(heading_index + 1, f"FORENSIC FORWARD PROBE {case}; full C3; target-blind; not human APDL; frequency_reproduced=false")  # Stamp the exact case into native solver outputs.
     output.parent.mkdir(parents=True, exist_ok=True)  # Create the selected output directory.
     output.write_text("\n".join(daughter_lines) + "\n", encoding="ascii")  # Publish the complete full-entity daughter input deck.
     output_sha = sha256_file(output)  # Bind the generated daughter byte identity.
     vertical_heights = [float(chain["vertical_height_mm"]) for chain in chains]  # Collect real C3 global vertical post heights.
     member_lengths = [float(chain["member_length_mm"]) for chain in chains]  # Collect real physical endpoint distances.
     receipt = {  # Build the machine-readable construction and evidence-boundary record.
-        "status": "TARGET_BLIND_FULL_C3_HUMAN_WORKFLOW_FORWARD_MODEL",  # Mark the result as a causal forward probe rather than an inverse fit.
+        "status": "TARGET_BLIND_FULL_C3_FORWARD_PROBE",  # Mark the result as a causal forward probe rather than an inverse fit.
         "case": case,  # Preserve the exact preregistered variant name.
         "source": str(source),  # Preserve the selected parent path.
         "source_sha256": source_sha,  # Preserve the validated parent digest.
         "output": str(output),  # Preserve the generated daughter path.
         "output_sha256": output_sha,  # Preserve the exact daughter digest.
         "target_frequencies_read": False,  # Confirm that attachment frequencies never entered variant generation.
+        "frequency_reproduced": False,  # Prohibit reading any later root as attach TA1.
+        "human_apdl": False,  # This is a forward hypothesis, not recovered undisclosed human APDL.
+        "not_attach_ta1": True,  # 9.08 m and ROTX/LINK scopes are not attach reproduction.
+        "not_undisclosed_human_apdl": True,  # No original APDL command text is available.
         "nodes_changed": 0,  # Confirm that no physical node or coordinate was edited.
         "elements_changed": 0,  # Confirm that no physical element was added, deleted, or retyped.
         "mass_changed": False,  # Confirm that no MASS value was altered in the human-kinematic route.
@@ -358,7 +362,7 @@ def build(source: Path, output: Path, case: str, roots: int) -> dict[str, object
         "theory": {  # State the exact Track mechanism implemented by this discrete model.
             "energy": "Delta_U_T = 0.5 * sum_j(k_theta_j * theta(x_j)^2)",  # Preserve the discrete artificial roll-foundation energy form.
             "frequency": "omega_wrong_n^2 = omega_0_n^2 + sum_j(k_theta_j * phi_n(x_j)^2) / I_T_n",  # Preserve the modal frequency-square perturbation form.
-            "human_process": "Old ANSYS LINK180-BEAM188 workflow: assemble CERIG/CP/CE rigid regions, encounter zero-pivot or unused rotations, then batch-clear ROTX or attach a high pilot to a translation-only LINK node.",  # Preserve the historical behavior hypothesis.
+            "human_process": "Hypothesis only: batch-clear ROTX or attach a high pilot to a translation-only LINK node. Not recovered human APDL and not attach TA1.",  # Preserve the historical behavior hypothesis without claiming the unavailable command text.
             "discrete_realization": "No fitted k_theta is supplied. The existing full-C3 UCOR6/UCAB3 tangent generates the reaction stiffness produced by the selected boundary/equation scope.",  # Explain why the forward model is not a low-dimensional spring fit.
         },  # Close the Track-theory receipt block.
         "evidence_boundary": "The variant can support or falsify an equivalent error mechanism, but cannot prove the unavailable original APDL command text.",  # Preserve the forensic inference boundary.
@@ -368,7 +372,7 @@ def build(source: Path, output: Path, case: str, roots: int) -> dict[str, object
 
 
 def main() -> int:  # Execute one deterministic command-line build.
-    parser = argparse.ArgumentParser(description="Build target-blind old-ANSYS-style human-error variants directly on the exact frozen C3 model.")  # Define the bounded tool interface.
+    parser = argparse.ArgumentParser(description="Build target-blind C3 ROTX/LINK forward probes. Not human APDL. frequency_reproduced=false.")  # Define the bounded tool interface.
     parser.add_argument("--source", required=True, type=Path)  # Require the exact validated C3 parent input.
     parser.add_argument("--output", required=True, type=Path)  # Require one explicit full daughter output path.
     parser.add_argument("--case", required=True, choices=VALID_CASES)  # Require one preregistered human-workflow case.

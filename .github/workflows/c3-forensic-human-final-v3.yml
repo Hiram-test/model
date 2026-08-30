@@ -1,5 +1,5 @@
-# Execute the final target-blind full-C3 old-ANSYS human-workflow matrix with the archived builder padding restored.
-name: C3 forensic human-workflow final matrix v3
+# Execute the target-blind full-C3 ROTX/LINK forward-probe matrix. Not undisclosed human APDL.
+name: C3 forensic ROTX/LINK forward probe v3
 # Trigger only when this final workflow is created or revised.
 on:
   # Start from a branch push.
@@ -177,7 +177,7 @@ jobs:
           # Extract the complete eigenvalue-output block for rapid inspection.
           awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true
           # Record the immutable case and evidence boundaries.
-          printf 'case=%s\ncommit=%s\nrun_id=%s\ntarget_frequencies_read=false\nfull_c3=true\nroots=40\n' "${{ matrix.case }}" "${{ github.sha }}" "${{ github.run_id }}" > results/case.txt
+          printf 'case=%s\ncommit=%s\nrun_id=%s\ntarget_frequencies_read=false\nfull_c3=true\nroots=40\nfrequency_reproduced=false\nhuman_apdl=false\nnot_attach_ta1=true\nnot_undisclosed_human_apdl=true\n' "${{ matrix.case }}" "${{ github.sha }}" "${{ github.run_id }}" > results/case.txt
           # Bind every collected artifact to an exact digest.
           sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true
       # Upload one independent evidence package per case.
