@@ -230,14 +230,15 @@ def facts_for_case(case: dict[str, Any]) -> dict[str, Any]:  # 构造 Doubao 只
     binding = read_json(ROOT / "model_binding.json")  # 读取 C3 模型事实。
     trace = make_trace(case, binding)  # 重算该工况四智能体追踪。
     modes = load_modes()  # 读取 14 阶模态事实。
-    working_pairs = [mode for mode in modes if "working_pair" in mode["interpretation"]]  # 提取当前工作配对。
+    pairing_rows = load_rows(ROOT / "table41_c3_pairing.csv")  # 读取附件表 4-1 对照表。
+    comparison_pairs = [row for row in pairing_rows if row.get("table41_target")]  # 只保留带目标名的对照行。
     return {  # 返回最小充分事实包。
         "case": case,  # 提供工况事实。
         "c3_model": {"model_id": binding["model_id"], "deck_sha256": binding["deck"]["sha256"], "solver_sha256": binding["solver"]["sha256"], "response_state": binding["response_state"]},  # 提供模型身份。
         "modal_frequencies_hz": binding["modal_receipt"]["frequencies_hz"],  # 提供原生频率。
-        "working_mode_pairs": working_pairs,  # 提供限定后的工作配对。
+        "comparison_pairs_not_aligned": comparison_pairs,  # 对照行含 NOT_ALIGNED，不是锁定配对。
         "agent_trace": trace,  # 提供四智能体追踪。
-        "hard_facts": ["C3 43-case buffeting response is NOT_MATERIALIZED", "Double-MCT numerical response values are provenance only", "warning status is NOT_ARMED", "dispatch is false"],  # 固定不可改写事实。
+        "hard_facts": ["C3 43-case buffeting response is NOT_MATERIALIZED", "Double-MCT numerical response values are provenance only", "warning status is NOT_ARMED", "dispatch is false", "TA1/VS2 pairing is NOT_ALIGNED; C3 0.07267216 Hz is not attach TA1 0.0996"],  # 固定不可改写事实。
     }  # 完成事实包。
 
 

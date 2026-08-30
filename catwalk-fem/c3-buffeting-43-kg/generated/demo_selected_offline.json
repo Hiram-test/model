@@ -40,36 +40,34 @@
       0.1465538,
       0.1491063
     ],
-    "working_mode_pairs": [
+    "comparison_pairs_not_aligned": [
       {
-        "mode": 3,
-        "frequency_hz": 0.07267216,
-        "dominant_translation": "UZ",
-        "ux_fraction": "0.110370906398",
-        "uy_fraction": "0.101048210928",
-        "uz_fraction": "0.788580882674",
-        "mirror_signature": "UZ_differential",
-        "interpretation": "TA1_working_pair_mass_weighted_followup"
+        "c3_mode": "3",
+        "frequency_hz": "0.07267216",
+        "table41_target": "TA1",
+        "mapping_status": "NOT_ALIGNED",
+        "evidence_note": "C3 0.07267216 Hz ≠ attach TA1 0.0996 Hz; 14阶原生对照候选，不是复现"
       },
       {
-        "mode": 4,
-        "frequency_hz": 0.07356089,
-        "dominant_translation": "UY",
-        "ux_fraction": "0.007782733856",
-        "uy_fraction": "0.936750254501",
-        "uz_fraction": "0.055467011643",
-        "mirror_signature": "UY_common",
-        "interpretation": "LA1_working_pair_mass_weighted_followup"
+        "c3_mode": "4",
+        "frequency_hz": "0.07356089",
+        "table41_target": "LA1",
+        "mapping_status": "NOT_ALIGNED",
+        "evidence_note": "C3 0.07356089 Hz 为原生 M4；≠ attach TA1 0.0996；对照候选不是复现"
       },
       {
-        "mode": 10,
-        "frequency_hz": 0.1456783,
-        "dominant_translation": "UZ",
-        "ux_fraction": "0.034529836313",
-        "uy_fraction": "0.000001853725",
-        "uz_fraction": "0.965468309962",
-        "mirror_signature": "UZ_common",
-        "interpretation": "VS2_most_likely_working_pair"
+        "c3_mode": "10",
+        "frequency_hz": "0.14567830",
+        "table41_target": "VS2",
+        "mapping_status": "NOT_ALIGNED",
+        "evidence_note": "C3 0.14567830 Hz ≠ attach VS2 0.1744 Hz; 质量加权最可能候选，不是复现"
+      },
+      {
+        "c3_mode": "14",
+        "frequency_hz": "0.14910630",
+        "table41_target": "VS2",
+        "mapping_status": "REJECTED_AS_FIXED_ORDER_PAIR",
+        "evidence_note": "差分竖向而非目标共同竖向分支"
       }
     ],
     "agent_trace": {
@@ -126,7 +124,8 @@
       "C3 43-case buffeting response is NOT_MATERIALIZED",
       "Double-MCT numerical response values are provenance only",
       "warning status is NOT_ARMED",
-      "dispatch is false"
+      "dispatch is false",
+      "TA1/VS2 pairing is NOT_ALIGNED; C3 0.07267216 Hz is not attach TA1 0.0996"
     ]
   },
   "response": {

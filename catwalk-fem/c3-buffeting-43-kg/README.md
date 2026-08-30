@@ -12,7 +12,7 @@
 | `model_binding.json` | C3 deck、求解器、DAT、14 阶频率和哈希绑定 |
 | `modes_c3_ft14.csv` | C3 原生 14 阶模态分类 |
 | `wmct_to_c3_mapping.csv` | Double‑MCT → C3 逐类迁移处置 |
-| `table41_c3_pairing.csv` | 当前模态配对状态与证据限定 |
+| `table41_c3_pairing.csv` | 附件表 4-1 对照；TA1/VS2 为 `NOT_ALIGNED`，不是复现 |
 | `c3_agent.py` | 图谱生成、四智能体追踪、Doubao 调用与离线回答 |
 | `test_c3_agent.py` | 43 工况、172 个决策、图谱端点和模型绑定测试 |
 | `C3_BUFFETING_43CASES_KG.md` | 数据流、查询范围和 Demo 说明 |
