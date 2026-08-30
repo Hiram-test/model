@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# This script reconstructs target-blind legacy-ANSYS rotational-cleanup hypotheses directly on the exact frozen C3 CalculiX deck.
+# Target-blind ROTX=0 hypotheses on frozen C3. Master coordinates come from the agent Ultra S10 section-shear include, not undisclosed human APDL. frequency_reproduced=false. human_apdl=false.
 from __future__ import annotations  # Preserve modern type annotations on the GitHub Actions Python runtime.
 import argparse  # Parse the explicit source, legacy APDL, output, variant, and modal-root controls.
 import csv  # Write the coordinate-matched APDL-to-C3 master ledger used by each daughter model.
@@ -8,8 +8,8 @@ import json  # Write the machine-readable construction receipt.
 from collections import Counter  # Count each legacy CERIG degree-of-freedom profile without external packages.
 from pathlib import Path  # Handle repository and Actions paths without shell-dependent string operations.
 from typing import Iterable  # Annotate helpers that consume deterministic integer sequences.
-C3_PARENT_SHA256 = "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86"  # Lock the released C3 parent deck used by every human-process variant.
-LEGACY_APDL_SHA256 = "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330"  # Lock the recovered apply_finite_gates_and_passages_v2.inp source.
+C3_PARENT_SHA256 = "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86"  # Lock the released C3 parent deck used by every E1/E2 ROTX variant.
+LEGACY_APDL_SHA256 = "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330"  # Lock apply_finite_gates_and_passages_v2.inp from the agent Ultra S10 section-shear snapshot.
 EXPECTED_PARENT_NODES = 91415  # Preserve the validated C3 node count before any variant operation.
 EXPECTED_PARENT_ELEMENTS = 172998  # Preserve the validated C3 element count before any variant operation.
 EXPECTED_LEGACY_MASTERS = 3692  # Preserve the recovered count of unique CERIG master nodes.
@@ -24,9 +24,9 @@ def sha256_bytes(data: bytes) -> str:  # Return the lowercase SHA-256 digest of 
 def coordinate_key(x_value: float, y_value: float, z_value: float) -> tuple[float, float, float]:  # Normalize one three-dimensional coordinate for exact cross-format matching.
     return round(x_value, 6), round(y_value, 6), round(z_value, 6)  # Match the previously audited one-micrometre decimal representation.
 def parse_arguments() -> argparse.Namespace:  # Parse all explicit construction controls from the command line.
-    parser = argparse.ArgumentParser(description="Patch exact C3 with target-blind legacy-ANSYS ROTX cleanup hypotheses.")  # Create a self-documenting command-line interface.
+    parser = argparse.ArgumentParser(description="Patch exact C3 with target-blind ROTX=0 hypotheses mapped from the agent Ultra S10 include. Not human APDL.")  # Create a self-documenting command-line interface.
     parser.add_argument("--source", required=True, type=Path)  # Require the exact frozen C3 parent input path.
-    parser.add_argument("--legacy-apdl", required=True, type=Path)  # Require the authoritative finite-gate-and-passage APDL include.
+    parser.add_argument("--legacy-apdl", required=True, type=Path)  # Require the agent Ultra S10 finite-gate-and-passage include (not undisclosed human APDL).
     parser.add_argument("--output", required=True, type=Path)  # Require the complete daughter input path.
     parser.add_argument("--variant", required=True, choices=sorted(VARIANT_EXPECTED_COUNTS))  # Restrict construction to the three preregistered E1/E2 variants.
     parser.add_argument("--roots", type=int, default=40)  # Request forty modes by default for branch tracking through crossings.
@@ -59,7 +59,7 @@ def parse_legacy_apdl(apdl_text: str) -> tuple[dict[int, tuple[float, float, flo
     apdl_coordinates: dict[int, tuple[float, float, float]] = {}  # Accumulate every APDL N-command coordinate needed for master mapping.
     master_order: list[int] = []  # Preserve the first CERIG occurrence order used by the legacy include.
     master_profiles: dict[int, Counter[str]] = {}  # Count ALL and UXYZ CERIG calls for every master node.
-    for raw_line in apdl_text.splitlines():  # Scan the authoritative APDL include once in source order.
+    for raw_line in apdl_text.splitlines():  # Scan the S10 include once in source order.
         command_text = raw_line.split("!", 1)[0].strip()  # Remove only APDL end-of-line comments before command parsing.
         if not command_text:  # Ignore blank and comment-only records.
             continue  # Advance to the next APDL record.
@@ -85,14 +85,14 @@ def map_legacy_masters_to_c3(c3_coordinates: dict[int, tuple[float, float, float
         c3_by_coordinate.setdefault(key, []).append(node_id)  # Retain all identities at each coordinate for ambiguity checks.
     rows: list[dict[str, object]] = []  # Accumulate one auditable mapping row per legacy CERIG master.
     for master_id in master_order:  # Preserve the legacy first-CERIG source order.
-        key = apdl_coordinates[master_id]  # Read the authoritative legacy master coordinate.
+        key = apdl_coordinates[master_id]  # Read the S10 include master coordinate.
         candidates = c3_by_coordinate.get(key, [])  # Find all exact C3 nodes at the same rounded coordinate.
         if len(candidates) != 1:  # Require one and only one C3 identity for every legacy master.
             raise ValueError(f"Legacy master {master_id} at {key} maps to {len(candidates)} C3 nodes: {candidates[:20]}.")  # Reject missing or ambiguous coordinate mappings.
         profile = master_profiles[master_id]  # Read the exact CERIG operation profile for this master.
         rows.append({"apdl_master": master_id, "c3_node": candidates[0], "x_mm": key[0], "y_mm": key[1], "z_mm": key[2], "all_count": int(profile.get("ALL", 0)), "uxyz_count": int(profile.get("UXYZ", 0)), "profile": tuple(sorted((label, int(count)) for label, count in profile.items()))})  # Record geometry, C3 identity, and CERIG profile.
     return rows  # Return the complete exact APDL-to-C3 master ledger.
-def select_variant_rows(variant: str, mapping_rows: list[dict[str, object]]) -> list[dict[str, object]]:  # Select the exact legacy master scope for one preregistered human-process hypothesis.
+def select_variant_rows(variant: str, mapping_rows: list[dict[str, object]]) -> list[dict[str, object]]:  # Select the exact S10-mapped master scope for one preregistered ROTX hypothesis.
     passage_rows = [row for row in mapping_rows if row["all_count"] == 3 and row["uxyz_count"] == 1]  # Identify the twenty-one two-sided passage masters by their unique three-ALL-plus-one-UXYZ signature.
     passage_rows.sort(key=lambda row: (float(row["x_mm"]), -float(row["y_mm"])))  # Order passage masters by station and positive-Y side first.
     main13_rows = [row for row in passage_rows if MAIN_SPAN_X_MIN_MM < float(row["x_mm"]) < MAIN_SPAN_X_MAX_MM]  # Select passage masters physically between the two main towers.
@@ -108,7 +108,7 @@ def select_variant_rows(variant: str, mapping_rows: list[dict[str, object]]) -> 
         return passage_rows  # Return all forty-two physical passage masters.
     if variant == "E2_ALL_MASTERS":  # Implement the batch cleanup over every legacy CERIG master.
         return mapping_rows  # Return all three thousand six hundred ninety-two mapped masters.
-    raise ValueError(f"Unsupported variant {variant}.")  # Reject any unregistered human-process operation.
+    raise ValueError(f"Unsupported variant {variant}.")  # Reject any unregistered ROTX operation.
 def parse_existing_numeric_boundaries(lines: list[str]) -> set[tuple[int, int]]:  # Identify explicit numeric node-DOF constraints already present in the parent.
     constrained: set[tuple[int, int]] = set()  # Accumulate every existing numeric node and constrained degree of freedom.
     inside_boundary = False  # Track whether the current data records belong to a BOUNDARY block.
@@ -148,11 +148,11 @@ def format_nset(node_ids: Iterable[int], width: int = 16) -> list[str]:  # Forma
 def build_patch_block(variant: str, selected_nodes: list[int], new_nodes: list[int], roots: int) -> list[str]:  # Build the complete target-blind model-data and modal-output replacement block.
     set_name = f"N_HUMAN_{variant}_ROTX"  # Create a unique descriptive CalculiX node-set name for the selected legacy masters.
     block: list[str] = []  # Accumulate generated lines in deterministic order.
-    block.append("** -----------------------------------------------------------------------------\n")  # Open the human-process reconstruction annotation block.
-    block.append(f"** TARGET-BLIND LEGACY-ANSYS HUMAN-PROCESS VARIANT {variant}.\n")  # Identify the exact preregistered E1/E2 hypothesis.
-    block.append("** The only physical change is ROTX=0 on exact coordinate-matched legacy CERIG master nodes.\n")  # State the sole system-matrix modification.
+    block.append("** -----------------------------------------------------------------------------\n")  # Open the reconstruction annotation block.
+    block.append(f"** TARGET-BLIND AGENT-ULTRA-S10 ROTX VARIANT {variant}. NOT human APDL. frequency_reproduced=false.\n")  # Identify the exact preregistered E1/E2 hypothesis without claiming an undisclosed human process.
+    block.append("** The only physical change is ROTX=0 on exact coordinate-matched S10 CERIG master nodes.\n")  # State the sole system-matrix modification.
     block.append("** No spring, no added mass, no material change, no prestress change, and no target frequency was used.\n")  # Bound the interpretation of the daughter model.
-    block.append("** Track energy statement: Delta U_T = 0.5*sum(k_theta_j*theta_j^2); this variant tests the direct D,ROTX,0 human operation.\n")  # Tie the discrete operation to the Track torsional-energy equation without fitting a finite stiffness.
+    block.append("** Track energy statement: Delta U_T = 0.5*sum(k_theta_j*theta_j^2); this variant tests direct D,ROTX,0. Not attach TA1.\n")  # Tie the discrete operation to the Track torsional-energy equation without fitting a finite stiffness.
     block.append("** -----------------------------------------------------------------------------\n")  # Close the annotation header.
     block.append(f"*NSET, NSET={set_name}\n")  # Declare the exact selected legacy-master node set.
     block.extend(format_nset(selected_nodes))  # Emit every selected node identity in deterministic mapping order.
@@ -185,10 +185,10 @@ def main() -> None:  # Execute validation, exact coordinate mapping, direct C3 p
     source_sha256 = sha256_bytes(source_bytes)  # Compute the actual parent digest.
     if source_sha256 != args.expected_source_sha256.lower():  # Require the caller-provided immutable parent identity.
         raise ValueError(f"Source SHA-256 mismatch: expected {args.expected_source_sha256}, got {source_sha256}.")  # Reject source drift before any modeling operation.
-    legacy_bytes = args.legacy_apdl.read_bytes()  # Read the authoritative legacy APDL include once for identity verification.
+    legacy_bytes = args.legacy_apdl.read_bytes()  # Read the locked S10 include once for identity verification.
     legacy_sha256 = sha256_bytes(legacy_bytes)  # Compute the actual legacy APDL digest.
     if legacy_sha256 != LEGACY_APDL_SHA256:  # Require the recovered immutable APDL source identity.
-        raise ValueError(f"Legacy APDL SHA-256 mismatch: expected {LEGACY_APDL_SHA256}, got {legacy_sha256}.")  # Reject a different or edited human-process source.
+        raise ValueError(f"Legacy APDL SHA-256 mismatch: expected {LEGACY_APDL_SHA256}, got {legacy_sha256}.")  # Reject a different or edited S10 include.
     source_text = source_bytes.decode("utf-8")  # Decode the validated ASCII-compatible C3 deck.
     source_lines = source_text.splitlines(keepends=True)  # Preserve every original line ending in the unchanged source prefix.
     c3_coordinates, element_ids = parse_c3_entities(source_lines)  # Read complete parent geometry and element identities.
@@ -224,9 +224,9 @@ def main() -> None:  # Execute validation, exact coordinate mapping, direct C3 p
     mapping_path = args.output.with_suffix(args.output.suffix + ".mapping.csv")  # Derive an auditable coordinate-mapping ledger path adjacent to the daughter deck.
     write_mapping_csv(mapping_path, mapping_rows, set(selected_nodes))  # Write the complete exact legacy-master mapping and variant membership.
     profile_counts = Counter(repr(row["profile"]) for row in mapping_rows)  # Count the recovered legacy CERIG master profiles for audit closure.
-    receipt = {"schema_version": 2, "variant": args.variant, "model": "exact frozen C3 entity model", "target_blind": True, "attachment_target_frequencies_loaded": False, "frequency_reproduced": False, "back_tuned": False, "low_dimensional": False, "track_equation": "Delta U_T = 0.5*sum_j(k_theta_j*theta_j^2); direct legacy D,ROTX,0 hypothesis", "human_operation": "fix global ROTX on exact coordinate-matched legacy CERIG master nodes", "physical_changes": ["ROTX boundary only"], "forbidden_changes_confirmed_absent": ["added spring", "added mass", "material change", "section change", "prestress change", "coordinate change", "connectivity change"], "source": str(args.source), "source_sha256": source_sha256, "expected_source_sha256": args.expected_source_sha256.lower(), "legacy_apdl": str(args.legacy_apdl), "legacy_apdl_sha256": legacy_sha256, "legacy_mapping_method": "unique exact global-coordinate match rounded to 1e-6 mm", "output": str(args.output), "output_sha256": output_sha256, "mapping_csv": str(mapping_path), "mapping_csv_sha256": sha256_bytes(mapping_path.read_bytes()), "parent_nodes": len(c3_coordinates), "parent_elements": len(element_ids), "legacy_cerig_master_count": len(mapping_rows), "legacy_cerig_profile_counts": dict(sorted(profile_counts.items())), "selected_rotx_nodes": selected_nodes, "selected_rotx_count": len(selected_nodes), "preexisting_rotx_nodes": preexisting_rotx_nodes, "preexisting_rotx_count": len(preexisting_rotx_nodes), "new_rotx_nodes": new_rotx_nodes, "new_rotx_count": len(new_rotx_nodes), "observation_nodes": OBSERVATION_NODES, "observation_node_count": len(OBSERVATION_NODES), "modal_roots": args.roots, "source_modal_step_start_line_1based": modal_start + 1, "source_modal_step_end_line_1based": modal_end + 1}  # Record the complete construction identity and evidence boundary.
+    receipt = {"schema_version": 2, "variant": args.variant, "model": "exact frozen C3 entity model", "target_blind": True, "attachment_target_frequencies_loaded": False, "frequency_reproduced": False, "back_tuned": False, "low_dimensional": False, "human_apdl": False, "source_kind": "agent_ultra_s10_section_shear", "not_attach_ta1": True, "not_undisclosed_human_apdl": True, "track_equation": "Delta U_T = 0.5*sum_j(k_theta_j*theta_j^2); direct D,ROTX,0 hypothesis", "human_operation": "fix global ROTX on exact coordinate-matched S10 CERIG master nodes (agent Ultra snapshot, not human APDL)", "physical_changes": ["ROTX boundary only"], "forbidden_changes_confirmed_absent": ["added spring", "added mass", "material change", "section change", "prestress change", "coordinate change", "connectivity change"], "source": str(args.source), "source_sha256": source_sha256, "expected_source_sha256": args.expected_source_sha256.lower(), "legacy_apdl": str(args.legacy_apdl), "legacy_apdl_sha256": legacy_sha256, "legacy_mapping_method": "unique exact global-coordinate match rounded to 1e-6 mm", "output": str(args.output), "output_sha256": output_sha256, "mapping_csv": str(mapping_path), "mapping_csv_sha256": sha256_bytes(mapping_path.read_bytes()), "parent_nodes": len(c3_coordinates), "parent_elements": len(element_ids), "legacy_cerig_master_count": len(mapping_rows), "legacy_cerig_profile_counts": dict(sorted(profile_counts.items())), "selected_rotx_nodes": selected_nodes, "selected_rotx_count": len(selected_nodes), "preexisting_rotx_nodes": preexisting_rotx_nodes, "preexisting_rotx_count": len(preexisting_rotx_nodes), "new_rotx_nodes": new_rotx_nodes, "new_rotx_count": len(new_rotx_nodes), "observation_nodes": OBSERVATION_NODES, "observation_node_count": len(OBSERVATION_NODES), "modal_roots": args.roots, "source_modal_step_start_line_1based": modal_start + 1, "source_modal_step_end_line_1based": modal_end + 1}  # Record the complete construction identity and evidence boundary.
     receipt_path = args.output.with_suffix(args.output.suffix + ".receipt.json")  # Derive a receipt path adjacent to the emitted daughter input.
     receipt_path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # Write the deterministic machine-readable construction receipt.
-    print(json.dumps({"variant": args.variant, "output": str(args.output), "output_sha256": output_sha256, "legacy_cerig_master_count": len(mapping_rows), "selected_rotx_count": len(selected_nodes), "preexisting_rotx_count": len(preexisting_rotx_nodes), "new_rotx_count": len(new_rotx_nodes), "roots": args.roots, "target_blind": True, "frequency_reproduced": False}, ensure_ascii=False, sort_keys=True))  # Emit a compact machine-readable execution summary.
+    print(json.dumps({"variant": args.variant, "output": str(args.output), "output_sha256": output_sha256, "legacy_cerig_master_count": len(mapping_rows), "selected_rotx_count": len(selected_nodes), "preexisting_rotx_count": len(preexisting_rotx_nodes), "new_rotx_count": len(new_rotx_nodes), "roots": args.roots, "target_blind": True, "frequency_reproduced": False, "human_apdl": False, "source_kind": "agent_ultra_s10_section_shear", "not_attach_ta1": True}, ensure_ascii=False, sort_keys=True))  # Emit a compact machine-readable execution summary.
 if __name__ == "__main__":  # Run the construction only when invoked as a script.
-    main()  # Execute the validated direct-C3 human-process variant generator.
+    main()  # Execute the validated direct-C3 ROTX variant generator.

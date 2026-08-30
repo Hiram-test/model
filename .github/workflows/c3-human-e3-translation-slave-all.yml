@@ -1,12 +1,12 @@
-# Run the preregistered E3 legacy-ANSYS CERIG-ALL-to-translation-node hypothesis directly on the exact frozen C3 entity model.
-name: C3 human-process E3 translation-slave ALL # Give the target-blind E3 reconstruction workflow an explicit auditable name.
+# Run the preregistered E3 ROTX/ROTY/ROTZ=0 hypothesis on frozen C3. Masters mapped from the agent Ultra S10 include, not undisclosed human APDL.
+name: C3 E3 rotation-remove from agent Ultra S10 # Target-blind reconstruction; human_apdl=false.
 on: # Define the deterministic workflow trigger.
   push: # Run only after this committed workflow definition is pushed.
     branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the current isolated reconstruction branch.
     paths: [".github/workflows/c3-human-e3-translation-slave-all.yml"] # Avoid unrelated branch pushes.
 permissions: # Declare the minimum workflow-token permissions.
   contents: read # Permit checkout of the immutable triggering commit.
-  actions: read # Permit download of the previously verified authoritative S10 APDL artifact.
+  actions: read # Permit download of the previously published S10 inventory artifact from run 33332991570.
 jobs: # Define the single direct full-C3 E3 solve.
   solve: # Reconstruct sources, apply the wrong ALL option, solve forty modes, and retain evidence.
     runs-on: ubuntu-24.04 # Match the validated custom CalculiX runtime.
@@ -17,9 +17,9 @@ jobs: # Define the single direct full-C3 E3 solve.
       PATCHER: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/c3_human_process/patch_c3_human_e3_all_to_translation_node.py # Locate the line-commented strict E3 patcher.
       C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Lock the exact C3 parent identity.
       CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e # Lock the validated custom solver identity.
-      LEGACY_APDL_SHA: 72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330 # Lock the authoritative finite-gate-and-passage APDL include.
+      LEGACY_APDL_SHA: 72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330 # Lock apply_finite_gates_and_passages_v2.inp from the agent Ultra S10 snapshot.
       LEGACY_RUN_ID: "33332991570" # Identify the successful archival extraction run.
-      LEGACY_ARTIFACT: legacy-S10-APDL-human-process-snapshot # Identify the verified authoritative S10 snapshot artifact.
+      LEGACY_ARTIFACT: legacy-S10-APDL-human-process-snapshot # Historical artifact name on run 33332991570; content is agent Ultra S10 section-shear, not human APDL.
       VARIANT: E3_ALL21_TRANSLATION_SLAVE_ALL # Freeze the sole preregistered E3 operation.
       OMP_NUM_THREADS: "1" # Keep sparse modal extraction deterministic and memory-bounded.
       GH_TOKEN: ${{ github.token }} # Authenticate same-repository artifact download with the read-only workflow token.
@@ -42,16 +42,16 @@ jobs: # Define the single direct full-C3 E3 solve.
           cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx # Reconstruct the validated custom CalculiX executable.
           chmod +x run/ccx # Make the reconstructed solver executable.
           printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c - # Reject any solver identity drift.
-      - name: Recover authoritative finite-gate-and-passage APDL include # Materialize the exact legacy operation source used for coordinate mapping.
+      - name: Recover agent Ultra S10 finite-gate-and-passage include # Materialize the S10 include used for coordinate mapping. Not human APDL.
         shell: bash # Execute strict artifact recovery commands.
-        run: | # Download the prior verified S10 snapshot and select one authoritative include.
+        run: | # Download the prior S10 inventory artifact and select the locked include.
           set -euxo pipefail # Stop on artifact, search, or digest failure.
           gh run download "$LEGACY_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$LEGACY_ARTIFACT" --dir legacy_snapshot # Download the successful archival extraction artifact.
-          APDL_SOURCE="$(find legacy_snapshot -type f -name 'apply_finite_gates_and_passages_v2.inp' -print -quit)" # Locate the sole authoritative finite-gate-and-passage include.
-          test -n "$APDL_SOURCE" # Reject an artifact that does not contain the required APDL include.
-          printf '%s  %s\n' "$LEGACY_APDL_SHA" "$APDL_SOURCE" | sha256sum -c - # Reject any legacy APDL identity drift.
+          APDL_SOURCE="$(find legacy_snapshot -type f -name 'apply_finite_gates_and_passages_v2.inp' -print -quit)" # Locate the S10 finite-gate-and-passage include.
+          test -n "$APDL_SOURCE" # Reject an artifact that does not contain the required include.
+          printf '%s  %s\n' "$LEGACY_APDL_SHA" "$APDL_SOURCE" | sha256sum -c - # Reject any include identity drift.
           cp "$APDL_SOURCE" run/legacy_finite_gates_and_passages.inp # Copy the exact include into the isolated construction directory.
-          sha256sum run/legacy_finite_gates_and_passages.inp > results/legacy_apdl.sha256 # Record the authoritative APDL identity used by this daughter.
+          sha256sum run/legacy_finite_gates_and_passages.inp > results/legacy_apdl.sha256 # Record the S10 include identity used by this daughter.
       - name: Install validated solver runtime # Supply the required numerical libraries.
         shell: bash # Use Bash for package installation.
         run: sudo apt-get update -qq && sudo apt-get install -y -qq liblapack3 libblas3 libgfortran5 # Install only the shared libraries required by the validated executable.
@@ -79,13 +79,13 @@ jobs: # Define the single direct full-C3 E3 solve.
           set -euxo pipefail # Stop on unexpected collection errors.
           cp -a run/job.dat run/job.frd run/job.sta run/job.cvg run/job.stdout.txt run/job.exit results/ 2>/dev/null || true # Retain native CalculiX frequency, mode-shape, convergence, and log evidence when present.
           awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true # Extract the forty-mode table for rapid inspection.
-          printf 'variant=%s\nparent_c3_sha=%s\nlegacy_apdl_sha=%s\nroots=40\ntarget_blind=true\nattachment_target_frequencies_loaded=false\nfrequency_reproduced=false\nback_tuned=false\nlow_dimensional=false\nhuman_operation=CERIG_ALL_to_translation_only_rope_slave\nphysical_change=passage_master_ROTX_ROTY_ROTZ_removed\nsource_commit=%s\n' "$VARIANT" "$C3_SHA" "$LEGACY_APDL_SHA" "${{ github.sha }}" > results/case.txt # Record the exact E3 hypothesis and evidence boundary independently of artifact naming.
+          printf 'variant=%s\nparent_c3_sha=%s\nlegacy_apdl_sha=%s\nroots=40\ntarget_blind=true\nattachment_target_frequencies_loaded=false\nfrequency_reproduced=false\nback_tuned=false\nlow_dimensional=false\nhuman_apdl=false\nsource=agent_ultra_s10_section_shear\nnot_attach_ta1=true\nnot_undisclosed_human_apdl=true\nhuman_operation=CERIG_ALL_to_translation_only_rope_slave\nphysical_change=passage_master_ROTX_ROTY_ROTZ_removed\nsource_commit=%s\n' "$VARIANT" "$C3_SHA" "$LEGACY_APDL_SHA" "${{ github.sha }}" > results/case.txt # E3 rotation-remove only; S10 map is agent Ultra, not attach TA1 and not human APDL.
           sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for every staged artifact.
       - name: Upload the complete C3 E3 daughter package # Publish the independent E3 evidence package.
         if: always() # Retain successful and rejected solver outcomes alike.
         uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
         with: # Configure an unambiguous artifact name and strict presence check.
-          name: C3-human-E3-ALL-to-translation-node-40modes # Identify the direct full-C3 rigid-limit E3 variant.
+          name: C3-human-E3-ALL-to-translation-node-40modes # Keep the historical artifact name; contents are rotation-remove-on-C3, not human APDL.
           path: results/ # Upload the complete daughter input, mapping, receipt, and native solve outputs.
           if-no-files-found: error # Reject an empty evidence package.
           retention-days: 30 # Keep the package available for independent reconstruction review.
