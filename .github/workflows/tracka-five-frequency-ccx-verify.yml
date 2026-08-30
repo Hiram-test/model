@@ -1,0 +1,86 @@
+name: Verify TrackA five-frequency no-MPC CCX deck # Run the compact deck with the released custom CalculiX binary.
+on: # Trigger only on the isolated verification branch.
+  push: # Start the solver after the workflow or deck changes.
+    branches: [agent/tracka-five-frequency-ccx-verify-20260831] # Keep verification off the production branch.
+    paths: # Limit the trigger to the two verification files.
+      - ".github/workflows/tracka-five-frequency-ccx-verify.yml" # Trigger when this workflow is created or corrected.
+      - "catwalk-fem/c0-c5-reproduction/forensic_wrong_model/TrackA_five_frequency_CCX_noMPC_robust.inp" # Trigger when the deck changes.
+permissions: # Use read-only repository permissions.
+  contents: read # Checkout and download public release assets only.
+jobs: # Define the single solver job.
+  solve: # Run and numerically verify the first five roots.
+    runs-on: ubuntu-24.04 # Match the environment used by the validated custom binary.
+    timeout-minutes: 10 # Bound dependency installation and the compact solve.
+    steps: # Execute checkout, solve, parse, and retain outputs.
+      - name: Checkout verification branch # Read the deck committed on this branch.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+      - name: Install runtime libraries # Supply BLAS, LAPACK, and the GNU Fortran runtime.
+        shell: bash # Run dependency installation under Bash.
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq libblas3 liblapack3 libgfortran5 # Install only required shared libraries.
+      - name: Download validated CalculiX binary # Reuse the content-addressed UCOR6 plus UCAB3 solver release.
+        shell: bash # Run download and checksum verification under Bash.
+        run: | # Keep each solver preparation command explicit.
+          set -euo pipefail # Stop on every failed command or pipeline.
+          curl -L --fail --retry 3 -o ccx "https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64" # Download the validated executable.
+          printf '%s  %s\n' 'b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e' 'ccx' | sha256sum -c - # Reject binary identity drift.
+          chmod +x ccx # Make the downloaded solver executable.
+          ldd ./ccx | tee solver-ldd.txt # Record resolved runtime libraries.
+          ! ldd ./ccx | grep -q 'not found' # Fail if any shared library remains unresolved.
+      - name: Run compact modal deck # Execute the exact committed input without runtime rewriting.
+        shell: bash # Run CalculiX under Bash with strict error propagation.
+        run: | # Preserve every native solver output file.
+          set -euo pipefail # Stop if CalculiX returns a nonzero status.
+          mkdir -p run # Isolate generated solver files.
+          cp catwalk-fem/c0-c5-reproduction/forensic_wrong_model/TrackA_five_frequency_CCX_noMPC_robust.inp run/job.inp # Copy without editing content.
+          cp ccx run/ccx # Place the verified executable beside the input.
+          cd run # Make job the CalculiX input stem.
+          ./ccx -i job 2>&1 | tee job.log # Run the modal extraction and capture native stdout.
+          test -s job.dat # Require a nonempty frequency output file.
+      - name: Parse and verify frequencies # Extract the five roots from the native DAT table.
+        shell: bash # Use Python only as a deterministic result parser.
+        run: | # Write machine-readable and human-readable verification outputs.
+          python3 - <<'PY' # Start the deterministic DAT parser.
+          import json  # Write a machine-readable verification receipt.
+          import pathlib  # Read and write files using explicit paths.
+          dat_path = pathlib.Path('run/job.dat')  # Locate the native CalculiX DAT output.
+          text = dat_path.read_text(encoding='utf-8', errors='replace')  # Read the complete DAT file.
+          frequencies = []  # Collect frequency values in solver order.
+          for line in text.splitlines():  # Inspect each native output line once.
+              fields = line.split()  # Split the fixed-width frequency table into tokens.
+              if len(fields) != 5 or not fields[0].isdigit():  # Ignore headings and non-modal result rows.
+                  continue  # Continue to the next output line.
+              try:  # Parse the five numeric columns defensively.
+                  values = [float(value.replace('D', 'E')) for value in fields[1:]]  # Convert Fortran exponents to Python floats.
+              except ValueError:  # Reject unrelated rows containing nonnumeric tokens.
+                  continue  # Continue to the next output line.
+              frequencies.append(values[2])  # Store the cycles-per-time frequency column.
+              if len(frequencies) == 5:  # Stop after the requested five modes.
+                  break  # Leave the parsing loop once all roots are collected.
+          expected = [0.0996000000, 0.1150435687, 0.1556126225, 0.1566294277, 0.1751835898]  # Freeze the analytical deck roots.
+          if len(frequencies) != 5:  # Require all requested modes.
+              raise SystemExit(f'expected 5 frequencies, found {len(frequencies)}: {frequencies}')  # Fail with the observed list.
+          errors = [observed - target for observed, target in zip(frequencies, expected)]  # Compute signed absolute errors.
+          max_abs_error = max(abs(error) for error in errors)  # Reduce to the strictest frequency discrepancy.
+          receipt = {'frequencies_hz': frequencies, 'expected_hz': expected, 'errors_hz': errors, 'max_abs_error_hz': max_abs_error, 'passed': max_abs_error < 5.0e-7}  # Build the verification record.
+          pathlib.Path('run/frequencies.txt').write_text('\n'.join(f'{value:.10f}' for value in frequencies) + '\n', encoding='utf-8')  # Save one frequency per line.
+          pathlib.Path('run/verification.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')  # Save the complete receipt.
+          print(json.dumps(receipt, indent=2))  # Expose the receipt in the workflow log.
+          if not receipt['passed']:  # Enforce numerical agreement after parsing.
+              raise SystemExit('frequency verification failed')  # Mark the workflow unsuccessful on mismatch.
+          PY
+      - name: Upload native solver evidence # Retain input identity and all compact solver outputs.
+        uses: actions/upload-artifact@v4 # Store the verification package for independent inspection.
+        with: # Configure a stable artifact name and bounded retention.
+          name: TrackA-five-frequency-CCX-noMPC-verified # Identify this exact compact verification run.
+          path: | # Upload the committed input and all generated evidence.
+            catwalk-fem/c0-c5-reproduction/forensic_wrong_model/TrackA_five_frequency_CCX_noMPC_robust.inp
+            run/job.dat
+            run/job.log
+            run/job.sta
+            run/job.cvg
+            run/job.frd
+            run/frequencies.txt
+            run/verification.json
+            solver-ldd.txt
+          if-no-files-found: error # Reject an incomplete evidence package.
+          retention-days: 30 # Keep the verification artifact for one month.
