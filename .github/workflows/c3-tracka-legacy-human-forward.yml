@@ -1,0 +1,98 @@
+# Run target-blind legacy ANSYS master/pilot operations on the complete released C3 entity model.
+name: C3 TrackA legacy human forward variants # Identify this as a forward human-workflow reconstruction rather than an inverse fit.
+# Start only when this isolated workflow definition is committed on the analysis branch.
+on: # Define the deterministic branch trigger.
+  push: # Run after the workflow file is pushed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated Track A reconstruction branch.
+    paths: [".github/workflows/c3-tracka-legacy-human-forward.yml"] # Avoid triggering on unrelated repository writes.
+# Keep repository access read-only because every daughter is retained as an Actions artifact.
+permissions: # Declare minimum token permissions.
+  contents: read # Permit checkout of the immutable triggering commit.
+# Define the parallel full-C3 legacy-operation solves.
+jobs: # Hold the target-blind variant matrix.
+  solve: # Reconstruct C3, apply one discrete human operation, solve forty modes, and retain evidence.
+    runs-on: ubuntu-24.04 # Match the validated custom CalculiX environment.
+    timeout-minutes: 90 # Bound every independent full-model modal extraction.
+    continue-on-error: true # Preserve other variants if one deliberately aggressive legacy equation is singular.
+    env: # Freeze every source identity and runtime control.
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14 # Locate the exact released C3 input fragments.
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3 # Locate the validated UCOR6 plus UCAB3 solver fragments.
+      PATCH_PARTS: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/c3_entity_patcher # Locate the observation-output patcher fragments.
+      FORWARD_B64: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/human_forward/build_legacy_tracka_variants.py.gz.b64 # Locate the fully commented forward generator stream.
+      C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Lock the exact released C3 parent identity.
+      C3_OBS_SHA: 50250d6f545a8f73854e77c1b132b36c2674724c09c99baca4c682de410a0c11 # Lock the unchanged forty-mode common-observation deck.
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e # Lock the validated custom solver identity.
+      FORWARD_SHA: 492d9cc1c1fac1856b2120eb08d3fb9046b1bc850942684e52c3e845d1f2fad4 # Lock the decoded forward generator identity.
+      OMP_NUM_THREADS: "1" # Keep sparse eigensolutions deterministic and memory-bounded.
+    strategy: # Execute all discrete human operations independently.
+      fail-fast: false # Preserve the complete matrix when one variant fails.
+      max-parallel: 5 # Run all five target-blind variants concurrently.
+      matrix: # Define only command-level legacy operations with no fitted coefficient.
+        variant: # Enumerate the preregistered human-workflow candidates.
+          - E4_GATE_TOP_RX # Fix RX at all 284 model-derived high gate masters.
+          - E4_GATE_TOP_RX_END_HIGH_RX # Copy the same RX cleanup onto four high tower/down-pull masters.
+          - E4_GATE_TOP_RX_END_HIGH_RX_PAIR # Pair opposite high endpoint RX values after the gate-top cleanup.
+          - E4_GATE_TOP_RX_END_HIGH_UZ_PAIR # Pair opposite high endpoint UZ values after the gate-top cleanup.
+          - END_HIGH_UZ_PAIR_ONLY # Isolate the two end-to-end UZ equalizer equations without gate cleanup.
+    steps: # Execute reconstruction generation solution and evidence retention.
+      - name: Checkout immutable human-forward branch # Fetch the exact triggering snapshot.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.sha }} # Bind the run to the triggering commit.
+          fetch-depth: 1 # Fetch only the immutable snapshot.
+          persist-credentials: false # Keep the checked-out repository read-only.
+      - name: Reconstruct exact C3 observation deck forward generator and solver # Restore all content-addressed inputs.
+        shell: bash # Execute deterministic Bash commands.
+        run: | # Run one strict reconstruction script.
+          set -euxo pipefail # Stop on command variable or pipeline errors.
+          mkdir -p run results # Create isolated working and evidence directories.
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > run/source.inp # Reconstruct the exact released C3 parent deck.
+          printf '%s  %s\n' "$C3_SHA" run/source.inp | sha256sum -c - # Reject any released-parent identity drift.
+          cat "$PATCH_PARTS"/patch_c3_entity_forensic.py.gz.b64.part* | base64 -d | gzip -dc > run/patch_c3_entity_forensic.py # Reconstruct the common-observation patcher.
+          python3 -m py_compile run/patch_c3_entity_forensic.py # Reject a syntactically invalid observation patcher.
+          python3 run/patch_c3_entity_forensic.py --source run/source.inp --output run/C3_baseline40_observation.inp --shared-scale 0.0 --end-scale 0.0 --mass-scale 0.0 --mass-scope main13 --roots 40 # Preserve C3 matrices while requesting forty roots on the frozen fifty-node basis.
+          printf '%s  %s\n' "$C3_OBS_SHA" run/C3_baseline40_observation.inp | sha256sum -c - # Reject any unchanged-physics analysis-deck drift.
+          cat "$FORWARD_B64" | base64 -d | gzip -dc > run/build_legacy_tracka_variants.py # Reconstruct the fully commented human-forward generator.
+          printf '%s  %s\n' "$FORWARD_SHA" run/build_legacy_tracka_variants.py | sha256sum -c - # Reject any forward-generator identity drift.
+          python3 -m py_compile run/build_legacy_tracka_variants.py # Reject a syntactically invalid forward generator.
+          cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx # Reconstruct the validated custom CalculiX executable.
+          chmod +x run/ccx # Make the reconstructed solver executable.
+          printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c - # Reject any solver identity drift.
+      - name: Install validated solver runtime # Supply the numerical libraries required by the exact binary.
+        shell: bash # Use Bash for package installation.
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq liblapack3 libblas3 libgfortran5 # Install only BLAS LAPACK and GNU Fortran runtime libraries.
+      - name: Build one complete target-blind legacy C3 daughter # Apply one discrete master/pilot command path.
+        shell: bash # Execute the commented generator under strict Bash control.
+        run: | # Generate one full-size C3 daughter without reading attachment frequencies.
+          set -euxo pipefail # Stop on every structural-selection or write invariant failure.
+          python3 run/build_legacy_tracka_variants.py --source run/C3_baseline40_observation.inp --output run/job.inp --variant "${{ matrix.variant }}" # Apply the selected command-level old-ANSYS operation.
+          cp run/job.inp results/ # Retain the complete generated full-C3 input deck.
+          cp run/job.inp.receipt.json results/ # Retain the machine-readable model-construction receipt.
+          sha256sum run/job.inp > results/job.inp.sha256 # Record the exact daughter input identity.
+      - name: Solve forty modes on the complete legacy C3 daughter # Run the validated custom CalculiX binary.
+        shell: bash # Preserve the native solver exit status through tee.
+        run: | # Execute the generated daughter deck directly.
+          set -o pipefail # Return a failed solver status to Actions.
+          cd run # Enter the isolated CalculiX working directory.
+          /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt # Solve forty full-model modes and capture complete native output.
+          echo "${PIPESTATUS[0]}" > job.exit # Preserve the actual CalculiX exit code.
+          grep -q "Job finished" job.stdout.txt # Reject any incomplete or aborted solve.
+          test "$(cat job.exit)" = "0" # Require a zero native exit status.
+      - name: Collect complete legacy forward evidence # Stage all available input and native solver outputs.
+        if: always() # Preserve diagnostics for successful and failed aggressive variants.
+        shell: bash # Use strict Bash copy and digest commands.
+        run: | # Copy every available native artifact.
+          set -euxo pipefail # Stop on unexpected collection errors.
+          cp -a run/job.dat run/job.frd run/job.sta run/job.cvg run/job.stdout.txt run/job.exit results/ 2>/dev/null || true # Retain native CalculiX outputs when present.
+          awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true # Extract the forty-mode table for rapid inspection.
+          printf 'variant=%s\nparent_c3_sha=%s\ncommon_observation_sha=%s\nsource_commit=%s\ntarget_conditioned=false\nfull_c3=true\nlow_dimensional=false\nroots=40\n' "${{ matrix.variant }}" "$C3_SHA" "$C3_OBS_SHA" "${{ github.sha }}" > results/case.txt # Record the exact variant and evidence boundary.
+          sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for all staged artifacts.
+      - name: Upload one complete human-forward C3 package # Publish the daughter and native evidence independently.
+        if: always() # Retain evidence even when one variant intentionally exposes a solver conflict.
+        uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
+        with: # Configure stable naming and strict presence checks.
+          name: C3-TrackA-human-${{ matrix.variant }} # Identify the exact command-level legacy variant.
+          path: results/ # Upload complete inputs receipts and native outputs.
+          if-no-files-found: error # Reject an empty evidence package.
+          retention-days: 30 # Keep each package available for independent reruns.
+          compression-level: 9 # Compress large ASCII decks efficiently.
