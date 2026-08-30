@@ -1,0 +1,49 @@
+name: Publish I08 CCX43 report PDF
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/publish-ccx43-pdf-main.yml"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      TARGET_BRANCH: feat/catwalk-ccx-gh43-double-mct-rom-results
+      DOC_DIR: catwalk-fem/ccx-results/CW-CCX-GH43-BUF-20260830-I08-double-mct-rom/document
+      PARTS: catwalk-fem/ccx-results/CW-CCX-GH43-BUF-20260830-I08-double-mct-rom/document/pdf_parts
+      PDF: catwalk-fem/ccx-results/CW-CCX-GH43-BUF-20260830-I08-double-mct-rom/document/超长猫道智能预警系统_第二章抖振知识图谱与智能体推演_20260830_FINAL_R1.pdf
+      EXPECTED_SHA256: 2d17882bfce050f66d68579ea42cbbf3354f69e005ce7c4e591d055f54d86c28
+    steps:
+      - name: Checkout CCX43 result branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/catwalk-ccx-gh43-double-mct-rom-results
+          fetch-depth: 1
+          persist-credentials: true
+      - name: Reconstruct and verify report
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cat "$PARTS"/part*.b64 | base64 -d | gzip -dc > "$PDF"
+          printf '%s  %s\n' "$EXPECTED_SHA256" "$PDF" | sha256sum -c -
+          test "$(stat -c %s "$PDF")" = 4958931
+      - name: Commit PDF and remove transport parts
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git rm -r "$PARTS"
+          git add "$PDF"
+          git commit -m "add I08 double-MCT 43-case report PDF"
+          git push origin "HEAD:$TARGET_BRANCH"
+      - name: Upload verified PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: I08-CCX43-double-MCT-report-PDF
+          path: ${{ env.PDF }}
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 0
