@@ -1,6 +1,10 @@
 ** -----------------------------------------------------------------------------
 ** CalculiX five-branch forensic equivalent model.
 ** -----------------------------------------------------------------------------
+** status=TARGET_CONDITIONED_W2_ALGEBRA
+** frequency_reproduced=false
+** The 0.099600 table below is the W2 inverse-fit residual, not attach TA1
+** reproduction and not a solved C3/true3d frequency.
 ** This deck implements the W2_relabel_bookkeeping operator as five uncoupled
 ** generalized modal coordinates. It is an auditable reduced-order equivalent,
 ** not the full catwalk finite-element model and not evidence of an exact APDL
@@ -21,7 +25,7 @@
 ** T branches receive parallel SPRING1 elements for the baseline stiffness,
 ** the common high-master stiffness, and the TA1-only end restraint.
 ** -----------------------------------------------------------------------------
-** Expected sorted CalculiX eigenfrequencies in Hz:
+** Algebraic W2 predictions in Hz (not a solve receipt; frequency_reproduced=false):
 ** 1 TA1   = 0.099600000000000
 ** 2 TS1   = 0.115043568669614
 ** 3 SIDE3 = 0.155612622540180
@@ -31,7 +35,7 @@
 ** Begin the input deck heading keyword.
 *HEADING
 ** Identify the deck inside CalculiX output files.
-FORENSIC W2 FIVE-DOF EQUIVALENT; TARGET-CONDITIONED; NOT FULL CATWALK FE
+FORENSIC W2 FIVE-DOF EQUIVALENT; TARGET-CONDITIONED; frequency_reproduced=false
 ** -----------------------------------------------------------------------------
 ** Define the five generalized modal-coordinate nodes.
 *NODE, NSET=N_MODAL
