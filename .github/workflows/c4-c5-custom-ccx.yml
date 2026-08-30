@@ -1,0 +1,72 @@
+name: c4-c5-custom-ccx
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - feat/catwalk-c3-actions-verify
+    paths:
+      - ".github/workflows/c4-c5-custom-ccx.yml"
+      - "catwalk-fem/c0-c5-reproduction/code/patch_c4_c5.py"
+
+jobs:
+  solve:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [C4, C5]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install runtime libs
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq liblapack3 libblas3 libgfortran5
+
+      - name: Download custom ccx and C3 parent
+        run: |
+          mkdir -p bin work artifacts
+          curl -L --fail -o bin/ccx \
+            https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64
+          echo b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e  bin/ccx | sha256sum -c
+          chmod +x bin/ccx
+          curl -L --fail -o work/src.inp \
+            https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp
+          echo 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86  work/src.inp | sha256sum -c
+
+      - name: Patch and solve ${{ matrix.variant }}
+        env:
+          C45_VARIANT: ${{ matrix.variant }}
+          C3_SRC: ${{ github.workspace }}/work/src.inp
+          C3_OUT: ${{ github.workspace }}/artifacts
+        run: |
+          python3 catwalk-fem/c0-c5-reproduction/code/patch_c4_c5.py | tee artifacts/patch.json
+          cp artifacts/${{ matrix.variant }}-UB-FT14_m14.inp artifacts/job.inp
+          export OMP_NUM_THREADS=2
+          set +e
+          (cd artifacts && "$GITHUB_WORKSPACE/bin/ccx" job) > artifacts/ccx.log 2>&1
+          echo CCX_EXIT=$? | tee -a artifacts/ccx.log
+          tail -n 80 artifacts/ccx.log
+          python3 - <<'PY'
+          from pathlib import Path
+          dat = Path("artifacts/job.dat")
+          text = dat.read_text(errors="replace") if dat.exists() else ""
+          print("DAT_BYTES", dat.stat().st_size if dat.exists() else 0)
+          print("\n".join(text.splitlines()[:40]))
+          PY
+
+      - name: Upload ${{ matrix.variant }} artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.variant }}-ub-ft14
+          path: |
+            artifacts/patch.json
+            artifacts/${{ matrix.variant }}_PATCH.json
+            artifacts/ccx.log
+            artifacts/job.dat
+            artifacts/job.sta
+            artifacts/job.cvg
+          retention-days: 90
