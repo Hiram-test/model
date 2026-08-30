@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""C3 drawing topology patch: constraint surgery, not member deletion."""
+"""C3 drawing topology: passage UXYZ hinge + saddle UX slip. No member deletion."""
 from __future__ import annotations
 import hashlib, json, os, re
 from collections import defaultdict
@@ -56,6 +56,7 @@ def classify_equation(terms, coords_y, node_fam):
         fams |= node_fam.get(node, set())
     has_passage = any(fam in fams for fam in PASSAGE_FAM)
     has_rot = any(term[1] >= 4 for term in terms)
+    has_ux = any(term[1] == 1 for term in terms)
     has_cable = "E" in fams
     has_ug61 = "UG61" in fams
     has_ug62 = "UG62" in fams
@@ -65,8 +66,10 @@ def classify_equation(terms, coords_y, node_fam):
         return "DROP_CROSS_Y"
     if is_bottom_hoop:
         return "KEEP"
-    if has_rot and (has_passage or is_saddle):
+    if has_passage and has_rot:
         return "HINGE_UXYZ"
+    if is_saddle and has_ux:
+        return "SLIP_UX"
     return "KEEP"
 
 def hinge_terms(terms):
@@ -104,7 +107,15 @@ def write_equation(handle, terms):
         handle.write(", ".join(chunks[i:i + 3]) + "\n")
 
 def rewrite(src, dst, coords_y, node_fam):
-    stats = {"equations_in": 0, "keep": 0, "drop_cross_y": 0, "hinge_rewritten": 0, "hinge_dropped_pure_rot": 0, "elements_deleted": 0}
+    stats = {
+        "equations_in": 0,
+        "keep": 0,
+        "drop_cross_y": 0,
+        "hinge_rewritten": 0,
+        "hinge_dropped_pure_rot": 0,
+        "saddle_slip_ux": 0,
+        "elements_deleted": 0,
+    }
     state = ""
     eq_needed = 0
     eq_values = []
@@ -138,6 +149,8 @@ def rewrite(src, dst, coords_y, node_fam):
                 action = classify_equation(terms, coords_y, node_fam)
                 if action == "DROP_CROSS_Y":
                     stats["drop_cross_y"] += 1
+                elif action == "SLIP_UX":
+                    stats["saddle_slip_ux"] += 1
                 elif action == "HINGE_UXYZ":
                     hinged = hinge_terms(terms)
                     if hinged:
@@ -175,8 +188,25 @@ def main():
         raise SystemExit("refusing member deletion")
     if stats["hinge_rewritten"] + stats["hinge_dropped_pure_rot"] < 1:
         raise SystemExit("no passage ALL converted to UXYZ; refuse to launch")
+    if stats["saddle_slip_ux"] < 1:
+        raise SystemExit("no saddle UX slip applied; refuse to launch")
     dst_sha = sha256_file(dst)
-    receipt = {"schema": "catwalk.c3-ub-ft14.draw-topology.v3", "source": {"path": src.name, "sha256": src_sha, "bytes": src.stat().st_size}, "output": {"path": dst.name, "sha256": dst_sha, "bytes": dst.stat().st_size}, "rule": {"drop_cross_y_mm": CROSS_Y_MM, "same_walkway": "UXYZ hinge", "saddle": "cable-gantry ALL to UXYZ", "keep": "284 bottom-hoop ALL, toppin, all members", "e20_e21_springs": False, "back_tuned_to_0_0996": False, "members_deleted": 0}, "stats": stats, "frequency_claim": False}
+    receipt = {
+        "schema": "catwalk.c3-ub-ft14.draw-topology.v4",
+        "source": {"path": src.name, "sha256": src_sha, "bytes": src.stat().st_size},
+        "output": {"path": dst.name, "sha256": dst_sha, "bytes": dst.stat().st_size},
+        "rule": {
+            "drop_cross_y_mm": CROSS_Y_MM,
+            "same_walkway": "UXYZ hinge",
+            "saddle": "drop UX lever only; keep UY UZ seat and ROT",
+            "keep": "284 bottom-hoop ALL, toppin, all members",
+            "e20_e21_springs": False,
+            "back_tuned_to_0_0996": False,
+            "members_deleted": 0,
+        },
+        "stats": stats,
+        "frequency_claim": False,
+    }
     (out_dir / "C3_DRAW_TOPO_PATCH.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"event": "C3_DRAW_TOPO_PATCHED", "dst": str(dst), "dst_sha256": dst_sha, **stats}, sort_keys=True))
 
