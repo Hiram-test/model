@@ -1,0 +1,80 @@
+# Build one full-size daughter directly from the exact released C3 input deck.
+name: Direct C3 TrackA main13 daughter # Give the verification workflow an explicit name.
+# Start the workflow when this isolated branch receives this workflow file.
+on: # Define the only trigger used by this isolated calculation.
+  push: # Run after the committed workflow is pushed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated verification branch.
+    paths: [".github/workflows/c3-tracka-direct-main13.yml"] # Avoid unrelated repository pushes.
+# Keep repository access read-only because results are retained as artifacts.
+permissions: # Declare the minimum token permissions.
+  contents: read # Permit checkout of the immutable branch snapshot.
+# Define the direct full-C3 solve.
+jobs: # Hold the single deterministic solver job.
+  solve: # Reconstruct, patch, solve, and retain the full entity model.
+    runs-on: ubuntu-24.04 # Match the validated custom-solver runner generation.
+    timeout-minutes: 90 # Bound reconstruction and forty-mode extraction.
+    env: # Freeze every source identity and runtime control.
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14 # Locate the exact released C3 input fragments.
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3 # Locate the validated custom solver fragments.
+      PATCH_PARTS: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/c3_entity_patcher # Locate the full-C3 entity patcher fragments.
+      C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Lock the exact C3 parent identity.
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e # Lock the validated custom solver identity.
+      OMP_NUM_THREADS: "1" # Keep sparse modal extraction deterministic and memory-bounded.
+    steps: # Execute the complete direct-C3 chain.
+      - name: Checkout immutable verification branch # Fetch the exact branch commit.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.sha }} # Bind the run to the triggering commit.
+          fetch-depth: 1 # Fetch only the immutable snapshot.
+          persist-credentials: false # Keep the checked-out repository read-only.
+      - name: Reconstruct exact C3 parent patcher and solver # Restore all content-addressed inputs.
+        shell: bash # Execute deterministic Bash commands.
+        run: | # Run one strict reconstruction script.
+          set -euxo pipefail # Stop on every command, variable, or pipeline error.
+          mkdir -p run results # Create isolated working and evidence directories.
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > run/source.inp # Reconstruct the exact 26.8 MB C3 input.
+          printf '%s  %s\n' "$C3_SHA" run/source.inp | sha256sum -c - # Reject any parent-deck identity drift.
+          cat "$PATCH_PARTS"/patch_c3_entity_forensic.py.gz.b64.part* | base64 -d | gzip -dc > run/patch_c3_entity_forensic.py # Reconstruct the direct entity patcher.
+          python3 -m py_compile run/patch_c3_entity_forensic.py # Reject a syntactically invalid patcher.
+          cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx # Reconstruct the validated UCOR6 plus UCAB3 executable.
+          chmod +x run/ccx # Make the reconstructed solver executable.
+          printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c - # Reject any solver identity drift.
+      - name: Install validated solver runtime # Supply the required numerical libraries.
+        shell: bash # Use Bash for package installation.
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq liblapack3 libblas3 libgfortran5 # Install only the required shared libraries.
+      - name: Patch the exact C3 deck directly # Generate the full modified daughter input.
+        shell: bash # Execute the patcher under strict Bash control.
+        run: | # Apply the retained Track A operator to real C3 entities.
+          set -euxo pipefail # Stop on every patch or invariant failure.
+          python3 run/patch_c3_entity_forensic.py --source run/source.inp --output run/C3_TrackA_main13_direct.inp --shared-scale 1.0 --end-scale 1.0 --mass-scale 1.0 --mass-scope main13 --roots 40 # Add shared passage differential stiffness, tower-end term, and thirteen-passage duplicate mass directly to C3.
+          sha256sum run/C3_TrackA_main13_direct.inp > results/C3_TrackA_main13_direct.inp.sha256 # Record the complete daughter identity.
+          cp run/C3_TrackA_main13_direct.inp results/ # Retain the full modified C3 input without runtime rewriting.
+          cp run/C3_TrackA_main13_direct.inp.receipt.json results/ # Retain the machine-readable patch receipt.
+      - name: Solve forty modes on the full C3 daughter # Run the validated custom CalculiX executable.
+        shell: bash # Preserve the native solver exit status through tee.
+        run: | # Execute the exact generated daughter deck.
+          set -o pipefail # Return a failed solver status to Actions.
+          cd run # Enter the isolated CalculiX working directory.
+          cp C3_TrackA_main13_direct.inp job.inp # Use the conventional CalculiX input stem without editing content.
+          /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt # Solve forty full-model modes and capture native output.
+          echo "${PIPESTATUS[0]}" > job.exit # Preserve the actual CalculiX exit code.
+          grep -q "Job finished" job.stdout.txt # Reject any incomplete or aborted solve.
+          test "$(cat job.exit)" = "0" # Require a zero native exit status.
+      - name: Collect direct-C3 evidence # Stage all input and solver outputs.
+        if: always() # Preserve diagnostics even if the full solve fails.
+        shell: bash # Use strict Bash copy and digest commands.
+        run: | # Copy every available native artifact.
+          set -euxo pipefail # Stop on unexpected collection errors.
+          cp -a run/job.dat run/job.frd run/job.sta run/job.cvg run/job.stdout.txt run/job.exit results/ 2>/dev/null || true # Retain native CalculiX evidence when present.
+          awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true # Extract the forty-mode table for rapid inspection.
+          printf 'parent_c3_sha=%s\nshared_scale=1.0\nend_scale=1.0\nmass_scale=1.0\nmass_scope=main13\nroots=40\nsource_commit=%s\nfull_c3_direct=true\nlow_dimensional=false\nfrequency_reproduced=false\nback_tuned=true\n' "$C3_SHA" "${{ github.sha }}" > results/case.txt # Record scope and evidence boundaries explicitly.
+          sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for all staged artifacts.
+      - name: Upload full modified C3 deck and solve outputs # Publish the direct-C3 evidence package.
+        if: always() # Retain files for both successful and failed runs.
+        uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
+        with: # Configure a stable artifact name and strict presence check.
+          name: C3-TrackA-main13-direct-full-model # Identify the full C3 daughter rather than a scalar surrogate.
+          path: results/ # Upload the complete modified input and native outputs.
+          if-no-files-found: error # Reject an empty evidence package.
+          retention-days: 30 # Keep the package available for independent reruns.
+          compression-level: 9 # Compress the large ASCII C3 input efficiently.
