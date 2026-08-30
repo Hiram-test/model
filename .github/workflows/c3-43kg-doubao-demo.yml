@@ -17,18 +17,18 @@ jobs: # 定义单个端到端 Demo 作业。
     timeout-minutes: 15 # 限制外部 API 等待时间。
     env: # 配置包路径与安全注入的候选 Secret。
       PKG: catwalk-fem/c3-buffeting-43-kg # 固定工作目录。
-      DOUBAO_API_KEY: ${{ secrets.DOUBAO_API_KEY }} # 兼容首选仓库 Secret。
-      DOUBAO_API: ${{ secrets.DOUBAO_API }} # 兼容用户可能使用的短名称。
-      DOUBAO_KEY: ${{ secrets.DOUBAO_KEY }} # 兼容 Key 短名称。
-      DOUBAO_TOKEN: ${{ secrets.DOUBAO_TOKEN }} # 兼容 Token 名称。
-      DOUBAO: ${{ secrets.DOUBAO }} # 兼容最短豆包名称。
-      DOUBAO_APIKEY: ${{ secrets.DOUBAO_APIKEY }} # 兼容无分隔符名称。
-      DOUBAO_API_SECRET: ${{ secrets.DOUBAO_API_SECRET }} # 兼容 API Secret 名称。
-      ARK_API_KEY: ${{ secrets.ARK_API_KEY }} # 兼容火山方舟标准名称。
-      ARK_KEY: ${{ secrets.ARK_KEY }} # 兼容方舟 Key 短名称。
-      ARK_TOKEN: ${{ secrets.ARK_TOKEN }} # 兼容方舟 Token 名称。
-      VOLCENGINE_API_KEY: ${{ secrets.VOLCENGINE_API_KEY }} # 兼容火山引擎名称。
-      VOLCENGINE_KEY: ${{ secrets.VOLCENGINE_KEY }} # 兼容火山引擎 Key 短名称。
+      DOUBAO_API_KEY: ${{ secrets.DOUBAO_API_KEY || vars.DOUBAO_API_KEY }} # 同时兼容仓库 Secret 与 Variable。
+      DOUBAO_API: ${{ secrets.DOUBAO_API || vars.DOUBAO_API }} # 同时兼容短名称 Secret 与 Variable。
+      DOUBAO_KEY: ${{ secrets.DOUBAO_KEY || vars.DOUBAO_KEY }} # 同时兼容 Key 短名称 Secret 与 Variable。
+      DOUBAO_TOKEN: ${{ secrets.DOUBAO_TOKEN || vars.DOUBAO_TOKEN }} # 同时兼容 Token 名称 Secret 与 Variable。
+      DOUBAO: ${{ secrets.DOUBAO || vars.DOUBAO }} # 同时兼容最短豆包名称 Secret 与 Variable。
+      DOUBAO_APIKEY: ${{ secrets.DOUBAO_APIKEY || vars.DOUBAO_APIKEY }} # 同时兼容无分隔符名称 Secret 与 Variable。
+      DOUBAO_API_SECRET: ${{ secrets.DOUBAO_API_SECRET || vars.DOUBAO_API_SECRET }} # 同时兼容 API Secret 名称的两类配置。
+      ARK_API_KEY: ${{ secrets.ARK_API_KEY || vars.ARK_API_KEY }} # 同时兼容方舟标准名称 Secret 与 Variable。
+      ARK_KEY: ${{ secrets.ARK_KEY || vars.ARK_KEY }} # 同时兼容方舟 Key 短名称 Secret 与 Variable。
+      ARK_TOKEN: ${{ secrets.ARK_TOKEN || vars.ARK_TOKEN }} # 同时兼容方舟 Token 名称 Secret 与 Variable。
+      VOLCENGINE_API_KEY: ${{ secrets.VOLCENGINE_API_KEY || vars.VOLCENGINE_API_KEY }} # 同时兼容火山引擎名称 Secret 与 Variable。
+      VOLCENGINE_KEY: ${{ secrets.VOLCENGINE_KEY || vars.VOLCENGINE_KEY }} # 同时兼容火山引擎 Key 短名称 Secret 与 Variable。
       DOUBAO_MODEL: ${{ vars.DOUBAO_MODEL || 'doubao-seed-1-8-251228' }} # 允许仓库变量覆盖模型。
     steps: # 顺序执行完整 Demo。
       - name: Checkout C3 migration branch # 拉取当前提交。
