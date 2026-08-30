@@ -1,0 +1,35 @@
+{
+  "schema_version": "catwalk-c3-model-binding/v2",
+  "model_id": "C3-UB-FT14-PARSER-SAFE",
+  "object": "张靖皎南航道桥施工猫道 C3",
+  "release_tag": "c3-ft14-parser-safe-667c5047",
+  "release_url": "https://github.com/Hiram-test/model/releases/tag/c3-ft14-parser-safe-667c5047",
+  "release_target_commit": "0358193b3d496bcc5ed461f592cc4fc2f6d746d3",
+  "deck": {
+    "asset": "C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp",
+    "sha256": "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86",
+    "size_bytes": 26839638,
+    "download_url": "https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp"
+  },
+  "solver": {
+    "asset": "ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64",
+    "sha256": "b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e",
+    "download_url": "https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64"
+  },
+  "modal_receipt": {
+    "dat_asset": "job.dat",
+    "dat_sha256": "329a017f0356504ea5a360488ae0f87adfa39dae507119bdb9e622fb139c1208",
+    "modal_table_asset": "modal-table.txt",
+    "modal_table_sha256": "6c78bbd32297e27734622597bd0c38d38074727bfad5aaeff91b1dfca9333312",
+    "nodes": 91415,
+    "elements": 172998,
+    "active_equations": 439122,
+    "requested_modes": 14,
+    "spectral_shift": -0.001,
+    "frequencies_hz": [0.03677346, 0.07144416, 0.07267216, 0.07356089, 0.1012149, 0.1028555, 0.1101283, 0.1161726, 0.1248024, 0.1456783, 0.1464436, 0.1465091, 0.1465538, 0.1491063]
+  },
+  "response_state": "C3_43CASE_BUFFETING_NOT_MATERIALIZED",
+  "transferred_from_double_mct": ["43-case ontology", "four-agent workflow", "evidence lineage", "query semantics"],
+  "not_transferred_as_c3_truth": ["150-mode ROM response", "station RMS", "rope force", "support reaction", "capacity ratio", "legacy warning output"]
+}
+

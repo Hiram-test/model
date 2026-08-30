@@ -1,0 +1,138 @@
+{
+  "schema_version": "catwalk-c3-demo/v1",
+  "question": "说明非平稳工况在 C3 图谱中的处置。",
+  "case_id": "piteraq_tasiilaq",
+  "facts": {
+    "case": {
+      "n": 41,
+      "id": "piteraq_tasiilaq",
+      "group": "G7_polar",
+      "name_cn": "皮特拉克",
+      "U10_mps": 45.0,
+      "gust_mps": 80.0,
+      "grade": "C",
+      "stationary": false,
+      "c3_layer": "L4",
+      "c3_claim": "envelope_only",
+      "c3_case_id": "C3-piteraq_tasiilaq-S20260830",
+      "c3_response_state": "NOT_MATERIALIZED",
+      "wind_pressure_index": 1.338215
+    },
+    "c3_model": {
+      "model_id": "C3-UB-FT14-PARSER-SAFE",
+      "deck_sha256": "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86",
+      "solver_sha256": "b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e",
+      "response_state": "C3_43CASE_BUFFETING_NOT_MATERIALIZED"
+    },
+    "modal_frequencies_hz": [
+      0.03677346,
+      0.07144416,
+      0.07267216,
+      0.07356089,
+      0.1012149,
+      0.1028555,
+      0.1101283,
+      0.1161726,
+      0.1248024,
+      0.1456783,
+      0.1464436,
+      0.1465091,
+      0.1465538,
+      0.1491063
+    ],
+    "working_mode_pairs": [
+      {
+        "mode": 3,
+        "frequency_hz": 0.07267216,
+        "dominant_translation": "UZ",
+        "ux_fraction": "0.110370906398",
+        "uy_fraction": "0.101048210928",
+        "uz_fraction": "0.788580882674",
+        "mirror_signature": "UZ_differential",
+        "interpretation": "TA1_working_pair_mass_weighted_followup"
+      },
+      {
+        "mode": 4,
+        "frequency_hz": 0.07356089,
+        "dominant_translation": "UY",
+        "ux_fraction": "0.007782733856",
+        "uy_fraction": "0.936750254501",
+        "uz_fraction": "0.055467011643",
+        "mirror_signature": "UY_common",
+        "interpretation": "LA1_working_pair_mass_weighted_followup"
+      },
+      {
+        "mode": 10,
+        "frequency_hz": 0.1456783,
+        "dominant_translation": "UZ",
+        "ux_fraction": "0.034529836313",
+        "uy_fraction": "0.000001853725",
+        "uz_fraction": "0.965468309962",
+        "mirror_signature": "UZ_common",
+        "interpretation": "VS2_most_likely_working_pair"
+      }
+    ],
+    "agent_trace": {
+      "trace_id": "trace:C3-piteraq_tasiilaq-S20260830",
+      "case_id": "piteraq_tasiilaq",
+      "c3_case_id": "C3-piteraq_tasiilaq-S20260830",
+      "steps": [
+        {
+          "agent": "AuthorityAgent",
+          "status": "PASS",
+          "facts": {
+            "case_id": "piteraq_tasiilaq",
+            "source_order": 41,
+            "grade": "C"
+          },
+          "decision": "C3_CASE_AUTHORITY_CONFIRMED"
+        },
+        {
+          "agent": "SolverEvidenceAgent",
+          "status": "MODAL_EVIDENCE_ONLY",
+          "facts": {
+            "deck_sha256": "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86",
+            "modal_modes": 14,
+            "case_response": "NOT_MATERIALIZED"
+          },
+          "decision": "C3_MODAL_EVIDENCE_BOUND_CASE_RESPONSE_NOT_MATERIALIZED"
+        },
+        {
+          "agent": "PhysicsBoundaryAgent",
+          "status": "REFERENCE_ONLY_NONSTATIONARY",
+          "facts": {
+            "stationary": false,
+            "c3_layer": "L4",
+            "claim": "envelope_only",
+            "legacy_value_transfer": false
+          },
+          "decision": "REFERENCE_ONLY_NONSTATIONARY"
+        },
+        {
+          "agent": "WarningPolicyAgent",
+          "status": "NOT_ARMED",
+          "facts": {
+            "physics_decision": "REFERENCE_ONLY_NONSTATIONARY",
+            "dispatch": false,
+            "c3_response": "NOT_MATERIALIZED"
+          },
+          "decision": "NOT_ARMED"
+        }
+      ],
+      "final_status": "NOT_ARMED",
+      "dispatch": false
+    },
+    "hard_facts": [
+      "C3 43-case buffeting response is NOT_MATERIALIZED",
+      "Double-MCT numerical response values are provenance only",
+      "warning status is NOT_ARMED",
+      "dispatch is false"
+    ]
+  },
+  "response": {
+    "provider": "deterministic",
+    "mode": "offline",
+    "model": null,
+    "answer": "皮特拉克（piteraq_tasiilaq）的 U10 为 45.0 m/s，阵风为 80.0 m/s，风速平方比为 1.338。该工况仅作非平稳包络参考。四智能体物理状态为 REFERENCE_ONLY_NONSTATIONARY，C3 响应仍是 NOT_MATERIALIZED，最终状态为 NOT_ARMED，dispatch=false。当前能引用 C3 的 deck 哈希和 14 阶原生模态，不能引用 Double-MCT 的位移、索力或安全比作为 C3 结果。问题：说明非平稳工况在 C3 图谱中的处置。"
+  }
+}

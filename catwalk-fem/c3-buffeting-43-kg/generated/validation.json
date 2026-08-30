@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "checks": {
+    "case_count_43": true,
+    "unique_case_ids_43": true,
+    "mode_count_14": true,
+    "agent_count_4": true,
+    "agent_decisions_172": true,
+    "responses_not_materialized_43": true,
+    "warning_not_armed_43": true,
+    "dispatch_true_zero": true,
+    "nonstationary_reference_10": true,
+    "edge_endpoints_exist": true,
+    "no_c3_numeric_response_metrics": true
+  },
+  "missing_edge_ids": [],
+  "summary": {
+    "schema_version": "catwalk-c3-kg/v2",
+    "node_count": 377,
+    "edge_count": 763,
+    "node_type_counts": {
+      "Agent": 4,
+      "AgentDecision": 172,
+      "AgentTrace": 43,
+      "C3CaseResponse": 43,
+      "C3ModalRun": 1,
+      "C3Mode": 14,
+      "C3Model": 1,
+      "C3WindCase": 43,
+      "EvidenceArtifact": 2,
+      "LegacyResultPointer": 43,
+      "LegacyResultSet": 1,
+      "Project": 1,
+      "WindGroup": 9
+    },
+    "relation_counts": {
+      "BINDS_MODEL": 1,
+      "EVALUATED_ON": 43,
+      "EVIDENCED_BY": 1,
+      "EXECUTED_BY": 172,
+      "HAS_AGENT_TRACE": 43,
+      "HAS_CASE": 43,
+      "HAS_MODAL_RUN": 1,
+      "HAS_MODE": 14,
+      "HAS_RESPONSE_STATE": 43,
+      "HAS_STEP": 172,
+      "HAS_WIND_GROUP": 9,
+      "IN_GROUP": 43,
+      "NEXT_STEP": 129,
+      "PROVENANCE_ONLY": 43,
+      "PROVENANCE_ONLY_FOR": 1,
+      "SOLVED_BY": 1,
+      "USES_AGENT": 4
+    },
+    "agent_decision_count": 172,
+    "physics_decision_counts": {
+      "AWAITING_C3_CASE_RESPONSE": 33,
+      "REFERENCE_ONLY_NONSTATIONARY": 10
+    },
+    "warning_counts": {
+      "NOT_ARMED": 43
+    },
+    "dispatch_true_count": 0,
+    "case_response_not_materialized": 43
+  }
+}

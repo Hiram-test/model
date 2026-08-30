@@ -1,0 +1,14 @@
+source_entity,target_entity,migration_action,value_transfer,status,reason
+I08_GITHUB_43_CASE_MATRIX,cases_43.csv,identity_and_classification,false,MIGRATED,工况本体可独立于结构模型复用
+AuthorityAgent,AuthorityAgent,rule_port,true,MIGRATED,权威来源规则保持
+SolverEvidenceAgent,SolverEvidenceAgent,evidence_adapter,false,MIGRATED,C3仅绑定原生14阶模态证据
+PhysicsBoundaryAgent,PhysicsBoundaryAgent,rule_port,true,MIGRATED,非平稳与物理边界规则保持
+WarningPolicyAgent,WarningPolicyAgent,policy_port,false,MIGRATED,输出保持NOT_ARMED且不派发
+I08_150_MODE_ROM,C3_FT14_MODAL_RECEIPT,lineage_only,false,CUT,自由度和模态基底不同
+I08_43CASE_MASTER,C3_CaseResponse,lineage_only,false,CUT,Double-MCT响应不得改名为C3响应
+I08_STATION_RESULTS,C3_StationResponse,lineage_only,false,CUT,C3尚未物化风响应
+I08_ROPE_RESULTS,C3_RopeResponse,lineage_only,false,CUT,C3索力恢复尚未建立
+I08_CAPACITY_RATIO,C3_CapacityAssessment,lineage_only,false,CUT,容量比依赖C3响应和正式阈值
+I08_AGENT_SIMULATION_43_TRACE,C3_AGENT_TRACE,recompute_rules,false,MIGRATED,对43工况重新执行C3证据状态推演
+I08_KNOWLEDGE_GRAPH,knowledge_graph_c3.json,rebuild_endpoints,false,MIGRATED,旧结果边切断并改接C3模型证据
+
