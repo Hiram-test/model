@@ -1,0 +1,226 @@
+# Calibrate the corrected forensic mechanism directly on the exact frozen C3 entity model.
+name: C3 forensic entity-model calibration v2
+# Trigger this calibration from the committed workflow definition.
+on:
+  # Use a branch push so every result is tied to one immutable repository state.
+  push:
+    # Restrict execution to the physical-reproduction branch.
+    branches:
+      # Select the branch containing the frozen C3 deck and custom solver.
+      - feat/catwalk-c0-c5-physical-reproduction
+    # Avoid unrelated workflow runs.
+    paths:
+      # Trigger only when this v2 workflow is created or revised.
+      - ".github/workflows/c3-forensic-entity-v2.yml"
+# Read-only access is sufficient because all daughter decks are Actions artifacts.
+permissions:
+  # Permit checkout of repository contents.
+  contents: read
+# Define the physical calibration job.
+jobs:
+  # Solve independent corrected-mechanism probes on the full C3 topology.
+  solve:
+    # Use the same runner generation as the validated C3 modal solve.
+    runs-on: ubuntu-24.04
+    # Bound each physical eigenvalue extraction.
+    timeout-minutes: 90
+    # Preserve other probes if one experimental card fails.
+    continue-on-error: true
+    # Freeze source identities and runtime controls.
+    env:
+      # Point to the exact frozen C3 input fragments.
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14
+      # Point to the validated UCOR6 plus UCAB3 solver fragments.
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3
+      # Point to the line-commented physical patcher fragments.
+      PATCH_PARTS: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/c3_entity_patcher
+      # Preserve the frozen C3 parent digest.
+      C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86
+      # Preserve the validated custom solver digest.
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e
+      # Keep the sparse eigensolve deterministic and memory-bounded.
+      OMP_NUM_THREADS: "1"
+    # Run six independent physical probes concurrently.
+    strategy:
+      # Keep every case even if another case fails.
+      fail-fast: false
+      # Permit all six short modal solves to run concurrently.
+      max-parallel: 6
+      # Define explicit stiffness, mass, and physical-scope controls.
+      matrix:
+        # Use include rows so artifact names remain unambiguous.
+        include:
+          # Measure the corrected shared differential spring at its derived scale.
+          - case: shared_diff_100
+            # Apply one shared-stiffness unit.
+            shared: "1.0"
+            # Disable the tower-end term.
+            end: "0.0"
+            # Disable duplicate mass.
+            mass: "0.0"
+            # Keep the bookkeeping scope at the thirteen main-span passages.
+            scope: main13
+          # Measure shared-stiffness nonlinearity over a fivefold interval.
+          - case: shared_diff_500
+            # Apply five shared-stiffness units.
+            shared: "5.0"
+            # Disable the tower-end term.
+            end: "0.0"
+            # Disable duplicate mass.
+            mass: "0.0"
+            # Keep the bookkeeping scope at the thirteen main-span passages.
+            scope: main13
+          # Measure the corrected TA1-selective tower coupling at its derived scale.
+          - case: end_diff_100
+            # Disable the shared passage term.
+            shared: "0.0"
+            # Apply one tower-end stiffness unit.
+            end: "1.0"
+            # Disable duplicate mass.
+            mass: "0.0"
+            # Keep the unused mass scope explicit.
+            scope: main13
+          # Measure tower-end nonlinearity over a fivefold interval.
+          - case: end_diff_500
+            # Disable the shared passage term.
+            shared: "0.0"
+            # Apply five tower-end stiffness units.
+            end: "5.0"
+            # Disable duplicate mass.
+            mass: "0.0"
+            # Keep the unused mass scope explicit.
+            scope: main13
+          # Test the repeated-macro interpretation at all twenty-one real passages.
+          - case: mass_all21_100
+            # Disable the shared passage term.
+            shared: "0.0"
+            # Disable the tower-end term.
+            end: "0.0"
+            # Add one full audited duplicate at every real passage entity.
+            mass: "1.0"
+            # Apply the bookkeeping error to all repeated passage macros.
+            scope: all21
+          # Test the complete corrected physical mechanism before final fitting.
+          - case: combined_all21_100
+            # Apply one shared-stiffness unit.
+            shared: "1.0"
+            # Apply one tower-end stiffness unit.
+            end: "1.0"
+            # Add one full passage duplicate at every physical passage.
+            mass: "1.0"
+            # Apply the repeated-macro interpretation to all twenty-one passages.
+            scope: all21
+    # Execute deterministic reconstruction, patching, solution, and evidence collection.
+    steps:
+      # Check out the exact commit that triggered this calibration.
+      - name: Checkout C3 forensic branch
+        # Use GitHub's maintained checkout action.
+        uses: actions/checkout@v4
+        # Pin checkout to the triggering commit and keep it read-only.
+        with:
+          # Use the immutable workflow commit.
+          ref: ${{ github.sha }}
+          # Fetch only the required snapshot.
+          fetch-depth: 1
+          # Disable retained repository write credentials.
+          persist-credentials: false
+      # Reconstruct and verify the exact parent, patcher, and custom solver.
+      - name: Reconstruct verified C3 inputs
+        # Run strict Bash commands.
+        shell: bash
+        # Decode all immutable source streams.
+        run: |
+          # Stop on errors, unset variables, and failed pipeline elements.
+          set -euxo pipefail
+          # Create isolated working and evidence directories.
+          mkdir -p run results
+          # Reconstruct the exact frozen C3 parent input.
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > run/source.inp
+          # Reject every parent stream differing from the validated C3 digest.
+          printf '%s  %s\n' "$C3_SHA" run/source.inp | sha256sum -c -
+          # Reconstruct the line-commented corrected entity patcher.
+          cat "$PATCH_PARTS"/patch_c3_entity_forensic.py.gz.b64.part* | base64 -d | gzip -dc > run/patch_c3_entity_forensic.py
+          # Reject a syntactically invalid reconstructed patcher.
+          python3 -m py_compile run/patch_c3_entity_forensic.py
+          # Reconstruct the validated custom CalculiX executable.
+          cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx
+          # Mark the reconstructed solver executable.
+          chmod +x run/ccx
+          # Reject every solver stream differing from the validated digest.
+          printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c -
+      # Install the shared libraries required by the validated executable.
+      - name: Install custom solver runtime
+        # Use the same Ubuntu libraries as the successful C3 calculation.
+        shell: bash
+        # Install BLAS, LAPACK, and the GNU Fortran runtime.
+        run: sudo apt-get update && sudo apt-get install -y liblapack3 libblas3 libgfortran5
+      # Generate one complete C3 entity daughter for the current probe.
+      - name: Patch exact C3 entity deck
+        # Run the reconstructed patcher under Bash.
+        shell: bash
+        # Apply the explicit physical controls.
+        run: |
+          # Stop on every patch or invariant failure.
+          set -euxo pipefail
+          # Generate the full modified C3 CalculiX input deck.
+          python3 run/patch_c3_entity_forensic.py --source run/source.inp --output run/job.inp --shared-scale "${{ matrix.shared }}" --end-scale "${{ matrix.end }}" --mass-scale "${{ matrix.mass }}" --mass-scope "${{ matrix.scope }}" --roots 30
+          # Record the exact daughter identity.
+          sha256sum run/job.inp > results/job.inp.sha256
+          # Preserve the machine-readable patch receipt.
+          cp run/job.inp.receipt.json results/
+      # Run the validated custom solver on the complete C3 entity daughter.
+      - name: Solve thirty C3 entity modes
+        # Preserve the actual CalculiX status through tee.
+        shell: bash
+        # Execute the physical modal calculation.
+        run: |
+          # Treat a failed pipeline element as a failed solve.
+          set -o pipefail
+          # Enter the isolated CalculiX working directory.
+          cd run
+          # Solve thirty roots and preserve complete standard output.
+          /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt
+          # Store the actual CalculiX exit code.
+          echo "${PIPESTATUS[0]}" > job.exit
+          # Return the native solver status to Actions.
+          exit "$(cat job.exit)"
+      # Collect complete native evidence even when an experimental case fails.
+      - name: Collect entity-model evidence
+        # Always execute the collection step.
+        if: always()
+        # Run strict copy and digest commands while tolerating absent failed-solve outputs.
+        shell: bash
+        # Stage the daughter deck and native outputs.
+        run: |
+          # Stop on unexpected shell errors.
+          set -euxo pipefail
+          # Preserve the complete C3 daughter input.
+          cp -a run/job.inp results/ 2>/dev/null || true
+          # Preserve the patch receipt.
+          cp -a run/job.inp.receipt.json results/ 2>/dev/null || true
+          # Preserve native frequency, mode-shape, status, convergence, and stdout files.
+          cp -a run/job.dat run/job.frd run/job.sta run/job.cvg run/job.stdout.txt run/job.exit results/ 2>/dev/null || true
+          # Extract the eigenvalue table for rapid inspection.
+          awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true
+          # Record exact identities for every produced artifact.
+          sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true
+          # Record every matrix control independently of the artifact name.
+          printf 'case=%s\nshared=%s\nend=%s\nmass=%s\nscope=%s\ncommit=%s\n' "${{ matrix.case }}" "${{ matrix.shared }}" "${{ matrix.end }}" "${{ matrix.mass }}" "${{ matrix.scope }}" "${{ github.sha }}" > results/case.txt
+      # Upload one independent artifact for the current physical probe.
+      - name: Upload C3 entity calibration v2 case
+        # Retain evidence from successful and failed probes.
+        if: always()
+        # Use GitHub's maintained artifact uploader.
+        uses: actions/upload-artifact@v4
+        # Configure the case artifact.
+        with:
+          # Include the physical case name and run ID.
+          name: c3-forensic-v2-${{ matrix.case }}-${{ github.run_id }}
+          # Upload the complete daughter deck and native solution evidence.
+          path: results/
+          # Treat an empty result directory as an error.
+          if-no-files-found: error
+          # Retain calibration evidence through the final fit.
+          retention-days: 30
+          # Compress the large ASCII deck efficiently.
+          compression-level: 9
