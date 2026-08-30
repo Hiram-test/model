@@ -2,7 +2,7 @@ name: C3 FT14 parser-safe deck release # Reconstruct and publish the exact twent
 on: # Trigger only when the dedicated release package changes on its branch.
   push: # Use the branch update itself to pull a fresh hosted runner.
     branches: [feat/catwalk-c0-c5-physical-reproduction] # Restrict execution to the C0-C5 physical-reproduction branch.
-    paths: [.github/workflows/c3-ft14-release.yml, catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14/**] # Ignore unrelated branch changes.
+    paths: [".github/workflows/c3-ft14-release.yml", "catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14/**"] # Quote the wildcard path so YAML does not parse it as an alias.
 permissions: # Grant the minimum permission needed to create a repository release.
   contents: write # Permit tag, release, and release-asset creation.
 jobs: # Define one bounded reconstruction and publication job.
