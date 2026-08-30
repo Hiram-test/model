@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
-"""Official C4/C5 from the Ultra scheme. C4 zeros downpull tangent. C5 drops tower-saddle UX."""
+"""Official C4/C5. C4 zeros downpull tangent. C5 slips only main/aux tower saddles."""
 from __future__ import annotations
 import hashlib, json, os, re, sys
 from collections import defaultdict
 from pathlib import Path
 EXPECTED_SRC_SHA256 = "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86"
 DOWNPULL_ELSETS = {"CAB122309", "CAB122310", "CAB122311", "CAB122312"}
-TOWER_X_MM = (0.0, 660000.0, 714504.0, 2953321.0, 2995314.0, 3677000.0, 4180000.0)
-TOWER_TOL_MM = 50000.0
+# Four-span supports: 0/4180 m are anchorages and stay sticky.
+# Towers only: north main ~660 m, south main ~2941-2953 m, south aux ~3663-3677 m.
+TOWER_WINDOWS_MM = (
+    (650000.0, 670000.0),
+    (2930000.0, 2960000.0),
+    (3650000.0, 3680000.0),
+)
+EXPECTED_C5_DROPS = 96
 
 def sha256_file(path):
     digest = hashlib.sha256()
@@ -46,7 +52,7 @@ def first_pass(src):
     return coords, node_fam
 
 def near_tower(x):
-    return any(abs(x - station) <= TOWER_TOL_MM for station in TOWER_X_MM)
+    return any(lo <= x <= hi for lo, hi in TOWER_WINDOWS_MM)
 
 def classify_c5(terms, coords, node_fam):
     nodes = [term[0] for term in terms]
@@ -161,17 +167,17 @@ def main():
     stats = rewrite(src, dst, variant, coords, node_fam)
     if variant == "C4" and stats["downpull_ea_n0_zeroed"] != 4:
         raise SystemExit(f"C4 must zero exactly 4 downpull sections, got {stats['downpull_ea_n0_zeroed']}")
-    if variant == "C5" and stats["drop_tower_saddle_ux"] < 1:
-        raise SystemExit("C5 dropped no tower-saddle UX equations")
+    if variant == "C5" and stats["drop_tower_saddle_ux"] != EXPECTED_C5_DROPS:
+        raise SystemExit(f"C5 must drop exactly {EXPECTED_C5_DROPS} tower UX eqs, got {stats['drop_tower_saddle_ux']}")
     dst_sha = sha256_file(dst)
     receipt = {
-        "schema": "catwalk.c4-c5.official-scheme.v2",
+        "schema": "catwalk.c4-c5.official-scheme.v3",
         "variant": variant,
         "source": {"path": src.name, "sha256": src_sha},
         "output": {"path": dst.name, "sha256": dst_sha, "bytes": dst.stat().st_size},
         "rule": {
             "C4": "C3 plus downpull modal tangent ~0: EA->1 N, N0->0 on 4 E_DOWNPULL UCAB3; mu unchanged",
-            "C5": "C3 plus main/aux tower saddle cable-direction slip: drop UG61-E UX equations near tower stations; keep hoops and UY/UZ",
+            "C5": "C3 plus tower-saddle cable slip at 660/2941/3663 m only; both anchorages stay sticky; keep hoop and UY/UZ",
         }[variant],
         "friction": False,
         "contact": False,
