@@ -1,0 +1,74 @@
+name: c3-draw-topo-custom-ccx
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - feat/catwalk-c3-actions-verify
+    paths:
+      - ".github/workflows/c3-draw-topo-custom-ccx.yml"
+
+jobs:
+  solve-draw-topo:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install runtime libs
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq liblapack3 libblas3 libgfortran5
+
+      - name: Download custom ccx UCOR6+UCAB3 binary
+        run: |
+          mkdir -p bin work artifacts
+          curl -L --fail -o bin/ccx \
+            https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64
+          echo b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e  bin/ccx | sha256sum -c
+          chmod +x bin/ccx
+          ldd bin/ccx
+          bin/ccx -v || true
+
+      - name: Download C3 deck and apply drawing topology patch
+        run: |
+          curl -L --fail -o work/src.inp \
+            https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp
+          echo 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86  work/src.inp | sha256sum -c
+          C3_SRC="$GITHUB_WORKSPACE/work/src.inp" C3_OUT="$GITHUB_WORKSPACE/artifacts" \
+            python3 catwalk-fem/c0-c5-reproduction/code/patch_c3_draw_topology.py | tee artifacts/patch.json
+          test -s artifacts/C3-UB-FT14-DRAW-TOPO_m14.inp
+          cp artifacts/C3-UB-FT14-DRAW-TOPO_m14.inp artifacts/job.inp
+
+      - name: Solve patched C3 with custom ccx
+        run: |
+          export OMP_NUM_THREADS=2
+          set +e
+          (cd artifacts && "$GITHUB_WORKSPACE/bin/ccx" job) > artifacts/ccx_draw_topo.log 2>&1
+          echo CCX_EXIT=$? | tee -a artifacts/ccx_draw_topo.log
+          tail -n 120 artifacts/ccx_draw_topo.log
+          ls -l artifacts | tee artifacts/outputs.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          dat = Path("artifacts/job.dat")
+          text = dat.read_text(errors="replace") if dat.exists() else ""
+          freqs = [line.strip() for line in text.splitlines() if "eigenvalue" in line.lower() or "frequency" in line.lower() or line.strip()[:1].isdigit()]
+          print("DAT_BYTES", dat.stat().st_size if dat.exists() else 0)
+          print("DAT_HEAD")
+          print("\n".join(text.splitlines()[:80]))
+          PY
+
+      - name: Upload solve artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3-draw-topo-custom-ccx
+          path: |
+            artifacts/patch.json
+            artifacts/C3_DRAW_TOPO_PATCH.json
+            artifacts/ccx_draw_topo.log
+            artifacts/outputs.txt
+            artifacts/job.dat
+            artifacts/job.sta
+            artifacts/job.cvg
+          retention-days: 90
