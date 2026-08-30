@@ -1,0 +1,100 @@
+# Run the preregistered E1 and E2 legacy-ANSYS human-process hypotheses directly on the exact frozen C3 entity model.
+name: C3 human-process E1 E2 direct constraints # Give the target-blind reconstruction workflow an explicit auditable name.
+# Start only when this workflow definition is committed on the isolated reconstruction branch.
+on: # Define the deterministic trigger.
+  push: # Run after the workflow file is pushed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the current isolated reconstruction branch.
+    paths: [".github/workflows/c3-human-constraint-e1-e2.yml"] # Avoid unrelated branch pushes.
+# Grant only the read permissions required for repository checkout and prior Actions-artifact recovery.
+permissions: # Declare the minimum workflow token permissions.
+  contents: read # Permit checkout of the immutable triggering commit.
+  actions: read # Permit download of the previously verified authoritative S10 APDL snapshot artifact.
+# Define the three direct full-C3 human-process solves.
+jobs: # Hold the target-blind E1 and E2 matrix.
+  solve: # Reconstruct source files, apply one explicit human operation, solve forty modes, and retain evidence.
+    runs-on: ubuntu-24.04 # Match the validated custom CalculiX environment.
+    timeout-minutes: 90 # Bound each complete C3 reconstruction and forty-mode extraction.
+    continue-on-error: true # Preserve all independent hypotheses when one direct constraint case fails.
+    env: # Freeze every source identity and runtime control.
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14 # Locate the exact released C3 input fragments.
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3 # Locate the validated UCOR6 plus UCAB3 solver fragments.
+      PATCHER: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/c3_human_process/patch_c3_human_constraint_variants.py # Locate the line-commented direct-C3 human-process patcher.
+      C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Lock the exact C3 parent identity.
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e # Lock the validated custom solver identity.
+      LEGACY_APDL_SHA: 72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330 # Lock the authoritative finite-gate-and-passage APDL include.
+      LEGACY_RUN_ID: "33332991570" # Identify the successful archival extraction run.
+      LEGACY_ARTIFACT: legacy-S10-APDL-human-process-snapshot # Identify the verified authoritative S10 snapshot artifact.
+      OMP_NUM_THREADS: "1" # Keep sparse modal extraction deterministic and memory-bounded.
+      GH_TOKEN: ${{ github.token }} # Authenticate same-repository artifact download with the read-only workflow token.
+    strategy: # Run every physical hypothesis independently.
+      fail-fast: false # Do not cancel remaining hypotheses after one failure.
+      max-parallel: 3 # Solve the three forty-mode C3 daughters concurrently.
+      matrix: # Enumerate only the preregistered target-blind human operations.
+        variant: [E1_MAIN13, E1_ALL21, E2_ALL_MASTERS] # Test main-span passage cleanup, all-passage cleanup, and all-master batch cleanup.
+    steps: # Execute the complete reconstruction and solve chain.
+      - name: Checkout immutable reconstruction branch # Fetch the exact triggering repository snapshot.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.sha }} # Bind each solve to the immutable triggering commit.
+          fetch-depth: 1 # Fetch only the required snapshot.
+          persist-credentials: false # Keep repository access read-only after checkout.
+      - name: Reconstruct exact C3 parent patcher and solver # Restore every content-addressed C3 input.
+        shell: bash # Execute deterministic Bash commands.
+        run: | # Run one strict reconstruction script.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          mkdir -p run results legacy_snapshot # Create isolated working, evidence, and APDL recovery directories.
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > run/source.inp # Reconstruct the exact released C3 parent deck.
+          printf '%s  %s\n' "$C3_SHA" run/source.inp | sha256sum -c - # Reject any parent-deck identity drift.
+          python3 -m py_compile "$PATCHER" # Reject a syntactically invalid direct-C3 human-process patcher.
+          sha256sum "$PATCHER" > results/patcher.sha256 # Record the exact patcher identity used by the solve.
+          cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx # Reconstruct the validated custom CalculiX executable.
+          chmod +x run/ccx # Make the reconstructed solver executable.
+          printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c - # Reject any solver identity drift.
+      - name: Recover authoritative finite-gate-and-passage APDL include # Materialize the exact legacy operation source used for coordinate mapping.
+        shell: bash # Execute strict artifact recovery commands.
+        run: | # Download the prior verified S10 snapshot and select one authoritative include.
+          set -euxo pipefail # Stop on artifact, search, or digest failure.
+          gh run download "$LEGACY_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$LEGACY_ARTIFACT" --dir legacy_snapshot # Download the successful archival extraction artifact.
+          APDL_SOURCE="$(find legacy_snapshot -type f -name 'apply_finite_gates_and_passages_v2.inp' -print -quit)" # Locate the sole authoritative finite-gate-and-passage include.
+          test -n "$APDL_SOURCE" # Reject an artifact that does not contain the required APDL include.
+          printf '%s  %s\n' "$LEGACY_APDL_SHA" "$APDL_SOURCE" | sha256sum -c - # Reject any legacy APDL identity drift.
+          cp "$APDL_SOURCE" run/legacy_finite_gates_and_passages.inp # Copy the exact include into the isolated construction directory.
+          sha256sum run/legacy_finite_gates_and_passages.inp > results/legacy_apdl.sha256 # Record the authoritative APDL identity used by this daughter.
+      - name: Install validated solver runtime # Supply the required numerical libraries.
+        shell: bash # Use Bash for package installation.
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq liblapack3 libblas3 libgfortran5 # Install only the shared libraries required by the validated executable.
+      - name: Apply one target-blind legacy ROTX cleanup hypothesis # Generate the exact full-C3 E1 or E2 daughter input.
+        shell: bash # Execute the line-commented patcher under strict Bash control.
+        run: | # Apply only the matrix-selected direct human operation.
+          set -euxo pipefail # Stop on every mapping, scope, topology, or patch failure.
+          python3 "$PATCHER" --source run/source.inp --legacy-apdl run/legacy_finite_gates_and_passages.inp --output run/job.inp --variant "${{ matrix.variant }}" --roots 40 # Map recovered CERIG masters by exact coordinates and add ROTX=0 only.
+          sha256sum run/job.inp > results/job.inp.sha256 # Record the complete daughter input identity.
+          cp run/job.inp run/job.inp.receipt.json run/job.inp.mapping.csv results/ # Retain the complete daughter, construction receipt, and all-master mapping ledger.
+          grep -q 'No spring, no added mass, no material change, no prestress change' run/job.inp # Confirm the generated evidence boundary is embedded in the daughter deck.
+      - name: Solve forty modes on the full C3 human-process daughter # Run the validated custom CalculiX executable.
+        shell: bash # Preserve the native solver exit status through tee.
+        run: | # Execute the exact matrix-selected daughter deck.
+          set -o pipefail # Return a failed solver status to Actions.
+          cd run # Enter the isolated CalculiX working directory.
+          /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt # Solve forty full-model modes and capture complete native output.
+          echo "${PIPESTATUS[0]}" > job.exit # Preserve the actual CalculiX exit code.
+          grep -q "Job finished" job.stdout.txt # Reject any incomplete or aborted solve.
+          test "$(cat job.exit)" = "0" # Require a zero native solver exit status.
+      - name: Collect complete E1 or E2 evidence # Stage all input and solver outputs.
+        if: always() # Preserve diagnostics even when a direct constraint case fails.
+        shell: bash # Use strict Bash copy and digest commands.
+        run: | # Copy every available native artifact and scope statement.
+          set -euxo pipefail # Stop on unexpected collection errors.
+          cp -a run/job.dat run/job.frd run/job.sta run/job.cvg run/job.stdout.txt run/job.exit results/ 2>/dev/null || true # Retain native CalculiX frequency, mode-shape, convergence, and log evidence when present.
+          awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true # Extract the forty-mode table for rapid inspection.
+          printf 'variant=%s\nparent_c3_sha=%s\nlegacy_apdl_sha=%s\nroots=40\ntarget_blind=true\nattachment_target_frequencies_loaded=false\nfrequency_reproduced=false\nback_tuned=false\nlow_dimensional=false\nphysical_change=ROTX_boundary_only\nsource_commit=%s\n' "${{ matrix.variant }}" "$C3_SHA" "$LEGACY_APDL_SHA" "${{ github.sha }}" > results/case.txt # Record the exact hypothesis and evidence boundary independently of artifact naming.
+          sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for every staged artifact.
+      - name: Upload the complete C3 E1 or E2 daughter package # Publish one independent evidence package per human-process hypothesis.
+        if: always() # Retain successful and rejected cases alike.
+        uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
+        with: # Configure an unambiguous artifact name and strict presence check.
+          name: C3-human-${{ matrix.variant }}-40modes # Identify the direct full-C3 human-process variant.
+          path: results/ # Upload the complete daughter input, mapping, receipt, and native solve outputs.
+          if-no-files-found: error # Reject an empty evidence package.
+          retention-days: 30 # Keep the package available for independent reconstruction review.
+          compression-level: 9 # Compress the large ASCII C3 input efficiently.
