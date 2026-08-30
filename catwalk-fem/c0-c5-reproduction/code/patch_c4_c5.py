@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
-"""Official C4/C5. C4 zeros downpull tangent. C5 slips only main/aux tower saddles."""
+"""C4: downpull modal Kt~0. C5: tower saddle groove stays, cable-direction k_saddle spring."""
 from __future__ import annotations
 import hashlib, json, os, re, sys
 from collections import defaultdict
 from pathlib import Path
 EXPECTED_SRC_SHA256 = "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86"
 DOWNPULL_ELSETS = {"CAB122309", "CAB122310", "CAB122311", "CAB122312"}
-# Four-span supports: 0/4180 m are anchorages and stay sticky.
-# Towers only: north main ~660 m, south main ~2941-2953 m, south aux ~3663-3677 m.
 TOWER_WINDOWS_MM = (
     (650000.0, 670000.0),
     (2930000.0, 2960000.0),
     (3650000.0, 3680000.0),
 )
-EXPECTED_C5_DROPS = 96
+EXPECTED_C5_PAIRS = 96
+# Bearing EA from C3 CAB1.. and main-span length from drawings (2960-660 m).
+BEARING_EA_N = 1.672401873713e8
+L_MAIN_MM = 2.300000e6
+K_SADDLE_N_PER_MM = BEARING_EA_N / L_MAIN_MM
+SPRING_EID0 = 200000
 
 def sha256_file(path):
     digest = hashlib.sha256()
@@ -66,10 +69,20 @@ def classify_c5(terms, coords, node_fam):
     has_ux = 1 in dofs
     mean_x = sum(coords[node][0] for node in nodes) / len(nodes)
     if has_ug61 and has_ug62:
-        return "KEEP"
+        return "KEEP", None
     if has_ug61 and has_e and has_ux and near_tower(mean_x):
-        return "DROP_TOWER_SADDLE_UX"
-    return "KEEP"
+        e_node = None
+        s_node = None
+        for node, dof, _coef in terms:
+            fam = node_fam.get(node, set())
+            if dof == 1 and "E" in fam and "UG61" not in fam:
+                e_node = node
+            if "UG61" in fam:
+                s_node = node
+        if e_node is None or s_node is None:
+            raise SystemExit(f"C5 pair missing E/UG61 in {terms}")
+        return "SPRING_TOWER_UX", (e_node, s_node)
+    return "KEEP", None
 
 def write_equation(handle, terms):
     handle.write("*EQUATION\n")
@@ -78,23 +91,39 @@ def write_equation(handle, terms):
     for i in range(0, len(chunks), 3):
         handle.write(", ".join(chunks[i:i + 3]) + "\n")
 
+def write_springs(handle, pairs):
+    handle.write("** C5: groove UY/UZ kept; cable-direction stick-slip spring\n")
+    handle.write("*ELEMENT, TYPE=SPRING2, ELSET=E_SADDLE_KS\n")
+    for i, (e_node, s_node) in enumerate(pairs, 1):
+        handle.write(f"{SPRING_EID0 + i}, {e_node}, {s_node}\n")
+    handle.write("*SPRING, ELSET=E_SADDLE_KS\n")
+    handle.write("1, 1\n")
+    handle.write(f"{K_SADDLE_N_PER_MM:.12e}\n")
+
 def rewrite(src, dst, variant, coords, node_fam):
     stats = {
         "variant": variant,
         "equations_in": 0,
         "keep": 0,
         "drop_tower_saddle_ux": 0,
+        "saddle_springs": 0,
         "downpull_ea_n0_zeroed": 0,
         "elements_deleted": 0,
+        "k_saddle_N_per_mm": K_SADDLE_N_PER_MM if variant == "C5" else None,
     }
     state = ""
     pending_downpull = False
     eq_needed = 0
     eq_values = []
+    pairs = []
+    springs_written = False
     with src.open(encoding="utf-8") as handle, dst.open("w", encoding="utf-8", newline="\n") as out:
         for raw in handle:
             stripped = raw.strip()
             upper = stripped.upper()
+            if variant == "C5" and upper.startswith("*STEP") and not springs_written:
+                write_springs(out, pairs)
+                springs_written = True
             if stripped.startswith("*") and not stripped.startswith("**"):
                 pending_downpull = False
                 if variant == "C4" and upper.startswith("*USER SECTION"):
@@ -136,16 +165,21 @@ def rewrite(src, dst, variant, coords, node_fam):
                     continue
                 terms = [(int(eq_values[i]), int(eq_values[i + 1]), float(eq_values[i + 2])) for i in range(0, eq_needed, 3)]
                 action = "KEEP"
+                pair = None
                 if variant == "C5":
-                    action = classify_c5(terms, coords, node_fam)
-                if action == "DROP_TOWER_SADDLE_UX":
+                    action, pair = classify_c5(terms, coords, node_fam)
+                if action == "SPRING_TOWER_UX":
                     stats["drop_tower_saddle_ux"] += 1
+                    pairs.append(pair)
                 else:
                     write_equation(out, terms)
                     stats["keep"] += 1
                 state = "eqc"
                 continue
             out.write(raw)
+        if variant == "C5" and not springs_written:
+            write_springs(out, pairs)
+    stats["saddle_springs"] = len(pairs)
     return stats
 
 def main():
@@ -167,25 +201,32 @@ def main():
     stats = rewrite(src, dst, variant, coords, node_fam)
     if variant == "C4" and stats["downpull_ea_n0_zeroed"] != 4:
         raise SystemExit(f"C4 must zero exactly 4 downpull sections, got {stats['downpull_ea_n0_zeroed']}")
-    if variant == "C5" and stats["drop_tower_saddle_ux"] != EXPECTED_C5_DROPS:
-        raise SystemExit(f"C5 must drop exactly {EXPECTED_C5_DROPS} tower UX eqs, got {stats['drop_tower_saddle_ux']}")
+    if variant == "C5" and stats["saddle_springs"] != EXPECTED_C5_PAIRS:
+        raise SystemExit(f"C5 must write exactly {EXPECTED_C5_PAIRS} k_saddle springs, got {stats['saddle_springs']}")
     dst_sha = sha256_file(dst)
     receipt = {
-        "schema": "catwalk.c4-c5.official-scheme.v3",
+        "schema": "catwalk.c4-c5.official-scheme.v4",
         "variant": variant,
         "source": {"path": src.name, "sha256": src_sha},
         "output": {"path": dst.name, "sha256": dst_sha, "bytes": dst.stat().st_size},
         "rule": {
             "C4": "C3 plus downpull modal tangent ~0: EA->1 N, N0->0 on 4 E_DOWNPULL UCAB3; mu unchanged",
-            "C5": "C3 plus tower-saddle cable slip at 660/2941/3663 m only; both anchorages stay sticky; keep hoop and UY/UZ",
+            "C5": "C3 plus tower-saddle slip WITH finite k_saddle=EA/L_main on UX springs; groove UY/UZ kept; anchors sticky; no friction contact",
         }[variant],
+        "k_saddle": {
+            "formula": "EA_bearing / L_main",
+            "EA_N": BEARING_EA_N,
+            "L_main_mm": L_MAIN_MM,
+            "k_N_per_mm": K_SADDLE_N_PER_MM,
+        } if variant == "C5" else None,
         "friction": False,
         "contact": False,
+        "bare_slip": False,
         "back_tuned_to_0_0996": False,
         "stats": stats,
     }
     (out_dir / f"{variant}_PATCH.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({"event": f"{variant}_PATCHED", "dst": str(dst), "dst_sha256": dst_sha, **stats}, sort_keys=True))
+    print(json.dumps({"event": f"{variant}_PATCHED", "dst": str(dst), "dst_sha256": dst_sha, **{k: v for k, v in stats.items() if k != "k_saddle_N_per_mm"}, "k_saddle_N_per_mm": stats["k_saddle_N_per_mm"]}, sort_keys=True))
 
 if __name__ == "__main__":
     main()
