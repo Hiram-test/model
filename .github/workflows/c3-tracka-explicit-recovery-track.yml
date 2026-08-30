@@ -1,5 +1,5 @@
 # Track the recovered explicit high-master Track A calculation against the unchanged C3 baseline.
-name: Track recovered explicit C3 TrackA model # Give the mode-tracking workflow an explicit name.
+name: Track recovered explicit C3 TrackA model # Tracking-only; human_apdl=false; frequency_reproduced=false; C3 M3 is not attach TA1.
 on: # Define the deterministic trigger.
   push: # Run when this workflow definition is committed.
     branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated Track A branch.
@@ -130,8 +130,8 @@ jobs: # Define the single recovery-and-tracking job.
           BASE = Path('artifact_inputs/baseline')  # Bind the unchanged C3 baseline artifact directory.
           TEST = Path('track_job')  # Bind the recovered explicit Track A result directory.
           OUT = Path('tracking_results')  # Bind the stable analysis output directory.
-          LABELS = {1: 'LS1', 2: 'VA1', 3: 'TA1', 4: 'LA1', 5: 'VS1', 6: 'TS1', 7: 'LS2', 8: 'SIDE1', 9: 'SIDE2', 11: 'VA2', 12: 'LA2', 13: 'TS2', 15: 'SIDE3', 21: 'VS2'}  # Freeze previously verified C3 physical branch labels.
-          TARGET_LABELS = ('TA1', 'TS1', 'TS2', 'SIDE3', 'VS2')  # Select the five branches under forensic study.
+          LABELS = {1: 'C3_M1', 2: 'C3_M2', 3: 'C3_M3', 4: 'C3_M4', 5: 'C3_M5', 6: 'C3_M6', 7: 'C3_M7', 8: 'C3_M8', 9: 'C3_M9', 11: 'C3_M11', 12: 'C3_M12', 13: 'C3_M13', 15: 'C3_M15', 21: 'C3_M21'}  # C3 native order only; C3_M3=0.07267 is NOT attach TA1 0.0996.
+          TARGET_LABELS = ('C3_M3', 'C3_M6', 'C3_M13', 'C3_M15', 'C3_M21')  # Same five C3 indices; not attach TA1/TS1/TS2/SIDE3/VS2.
           def largest(directory: Path, suffix: str) -> Path:  # Select the largest complete native file with one suffix.
               files = [path for path in directory.rglob(f'*{suffix}') if path.is_file()]  # Collect matching files recursively.
               if not files:  # Reject a missing native result.
@@ -293,9 +293,9 @@ jobs: # Define the single recovery-and-tracking job.
           np.savetxt(OUT / 'mac_matrix.csv', mac, delimiter=',', fmt='%.10g')  # Publish the full MAC matrix.
           selected = [row for row in rows if row['label'] in TARGET_LABELS]  # Select the five forensic branches.
           first14 = [{'mode': index + 1, 'frequency_hz': frequency} for index, frequency in enumerate(test_frequency[:14])]  # Preserve the natural first-fourteen ordering an old ANSYS user would inspect.
-          report = {'status': 'EXPLICIT_TRACK_A_TRACKED', 'selection_uses_no_target_frequency_for_model_construction': True, 'assignment_method': 'global one-to-one maximum MAC on common observation DOFs', 'old_ansys_interpretation': 'The first fourteen modes are retained in natural solver order; visual left-right phase, roll participation, and longitudinal sign changes are reported without nearest-frequency relabeling.', 'mode_count': count, 'common_observation_nodes': len(common_nodes), 'left_right_pair_count': len(pairs), 'first14_solver_order': first14, 'selected_branches': selected}  # Build the machine-readable tracking record.
+          report = {'status': 'EXPLICIT_TRACK_A_TRACKED', 'human_apdl': False, 'frequency_reproduced': False, 'not_attach_ta1': True, 'c3_m3_hz': 0.07267216, 'attach_ta1_hz': 0.0996, 'c3_m3_is_not_attach_ta1': True, 'selection_uses_no_target_frequency_for_model_construction': True, 'assignment_method': 'global one-to-one maximum MAC on common observation DOFs', 'old_ansys_interpretation': 'C3 native order only. Do not name C3 M3 as attach TA1. Do not write 复现 or 一致.', 'mode_count': count, 'common_observation_nodes': len(common_nodes), 'left_right_pair_count': len(pairs), 'first14_solver_order': first14, 'selected_branches': selected}  # Build the machine-readable tracking record.
           (OUT / 'TRACK_A_MODE_TRACKING.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the JSON record.
-          lines = ['# 显式高位 master Track A 与 C3 的模态追踪', '', '构模阶段未读取附件目标频率。分支由共同观测自由度上的全局一对一 MAC 追踪，随后只用左右幅相位、滚转参与率和纵向符号变化解释旧版 ANSYS 人工命名。', '', '| 分支 | C3阶次/Hz | Track A阶次/Hz | 变化 | MAC | 前14阶内 | 左右幅相关 | 滚转参与率 | 纵向符号变化 |', '|---|---:|---:|---:|---:|---:|---:|---:|---:|']  # Initialize the compact Markdown report.
+          lines = ['# C3 native-order MAC tracking of a recovered daughter', '', 'frequency_reproduced=false. human_apdl=false. C3 M3 0.07267 is not attach TA1 0.0996. Do not write 复现 or 一致.', '', '| C3 index | C3 Hz | daughter index/Hz | change | MAC | in first 14 | LR corr | roll | sign changes |', '|---|---:|---:|---:|---:|---:|---:|---:|---:|']  # Initialize the compact Markdown report.
           for row in selected:  # Format the five selected branches.
               correlation = row['track_lr_vertical_correlation']  # Select the Track A phase indicator.
               participation = row['track_roll_participation']  # Select the Track A roll indicator.
@@ -309,6 +309,7 @@ jobs: # Define the single recovery-and-tracking job.
           python3 track_modes.py # Execute the deterministic global mode tracker.
           cp artifact_inputs/recovery/RECOVERY_AUDIT.json tracking_results/ 2>/dev/null || find artifact_inputs/recovery -name RECOVERY_AUDIT.json -exec cp {} tracking_results/ \; # Preserve the structural recovery audit.
           cp track_job/preparation.txt tracking_results/ # Preserve whether native outputs were reused or recomputed.
+          printf 'human_apdl=false\nfrequency_reproduced=false\nnot_attach_ta1=true\nc3_m3_is_not_attach_ta1=true\nsource=agent_constructed_legacy_command_path\n' > tracking_results/case.txt # Lock the evidence boundary.
           sha256sum track_job/job.inp track_job/job.dat track_job/job.frd tracking_results/* > tracking_results/SHA256SUMS.txt # Record exact identities for model, native output, and tracking evidence.
       - name: Upload explicit Track A model tracking evidence # Publish the complete model and analysis package.
         if: always() # Preserve diagnostics if recovery or tracking fails.

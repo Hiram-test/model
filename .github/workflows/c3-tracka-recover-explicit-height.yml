@@ -1,5 +1,5 @@
 # Recover the already-computed explicit high-master Track A run from repository Actions evidence.
-name: Recover explicit C3 TrackA height run # Give the evidence-recovery workflow an explicit name.
+name: Recover explicit C3 TrackA height run # Recovery-only; human_apdl=false; frequency_reproduced=false; 0.09956064 is not attach TA1.
 on: # Define the deterministic workflow trigger.
   push: # Run when this workflow definition is committed.
     branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated Track A branch.
@@ -14,7 +14,7 @@ jobs: # Define the single recovery job.
     env: # Freeze source identities and recovery-only fingerprints.
       C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14 # Locate the exact released C3 parent fragments.
       C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Lock the exact C3 parent identity.
-      RECOVERY_FREQ_1: "0.09956064" # Identify the prior explicit full-height calculation without using attachment targets.
+      RECOVERY_FREQ_1: "0.09956064" # Prior-run fingerprint only; NOT attach TA1 0.0996; frequency_reproduced=false.
       RECOVERY_FREQ_2: "0.1111595" # Identify the prior explicit full-height calculation without using attachment targets.
       RECOVERY_FREQ_3: "0.1636203" # Identify the prior explicit full-height calculation without using attachment targets.
     steps: # Execute the complete recovery chain.
@@ -215,6 +215,12 @@ jobs: # Define the single recovery job.
           PY
           python work/recover.py # Execute the deterministic recovery program.
           sha256sum work/results/* > work/results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for all recovered evidence.
+      - name: Stamp recovery evidence boundary # Record that fingerprint frequencies are not attach TA1.
+        if: always() # Keep the bound even when artifact download fails.
+        shell: bash # Write a small machine-readable bound.
+        run: | # Persist the claim lock.
+          mkdir -p work/results # Ensure the evidence directory exists after a failed recover.
+          printf 'human_apdl=false\nfrequency_reproduced=false\nnot_attach_ta1=true\nnot_undisclosed_human_apdl=true\nsource=agent_constructed_legacy_command_path\nrecovery_freq_1=0.09956064\nrecovery_freq_1_is_not_attach_ta1=true\nrecovery_freqs_are_prior_run_fingerprints_only=true\n' > work/results/case.txt # Lock the evidence boundary.
       - name: Upload explicit Track A recovery evidence # Publish the selected model and native outputs.
         if: always() # Preserve a negative recovery audit as well as a successful selection.
         uses: actions/upload-artifact@v4 # Store the evidence as an Actions artifact.
