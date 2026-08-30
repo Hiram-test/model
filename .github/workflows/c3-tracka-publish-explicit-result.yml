@@ -1,0 +1,152 @@
+# Publish the recovered explicit high-master Track A model audit and one-to-one mode tracking to a fixed repository path.
+name: Publish explicit C3 TrackA result # Give the archival workflow an explicit name.
+on: # Define the deterministic trigger.
+  push: # Run when this archival workflow is committed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated Track A branch.
+    paths: [".github/workflows/c3-tracka-publish-explicit-result.yml"] # Avoid unrelated branch pushes.
+permissions: # Declare the exact token permissions required by the archival task.
+  contents: write # Permit committing the compact evidence report to this isolated branch.
+  actions: read # Permit read-only retrieval of the recovery and tracking artifacts.
+jobs: # Define the single archival job.
+  publish: # Wait for prior calculations, extract compact evidence, and commit it.
+    runs-on: ubuntu-24.04 # Use a current runner with standard Python and Git.
+    timeout-minutes: 45 # Bound polling and evidence publication.
+    env: # Freeze artifact names and output location.
+      RECOVERY_ARTIFACT_NAME: C3-TrackA-explicit-height-recovery # Select the structural recovery package.
+      TRACKING_ARTIFACT_NAME: C3-TrackA-explicit-model-tracking # Select the global one-to-one tracking package.
+      OUTPUT_DIR: catwalk-fem/c0-c5-reproduction/tracka_forward_recovery # Define the fixed repository evidence directory.
+    steps: # Execute the complete archival chain.
+      - name: Checkout isolated Track A branch # Fetch the exact triggering branch state.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.ref_name }} # Keep publication on the isolated analysis branch.
+          fetch-depth: 1 # Fetch only the current branch snapshot.
+          persist-credentials: true # Retain the workflow token for the final branch push.
+      - name: Wait for and download recovery and tracking evidence # Retrieve the latest matching nonexpired artifacts.
+        shell: bash # Execute the line-commented Python downloader.
+        env: # Provide the ephemeral GitHub Actions token to the downloader.
+          GH_TOKEN: ${{ github.token }} # Authorize read-only Actions API access.
+          GH_REPOSITORY: ${{ github.repository }} # Bind the current repository identity.
+        run: | # Emit and execute the complete deterministic downloader.
+          cat > download_tracka_evidence.py <<'PY' # Write the downloader source file.
+          from __future__ import annotations  # Keep annotations deterministic on the runner Python version.
+          from pathlib import Path  # Resolve extraction paths without cwd ambiguity.
+          import io  # Hold downloaded ZIP bytes before extraction.
+          import json  # Parse GitHub REST responses and publish download metadata.
+          import os  # Read the ephemeral token and frozen artifact names.
+          import time  # Poll prior calculations at bounded intervals.
+          import urllib.request  # Call the GitHub REST API without extra dependencies.
+          import zipfile  # Extract Actions artifact archives.
+          TOKEN = os.environ['GH_TOKEN']  # Read the ephemeral repository token.
+          REPOSITORY = os.environ['GH_REPOSITORY']  # Read the owner/name repository identity.
+          NAMES = (os.environ['RECOVERY_ARTIFACT_NAME'], os.environ['TRACKING_ARTIFACT_NAME'])  # Freeze the two prerequisite artifact names.
+          ROOT = Path('tracka_evidence_download')  # Bind the local extraction root.
+          ROOT.mkdir(parents=True, exist_ok=True)  # Create the extraction root.
+          def request_json(url: str) -> dict[str, object]:  # Fetch one GitHub REST JSON document.
+              request = urllib.request.Request(url, headers={'Authorization': f'Bearer {TOKEN}', 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})  # Build one authenticated read-only request.
+              with urllib.request.urlopen(request, timeout=120) as response:  # Execute the bounded request.
+                  return json.load(response)  # Decode and return the JSON response.
+          def request_bytes(url: str) -> bytes:  # Download one Actions artifact archive.
+              request = urllib.request.Request(url, headers={'Authorization': f'Bearer {TOKEN}', 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})  # Build one authenticated archive request.
+              with urllib.request.urlopen(request, timeout=300) as response:  # Follow GitHub redirects and download bounded bytes.
+                  return response.read()  # Return the complete ZIP archive.
+          selected: dict[str, dict[str, object]] = {}  # Accumulate the newest matching artifacts.
+          for attempt in range(180):  # Poll for at most thirty minutes.
+              for name in NAMES:  # Check each prerequisite independently.
+                  if name in selected:  # Preserve an already selected immutable artifact.
+                      continue  # Continue to the next prerequisite.
+                  payload = request_json(f'https://api.github.com/repos/{REPOSITORY}/actions/artifacts?name={name}&per_page=100')  # List matching artifacts.
+                  artifacts = payload.get('artifacts', [])  # Select the artifact array.
+                  valid = [artifact for artifact in artifacts if not artifact.get('expired', False)] if isinstance(artifacts, list) else []  # Retain nonexpired artifacts only.
+                  if valid:  # Select the newest available artifact when present.
+                      selected[name] = max(valid, key=lambda artifact: str(artifact.get('created_at', '')))  # Freeze the latest matching package.
+              if len(selected) == len(NAMES):  # Stop after both prerequisite packages are available.
+                  break  # Exit the bounded polling loop.
+              time.sleep(10)  # Wait ten seconds before the next read-only poll.
+          metadata: dict[str, object] = {'selected': selected, 'required_names': NAMES, 'all_available': len(selected) == len(NAMES)}  # Build the complete download provenance record.
+          for name, artifact in selected.items():  # Download each available prerequisite package.
+              archive = request_bytes(f"https://api.github.com/repos/{REPOSITORY}/actions/artifacts/{int(artifact['id'])}/zip")  # Download the immutable ZIP archive.
+              destination = ROOT / name  # Resolve a stable extraction directory.
+              destination.mkdir(parents=True, exist_ok=True)  # Create the extraction directory.
+              with zipfile.ZipFile(io.BytesIO(archive)) as handle:  # Open the in-memory archive.
+                  handle.extractall(destination)  # Extract every evidence file.
+          (ROOT / 'download_metadata.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish artifact identities and availability.
+          PY
+          python3 download_tracka_evidence.py # Execute the deterministic artifact downloader.
+      - name: Build compact fixed-path Track A report # Convert recovered evidence into repository-readable JSON Markdown and CSV files.
+        shell: bash # Execute the line-commented report builder.
+        run: | # Emit and execute the complete deterministic report builder.
+          cat > build_tracka_report.py <<'PY' # Write the report-builder source file.
+          from __future__ import annotations  # Keep annotations deterministic on the runner Python version.
+          from pathlib import Path  # Resolve downloaded and repository output paths deterministically.
+          import csv  # Copy and inspect the one-to-one tracking table.
+          import hashlib  # Compute exact identities for recovered model and native outputs.
+          import json  # Read source evidence and publish the compact status record.
+          import os  # Read the frozen repository output directory.
+          import shutil  # Copy compact source evidence without modifying its content.
+          DOWNLOAD = Path('tracka_evidence_download')  # Bind the downloaded evidence root.
+          OUTPUT = Path(os.environ['OUTPUT_DIR'])  # Bind the fixed repository report directory.
+          OUTPUT.mkdir(parents=True, exist_ok=True)  # Create the output directory.
+          def find_one(name: str) -> Path | None:  # Find one exact evidence filename recursively.
+              matches = [path for path in DOWNLOAD.rglob(name) if path.is_file()]  # Collect exact filename matches.
+              return max(matches, key=lambda path: path.stat().st_size) if matches else None  # Return the largest match or an explicit absence.
+          def sha256(path: Path) -> str:  # Compute one exact file identity by streaming.
+              digest = hashlib.sha256()  # Initialize a fresh SHA-256 state.
+              with path.open('rb') as handle:  # Open the source file without decoding.
+                  for block in iter(lambda: handle.read(1024 * 1024), b''):  # Stream fixed-size blocks to EOF.
+                      digest.update(block)  # Bind each exact byte once.
+              return digest.hexdigest()  # Return the lowercase hexadecimal identity.
+          metadata_path = DOWNLOAD / 'download_metadata.json'  # Bind the artifact provenance record.
+          metadata = json.loads(metadata_path.read_text(encoding='utf-8')) if metadata_path.is_file() else {'all_available': False, 'selected': {}}  # Read metadata or preserve an explicit missing state.
+          recovery_path = find_one('RECOVERY_AUDIT.json')  # Locate the structural recovery audit.
+          tracking_path = find_one('TRACK_A_MODE_TRACKING.json')  # Locate the global mode-tracking record.
+          recovery = json.loads(recovery_path.read_text(encoding='utf-8')) if recovery_path is not None else {}  # Decode recovery evidence when present.
+          tracking = json.loads(tracking_path.read_text(encoding='utf-8')) if tracking_path is not None else {}  # Decode tracking evidence when present.
+          model_candidates = [path for path in DOWNLOAD.rglob('*.inp') if path.is_file() and path.stat().st_size > 20_000_000]  # Locate full-size recovered C3 daughters.
+          native_dat = [path for path in DOWNLOAD.rglob('*.dat') if path.is_file()]  # Locate recovered native frequency outputs.
+          native_frd = [path for path in DOWNLOAD.rglob('*.frd') if path.is_file()]  # Locate recovered native mode-shape outputs.
+          model = max(model_candidates, key=lambda path: path.stat().st_size) if model_candidates else None  # Select the largest full-size recovered input.
+          dat = max(native_dat, key=lambda path: path.stat().st_size) if native_dat else None  # Select the largest native DAT output.
+          frd = max(native_frd, key=lambda path: path.stat().st_size) if native_frd else None  # Select the largest native FRD output.
+          selection = recovery.get('selection') if isinstance(recovery.get('selection'), dict) else {}  # Select the recovered structural record.
+          selected_branches = tracking.get('selected_branches') if isinstance(tracking.get('selected_branches'), list) else []  # Select the five tracked branches.
+          status = 'COMPLETE' if metadata.get('all_available') and recovery.get('selection_found') and tracking.get('status') == 'EXPLICIT_TRACK_A_TRACKED' else 'INCOMPLETE'  # Summarize evidence completeness without converting it into a model-acceptance gate.
+          record = {'status': status, 'model_interpretation': 'old ANSYS/APDL forward workflow: explicit high master or pilot nodes, LINK-type members, rigid-kinematic equations with lever terms, unchanged C3 parent physics, native modal extraction, manual visible-shape interpretation after global MAC tracking', 'target_frequency_used_for_construction': False, 'previous_differential_spring_model_used': False, 'recovery': recovery, 'tracking': tracking, 'artifact_metadata': metadata, 'exact_files': {'model': {'path': str(model) if model else None, 'sha256': sha256(model) if model else None, 'bytes': model.stat().st_size if model else None}, 'dat': {'path': str(dat) if dat else None, 'sha256': sha256(dat) if dat else None, 'bytes': dat.stat().st_size if dat else None}, 'frd': {'path': str(frd) if frd else None, 'sha256': sha256(frd) if frd else None, 'bytes': frd.stat().st_size if frd else None}}}  # Build the complete compact evidence record.
+          (OUTPUT / 'FINAL_STATUS.json').write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the machine-readable fixed-path record.
+          if recovery_path is not None:  # Preserve the exact structural recovery audit.
+              shutil.copy2(recovery_path, OUTPUT / 'RECOVERY_AUDIT.json')  # Copy the audit bytes unchanged.
+          if tracking_path is not None:  # Preserve the exact global tracking record.
+              shutil.copy2(tracking_path, OUTPUT / 'TRACK_A_MODE_TRACKING.json')  # Copy the tracking bytes unchanged.
+          source_csv = find_one('all40_global_one_to_one_tracking.csv')  # Locate the complete all-forty tracking table.
+          if source_csv is not None:  # Preserve the complete one-to-one mode table.
+              shutil.copy2(source_csv, OUTPUT / 'all40_global_one_to_one_tracking.csv')  # Copy the CSV bytes unchanged.
+          mac_csv = find_one('mac_matrix.csv')  # Locate the complete MAC matrix.
+          if mac_csv is not None:  # Preserve the full MAC evidence.
+              shutil.copy2(mac_csv, OUTPUT / 'mac_matrix.csv')  # Copy the matrix bytes unchanged.
+          lines = ['# 显式高位 master Track A 正向复现状态', '', f'状态：`{status}`', '', '构模口径：只接受旧版 ANSYS/APDL 中可直接出现的高位 master/pilot、LINK 类连接和含真实杠杆项的刚体运动方程。前一份差动弹簧与重复质量模型不参与本结果。附件目标频率未用于构模或分支配对。', '']  # Initialize the compact human-readable report.
+          if selection:  # Report recovered model structure when available.
+              lines.extend(['## 恢复到的实体模型', '', f"- 来源工作流：`{selection.get('workflow_name')}`", f"- 来源运行：`{selection.get('run_id')}`", f"- 来源提交：`{selection.get('head_sha')}`", f"- 新增节点：`{selection.get('new_node_count')}`", f"- 新增单元类型：`{selection.get('new_element_types')}`", f"- 新增约束方程：`{selection.get('new_equation_count')}`", f"- 含杠杆系数方程：`{selection.get('new_nonunit_equations')}`", f"- 新增质量单元：`{selection.get('mass_added')}`", f"- 显式弹簧：`0`", ''])  # Append the structural audit summary.
+          if selected_branches:  # Report the five globally tracked branches when available.
+              lines.extend(['## C3 至 Track A 的一对一分支追踪', '', '| 分支 | C3阶次/Hz | Track A阶次/Hz | 变化 | MAC | Track A前14阶内 | 左右幅相关 | 滚转参与率 | 纵向符号变化 |', '|---|---:|---:|---:|---:|---:|---:|---:|---:|'])  # Add the tracking table header.
+              for row in selected_branches:  # Format each forensic branch without nearest-frequency reassignment.
+                  lines.append(f"| {row.get('label')} | M{row.get('baseline_mode')} / {float(row.get('baseline_frequency_hz')):.8f} | M{row.get('track_mode')} / {float(row.get('track_frequency_hz')):.8f} | {float(row.get('frequency_change_percent')):+.3f}% | {float(row.get('mac')):.4f} | {'是' if row.get('within_first_14_track_modes') else '否'} | {row.get('track_lr_vertical_correlation')} | {row.get('track_roll_participation')} | {row.get('track_half_wave_sign_changes')} |")  # Append one complete branch row.
+          first14 = tracking.get('first14_solver_order') if isinstance(tracking.get('first14_solver_order'), list) else []  # Select the natural first-fourteen solver order.
+          if first14:  # Report the spectrum visible to an old ANSYS user.
+              lines.extend(['', '## Track A 自然前14阶', '', '| 阶次 | 频率/Hz |', '|---:|---:|'])  # Add the natural-order table header.
+              for item in first14:  # Format every natural-order mode.
+                  lines.append(f"| {item.get('mode')} | {float(item.get('frequency_hz')):.8f} |")  # Append one natural solver-order row.
+          lines.extend(['', '## 文件身份', '', f"- 实体 INP SHA-256：`{record['exact_files']['model']['sha256']}`", f"- DAT SHA-256：`{record['exact_files']['dat']['sha256']}`", f"- FRD SHA-256：`{record['exact_files']['frd']['sha256']}`", ''])  # Append exact native file identities.
+          (OUTPUT / 'FINAL_STATUS.md').write_text('\n'.join(lines), encoding='utf-8')  # Publish the compact human-readable fixed-path report.
+          PY
+          python3 build_tracka_report.py # Execute the deterministic report builder.
+          sha256sum "$OUTPUT_DIR"/* > "$OUTPUT_DIR/SHA256SUMS.txt" 2>/dev/null || true # Record exact identities for every compact published evidence file.
+      - name: Commit compact Track A evidence to the isolated branch # Persist the fixed-path result for subsequent review.
+        shell: bash # Execute deterministic Git commands.
+        run: | # Commit only the generated evidence directory.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          git config user.name 'github-actions[bot]' # Set the standard Actions commit identity.
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com' # Set the standard Actions no-reply email.
+          git add "$OUTPUT_DIR" # Stage only the compact Track A evidence directory.
+          if git diff --cached --quiet; then exit 0; fi # Leave the branch unchanged when the same evidence was already published.
+          git commit -m 'results(c3): publish explicit TrackA recovery and tracking' # Commit the compact evidence snapshot.
+          git push origin HEAD:${{ github.ref_name }} # Push the evidence commit to the isolated branch.
