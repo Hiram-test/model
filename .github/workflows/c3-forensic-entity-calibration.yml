@@ -146,6 +146,8 @@ jobs:
           set -euxo pipefail
           # Generate the complete modified CalculiX input deck.
           python3 run/patch_c3_entity_forensic.py --source run/source.inp --output run/job.inp --shared-scale "${{ matrix.shared }}" --end-scale "${{ matrix.end }}" --mass-scale "${{ matrix.mass }}" --roots 30
+          # Record that inverse-fit scales are not attach reproduction.
+          echo "frequency_reproduced=false back_tuned=true"
           # Record the exact daughter-deck identity.
           sha256sum run/job.inp > results/job.inp.sha256
           # Preserve the machine-readable patch receipt.
@@ -187,7 +189,7 @@ jobs:
           # Record exact identities for every produced artifact.
           sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true
           # Record the matrix controls inside the artifact independently of its name.
-          printf 'case=%s\nshared=%s\nend=%s\nmass=%s\ncommit=%s\n' "${{ matrix.case }}" "${{ matrix.shared }}" "${{ matrix.end }}" "${{ matrix.mass }}" "${{ github.sha }}" > results/case.txt
+          printf 'case=%s\nshared=%s\nend=%s\nmass=%s\ncommit=%s\nfrequency_reproduced=false\nback_tuned=true\n' "${{ matrix.case }}" "${{ matrix.shared }}" "${{ matrix.end }}" "${{ matrix.mass }}" "${{ github.sha }}" > results/case.txt
       # Upload one independent artifact for the current physical mechanism case.
       - name: Upload C3 entity calibration case
         # Always retain evidence from successful and failed cases.
