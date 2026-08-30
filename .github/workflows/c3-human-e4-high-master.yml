@@ -1,0 +1,98 @@
+# Run the target-blind topology-derived E4 high-master reconstruction directly on the exact frozen C3 entity model.
+name: C3 human-process E4 topology high master # Give the frozen-tangent E4 decomposition workflow an explicit auditable name.
+on: # Define the deterministic workflow trigger.
+  push: # Run only after this workflow definition is committed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated human-process reconstruction branch.
+    paths: [".github/workflows/c3-human-e4-high-master.yml"] # Avoid unrelated branch pushes.
+permissions: # Declare the minimum workflow-token permissions.
+  contents: read # Permit checkout of the immutable triggering commit.
+  actions: read # Permit recovery of the previously verified authoritative S10 APDL artifact.
+jobs: # Define the independent target-blind E4 decomposition solves.
+  solve: # Reconstruct sources, rewire exact C3 rigid equations, solve forty modes, and retain evidence.
+    runs-on: ubuntu-24.04 # Match the validated custom CalculiX runtime.
+    timeout-minutes: 90 # Bound each complete C3 reconstruction and forty-mode extraction.
+    continue-on-error: true # Preserve all independent E4 decomposition cases if one topology variant fails.
+    env: # Freeze every source identity and runtime control.
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14 # Locate the exact released C3 input fragments.
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3 # Locate the validated UCOR6 plus UCAB3 solver fragments.
+      PATCHER: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/c3_human_process/patch_c3_human_e4_high_master.py # Locate the line-commented topology-derived E4 patcher.
+      C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Lock the exact C3 parent identity.
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e # Lock the validated custom solver identity.
+      LEGACY_APDL_SHA: 72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330 # Lock the authoritative finite-gate-and-passage APDL include.
+      LEGACY_RUN_ID: "33332991570" # Identify the successful archival extraction run.
+      LEGACY_ARTIFACT: legacy-S10-APDL-human-process-snapshot # Identify the verified authoritative S10 snapshot artifact.
+      OMP_NUM_THREADS: "1" # Keep sparse modal extraction deterministic and memory-bounded.
+      GH_TOKEN: ${{ github.token }} # Authenticate same-repository artifact recovery with the read-only workflow token.
+    strategy: # Run every preregistered topology operation independently.
+      fail-fast: false # Do not cancel remaining variants after one failure.
+      max-parallel: 5 # Solve all five forty-mode C3 daughters concurrently.
+      matrix: # Enumerate the control and high-master relation decomposition.
+        variant: [CONTROL_BOTTOM_MAIN13, E4_ROPE_MAIN13, E4_PASSAGE_MAIN13, E4_ALL_MAIN13, E4_ALL_ALL21] # Test algebraic control, rope-only, passage-only, combined main-span, and combined all-passage operations.
+    steps: # Execute the complete target-blind E4 frozen-tangent chain.
+      - name: Checkout immutable reconstruction branch # Fetch the exact triggering repository snapshot.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.sha }} # Bind every solve to the immutable triggering commit.
+          fetch-depth: 1 # Fetch only the required snapshot.
+          persist-credentials: false # Keep repository access read-only after checkout.
+      - name: Reconstruct exact C3 parent patcher and solver # Restore every content-addressed C3 input.
+        shell: bash # Execute deterministic Bash commands.
+        run: | # Run one strict reconstruction and source-audit script.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          mkdir -p run results legacy_snapshot # Create isolated working, evidence, and APDL recovery directories.
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > run/source.inp # Reconstruct the exact released C3 parent deck.
+          printf '%s  %s\n' "$C3_SHA" run/source.inp | sha256sum -c - # Reject any parent-deck identity drift.
+          python3 -m py_compile "$PATCHER" # Reject a syntactically invalid topology-derived E4 patcher.
+          awk 'NF && index($0,"#")==0 {print NR ":" $0; bad=1} END {exit bad}' "$PATCHER" # Enforce the user-required comment on every nonblank patcher line.
+          sha256sum "$PATCHER" > results/patcher.sha256 # Record the exact patcher identity used by every daughter.
+          cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx # Reconstruct the validated custom CalculiX executable.
+          chmod +x run/ccx # Make the reconstructed solver executable.
+          printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c - # Reject any solver identity drift.
+      - name: Recover authoritative finite-gate-and-passage APDL include # Materialize the exact old-ANSYS topology source.
+        shell: bash # Execute strict artifact-recovery commands.
+        run: | # Download the verified S10 snapshot and select one authoritative include.
+          set -euxo pipefail # Stop on artifact, search, or digest failure.
+          gh run download "$LEGACY_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$LEGACY_ARTIFACT" --dir legacy_snapshot # Download the successful archival extraction artifact.
+          APDL_SOURCE="$(find legacy_snapshot -type f -name 'apply_finite_gates_and_passages_v2.inp' -print -quit)" # Locate the sole authoritative finite-gate-and-passage include.
+          test -n "$APDL_SOURCE" # Reject an artifact lacking the required APDL include.
+          printf '%s  %s\n' "$LEGACY_APDL_SHA" "$APDL_SOURCE" | sha256sum -c - # Reject any legacy APDL identity drift.
+          cp "$APDL_SOURCE" run/legacy_finite_gates_and_passages.inp # Copy the exact include into the isolated construction directory.
+          sha256sum run/legacy_finite_gates_and_passages.inp > results/legacy_apdl.sha256 # Record the authoritative APDL identity used by this daughter.
+      - name: Install validated solver runtime # Supply the required numerical libraries.
+        shell: bash # Use Bash for package installation.
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq liblapack3 libblas3 libgfortran5 # Install only the shared libraries required by the validated executable.
+      - name: Apply one target-blind topology-derived E4 operation # Generate the exact full-C3 control or high-master daughter input.
+        shell: bash # Execute the line-commented patcher under strict Bash control.
+        run: | # Rewire only the matrix-selected existing C3 rigid relations.
+          set -euxo pipefail # Stop on every geometry, mapping, equation, dependent-DOF, or topology failure.
+          python3 "$PATCHER" --source run/source.inp --legacy-apdl run/legacy_finite_gates_and_passages.inp --output run/job.inp --variant "${{ matrix.variant }}" --roots 40 # Derive real portal-top masters from old APDL topology and rebuild selected C3 equations.
+          sha256sum run/job.inp > results/job.inp.sha256 # Record the complete daughter input identity.
+          cp run/job.inp run/job.inp.receipt.json run/job.inp.mapping.csv results/ # Retain the complete daughter, construction receipt, and geometry-operation ledger.
+          grep -q 'No target frequency, fitted spring, added mass' run/job.inp # Confirm the target-blind evidence boundary is embedded in the daughter deck.
+      - name: Solve forty modes on the full C3 E4 frozen-tangent daughter # Run the validated custom CalculiX executable.
+        shell: bash # Preserve the native solver exit status through tee.
+        run: | # Execute the exact generated C3 daughter deck.
+          set -o pipefail # Return a failed solver status to Actions.
+          cd run # Enter the isolated CalculiX working directory.
+          /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt # Solve forty full-model modes and capture complete native output.
+          echo "${PIPESTATUS[0]}" > job.exit # Preserve the actual CalculiX exit code.
+          grep -q "Job finished" job.stdout.txt # Reject any incomplete or aborted solve.
+          test "$(cat job.exit)" = "0" # Require a zero native solver exit status.
+      - name: Collect complete E4 topology evidence # Stage every available input and native solver output.
+        if: always() # Preserve diagnostics even when one topology operation fails.
+        shell: bash # Use strict Bash copy and digest commands.
+        run: | # Copy all evidence and state the exact linearization boundary.
+          set -euxo pipefail # Stop on unexpected collection errors.
+          cp -a run/job.dat run/job.frd run/job.sta run/job.cvg run/job.stdout.txt run/job.exit results/ 2>/dev/null || true # Retain native CalculiX frequency, mode-shape, convergence, and log evidence when present.
+          awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true # Extract the forty-mode table for rapid inspection.
+          printf 'variant=%s\nphase=E4_topology_frozen_tangent\nparent_c3_sha=%s\nlegacy_apdl_sha=%s\nroots=40\ntarget_blind=true\nattachment_target_frequencies_loaded=false\nfrequency_reproduced=false\nback_tuned=false\nlow_dimensional=false\nportal_heights=derived_from_authoritative_APDL_topology\ngravity_linearization_state=inherited_exact_C3_parent_N0_and_residual_state\nre_equilibrated_after_master_rewire=false\nsource_commit=%s\n' "${{ matrix.variant }}" "$C3_SHA" "$LEGACY_APDL_SHA" "${{ github.sha }}" > results/case.txt # Record the exact operation and the fact that this phase precedes post-rewire gravity equilibrium.
+          sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for every staged artifact.
+      - name: Upload the complete C3 E4 topology daughter package # Publish one independent evidence package per variant.
+        if: always() # Retain successful and rejected solver outcomes alike.
+        uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
+        with: # Configure an unambiguous artifact name and strict presence check.
+          name: C3-human-E4-${{ matrix.variant }}-40modes # Identify the direct full-C3 frozen-tangent variant.
+          path: results/ # Upload the complete daughter input, mapping, receipt, and native solve outputs.
+          if-no-files-found: error # Reject an empty evidence package.
+          retention-days: 30 # Keep the package available for branch tracking and independent reconstruction review.
+          compression-level: 9 # Compress the large ASCII C3 input efficiently.
