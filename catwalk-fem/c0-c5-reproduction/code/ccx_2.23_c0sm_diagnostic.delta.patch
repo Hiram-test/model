@@ -1,0 +1,84 @@
+--- a/src/e_c3d_ucor6.f
++++ b/src/e_c3d_ucor6.f
+@@ -1,18 +1,19 @@
+       subroutine e_c3d_ucor6(co,kon,lakonl,s,sm,ff,nelem, ! UCOR6 linear assembly entry.
+      &     ipkon,mi, ! UCOR6 linear topology arguments continue.
+      &     vold,prop,ielprop,mass,stiffness,buckling,rhsi, ! UCOR6 linear assembly controls continue.
+-     &     coriolis,iperturb,iexpl,ithermal,nbody,nload, ! UCOR6 linear unsupported controls continue.
+-     &     idist,nmethod,nmpc,nope) ! UCOR6 linear assembly outputs continue.
++     &     coriolis,iperturb,iexpl,ithermal,bodyfx,nbody,nload, ! C0-SM forwards element-local body acceleration and global load counts.
++     &     idist,nmethod,nmpc,istep,iinc,nope) ! C0-SM forwards step identity for the restricted perturbation gate.
+       implicit none ! UCOR6 linear declarations are explicit.
+       character*8 lakonl ! UCOR6 linear receives the encoded element label.
+       integer kon(*),nelem,ipkon(*),mi(*),ielprop(*),mass(*) ! UCOR6 linear integer model arrays.
+       integer stiffness,buckling,rhsi,coriolis,iperturb(*) ! UCOR6 linear procedure controls.
+       integer iexpl,ithermal(*),nbody,nload,idist,nmethod,nmpc,nope ! UCOR6 linear remaining controls.
++      integer istep,iinc ! C0-SM records the solver step and increment on a rejected procedure state.
+       integer i,j,indexp ! UCOR6 linear matrix and property indices.
+       real*8 co(3,*),s(60,60),sm(60,60),ff(60) ! UCOR6 linear element arrays.
+       real*8 vold(0:mi(2),*),prop(*),kmat(12,12),mmat(12,12) ! UCOR6 linear state and matrices.
+       real*8 rint(12),eta(6,2),qsec(6,2),axes(3,3),elen ! UCOR6 linear scratch outputs.
+-      real*8 umat(2),uinit(2) ! UCOR6 linear energy scratch outputs.
++      real*8 umat(2),uinit(2),bodyfx(3) ! C0-SM receives the current element-local body acceleration.
+       nope=2 ! UCOR6 linear fixes two nodes.
+       if((ichar(lakonl(6:6)).ne.2).or. ! UCOR6 linear checks encoded integration points.
+      &   (ichar(lakonl(7:7)).ne.6).or. ! UCOR6 linear checks encoded maximum dof.
+@@ -28,10 +29,21 @@
+          write(*,*) '*ERROR UCOR6_LINEAR_MPC_COUPON_ONLY_NEGATIVE_MPC_COUNT' ! U06 emits an impossible-count failure tag.
+          call exit(201) ! U06 fails closed on corrupt negative MPC metadata.
+       endif ! U06 closes the impossible-count gate without claiming production topology support.
+-      if((iperturb(1).eq.1).or.(iperturb(2).eq.1)) then ! UCOR6 linear rejects geometric nonlinearity.
+-         write(*,*) '*ERROR UCOR6_LINEAR_COUPON_ONLY_NLGEOM' ! UCOR6 linear emits a stable failure tag.
+-         call exit(201) ! UCOR6 linear fails closed.
+-      endif ! UCOR6 linear closes the NLGEOM gate.
++      if(nmethod.eq.1) then ! C0-SM permits ordinary linear static or the observed CCX 2.23 NLGEOM equilibrium call.
++         if(.not.(((iperturb(1).eq.0).and.(iperturb(2).eq.0)).or. ! C0-SM admits the reviewed U04/U06 linear static path.
++     &      ((iperturb(1).eq.2).and.(iperturb(2).eq.1)))) then ! C0-SM admits the measured CCX 2.23 NLGEOM static flags only.
++            write(*,*) '*ERROR UCOR6_C0SM_STATIC_IPERTURB', ! C0-SM emits the rejected step identity.
++     &                 iperturb(1),iperturb(2),istep,iinc ! C0-SM reports the exact unsupported flags.
++            call exit(201) ! C0-SM fails closed on every unregistered static state.
++         endif ! C0-SM closes the restricted static perturbation gate.
++      elseif(nmethod.eq.2) then ! C0-SM permits ordinary frequency or a preceding-static perturbation frequency call.
++         if(.not.(((iperturb(1).eq.0).and.(iperturb(2).eq.0)).or. ! C0-SM admits the reviewed U05/U06 linear modal path.
++     &      ((iperturb(1).eq.1).and.(iperturb(2).eq.0)))) then ! C0-SM admits the measured CCX 2.23 preceding-static perturbation flags only.
++            write(*,*) '*ERROR UCOR6_C0SM_MODAL_IPERTURB', ! C0-SM emits the rejected step identity.
++     &                 iperturb(1),iperturb(2),istep,iinc ! C0-SM reports the exact unsupported flags.
++            call exit(201) ! C0-SM fails closed on every unregistered modal state.
++         endif ! C0-SM closes the restricted modal perturbation gate.
++      endif ! C0-SM closes the procedure-specific state gate.
+       if(iexpl.ne.0) then ! UCOR6 linear rejects explicit integration.
+          write(*,*) '*ERROR UCOR6_LINEAR_COUPON_ONLY_EXPLICIT' ! UCOR6 linear emits a stable failure tag.
+          call exit(201) ! UCOR6 linear fails closed.
+@@ -44,10 +56,15 @@
+          write(*,*) '*ERROR UCOR6_LINEAR_COUPON_ONLY_THERMAL' ! UCOR6 linear emits a stable failure tag.
+          call exit(201) ! UCOR6 linear fails closed.
+       endif ! UCOR6 linear closes the thermal gate.
+-      if((nbody.ne.0).or.(nload.ne.0).or.(idist.ne.0)) then ! UCOR6 linear rejects distributed and body loading.
+-         write(*,*) '*ERROR UCOR6_LINEAR_COUPON_ONLY_LOAD' ! UCOR6 linear emits a stable failure tag.
+-         call exit(201) ! UCOR6 linear fails closed.
+-      endif ! UCOR6 linear closes the load gate.
++      if((rhsi.eq.1).and.((dabs(bodyfx(1)).gt.0.d0).or. ! C0-SM tests only the acceleration assigned to this UCOR6 element.
++     &   (dabs(bodyfx(2)).gt.0.d0).or.(dabs(bodyfx(3)).gt.0.d0))) then ! C0-SM rejects silent omission of a direct UCOR6 body load.
++         write(*,*) '*ERROR UCOR6_C0SM_DIRECT_BODY_LOAD',nelem ! C0-SM emits the directly loaded element identity.
++         call exit(201) ! C0-SM fails closed because the reference kernel has no body-load residual.
++      endif ! C0-SM closes the element-local body-load gate.
++      if(nload.ne.0) then ! C0-SM rejects every model containing an unreviewed distributed surface load.
++         write(*,*) '*ERROR UCOR6_C0SM_GLOBAL_SURFACE_LOAD',nload ! C0-SM emits the unsupported global load count.
++         call exit(201) ! C0-SM fails closed because local surface-load membership is not decoded.
++      endif ! C0-SM closes the conservative surface-load gate while allowing other-element gravity.
+       indexp=ielprop(nelem) ! UCOR6 linear locates the property block.
+       do i=29,34 ! UCOR6 linear examines all initial section forces.
+          if(dabs(prop(indexp+i)).gt.0.d0) then ! UCOR6 linear disallows prestress in this milestone.
+--- a/src/e_c3d_u.f
++++ b/src/e_c3d_u.f
+@@ -79,8 +79,8 @@
+         call e_c3d_ucor6(co,kon,lakonl,s,sm,ff,nelem, ! UCOR6 linear forwards model and operator arrays.
+      &       ipkon,mi, ! UCOR6 linear forwards encoded topology.
+      &       vold,prop,ielprop,mass,stiffness,buckling,rhsi, ! UCOR6 linear forwards assembly controls.
+-     &       coriolis,iperturb,iexpl,ithermal,nbody,nload, ! UCOR6 linear forwards fail-closed controls.
+-     &       idist,nmethod,nmpc,nope) ! UCOR6 linear receives the fixed node count.
++     &       coriolis,iperturb,iexpl,ithermal,bodyfx,nbody,nload, ! C0-SM forwards the element-local body acceleration.
++     &       idist,nmethod,nmpc,istep,iinc,nope) ! C0-SM forwards the restricted procedure identity.
+       elseif(lakonl(2:2).eq.'1') then ! UCOR6 linear preserves the stock U1 dispatch.
+         call e_c3d_u1(co,kon,lakonl,p1,p2,omx,bodyfx,nbody,s,sm,
+      &       ff,nelem,nmethod,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,

@@ -1,0 +1,42 @@
+{
+  "claims": {
+    "frequency_reproduced": false,
+    "full_c3": false,
+    "production": false
+  },
+  "coupon": {
+    "deck": "solver/diagnostic_coupons/single_bearing_rope/single_bearing_rope_m20_95ecd2a3b67ac702.inp",
+    "elements": 2155,
+    "integrated_mass_t": 77.83906480196836,
+    "modes": 20,
+    "nodes": 2156,
+    "sha256": "95ecd2a3b67ac702a8e3768b58046d18281ac217f2c3888d333a28959799627d",
+    "support_dofs": 29,
+    "support_nodes": 11
+  },
+  "decision_rule": "Normal 0.01-to-1 Hz roots isolate the full-model MPC/steel assembly; 1e-4 Hz roots isolate UCAB3/property scaling.",
+  "omitted": [
+    "all UCOR6 steel",
+    "all native MASS",
+    "all MPC equations",
+    "other thirty-one bearing ropes",
+    "all twelve gantry ropes",
+    "downpull"
+  ],
+  "schema": "catwalk.c3.single-bearing-rope-modal-probe.v1",
+  "solver_requirement": {
+    "spectral_shift": 0.0
+  },
+  "source": {
+    "nonempty_lines": 136,
+    "path": "code/build_single_bearing_rope_modal_probe.py",
+    "status": "PASS",
+    "violations": []
+  },
+  "sources": {
+    "ledger_sha256": "f802f61e1de7656090076c99a1a4b729f6106fd5497830a8b72b83d873f7eabe",
+    "parent_sha256": "b2a8f01c9864c0f72f5fe2e0aa3cce45e78a9267a560d8ce10dcfc19aa97048e"
+  },
+  "status": "ISOLATION_DECK_GENERATED_NOT_SOLVED",
+  "target_access": "NONE"
+}

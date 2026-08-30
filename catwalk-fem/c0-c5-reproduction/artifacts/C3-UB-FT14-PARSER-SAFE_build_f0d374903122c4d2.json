@@ -1,0 +1,52 @@
+{
+  "claims": {
+    "equilibrium_validated": false,
+    "frequency_reproduced": false,
+    "mass_tuned": false,
+    "production": false
+  },
+  "deck": {
+    "bytes": 26839638,
+    "modes": 14,
+    "path": "solver/c3_ub_frozen_tangent_diag/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp",
+    "sha256": "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86"
+  },
+  "delta": {
+    "constraints_changed": false,
+    "corrected_mu_constant_sum": 1.2736777421606096,
+    "geometry_changed": false,
+    "maximum_relative_rounding_delta": 3.429598065690985e-13,
+    "modal_root_request": [
+      6,
+      14
+    ],
+    "physical_mass_target_changed": false,
+    "prestress_changed": false,
+    "source_mu_constant_sum": 1.2736777421606662,
+    "stiffness_changed": false,
+    "token_format": [
+      ".15e",
+      ".12e"
+    ],
+    "ucab3_mu_tokens_corrected": 73692
+  },
+  "generator": {
+    "nonempty_lines": 73,
+    "path": "code/build_c3_ub_ft30_parser_safe.py",
+    "status": "PASS",
+    "violations": []
+  },
+  "parent": {
+    "path": "solver/c3_ub_frozen_tangent_diag/C3-UB-FT_DIAGNOSTIC_m06_b2a8f01c9864c0f7.inp",
+    "sha256": "b2a8f01c9864c0f72f5fe2e0aa3cce45e78a9267a560d8ce10dcfc19aa97048e"
+  },
+  "root_cause": "CalculiX usersections.f reads each constant with f20.0; the 21-character .15e mu token loses the final exponent digit and turns e-05/e-04 into e-00.",
+  "schema": "catwalk.c3-ub-ft14-parser-safe.build.v1",
+  "solver_requirement": {
+    "reason": "regularize the high-condition-number tangent while keeping the shift below the physical spectrum",
+    "symmetric_shift": -0.001
+  },
+  "status": "PARSER_SAFE_DECK_GENERATED_NOT_SOLVED",
+  "target_access": "NONE",
+  "variant": "C3-UB-FT14-PARSER-SAFE"
+}

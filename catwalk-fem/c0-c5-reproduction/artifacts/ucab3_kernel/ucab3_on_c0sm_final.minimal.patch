@@ -1,0 +1,455 @@
+--- a/src/Makefile.inc
++++ b/src/Makefile.inc
+@@ -987,6 +987,9 @@
+ SCCXF += e_c3d_ucor6.f # Register the UCOR6 LINEAR_COUPON_ONLY assembly boundary.
+ SCCXF += resultsmech_ucor6.f # Register the UCOR6 sole internal-force recovery routine.
+ SCCXF += ucor6_linear_kernel.f # Register the UCOR6 six-port stiffness and mass kernel.
++SCCXF += e_c3d_ucab3.f # Register the UCAB3 exact translational assembly boundary.
++SCCXF += resultsmech_ucab3.f # Register the UCAB3 exact internal-force recovery routine.
++SCCXF += ucab3_linear_kernel.f # Register the UCAB3 axial, geometric, mass, and residual kernel.
+ SCCXF += ucor6_write_coupon.f # Register the UCOR6 dedicated serial .dat writer.
+ 
+ SCCXC = \
+--- a/src/changekon.f
++++ b/src/changekon.f
+@@ -146,6 +146,8 @@
+         elseif(lakon(i)(1:1).eq.'U') then
+           if(lakon(i)(1:5).eq.'UCOR6') then ! UCOR6 linear preserves its native two-node connectivity.
+             nopeexp=2 ! UCOR6 linear records the unchanged node count.
++          elseif(lakon(i)(1:5).eq.'UCAB3') then ! UCAB3 contingency preserves its native two-node connectivity.
++            nopeexp=2 ! UCAB3 contingency records the unchanged endpoint count.
+           elseif(lakon(i)(2:2).eq.'1') then ! UCOR6 linear preserves stock U1 handling.
+             nopeexp=2
+           elseif(lakon(i)(2:4).eq.'S45') then
+@@ -213,4 +215,3 @@
+ !     
+       return
+       end
+-
+--- a/src/e_c3d_u.f
++++ b/src/e_c3d_u.f
+@@ -75,7 +75,12 @@
+      &     a,xi11,xi12,xi22,xk,e1(3),offset1,offset2,y1,y2,y3,z1,z2,z3,
+      &     elcon(0:ncmat_,ntmat_,*)
+ !     
+-      if(lakonl(2:5).eq.'COR6') then ! UCOR6 linear dispatches the frozen five-character type.
++      if(lakonl(2:5).eq.'CAB3') then ! UCAB3 contingency dispatches the exact translational cable type.
++        call e_c3d_ucab3(co,kon,lakonl,s,sm,ff,nelem, ! UCAB3 contingency forwards model and operator arrays.
++     &       ipkon,mi,vold,prop,ielprop,mass,stiffness, ! UCAB3 contingency forwards state, constants, and matrix controls.
++     &       buckling,rhsi,coriolis,iperturb,iexpl,ithermal, ! UCAB3 contingency forwards restricted procedure controls.
++     &       bodyfx,nmethod,nope) ! UCAB3 contingency forwards gravity acceleration and returns two endpoints.
++      elseif(lakonl(2:5).eq.'COR6') then ! UCOR6 linear dispatches the frozen five-character type.
+         call e_c3d_ucor6(co,kon,lakonl,s,sm,ff,nelem, ! UCOR6 linear forwards model and operator arrays.
+      &       ipkon,mi, ! UCOR6 linear forwards encoded topology.
+      &       vold,prop,ielprop,mass,stiffness,buckling,rhsi, ! UCOR6 linear forwards assembly controls.
+--- a/src/mastruct.c
++++ b/src/mastruct.c
+@@ -129,6 +129,9 @@
+ 	  if(strcmp1(&lakon[8*i],"UCOR6")==0){ /* UCOR6 linear registers six dofs on two nodes. */
+ 	    ndof=6; /* UCOR6 linear fixes the nodal degree count. */
+ 	    nope=2; /* UCOR6 linear fixes the element node count. */
++	  }else if(strcmp1(&lakon[8*i],"UCAB3")==0){ /* UCAB3 contingency registers three dofs on two nodes. */
++	    ndof=3; /* UCAB3 contingency fixes the translational degree count. */
++	    nope=2; /* UCAB3 contingency fixes the endpoint count. */
+ 	  }else if((strcmp1(&lakon[8*i+1],"1")==0)|| /* UCOR6 linear preserves stock user-element registration. */
+ 	     (strcmp1(&lakon[8*i+1],"S45")==0)||
+ 	     (strcmp1(&lakon[8*i+1],"S3")==0)){
+@@ -363,6 +366,9 @@
+ 	if(strcmp1(&lakon[8*i],"UCOR6")==0){ /* UCOR6 linear registers matrix connectivity. */
+ 	  ndof=6; /* UCOR6 linear fixes the nodal degree count. */
+ 	  nope=2; /* UCOR6 linear fixes the element node count. */
++	}else if(strcmp1(&lakon[8*i],"UCAB3")==0){ /* UCAB3 contingency registers axial matrix connectivity. */
++	  ndof=3; /* UCAB3 contingency fixes the translational degree count. */
++	  nope=2; /* UCAB3 contingency fixes the endpoint count. */
+ 	}else if((strcmp1(&lakon[8*i+1],"1")==0)|| /* UCOR6 linear preserves stock matrix registration. */
+ 	   (strcmp1(&lakon[8*i+1],"S45")==0)||
+ 	   (strcmp1(&lakon[8*i+1],"S3")==0)){
+--- a/src/resultsmech_u.f
++++ b/src/resultsmech_u.f
+@@ -55,7 +55,11 @@
+      &     xstateini(nstate_,mi(1),*),reltime,thicke(mi(3),*),
+      &     emeini(6,mi(1),*)
+ !
+-      if(lakon(nelem)(2:5).eq.'COR6') then ! UCOR6 linear dispatches the frozen five-character type.
++      if(lakon(nelem)(2:5).eq.'CAB3') then ! UCAB3 contingency dispatches exact axial recovery.
++         call resultsmech_ucab3(co,kon,ipkon,v,stx,fn,qa, ! UCAB3 contingency forwards state and force arrays.
++     &        mi,ener,eei,eme,iout,nener,calcul_fn,calcul_qa, ! UCAB3 contingency forwards output controls.
++     &        nal,nelem,ielprop,prop) ! UCAB3 contingency forwards recovery indices and constants.
++      elseif(lakon(nelem)(2:5).eq.'COR6') then ! UCOR6 linear dispatches the frozen five-character type.
+          call resultsmech_ucor6(co,kon,ipkon,v,stx,fn,qa, ! UCOR6 linear forwards state and force arrays.
+      &        mi,ener,eei,eme,iout,nener,calcul_fn,calcul_qa, ! UCOR6 linear forwards output controls.
+      &        nal,nelem, ! UCOR6 linear forwards recovery indices.
+--- a/src/userelements.f
++++ b/src/userelements.f
+@@ -28,10 +28,11 @@
+ !
+       integer n,iuel(4,*),nuel,i,j,istat,number,ipoinpc(0:*),iline,
+      &  four,nodes,intpoints,maxdof,id,ier,key,ipoinp(2,*),inp(3,*),
+-     &  inl,ipol,isucor6 ! UCOR6 linear tracks the frozen element type.
++     &  inl,ipol,isucor6,isucab3 ! UCAB3 contingency tracks both custom element types.
+ !
+       four=4 ! UCOR6 linear preserves the four-character user key.
+       isucor6=0 ! UCOR6 linear initializes type-specific validation.
++      isucab3=0 ! UCAB3 contingency initializes axial-element validation.
+       number=-1 ! UCOR6 linear initializes the required type key.
+       nodes=-1 ! UCOR6 linear initializes the required node count.
+       intpoints=-1 ! UCOR6 linear initializes the required integration-point count.
+@@ -44,6 +45,7 @@
+      &             ichar(textpart(i)(9:9))*256+
+      &             ichar(textpart(i)(10:10))
+             if(textpart(i)(7:10).eq.'COR6') isucor6=1 ! UCOR6 linear recognizes the exact frozen key.
++            if(textpart(i)(7:10).eq.'CAB3') isucab3=1 ! UCAB3 contingency recognizes the exact axial key.
+          elseif(textpart(i)(1:6).eq.'NODES=') then
+             read(textpart(i)(7:16),'(i10)',iostat=istat) nodes
+             if(istat.gt.0) then
+@@ -76,6 +78,15 @@
+             return ! UCOR6 linear stops before element registration.
+          endif ! UCOR6 linear closes the metadata gate.
+       endif ! UCOR6 linear closes type-specific validation.
++      if(isucab3.eq.1) then ! UCAB3 contingency validates metadata before matrix registration.
++         if((nodes.ne.2).or.(intpoints.ne.1).or. ! UCAB3 contingency requires two endpoints and one reporting point.
++     &      (maxdof.ne.3)) then ! UCAB3 contingency requires translational degrees only.
++            write(*,*) '*ERROR UCAB3_METADATA_EXPECTED_2_1_3', ! UCAB3 contingency emits a stable metadata failure tag.
++     &           nodes,intpoints,maxdof ! UCAB3 contingency reports the received metadata.
++            ier=1 ! UCAB3 contingency marks the input as invalid.
++            return ! UCAB3 contingency stops before element registration.
++         endif ! UCAB3 contingency closes the metadata mismatch branch.
++      endif ! UCAB3 contingency closes type-specific validation.
+ !
+ !     check range
+ !
+@@ -131,5 +142,4 @@
+ 
+ 
+ 
+-
+ 
+--- a/src/usersections.f
++++ b/src/usersections.f
+@@ -36,7 +36,7 @@
+      &     ielmat(mi(3),*),irstrt(*),nset,nmat,ndprop,npropstart,
+      &     istep,istat,n,key,i,j,k,imaterial,ipos,lprop,ipoinpc(0:*),
+      &     iline,ipol,inl,ipoinp(2,*),inp(3,*),ielprop(*),nprop,nprop_,
+-     &     iset,ier,isucor6,isother ! UCOR6 linear tracks set homogeneity.
++     &     iset,ier,isucor6,isucab3,isother ! UCAB3 contingency tracks custom-section homogeneity.
+ !     
+       real*8 prop(*) ! UCOR6 linear preserves the shared property array.
+       ndprop=0 ! UCOR6 linear initializes the optional constant count.
+@@ -113,11 +113,14 @@
+       endif
+       iset=i
+       isucor6=0 ! UCOR6 linear initializes the target-type marker.
++      isucab3=0 ! UCAB3 contingency initializes the axial target-type marker.
+       isother=0 ! UCOR6 linear initializes the mixed-set marker.
+       do j=istartset(iset),iendset(iset) ! UCOR6 linear scans the complete section set.
+         if(ialset(j).gt.0) then ! UCOR6 linear handles an explicit element identifier.
+           if(lakon(ialset(j))(1:5).eq.'UCOR6') then ! UCOR6 linear finds the frozen type.
+             isucor6=1 ! UCOR6 linear records a UCOR6 member.
++          elseif(lakon(ialset(j))(1:5).eq.'UCAB3') then ! UCAB3 contingency finds the frozen axial type.
++            isucab3=1 ! UCAB3 contingency records an axial member.
+           else ! UCOR6 linear handles a non-UCOR6 member.
+             isother=1 ! UCOR6 linear records a mixed member.
+           endif ! UCOR6 linear closes the explicit type branch.
+@@ -128,6 +131,8 @@
+             if(k.ge.ialset(j-1)) exit ! UCOR6 linear stops at the encoded upper bound.
+             if(lakon(k)(1:5).eq.'UCOR6') then ! UCOR6 linear finds a frozen-type range member.
+               isucor6=1 ! UCOR6 linear records a UCOR6 range member.
++            elseif(lakon(k)(1:5).eq.'UCAB3') then ! UCAB3 contingency finds an axial range member.
++              isucab3=1 ! UCAB3 contingency records an axial range member.
+             else ! UCOR6 linear handles a non-UCOR6 range member.
+               isother=1 ! UCOR6 linear records a mixed range member.
+             endif ! UCOR6 linear closes the range type branch.
+@@ -139,11 +144,22 @@
+         ier=1 ! UCOR6 linear marks the input as invalid.
+         return ! UCOR6 linear stops before property binding.
+       endif ! UCOR6 linear closes the mixed-set gate.
++      if(((isucor6.eq.1).and.(isucab3.eq.1)).or. ! UCAB3 contingency rejects sections spanning both custom families.
++     &   ((isucab3.eq.1).and.(isother.eq.1))) then ! UCAB3 contingency rejects axial and unrelated members in one section.
++        write(*,*) '*ERROR UCAB3_USER_SECTION_MIXED_SET' ! UCAB3 contingency emits a stable mixed-set failure tag.
++        ier=1 ! UCAB3 contingency marks the input as invalid.
++        return ! UCAB3 contingency stops before property binding.
++      endif ! UCAB3 contingency closes the mixed-section gate.
+       if((isucor6.eq.1).and.(ndprop.ne.37)) then ! UCOR6 linear enforces the frozen property count.
+         write(*,*) '*ERROR UCOR6_CONSTANTS_EXPECTED_37',ndprop ! UCOR6 linear emits a stable failure tag.
+         ier=1 ! UCOR6 linear marks the input as invalid.
+         return ! UCOR6 linear stops before reading the wrong property block.
+       endif ! UCOR6 linear closes the property-count gate.
++      if((isucab3.eq.1).and.(ndprop.ne.3)) then ! UCAB3 contingency enforces EA, N, and line-mass constants.
++        write(*,*) '*ERROR UCAB3_CONSTANTS_EXPECTED_3',ndprop ! UCAB3 contingency emits a stable property-count tag.
++        ier=1 ! UCAB3 contingency marks the input as invalid.
++        return ! UCAB3 contingency stops before reading the wrong property block.
++      endif ! UCAB3 contingency closes the property-count gate.
+ !     
+       npropstart=nprop
+ !     
+@@ -176,6 +192,11 @@
+           ier=1 ! UCOR6 linear marks the input as invalid.
+           return ! UCOR6 linear stops before advancing the property pointer.
+         endif ! UCOR6 linear closes the payload-count gate.
++        if((isucab3.eq.1).and.(lprop.ne.ndprop)) then ! UCAB3 contingency requires the complete property payload.
++          write(*,*) '*ERROR UCAB3_PROPERTY_VALUE_COUNT',lprop,ndprop ! UCAB3 contingency emits a stable payload-count tag.
++          ier=1 ! UCAB3 contingency marks the input as invalid.
++          return ! UCAB3 contingency stops before advancing the property pointer.
++        endif ! UCAB3 contingency closes the payload-count gate.
+         nprop=nprop+ndprop ! UCOR6 linear advances only after payload validation.
+       else
+         call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,
+@@ -184,6 +205,9 @@
+       if(isucor6.eq.1) then ! UCOR6 linear validates values before section binding.
+         call ucor6_validate_properties(prop,npropstart) ! UCOR6 linear validates C6, mass, inertia, and zref.
+       endif ! UCOR6 linear closes value validation.
++      if(isucab3.eq.1) then ! UCAB3 contingency validates axial constants before section binding.
++        call ucab3_validate_properties(prop,npropstart) ! UCAB3 contingency validates EA, tension, and line mass.
++      endif ! UCAB3 contingency closes value validation.
+ !     
+       if(nprop.gt.nprop_) then
+         write(*,*) '*ERROR reading *USER SECTION: increase nprop_'
+--- a/src/e_c3d_ucab3.f
++++ b/src/e_c3d_ucab3.f
+@@ -0,0 +1,73 @@
++      subroutine e_c3d_ucab3(co,kon,lakonl,s,sm,ff,nelem, ! UCAB3 contingency enters exact translational assembly.
++     &     ipkon,mi,vold,prop,ielprop,mass,stiffness, ! UCAB3 contingency receives topology, state, constants, and matrix controls.
++     &     buckling,rhsi,coriolis,iperturb,iexpl,ithermal, ! UCAB3 contingency receives restricted procedure controls.
++     &     bodyfx,nmethod,nope) ! UCAB3 contingency receives acceleration and returns endpoint count.
++      implicit none ! UCAB3 contingency makes all declarations explicit.
++      character*8 lakonl ! UCAB3 contingency receives encoded element metadata.
++      integer kon(*),nelem,ipkon(*),mi(*),ielprop(*),mass(*) ! UCAB3 contingency declares solver integer arrays.
++      integer stiffness,buckling,rhsi,coriolis,iperturb(*) ! UCAB3 contingency declares matrix and procedure controls.
++      integer iexpl,ithermal(*),nmethod,nope,i,j ! UCAB3 contingency declares remaining controls and loops.
++      real*8 co(3,*),s(60,60),sm(60,60),ff(60) ! UCAB3 contingency declares solver-facing element arrays.
++      real*8 vold(0:mi(2),*),prop(*),bodyfx(3) ! UCAB3 contingency receives state, constants, and acceleration.
++      real*8 kmat(6,6),mmat(6,6),rint(6),nvec(3) ! UCAB3 contingency stores exact kernel operators.
++      real*8 elen,axial,strain,umat,uinit ! UCAB3 contingency stores recovered scalar state.
++      nope=2 ! UCAB3 contingency fixes two physical endpoints.
++      if((ichar(lakonl(6:6)).ne.1).or. ! UCAB3 contingency checks the encoded reporting-point count.
++     &   (ichar(lakonl(7:7)).ne.3).or. ! UCAB3 contingency checks the encoded maximum degree.
++     &   (ichar(lakonl(8:8)).ne.2)) then ! UCAB3 contingency checks the encoded endpoint count.
++         write(*,*) '*ERROR UCAB3_ENCODED_METADATA' ! UCAB3 contingency emits a stable metadata failure tag.
++         call exit(201) ! UCAB3 contingency fails closed on corrupt metadata.
++      endif ! UCAB3 contingency closes the encoded-metadata gate.
++      if((nmethod.ne.1).and.(nmethod.ne.2)) then ! UCAB3 contingency permits static and frequency assembly only.
++         write(*,*) '*ERROR UCAB3_NMETHOD',nmethod ! UCAB3 contingency reports the unsupported procedure.
++         call exit(201) ! UCAB3 contingency fails closed on other procedures.
++      endif ! UCAB3 contingency closes the procedure gate.
++      if(nmethod.eq.1) then ! UCAB3 contingency validates static perturbation identity.
++         if(.not.(((iperturb(1).eq.0).and.(iperturb(2).eq.0)).or. ! UCAB3 contingency permits ordinary linear static assembly.
++     &      ((iperturb(1).eq.2).and.(iperturb(2).eq.1)))) then ! UCAB3 contingency permits the measured reference-static flags.
++            write(*,*) '*ERROR UCAB3_STATIC_IPERTURB', ! UCAB3 contingency emits unsupported static flags.
++     &                 iperturb(1),iperturb(2) ! UCAB3 contingency reports the exact flag pair.
++            call exit(201) ! UCAB3 contingency fails closed on an unknown static path.
++         endif ! UCAB3 contingency closes the static flag gate.
++      elseif(nmethod.eq.2) then ! UCAB3 contingency validates frequency perturbation identity.
++         if(.not.(((iperturb(1).eq.0).and.(iperturb(2).eq.0)).or. ! UCAB3 contingency permits an ordinary frequency step.
++     &      ((iperturb(1).eq.1).and.(iperturb(2).eq.0)))) then ! UCAB3 contingency permits preceding-static perturbation frequency.
++            write(*,*) '*ERROR UCAB3_MODAL_IPERTURB', ! UCAB3 contingency emits unsupported modal flags.
++     &                 iperturb(1),iperturb(2) ! UCAB3 contingency reports the exact flag pair.
++            call exit(201) ! UCAB3 contingency fails closed on an unknown modal path.
++         endif ! UCAB3 contingency closes the modal flag gate.
++      endif ! UCAB3 contingency closes procedure-specific validation.
++      if(iexpl.ne.0) then ! UCAB3 contingency rejects explicit integration.
++         write(*,*) '*ERROR UCAB3_EXPLICIT' ! UCAB3 contingency emits a stable explicit-procedure tag.
++         call exit(201) ! UCAB3 contingency fails closed on explicit integration.
++      endif ! UCAB3 contingency closes the explicit gate.
++      if((buckling.ne.0).or.(coriolis.ne.0)) then ! UCAB3 contingency rejects unimplemented operators.
++         write(*,*) '*ERROR UCAB3_PROCEDURE_OPERATOR' ! UCAB3 contingency emits a stable operator failure tag.
++         call exit(201) ! UCAB3 contingency fails closed on buckling or Coriolis assembly.
++      endif ! UCAB3 contingency closes the operator gate.
++      if(ithermal(1).ne.0) then ! UCAB3 contingency rejects thermal coupling.
++         write(*,*) '*ERROR UCAB3_THERMAL' ! UCAB3 contingency emits a stable thermal failure tag.
++         call exit(201) ! UCAB3 contingency fails closed on thermal coupling.
++      endif ! UCAB3 contingency closes the thermal gate.
++      call ucab3_linear_kernel(co,kon,ipkon,nelem,mi,vold, ! UCAB3 contingency calls the shared exact kernel.
++     &     prop,ielprop,kmat,mmat,rint,nvec,elen,axial, ! UCAB3 contingency receives exact operators and recovered force.
++     &     strain,umat,uinit) ! UCAB3 contingency receives strain and energy state.
++      do i=1,6 ! UCAB3 contingency initializes solver-facing vectors and matrices.
++         ff(i)=0.d0 ! UCAB3 contingency clears one consistent load component.
++         do j=1,6 ! UCAB3 contingency visits one matrix row.
++            s(i,j)=0.d0 ! UCAB3 contingency clears one tangent entry.
++            sm(i,j)=0.d0 ! UCAB3 contingency clears one mass entry.
++            if(stiffness.eq.1) s(i,j)=kmat(i,j) ! UCAB3 contingency publishes exact material-plus-geometric tangent.
++            if(mass(1).eq.1) sm(i,j)=mmat(i,j) ! UCAB3 contingency publishes exact consistent translational mass.
++         enddo ! UCAB3 contingency completes one matrix row.
++      enddo ! UCAB3 contingency completes matrix publication.
++      if(rhsi.eq.1) then ! UCAB3 contingency assembles consistent gravity when external loads are requested.
++         do i=1,6 ! UCAB3 contingency visits one endpoint translation.
++            do j=1,3 ! UCAB3 contingency applies the same acceleration at both interpolation nodes.
++               ff(i)=ff(i)+mmat(i,j)*bodyfx(j)+ ! UCAB3 contingency adds the I-end acceleration contribution.
++     &              mmat(i,j+3)*bodyfx(j) ! UCAB3 contingency adds the J-end acceleration contribution.
++            enddo ! UCAB3 contingency completes one consistent load component.
++         enddo ! UCAB3 contingency completes exact gravity loading.
++      endif ! UCAB3 contingency closes consistent-load assembly.
++      return ! UCAB3 contingency returns exact element arrays.
++      end ! UCAB3 contingency ends exact translational assembly.
+--- a/src/resultsmech_ucab3.f
++++ b/src/resultsmech_ucab3.f
+@@ -0,0 +1,54 @@
++      subroutine resultsmech_ucab3(co,kon,ipkon,v,stx,fn,qa, ! UCAB3 contingency enters exact internal-force recovery.
++     &     mi,ener,eei,eme,iout,nener,calcul_fn,calcul_qa, ! UCAB3 contingency receives output and convergence controls.
++     &     nal,nelem,ielprop,prop) ! UCAB3 contingency receives element and property indices.
++      implicit none ! UCAB3 contingency makes all declarations explicit.
++      integer kon(*),ipkon(*),mi(*),iout,nener ! UCAB3 contingency declares topology and output controls.
++      integer calcul_fn,calcul_qa,nal,nelem,ielprop(*) ! UCAB3 contingency declares force and property controls.
++      integer node(2),i,j ! UCAB3 contingency declares endpoint and component loops.
++      real*8 co(3,*),v(0:mi(2),*),stx(6,mi(1),*) ! UCAB3 contingency receives geometry, state, and resultant storage.
++      real*8 fn(0:mi(2),*),qa(*),ener(2,mi(1),*) ! UCAB3 contingency receives nodal-force, convergence, and energy arrays.
++      real*8 eei(6,mi(1),*),eme(6,mi(1),*),prop(*) ! UCAB3 contingency receives generalized strain and constants.
++      real*8 kmat(6,6),mmat(6,6),rint(6),nvec(3) ! UCAB3 contingency stores exact kernel operators.
++      real*8 elen,axial,strain,umat,uinit,before(3,2) ! UCAB3 contingency stores scalar recovery state and baselines.
++      call ucab3_linear_kernel(co,kon,ipkon,nelem,mi,v, ! UCAB3 contingency calls the shared exact kernel.
++     &     prop,ielprop,kmat,mmat,rint,nvec,elen,axial, ! UCAB3 contingency receives exact operators and force.
++     &     strain,umat,uinit) ! UCAB3 contingency receives strain and energy state.
++      node(1)=kon(ipkon(nelem)+1) ! UCAB3 contingency reads the I endpoint.
++      node(2)=kon(ipkon(nelem)+2) ! UCAB3 contingency reads the J endpoint.
++      before=0.d0 ! UCAB3 contingency initializes convergence-force baselines.
++      if(calcul_qa.eq.1) then ! UCAB3 contingency reads fn only when convergence storage exists.
++         do j=1,2 ! UCAB3 contingency visits both endpoints.
++            do i=1,3 ! UCAB3 contingency visits three translational components.
++               before(i,j)=fn(i,node(j)) ! UCAB3 contingency captures one merged-force baseline.
++            enddo ! UCAB3 contingency completes one endpoint baseline.
++         enddo ! UCAB3 contingency completes both endpoint baselines.
++      endif ! UCAB3 contingency closes guarded baseline access.
++      do i=1,6 ! UCAB3 contingency initializes all reported generalized channels.
++         stx(i,1,nelem)=0.d0 ! UCAB3 contingency clears one reported resultant channel.
++         eme(i,1,nelem)=0.d0 ! UCAB3 contingency clears one material generalized-strain channel.
++         if(iout.gt.0) eei(i,1,nelem)=0.d0 ! UCAB3 contingency clears one output strain channel when allocated.
++      enddo ! UCAB3 contingency completes generalized output initialization.
++      stx(1,1,nelem)=axial ! UCAB3 contingency reports frozen plus incremental axial force in channel one.
++      eme(1,1,nelem)=strain ! UCAB3 contingency reports engineering axial strain in channel one.
++      if(iout.gt.0) eei(1,1,nelem)=strain ! UCAB3 contingency publishes engineering strain for output frames.
++      if(nener.eq.1) then ! UCAB3 contingency writes standard energy only when requested.
++         ener(1,1,nelem)=umat ! UCAB3 contingency stores quadratic tangent energy.
++         ener(2,1,nelem)=uinit ! UCAB3 contingency stores frozen-force first-order work.
++      endif ! UCAB3 contingency closes guarded energy output.
++      if(calcul_fn.eq.1) then ! UCAB3 contingency publishes exact endpoint internal forces.
++         do j=1,2 ! UCAB3 contingency visits both endpoints.
++            do i=1,3 ! UCAB3 contingency visits three translational components.
++               fn(i,node(j))=fn(i,node(j))+rint((j-1)*3+i) ! UCAB3 contingency merges one exact internal-force component.
++            enddo ! UCAB3 contingency completes one endpoint force vector.
++         enddo ! UCAB3 contingency completes both endpoint force vectors.
++      endif ! UCAB3 contingency closes internal-force publication.
++      if(calcul_qa.eq.1) then ! UCAB3 contingency contributes a convergence force measure.
++         do j=1,2 ! UCAB3 contingency visits both endpoints for convergence accounting.
++            do i=1,3 ! UCAB3 contingency visits each translational component.
++               qa(1)=qa(1)+dabs(fn(i,node(j))-before(i,j)) ! UCAB3 contingency adds one force magnitude.
++            enddo ! UCAB3 contingency completes one endpoint contribution.
++         enddo ! UCAB3 contingency completes both endpoint contributions.
++         nal=nal+6 ! UCAB3 contingency records six translational force contributions.
++      endif ! UCAB3 contingency closes convergence accounting.
++      return ! UCAB3 contingency returns recovered state.
++      end ! UCAB3 contingency ends exact internal-force recovery.
+--- a/src/ucab3_linear_kernel.f
++++ b/src/ucab3_linear_kernel.f
+@@ -0,0 +1,113 @@
++      subroutine ucab3_validate_properties(prop,indexp) ! UCAB3 contingency validates one frozen cable property block.
++      implicit none ! UCAB3 contingency makes all declarations explicit.
++      integer indexp ! UCAB3 contingency receives the property pointer before the first value.
++      real*8 prop(*),ea,force,mu ! UCAB3 contingency stores EA, frozen tension, and line mass.
++      ea=prop(indexp+1) ! UCAB3 contingency reads the axial rigidity.
++      force=prop(indexp+2) ! UCAB3 contingency reads the frozen tensile force.
++      mu=prop(indexp+3) ! UCAB3 contingency reads the translational line mass.
++      if((ea.ne.ea).or.(force.ne.force).or.(mu.ne.mu)) then ! UCAB3 contingency rejects every NaN constant.
++         write(*,*) '*ERROR UCAB3_PROPERTY_NOT_FINITE' ! UCAB3 contingency emits a stable finite-value failure tag.
++         call exit(201) ! UCAB3 contingency fails closed on a NaN property.
++      endif ! UCAB3 contingency closes the NaN gate.
++      if((dabs(ea).gt.1.d300).or.(dabs(force).gt.1.d300).or. ! UCAB3 contingency rejects unbounded stiffness or tension.
++     &   (dabs(mu).gt.1.d300)) then ! UCAB3 contingency rejects unbounded line mass.
++         write(*,*) '*ERROR UCAB3_PROPERTY_NOT_FINITE' ! UCAB3 contingency emits the shared finite-value failure tag.
++         call exit(201) ! UCAB3 contingency fails closed on an unbounded property.
++      endif ! UCAB3 contingency closes the magnitude gate.
++      if(ea.le.0.d0) then ! UCAB3 contingency requires positive axial rigidity.
++         write(*,*) '*ERROR UCAB3_EA_NOT_POSITIVE',ea ! UCAB3 contingency reports the rejected rigidity.
++         call exit(201) ! UCAB3 contingency fails closed on nonpositive rigidity.
++      endif ! UCAB3 contingency closes the rigidity gate.
++      if(force.lt.0.d0) then ! UCAB3 contingency restricts this cable element to frozen tension.
++         write(*,*) '*ERROR UCAB3_N_NEGATIVE',force ! UCAB3 contingency reports the rejected compression.
++         call exit(201) ! UCAB3 contingency fails closed on cable compression.
++      endif ! UCAB3 contingency closes the frozen-force gate.
++      if(mu.lt.0.d0) then ! UCAB3 contingency permits exactly zero but no negative line mass.
++         write(*,*) '*ERROR UCAB3_MU_NEGATIVE',mu ! UCAB3 contingency reports the rejected line mass.
++         call exit(201) ! UCAB3 contingency fails closed on negative mass.
++      endif ! UCAB3 contingency closes the line-mass gate.
++      return ! UCAB3 contingency returns a validated property block.
++      end ! UCAB3 contingency ends property validation.
++
++      subroutine ucab3_linear_kernel(co,kon,ipkon,nelem,mi,v, ! UCAB3 contingency evaluates exact two-node translational operators.
++     &     prop,ielprop,kmat,mmat,rint,nvec,elen,axial, ! UCAB3 contingency returns stiffness, mass, force, direction, and tension.
++     &     strain,umat,uinit) ! UCAB3 contingency returns generalized strain and energies.
++      implicit none ! UCAB3 contingency makes all declarations explicit.
++      integer kon(*),ipkon(*),nelem,mi(*),ielprop(*) ! UCAB3 contingency receives topology and property pointers.
++      integer node(2),i,j,indexp ! UCAB3 contingency declares endpoint and loop indices.
++      real*8 co(3,*),v(0:mi(2),*),prop(*) ! UCAB3 contingency receives reference geometry and displacement state.
++      real*8 kmat(6,6),mmat(6,6),rint(6),nvec(3) ! UCAB3 contingency returns exact element operators.
++      real*8 dx(3),disp(6),qmat(3,3),elen,ea,force,mu ! UCAB3 contingency stores geometry, state, and constants.
++      real*8 axial,strain,umat,uinit,dotdu,mcoef,delta ! UCAB3 contingency stores reported force, strain, mass scale, and energies.
++      indexp=ielprop(nelem) ! UCAB3 contingency locates the property block.
++      call ucab3_validate_properties(prop,indexp) ! UCAB3 contingency validates EA, tension, and line mass.
++      ea=prop(indexp+1) ! UCAB3 contingency reads axial rigidity.
++      force=prop(indexp+2) ! UCAB3 contingency reads frozen tensile force.
++      mu=prop(indexp+3) ! UCAB3 contingency reads translational line mass.
++      node(1)=kon(ipkon(nelem)+1) ! UCAB3 contingency reads the I endpoint.
++      node(2)=kon(ipkon(nelem)+2) ! UCAB3 contingency reads the J endpoint.
++      elen=0.d0 ! UCAB3 contingency initializes squared reference length.
++      do i=1,3 ! UCAB3 contingency visits each global coordinate.
++         dx(i)=co(i,node(2))-co(i,node(1)) ! UCAB3 contingency forms the reference chord.
++         elen=elen+dx(i)*dx(i) ! UCAB3 contingency accumulates squared chord length.
++      enddo ! UCAB3 contingency completes the chord calculation.
++      elen=dsqrt(elen) ! UCAB3 contingency obtains reference length.
++      if((elen.ne.elen).or.(elen.le.1.d-18)) then ! UCAB3 contingency rejects degenerate geometry.
++         write(*,*) '*ERROR UCAB3_LENGTH_NOT_POSITIVE',nelem,elen ! UCAB3 contingency reports element identity and length.
++         call exit(201) ! UCAB3 contingency fails closed on a degenerate chord.
++      endif ! UCAB3 contingency closes the length gate.
++      do i=1,3 ! UCAB3 contingency normalizes the reference direction.
++         nvec(i)=dx(i)/elen ! UCAB3 contingency stores one direction cosine.
++         disp(i)=v(i,node(1)) ! UCAB3 contingency stores one I-end displacement.
++         disp(i+3)=v(i,node(2)) ! UCAB3 contingency stores one J-end displacement.
++      enddo ! UCAB3 contingency completes direction and state extraction.
++      do i=1,6 ! UCAB3 contingency initializes exact element arrays.
++         rint(i)=0.d0 ! UCAB3 contingency clears one internal-force component.
++         do j=1,6 ! UCAB3 contingency visits one matrix row.
++            kmat(i,j)=0.d0 ! UCAB3 contingency clears one tangent entry.
++            mmat(i,j)=0.d0 ! UCAB3 contingency clears one mass entry.
++         enddo ! UCAB3 contingency completes one matrix row.
++      enddo ! UCAB3 contingency completes operator initialization.
++      do i=1,3 ! UCAB3 contingency assembles the three-by-three endpoint block.
++         do j=1,3 ! UCAB3 contingency visits one global direction pair.
++            delta=0.d0 ! UCAB3 contingency initializes the Kronecker delta.
++            if(i.eq.j) delta=1.d0 ! UCAB3 contingency sets a diagonal delta entry.
++            qmat(i,j)=ea*nvec(i)*nvec(j)/elen+ ! UCAB3 contingency adds exact axial material stiffness.
++     &           force*(delta-nvec(i)*nvec(j))/elen ! UCAB3 contingency adds exact frozen-tension geometric stiffness.
++            kmat(i,j)=qmat(i,j) ! UCAB3 contingency assigns the I-I endpoint block.
++            kmat(i,j+3)=-qmat(i,j) ! UCAB3 contingency assigns the I-J endpoint block.
++            kmat(i+3,j)=-qmat(i,j) ! UCAB3 contingency assigns the J-I endpoint block.
++            kmat(i+3,j+3)=qmat(i,j) ! UCAB3 contingency assigns the J-J endpoint block.
++         enddo ! UCAB3 contingency completes one endpoint-block row.
++      enddo ! UCAB3 contingency completes exact material and geometric stiffness.
++      mcoef=mu*elen/6.d0 ! UCAB3 contingency forms the consistent-mass scale.
++      do i=1,3 ! UCAB3 contingency assembles isotropic translational consistent mass.
++         mmat(i,i)=2.d0*mcoef ! UCAB3 contingency assigns one I-I diagonal mass.
++         mmat(i,i+3)=mcoef ! UCAB3 contingency assigns one I-J coupling mass.
++         mmat(i+3,i)=mcoef ! UCAB3 contingency assigns one J-I coupling mass.
++         mmat(i+3,i+3)=2.d0*mcoef ! UCAB3 contingency assigns one J-J diagonal mass.
++      enddo ! UCAB3 contingency completes consistent translational mass.
++      do i=1,3 ! UCAB3 contingency seeds the exact frozen end tractions.
++         rint(i)=-force*nvec(i) ! UCAB3 contingency assigns the I-end inward internal traction.
++         rint(i+3)=force*nvec(i) ! UCAB3 contingency assigns the J-end inward internal traction.
++      enddo ! UCAB3 contingency completes the frozen-force residual.
++      do i=1,6 ! UCAB3 contingency adds the linearized internal-force increment.
++         do j=1,6 ! UCAB3 contingency contracts the exact tangent with displacement.
++            rint(i)=rint(i)+kmat(i,j)*disp(j) ! UCAB3 contingency adds one incremental force contribution.
++         enddo ! UCAB3 contingency completes one force-row contraction.
++      enddo ! UCAB3 contingency completes the exact small-vibration residual.
++      dotdu=0.d0 ! UCAB3 contingency initializes axial relative displacement.
++      do i=1,3 ! UCAB3 contingency projects relative endpoint displacement.
++         dotdu=dotdu+nvec(i)*(disp(i+3)-disp(i)) ! UCAB3 contingency adds one projected displacement component.
++      enddo ! UCAB3 contingency completes axial projection.
++      strain=dotdu/elen ! UCAB3 contingency reports engineering axial strain.
++      axial=force+ea*strain ! UCAB3 contingency reports frozen plus incremental axial force.
++      umat=0.d0 ! UCAB3 contingency initializes quadratic tangent energy.
++      do i=1,6 ! UCAB3 contingency evaluates one-half d-transpose-K-d.
++         do j=1,6 ! UCAB3 contingency visits one displacement pair.
++            umat=umat+0.5d0*disp(i)*kmat(i,j)*disp(j) ! UCAB3 contingency adds one quadratic-energy term.
++         enddo ! UCAB3 contingency completes one energy row.
++      enddo ! UCAB3 contingency completes tangent energy.
++      uinit=force*dotdu ! UCAB3 contingency reports frozen-force first-order work.
++      return ! UCAB3 contingency returns exact operators and recovered state.
++      end ! UCAB3 contingency ends the linear kernel.

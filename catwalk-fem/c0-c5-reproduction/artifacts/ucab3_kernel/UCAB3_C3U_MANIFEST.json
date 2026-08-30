@@ -1,0 +1,59 @@
+{
+  "artifact": "UCAB3 exact two-node translational cable element for C3-U",
+  "status": "COUPON_VERIFIED_FULL_DECK_NOT_YET_RUN",
+  "adoption_authority": "root formally adopted UCAB3 after C3-R2 resource rejection",
+  "base_binary": {
+    "path": "/tmp/c0sm-final-binary-TgjwcV/ccx_2.23_c0sm_final",
+    "sha256": "3db6c0c633360b2cbe1e72c5d1aeb94238618b90d5fa0809667dcff7d8d294ee"
+  },
+  "c3u_binary": {
+    "path": "/tmp/ucab3-contingency-dmcXjg/work/CalculiX/ccx_2.23/src/ccx_2.23",
+    "sha256": "2a7b985edd66e7db401f7ecceebff13fa8551fa312e8187fe4366a0f564e2061",
+    "size_bytes": 7141144,
+    "elf_build_id": "5ba977c92d1b71a166d888904fcb662ab7913201"
+  },
+  "minimal_patch": {
+    "path": "/tmp/ucab3-contingency-dmcXjg/evidence/ucab3_on_c0sm_final.minimal.patch",
+    "sha256": "70852b902934494288a770e618db58328ee251188577dfdecac213e7e91c9171",
+    "lines": 455,
+    "replay_on_base": "PASS_FUZZ_0",
+    "added_nonblank_code_lines": 298,
+    "inline_comment_violations": 0
+  },
+  "input_contract": {
+    "user_element_card": "*USER ELEMENT, TYPE=UCAB3, NODES=2, INTEGRATION POINTS=1, MAXDOF=3",
+    "user_section_constants": 3,
+    "property_order": ["EA_N", "N0_N", "mu_t_per_mm"],
+    "validation": ["EA_N > 0", "N0_N >= 0", "mu_t_per_mm >= 0"],
+    "tension_sign": "positive",
+    "material_semantics": "MATERIAL must exist but its elastic and density data are not read by UCAB3",
+    "gravity_semantics": "standard DLOAD GRAV membership supplies body acceleration; there is no gravity_flag property",
+    "recovery_semantics": "EL PRINT S channel Sxx equals N0 + EA/L*n dot (uJ-uI); all other channels are zero"
+  },
+  "operators": {
+    "Q": "EA/L*n*n^T + N0/L*(I-n*n^T)",
+    "K": "[[Q,-Q],[-Q,Q]]",
+    "M": "mu*L/6*[[2I,I],[I,2I]]",
+    "r0": "[-N0*n,+N0*n]",
+    "gravity": "each endpoint receives mu*L/2*g for constant acceleration"
+  },
+  "replacement_scope": {
+    "frozen_stressed_t3d2_including_four_downpull": 73692,
+    "c2_zero_force_axial_members": 11529,
+    "total_ucab3": 85221,
+    "rom_or_lumping": false
+  },
+  "coupon_summary": {
+    "axial_stiffness": {"expected_reaction_N": 100.0, "actual_reaction_N": 100.0, "verdict": "PASS"},
+    "positive_tension_kgeo": {"expected_transverse_reaction_N": 1.0, "actual_transverse_reaction_N": 1.0, "verdict": "PASS"},
+    "frozen_end_force": {"expected_end_reactions_N": [-1000.0, 1000.0], "actual_end_reactions_N": [-1000.0, 1000.0], "verdict": "PASS"},
+    "gravity": {"expected_free_end_displacement_mm": -0.004905, "actual_free_end_displacement_mm": -0.004905, "verdict": "PASS"},
+    "consistent_mass_axial_frequency": {"expected_frequency": 40.55064083, "actual_frequency": 40.55064, "verdict": "PASS"},
+    "perturbation_transverse": {"expected_eigenvalues": [3000.0, 3000.0], "actual_eigenvalues": [3000.0, 3000.0], "verdict": "PASS"},
+    "rotated_full_tangent": {"expected_J_end_force_N": [295.6, 390.8, 3.0], "actual_J_end_force_N": [295.6, 390.8, 3.0], "verdict": "PASS"},
+    "zero_tension_transverse": {"expected_reaction_N": 0.0, "actual_reaction_N": 0.0, "verdict": "PASS"},
+    "stock_t3d2_delta_lambda": {"formula": "2*N/(L*m)", "expected_eigenvalue": 200.0, "stock_t3d2": 200.0, "ucab3": 200.0, "verdict": "PASS"},
+    "mixed_ucor6_mass_equation": {"positive_modes": 6, "nan_or_error": false, "verdict": "PASS"}
+  },
+  "claim_boundary": "The binary and element kernel are coupon-verified and authorized for C3-U deck generation; no C3-U assembly or catwalk frequency is claimed by this manifest."
+}
