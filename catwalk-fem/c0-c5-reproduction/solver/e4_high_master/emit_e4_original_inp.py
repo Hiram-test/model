@@ -1,8 +1,20 @@
 #!/usr/bin/env python3
-"""Stdlib writer for the original-geometry E4 high-master CalculiX deck."""
+"""Stdlib writer for a target-conditioned high-master toy CalculiX deck."""
 from __future__ import annotations
+import json
 import math
 from pathlib import Path
+
+# Heights and dM are copied from Track A forensic_fit.json, not drawing geometry.
+STATUS = "TARGET_CONDITIONED_INVERSE_HEIGHTS"
+FREQUENCY_REPRODUCED = False
+BACK_TUNED = True
+TRACK_B_BLIND_E4 = False
+NOTE = (
+    "H_SHARED=5.607 m, H_TA1_TOTAL=9.069 m and dM=13*10.1346 t come from the "
+    "invalidated Track A inverse fit. This is not Track B blind E4, not C3-UB-FT14, "
+    "not true3d, and not attach TA1 reproduction."
+)
 
 G = 9.80665
 SUPPORTS = [0.0, 660.0, 2960.0, 3677.0, 4180.0]
@@ -72,10 +84,10 @@ def write_inp(path: Path) -> None:
     n = len(xs)
     lines = [
         "*HEADING",
-        "Original high-position translation-only master geometry",
-        "13 main-span passage pilots at h=5.607 m; tower pilots at h=9.069 m",
-        "deck + MASS21 below; EQUATION slaves UX/UY/UZ only; no ROTX on master",
-        "NLGEOM gravity then FREQUENCY; dM=13*10.1346 t",
+        "TARGET-CONDITIONED inverse-fit high-master toy deck; frequency_reproduced=false",
+        "13 main-span pilots h=5.607 m and tower pilots h=9.069 m from Track A, not drawings",
+        "Not Track B blind E4; not C3-UB-FT14; not true3d; not attach TA1 reproduction",
+        "NLGEOM gravity then FREQUENCY; dM=13*10.1346 t inverse-fit bookkeeping",
         "*NODE",
     ]
     for i, x in enumerate(xs, start=1):
@@ -151,9 +163,23 @@ def write_inp(path: Path) -> None:
         "*END STEP",
     ]
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    receipt = {
+        "status": STATUS,
+        "frequency_reproduced": FREQUENCY_REPRODUCED,
+        "back_tuned": BACK_TUNED,
+        "track_b_blind_e4": TRACK_B_BLIND_E4,
+        "note": NOTE,
+        "h_shared_m": H_SHARED,
+        "h_ta1_total_m": H_TA1_TOTAL,
+        "passage_t": PASSAGE_T,
+        "total_mass_t": TOTAL_MASS / 1000.0,
+        "deck": str(path),
+    }
+    receipt_path = path.with_name(path.stem + ".receipt.json")
+    receipt_path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
     out = Path("E4_original_high_master.ccx.inp")
     write_inp(out)
-    print(out.resolve(), out.stat().st_size)
+    print(out.resolve(), out.stat().st_size, "frequency_reproduced=false")
