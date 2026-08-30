@@ -1,0 +1,273 @@
+# Recover an exact nonlinear C3 static mother by structural identity rather than by frequency or filename.
+name: Recover exact nonlinear C3 static mother # Give the recovery workflow an explicit name.
+on: # Define the deterministic trigger.
+  push: # Run when this workflow definition is committed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated Track A branch.
+    paths: [".github/workflows/c3-exact-static-mother-recovery.yml"] # Avoid unrelated branch pushes.
+permissions: # Declare the exact token permissions required by the recovery task.
+  contents: read # Permit checkout of the immutable C3 parent fragments.
+  actions: read # Permit read-only enumeration and download of prior Actions artifacts.
+jobs: # Define the single recovery job.
+  recover: # Enumerate prior evidence, verify structural identity, and retain the exact static mother.
+    runs-on: ubuntu-24.04 # Use a current runner with standard Python and archive tools.
+    timeout-minutes: 90 # Bound historical artifact enumeration and download.
+    env: # Freeze the exact released C3 parent identity and source location.
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14 # Locate the exact released C3 input fragments.
+      C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Lock the exact C3 parent bytes.
+    steps: # Execute the complete structural recovery chain.
+      - name: Checkout immutable Track A analysis branch # Fetch the exact triggering snapshot.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.sha }} # Bind the recovery to the immutable triggering commit.
+          fetch-depth: 1 # Fetch only the required snapshot.
+          persist-credentials: false # Keep repository contents read-only.
+      - name: Reconstruct exact released C3 parent # Restore and verify the full parent deck.
+        shell: bash # Execute deterministic Bash commands.
+        run: | # Run one strict reconstruction script.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          mkdir -p work/results work/artifacts # Create isolated working and evidence directories.
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > work/C3_parent.inp # Reconstruct the exact released full C3 input.
+          printf '%s  %s\n' "$C3_SHA" work/C3_parent.inp | sha256sum -c - # Reject any parent identity drift.
+      - name: Recover exact C3 nonlinear static mother from Actions history # Search prior full-size decks by structural hashes and static-step content.
+        shell: bash # Execute the fully commented Python recovery program.
+        env: # Provide the ephemeral read-only Actions token.
+          GH_TOKEN: ${{ github.token }} # Authorize historical artifact reads.
+          GH_REPOSITORY: ${{ github.repository }} # Bind the current owner/name repository identity.
+        run: | # Emit and execute the deterministic recovery program.
+          cat > work/recover_static_mother.py <<'PY' # Write the complete recovery source file.
+          from __future__ import annotations  # Keep annotations deterministic on the runner Python version.
+          from pathlib import Path  # Resolve downloaded archives and candidate files deterministically.
+          import hashlib  # Build exact structural signatures for model-definition families.
+          import io  # Hold downloaded ZIP archives before extraction.
+          import json  # Parse GitHub metadata and publish the complete recovery audit.
+          import os  # Read the ephemeral token and repository identity.
+          import re  # Parse CalculiX keyword attributes and equation bodies.
+          import shutil  # Preserve the selected static mother without rewriting its bytes.
+          import tarfile  # Inspect nested tar archives when present in historical artifacts.
+          import urllib.error  # Preserve bounded download failures as audit records.
+          import urllib.request  # Call the GitHub REST API with read-only credentials.
+          import zipfile  # Inspect Actions artifact ZIP archives and nested ZIP files.
+          ROOT = Path('work')  # Bind the isolated workflow working directory.
+          PARENT = ROOT / 'C3_parent.inp'  # Bind the exact released C3 modal parent.
+          ARTIFACT_ROOT = ROOT / 'artifacts'  # Bind the historical artifact extraction root.
+          RESULTS = ROOT / 'results'  # Bind the stable recovery evidence directory.
+          TOKEN = os.environ['GH_TOKEN']  # Read the ephemeral workflow token.
+          REPOSITORY = os.environ['GH_REPOSITORY']  # Read the owner/name repository identity.
+          RUN_HINTS = ('c3', 'static', 'nlgeom', 'gravity', 'prestress', 'formfind', 'height', 'track', 'ucab3', 'ucor6')  # Define broad run-name hints without using frequencies.
+          ARTIFACT_HINTS = ('c3', 'static', 'nlgeom', 'gravity', 'prestress', 'formfind', 'height', 'track', 'full', 'model', 'deck')  # Define broad artifact-name hints without using frequencies.
+          def request_json(url: str) -> dict[str, object]:  # Fetch one GitHub REST JSON document.
+              request = urllib.request.Request(url, headers={'Authorization': f'Bearer {TOKEN}', 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})  # Build one authenticated read-only request.
+              with urllib.request.urlopen(request, timeout=120) as response:  # Execute the bounded request.
+                  return json.load(response)  # Decode and return the JSON response.
+          def request_bytes(url: str) -> bytes:  # Download one historical Actions artifact archive.
+              request = urllib.request.Request(url, headers={'Authorization': f'Bearer {TOKEN}', 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})  # Build one authenticated archive request.
+              with urllib.request.urlopen(request, timeout=600) as response:  # Follow redirects and download bounded bytes.
+                  return response.read()  # Return the complete ZIP archive.
+          def digest_rows(rows: list[str]) -> str:  # Hash one normalized ordered record family.
+              digest = hashlib.sha256()  # Initialize a fresh SHA-256 state.
+              for row in rows:  # Traverse each normalized record once.
+                  digest.update(row.encode('ascii', errors='ignore'))  # Bind the normalized ASCII record.
+                  digest.update(b'\n')  # Preserve record boundaries in the signature.
+              return digest.hexdigest()  # Return the lowercase hexadecimal identity.
+          def attributes(line: str) -> dict[str, str]:  # Parse comma-separated keyword attributes.
+              result: dict[str, str] = {}  # Initialize the normalized attribute mapping.
+              for field in line.split(',')[1:]:  # Traverse fields after the leading keyword.
+                  if '=' not in field:  # Ignore flag-only attributes.
+                      continue  # Continue to the next field.
+                  key, value = field.split('=', 1)  # Split one key-value attribute.
+                  result[key.strip().upper()] = value.strip().upper()  # Preserve normalized key and value.
+              return result  # Return the parsed attribute mapping.
+          def model_signature(path: Path) -> dict[str, object]:  # Parse one complete input into exact structural and step signatures.
+              node_rows: list[str] = []  # Accumulate normalized model-level node-coordinate rows.
+              element_rows: list[str] = []  # Accumulate normalized model-level element type and connectivity rows.
+              equation_rows: list[str] = []  # Accumulate normalized model-level equation rows.
+              initial_rows: list[str] = []  # Accumulate normalized model-level initial-condition rows.
+              keyword_rows: list[str] = []  # Accumulate analysis-step and load keywords.
+              element_counts: dict[str, int] = {}  # Count exact element types.
+              node_count = 0  # Count explicitly defined nodes.
+              equation_count = 0  # Count model-level equations.
+              initial_count = 0  # Count model-level initial-condition rows.
+              active_node = False  # Track one NODE block.
+              active_element: str | None = None  # Track one ELEMENT block.
+              active_initial = False  # Track one initial-condition block.
+              before_step = True  # Restrict structural signatures to definitions preceding the first step.
+              with path.open('r', encoding='ascii', errors='ignore') as handle:  # Stream the complete candidate once.
+                  lines = iter(handle)  # Create an iterator for direct equation-body consumption.
+                  for raw in lines:  # Traverse every input record.
+                      line = raw.strip()  # Normalize surrounding whitespace.
+                      upper = line.upper()  # Normalize keyword matching.
+                      if not line or line.startswith('**'):  # Ignore blank and comment rows.
+                          continue  # Continue traversal.
+                      if upper.startswith('*'):  # Handle one keyword record.
+                          if upper.startswith('*STEP'):  # Detect the first analysis step.
+                              before_step = False  # Close the structural-signature region.
+                          active_node = before_step and (upper == '*NODE' or upper.startswith('*NODE,'))  # Select model-level node blocks only.
+                          active_element = None  # Close any prior element block.
+                          active_initial = before_step and upper.startswith('*INITIAL CONDITIONS')  # Select model-level initial-condition blocks.
+                          if before_step and upper.startswith('*ELEMENT,'):  # Parse one model-level element header.
+                              active_element = attributes(line).get('TYPE', '')  # Select the normalized element type.
+                          if before_step and upper == '*EQUATION':  # Parse one model-level equation block.
+                              declared_line = next(lines, '').strip()  # Read the declared sparse arity.
+                              if not declared_line:  # Reject a truncated equation declaration.
+                                  raise ValueError(f'Truncated EQUATION declaration in {path}')  # Surface the malformed candidate.
+                              declared = int(declared_line.split(',')[0])  # Parse the declared term count.
+                              fields: list[str] = []  # Accumulate continuation fields.
+                              while len(fields) < 3 * declared:  # Consume the complete sparse equation body.
+                                  body = next(lines, '').strip()  # Read one continuation row.
+                                  if not body or body.startswith('*'):  # Reject a truncated or interrupted equation body.
+                                      raise ValueError(f'Truncated EQUATION body in {path}')  # Surface the malformed candidate.
+                                  fields.extend(field.strip() for field in body.split(',') if field.strip())  # Append nonempty sparse fields.
+                              normalized_terms = []  # Accumulate normalized sparse terms.
+                              for position in range(declared):  # Traverse each declared sparse term.
+                                  node = int(fields[3 * position])  # Parse the node label.
+                                  dof = int(fields[3 * position + 1])  # Parse the degree of freedom.
+                                  coefficient = float(fields[3 * position + 2].replace('D', 'E').replace('d', 'e'))  # Parse the coefficient.
+                                  normalized_terms.append((node, dof, round(coefficient, 12)))  # Preserve the normalized sparse term.
+                              equation_rows.append(repr(tuple(sorted(normalized_terms))))  # Preserve an order-independent equation signature.
+                              equation_count += 1  # Count one model-level equation.
+                              active_node = False  # Close node state after direct equation consumption.
+                              active_element = None  # Close element state after direct equation consumption.
+                              active_initial = False  # Close initial-condition state after direct equation consumption.
+                              continue  # Continue traversal after the equation block.
+                          if not before_step and any(upper.startswith(prefix) for prefix in ('*STEP', '*STATIC', '*FREQUENCY', '*DLOAD', '*CLOAD', '*BOUNDARY', '*END STEP')):  # Select analysis-step and load keywords.
+                              keyword_rows.append(upper)  # Preserve the normalized keyword.
+                          continue  # Complete keyword handling.
+                      if not before_step:  # Ignore step data for structural signatures.
+                          continue  # Continue traversal.
+                      if active_node:  # Parse one model-level node row.
+                          fields = [field.strip() for field in line.split(',')]  # Split node label and coordinates.
+                          if len(fields) >= 4:  # Require three coordinate values.
+                              node_rows.append(f'{int(fields[0])},{float(fields[1]):.12g},{float(fields[2]):.12g},{float(fields[3]):.12g}')  # Normalize the coordinate row.
+                              node_count += 1  # Count one node.
+                      elif active_element is not None:  # Parse one model-level element row.
+                          values = [int(field.strip()) for field in line.split(',') if field.strip()]  # Parse element and connectivity labels.
+                          if values:  # Require one element label.
+                              element_rows.append(f"{active_element}:{','.join(str(value) for value in values)}")  # Normalize type and connectivity.
+                              element_counts[active_element] = element_counts.get(active_element, 0) + 1  # Increment the exact element-type count.
+                      elif active_initial:  # Parse one model-level initial-condition row.
+                          initial_rows.append(','.join(field.strip() for field in line.split(',')))  # Preserve normalized initial-condition data.
+                          initial_count += 1  # Count one initial-condition row.
+              has_nlgeom = any(keyword.startswith('*STEP') and 'NLGEOM' in keyword for keyword in keyword_rows)  # Detect geometrically nonlinear analysis.
+              has_static = any(keyword.startswith('*STATIC') for keyword in keyword_rows)  # Detect a static equilibrium procedure.
+              has_frequency = any(keyword.startswith('*FREQUENCY') for keyword in keyword_rows)  # Detect modal extraction.
+              has_dload = any(keyword.startswith('*DLOAD') for keyword in keyword_rows)  # Detect distributed or gravity loading.
+              has_perturbation = any(keyword.startswith('*STEP') and 'PERTURBATION' in keyword for keyword in keyword_rows)  # Detect perturbation extraction.
+              return {'path': str(path), 'bytes': path.stat().st_size, 'node_count': node_count, 'node_hash': digest_rows(node_rows), 'element_count': len(element_rows), 'element_hash': digest_rows(element_rows), 'element_counts': element_counts, 'equation_count': equation_count, 'equation_hash': digest_rows(sorted(equation_rows)), 'initial_count': initial_count, 'initial_hash': digest_rows(initial_rows), 'has_nlgeom': has_nlgeom, 'has_static': has_static, 'has_frequency': has_frequency, 'has_dload': has_dload, 'has_perturbation': has_perturbation, 'keyword_rows': keyword_rows}  # Return the complete candidate signature.
+          def extract_nested_archives(directory: Path) -> None:  # Expand bounded nested archives commonly stored inside Actions artifacts.
+              for archive in list(directory.rglob('*')):  # Traverse the initially extracted artifact files.
+                  if not archive.is_file():  # Ignore directories.
+                      continue  # Continue traversal.
+                  lower = archive.name.lower()  # Normalize the archive filename.
+                  destination = archive.parent / f'{archive.name}.extracted'  # Resolve a stable nested extraction directory.
+                  try:  # Isolate archive-specific extraction failures.
+                      if lower.endswith('.zip') and archive.stat().st_size <= 800_000_000:  # Admit bounded nested ZIP archives.
+                          destination.mkdir(parents=True, exist_ok=True)  # Create the nested extraction directory.
+                          with zipfile.ZipFile(archive) as handle:  # Open the nested ZIP archive.
+                              handle.extractall(destination)  # Extract every nested file.
+                      elif (lower.endswith('.tar.gz') or lower.endswith('.tgz')) and archive.stat().st_size <= 800_000_000:  # Admit bounded nested gzip-compressed tar archives.
+                          destination.mkdir(parents=True, exist_ok=True)  # Create the nested extraction directory.
+                          with tarfile.open(archive, 'r:gz') as handle:  # Open the nested tar archive.
+                              handle.extractall(destination)  # Extract every nested file.
+                  except (zipfile.BadZipFile, tarfile.TarError, OSError):  # Ignore malformed or unsupported nested archives.
+                      continue  # Continue to the next file.
+          parent = model_signature(PARENT)  # Parse the exact released C3 parent once.
+          runs: list[dict[str, object]] = []  # Accumulate recent workflow-run metadata.
+          for page in range(1, 13):  # Read at most twelve hundred recent workflow runs.
+              payload = request_json(f'https://api.github.com/repos/{REPOSITORY}/actions/runs?per_page=100&page={page}')  # Fetch one workflow-run page.
+              page_runs = payload.get('workflow_runs', [])  # Select the run list.
+              if not isinstance(page_runs, list) or not page_runs:  # Stop at the first empty page.
+                  break  # Exit pagination.
+              runs.extend(page_runs)  # Append the current page.
+          artifact_records: list[dict[str, object]] = []  # Accumulate candidate artifact metadata with parent-run context.
+          for run in runs:  # Traverse recent workflow runs.
+              run_text = ' '.join((str(run.get('name', '')), str(run.get('display_title', '')), str(run.get('head_branch', '')))).lower()  # Form the normalized run descriptor.
+              run_hint = any(hint in run_text for hint in RUN_HINTS)  # Detect broad C3/static relevance.
+              if not run_hint:  # Skip clearly unrelated workflow runs before artifact enumeration.
+                  continue  # Continue to the next run.
+              run_id = int(run['id'])  # Select the numeric workflow-run identity.
+              artifacts_payload = request_json(f'https://api.github.com/repos/{REPOSITORY}/actions/runs/{run_id}/artifacts?per_page=100')  # Fetch run artifacts.
+              artifacts = artifacts_payload.get('artifacts', [])  # Select the artifact list.
+              if not isinstance(artifacts, list):  # Ignore malformed metadata.
+                  continue  # Continue to the next run.
+              for artifact in artifacts:  # Traverse every run artifact.
+                  if bool(artifact.get('expired', False)):  # Skip expired artifacts.
+                      continue  # Continue to the next artifact.
+                  size = int(artifact.get('size_in_bytes', 0))  # Select compressed artifact size.
+                  if size <= 0 or size > 900_000_000:  # Bound individual downloads.
+                      continue  # Continue to the next artifact.
+                  artifact_name = str(artifact.get('name', '')).lower()  # Normalize the artifact name.
+                  if not run_hint and not any(hint in artifact_name for hint in ARTIFACT_HINTS):  # Preserve only broadly relevant packages.
+                      continue  # Continue to the next artifact.
+                  artifact_records.append({'artifact': artifact, 'run': run})  # Preserve artifact and run context.
+          audits: list[dict[str, object]] = []  # Accumulate complete candidate-deck audits.
+          download_errors: list[dict[str, object]] = []  # Accumulate bounded artifact download failures.
+          for position, record in enumerate(artifact_records[:360]):  # Bound recovery to the first 360 relevant artifacts.
+              artifact = record['artifact']  # Select artifact metadata.
+              artifact_id = int(artifact['id'])  # Select the numeric artifact identity.
+              try:  # Preserve artifact-specific network failures without aborting the complete search.
+                  archive = request_bytes(f'https://api.github.com/repos/{REPOSITORY}/actions/artifacts/{artifact_id}/zip')  # Download the artifact ZIP archive.
+              except Exception as error:  # Catch bounded HTTP and network failures.
+                  download_errors.append({'artifact_id': artifact_id, 'error': f'{type(error).__name__}: {error}'})  # Preserve the failed download record.
+                  continue  # Continue to the next artifact.
+              directory = ARTIFACT_ROOT / f'{position:03d}_{artifact_id}'  # Resolve a stable extraction directory.
+              directory.mkdir(parents=True, exist_ok=True)  # Create the extraction directory.
+              try:  # Extract only valid artifact ZIP archives.
+                  with zipfile.ZipFile(io.BytesIO(archive)) as handle:  # Open the in-memory artifact archive.
+                      handle.extractall(directory)  # Extract every evidence file.
+              except zipfile.BadZipFile as error:  # Preserve malformed artifact archives.
+                  download_errors.append({'artifact_id': artifact_id, 'error': f'BadZipFile: {error}'})  # Record the malformed archive.
+                  continue  # Continue to the next artifact.
+              extract_nested_archives(directory)  # Expand bounded nested archives inside the artifact.
+              for path in directory.rglob('*.inp'):  # Traverse every extracted CalculiX input deck.
+                  if not path.is_file():  # Ignore directories.
+                      continue  # Continue traversal.
+                  if path.stat().st_size < 20_000_000 or path.stat().st_size > 300_000_000:  # Require a full-size but bounded C3-scale deck.
+                      continue  # Continue to the next input deck.
+                  try:  # Convert malformed candidates into explicit audit records.
+                      candidate = model_signature(path)  # Parse the candidate structural and step signature.
+                  except Exception as error:  # Catch candidate-specific parser failures.
+                      audits.append({'artifact_id': artifact_id, 'path': str(path), 'parse_error': f'{type(error).__name__}: {error}'})  # Preserve the bounded failure record.
+                      continue  # Continue to the next input deck.
+                  candidate['artifact_id'] = artifact_id  # Record the source artifact identity.
+                  candidate['artifact_name'] = artifact.get('name')  # Record the source artifact name.
+                  candidate['run_id'] = record['run'].get('id')  # Record the source workflow-run identity.
+                  candidate['workflow_name'] = record['run'].get('name')  # Record the source workflow name.
+                  candidate['display_title'] = record['run'].get('display_title')  # Record the source workflow title.
+                  candidate['head_sha'] = record['run'].get('head_sha')  # Record the source commit identity.
+                  candidate['node_match'] = candidate['node_count'] == parent['node_count'] and candidate['node_hash'] == parent['node_hash']  # Compare exact node labels and coordinates.
+                  candidate['element_match'] = candidate['element_count'] == parent['element_count'] and candidate['element_hash'] == parent['element_hash']  # Compare exact element types and connectivity.
+                  candidate['equation_match'] = candidate['equation_count'] == parent['equation_count'] and candidate['equation_hash'] == parent['equation_hash']  # Compare exact model-level equation multisets.
+                  candidate['initial_match'] = candidate['initial_count'] == parent['initial_count'] and candidate['initial_hash'] == parent['initial_hash']  # Compare exact initial-condition rows.
+                  candidate['exact_static_mother'] = bool(candidate['node_match'] and candidate['element_match'] and candidate['equation_match'] and candidate['initial_match'] and candidate['has_nlgeom'] and candidate['has_static'] and candidate['has_dload'])  # Identify an exact-physics nonlinear C3 static mother.
+                  audits.append(candidate)  # Preserve the complete candidate audit.
+          eligible = [candidate for candidate in audits if candidate.get('exact_static_mother')]  # Select exact-physics nonlinear static mothers.
+          eligible.sort(key=lambda candidate: (not bool(candidate.get('has_frequency')), -int(candidate.get('bytes', 0)), int(candidate.get('artifact_id', 0)), str(candidate.get('path'))))  # Prefer a static-plus-modal deck and then the most complete immutable file.
+          selection = eligible[0] if eligible else None  # Select the strongest exact static mother.
+          RESULTS.mkdir(parents=True, exist_ok=True)  # Ensure the recovery output directory exists.
+          if selection is not None:  # Preserve the selected full static mother unchanged.
+              selected_path = Path(str(selection['path']))  # Bind the selected candidate path.
+              shutil.copy2(selected_path, RESULTS / 'C3_EXACT_NLGEOM_STATIC_MOTHER.inp')  # Preserve the exact static mother bytes.
+              source_directory = selected_path.parents[0]  # Bind the immediate source directory.
+              for source in source_directory.glob('*'):  # Preserve nearby native outputs when present.
+                  if not source.is_file():  # Ignore directories.
+                      continue  # Continue traversal.
+                  if source.suffix.lower() not in {'.dat', '.frd', '.sta', '.cvg', '.txt', '.json', '.md'}:  # Restrict copied context to solver and audit evidence.
+                      continue  # Continue to the next file.
+                  if source.stat().st_size > 700_000_000:  # Bound copied context size.
+                      continue  # Skip oversized nonessential files.
+                  destination = RESULTS / f'source_{source.name}'  # Resolve a collision-safe evidence filename.
+                  shutil.copy2(source, destination)  # Preserve the source evidence bytes.
+          report = {'status': 'FOUND' if selection is not None else 'NOT_FOUND', 'selection_found': selection is not None, 'selection': selection, 'eligible_count': len(eligible), 'candidate_deck_count': len(audits), 'artifact_count_considered': len(artifact_records), 'workflow_run_count_considered': len(runs), 'parent_signature': parent, 'target_frequency_used': False, 'download_errors': download_errors, 'audits': audits}  # Build the complete structural recovery audit.
+          (RESULTS / 'C3_STATIC_MOTHER_RECOVERY.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the machine-readable recovery record.
+          PY
+          python3 work/recover_static_mother.py # Execute the deterministic structural recovery program.
+          sha256sum work/results/* > work/results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for every recovered evidence file.
+      - name: Upload exact nonlinear C3 static-mother recovery # Publish the full mother deck and structural audit.
+        if: always() # Preserve both positive and negative recovery evidence.
+        uses: actions/upload-artifact@v4 # Store the recovery package as an Actions artifact.
+        with: # Configure a stable artifact name and bounded retention.
+          name: C3-exact-nlgeom-static-mother-recovery # Identify the exact structural-hash recovery package.
+          path: work/results/ # Upload the recovered mother and complete audit.
+          if-no-files-found: error # Require the recovery audit to exist.
+          retention-days: 30 # Keep evidence available for independent review.
+          compression-level: 9 # Compress large ASCII input decks efficiently.
