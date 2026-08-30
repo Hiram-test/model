@@ -1,0 +1,82 @@
+# Export the validated custom CalculiX executable used by the frozen C3 entity model.
+name: Export C3 custom CalculiX solver
+# Trigger the export when this workflow is introduced or revised on the C0-C5 branch.
+on:
+  # Use a branch push so the export starts from the committed repository state.
+  push:
+    # Restrict execution to the physical-reproduction branch.
+    branches:
+      # Select the branch containing the solver parts.
+      - feat/catwalk-c0-c5-physical-reproduction
+    # Avoid unrelated workflow runs.
+    paths:
+      # Trigger only on this workflow definition.
+      - ".github/workflows/export-c3-custom-solver.yml"
+# Read-only repository access is sufficient for artifact export.
+permissions:
+  # Permit checkout of solver parts.
+  contents: read
+# Define the reconstruction job.
+jobs:
+  # Rebuild and verify the exact custom solver binary.
+  export:
+    # Match the operating-system generation used by the successful C3 run.
+    runs-on: ubuntu-24.04
+    # Bound the reconstruction operation.
+    timeout-minutes: 15
+    # Freeze the source path and binary digest.
+    env:
+      # Point to the base64-compressed custom solver parts.
+      PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3
+      # Preserve the validated executable digest.
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e
+    # Execute checkout, reconstruction, verification, and upload.
+    steps:
+      # Check out the solver package from the target branch.
+      - name: Checkout custom solver package
+        # Use GitHub's maintained checkout action.
+        uses: actions/checkout@v4
+        # Pin the source branch and disable write credentials.
+        with:
+          # Select the branch containing the validated solver pieces.
+          ref: feat/catwalk-c0-c5-physical-reproduction
+          # Fetch only the current branch tip.
+          fetch-depth: 1
+          # Keep this export operation read-only.
+          persist-credentials: false
+      # Reconstruct and verify the binary exactly.
+      - name: Reconstruct and verify custom solver
+        # Run strict Bash commands.
+        shell: bash
+        # Decode the solver stream and verify its digest.
+        run: |
+          # Stop on errors, unset variables, and failed pipeline elements.
+          set -euxo pipefail
+          # Create the artifact staging directory.
+          mkdir -p export
+          # Concatenate, base64-decode, and decompress the executable.
+          cat "$PARTS"/part*.b64 | base64 -d | gzip -dc > export/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64
+          # Mark the reconstructed solver executable.
+          chmod +x export/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64
+          # Reject any executable that differs from the validated digest.
+          printf '%s  %s\n' "$CCX_SHA" export/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64 | sha256sum -c -
+          # Record the exact digest beside the executable.
+          sha256sum export/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64 > export/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64.sha256
+          # Record dynamic runtime dependencies for local execution checks.
+          ldd export/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64 > export/ccx-runtime-dependencies.txt
+      # Publish the verified executable as a workflow artifact.
+      - name: Upload exact custom solver
+        # Use GitHub's maintained artifact uploader.
+        uses: actions/upload-artifact@v4
+        # Configure the exported runtime package.
+        with:
+          # Give the package a stable descriptive name.
+          name: c3-custom-ccx-b498dad8
+          # Include the executable, digest, and dependency record.
+          path: export/
+          # Fail when reconstruction produced no output.
+          if-no-files-found: error
+          # Retain the runtime through the current modification cycle.
+          retention-days: 30
+          # Compress the executable efficiently.
+          compression-level: 9
