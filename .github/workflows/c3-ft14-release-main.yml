@@ -7,7 +7,6 @@ permissions: # Grant only the repository permission required for a release.
   contents: write # Permit tag, release, and asset creation.
 jobs: # Define one bounded publication job.
   publish: # Reconstruct, verify, and release the exact deck.
-    if: ${{ github.event.head_commit.message == 'publish C3 FT14 release asset' }} # Run only for the intentional one-shot publication commit.
     runs-on: ubuntu-22.04 # Pull a clean GitHub-hosted runner.
     timeout-minutes: 15 # Bound checkout, reconstruction, and upload time.
     env: # Freeze release identifiers and paths.
@@ -25,6 +24,9 @@ jobs: # Define one bounded publication job.
       - name: Reconstruct and verify exact deck # Join ordered parts and reject identity drift.
         shell: bash # Use strict Bash pipeline semantics.
         run: set -euxo pipefail; mkdir -p release; cat "$PARTS"/*.inp.gz.part* | gzip -dc > "$DECK"; printf '%s  %s\n' "$EXPECTED_SHA256" "$DECK" | sha256sum -c -; sha256sum "$DECK" > "$DECK.sha256"; test "$(stat -c %s "$DECK")" = 26839638 # Recreate and verify all 26,839,638 bytes.
+      - name: Package CalculiX ccx # Add a ready-to-run Linux solver beside the deck.
+        shell: bash # Install the Ubuntu 22.04 CalculiX package and preserve its version.
+        run: set -euxo pipefail; sudo apt-get update; sudo apt-get install -y calculix-ccx; cp "$(command -v ccx)" release/ccx-linux-x86_64; chmod +x release/ccx-linux-x86_64; ccx -v > release/ccx-version.txt 2>&1 || true; sha256sum release/ccx-linux-x86_64 > release/ccx-linux-x86_64.sha256
       - name: Upload runner artifact # Retain the reconstructed input for immediate downstream use.
         uses: actions/upload-artifact@v4 # Upload the exact input and checksum.
         with: # Bind the artifact contract.
@@ -37,4 +39,4 @@ jobs: # Define one bounded publication job.
         env: # Expose only the workflow-scoped repository token.
           GH_TOKEN: ${{ github.token }} # Authenticate same-repository release publication.
         shell: bash # Use GitHub CLI for release creation.
-        run: gh release create "$TAG" "$DECK" "$DECK.sha256" --target feat/catwalk-c0-c5-physical-reproduction --title "C3 FT14 parser-safe CalculiX deck" --notes "Exact 14-mode C3 upper-bound frozen-tangent input. Size 26,839,638 bytes. SHA-256 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86." --repo "$GITHUB_REPOSITORY" # Create the release and upload both verified assets.
+        run: if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then gh release upload "$TAG" "$DECK" "$DECK.sha256" release/ccx-linux-x86_64 release/ccx-linux-x86_64.sha256 release/ccx-version.txt --clobber --repo "$GITHUB_REPOSITORY"; else gh release create "$TAG" "$DECK" "$DECK.sha256" release/ccx-linux-x86_64 release/ccx-linux-x86_64.sha256 release/ccx-version.txt --target feat/catwalk-c0-c5-physical-reproduction --title "C3 FT14 parser-safe CalculiX deck" --notes "Exact 14-mode C3 upper-bound frozen-tangent input. Size 26,839,638 bytes. SHA-256 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86. Includes Ubuntu 22.04 Linux x86_64 ccx." --repo "$GITHUB_REPOSITORY"; fi # Upload to the existing release or create it once when absent.
