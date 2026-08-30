@@ -12,8 +12,11 @@ jobs: # Define one bounded publication job.
     env: # Freeze release identifiers and paths.
       TAG: c3-ft14-parser-safe-667c5047 # Use the content-addressed release tag.
       PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14 # Select the seven committed gzip parts.
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3 # Select the frozen FT14 solver package.
       DECK: release/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp # Restore the exact requested filename.
+      CCX: release/ccx-2.23-UCOR6-UCAB3-FT14-linux-x86_64 # Name the exact custom executable explicitly.
       EXPECTED_SHA256: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Freeze the authoritative deck identity.
+      EXPECTED_CCX_SHA256: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e # Freeze the executable used by the completed FT14 run.
     steps: # Execute checkout, reconstruction, verification, artifact retention, and publication.
       - name: Checkout C3 release parts # Pull the exact feature-branch package.
         uses: actions/checkout@v4 # Use the maintained checkout action.
@@ -24,9 +27,9 @@ jobs: # Define one bounded publication job.
       - name: Reconstruct and verify exact deck # Join ordered parts and reject identity drift.
         shell: bash # Use strict Bash pipeline semantics.
         run: set -euxo pipefail; mkdir -p release; cat "$PARTS"/*.inp.gz.part* | gzip -dc > "$DECK"; printf '%s  %s\n' "$EXPECTED_SHA256" "$DECK" | sha256sum -c -; sha256sum "$DECK" > "$DECK.sha256"; test "$(stat -c %s "$DECK")" = 26839638 # Recreate and verify all 26,839,638 bytes.
-      - name: Package CalculiX ccx # Add a ready-to-run Linux solver beside the deck.
-        shell: bash # Install the Ubuntu 22.04 CalculiX package and preserve its version.
-        run: set -euxo pipefail; sudo apt-get update; sudo apt-get install -y calculix-ccx; cp "$(command -v ccx)" release/ccx-linux-x86_64; chmod +x release/ccx-linux-x86_64; ccx -v > release/ccx-version.txt 2>&1 || true; sha256sum release/ccx-linux-x86_64 > release/ccx-linux-x86_64.sha256
+      - name: Reconstruct custom CalculiX ccx # Restore the exact UCOR6 plus UCAB3 eigen-shift executable used for FT14.
+        shell: bash # Decode, decompress, and verify the immutable custom solver.
+        run: set -euxo pipefail; cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > "$CCX"; chmod +x "$CCX"; printf '%s  %s\n' "$EXPECTED_CCX_SHA256" "$CCX" | sha256sum -c -; sha256sum "$CCX" > "$CCX.sha256"; ldd "$CCX" > release/ccx-runtime-dependencies.txt
       - name: Upload runner artifact # Retain the reconstructed input for immediate downstream use.
         uses: actions/upload-artifact@v4 # Upload the exact input and checksum.
         with: # Bind the artifact contract.
@@ -39,4 +42,4 @@ jobs: # Define one bounded publication job.
         env: # Expose only the workflow-scoped repository token.
           GH_TOKEN: ${{ github.token }} # Authenticate same-repository release publication.
         shell: bash # Use GitHub CLI for release creation.
-        run: if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then gh release upload "$TAG" "$DECK" "$DECK.sha256" release/ccx-linux-x86_64 release/ccx-linux-x86_64.sha256 release/ccx-version.txt --clobber --repo "$GITHUB_REPOSITORY"; else gh release create "$TAG" "$DECK" "$DECK.sha256" release/ccx-linux-x86_64 release/ccx-linux-x86_64.sha256 release/ccx-version.txt --target feat/catwalk-c0-c5-physical-reproduction --title "C3 FT14 parser-safe CalculiX deck" --notes "Exact 14-mode C3 upper-bound frozen-tangent input. Size 26,839,638 bytes. SHA-256 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86. Includes Ubuntu 22.04 Linux x86_64 ccx." --repo "$GITHUB_REPOSITORY"; fi # Upload to the existing release or create it once when absent.
+        run: gh release delete-asset "$TAG" ccx-linux-x86_64 --yes --repo "$GITHUB_REPOSITORY" 2>/dev/null || true; gh release delete-asset "$TAG" ccx-linux-x86_64.sha256 --yes --repo "$GITHUB_REPOSITORY" 2>/dev/null || true; gh release delete-asset "$TAG" ccx-version.txt --yes --repo "$GITHUB_REPOSITORY" 2>/dev/null || true; if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then gh release upload "$TAG" "$DECK" "$DECK.sha256" "$CCX" "$CCX.sha256" release/ccx-runtime-dependencies.txt --clobber --repo "$GITHUB_REPOSITORY"; else gh release create "$TAG" "$DECK" "$DECK.sha256" "$CCX" "$CCX.sha256" release/ccx-runtime-dependencies.txt --target feat/catwalk-c0-c5-physical-reproduction --title "C3 FT14 parser-safe CalculiX deck" --notes "Exact C3 FT14 deck plus the bound CalculiX 2.23 UCOR6+UCAB3 custom solver with symmetric shift -0.001. Deck SHA-256 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86; solver SHA-256 b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e." --repo "$GITHUB_REPOSITORY"; fi # Remove the misleading stock binary and publish the exact FT14 solver.
