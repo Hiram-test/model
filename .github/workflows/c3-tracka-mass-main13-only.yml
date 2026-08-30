@@ -1,0 +1,80 @@
+# Apply only the Track A thirteen-passage full-versus-half MASS21 bookkeeping error to the exact released C3 model.
+name: C3 TrackA main13 mass-only solve # Give the mass-only verification workflow an explicit name.
+# Start only when this workflow definition is committed on the isolated analysis branch.
+on: # Define the deterministic trigger.
+  push: # Run after the workflow file is pushed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the current isolated Track A branch.
+    paths: [".github/workflows/c3-tracka-mass-main13-only.yml"] # Avoid unrelated branch pushes.
+# Keep repository access read-only because outputs are retained as Actions artifacts.
+permissions: # Declare the minimum token permissions.
+  contents: read # Permit checkout of the immutable triggering commit.
+# Define the single full-C3 mass-only solve.
+jobs: # Hold the deterministic solver job.
+  solve: # Reconstruct the parent, add only duplicate mass, solve forty modes, and retain evidence.
+    runs-on: ubuntu-24.04 # Match the validated custom CalculiX environment.
+    timeout-minutes: 90 # Bound reconstruction and forty-mode extraction.
+    env: # Freeze every source identity and runtime control.
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14 # Locate the exact released C3 input fragments.
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3 # Locate the validated UCOR6 plus UCAB3 solver fragments.
+      PATCH_PARTS: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/c3_entity_patcher # Locate the direct full-C3 Track A patcher fragments.
+      C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Lock the exact C3 parent identity.
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e # Lock the validated custom solver identity.
+      OMP_NUM_THREADS: "1" # Keep sparse modal extraction deterministic and memory-bounded.
+    steps: # Execute the complete mass-only chain.
+      - name: Checkout immutable Track A analysis branch # Fetch the exact triggering snapshot.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.sha }} # Bind the run to the triggering commit.
+          fetch-depth: 1 # Fetch only the immutable snapshot.
+          persist-credentials: false # Keep the checked-out repository read-only.
+      - name: Reconstruct exact C3 parent patcher and solver # Restore every content-addressed input.
+        shell: bash # Execute deterministic Bash commands.
+        run: | # Run one strict reconstruction script.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          mkdir -p run results # Create isolated working and evidence directories.
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > run/source.inp # Reconstruct the exact released C3 parent deck.
+          printf '%s  %s\n' "$C3_SHA" run/source.inp | sha256sum -c - # Reject any parent-deck identity drift.
+          cat "$PATCH_PARTS"/patch_c3_entity_forensic.py.gz.b64.part* | base64 -d | gzip -dc > run/patch_c3_entity_forensic.py # Reconstruct the direct full-C3 Track A patcher.
+          python3 -m py_compile run/patch_c3_entity_forensic.py # Reject a syntactically invalid patcher.
+          cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx # Reconstruct the validated custom CalculiX executable.
+          chmod +x run/ccx # Make the reconstructed solver executable.
+          printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c - # Reject any solver identity drift.
+      - name: Install validated solver runtime # Supply the required numerical libraries.
+        shell: bash # Use Bash for package installation.
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq liblapack3 libblas3 libgfortran5 # Install only the required shared libraries.
+      - name: Add only the thirteen-passage duplicate MASS21 bookkeeping term # Generate the mass-only daughter input.
+        shell: bash # Execute the patcher under strict Bash control.
+        run: | # Apply zero stiffness scales and one main-thirteen mass scale.
+          set -euxo pipefail # Stop on every patch or invariant failure.
+          python3 run/patch_c3_entity_forensic.py --source run/source.inp --output run/C3_TrackA_mass_main13_only.inp --shared-scale 0.0 --end-scale 0.0 --mass-scale 1.0 --mass-scope main13 --roots 40 # Preserve C3 stiffness while adding the audited 131.749949-tonne duplicate mass on the thirteen main-span passages.
+          sha256sum run/C3_TrackA_mass_main13_only.inp > results/C3_TrackA_mass_main13_only.inp.sha256 # Record the complete mass-only daughter identity.
+          cp run/C3_TrackA_mass_main13_only.inp results/ # Retain the complete mass-only C3 input.
+          cp run/C3_TrackA_mass_main13_only.inp.receipt.json results/ # Retain the machine-readable patch receipt.
+      - name: Solve forty modes on the C3 mass-only daughter # Run the validated custom CalculiX executable.
+        shell: bash # Preserve the native solver exit status through tee.
+        run: | # Execute the exact generated daughter deck.
+          set -o pipefail # Return a failed solver status to Actions.
+          cd run # Enter the isolated CalculiX working directory.
+          cp C3_TrackA_mass_main13_only.inp job.inp # Use the conventional CalculiX input stem without editing content.
+          /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt # Solve forty full-model modes and capture native output.
+          echo "${PIPESTATUS[0]}" > job.exit # Preserve the actual CalculiX exit code.
+          grep -q "Job finished" job.stdout.txt # Reject any incomplete or aborted solve.
+          test "$(cat job.exit)" = "0" # Require a zero native exit status.
+      - name: Collect mass-only evidence # Stage all input and solver outputs.
+        if: always() # Preserve diagnostics even if the solve fails.
+        shell: bash # Use strict Bash copy and digest commands.
+        run: | # Copy every available native artifact.
+          set -euxo pipefail # Stop on unexpected collection errors.
+          cp -a run/job.dat run/job.frd run/job.sta run/job.cvg run/job.stdout.txt run/job.exit results/ 2>/dev/null || true # Retain native CalculiX evidence when present.
+          awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true # Extract the forty-mode table for rapid inspection.
+          printf 'parent_c3_sha=%s\nshared_scale=0.0\nend_scale=0.0\nmass_scale=1.0\nmass_scope=main13\nroots=40\nsource_commit=%s\nfull_c3_direct=true\nlow_dimensional=false\nfrequency_reproduced=false\nback_tuned=false\n' "$C3_SHA" "${{ github.sha }}" > results/case.txt # Record the fixed bookkeeping interpretation and evidence boundary.
+          sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for all staged artifacts.
+      - name: Upload C3 TrackA main13 mass-only package # Publish the mass-only evidence package.
+        if: always() # Retain files for both successful and failed runs.
+        uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
+        with: # Configure a stable artifact name and strict presence check.
+          name: C3-TrackA-main13-mass-only # Identify the full C3 mass-only daughter.
+          path: results/ # Upload the complete input and native outputs.
+          if-no-files-found: error # Reject an empty evidence package.
+          retention-days: 30 # Keep the package available for independent reruns.
+          compression-level: 9 # Compress the large ASCII C3 input efficiently.
