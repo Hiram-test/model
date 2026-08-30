@@ -1,0 +1,72 @@
+name: c3-build-ccx
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - feat/catwalk-c3-actions-verify
+    paths:
+      - ".github/workflows/c3-build-ccx.yml"
+      - "catwalk-fem/c0-c5-reproduction/code/build_ccx_2.23_gha.sh"
+
+jobs:
+  build-ccx-2-23:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install compilers and SPOOLES/ARPACK
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gfortran gcc make perl \
+            libspooles-dev libarpack2-dev liblapack-dev libblas-dev
+
+      - name: Compile CalculiX 2.23 from dhondt.de source
+        run: |
+          chmod +x catwalk-fem/c0-c5-reproduction/code/build_ccx_2.23_gha.sh
+          catwalk-fem/c0-c5-reproduction/code/build_ccx_2.23_gha.sh "$GITHUB_WORKSPACE/ccx-build"
+          ls -l "$GITHUB_WORKSPACE/ccx-build/ccx_2.23"
+
+      - name: Upload compiled ccx_2.23
+        uses: actions/upload-artifact@v4
+        with:
+          name: ccx-2.23-gha
+          path: |
+            ccx-build/ccx_2.23
+            ccx-build/ccx_2.23.sha256
+          retention-days: 90
+
+      - name: Download C3 deck and apply drawing topology patch
+        run: |
+          mkdir -p work artifacts
+          curl -L --fail -o work/src.inp \
+            https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp
+          echo 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86  work/src.inp | sha256sum -c
+          C3_SRC="$GITHUB_WORKSPACE/work/src.inp" C3_OUT="$GITHUB_WORKSPACE/artifacts" \
+            python3 catwalk-fem/c0-c5-reproduction/code/patch_c3_draw_topology.py | tee artifacts/patch.json
+
+      - name: Run compiled ccx on patched C3 deck
+        run: |
+          export OMP_NUM_THREADS=2
+          cp artifacts/C3-UB-FT14-DRAW-TOPO_m14.inp artifacts/job.inp
+          set +e
+          (cd artifacts && timeout 600 "$GITHUB_WORKSPACE/ccx-build/ccx_2.23" job) \
+            > artifacts/ccx_c3_draw_topo.log 2>&1
+          echo CCX_EXIT=$? | tee -a artifacts/ccx_c3_draw_topo.log
+          tail -n 100 artifacts/ccx_c3_draw_topo.log
+          ls -l artifacts | tee artifacts/ccx_outputs.txt
+
+      - name: Upload C3 ccx logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3-draw-topo-ccx223
+          path: |
+            artifacts/patch.json
+            artifacts/C3_DRAW_TOPO_PATCH.json
+            artifacts/ccx_c3_draw_topo.log
+            artifacts/ccx_outputs.txt
+            artifacts/job.dat
+            artifacts/job.sta
+          retention-days: 90
