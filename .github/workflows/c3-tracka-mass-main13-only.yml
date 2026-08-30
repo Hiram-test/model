@@ -67,7 +67,7 @@ jobs: # Hold the deterministic solver job.
           set -euxo pipefail # Stop on unexpected collection errors.
           cp -a run/job.dat run/job.frd run/job.sta run/job.cvg run/job.stdout.txt run/job.exit results/ 2>/dev/null || true # Retain native CalculiX evidence when present.
           awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true # Extract the forty-mode table for rapid inspection.
-          printf 'parent_c3_sha=%s\nshared_scale=0.0\nend_scale=0.0\nmass_scale=1.0\nmass_scope=main13\nroots=40\nsource_commit=%s\nfull_c3_direct=true\nlow_dimensional=false\nfrequency_reproduced=false\nback_tuned=false\n' "$C3_SHA" "${{ github.sha }}" > results/case.txt # Record the fixed bookkeeping interpretation and evidence boundary.
+          printf 'parent_c3_sha=%s\nshared_scale=0.0\nend_scale=0.0\nmass_scale=1.0\nmass_scope=main13\nroots=40\nsource_commit=%s\nfull_c3_direct=true\nlow_dimensional=false\nfrequency_reproduced=false\nback_tuned=true\nmass_from_tracka_forensic_ledger=true\nnot_attach_ta1=true\n' "$C3_SHA" "${{ github.sha }}" > results/case.txt # 13x10.1346 t is the Track A ledger term; a later 0.09974 root is not attach TA1.
           sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for all staged artifacts.
       - name: Upload C3 TrackA main13 mass-only package # Publish the mass-only evidence package.
         if: always() # Retain files for both successful and failed runs.
