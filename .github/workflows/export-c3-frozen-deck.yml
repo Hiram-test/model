@@ -1,0 +1,80 @@
+# Export the exact frozen C3 physical CalculiX deck from its audited repository parts.
+name: Export frozen C3 physical deck
+# Trigger this export whenever this workflow definition is first added or revised on the C0-C5 branch.
+on:
+  # Use a push trigger so no manual dispatch permission is required.
+  push:
+    # Restrict execution to the physical-reproduction branch.
+    branches:
+      # Select the branch containing the frozen C3 package.
+      - feat/catwalk-c0-c5-physical-reproduction
+    # Avoid running for unrelated branch changes.
+    paths:
+      # Trigger only when this workflow is changed.
+      - ".github/workflows/export-c3-frozen-deck.yml"
+# Read access is sufficient because the reconstructed deck is stored as an Actions artifact.
+permissions:
+  # Permit checkout of repository contents.
+  contents: read
+# Define the single reconstruction job.
+jobs:
+  # Reconstruct and export the immutable C3 deck.
+  export:
+    # Use the same Ubuntu generation as the validated C3 modal run.
+    runs-on: ubuntu-24.04
+    # Keep the export bounded even if repository I/O stalls.
+    timeout-minutes: 15
+    # Define immutable source paths and the expected deck digest.
+    env:
+      # Point to the seven compressed C3 deck parts.
+      PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14
+      # Preserve the frozen deck SHA-256 recorded by the successful C3 run.
+      DECK_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86
+    # Execute the checkout, reconstruction, verification, and artifact upload steps.
+    steps:
+      # Check out the branch state that contains the frozen C3 package.
+      - name: Checkout frozen C3 package
+        # Use GitHub's maintained checkout action.
+        uses: actions/checkout@v4
+        # Pin checkout to the physical-reproduction branch.
+        with:
+          # Read the branch containing the C3 parts.
+          ref: feat/catwalk-c0-c5-physical-reproduction
+          # One commit is enough because all required parts are present in the branch tree.
+          fetch-depth: 1
+          # Disable retained write credentials because this job does not mutate the repository.
+          persist-credentials: false
+      # Reassemble the exact input deck and reject any byte-level mismatch.
+      - name: Reconstruct and verify exact C3 deck
+        # Run the reconstruction under Bash.
+        shell: bash
+        # Execute strict shell commands.
+        run: |
+          # Stop on errors, unset variables, and failed pipeline elements.
+          set -euxo pipefail
+          # Create the artifact staging directory.
+          mkdir -p export
+          # Concatenate and decompress the seven frozen deck parts in lexical order.
+          cat "$PARTS"/*.inp.gz.part* | gzip -dc > export/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp
+          # Verify the reconstructed input against the frozen digest.
+          printf '%s  %s\n' "$DECK_SHA" export/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp | sha256sum -c -
+          # Record a separate digest file beside the reconstructed deck.
+          sha256sum export/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp > export/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp.sha256
+          # Record line count and byte count for structural inspection.
+          wc -lc export/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp > export/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp.size.txt
+      # Publish the exact deck so it can be inspected and patched without reconstructing it locally.
+      - name: Upload exact C3 deck
+        # Use GitHub's maintained artifact uploader.
+        uses: actions/upload-artifact@v4
+        # Configure the artifact payload.
+        with:
+          # Give the artifact an unambiguous immutable-source name.
+          name: frozen-c3-physical-deck-667c5047
+          # Upload the reconstructed deck and its verification records.
+          path: export/
+          # Treat a missing deck as a failed export.
+          if-no-files-found: error
+          # Retain the artifact long enough for the forensic modification cycle.
+          retention-days: 30
+          # Compress the large text deck efficiently.
+          compression-level: 9
