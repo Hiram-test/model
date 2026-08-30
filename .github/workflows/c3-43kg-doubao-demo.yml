@@ -19,8 +19,16 @@ jobs: # 定义单个端到端 Demo 作业。
       PKG: catwalk-fem/c3-buffeting-43-kg # 固定工作目录。
       DOUBAO_API_KEY: ${{ secrets.DOUBAO_API_KEY }} # 兼容首选仓库 Secret。
       DOUBAO_API: ${{ secrets.DOUBAO_API }} # 兼容用户可能使用的短名称。
+      DOUBAO_KEY: ${{ secrets.DOUBAO_KEY }} # 兼容 Key 短名称。
+      DOUBAO_TOKEN: ${{ secrets.DOUBAO_TOKEN }} # 兼容 Token 名称。
+      DOUBAO: ${{ secrets.DOUBAO }} # 兼容最短豆包名称。
+      DOUBAO_APIKEY: ${{ secrets.DOUBAO_APIKEY }} # 兼容无分隔符名称。
+      DOUBAO_API_SECRET: ${{ secrets.DOUBAO_API_SECRET }} # 兼容 API Secret 名称。
       ARK_API_KEY: ${{ secrets.ARK_API_KEY }} # 兼容火山方舟标准名称。
+      ARK_KEY: ${{ secrets.ARK_KEY }} # 兼容方舟 Key 短名称。
+      ARK_TOKEN: ${{ secrets.ARK_TOKEN }} # 兼容方舟 Token 名称。
       VOLCENGINE_API_KEY: ${{ secrets.VOLCENGINE_API_KEY }} # 兼容火山引擎名称。
+      VOLCENGINE_KEY: ${{ secrets.VOLCENGINE_KEY }} # 兼容火山引擎 Key 短名称。
       DOUBAO_MODEL: ${{ vars.DOUBAO_MODEL || 'doubao-seed-1-8-251228' }} # 允许仓库变量覆盖模型。
     steps: # 顺序执行完整 Demo。
       - name: Checkout C3 migration branch # 拉取当前提交。
@@ -44,7 +52,7 @@ jobs: # 定义单个端到端 Demo 作业。
         shell: bash # 使用 Bash 检测候选 Key。
         working-directory: ${{ env.PKG }} # 在包目录运行。
         run: | # 开始安全调用脚本。
-          if [ -n "${DOUBAO_API_KEY}" ] || [ -n "${DOUBAO_API}" ] || [ -n "${ARK_API_KEY}" ] || [ -n "${VOLCENGINE_API_KEY}" ]; then # 检测任一支持的 Secret。
+          if [ -n "${DOUBAO_API_KEY}" ] || [ -n "${DOUBAO_API}" ] || [ -n "${DOUBAO_KEY}" ] || [ -n "${DOUBAO_TOKEN}" ] || [ -n "${DOUBAO}" ] || [ -n "${DOUBAO_APIKEY}" ] || [ -n "${DOUBAO_API_SECRET}" ] || [ -n "${ARK_API_KEY}" ] || [ -n "${ARK_KEY}" ] || [ -n "${ARK_TOKEN}" ] || [ -n "${VOLCENGINE_API_KEY}" ] || [ -n "${VOLCENGINE_KEY}" ]; then # 检测任一支持的 Secret。
             python c3_agent.py ask --require-llm --case "${{ inputs.case_id || 'site_gb50009_100yr' }}" --question "按四智能体证据链说明该工况，并明确 C3 当前能下什么结论。" --output generated/demo_selected_doubao.json # 执行真实 Doubao Demo。
           else # 处理当前分支不可见任何候选 Secret 的情况。
             cp generated/demo_selected_offline.json generated/demo_selected_doubao.json # 保留同名产物并明确其中 provider=deterministic。
@@ -67,4 +75,3 @@ jobs: # 定义单个端到端 Demo 作业。
           path: ${{ env.PKG }}/generated/ # 上传全部生成文件。
           if-no-files-found: error # 缺失产物时明确失败。
           retention-days: 90 # 保留九十天。
-

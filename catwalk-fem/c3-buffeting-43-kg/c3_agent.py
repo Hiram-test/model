@@ -13,7 +13,7 @@ from typing import Any  # 标注结构化事实和图谱属性。
 ROOT = Path(__file__).resolve().parent  # 将所有输入输出固定到包目录。
 OUTPUT_DIR = ROOT / "generated"  # 保存可复查的图谱与 Demo 产物。
 AGENTS = ("AuthorityAgent", "SolverEvidenceAgent", "PhysicsBoundaryAgent", "WarningPolicyAgent")  # 固定四智能体顺序。
-KEY_NAMES = ("DOUBAO_API_KEY", "DOUBAO_API", "ARK_API_KEY", "VOLCENGINE_API_KEY")  # 兼容仓库中常见的 Secret 名称。
+KEY_NAMES = ("DOUBAO_API_KEY", "DOUBAO_API", "DOUBAO_KEY", "DOUBAO_TOKEN", "DOUBAO", "DOUBAO_APIKEY", "DOUBAO_API_SECRET", "ARK_API_KEY", "ARK_KEY", "ARK_TOKEN", "VOLCENGINE_API_KEY", "VOLCENGINE_KEY")  # 兼容仓库中常见的 Secret 名称。
 DEFAULT_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"  # 使用火山方舟官方 v3 Base URL。
 DEFAULT_MODEL = "doubao-seed-1-8-251228"  # 使用当前豆包 Seed 1.8 模型 ID。
 DESIGN_WIND_MPS = 38.9  # 仅用于无量纲风速平方比，不作为 C3 响应阈值。
