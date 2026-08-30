@@ -1,5 +1,5 @@
-# Extract the authoritative legacy ANSYS S10 input snapshot that most likely records the original human modeling procedure.
-name: Extract legacy S10 APDL human-process snapshot # Give the recovery workflow an explicit auditable name.
+# Inventory the agent Ultra S10 section-shear snapshot from archive-0028. Not human APDL and not attach reproduction.
+name: Inventory agent Ultra S10 section-shear snapshot # Give the recovery workflow an explicit auditable name.
 # Start only when this workflow definition is committed on the isolated reconstruction branch.
 on: # Define the deterministic trigger.
   push: # Run after the workflow file is pushed.
@@ -68,10 +68,11 @@ jobs: # Hold the complete archival recovery job.
           rg -n -i --glob '*.inp' --glob '*.mac' --glob '*.txt' 'ROTX|ROTY|ROTZ' evidence/extracted > evidence/s10-rotation-hits.txt || true # Isolate explicit rotational selections constraints and cleanup commands.
           rg -n -i --glob '*.inp' --glob '*.mac' --glob '*.txt' 'FDELE|ACEL|NLGEOM|SSTIF|UPGEOM|PSTRES|ANTYPE|MODOPT|MXPAND|SOLVE' evidence/extracted > evidence/s10-solution-sequence-hits.txt || true # Isolate loading prestress equilibrium and modal-solution sequence commands.
           sha256sum evidence/s10-*.txt evidence/s10-*.tsv > evidence/s10-inventory-checksums.sha256 # Record exact identities of all generated inventories.
+          printf 'frequency_reproduced=false\nhuman_apdl=false\nsource=agent_ultra_s10_section_shear\nvalid_for_production_model=false\nnot_attach_reproduction=true\nrun_id=%s\narchive_sha256=%s\n' "$RUN_ID" "$ARCHIVE_SHA256" > evidence/boundary.txt # Lock that this snapshot is not the undisclosed human APDL and not attach TA1.
       - name: Upload authoritative S10 APDL reconstruction package # Publish the complete selected run and inventories.
         uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
         with: # Configure a stable artifact name and strict presence check.
-          name: legacy-S10-APDL-human-process-snapshot # Identify the authoritative legacy calculation snapshot.
+          name: agent-ultra-S10-section-shear-inventory # Identify the agent S10 section-shear inventory, not human APDL.
           path: evidence/ # Upload extracted inputs plus all command inventories and digests.
           if-no-files-found: error # Reject an empty evidence package.
           retention-days: 30 # Keep the recovered snapshot available for reconstruction and independent review.
