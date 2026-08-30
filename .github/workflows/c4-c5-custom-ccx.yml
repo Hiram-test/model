@@ -16,7 +16,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        variant: [C4, C5]
+        include:
+          - variant: C5
+            k_scale: "0.1"
+          - variant: C5
+            k_scale: "0.01"
+          - variant: C5
+            k_scale: "0.001"
     steps:
       - uses: actions/checkout@v4
 
@@ -36,19 +42,20 @@ jobs:
             https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp
           echo 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86  work/src.inp | sha256sum -c
 
-      - name: Patch and solve ${{ matrix.variant }}
+      - name: Patch and solve C5 k=${{ matrix.k_scale }}
         env:
-          C45_VARIANT: ${{ matrix.variant }}
+          C45_VARIANT: C5
+          K_SADDLE_SCALE: ${{ matrix.k_scale }}
           C3_SRC: ${{ github.workspace }}/work/src.inp
           C3_OUT: ${{ github.workspace }}/artifacts
         run: |
           python3 catwalk-fem/c0-c5-reproduction/code/patch_c4_c5.py | tee artifacts/patch.json
-          cp artifacts/${{ matrix.variant }}-UB-FT14_m14.inp artifacts/job.inp
+          cp artifacts/C5_k${{ matrix.k_scale }}-UB-FT14_m14.inp artifacts/job.inp
           export OMP_NUM_THREADS=2
           set +e
           (cd artifacts && "$GITHUB_WORKSPACE/bin/ccx" job) > artifacts/ccx.log 2>&1
           echo CCX_EXIT=$? | tee -a artifacts/ccx.log
-          tail -n 80 artifacts/ccx.log
+          tail -n 40 artifacts/ccx.log
           python3 - <<'PY'
           from pathlib import Path
           dat = Path("artifacts/job.dat")
@@ -57,14 +64,14 @@ jobs:
           print("\n".join(text.splitlines()[:40]))
           PY
 
-      - name: Upload ${{ matrix.variant }} artifacts
+      - name: Upload C5 k=${{ matrix.k_scale }} artifacts
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ${{ matrix.variant }}-ub-ft14
+          name: C5-k${{ matrix.k_scale }}-ub-ft14
           path: |
             artifacts/patch.json
-            artifacts/${{ matrix.variant }}_PATCH.json
+            artifacts/C5_k${{ matrix.k_scale }}_PATCH.json
             artifacts/ccx.log
             artifacts/job.dat
             artifacts/job.sta

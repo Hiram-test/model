@@ -12,11 +12,16 @@ TOWER_WINDOWS_MM = (
     (3650000.0, 3680000.0),
 )
 EXPECTED_C5_PAIRS = 96
-# Bearing EA from C3 CAB1.. and main-span length from drawings (2960-660 m).
 BEARING_EA_N = 1.672401873713e8
 L_MAIN_MM = 2.300000e6
-K_SADDLE_N_PER_MM = BEARING_EA_N / L_MAIN_MM
+K_SADDLE_BASE = BEARING_EA_N / L_MAIN_MM
 SPRING_EID0 = 200000
+
+def k_saddle():
+    scale = float(os.environ.get("K_SADDLE_SCALE", "1"))
+    if scale <= 0.0:
+        raise SystemExit("K_SADDLE_SCALE must be > 0 (no bare slip)")
+    return K_SADDLE_BASE * scale, scale
 
 def sha256_file(path):
     digest = hashlib.sha256()
@@ -91,16 +96,16 @@ def write_equation(handle, terms):
     for i in range(0, len(chunks), 3):
         handle.write(", ".join(chunks[i:i + 3]) + "\n")
 
-def write_springs(handle, pairs):
+def write_springs(handle, pairs, k_val):
     handle.write("** C5: groove UY/UZ kept; cable-direction stick-slip spring\n")
     handle.write("*ELEMENT, TYPE=SPRING2, ELSET=E_SADDLE_KS\n")
     for i, (e_node, s_node) in enumerate(pairs, 1):
         handle.write(f"{SPRING_EID0 + i}, {e_node}, {s_node}\n")
     handle.write("*SPRING, ELSET=E_SADDLE_KS\n")
     handle.write("1, 1\n")
-    handle.write(f"{K_SADDLE_N_PER_MM:.12e}\n")
+    handle.write(f"{k_val:.12e}\n")
 
-def rewrite(src, dst, variant, coords, node_fam):
+def rewrite(src, dst, variant, coords, node_fam, k_val):
     stats = {
         "variant": variant,
         "equations_in": 0,
@@ -109,7 +114,7 @@ def rewrite(src, dst, variant, coords, node_fam):
         "saddle_springs": 0,
         "downpull_ea_n0_zeroed": 0,
         "elements_deleted": 0,
-        "k_saddle_N_per_mm": K_SADDLE_N_PER_MM if variant == "C5" else None,
+        "k_saddle_N_per_mm": k_val if variant == "C5" else None,
     }
     state = ""
     pending_downpull = False
@@ -122,7 +127,7 @@ def rewrite(src, dst, variant, coords, node_fam):
             stripped = raw.strip()
             upper = stripped.upper()
             if variant == "C5" and upper.startswith("*STEP") and not springs_written:
-                write_springs(out, pairs)
+                write_springs(out, pairs, k_val)
                 springs_written = True
             if stripped.startswith("*") and not stripped.startswith("**"):
                 pending_downpull = False
@@ -178,7 +183,7 @@ def rewrite(src, dst, variant, coords, node_fam):
                 continue
             out.write(raw)
         if variant == "C5" and not springs_written:
-            write_springs(out, pairs)
+            write_springs(out, pairs, k_val)
     stats["saddle_springs"] = len(pairs)
     return stats
 
@@ -186,6 +191,7 @@ def main():
     variant = os.environ.get("C45_VARIANT", sys.argv[1] if len(sys.argv) > 1 else "").upper()
     if variant not in {"C4", "C5"}:
         raise SystemExit("C45_VARIANT must be C4 or C5")
+    k_val, k_scale = k_saddle()
     here = Path(__file__).resolve().parent
     repo_root = here.parent if here.name == "code" else here
     src = Path(os.environ.get("C3_SRC", repo_root / "solver" / "c3_ub_frozen_tangent_diag" / "C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp"))
@@ -197,27 +203,25 @@ def main():
     coords, node_fam = first_pass(src)
     out_dir = Path(os.environ.get("C3_OUT", repo_root / "artifacts"))
     out_dir.mkdir(parents=True, exist_ok=True)
-    dst = out_dir / f"{variant}-UB-FT14_m14.inp"
-    stats = rewrite(src, dst, variant, coords, node_fam)
+    tag = variant if variant == "C4" else f"C5_k{k_scale:g}"
+    dst = out_dir / f"{tag}-UB-FT14_m14.inp"
+    stats = rewrite(src, dst, variant, coords, node_fam, k_val)
     if variant == "C4" and stats["downpull_ea_n0_zeroed"] != 4:
         raise SystemExit(f"C4 must zero exactly 4 downpull sections, got {stats['downpull_ea_n0_zeroed']}")
     if variant == "C5" and stats["saddle_springs"] != EXPECTED_C5_PAIRS:
         raise SystemExit(f"C5 must write exactly {EXPECTED_C5_PAIRS} k_saddle springs, got {stats['saddle_springs']}")
     dst_sha = sha256_file(dst)
     receipt = {
-        "schema": "catwalk.c4-c5.official-scheme.v4",
+        "schema": "catwalk.c4-c5.official-scheme.v5",
         "variant": variant,
         "source": {"path": src.name, "sha256": src_sha},
         "output": {"path": dst.name, "sha256": dst_sha, "bytes": dst.stat().st_size},
-        "rule": {
-            "C4": "C3 plus downpull modal tangent ~0: EA->1 N, N0->0 on 4 E_DOWNPULL UCAB3; mu unchanged",
-            "C5": "C3 plus tower-saddle slip WITH finite k_saddle=EA/L_main on UX springs; groove UY/UZ kept; anchors sticky; no friction contact",
-        }[variant],
         "k_saddle": {
-            "formula": "EA_bearing / L_main",
+            "formula": "scale * EA_bearing / L_main",
+            "scale": k_scale,
             "EA_N": BEARING_EA_N,
             "L_main_mm": L_MAIN_MM,
-            "k_N_per_mm": K_SADDLE_N_PER_MM,
+            "k_N_per_mm": k_val,
         } if variant == "C5" else None,
         "friction": False,
         "contact": False,
@@ -225,8 +229,8 @@ def main():
         "back_tuned_to_0_0996": False,
         "stats": stats,
     }
-    (out_dir / f"{variant}_PATCH.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({"event": f"{variant}_PATCHED", "dst": str(dst), "dst_sha256": dst_sha, **{k: v for k, v in stats.items() if k != "k_saddle_N_per_mm"}, "k_saddle_N_per_mm": stats["k_saddle_N_per_mm"]}, sort_keys=True))
+    (out_dir / f"{tag}_PATCH.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(json.dumps({"event": f"{variant}_PATCHED", "tag": tag, "dst": str(dst), "dst_sha256": dst_sha, "k_scale": k_scale, "k_saddle_N_per_mm": k_val, "saddle_springs": stats["saddle_springs"], "downpull_ea_n0_zeroed": stats["downpull_ea_n0_zeroed"]}, sort_keys=True))
 
 if __name__ == "__main__":
     main()
