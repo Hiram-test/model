@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""C4: drop 4 equalizer UCOR6 actuators. C5: drop UG61-E pure ROT weld only."""
+"""Official C4/C5 from the Ultra scheme. C4 zeros downpull tangent. C5 drops tower-saddle UX."""
 from __future__ import annotations
 import hashlib, json, os, re, sys
 from collections import defaultdict
 from pathlib import Path
 EXPECTED_SRC_SHA256 = "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86"
-EQ_ELSET = "E_EQUALIZER_ROT_ACT"
+DOWNPULL_ELSETS = {"CAB122309", "CAB122310", "CAB122311", "CAB122312"}
+TOWER_X_MM = (0.0, 660000.0, 714504.0, 2953321.0, 2995314.0, 3677000.0, 4180000.0)
+TOWER_TOL_MM = 50000.0
 
 def sha256_file(path):
     digest = hashlib.sha256()
@@ -15,7 +17,7 @@ def sha256_file(path):
     return digest.hexdigest()
 
 def first_pass(src):
-    coords_y = {}
+    coords = {}
     node_fam = defaultdict(set)
     state = ""
     elset = ""
@@ -35,30 +37,32 @@ def first_pass(src):
                 continue
             if state == "node":
                 fields = [part.strip() for part in line.split(",")]
-                coords_y[int(fields[0])] = float(fields[2])
+                coords[int(fields[0])] = (float(fields[1]), float(fields[2]), float(fields[3]))
             elif state == "element":
                 fields = [part.strip() for part in line.split(",") if part.strip()]
                 fam = elset.split("_", 1)[0]
                 for token in fields[1:]:
                     node_fam[int(token)].add(fam)
-                    if elset.startswith("E_"):
-                        node_fam[int(token)].add(elset)
-    return coords_y, node_fam
+    return coords, node_fam
 
-def classify_c5(terms, node_fam):
+def near_tower(x):
+    return any(abs(x - station) <= TOWER_TOL_MM for station in TOWER_X_MM)
+
+def classify_c5(terms, coords, node_fam):
+    nodes = [term[0] for term in terms]
     fams = set()
-    for node, _, _ in terms:
+    for node in nodes:
         fams |= node_fam.get(node, set())
     dofs = {term[1] for term in terms}
-    has_trans = any(dof <= 3 for dof in dofs)
-    has_rot = any(dof >= 4 for dof in dofs)
-    has_e = "E" in fams or "E_BEARING" in fams
     has_ug61 = "UG61" in fams
+    has_e = "E" in fams
     has_ug62 = "UG62" in fams
+    has_ux = 1 in dofs
+    mean_x = sum(coords[node][0] for node in nodes) / len(nodes)
     if has_ug61 and has_ug62:
         return "KEEP"
-    if has_e and has_ug61 and has_rot and not has_trans:
-        return "DROP_SADDLE_PURE_ROT"
+    if has_ug61 and has_e and has_ux and near_tower(mean_x):
+        return "DROP_TOWER_SADDLE_UX"
     return "KEEP"
 
 def write_equation(handle, terms):
@@ -68,18 +72,17 @@ def write_equation(handle, terms):
     for i in range(0, len(chunks), 3):
         handle.write(", ".join(chunks[i:i + 3]) + "\n")
 
-def rewrite(src, dst, variant, node_fam):
+def rewrite(src, dst, variant, coords, node_fam):
     stats = {
         "variant": variant,
         "equations_in": 0,
         "keep": 0,
-        "drop_saddle_pure_rot": 0,
+        "drop_tower_saddle_ux": 0,
+        "downpull_ea_n0_zeroed": 0,
         "elements_deleted": 0,
-        "equalizer_ucor6_deleted": 0,
     }
     state = ""
-    skip_element = False
-    skip_section = False
+    pending_downpull = False
     eq_needed = 0
     eq_values = []
     with src.open(encoding="utf-8") as handle, dst.open("w", encoding="utf-8", newline="\n") as out:
@@ -87,14 +90,11 @@ def rewrite(src, dst, variant, node_fam):
             stripped = raw.strip()
             upper = stripped.upper()
             if stripped.startswith("*") and not stripped.startswith("**"):
-                skip_element = False
-                skip_section = False
-                if variant == "C4" and upper.startswith("*ELEMENT") and f"ELSET={EQ_ELSET}" in upper:
-                    skip_element = True
-                    stats["equalizer_ucor6_deleted_header"] = stats.get("equalizer_ucor6_deleted_header", 0) + 1
-                    continue
-                if variant == "C4" and upper.startswith("*USER SECTION") and f"ELSET={EQ_ELSET}" in upper:
-                    skip_section = True
+                pending_downpull = False
+                if variant == "C4" and upper.startswith("*USER SECTION"):
+                    elset_match = re.search(r"ELSET=([^,\s]+)", upper)
+                    pending_downpull = bool(elset_match and elset_match.group(1) in DOWNPULL_ELSETS)
+                    out.write(raw)
                     continue
                 if upper.startswith("*EQUATION"):
                     state = "eqc"
@@ -102,11 +102,16 @@ def rewrite(src, dst, variant, node_fam):
                 state = ""
                 out.write(raw)
                 continue
-            if skip_element:
-                stats["equalizer_ucor6_deleted"] += 1
-                stats["elements_deleted"] += 1
-                continue
-            if skip_section:
+            if pending_downpull:
+                fields = [part.strip() for part in stripped.split(",")]
+                if len(fields) != 3:
+                    raise SystemExit(f"unexpected downpull constants: {stripped}")
+                ea, n0, mu = (float(fields[0]), float(fields[1]), float(fields[2]))
+                if ea < 1.0e8 or n0 <= 0.0:
+                    raise SystemExit(f"downpull constants not the locked C3 values: {stripped}")
+                out.write(f"1.000000000000e+00, 0.000000000000e+00, {fields[2]}\n")
+                stats["downpull_ea_n0_zeroed"] += 1
+                pending_downpull = False
                 continue
             if state == "eqc":
                 if stripped.startswith("**") or stripped.startswith("*"):
@@ -126,9 +131,9 @@ def rewrite(src, dst, variant, node_fam):
                 terms = [(int(eq_values[i]), int(eq_values[i + 1]), float(eq_values[i + 2])) for i in range(0, eq_needed, 3)]
                 action = "KEEP"
                 if variant == "C5":
-                    action = classify_c5(terms, node_fam)
-                if action == "DROP_SADDLE_PURE_ROT":
-                    stats["drop_saddle_pure_rot"] += 1
+                    action = classify_c5(terms, coords, node_fam)
+                if action == "DROP_TOWER_SADDLE_UX":
+                    stats["drop_tower_saddle_ux"] += 1
                 else:
                     write_equation(out, terms)
                     stats["keep"] += 1
@@ -149,24 +154,24 @@ def main():
     src_sha = sha256_file(src)
     if src_sha != EXPECTED_SRC_SHA256:
         raise SystemExit(f"source SHA mismatch: {src_sha}")
-    _coords_y, node_fam = first_pass(src)
+    coords, node_fam = first_pass(src)
     out_dir = Path(os.environ.get("C3_OUT", repo_root / "artifacts"))
     out_dir.mkdir(parents=True, exist_ok=True)
     dst = out_dir / f"{variant}-UB-FT14_m14.inp"
-    stats = rewrite(src, dst, variant, node_fam)
-    if variant == "C4" and stats["equalizer_ucor6_deleted"] != 4:
-        raise SystemExit(f"C4 must delete exactly 4 equalizer UCOR6, got {stats['equalizer_ucor6_deleted']}")
-    if variant == "C5" and stats["drop_saddle_pure_rot"] < 1:
-        raise SystemExit("C5 dropped no saddle pure-ROT equations")
+    stats = rewrite(src, dst, variant, coords, node_fam)
+    if variant == "C4" and stats["downpull_ea_n0_zeroed"] != 4:
+        raise SystemExit(f"C4 must zero exactly 4 downpull sections, got {stats['downpull_ea_n0_zeroed']}")
+    if variant == "C5" and stats["drop_tower_saddle_ux"] < 1:
+        raise SystemExit("C5 dropped no tower-saddle UX equations")
     dst_sha = sha256_file(dst)
     receipt = {
-        "schema": "catwalk.c4-c5.v1",
+        "schema": "catwalk.c4-c5.official-scheme.v2",
         "variant": variant,
         "source": {"path": src.name, "sha256": src_sha},
         "output": {"path": dst.name, "sha256": dst_sha, "bytes": dst.stat().st_size},
         "rule": {
-            "C4": "delete 4 E_EQUALIZER_ROT_ACT UCOR6 only; keep sticky saddles and passages",
-            "C5": "drop UG61-E pure ROT weld only; keep hoops, equalizers, translation levers",
+            "C4": "C3 plus downpull modal tangent ~0: EA->1 N, N0->0 on 4 E_DOWNPULL UCAB3; mu unchanged",
+            "C5": "C3 plus main/aux tower saddle cable-direction slip: drop UG61-E UX equations near tower stations; keep hoops and UY/UZ",
         }[variant],
         "friction": False,
         "contact": False,
