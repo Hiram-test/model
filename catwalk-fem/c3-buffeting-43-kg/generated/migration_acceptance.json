@@ -1,0 +1,68 @@
+{
+  "schema_version": "catwalk-c3-model-migration-acceptance/v1",
+  "scope": "MODEL_MIGRATION_ONLY",
+  "status": "PASS",
+  "checks": {
+    "source_authority_receipt_hash_exact": true,
+    "source_matrix_normalized_hash_locked": true,
+    "source_matrix_original_hash_recorded": true,
+    "authority_copy_dispositions_exact": true,
+    "source_authority_43_by_37": true,
+    "source_and_c3_case_ids_exact": true,
+    "source_order_preserved": true,
+    "source_values_match_43": true,
+    "source_stationarity_35_8": true,
+    "c3_policy_33_10": true,
+    "c3_reclassification_exact_two": true,
+    "source_asset_inventory_36": true,
+    "source_assets_unique_and_accounted": true,
+    "source_assets_zero_numeric_transfer": true,
+    "migration_rules_12": true,
+    "agent_policy_4": true,
+    "node_ids_unique": true,
+    "edge_ids_unique": true,
+    "source_asset_nodes_36": true,
+    "source_authority_records_43": true,
+    "source_authority_record_values_exact": true,
+    "github_events_43": true,
+    "evidence_bundles_43": true,
+    "c3_case_nodes_43": true,
+    "has_case_43": true,
+    "targets_model_43": true,
+    "trace_order_43_by_4": true,
+    "responses_strictly_empty_43": true,
+    "legacy_pointers_complete_43": true,
+    "legacy_pointers_linked_43": true,
+    "global_numeric_transfer_blocked": true,
+    "modal_receipt_matches_csv_14": true,
+    "graph_modes_match_csv_14": true,
+    "mode_pairings_not_accepted": true,
+    "c3_binding_identity_locked": true
+  },
+  "source_snapshot": {
+    "commit": "3b135b2c1a1b5c961ce68a101a0414fa0b525d85",
+    "asset_count": 36,
+    "bytes": 6196831,
+    "graph_nodes": 2520,
+    "graph_edges": 2953,
+    "excluded_legacy_metric_observations": 2064
+  },
+  "c3_snapshot": {
+    "model_id": "C3-UB-FT14-PARSER-SAFE",
+    "modal_modes": 14,
+    "case_count": 43,
+    "response_state": "C3_43CASE_BUFFETING_NOT_MATERIALIZED"
+  },
+  "reclassified_case_ids": [
+    "cape_denison_katabatic",
+    "piteraq_tasiilaq"
+  ],
+  "excluded_from_c3_truth": [
+    "150-mode ROM response",
+    "station RMS",
+    "rope force",
+    "support reaction",
+    "capacity ratio",
+    "legacy warning output"
+  ]
+}
