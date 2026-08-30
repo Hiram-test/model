@@ -1,0 +1,78 @@
+# Extract the authoritative legacy ANSYS S10 input snapshot that most likely records the original human modeling procedure.
+name: Extract legacy S10 APDL human-process snapshot # Give the recovery workflow an explicit auditable name.
+# Start only when this workflow definition is committed on the isolated reconstruction branch.
+on: # Define the deterministic trigger.
+  push: # Run after the workflow file is pushed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the current reconstruction branch.
+    paths: [".github/workflows/c3-track-human-apdl-extract.yml"] # Avoid unrelated branch pushes.
+# Grant read access to public release assets and repository contents.
+permissions: # Declare the minimum workflow permissions.
+  contents: read # Permit checkout and authenticated release-asset download.
+# Define one extraction and inventory job.
+jobs: # Hold the complete archival recovery job.
+  extract: # Download archive 0028, verify it, extract only the authoritative S10 run, and publish evidence.
+    runs-on: ubuntu-24.04 # Use a current Linux runner with GitHub CLI support.
+    timeout-minutes: 30 # Bound the 210 MB download and selective extraction.
+    env: # Freeze the release and run identities used for reconstruction.
+      RELEASE_TAG: zhangjinggao-full-20260729 # Identify the immutable archival release tag.
+      ARCHIVE_NAME: archive-0028.tar.zst # Identify the archive known to contain the S10 snapshot.
+      ARCHIVE_SHA256: 834a0886a6651f651400f2aef8b5d514727166cc0ef34c710ff3c141ed2c42dc # Lock the archive byte identity.
+      RUN_ID: S10_SECTION_SHEAR_20260716T050342389124Z # Identify the authoritative S10 calculation run.
+      GH_TOKEN: ${{ github.token }} # Authenticate GitHub CLI release-asset access with the read-only workflow token.
+    steps: # Execute the exact recovery chain.
+      - name: Checkout immutable reconstruction branch # Fetch the triggering repository snapshot.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.sha }} # Bind the run to the immutable triggering commit.
+          fetch-depth: 1 # Fetch only the required snapshot.
+          persist-credentials: false # Keep repository access read-only after checkout.
+      - name: Install archive inspection tools # Supply decompression and search utilities.
+        shell: bash # Execute deterministic Bash commands.
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq zstd ripgrep tree # Install only tools required for selective extraction and inventory.
+      - name: Download and verify archive 0028 # Recover the authoritative archive asset.
+        shell: bash # Execute strict Bash commands.
+        run: | # Download one named release asset and verify its digest.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          mkdir -p work evidence # Create isolated working and evidence directories.
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern "$ARCHIVE_NAME" --dir work # Download the exact named archive from the archival release.
+          printf '%s  %s\n' "$ARCHIVE_SHA256" "work/$ARCHIVE_NAME" | sha256sum -c - # Reject any archive identity drift.
+          sha256sum "work/$ARCHIVE_NAME" > evidence/archive-0028.sha256 # Preserve the verified archive digest as evidence.
+          stat --printf='bytes=%s\n' "work/$ARCHIVE_NAME" > evidence/archive-0028.stat.txt # Record the downloaded archive byte count.
+      - name: List and select the authoritative S10 snapshot # Identify every member belonging to the target legacy run.
+        shell: bash # Execute strict archive-list commands.
+        run: | # Build complete and selected member inventories.
+          set -euxo pipefail # Stop on archive or selection failure.
+          tar --use-compress-program=unzstd -tf "work/$ARCHIVE_NAME" > evidence/archive-0028.members.txt # List every member without extracting the archive.
+          grep -F "$RUN_ID" evidence/archive-0028.members.txt > evidence/s10-selected-members.txt # Select every path under the authoritative S10 run identifier.
+          test -s evidence/s10-selected-members.txt # Reject a missing or empty S10 selection.
+          printf 'selected_members=%s\n' "$(wc -l < evidence/s10-selected-members.txt)" > evidence/s10-selection-summary.txt # Record the selected member count.
+          sed -n '1,80p' evidence/s10-selected-members.txt > evidence/s10-selected-members-head.txt # Preserve a compact preview of the selected paths.
+      - name: Extract only the authoritative S10 run # Materialize the complete target run without expanding unrelated archives.
+        shell: bash # Execute strict selective extraction commands.
+        run: | # Extract exactly the paths listed in the selected-member inventory.
+          set -euxo pipefail # Stop on decompression or extraction failure.
+          mkdir -p evidence/extracted # Create the target extraction directory.
+          tar --use-compress-program=unzstd -xf "work/$ARCHIVE_NAME" -C evidence/extracted -T evidence/s10-selected-members.txt # Extract every selected S10 member and nothing else.
+          test -n "$(find evidence/extracted -type f -print -quit)" # Reject an extraction that produced no files.
+          find evidence/extracted -type f -printf '%P\t%s\n' | sort > evidence/s10-file-inventory.tsv # Record every extracted relative path and byte count.
+          find evidence/extracted -type f \( -iname '*.inp' -o -iname '*.mac' -o -iname '*.dat' -o -iname '*.txt' -o -iname '*.json' \) -printf '%P\n' | sort > evidence/s10-text-input-files.txt # Inventory all text-like input and audit files.
+          tree -a evidence/extracted > evidence/s10-tree.txt # Preserve a human-readable directory tree.
+      - name: Inventory legacy ANSYS commands and include graph # Produce a target-blind command census before interpretation.
+        shell: bash # Execute strict search commands.
+        run: | # Search the extracted text inputs for legacy modeling operations.
+          set -euxo pipefail # Stop on unexpected command failures.
+          rg -n -i --glob '*.inp' --glob '*.mac' --glob '*.txt' '(^|[,[:space:]])(/INPUT|\*USE|INPUT|CERIG|CP,|CPINTF|CE,|D,|DK,|DA,|MASS21|ET,[^,]*,21|R,|RMORE|ROTX|ROTY|ROTZ|UX|UY|UZ|FDELE|ACEL|PSTRES|ANTYPE|NLGEOM|SSTIF|UPGEOM|RESUME|SAVE|SOLVE|MODOPT|MXPAND|LUMPM|NUMMRG|NUMCMP|NSEL|ESEL|CMSEL|CM,)' evidence/extracted > evidence/s10-command-hits.txt || true # Preserve every relevant APDL command hit with file and line number.
+          rg -n -i --glob '*.inp' --glob '*.mac' --glob '*.txt' 'CERIG' evidence/extracted > evidence/s10-cerig-hits.txt || true # Isolate rigid-region definitions.
+          rg -n -i --glob '*.inp' --glob '*.mac' --glob '*.txt' '(^|[,[:space:]])CP,' evidence/extracted > evidence/s10-cp-hits.txt || true # Isolate coupled-degree-of-freedom definitions.
+          rg -n -i --glob '*.inp' --glob '*.mac' --glob '*.txt' 'MASS21|ET,[^,]*,21|RMORE' evidence/extracted > evidence/s10-mass21-hits.txt || true # Isolate MASS21 element and real-constant definitions.
+          rg -n -i --glob '*.inp' --glob '*.mac' --glob '*.txt' 'ROTX|ROTY|ROTZ' evidence/extracted > evidence/s10-rotation-hits.txt || true # Isolate explicit rotational selections constraints and cleanup commands.
+          rg -n -i --glob '*.inp' --glob '*.mac' --glob '*.txt' 'FDELE|ACEL|NLGEOM|SSTIF|UPGEOM|PSTRES|ANTYPE|MODOPT|MXPAND|SOLVE' evidence/extracted > evidence/s10-solution-sequence-hits.txt || true # Isolate loading prestress equilibrium and modal-solution sequence commands.
+          sha256sum evidence/s10-*.txt evidence/s10-*.tsv > evidence/s10-inventory-checksums.sha256 # Record exact identities of all generated inventories.
+      - name: Upload authoritative S10 APDL reconstruction package # Publish the complete selected run and inventories.
+        uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
+        with: # Configure a stable artifact name and strict presence check.
+          name: legacy-S10-APDL-human-process-snapshot # Identify the authoritative legacy calculation snapshot.
+          path: evidence/ # Upload extracted inputs plus all command inventories and digests.
+          if-no-files-found: error # Reject an empty evidence package.
+          retention-days: 30 # Keep the recovered snapshot available for reconstruction and independent review.
+          compression-level: 9 # Compress the mostly textual APDL files efficiently.
