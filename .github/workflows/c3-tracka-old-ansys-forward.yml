@@ -1,0 +1,211 @@
+# Run the strict old-ANSYS-style Track A forward chain on the complete C3 entity model.
+name: Strict old-ANSYS C3 TrackA forward run # Give the final forward workflow an explicit name.
+on: # Define the deterministic trigger.
+  push: # Run when this workflow definition is committed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated Track A branch.
+    paths: [".github/workflows/c3-tracka-old-ansys-forward.yml"] # Avoid unrelated branch pushes.
+permissions: # Declare the exact token permissions required by the forward calculation.
+  contents: write # Permit committing compact results and publishing the final release.
+  actions: read # Permit read-only download of prerequisite calculation artifacts.
+jobs: # Define the single complete forward job.
+  solve-track-release: # Recover inputs, build the model, solve, track modes, and publish evidence.
+    runs-on: ubuntu-24.04 # Match the validated custom-solver runner generation.
+    timeout-minutes: 120 # Bound recovery polling, nonlinear equilibrium, eighty-mode extraction, and publication.
+    env: # Freeze every source identity, artifact, and release control.
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14 # Locate the exact released C3 parent fragments.
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3 # Locate the validated custom solver fragments.
+      C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Lock the exact released C3 parent identity.
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e # Lock the validated UCOR6 plus UCAB3 solver identity.
+      STATIC_ARTIFACT_NAME: C3-exact-nlgeom-static-mother-recovery # Select the structural-hash static-mother recovery package.
+      BASELINE_ARTIFACT_ID: "9737911706" # Select the immutable unchanged-C3 forty-mode common-observation package.
+      EXPLICIT_RELEASE_TAG: c3-tracka-explicit-forward-20260831 # Select the explicit no-spring high-master release.
+      FINAL_RELEASE_TAG: c3-tracka-old-ansys-forward-20260831 # Define the stable final old-workflow forward release tag.
+      OUTPUT_DIR: catwalk-fem/c0-c5-reproduction/tracka_old_ansys_forward # Define the fixed compact evidence directory.
+      OMP_NUM_THREADS: "1" # Keep nonlinear and sparse modal calculations deterministic and memory-bounded.
+    steps: # Execute the complete old-workflow forward chain.
+      - name: Checkout immutable Track A analysis branch # Fetch the exact triggering snapshot.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.sha }} # Bind the calculation to the immutable triggering commit.
+          fetch-depth: 1 # Fetch only the required snapshot.
+          persist-credentials: true # Retain the workflow token for the final compact-result push.
+      - name: Install validated solver and tracking runtime # Supply the required numerical libraries and Python packages.
+        shell: bash # Execute deterministic package commands.
+        run: | # Install only the required runtime dependencies.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          sudo apt-get update -qq # Refresh the runner package index quietly.
+          sudo apt-get install -y -qq liblapack3 libblas3 libgfortran5 python3-numpy python3-scipy # Install validated solver libraries and numerical Python.
+      - name: Reconstruct exact C3 parent and validated custom solver # Restore all content-addressed local inputs.
+        shell: bash # Execute deterministic Bash reconstruction commands.
+        run: | # Run one strict reconstruction script.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          mkdir -p inputs run results baseline_artifact static_artifact explicit_release # Create isolated input, solver, analysis, and artifact directories.
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > inputs/C3_parent.inp # Reconstruct the exact released C3 parent input.
+          printf '%s  %s\n' "$C3_SHA" inputs/C3_parent.inp | sha256sum -c - # Reject any parent-deck identity drift.
+          cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx # Reconstruct the validated custom CalculiX executable.
+          chmod +x run/ccx # Make the reconstructed solver executable.
+          printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c - # Reject any solver identity drift.
+      - name: Download explicit high-master Track A entity model release # Retrieve the no-spring r-cross-theta model and prior evidence.
+        shell: bash # Execute deterministic GitHub CLI commands.
+        env: # Provide the repository token to GitHub CLI.
+          GH_TOKEN: ${{ github.token }} # Authorize public release asset retrieval.
+        run: | # Download and extract the complete explicit-model package.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          gh release download "$EXPLICIT_RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern 'C3_TrackA_explicit_forward_complete.tar.gz' --dir explicit_release # Download the immutable complete explicit-model archive.
+          tar -C explicit_release -xzf explicit_release/C3_TrackA_explicit_forward_complete.tar.gz # Extract the complete explicit model and native evidence.
+          test -s explicit_release/model/C3_TrackA_explicit_high_master.inp # Require the full-size explicit Track A entity input.
+      - name: Wait for and download exact nonlinear C3 static mother # Retrieve the structurally identical nonlinear static-history package.
+        shell: bash # Execute the fully commented Python artifact downloader.
+        env: # Provide the ephemeral read-only Actions token.
+          GH_TOKEN: ${{ github.token }} # Authorize prerequisite artifact reads.
+          GH_REPOSITORY: ${{ github.repository }} # Bind the current owner/name repository identity.
+        run: | # Emit and execute the deterministic downloader.
+          cat > download_static_and_baseline.py <<'PY' # Write the complete prerequisite downloader source file.
+          from __future__ import annotations  # Keep annotations deterministic on the runner Python version.
+          from pathlib import Path  # Resolve download and extraction paths deterministically.
+          import io  # Hold downloaded ZIP archive bytes before extraction.
+          import json  # Parse GitHub REST metadata and publish provenance.
+          import os  # Read the ephemeral token and frozen artifact identifiers.
+          import time  # Poll the preceding static-mother recovery at bounded intervals.
+          import urllib.request  # Call the GitHub REST API with read-only credentials.
+          import zipfile  # Extract Actions artifact ZIP archives.
+          TOKEN = os.environ['GH_TOKEN']  # Read the ephemeral workflow token.
+          REPOSITORY = os.environ['GH_REPOSITORY']  # Read the owner/name repository identity.
+          STATIC_NAME = os.environ['STATIC_ARTIFACT_NAME']  # Read the static-mother artifact name.
+          BASELINE_ID = int(os.environ['BASELINE_ARTIFACT_ID'])  # Read the immutable baseline artifact identity.
+          def request_json(url: str) -> dict[str, object]:  # Fetch one GitHub REST JSON document.
+              request = urllib.request.Request(url, headers={'Authorization': f'Bearer {TOKEN}', 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})  # Build the authenticated read-only request.
+              with urllib.request.urlopen(request, timeout=120) as response:  # Execute the bounded request.
+                  return json.load(response)  # Decode and return the JSON response.
+          def request_bytes(url: str) -> bytes:  # Download one Actions artifact ZIP archive.
+              request = urllib.request.Request(url, headers={'Authorization': f'Bearer {TOKEN}', 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})  # Build the authenticated archive request.
+              with urllib.request.urlopen(request, timeout=600) as response:  # Follow redirects and download bounded bytes.
+                  return response.read()  # Return the complete ZIP archive.
+          def extract_artifact(artifact_id: int, destination: Path) -> None:  # Download and extract one artifact by immutable identity.
+              archive = request_bytes(f'https://api.github.com/repos/{REPOSITORY}/actions/artifacts/{artifact_id}/zip')  # Download the immutable artifact archive.
+              destination.mkdir(parents=True, exist_ok=True)  # Create the extraction directory.
+              with zipfile.ZipFile(io.BytesIO(archive)) as handle:  # Open the in-memory ZIP archive.
+                  handle.extractall(destination)  # Extract every evidence file.
+          static_artifact: dict[str, object] | None = None  # Initialize the newest static-mother artifact selection.
+          for attempt in range(360):  # Poll for at most sixty minutes.
+              payload = request_json(f'https://api.github.com/repos/{REPOSITORY}/actions/artifacts?name={STATIC_NAME}&per_page=100')  # List matching static-mother artifacts.
+              artifacts = payload.get('artifacts', [])  # Select the artifact array.
+              valid = [artifact for artifact in artifacts if not artifact.get('expired', False)] if isinstance(artifacts, list) else []  # Retain nonexpired artifacts only.
+              if valid:  # Stop when a recovery package is available.
+                  static_artifact = max(valid, key=lambda artifact: str(artifact.get('created_at', '')))  # Select the newest matching package.
+                  break  # Exit the bounded polling loop.
+              time.sleep(10)  # Wait ten seconds before the next read-only poll.
+          if static_artifact is None:  # Reject an unavailable static-mother prerequisite after bounded polling.
+              raise SystemExit(f'No nonexpired artifact named {STATIC_NAME} became available')  # Surface the missing technical prerequisite.
+          extract_artifact(int(static_artifact['id']), Path('static_artifact'))  # Extract the exact static-mother recovery package.
+          extract_artifact(BASELINE_ID, Path('baseline_artifact'))  # Extract the immutable unchanged-C3 baseline package.
+          provenance = {'static_artifact': static_artifact, 'baseline_artifact_id': BASELINE_ID, 'target_frequency_used': False}  # Build the complete prerequisite provenance record.
+          Path('inputs/prerequisite_artifacts.json').write_text(json.dumps(provenance, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish immutable artifact identities.
+          PY
+          python3 download_static_and_baseline.py # Execute the deterministic prerequisite downloader.
+          static_audit=$(find static_artifact -type f -name 'C3_STATIC_MOTHER_RECOVERY.json' | head -n1) # Locate the structural recovery audit.
+          test -n "$static_audit" # Require the structural recovery audit.
+          python3 - "$static_audit" <<'PY' # Verify that the artifact contains an exact static mother before construction.
+          from pathlib import Path  # Resolve the audit path deterministically.
+          import json  # Parse the structural recovery record.
+          import sys  # Read the explicit audit path argument.
+          audit = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))  # Decode the complete recovery record.
+          if not audit.get('selection_found', False):  # Require a structurally identical nonlinear static mother.
+              raise SystemExit('Exact C3 nonlinear static mother was not found in the recovery audit')  # Stop before any guessed load reconstruction.
+          PY
+          mother=$(find static_artifact -type f -name 'C3_EXACT_NLGEOM_STATIC_MOTHER.inp' -printf '%s %p\n' | sort -nr | head -n1 | cut -d' ' -f2-) # Select the recovered full-size static mother.
+          test -n "$mother" # Require the recovered full-size mother deck.
+          cp "$mother" inputs/C3_exact_nlgeom_static_mother.inp # Preserve the exact static-mother bytes under a stable path.
+          cp "$static_audit" inputs/C3_STATIC_MOTHER_RECOVERY.json # Preserve the complete structural recovery audit.
+      - name: Build strict old-ANSYS-style Track A daughter # Merge explicit kinematics with the exact inherited nonlinear static history.
+        shell: bash # Execute the repository-controlled strict merger.
+        run: | # Build and audit one complete eighty-mode daughter deck.
+          set -euxo pipefail # Stop on every construction or invariant failure.
+          python3 catwalk-fem/c0-c5-reproduction/code/build_tracka_old_ansys_forward.py --parent inputs/C3_parent.inp --explicit explicit_release/model/C3_TrackA_explicit_high_master.inp --static-mother inputs/C3_exact_nlgeom_static_mother.inp --output run/job.inp --audit results/TRACK_A_OLD_ANSYS_BUILD_AUDIT.json --roots 80 # Apply the exact high-master r-cross-theta model before the recovered C3 nonlinear static history.
+          sha256sum run/job.inp > results/job.inp.sha256 # Record the complete generated daughter identity.
+      - name: Solve nonlinear equilibrium and eighty perturbation modes # Execute the validated full-model custom CalculiX solver.
+        shell: bash # Preserve the native solver exit status through tee.
+        run: | # Run the exact generated daughter deck.
+          set -o pipefail # Return a failed solver status to Actions.
+          cd run # Enter the isolated CalculiX working directory.
+          /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt # Solve the inherited nonlinear static history and eighty modal roots.
+          echo "${PIPESTATUS[0]}" > job.exit # Preserve the actual custom-solver exit code.
+          test "$(cat job.exit)" = "0" # Require a zero native solver status.
+          grep -q 'Job finished' job.stdout.txt # Require complete CalculiX termination.
+      - name: Track C3 modes globally into the strict Track A spectrum # Compute rectangular one-to-one MAC and old-workflow visible signatures.
+        shell: bash # Execute the repository-controlled global mode tracker.
+        run: | # Track physical branches without attachment targets or nearest-frequency selection.
+          set -euxo pipefail # Stop on parser, assignment, or evidence failures.
+          python3 catwalk-fem/c0-c5-reproduction/code/track_tracka_old_ansys_modes.py --baseline-dir baseline_artifact --test-dat run/job.dat --test-frd run/job.frd --output-dir results/tracking --baseline-count 40 # Assign C3 modes uniquely into the Track A eighty-mode candidate set.
+      - name: Build compact final report and complete reproducibility package # Consolidate construction, native solution, and tracking evidence.
+        shell: bash # Execute the fully commented report builder and archive commands.
+        run: | # Emit the fixed-path report and complete package.
+          cat > build_final_report.py <<'PY' # Write the complete final-report builder source file.
+          from __future__ import annotations  # Keep annotations deterministic on the runner Python version.
+          from pathlib import Path  # Resolve result, package, and repository output paths deterministically.
+          import csv  # Read the complete tracking table for compact selected-branch output.
+          import hashlib  # Compute exact identities for all native and generated files.
+          import json  # Read machine-readable evidence and publish the final status record.
+          import os  # Read the fixed repository output directory.
+          import shutil  # Copy compact evidence and native files without rewriting their content.
+          OUTPUT = Path(os.environ['OUTPUT_DIR'])  # Bind the fixed compact repository evidence directory.
+          OUTPUT.mkdir(parents=True, exist_ok=True)  # Create the compact evidence directory.
+          BUILD = json.loads(Path('results/TRACK_A_OLD_ANSYS_BUILD_AUDIT.json').read_text(encoding='utf-8'))  # Decode the strict construction audit.
+          TRACK = json.loads(Path('results/tracking/TRACK_A_OLD_ANSYS_MODE_TRACKING.json').read_text(encoding='utf-8'))  # Decode the global mode-tracking record.
+          STATIC = json.loads(Path('inputs/C3_STATIC_MOTHER_RECOVERY.json').read_text(encoding='utf-8'))  # Decode the exact static-mother recovery audit.
+          PREREQUISITES = json.loads(Path('inputs/prerequisite_artifacts.json').read_text(encoding='utf-8'))  # Decode prerequisite artifact identities.
+          def sha256(path: Path) -> str:  # Compute one exact file identity by streaming.
+              digest = hashlib.sha256()  # Initialize a fresh SHA-256 state.
+              with path.open('rb') as handle:  # Open the complete file without decoding.
+                  for block in iter(lambda: handle.read(1024 * 1024), b''):  # Stream fixed-size blocks to EOF.
+                      digest.update(block)  # Bind each exact byte once.
+              return digest.hexdigest()  # Return the lowercase hexadecimal identity.
+          exact_files = {'inp': {'path': 'run/job.inp', 'sha256': sha256(Path('run/job.inp')), 'bytes': Path('run/job.inp').stat().st_size}, 'dat': {'path': 'run/job.dat', 'sha256': sha256(Path('run/job.dat')), 'bytes': Path('run/job.dat').stat().st_size}, 'frd': {'path': 'run/job.frd', 'sha256': sha256(Path('run/job.frd')), 'bytes': Path('run/job.frd').stat().st_size}, 'stdout': {'path': 'run/job.stdout.txt', 'sha256': sha256(Path('run/job.stdout.txt')), 'bytes': Path('run/job.stdout.txt').stat().st_size}}  # Record exact native file identities.
+          status = {'status': 'COMPLETE', 'construction_model': 'complete C3 entity model plus explicit high master and LINK members plus rigid-offset theta-cross-r equations plus exact inherited C3 NLGEOM gravity history plus eighty perturbation modes', 'target_frequency_used_for_construction': False, 'target_frequency_used_for_assignment': False, 'nearest_frequency_assignment_used': False, 'surrogate_spring_used': False, 'previous_back_tuned_diagnostic_model_used': False, 'static_mother_recovery': STATIC, 'build_audit': BUILD, 'mode_tracking': TRACK, 'prerequisite_artifacts': PREREQUISITES, 'exact_files': exact_files}  # Build the complete final status record without an attachment-fit acceptance criterion.
+          (OUTPUT / 'FINAL_STATUS.json').write_text(json.dumps(status, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the machine-readable fixed-path status.
+          shutil.copy2('results/TRACK_A_OLD_ANSYS_BUILD_AUDIT.json', OUTPUT / 'TRACK_A_OLD_ANSYS_BUILD_AUDIT.json')  # Preserve the exact construction audit.
+          shutil.copy2('results/tracking/TRACK_A_OLD_ANSYS_MODE_TRACKING.json', OUTPUT / 'TRACK_A_OLD_ANSYS_MODE_TRACKING.json')  # Preserve the exact mode-tracking record.
+          shutil.copy2('results/tracking/all40_global_one_to_one_tracking.csv', OUTPUT / 'all40_global_one_to_one_tracking.csv')  # Preserve the complete one-to-one assignment table.
+          shutil.copy2('results/tracking/mac_matrix_40x80.csv', OUTPUT / 'mac_matrix_40x80.csv')  # Preserve the complete rectangular MAC matrix.
+          shutil.copy2('inputs/C3_STATIC_MOTHER_RECOVERY.json', OUTPUT / 'C3_STATIC_MOTHER_RECOVERY.json')  # Preserve the complete static-mother recovery audit.
+          selected = TRACK.get('selected_branches', [])  # Select the five historical-workflow branches.
+          first14 = TRACK.get('first14_solver_order', [])  # Select the natural first-fourteen strict Track A modes.
+          construction = BUILD.get('construction', {})  # Select the strict construction summary.
+          lines = ['# C3 Track A：旧版 ANSYS 式完整正向计算', '', '本结果模拟一名使用旧版 ANSYS/APDL 的工程人员或研究生最可能采用的计算过程：建立高位 master/pilot，使用 LINK 类单元和刚体主从方程连接低位节点，在原 C3 重力与预应力工作状态上重新执行 NLGEOM 静力平衡，再直接提取模态并按自然阶次查看振型。', '', '构模与分支配对均未读取附件目标频率；没有使用 SPRING1、SPRING2、低维模型或逐项最近频率。', '', '## Track 理论离散', '', '\[', '\mathbf u_l=\mathbf u_h+\boldsymbol\theta_h\times\mathbf r_{hl},', '\]', '', '\[', '\Delta U_G=\frac12\sum_j m_j g h_j\theta_j^2,', '\qquad', '\Delta\omega_n^2=\frac{\sum_j m_j g h_j\phi_{\theta n}^2}{I_n}.', '\]', '', f"- 新增高位节点：`{construction.get('new_node_count')}`", f"- 新增实体单元：`{construction.get('new_element_type_counts')}`", f"- 新增约束方程：`{construction.get('new_equation_count')}`", f"- 含转角方程：`{construction.get('rotation_equation_count')}`", f"- 含杠杆系数方程：`{construction.get('lever_equation_count')}`", f"- 刚体公式最大系数残差：`{construction.get('maximum_rigid_formula_error')}`", f"- 新增质量重力行：`{construction.get('injected_gravity_rows')}`", f"- NLGEOM 静力步骤数：`{construction.get('static_step_count')}`", f"- 显式弹簧数：`{construction.get('surrogate_spring_count')}`", '', '## 五分支全局一对一追踪', '', '| 分支 | C3阶次/Hz | Track A阶次/Hz | 频率变化 | Δω² | MAC | Track A前14阶内 | 左右幅相关 | 滚转参与率 | 纵向符号变化 |', '|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|']  # Initialize the complete human-readable report.
+          for row in selected:  # Format each selected physical branch.
+              lines.append(f"| {row.get('label')} | M{row.get('baseline_mode')} / {float(row.get('baseline_frequency_hz')):.8f} | M{row.get('track_mode')} / {float(row.get('track_frequency_hz')):.8f} | {float(row.get('frequency_change_percent')):+.3f}% | {float(row.get('delta_omega_squared_rad2_per_s2')):+.8g} | {float(row.get('mac')):.4f} | {'是' if row.get('within_first_14_track_modes') else '否'} | {row.get('track_lr_vertical_correlation')} | {row.get('track_roll_participation')} | {row.get('track_half_wave_sign_changes')} |")  # Append one complete branch row.
+          lines.extend(['', '## 旧版 ANSYS 操作者看到的自然前14阶', '', '| 阶次 | 频率/Hz |', '|---:|---:|'])  # Add the natural-order spectrum header.
+          for item in first14:  # Format every natural-order mode.
+              lines.append(f"| {item.get('mode')} | {float(item.get('frequency_hz')):.8f} |")  # Append one natural solver-order row.
+          lines.extend(['', '## 原生文件身份', '', f"- INP SHA-256：`{exact_files['inp']['sha256']}`", f"- DAT SHA-256：`{exact_files['dat']['sha256']}`", f"- FRD SHA-256：`{exact_files['frd']['sha256']}`", f"- 求解日志 SHA-256：`{exact_files['stdout']['sha256']}`", ''])  # Append exact file identities.
+          (OUTPUT / 'FINAL_REPORT.md').write_text('\n'.join(lines), encoding='utf-8')  # Publish the complete human-readable fixed-path report.
+          PY
+          python3 build_final_report.py # Execute the deterministic final-report builder.
+          mkdir -p package/model package/native package/tracking package/audit # Create stable complete-package subdirectories.
+          cp run/job.inp package/model/C3_TrackA_old_ANSYS_forward.inp # Preserve the complete strict daughter input.
+          cp run/job.dat package/native/C3_TrackA_old_ANSYS_forward.dat # Preserve the native frequency and static output.
+          cp run/job.frd package/native/C3_TrackA_old_ANSYS_forward.frd # Preserve the native static and mode-shape output.
+          cp run/job.stdout.txt run/job.exit package/native/ # Preserve native solver execution evidence.
+          cp results/tracking/* package/tracking/ # Preserve the complete mode-tracking evidence.
+          cp results/TRACK_A_OLD_ANSYS_BUILD_AUDIT.json inputs/C3_STATIC_MOTHER_RECOVERY.json inputs/prerequisite_artifacts.json package/audit/ # Preserve construction and source-recovery evidence.
+          cp "$OUTPUT_DIR/FINAL_REPORT.md" "$OUTPUT_DIR/FINAL_STATUS.json" package/ # Preserve the compact final report and status.
+          find package -type f -print0 | sort -z | xargs -0 sha256sum > package/SHA256SUMS.txt # Hash every exact package file.
+          tar -C package -czf C3_TrackA_old_ANSYS_forward_complete.tar.gz . # Create one compressed complete reproducibility archive.
+          sha256sum C3_TrackA_old_ANSYS_forward_complete.tar.gz > C3_TrackA_old_ANSYS_forward_complete.tar.gz.sha256 # Hash the complete archive.
+          sha256sum "$OUTPUT_DIR"/* > "$OUTPUT_DIR/SHA256SUMS.txt" # Hash every compact repository evidence file.
+      - name: Commit compact strict Track A result to the isolated branch # Persist the fixed-path report and matrices.
+        shell: bash # Execute deterministic Git commands.
+        run: | # Commit only the generated compact evidence directory.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          git config user.name 'github-actions[bot]' # Set the standard Actions commit identity.
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com' # Set the standard Actions no-reply email.
+          git add "$OUTPUT_DIR" # Stage only the strict Track A compact evidence directory.
+          if ! git diff --cached --quiet; then git commit -m 'results(c3): publish strict old-ANSYS TrackA forward run'; git push origin HEAD:${{ github.ref_name }}; fi # Commit and push only when new evidence exists.
+      - name: Publish complete strict Track A release # Upload the full entity model native outputs and compact evidence.
+        shell: bash # Execute deterministic GitHub CLI commands.
+        env: # Provide the release token to GitHub CLI.
+          GH_TOKEN: ${{ github.token }} # Authorize release creation and asset upload.
+        run: | # Create the stable release or replace assets from the same calculation chain.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          assets=(C3_TrackA_old_ANSYS_forward_complete.tar.gz C3_TrackA_old_ANSYS_forward_complete.tar.gz.sha256 "$OUTPUT_DIR/FINAL_REPORT.md" "$OUTPUT_DIR/FINAL_STATUS.json" "$OUTPUT_DIR/TRACK_A_OLD_ANSYS_BUILD_AUDIT.json" "$OUTPUT_DIR/TRACK_A_OLD_ANSYS_MODE_TRACKING.json" "$OUTPUT_DIR/all40_global_one_to_one_tracking.csv" "$OUTPUT_DIR/C3_STATIC_MOTHER_RECOVERY.json" "$OUTPUT_DIR/SHA256SUMS.txt") # Define the complete release asset set.
+          if gh release view "$FINAL_RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then gh release upload "$FINAL_RELEASE_TAG" "${assets[@]}" --clobber --repo "$GITHUB_REPOSITORY"; else gh release create "$FINAL_RELEASE_TAG" "${assets[@]}" --title 'C3 Track A 旧版 ANSYS 式完整正向计算' --notes-file "$OUTPUT_DIR/FINAL_REPORT.md" --target "$GITHUB_SHA" --repo "$GITHUB_REPOSITORY"; fi # Create once or replace assets without changing modeling content.
