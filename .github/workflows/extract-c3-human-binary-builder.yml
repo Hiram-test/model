@@ -1,5 +1,5 @@
-# Recover the exact line-commented target-blind human-workflow builder from the completed binary-evidence branch.
-name: Extract C3 human binary builder source # Give the source-recovery workflow an explicit auditable name.
+# Recover the exact line-commented target-blind ROTX/LINK builder from the completed binary-evidence branch. Not undisclosed human APDL.
+name: Extract C3 forensic binary builder source # Source recovery; human_apdl=false; frequency_reproduced=false.
 on: # Define the deterministic workflow trigger.
   push: # Run only after this workflow definition is committed.
     branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the current reconstruction branch.
@@ -41,11 +41,11 @@ jobs: # Define the single source-recovery job.
           python3 -m py_compile results/build_human_error_variants.py # Reject a syntactically invalid recovered builder.
           awk 'NF && index($0,"#")==0 {print NR ":" $0; bad=1} END {exit bad}' results/build_human_error_variants.py # Require a comment on every nonblank source line.
           sha256sum results/build_human_error_variants.py.gz results/build_human_error_variants.py > results/SHA256SUMS.txt # Record exact identities of both recovered source representations.
-          printf 'source_branch=%s\nsource_commit=%s\nsource_path=%s\ncomment_every_nonblank_line=true\n' "$SOURCE_BRANCH" "$SOURCE_COMMIT" "$SOURCE_PATH" > results/source.txt # Record the immutable source provenance and line-comment audit result.
+          printf 'source_branch=%s\nsource_commit=%s\nsource_path=%s\ncomment_every_nonblank_line=true\nhuman_apdl=false\nfrequency_reproduced=false\nnot_attach_ta1=true\nnot_undisclosed_human_apdl=true\n' "$SOURCE_BRANCH" "$SOURCE_COMMIT" "$SOURCE_PATH" > results/source.txt # Record provenance and that this builder is not human APDL.
       - name: Upload the exact recovered builder source # Publish the source package for direct inspection and corrected-model development.
         uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
         with: # Configure a stable artifact name and strict presence check.
-          name: C3-human-binary-builder-source # Identify the exact source used by the completed target-blind matrix.
+          name: C3-human-binary-builder-source # Historical artifact name; recovered source is a ROTX/LINK hypothesis builder, not human APDL.
           path: results/ # Upload the compressed builder, decompressed source, checksums, and provenance.
           if-no-files-found: error # Reject an empty source package.
           retention-days: 30 # Keep the builder available through corrected-control development.

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3  # Execute the target-blind direct-C3 high-master reconstruction with the Actions Python runtime.
+#!/usr/bin/env python3  # Target-blind E4 high-master rewire on frozen C3. Portal masters come from the agent Ultra S10 include, not undisclosed human APDL. frequency_reproduced=false. human_apdl=false.
 from __future__ import annotations  # Preserve modern type annotations on supported Python versions.
 import argparse  # Parse immutable source paths, the preregistered variant, and modal-root controls.
 import csv  # Write an auditable passage-master and high-master geometry ledger.
@@ -10,7 +10,7 @@ from collections import Counter, defaultdict  # Count legacy master profiles and
 from pathlib import Path  # Handle repository and runner paths without shell-dependent string operations.
 from typing import Iterable  # Annotate deterministic formatting helpers.
 C3_PARENT_SHA256 = "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86"  # Lock the exact released C3 parent input.
-LEGACY_APDL_SHA256 = "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330"  # Lock the authoritative finite-gate-and-passage APDL include.
+LEGACY_APDL_SHA256 = "72012ebbd107cf377c2178561b9008606aeb894c4f7879110d13c30d2a417330"  # Lock apply_finite_gates_and_passages_v2.inp from the agent Ultra S10 section-shear snapshot.
 EXPECTED_PARENT_NODES = 91415  # Preserve the validated C3 node count.
 EXPECTED_PARENT_ELEMENTS = 172998  # Preserve the validated C3 element count.
 EXPECTED_LEGACY_MASTERS = 3692  # Preserve the recovered unique CERIG-master count.
@@ -25,9 +25,9 @@ def digest_bytes(data: bytes) -> str:  # Return one lowercase SHA-256 digest.
 def coordinate_key(x_value: float, y_value: float, z_value: float) -> tuple[float, float, float]:  # Normalize one global coordinate for cross-format matching.
     return round(x_value, 6), round(y_value, 6), round(z_value, 6)  # Use the audited one-micrometre decimal representation.
 def parse_arguments() -> argparse.Namespace:  # Parse all explicit construction controls.
-    parser = argparse.ArgumentParser(description="Rewire exact C3 passage CERIG relations from bottom masters to topology-derived high portal masters without target fitting.")  # Create a self-documenting command interface.
+    parser = argparse.ArgumentParser(description="Rewire exact C3 passage CERIG relations from bottom masters to S10-topology high portal masters. Not human APDL. frequency_reproduced=false.")  # Create a self-documenting command interface.
     parser.add_argument("--source", required=True, type=Path)  # Require the exact frozen C3 parent deck.
-    parser.add_argument("--legacy-apdl", required=True, type=Path)  # Require the authoritative finite-gate-and-passage APDL include.
+    parser.add_argument("--legacy-apdl", required=True, type=Path)  # Require the agent Ultra S10 finite-gate-and-passage include (not undisclosed human APDL).
     parser.add_argument("--output", required=True, type=Path)  # Require the complete daughter input path.
     parser.add_argument("--variant", required=True, choices=sorted(VARIANTS))  # Restrict execution to preregistered target-blind variants.
     parser.add_argument("--roots", type=int, default=40)  # Request forty modes by default for crossing-aware branch tracking.
@@ -94,7 +94,7 @@ def parse_legacy_apdl(apdl_text: str) -> tuple[dict[int, tuple[float, float, flo
     cerig_relations: list[tuple[int, int, str]] = []  # Preserve every explicit master-slave-degree relation.
     master_profiles: dict[int, Counter[str]] = defaultdict(Counter)  # Count each CERIG degree profile by master.
     current_section: int | None = None  # Track the active APDL beam section.
-    for raw_line in apdl_text.splitlines():  # Scan the authoritative include once in source order.
+    for raw_line in apdl_text.splitlines():  # Scan the S10 include once in source order.
         command_text = raw_line.split("!", 1)[0].strip()  # Remove only APDL end-of-line comments before parsing.
         if not command_text:  # Ignore blank and comment-only records.
             continue  # Advance to the next APDL record.
@@ -249,7 +249,7 @@ def main() -> None:  # Execute validation, topology-derived high-master reconstr
     source_sha256 = digest_bytes(source_bytes)  # Compute the actual parent identity.
     if source_sha256 != args.expected_source_sha256.lower():  # Require the caller-provided immutable source identity.
         raise ValueError(f"Source SHA-256 mismatch: expected {args.expected_source_sha256}, got {source_sha256}.")  # Reject source drift before modeling.
-    legacy_bytes = args.legacy_apdl.read_bytes()  # Read the authoritative legacy APDL byte stream once.
+    legacy_bytes = args.legacy_apdl.read_bytes()  # Read the agent Ultra S10 include byte stream once.
     legacy_sha256 = digest_bytes(legacy_bytes)  # Compute the actual APDL identity.
     if legacy_sha256 != LEGACY_APDL_SHA256:  # Require the recovered immutable APDL source.
         raise ValueError(f"Legacy APDL SHA-256 mismatch: expected {LEGACY_APDL_SHA256}, got {legacy_sha256}.")  # Reject a different geometry source.
@@ -258,7 +258,7 @@ def main() -> None:  # Execute validation, topology-derived high-master reconstr
     if len(c3_coordinates) != args.expected_parent_nodes or len(element_ids) != args.expected_parent_elements:  # Require the stated exact C3 topology.
         raise ValueError(f"Parent topology mismatch: nodes={len(c3_coordinates)}, elements={len(element_ids)}.")  # Reject a different C3 deck.
     equations = parse_c3_equations(source_lines)  # Parse every parent equation and source range.
-    legacy_coordinates, legacy_elements, cerig_relations, master_profiles = parse_legacy_apdl(legacy_bytes.decode("utf-8"))  # Parse the authoritative finite gate and passage topology.
+    legacy_coordinates, legacy_elements, cerig_relations, master_profiles = parse_legacy_apdl(legacy_bytes.decode("utf-8"))  # Parse the S10 finite gate and passage topology.
     geometry_rows = derive_high_master_rows(legacy_coordinates, legacy_elements, cerig_relations, master_profiles)  # Derive every actual outer portal-top master without target data.
     c3_by_coordinate: dict[tuple[float, float, float], list[int]] = defaultdict(list)  # Build an ambiguity-preserving reverse C3 coordinate index.
     for node_id, coordinate in c3_coordinates.items():  # Index every exact C3 node coordinate.
@@ -319,7 +319,7 @@ def main() -> None:  # Execute validation, topology-derived high-master reconstr
             continue  # Continue copying untouched parent model data.
         output_lines.append(source_lines[line_index])  # Preserve one untouched parent line exactly.
         line_index += 1  # Advance to the next source line.
-    output_lines.extend(["** -----------------------------------------------------------------------------\n", f"** TARGET-BLIND LEGACY-ANSYS HIGH-MASTER VARIANT {args.variant}.\n", "** Portal-top masters and heights are derived only from the authoritative finite BEAM188 and CERIG topology.\n", "** No target frequency, fitted spring, added mass, material change, section change, prestress change, or coordinate change is used.\n", "** Track equation: Delta U_T=0.5*sum_j(k_theta_j*theta_j^2); this daughter tests the finite topology-generated k_theta operator.\n", "** -----------------------------------------------------------------------------\n"])  # State the exact evidence boundary inside the emitted daughter deck.
+    output_lines.extend(["** -----------------------------------------------------------------------------\n", f"** TARGET-BLIND E4 HIGH-MASTER VARIANT {args.variant}. NOT human APDL. frequency_reproduced=false.\n", "** Portal-top masters and heights are derived only from the agent Ultra S10 BEAM188 and CERIG topology.\n", "** No target frequency, fitted spring, added mass, material change, section change, prestress change, or coordinate change is used.\n", "** Track equation: Delta U_T=0.5*sum_j(k_theta_j*theta_j^2); this daughter tests the finite topology-generated k_theta operator.\n", "** -----------------------------------------------------------------------------\n"])  # State the exact evidence boundary inside the emitted daughter deck.
     for equation_terms in generated_equations:  # Emit every regenerated rigid relation after all untouched model data.
         output_lines.extend(format_equation(equation_terms))  # Serialize one complete CalculiX equation block.
     output_lines.extend(build_modal_step(args.roots))  # Append the common forty-root observation-only modal step.
@@ -341,7 +341,7 @@ def main() -> None:  # Execute validation, topology-derived high-master reconstr
     write_mapping_csv(mapping_path, mapping_rows)  # Publish the complete topology-derived high-master ledger.
     unique_station_x = sorted({float(row["x_mm"]) for row in selected_rows})  # Recover the selected physical passage station coordinates.
     height_values = [float(row["height_mm"]) for row in selected_rows]  # Collect actual topology-derived portal heights.
-    receipt = {"schema_version": 3, "variant": args.variant, "model": "exact frozen C3 entity model", "target_blind": True, "attachment_target_frequencies_loaded": False, "frequency_reproduced": False, "back_tuned": False, "low_dimensional": False, "human_process_hypothesis": "A legacy operator reused the visible portal-top master when issuing the rope UXYZ and/or passage ALL CERIG commands.", "track_equation": "Delta U_T = 0.5*sum_j(k_theta_j*theta_j^2); omega_wrong^2 = omega_0^2 + sum_j(k_theta_j*phi_j^2)/I_T", "operator_source": "authoritative finite BEAM188 portal geometry plus existing C3 rigid equations", "source_sha256": source_sha256, "legacy_apdl_sha256": legacy_sha256, "output_sha256": output_sha256, "mapping_csv_sha256": digest_bytes(mapping_path.read_bytes()), "parent_nodes": len(c3_coordinates), "parent_elements": len(element_ids), "parent_equations": len(equations), "output_equations": len(output_equations), "scope": scope_name, "physical_station_count": len(unique_station_x), "selected_passage_side_count": len(selected_rows), "rewritten_equation_count": len(generated_equations), "rope_master_choice": rope_choice, "passage_master_choice": passage_choice, "height_mm_min": min(height_values), "height_mm_max": max(height_values), "height_mm_mean": sum(height_values) / len(height_values), "height_values_mm": height_values, "station_x_mm": unique_station_x, "control_max_coefficient_difference": control_max_coefficient_difference, "modal_roots": args.roots, "observation_node_count": len(OBSERVATION_NODES), "observation_nodes": OBSERVATION_NODES, "forbidden_changes_confirmed_absent": ["target-conditioned parameter", "spring element", "added mass", "material change", "section change", "prestress change", "node-coordinate change", "element-connectivity change", "hard rotational boundary"], "status": "CONSTRUCTED_TARGET_BLIND_NOT_YET_INTERPRETED"}  # Record complete identity, actual geometry, scope, and evidence boundaries.
+    receipt = {"schema_version": 3, "variant": args.variant, "model": "exact frozen C3 entity model", "target_blind": True, "attachment_target_frequencies_loaded": False, "frequency_reproduced": False, "back_tuned": False, "low_dimensional": False, "human_apdl": False, "not_attach_ta1": True, "source": "agent_ultra_s10_section_shear", "human_process_hypothesis": "Hypothesis only: reuse the visible portal-top master for rope UXYZ and/or passage ALL. Not recovered human APDL and not attach TA1.", "track_equation": "Delta U_T = 0.5*sum_j(k_theta_j*theta_j^2); omega_wrong^2 = omega_0^2 + sum_j(k_theta_j*phi_j^2)/I_T", "operator_source": "agent Ultra S10 BEAM188 portal geometry plus existing C3 rigid equations", "source_sha256": source_sha256, "legacy_apdl_sha256": legacy_sha256, "output_sha256": output_sha256, "mapping_csv_sha256": digest_bytes(mapping_path.read_bytes()), "parent_nodes": len(c3_coordinates), "parent_elements": len(element_ids), "parent_equations": len(equations), "output_equations": len(output_equations), "scope": scope_name, "physical_station_count": len(unique_station_x), "selected_passage_side_count": len(selected_rows), "rewritten_equation_count": len(generated_equations), "rope_master_choice": rope_choice, "passage_master_choice": passage_choice, "height_mm_min": min(height_values), "height_mm_max": max(height_values), "height_mm_mean": sum(height_values) / len(height_values), "height_values_mm": height_values, "station_x_mm": unique_station_x, "control_max_coefficient_difference": control_max_coefficient_difference, "modal_roots": args.roots, "observation_node_count": len(OBSERVATION_NODES), "observation_nodes": OBSERVATION_NODES, "forbidden_changes_confirmed_absent": ["target-conditioned parameter", "spring element", "added mass", "material change", "section change", "prestress change", "node-coordinate change", "element-connectivity change", "hard rotational boundary"], "status": "CONSTRUCTED_TARGET_BLIND_NOT_YET_INTERPRETED"}  # Record complete identity, actual geometry, scope, and evidence boundaries.
     receipt_path = args.output.with_suffix(args.output.suffix + ".receipt.json")  # Derive the adjacent machine-readable receipt path.
     receipt_path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")  # Publish the deterministic construction receipt.
     print(json.dumps({"variant": args.variant, "output_sha256": output_sha256, "selected_passage_sides": len(selected_rows), "physical_stations": len(unique_station_x), "rewritten_equations": len(generated_equations), "height_mm_min": min(height_values), "height_mm_max": max(height_values), "height_mm_mean": sum(height_values) / len(height_values), "control_max_coefficient_difference": control_max_coefficient_difference, "target_blind": True, "frequency_reproduced": False}, ensure_ascii=False, sort_keys=True))  # Emit a compact machine-readable construction summary.
