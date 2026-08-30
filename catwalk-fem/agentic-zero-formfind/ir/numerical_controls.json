@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0.0",
+  "artifactId": "CW-A12-NUMERICAL-DRAFT-0001",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "registryStatus": "DRAFT_NOT_ACTIVATED_BECAUSE_G8B_BLOCKED",
+  "solver": "CalculiX",
+  "static": {
+    "nlgeom": true,
+    "erection": {"initialIncrement": 0.01, "stepTime": 1.0, "minimumIncrement": 1e-08, "maximumIncrement": 0.05},
+    "release": {"initialIncrement": 0.002, "stepTime": 1.0, "minimumIncrement": 1e-09, "maximumIncrement": 0.02},
+    "hold": {"initialIncrement": 0.05, "stepTime": 1.0, "minimumIncrement": 1e-09, "maximumIncrement": 0.05}
+  },
+  "approvedRetrySequence": [
+    {"retry": 1, "change": "reduce initial and maximum increments only"},
+    {"retry": 2, "change": "increase maximum equilibrium iterations only if supported and logged"},
+    {"retry": 3, "change": "switch to an approved displacement-path subdivision without changing target geometry or properties"}
+  ],
+  "forbiddenRetries": ["add prestress from MCT", "fix all lateral DOFs", "replace T3D2 with B31 without abstraction approval", "fold spatial point mass into cable density for production dynamics", "loosen engineering gates after seeing results"],
+  "convergencePlan": {"coarse": 9, "baseline": 17, "fine": 33, "status": "planned_not_executed"}
+}

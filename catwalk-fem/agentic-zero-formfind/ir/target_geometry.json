@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0.0",
+  "artifactId": "CW-A03-TARGET-GEO-0001",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "status": "PASS_WITH_BOUNDS",
+  "scope": "main_span_two_deck_centerlines_smoke_only",
+  "sourceRefs": ["SRC-DRAW-CONTROL"],
+  "coordinateTable": "target_reference_nodes.csv",
+  "interpolation": "z = z_saddle - 4*h*xi*(1-xi)",
+  "mainSpan": {"x0_m": 666.679, "x1_m": 2953.321, "saddleZ_m": 340.6, "midspanZ_m": 113.3, "sag_m": 227.3},
+  "deckLines": [{"deckId": "DECK-P", "y_m": 21.45}, {"deckId": "DECK-M", "y_m": -21.45}],
+  "geometryOnlyRule": "Coordinates may come from drawings, STEP, or MCT; no force or stress field is imported.",
+  "referenceGeometrySeed": {"sag_m": 213.20454130112813, "derivation": "Choose an unstressed parabolic reference sag whose polyline extension to the target curve gives H/(EA), with H=qL^2/(8h); no initial stress is inserted.", "initialStress_Pa": 0.0}
+}

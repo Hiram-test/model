@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0.0",
+  "artifactId": "CW-A02-SOURCES-0001",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "status": "PASS_WITH_BOUNDS",
+  "sources": [
+    {"sourceId": "SRC-DRAW-CONTROL", "kind": "drawing_report_derived_constants", "location": "catwalk-fem/pipeline/constants.py on cursor/agentic-catwalk-fea-d416", "gitBlobSha": "5fab52d9e7085a485052142955298a43368b95e5", "usedFor": ["coordinate_convention", "saddle_coordinates", "midspan_elevation", "deck_spacing", "rope_properties", "dead_load"], "notUsedFor": ["initial_force", "initial_stress", "target_frequency"]},
+    {"sourceId": "SRC-STEP-GEOMETRY", "kind": "released_step_geometry", "release": "catwalk-attachment23-v2.0-s10-20260716", "asset": "cw_S10_0716t050342_a4_centerline.step", "sha256": "d03d01e38b823df5af4c1ff9b0b175fdfb87b097b9cda9a03af5d14e9c763344", "availability": "REGISTERED_NOT_DOWNLOADED_IN_THIS_RUN", "usedFor": ["future_dense_geometry_target_only"], "notUsedFor": ["prestress", "equilibrium_state", "dynamic_state"]},
+    {"sourceId": "SRC-MCT-GEOMETRY-OPTIONAL", "kind": "mct_node_coordinate_fallback", "asset": "猫道 - 门架索合建模型2.mct", "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1", "availability": "REGISTERED_NOT_PARSED_IN_THIS_RUN", "usedFor": ["future_coordinate_cross_check_only"], "forbiddenRecords": ["*INIFORCE", "*INISTATE", "initial_force_table", "initial_stress_table"]},
+    {"sourceId": "SRC-FAILURE-TRUE3D", "kind": "prior_failure_evidence", "location": "catwalk-fem/true3d-extreme on cursor/agentic-catwalk-fea-d416", "usedFor": ["known_ccx_feature_gaps", "failure_ledger"], "notUsedFor": ["accepted_model_state", "accepted_modal_result"]}
+  ],
+  "revisionConflicts": [],
+  "unresolved": ["Full drawing-to-STEP registration is not rerun in this smoke package.", "MCT coordinate-only parser has not been isolated from initial-force records.", "Full four-span target geometry is not materialized; only the main span smoke target is generated."]
+}

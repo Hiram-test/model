@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "workflow": "bridge-fem-skill-suite/workflow.yaml plus optional dynamics extension",
+  "activatedNodes": [
+    "N00",
+    "N01",
+    "N02",
+    "N03",
+    "N04",
+    "N05",
+    "N06",
+    "N07",
+    "N08",
+    "N09",
+    "N10"
+  ],
+  "queuedNotActivatedNodes": [
+    "N11",
+    "N12",
+    "N13",
+    "N14",
+    "N15",
+    "N16",
+    "N17",
+    "N18"
+  ],
+  "stopNode": "N10",
+  "stopReason": "G8B cannot pass without an actual form-finding equilibrium and no-added-load hold result.",
+  "sideArtifactsAllowed": [
+    "draft solver decks",
+    "static deck linter",
+    "outer-loop sign smoke",
+    "candidate dynamics Skill"
+  ],
+  "sideArtifactsRegistryStatus": "DEVELOPMENT_ONLY_NOT_CONSUMABLE_BY_FORMAL_DOWNSTREAM_NODES"
+}

@@ -1,0 +1,24 @@
+** DYNAMIC_GATE=NOT_ARMED
+** Include a reproducible accepted static base before perturbation.
+*INCLUDE, INPUT=CONVERGED_ZEROFORM_STATIC_BASE.inp
+** Start a short static perturbation step.
+*STEP, NAME=DX_PERTURB, NLGEOM
+** Select static perturbation control.
+*STATIC
+** Use conservative placeholder increments.
+0.1, 1.0, 1.0e-8, 0.1
+** INSERT_MODE_SHAPED_OR_PAIRED_TWIST_DISPLACEMENT_HERE
+** End the perturbation step.
+*END STEP
+** Start nonlinear free decay after temporary controls are removed.
+*STEP, NAME=DX_FREE_DECAY, NLGEOM
+** Select implicit dynamic integration.
+*DYNAMIC
+** Use placeholder time controls pending sensitivity checks.
+0.02, 120.0
+** Request displacement, velocity, and acceleration histories.
+*NODE FILE
+** Write displacement, velocity, and acceleration histories.
+U, V, A
+** End free decay.
+*END STEP

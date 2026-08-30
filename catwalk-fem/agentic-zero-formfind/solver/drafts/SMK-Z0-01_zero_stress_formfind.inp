@@ -1,0 +1,469 @@
+** Open the unverified smoke-deck heading.
+*HEADING
+** Write the stable deck identity.
+CW-CCX-ZF-SMK-20260829-01 ZERO-STRESS INVERSE FORM-FINDING SMOKE
+** PRESTRESS_POLICY=ZERO_IMPORTED_PRESTRESS
+** Begin nodes for the current zero-stress reference geometry guess.
+*NODE, NSET=ALL_NODES
+** Define reference node 1001.
+1001, 666.679000000, 21.450000000, 340.600000000
+** Define reference node 1002.
+1002, 809.594125000, 21.450000000, 290.630186000
+** Define reference node 1003.
+1003, 952.509250000, 21.450000000, 247.323013000
+** Define reference node 1004.
+1004, 1095.424375000, 21.450000000, 210.678483000
+** Define reference node 1005.
+1005, 1238.339500000, 21.450000000, 180.696594000
+** Define reference node 1006.
+1006, 1381.254625000, 21.450000000, 157.377347000
+** Define reference node 1007.
+1007, 1524.169750000, 21.450000000, 140.720743000
+** Define reference node 1008.
+1008, 1667.084875000, 21.450000000, 130.726780000
+** Define reference node 1009.
+1009, 1810.000000000, 21.450000000, 127.395459000
+** Define reference node 1010.
+1010, 1952.915125000, 21.450000000, 130.726780000
+** Define reference node 1011.
+1011, 2095.830250000, 21.450000000, 140.720743000
+** Define reference node 1012.
+1012, 2238.745375000, 21.450000000, 157.377347000
+** Define reference node 1013.
+1013, 2381.660500000, 21.450000000, 180.696594000
+** Define reference node 1014.
+1014, 2524.575625000, 21.450000000, 210.678483000
+** Define reference node 1015.
+1015, 2667.490750000, 21.450000000, 247.323013000
+** Define reference node 1016.
+1016, 2810.405875000, 21.450000000, 290.630186000
+** Define reference node 1017.
+1017, 2953.321000000, 21.450000000, 340.600000000
+** Define reference node 2001.
+2001, 666.679000000, -21.450000000, 340.600000000
+** Define reference node 2002.
+2002, 809.594125000, -21.450000000, 290.630186000
+** Define reference node 2003.
+2003, 952.509250000, -21.450000000, 247.323013000
+** Define reference node 2004.
+2004, 1095.424375000, -21.450000000, 210.678483000
+** Define reference node 2005.
+2005, 1238.339500000, -21.450000000, 180.696594000
+** Define reference node 2006.
+2006, 1381.254625000, -21.450000000, 157.377347000
+** Define reference node 2007.
+2007, 1524.169750000, -21.450000000, 140.720743000
+** Define reference node 2008.
+2008, 1667.084875000, -21.450000000, 130.726780000
+** Define reference node 2009.
+2009, 1810.000000000, -21.450000000, 127.395459000
+** Define reference node 2010.
+2010, 1952.915125000, -21.450000000, 130.726780000
+** Define reference node 2011.
+2011, 2095.830250000, -21.450000000, 140.720743000
+** Define reference node 2012.
+2012, 2238.745375000, -21.450000000, 157.377347000
+** Define reference node 2013.
+2013, 2381.660500000, -21.450000000, 180.696594000
+** Define reference node 2014.
+2014, 2524.575625000, -21.450000000, 210.678483000
+** Define reference node 2015.
+2015, 2667.490750000, -21.450000000, 247.323013000
+** Define reference node 2016.
+2016, 2810.405875000, -21.450000000, 290.630186000
+** Define reference node 2017.
+2017, 2953.321000000, -21.450000000, 340.600000000
+** Begin positive-y equivalent floor-rope elements.
+*ELEMENT, TYPE=T3D2, ELSET=DECK_P
+** Connect positive-y nodes 1001 and 1002.
+11001, 1001, 1002
+** Connect positive-y nodes 1002 and 1003.
+11002, 1002, 1003
+** Connect positive-y nodes 1003 and 1004.
+11003, 1003, 1004
+** Connect positive-y nodes 1004 and 1005.
+11004, 1004, 1005
+** Connect positive-y nodes 1005 and 1006.
+11005, 1005, 1006
+** Connect positive-y nodes 1006 and 1007.
+11006, 1006, 1007
+** Connect positive-y nodes 1007 and 1008.
+11007, 1007, 1008
+** Connect positive-y nodes 1008 and 1009.
+11008, 1008, 1009
+** Connect positive-y nodes 1009 and 1010.
+11009, 1009, 1010
+** Connect positive-y nodes 1010 and 1011.
+11010, 1010, 1011
+** Connect positive-y nodes 1011 and 1012.
+11011, 1011, 1012
+** Connect positive-y nodes 1012 and 1013.
+11012, 1012, 1013
+** Connect positive-y nodes 1013 and 1014.
+11013, 1013, 1014
+** Connect positive-y nodes 1014 and 1015.
+11014, 1014, 1015
+** Connect positive-y nodes 1015 and 1016.
+11015, 1015, 1016
+** Connect positive-y nodes 1016 and 1017.
+11016, 1016, 1017
+** Begin negative-y equivalent floor-rope elements.
+*ELEMENT, TYPE=T3D2, ELSET=DECK_M
+** Connect negative-y nodes 2001 and 2002.
+12001, 2001, 2002
+** Connect negative-y nodes 2002 and 2003.
+12002, 2002, 2003
+** Connect negative-y nodes 2003 and 2004.
+12003, 2003, 2004
+** Connect negative-y nodes 2004 and 2005.
+12004, 2004, 2005
+** Connect negative-y nodes 2005 and 2006.
+12005, 2005, 2006
+** Connect negative-y nodes 2006 and 2007.
+12006, 2006, 2007
+** Connect negative-y nodes 2007 and 2008.
+12007, 2007, 2008
+** Connect negative-y nodes 2008 and 2009.
+12008, 2008, 2009
+** Connect negative-y nodes 2009 and 2010.
+12009, 2009, 2010
+** Connect negative-y nodes 2010 and 2011.
+12010, 2010, 2011
+** Connect negative-y nodes 2011 and 2012.
+12011, 2011, 2012
+** Connect negative-y nodes 2012 and 2013.
+12012, 2012, 2013
+** Connect negative-y nodes 2013 and 2014.
+12013, 2013, 2014
+** Connect negative-y nodes 2014 and 2015.
+12014, 2014, 2015
+** Connect negative-y nodes 2015 and 2016.
+12015, 2015, 2016
+** Connect negative-y nodes 2016 and 2017.
+12016, 2016, 2017
+** Begin axial ties used only to smoke-test two-deck connectivity.
+*ELEMENT, TYPE=T3D2, ELSET=SMOKE_TIES
+** Connect both deck lines at smoke station 0; this is not a production portal or passage.
+13001, 1001, 2001
+** Connect both deck lines at smoke station 1; this is not a production portal or passage.
+13002, 1002, 2002
+** Connect both deck lines at smoke station 2; this is not a production portal or passage.
+13003, 1003, 2003
+** Connect both deck lines at smoke station 3; this is not a production portal or passage.
+13004, 1004, 2004
+** Connect both deck lines at smoke station 4; this is not a production portal or passage.
+13005, 1005, 2005
+** Connect both deck lines at smoke station 5; this is not a production portal or passage.
+13006, 1006, 2006
+** Connect both deck lines at smoke station 6; this is not a production portal or passage.
+13007, 1007, 2007
+** Connect both deck lines at smoke station 7; this is not a production portal or passage.
+13008, 1008, 2008
+** Connect both deck lines at smoke station 8; this is not a production portal or passage.
+13009, 1009, 2009
+** Connect both deck lines at smoke station 9; this is not a production portal or passage.
+13010, 1010, 2010
+** Connect both deck lines at smoke station 10; this is not a production portal or passage.
+13011, 1011, 2011
+** Connect both deck lines at smoke station 11; this is not a production portal or passage.
+13012, 1012, 2012
+** Connect both deck lines at smoke station 12; this is not a production portal or passage.
+13013, 1013, 2013
+** Connect both deck lines at smoke station 13; this is not a production portal or passage.
+13014, 1014, 2014
+** Connect both deck lines at smoke station 14; this is not a production portal or passage.
+13015, 1015, 2015
+** Connect both deck lines at smoke station 15; this is not a production portal or passage.
+13016, 1016, 2016
+** Connect both deck lines at smoke station 16; this is not a production portal or passage.
+13017, 1017, 2017
+** Define the equivalent floor-rope material.
+*MATERIAL, NAME=MAT_FLOOR_EQ
+** Define cable-group elasticity.
+*ELASTIC
+** Write rope-group elastic modulus and Poisson ratio.
+1.200000000e+11, 0.300000000
+** Define smoke-only effective density that reproduces the registered line load.
+*DENSITY
+** Write effective density without adding any second self-weight source.
+1.258789793909e+04
+** Assign the total area of sixteen floor ropes to the positive-y equivalent line.
+*SOLID SECTION, ELSET=DECK_P, MATERIAL=MAT_FLOOR_EQ
+** Write the equivalent positive-y cable area.
+2.240672000000e-02
+** Assign the same total area to the negative-y equivalent line.
+*SOLID SECTION, ELSET=DECK_M, MATERIAL=MAT_FLOOR_EQ
+** Write the equivalent negative-y cable area.
+2.240672000000e-02
+** Define a massless smoke-tie material.
+*MATERIAL, NAME=MAT_TIE_SMOKE
+** Define smoke-tie elasticity.
+*ELASTIC
+** Write smoke-tie elastic constants.
+2.060000000e11, 0.300000000
+** Assign the smoke-only axial area to transverse ties.
+*SOLID SECTION, ELSET=SMOKE_TIES, MATERIAL=MAT_TIE_SMOKE
+** Write the smoke-tie area.
+2.000000000000e-03
+** Start displacement-controlled erection with geometric nonlinearity.
+*STEP, NAME=ZF_S1_ERECTION, NLGEOM
+** Select static continuation for erection.
+*STATIC
+** Write erection increment controls.
+0.01, 1.0, 1.0e-8, 0.05
+** Open the physical support block.
+*BOUNDARY
+** Fix all translations at physical support node 1001.
+1001, 1, 3, 0.0
+** Fix all translations at physical support node 1017.
+1017, 1, 3, 0.0
+** Fix all translations at physical support node 2001.
+2001, 1, 3, 0.0
+** Fix all translations at physical support node 2017.
+2017, 1, 3, 0.0
+** Open temporary internal controls that regularize the erection path only.
+*BOUNDARY
+** Hold temporary erection node 1002 in the longitudinal direction.
+1002, 1, 1, 0.0
+** Hold temporary erection node 1002 in the transverse direction.
+1002, 2, 2, 0.0
+** Move temporary erection node 1002 to the target vertical coordinate.
+1002, 3, 3, -3.303623000000e+00
+** Hold temporary erection node 1003 in the longitudinal direction.
+1003, 1, 1, 0.0
+** Hold temporary erection node 1003 in the transverse direction.
+1003, 2, 2, 0.0
+** Move temporary erection node 1003 to the target vertical coordinate.
+1003, 3, 3, -6.166763000000e+00
+** Hold temporary erection node 1004 in the longitudinal direction.
+1004, 1, 1, 0.0
+** Hold temporary erection node 1004 in the transverse direction.
+1004, 2, 2, 0.0
+** Move temporary erection node 1004 to the target vertical coordinate.
+1004, 3, 3, -8.589420000000e+00
+** Hold temporary erection node 1005 in the longitudinal direction.
+1005, 1, 1, 0.0
+** Hold temporary erection node 1005 in the transverse direction.
+1005, 2, 2, 0.0
+** Move temporary erection node 1005 to the target vertical coordinate.
+1005, 3, 3, -1.057159400000e+01
+** Hold temporary erection node 1006 in the longitudinal direction.
+1006, 1, 1, 0.0
+** Hold temporary erection node 1006 in the transverse direction.
+1006, 2, 2, 0.0
+** Move temporary erection node 1006 to the target vertical coordinate.
+1006, 3, 3, -1.211328400000e+01
+** Hold temporary erection node 1007 in the longitudinal direction.
+1007, 1, 1, 0.0
+** Hold temporary erection node 1007 in the transverse direction.
+1007, 2, 2, 0.0
+** Move temporary erection node 1007 to the target vertical coordinate.
+1007, 3, 3, -1.321449300000e+01
+** Hold temporary erection node 1008 in the longitudinal direction.
+1008, 1, 1, 0.0
+** Hold temporary erection node 1008 in the transverse direction.
+1008, 2, 2, 0.0
+** Move temporary erection node 1008 to the target vertical coordinate.
+1008, 3, 3, -1.387521800000e+01
+** Hold temporary erection node 1009 in the longitudinal direction.
+1009, 1, 1, 0.0
+** Hold temporary erection node 1009 in the transverse direction.
+1009, 2, 2, 0.0
+** Move temporary erection node 1009 to the target vertical coordinate.
+1009, 3, 3, -1.409545900000e+01
+** Hold temporary erection node 1010 in the longitudinal direction.
+1010, 1, 1, 0.0
+** Hold temporary erection node 1010 in the transverse direction.
+1010, 2, 2, 0.0
+** Move temporary erection node 1010 to the target vertical coordinate.
+1010, 3, 3, -1.387521700000e+01
+** Hold temporary erection node 1011 in the longitudinal direction.
+1011, 1, 1, 0.0
+** Hold temporary erection node 1011 in the transverse direction.
+1011, 2, 2, 0.0
+** Move temporary erection node 1011 to the target vertical coordinate.
+1011, 3, 3, -1.321449300000e+01
+** Hold temporary erection node 1012 in the longitudinal direction.
+1012, 1, 1, 0.0
+** Hold temporary erection node 1012 in the transverse direction.
+1012, 2, 2, 0.0
+** Move temporary erection node 1012 to the target vertical coordinate.
+1012, 3, 3, -1.211328400000e+01
+** Hold temporary erection node 1013 in the longitudinal direction.
+1013, 1, 1, 0.0
+** Hold temporary erection node 1013 in the transverse direction.
+1013, 2, 2, 0.0
+** Move temporary erection node 1013 to the target vertical coordinate.
+1013, 3, 3, -1.057159400000e+01
+** Hold temporary erection node 1014 in the longitudinal direction.
+1014, 1, 1, 0.0
+** Hold temporary erection node 1014 in the transverse direction.
+1014, 2, 2, 0.0
+** Move temporary erection node 1014 to the target vertical coordinate.
+1014, 3, 3, -8.589420000000e+00
+** Hold temporary erection node 1015 in the longitudinal direction.
+1015, 1, 1, 0.0
+** Hold temporary erection node 1015 in the transverse direction.
+1015, 2, 2, 0.0
+** Move temporary erection node 1015 to the target vertical coordinate.
+1015, 3, 3, -6.166763000000e+00
+** Hold temporary erection node 1016 in the longitudinal direction.
+1016, 1, 1, 0.0
+** Hold temporary erection node 1016 in the transverse direction.
+1016, 2, 2, 0.0
+** Move temporary erection node 1016 to the target vertical coordinate.
+1016, 3, 3, -3.303623000000e+00
+** Hold temporary erection node 2002 in the longitudinal direction.
+2002, 1, 1, 0.0
+** Hold temporary erection node 2002 in the transverse direction.
+2002, 2, 2, 0.0
+** Move temporary erection node 2002 to the target vertical coordinate.
+2002, 3, 3, -3.303623000000e+00
+** Hold temporary erection node 2003 in the longitudinal direction.
+2003, 1, 1, 0.0
+** Hold temporary erection node 2003 in the transverse direction.
+2003, 2, 2, 0.0
+** Move temporary erection node 2003 to the target vertical coordinate.
+2003, 3, 3, -6.166763000000e+00
+** Hold temporary erection node 2004 in the longitudinal direction.
+2004, 1, 1, 0.0
+** Hold temporary erection node 2004 in the transverse direction.
+2004, 2, 2, 0.0
+** Move temporary erection node 2004 to the target vertical coordinate.
+2004, 3, 3, -8.589420000000e+00
+** Hold temporary erection node 2005 in the longitudinal direction.
+2005, 1, 1, 0.0
+** Hold temporary erection node 2005 in the transverse direction.
+2005, 2, 2, 0.0
+** Move temporary erection node 2005 to the target vertical coordinate.
+2005, 3, 3, -1.057159400000e+01
+** Hold temporary erection node 2006 in the longitudinal direction.
+2006, 1, 1, 0.0
+** Hold temporary erection node 2006 in the transverse direction.
+2006, 2, 2, 0.0
+** Move temporary erection node 2006 to the target vertical coordinate.
+2006, 3, 3, -1.211328400000e+01
+** Hold temporary erection node 2007 in the longitudinal direction.
+2007, 1, 1, 0.0
+** Hold temporary erection node 2007 in the transverse direction.
+2007, 2, 2, 0.0
+** Move temporary erection node 2007 to the target vertical coordinate.
+2007, 3, 3, -1.321449300000e+01
+** Hold temporary erection node 2008 in the longitudinal direction.
+2008, 1, 1, 0.0
+** Hold temporary erection node 2008 in the transverse direction.
+2008, 2, 2, 0.0
+** Move temporary erection node 2008 to the target vertical coordinate.
+2008, 3, 3, -1.387521800000e+01
+** Hold temporary erection node 2009 in the longitudinal direction.
+2009, 1, 1, 0.0
+** Hold temporary erection node 2009 in the transverse direction.
+2009, 2, 2, 0.0
+** Move temporary erection node 2009 to the target vertical coordinate.
+2009, 3, 3, -1.409545900000e+01
+** Hold temporary erection node 2010 in the longitudinal direction.
+2010, 1, 1, 0.0
+** Hold temporary erection node 2010 in the transverse direction.
+2010, 2, 2, 0.0
+** Move temporary erection node 2010 to the target vertical coordinate.
+2010, 3, 3, -1.387521700000e+01
+** Hold temporary erection node 2011 in the longitudinal direction.
+2011, 1, 1, 0.0
+** Hold temporary erection node 2011 in the transverse direction.
+2011, 2, 2, 0.0
+** Move temporary erection node 2011 to the target vertical coordinate.
+2011, 3, 3, -1.321449300000e+01
+** Hold temporary erection node 2012 in the longitudinal direction.
+2012, 1, 1, 0.0
+** Hold temporary erection node 2012 in the transverse direction.
+2012, 2, 2, 0.0
+** Move temporary erection node 2012 to the target vertical coordinate.
+2012, 3, 3, -1.211328400000e+01
+** Hold temporary erection node 2013 in the longitudinal direction.
+2013, 1, 1, 0.0
+** Hold temporary erection node 2013 in the transverse direction.
+2013, 2, 2, 0.0
+** Move temporary erection node 2013 to the target vertical coordinate.
+2013, 3, 3, -1.057159400000e+01
+** Hold temporary erection node 2014 in the longitudinal direction.
+2014, 1, 1, 0.0
+** Hold temporary erection node 2014 in the transverse direction.
+2014, 2, 2, 0.0
+** Move temporary erection node 2014 to the target vertical coordinate.
+2014, 3, 3, -8.589420000000e+00
+** Hold temporary erection node 2015 in the longitudinal direction.
+2015, 1, 1, 0.0
+** Hold temporary erection node 2015 in the transverse direction.
+2015, 2, 2, 0.0
+** Move temporary erection node 2015 to the target vertical coordinate.
+2015, 3, 3, -6.166763000000e+00
+** Hold temporary erection node 2016 in the longitudinal direction.
+2016, 1, 1, 0.0
+** Hold temporary erection node 2016 in the transverse direction.
+2016, 2, 2, 0.0
+** Move temporary erection node 2016 to the target vertical coordinate.
+2016, 3, 3, -3.303623000000e+00
+** Request erection displacement and reaction fields.
+*NODE FILE
+** Write erection displacement and reaction fields.
+U, RF
+** Request erection stress and strain fields.
+*EL FILE
+** Write erection stress and strain fields.
+S, E
+** End the erection step.
+*END STEP
+** Start dead-load release with geometric nonlinearity.
+*STEP, NAME=ZF_S2_DEADLOAD_RELEASE, NLGEOM
+** Select static continuation for release.
+*STATIC
+** Write conservative release increment controls.
+0.002, 1.0, 1.0e-9, 0.02
+** Open the physical support block.
+*BOUNDARY, OP=NEW
+** Fix all translations at physical support node 1001.
+1001, 1, 3, 0.0
+** Fix all translations at physical support node 1017.
+1017, 1, 3, 0.0
+** Fix all translations at physical support node 2001.
+2001, 1, 3, 0.0
+** Fix all translations at physical support node 2017.
+2017, 1, 3, 0.0
+** Replace prior distributed loads with the registered gravity field.
+*DLOAD, OP=NEW
+** Apply downward gravity to the positive-y cable line.
+DECK_P, GRAV, 9.806650000000e+00, 0.0, 0.0, -1.0
+** Apply downward gravity to the negative-y cable line.
+DECK_M, GRAV, 9.806650000000e+00, 0.0, 0.0, -1.0
+** Request loaded coordinates, displacements, and reactions for the inverse update.
+*NODE FILE
+** Write loaded coordinates, displacements, and reactions.
+COORD, U, RF
+** Request released cable stress and strain.
+*EL FILE
+** Write released cable stress and strain.
+S, E
+** End the dead-load release step.
+*END STEP
+** Start a no-added-load equilibrium hold step.
+*STEP, NAME=ZF_S3_HOLD, NLGEOM
+** Select a bounded static hold interval.
+*STATIC
+** Write hold increment controls.
+0.05, 1.0, 1.0e-9, 0.05
+** Reapply exactly the same gravity and add no new physical action.
+*DLOAD, OP=NEW
+** Repeat downward gravity on the positive-y cable line.
+DECK_P, GRAV, 9.806650000000e+00, 0.0, 0.0, -1.0
+** Repeat downward gravity on the negative-y cable line.
+DECK_M, GRAV, 9.806650000000e+00, 0.0, 0.0, -1.0
+** Request hold coordinates, displacements, and reactions.
+*NODE FILE
+** Write hold coordinates, displacements, and reactions.
+COORD, U, RF
+** Request hold cable stress and strain.
+*EL FILE
+** Write hold cable stress and strain.
+S, E
+** End the no-added-load hold step.
+*END STEP

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "CW-ZJG-AGENTIC-CATWALK",
+  "runId": "CW-CCX-ZF-SMK-20260829-01",
+  "openIssues": [
+    {"id": "ISS-ZF-001", "severity": "CRITICAL", "node": "N10", "issue": "A zero-tension T3D2 chain may have a singular initial tangent.", "nextTest": "Run the reduced displacement-controlled erection/release deck on a fixed CCX build."},
+    {"id": "ISS-ZF-002", "severity": "CRITICAL", "node": "N10", "issue": "No real loaded coordinates, reactions, cable forces, or hold history exist.", "nextTest": "Extract raw fields from the first reduced solve."},
+    {"id": "ISS-DYN-001", "severity": "CRITICAL", "node": "DX01-DX02", "issue": "Concentrated mass and prestressed perturbation compatibility is unresolved.", "nextTest": "Build a minimal MASS plus PERTURBATION feature test."},
+    {"id": "ISS-DYN-002", "severity": "CRITICAL", "node": "DX02", "issue": "Prior full model retained unexplained near-zero modes.", "nextTest": "Diagnose topology, element DOFs, and constraints before any modal acceptance."},
+    {"id": "ISS-ENV-001", "severity": "BLOCKER", "node": "N14", "issue": "No CCX executable was available in the current environment.", "nextTest": "Register executable version and SHA before an external smoke solve."}
+  ],
+  "engineeringConclusionAllowed": false
+}
