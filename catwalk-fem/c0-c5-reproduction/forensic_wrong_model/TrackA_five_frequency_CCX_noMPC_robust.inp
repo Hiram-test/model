@@ -1,0 +1,188 @@
+*HEADING
+TRACK A five-frequency equivalent model, robust CCX deck, N-mm-tonne-s units
+** This deck preserves the retained Track A numerical operator only.
+** It is not the undisclosed APDL and is not a causal proof.
+** The prior NLGEOM plus MPC pendulum implementation is removed because it triggers add_bo_st in CCX.
+** The condensed stiffness increments are represented directly by independent axial truss springs.
+** The SIDE3 and VS2 mass duplication remains explicit as two parallel MASS elements per node.
+** Expected first five frequencies [Hz]: 0.0996000000, 0.1150435687, 0.1556126225, 0.1566294277, 0.1751835898.
+** A sixth 5 Hz oscillator is included so that requesting five roots satisfies ARPACK dimension requirements.
+** ----------------------------------------------------------------
+** MOVING NODES: one active X translation per target branch.
+** ----------------------------------------------------------------
+*NODE
+** TA1 moving node.
+1, 0.0, 0.0, 0.0
+** TS1 moving node.
+2, 0.0, 10000.0, 0.0
+** TS2 moving node.
+3, 0.0, 20000.0, 0.0
+** SIDE3 moving node.
+4, 0.0, 30000.0, 0.0
+** VS2 moving node.
+5, 0.0, 40000.0, 0.0
+** Dummy high-frequency moving node.
+6, 0.0, 50000.0, 0.0
+** ----------------------------------------------------------------
+** FIXED ANCHOR NODES.
+** ----------------------------------------------------------------
+** TA1 base anchor, length 1000 mm.
+101, -1000.0, 0.0, 0.0
+** TA1 shared-error anchor, length 2000 mm.
+102, -2000.0, 0.0, 0.0
+** TA1 extra-end-error anchor, length 3000 mm.
+103, -3000.0, 0.0, 0.0
+** TS1 base anchor, length 1000 mm.
+111, -1000.0, 10000.0, 0.0
+** TS1 shared-error anchor, length 2000 mm.
+112, -2000.0, 10000.0, 0.0
+** TS2 base anchor, length 1000 mm.
+121, -1000.0, 20000.0, 0.0
+** TS2 shared-error anchor, length 2000 mm.
+122, -2000.0, 20000.0, 0.0
+** SIDE3 base anchor, length 1000 mm.
+131, -1000.0, 30000.0, 0.0
+** VS2 base anchor, length 1000 mm.
+141, -1000.0, 40000.0, 0.0
+** Dummy anchor, length 1000 mm.
+151, -1000.0, 50000.0, 0.0
+** ----------------------------------------------------------------
+** AXIAL TRUSS SPRINGS.
+** For E=1 N/mm2, each area is selected as A=kL so that EA/L=k.
+** ----------------------------------------------------------------
+*ELEMENT, TYPE=T3D2, ELSET=E_TA1_BASE
+** TA1 physical baseline spring.
+1, 101, 1
+*ELEMENT, TYPE=T3D2, ELSET=E_TA1_SHARED
+** TA1 shared high-master equivalent increment.
+2, 102, 1
+*ELEMENT, TYPE=T3D2, ELSET=E_TA1_EXTRA
+** TA1 tower/end equivalent increment.
+3, 103, 1
+*ELEMENT, TYPE=T3D2, ELSET=E_TS1_BASE
+** TS1 physical baseline spring.
+4, 111, 2
+*ELEMENT, TYPE=T3D2, ELSET=E_TS1_SHARED
+** TS1 shared high-master equivalent increment.
+5, 112, 2
+*ELEMENT, TYPE=T3D2, ELSET=E_TS2_BASE
+** TS2 physical baseline spring.
+6, 121, 3
+*ELEMENT, TYPE=T3D2, ELSET=E_TS2_SHARED
+** TS2 shared high-master equivalent increment.
+7, 122, 3
+*ELEMENT, TYPE=T3D2, ELSET=E_SIDE3_BASE
+** SIDE3 physical baseline spring.
+8, 131, 4
+*ELEMENT, TYPE=T3D2, ELSET=E_VS2_BASE
+** VS2 physical baseline spring.
+9, 141, 5
+*ELEMENT, TYPE=T3D2, ELSET=E_DUMMY
+** Dummy 5 Hz spring.
+10, 151, 6
+** ----------------------------------------------------------------
+** NODAL MASS ELEMENTS.
+** ----------------------------------------------------------------
+*ELEMENT, TYPE=MASS, ELSET=M_TA1
+** TA1 unit generalized mass.
+1001, 1
+*ELEMENT, TYPE=MASS, ELSET=M_TS1
+** TS1 unit generalized mass.
+1002, 2
+*ELEMENT, TYPE=MASS, ELSET=M_TS2
+** TS2 unit generalized mass.
+1003, 3
+*ELEMENT, TYPE=MASS, ELSET=M_SIDE3_BASE
+** SIDE3 baseline unit mass.
+1004, 4
+*ELEMENT, TYPE=MASS, ELSET=M_SIDE3_DUP13
+** SIDE3 duplicated thirteen-passage mass fraction.
+1005, 4
+*ELEMENT, TYPE=MASS, ELSET=M_VS2_BASE
+** VS2 baseline unit mass.
+1006, 5
+*ELEMENT, TYPE=MASS, ELSET=M_VS2_DUP13
+** VS2 duplicated thirteen-passage mass fraction.
+1007, 5
+*ELEMENT, TYPE=MASS, ELSET=M_DUMMY
+** Dummy unit mass.
+1008, 6
+** ----------------------------------------------------------------
+** MATERIAL: unit elastic modulus; truss mass is omitted.
+** ----------------------------------------------------------------
+*MATERIAL, NAME=M_UNIT
+*ELASTIC
+1.0, 0.0
+** ----------------------------------------------------------------
+** TRUSS SECTIONS.
+** ----------------------------------------------------------------
+*SOLID SECTION, ELSET=E_TA1_BASE, MATERIAL=M_UNIT
+** k0=0.199534801606 N/mm, L=1000 mm.
+1.995348016064E+02
+*SOLID SECTION, ELSET=E_TA1_SHARED, MATERIAL=M_UNIT
+** kshared=0.118328355380 N/mm, L=2000 mm.
+2.366567107607E+02
+*SOLID SECTION, ELSET=E_TA1_EXTRA, MATERIAL=M_UNIT
+** kextra=0.073769062195 N/mm, L=3000 mm.
+2.213071865858E+02
+*SOLID SECTION, ELSET=E_TS1_BASE, MATERIAL=M_UNIT
+** k0=0.403799226009 N/mm, L=1000 mm.
+4.037992260086E+02
+*SOLID SECTION, ELSET=E_TS1_SHARED, MATERIAL=M_UNIT
+** kshared=0.118698526839 N/mm, L=2000 mm.
+2.373970536776E+02
+*SOLID SECTION, ELSET=E_TS2_BASE, MATERIAL=M_UNIT
+** k0=0.848177456739 N/mm, L=1000 mm.
+8.481774567386E+02
+*SOLID SECTION, ELSET=E_TS2_SHARED, MATERIAL=M_UNIT
+** kshared=0.120337783722 N/mm, L=2000 mm.
+2.406755674439E+02
+*SOLID SECTION, ELSET=E_SIDE3_BASE, MATERIAL=M_UNIT
+** k0=1.086660860590 N/mm, L=1000 mm.
+1.086660860590E+03
+*SOLID SECTION, ELSET=E_VS2_BASE, MATERIAL=M_UNIT
+** k0=1.377181639144 N/mm, L=1000 mm.
+1.377181639144E+03
+*SOLID SECTION, ELSET=E_DUMMY, MATERIAL=M_UNIT
+** k=986.960440109 N/mm, L=1000 mm, f=5 Hz.
+9.869604401089E+05
+** ----------------------------------------------------------------
+** GENERALIZED MASSES IN TONNES.
+** ----------------------------------------------------------------
+*MASS, ELSET=M_TA1
+1.0
+*MASS, ELSET=M_TS1
+1.0
+*MASS, ELSET=M_TS2
+1.0
+*MASS, ELSET=M_SIDE3_BASE
+1.0
+*MASS, ELSET=M_SIDE3_DUP13
+1.366968181089E-01
+*MASS, ELSET=M_VS2_BASE
+1.0
+*MASS, ELSET=M_VS2_DUP13
+1.366968181089E-01
+*MASS, ELSET=M_DUMMY
+1.0
+** ----------------------------------------------------------------
+** BOUNDARY CONDITIONS.
+** ----------------------------------------------------------------
+*NSET, NSET=N_ANCHOR
+101, 102, 103, 111, 112, 121, 122, 131, 141, 151
+*NSET, NSET=N_MOVING
+1, 2, 3, 4, 5, 6
+*BOUNDARY
+** Fix all anchor translations.
+N_ANCHOR, 1, 3
+** Leave only X translation active at the six moving nodes.
+N_MOVING, 2, 3
+** ----------------------------------------------------------------
+** MODAL EXTRACTION.
+** ----------------------------------------------------------------
+*STEP, PERTURBATION
+*FREQUENCY
+5
+*NODE FILE
+U
+*END STEP
