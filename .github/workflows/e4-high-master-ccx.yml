@@ -7,6 +7,7 @@ on:
       - feat/catwalk-c0-c5-physical-reproduction
     paths:
       - ".github/workflows/e4-high-master-ccx.yml"
+      - "catwalk-fem/c0-c5-reproduction/solver/e4_high_master/**"
 permissions:
   contents: read
   actions: read
@@ -43,10 +44,18 @@ jobs:
       - name: Run ccx on E4 original high-master deck
         shell: bash
         run: |
-          set -o pipefail
+          set -euo pipefail
           cd run
+          set +e
           /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt
-          echo $? > job.exit
+          ec=${PIPESTATUS[0]}
+          echo "$ec" > job.exit
+          set -e
+          echo "frequency_reproduced=false back_tuned=true track_b_blind_e4=false"
+          if [ ! -s job.exit ] || [ "$(cat job.exit)" != "0" ]; then
+            echo "ccx failed or incomplete; Actions green is not a frequency claim"
+            exit "$(cat job.exit 2>/dev/null || echo 1)"
+          fi
       - name: Collect ccx evidence
         if: always()
         shell: bash
