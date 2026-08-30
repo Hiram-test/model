@@ -1,0 +1,52 @@
+# Recover the exact line-commented target-blind human-workflow builder from the completed binary-evidence branch.
+name: Extract C3 human binary builder source # Give the source-recovery workflow an explicit auditable name.
+on: # Define the deterministic workflow trigger.
+  push: # Run only after this workflow definition is committed.
+    branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the current reconstruction branch.
+    paths: [".github/workflows/extract-c3-human-binary-builder.yml"] # Avoid unrelated branch pushes.
+permissions: # Declare the minimum workflow-token permissions.
+  contents: read # Permit checkout and read-only fetch of the existing binary-evidence branch.
+jobs: # Define the single source-recovery job.
+  extract: # Fetch, verify, decompress, audit, and publish the exact builder source.
+    runs-on: ubuntu-24.04 # Use a current GitHub-hosted Linux runner.
+    timeout-minutes: 10 # Bound the small read-only recovery job.
+    env: # Freeze the branch, path, and byte identities being recovered.
+      SOURCE_BRANCH: agent/c3-forensic-binary-20260831 # Identify the completed target-blind binary-evidence branch.
+      SOURCE_COMMIT: deaa326fd492e16c7eb9f712decc8e8d6cd2a6a7 # Lock the exact branch commit used by the completed matrix.
+      SOURCE_PATH: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/final_inverse/build_human_error_variants.py.gz # Identify the exact compressed builder path.
+      BUILDER_GZ_SHA256: 18c7ed765c590e0556216f15f72fcd5edf8c38bb92eac7021980167f06f99a03 # Lock the compressed builder identity.
+      BUILDER_SHA256: 651e1fd9b33db517353ca5be6265c42e556de833c9d8c12113783a2fbaf66509 # Lock the decompressed Python source identity.
+    steps: # Execute the complete immutable source-recovery chain.
+      - name: Checkout immutable current reconstruction branch # Fetch the exact triggering repository snapshot.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Make checkout behavior explicit.
+          ref: ${{ github.sha }} # Bind the run to the triggering commit.
+          fetch-depth: 1 # Fetch only the required current snapshot initially.
+          persist-credentials: false # Keep repository access read-only after checkout.
+      - name: Fetch and verify the completed binary-evidence commit # Materialize only the exact source commit needed for recovery.
+        shell: bash # Execute deterministic Bash commands.
+        run: | # Run one strict fetch and object-identity script.
+          set -euxo pipefail # Stop on command, variable, or pipeline errors.
+          mkdir -p results # Create the evidence output directory.
+          git fetch --no-tags --depth=1 origin "$SOURCE_BRANCH" # Fetch only the named completed binary-evidence branch.
+          test "$(git rev-parse FETCH_HEAD)" = "$SOURCE_COMMIT" # Reject any branch movement away from the completed matrix commit.
+          git show "$SOURCE_COMMIT:$SOURCE_PATH" > results/build_human_error_variants.py.gz # Extract the exact compressed builder blob from the immutable commit.
+          printf '%s  %s\n' "$BUILDER_GZ_SHA256" results/build_human_error_variants.py.gz | sha256sum -c - # Reject any compressed-source identity drift.
+      - name: Decompress compile and audit every source line # Recover the exact Python source and enforce the user-required comment discipline.
+        shell: bash # Execute strict Bash audit commands.
+        run: | # Decompress and validate the recovered builder.
+          set -euxo pipefail # Stop on decompression, identity, syntax, or comment-audit errors.
+          gzip -dc results/build_human_error_variants.py.gz > results/build_human_error_variants.py # Decompress the exact builder source.
+          printf '%s  %s\n' "$BUILDER_SHA256" results/build_human_error_variants.py | sha256sum -c - # Reject any decompressed-source identity drift.
+          python3 -m py_compile results/build_human_error_variants.py # Reject a syntactically invalid recovered builder.
+          awk 'NF && index($0,"#")==0 {print NR ":" $0; bad=1} END {exit bad}' results/build_human_error_variants.py # Require a comment on every nonblank source line.
+          sha256sum results/build_human_error_variants.py.gz results/build_human_error_variants.py > results/SHA256SUMS.txt # Record exact identities of both recovered source representations.
+          printf 'source_branch=%s\nsource_commit=%s\nsource_path=%s\ncomment_every_nonblank_line=true\n' "$SOURCE_BRANCH" "$SOURCE_COMMIT" "$SOURCE_PATH" > results/source.txt # Record the immutable source provenance and line-comment audit result.
+      - name: Upload the exact recovered builder source # Publish the source package for direct inspection and corrected-model development.
+        uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
+        with: # Configure a stable artifact name and strict presence check.
+          name: C3-human-binary-builder-source # Identify the exact source used by the completed target-blind matrix.
+          path: results/ # Upload the compressed builder, decompressed source, checksums, and provenance.
+          if-no-files-found: error # Reject an empty source package.
+          retention-days: 30 # Keep the builder available through corrected-control development.
+          compression-level: 9 # Compress the textual source package efficiently.
