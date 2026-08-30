@@ -1,0 +1,102 @@
+# Diagnose exact reconstruction of the archived target-blind builder.
+name: C3 forensic archived-builder debug
+# Trigger only when this diagnostic workflow changes.
+on:
+  # Start from a branch push.
+  push:
+    # Restrict execution to the forensic evidence branch.
+    branches:
+      # Use the dedicated branch.
+      - agent/c3-forensic-human-final-20260831
+    # Run only for this file.
+    paths:
+      # Admit this diagnostic workflow.
+      - .github/workflows/c3-forensic-archive-debug.yml
+# Keep the diagnostic read-only.
+permissions:
+  # Permit checkout.
+  contents: read
+# Define one short reconstruction job.
+jobs:
+  # Reconstruct and fingerprint the archived builder.
+  debug:
+    # Use the current Ubuntu runner.
+    runs-on: ubuntu-24.04
+    # Bound the diagnostic duration.
+    timeout-minutes: 10
+    # Locate the archive and expected source identity.
+    env:
+      # Locate the archived base64 stream.
+      BUILDER_ARCHIVE: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/final_inverse/build_human_error_variants.py.gz.b64
+      # Preserve the locally validated source digest.
+      BUILDER_SHA256: 651e1fd9b33db517353ca5be6265c42e556de833c9d8c12113783a2fbaf66509
+    # Execute checkout and robust reconstruction logging.
+    steps:
+      # Check out the immutable triggering commit.
+      - name: Checkout immutable snapshot
+        # Use GitHub's maintained checkout action.
+        uses: actions/checkout@v4
+        # Pin the exact commit.
+        with:
+          # Use the trigger SHA.
+          ref: ${{ github.sha }}
+          # Fetch one snapshot.
+          fetch-depth: 1
+          # Remove write credentials.
+          persist-credentials: false
+      # Reconstruct while preserving all diagnostics.
+      - name: Diagnose archived stream
+        # Execute Bash without early termination until evidence is written.
+        shell: bash
+        # Capture size, decode status, gzip status, and output identity.
+        run: |
+          # Keep pipeline statuses and command tracing.
+          set -uxo pipefail
+          # Create the diagnostic directory.
+          mkdir -p results run
+          # Record the exact archive size and digest.
+          wc -c "$BUILDER_ARCHIVE" | tee results/archive-size.txt
+          # Record the exact archive text digest.
+          sha256sum "$BUILDER_ARCHIVE" | tee results/archive-sha256.txt
+          # Decode base64 to a raw gzip stream while preserving stderr.
+          base64 -d "$BUILDER_ARCHIVE" > run/builder.py.gz 2> results/base64.stderr.txt
+          # Preserve the base64 decoder exit status.
+          echo "$?" > results/base64.exit
+          # Record the raw gzip-stream size and digest when present.
+          wc -c run/builder.py.gz 2>&1 | tee results/gzip-size.txt
+          # Record the raw gzip-stream digest.
+          sha256sum run/builder.py.gz 2>&1 | tee results/gzip-sha256.txt
+          # Decompress the raw stream while preserving stderr.
+          gzip -dc run/builder.py.gz > run/builder.py 2> results/gzip.stderr.txt
+          # Preserve the gzip exit status.
+          echo "$?" > results/gzip.exit
+          # Record the reconstructed source size and digest.
+          wc -c run/builder.py 2>&1 | tee results/source-size.txt
+          # Record the reconstructed source digest.
+          sha256sum run/builder.py 2>&1 | tee results/source-sha256.txt
+          # Compare the reconstructed source against the expected identity without suppressing evidence.
+          printf '%s  %s\n' "$BUILDER_SHA256" run/builder.py | sha256sum -c - 2>&1 | tee results/source-check.txt
+          # Preserve the identity-check exit status.
+          echo "${PIPESTATUS[1]}" > results/source-check.exit
+          # Preserve the reconstructed source for direct inspection.
+          cp run/builder.py results/ 2>/dev/null || true
+          # Complete the diagnostic successfully so the artifact is always uploaded.
+          exit 0
+      # Upload all reconstruction diagnostics.
+      - name: Upload archived-builder diagnostics
+        # Execute after every diagnostic outcome.
+        if: always()
+        # Use GitHub's maintained artifact uploader.
+        uses: actions/upload-artifact@v4
+        # Preserve the complete diagnostic directory.
+        with:
+          # Use a stable artifact name.
+          name: c3-archived-builder-debug-${{ github.run_id }}
+          # Upload all diagnostic files.
+          path: results/
+          # Reject an empty artifact.
+          if-no-files-found: error
+          # Retain the diagnostics for thirty days.
+          retention-days: 30
+          # Compress text efficiently.
+          compression-level: 9
