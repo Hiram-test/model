@@ -7,6 +7,7 @@ on:
       - feat/catwalk-c3-actions-verify
     paths:
       - ".github/workflows/c3-draw-topo-custom-ccx.yml"
+      - "catwalk-fem/c0-c5-reproduction/code/patch_c3_draw_topology.py"
 
 jobs:
   solve-draw-topo:
@@ -52,7 +53,6 @@ jobs:
           from pathlib import Path
           dat = Path("artifacts/job.dat")
           text = dat.read_text(errors="replace") if dat.exists() else ""
-          freqs = [line.strip() for line in text.splitlines() if "eigenvalue" in line.lower() or "frequency" in line.lower() or line.strip()[:1].isdigit()]
           print("DAT_BYTES", dat.stat().st_size if dat.exists() else 0)
           print("DAT_HEAD")
           print("\n".join(text.splitlines()[:80]))

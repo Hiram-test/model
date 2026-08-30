@@ -56,9 +56,16 @@ def classify_equation(terms, coords_y, node_fam):
         fams |= node_fam.get(node, set())
     has_passage = any(fam in fams for fam in PASSAGE_FAM)
     has_rot = any(term[1] >= 4 for term in terms)
+    has_cable = "E" in fams
+    has_ug61 = "UG61" in fams
+    has_ug62 = "UG62" in fams
+    is_bottom_hoop = has_ug61 and has_ug62
+    is_saddle = has_cable and (has_ug61 or has_ug62) and not is_bottom_hoop
     if dy >= CROSS_Y_MM:
         return "DROP_CROSS_Y"
-    if has_passage and has_rot:
+    if is_bottom_hoop:
+        return "KEEP"
+    if has_rot and (has_passage or is_saddle):
         return "HINGE_UXYZ"
     return "KEEP"
 
@@ -169,7 +176,7 @@ def main():
     if stats["hinge_rewritten"] + stats["hinge_dropped_pure_rot"] < 1:
         raise SystemExit("no passage ALL converted to UXYZ; refuse to launch")
     dst_sha = sha256_file(dst)
-    receipt = {"schema": "catwalk.c3-ub-ft14.draw-topology.v2", "source": {"path": src.name, "sha256": src_sha, "bytes": src.stat().st_size}, "output": {"path": dst.name, "sha256": dst_sha, "bytes": dst.stat().st_size}, "rule": {"drop_cross_y_mm": CROSS_Y_MM, "same_walkway": "UXYZ hinge", "keep": "gantry-only ROT, cable UXYZ, all members", "e20_e21_springs": False, "back_tuned_to_0_0996": False, "members_deleted": 0}, "stats": stats, "frequency_claim": False}
+    receipt = {"schema": "catwalk.c3-ub-ft14.draw-topology.v3", "source": {"path": src.name, "sha256": src_sha, "bytes": src.stat().st_size}, "output": {"path": dst.name, "sha256": dst_sha, "bytes": dst.stat().st_size}, "rule": {"drop_cross_y_mm": CROSS_Y_MM, "same_walkway": "UXYZ hinge", "saddle": "cable-gantry ALL to UXYZ", "keep": "284 bottom-hoop ALL, toppin, all members", "e20_e21_springs": False, "back_tuned_to_0_0996": False, "members_deleted": 0}, "stats": stats, "frequency_claim": False}
     (out_dir / "C3_DRAW_TOPO_PATCH.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"event": "C3_DRAW_TOPO_PATCHED", "dst": str(dst), "dst_sha256": dst_sha, **stats}, sort_keys=True))
 
