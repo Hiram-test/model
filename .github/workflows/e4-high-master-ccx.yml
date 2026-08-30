@@ -1,0 +1,69 @@
+name: E4 original high-master ccx
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - feat/catwalk-c0-c5-physical-reproduction
+    paths:
+      - ".github/workflows/e4-high-master-ccx.yml"
+permissions:
+  contents: read
+  actions: read
+jobs:
+  solve:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3
+      CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e
+      OMP_NUM_THREADS: "1"
+    steps:
+      - name: Checkout C0-C5 branch with E4 deck
+        uses: actions/checkout@v4
+        with:
+          ref: feat/catwalk-c0-c5-physical-reproduction
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Reconstruct custom ccx and emit E4 deck
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p run results
+          python3 catwalk-fem/c0-c5-reproduction/solver/e4_high_master/emit_e4_original_inp.py
+          mv E4_original_high_master.ccx.inp run/job.inp
+          test -s run/job.inp
+          wc -l run/job.inp
+          cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx
+          chmod +x run/ccx
+          printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c -
+      - name: Install solver runtime libraries
+        shell: bash
+        run: sudo apt-get update && sudo apt-get install -y liblapack3 libblas3 libgfortran5
+      - name: Run ccx on E4 original high-master deck
+        shell: bash
+        run: |
+          set -o pipefail
+          cd run
+          /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt
+          echo $? > job.exit
+      - name: Collect ccx evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cp -a run/job.dat run/job.frd run/job.sta run/job.stdout.txt run/job.exit results/ 2>/dev/null || true
+          cp -a run/job.eig run/job.cvg run/job.inp results/ 2>/dev/null || true
+          awk '/MODE NO/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true
+          awk '/E I G E N V A L U E/{take=1} take{print}' run/job.dat >> results/modal-table.txt 2>/dev/null || true
+          sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true
+          tail -n 120 run/job.stdout.txt > results/stdout-tail.txt || true
+      - name: Upload ccx results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: E4-original-high-master-ccx-${{ github.run_id }}
+          path: results/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
