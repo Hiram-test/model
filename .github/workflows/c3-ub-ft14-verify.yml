@@ -1,0 +1,52 @@
+name: c3-ub-ft14-verify
+
+on:
+  push:
+    branches:
+      - feat/catwalk-c3-actions-verify
+    paths:
+      - "catwalk-fem/c0-c5-reproduction/**"
+      - ".github/workflows/c3-ub-ft14-verify.yml"
+  workflow_dispatch: {}
+
+jobs:
+  verify-frozen-c3:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: catwalk-fem/c0-c5-reproduction
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify frozen C3-UB-FT14 DAT and classification
+        run: python3 code/verify_c3_ub_ft14_frozen.py | tee artifacts/c3_ub_ft14_actions_verify.json
+
+      - name: Record live-solve blockers
+        run: |
+          python3 - <<'EOF'
+          from pathlib import Path
+          root = Path('solver')
+          hits = list(root.rglob('C3-UB-FT14-PARSER-SAFE*.inp')) + list(root.rglob('C3-UB-FT_DIAGNOSTIC*.inp'))
+          print('found_inp_count', len(hits))
+          for path in hits:
+              print(path)
+          if hits:
+              raise SystemExit('unexpected local C3 inp present; live-solve path not wired')
+          print('BLOCKED_MISSING_27MB_INP sha256=667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86')
+          print('BLOCKED_MISSING_PARENT_INP sha256=b2a8f01c9864c0f72f5fe2e0aa3cce45e78a9267a560d8ce10dcfc19aa97048e')
+          print('BLOCKED_MISSING_C0SM_SOURCE_TREE')
+          print('BLOCKED_STOCK_APT_CCX_HAS_NO_UCAB3')
+          EOF
+
+      - name: Upload verification receipt
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3-ub-ft14-actions-verify
+          path: |
+            catwalk-fem/c0-c5-reproduction/artifacts/c3_ub_ft14_actions_verify.json
+            catwalk-fem/c0-c5-reproduction/artifacts/C3_UB_FT14_PARSER_SAFE_RESULT.md
+            catwalk-fem/c0-c5-reproduction/artifacts/C3-UB-FT14-PARSER-SAFE_mode_classification_ff1d792e8af0d31f.csv
+            catwalk-fem/c0-c5-reproduction/solver/runs/C3UBFT14_PARSER_SAFE_667c5047/job.dat
+            catwalk-fem/c0-c5-reproduction/solver/runs/C3UBFT14_PARSER_SAFE_667c5047/job.sta
+          retention-days: 90
