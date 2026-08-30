@@ -1,5 +1,5 @@
 # Publish the recovered explicit high-master Track A model audit and one-to-one mode tracking to a fixed repository path.
-name: Publish explicit C3 TrackA result # Give the archival workflow an explicit name.
+name: Publish explicit C3 TrackA result # Archive-only; human_apdl=false; frequency_reproduced=false; incomplete is not 复现.
 on: # Define the deterministic trigger.
   push: # Run when this archival workflow is committed.
     branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated Track A branch.
@@ -111,7 +111,7 @@ jobs: # Define the single archival job.
           selection = recovery.get('selection') if isinstance(recovery.get('selection'), dict) else {}  # Select the recovered structural record.
           selected_branches = tracking.get('selected_branches') if isinstance(tracking.get('selected_branches'), list) else []  # Select the five tracked branches.
           status = 'COMPLETE' if metadata.get('all_available') and recovery.get('selection_found') and tracking.get('status') == 'EXPLICIT_TRACK_A_TRACKED' else 'INCOMPLETE'  # Summarize evidence completeness without converting it into a model-acceptance gate.
-          record = {'status': status, 'model_interpretation': 'old ANSYS/APDL forward workflow: explicit high master or pilot nodes, LINK-type members, rigid-kinematic equations with lever terms, unchanged C3 parent physics, native modal extraction, manual visible-shape interpretation after global MAC tracking', 'target_frequency_used_for_construction': False, 'previous_differential_spring_model_used': False, 'recovery': recovery, 'tracking': tracking, 'artifact_metadata': metadata, 'exact_files': {'model': {'path': str(model) if model else None, 'sha256': sha256(model) if model else None, 'bytes': model.stat().st_size if model else None}, 'dat': {'path': str(dat) if dat else None, 'sha256': sha256(dat) if dat else None, 'bytes': dat.stat().st_size if dat else None}, 'frd': {'path': str(frd) if frd else None, 'sha256': sha256(frd) if frd else None, 'bytes': frd.stat().st_size if frd else None}}}  # Build the complete compact evidence record.
+          record = {'status': status, 'human_apdl': False, 'frequency_reproduced': False, 'not_attach_ta1': True, 'source': 'agent_constructed_hypothesized_command_path', 'model_interpretation': 'agent-constructed hypothesized high-master / LINK / lever-equation command path on unchanged C3; not undisclosed human APDL; C3 M3 is not attach TA1', 'target_frequency_used_for_construction': False, 'previous_differential_spring_model_used': False, 'recovery': recovery, 'tracking': tracking, 'artifact_metadata': metadata, 'exact_files': {'model': {'path': str(model) if model else None, 'sha256': sha256(model) if model else None, 'bytes': model.stat().st_size if model else None}, 'dat': {'path': str(dat) if dat else None, 'sha256': sha256(dat) if dat else None, 'bytes': dat.stat().st_size if dat else None}, 'frd': {'path': str(frd) if frd else None, 'sha256': sha256(frd) if frd else None, 'bytes': frd.stat().st_size if frd else None}}}  # Build the complete compact evidence record.
           (OUTPUT / 'FINAL_STATUS.json').write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the machine-readable fixed-path record.
           if recovery_path is not None:  # Preserve the exact structural recovery audit.
               shutil.copy2(recovery_path, OUTPUT / 'RECOVERY_AUDIT.json')  # Copy the audit bytes unchanged.
@@ -123,7 +123,7 @@ jobs: # Define the single archival job.
           mac_csv = find_one('mac_matrix.csv')  # Locate the complete MAC matrix.
           if mac_csv is not None:  # Preserve the full MAC evidence.
               shutil.copy2(mac_csv, OUTPUT / 'mac_matrix.csv')  # Copy the matrix bytes unchanged.
-          lines = ['# 显式高位 master Track A 正向复现状态', '', f'状态：`{status}`', '', '构模口径：只接受旧版 ANSYS/APDL 中可直接出现的高位 master/pilot、LINK 类连接和含真实杠杆项的刚体运动方程。前一份差动弹簧与重复质量模型不参与本结果。附件目标频率未用于构模或分支配对。', '']  # Initialize the compact human-readable report.
+          lines = ['# 显式高位 master Track A 假设命令路径状态', '', f'状态：`{status}`', '', 'frequency_reproduced=false. human_apdl=false. C3 M3 0.07267 is not attach TA1 0.0996. Do not write 复现 or 一致.', '', '构模口径：假设命令路径上的高位 master、LINK 类连接和含杠杆项刚体方程。不是未公开人工 APDL。前一份差动弹簧与重复质量模型不参与本结果。附件目标频率未用于构模或分支配对。INCOMPLETE 不是求解结果。', '']  # Initialize the compact human-readable report.
           if selection:  # Report recovered model structure when available.
               lines.extend(['## 恢复到的实体模型', '', f"- 来源工作流：`{selection.get('workflow_name')}`", f"- 来源运行：`{selection.get('run_id')}`", f"- 来源提交：`{selection.get('head_sha')}`", f"- 新增节点：`{selection.get('new_node_count')}`", f"- 新增单元类型：`{selection.get('new_element_types')}`", f"- 新增约束方程：`{selection.get('new_equation_count')}`", f"- 含杠杆系数方程：`{selection.get('new_nonunit_equations')}`", f"- 新增质量单元：`{selection.get('mass_added')}`", f"- 显式弹簧：`0`", ''])  # Append the structural audit summary.
           if selected_branches:  # Report the five globally tracked branches when available.
@@ -137,6 +137,7 @@ jobs: # Define the single archival job.
                   lines.append(f"| {item.get('mode')} | {float(item.get('frequency_hz')):.8f} |")  # Append one natural solver-order row.
           lines.extend(['', '## 文件身份', '', f"- 实体 INP SHA-256：`{record['exact_files']['model']['sha256']}`", f"- DAT SHA-256：`{record['exact_files']['dat']['sha256']}`", f"- FRD SHA-256：`{record['exact_files']['frd']['sha256']}`", ''])  # Append exact native file identities.
           (OUTPUT / 'FINAL_STATUS.md').write_text('\n'.join(lines), encoding='utf-8')  # Publish the compact human-readable fixed-path report.
+          (OUTPUT / 'case.txt').write_text('human_apdl=false\nfrequency_reproduced=false\nnot_attach_ta1=true\nnot_undisclosed_human_apdl=true\nsource=agent_constructed_hypothesized_command_path\nexplicit_release_absent=true\ntracking_artifact_absent=true\n')  # Lock the evidence boundary.
           PY
           python3 build_tracka_report.py # Execute the deterministic report builder.
           sha256sum "$OUTPUT_DIR"/* > "$OUTPUT_DIR/SHA256SUMS.txt" 2>/dev/null || true # Record exact identities for every compact published evidence file.

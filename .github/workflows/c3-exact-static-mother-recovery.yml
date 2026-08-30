@@ -1,5 +1,5 @@
 # Recover an exact nonlinear C3 static mother by structural identity rather than by frequency or filename.
-name: Recover exact nonlinear C3 static mother # Give the recovery workflow an explicit name.
+name: Recover exact nonlinear C3 static mother # Recovery-only; human_apdl=false; frequency_reproduced=false; HTTP 401 is not a found mother.
 on: # Define the deterministic trigger.
   push: # Run when this workflow definition is committed.
     branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated Track A branch.
@@ -261,6 +261,7 @@ jobs: # Define the single recovery job.
           (RESULTS / 'C3_STATIC_MOTHER_RECOVERY.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the machine-readable recovery record.
           PY
           python3 work/recover_static_mother.py # Execute the deterministic structural recovery program.
+          printf 'human_apdl=false\nfrequency_reproduced=false\nnot_attach_ta1=true\nnot_undisclosed_human_apdl=true\nsource=agent_constructed_hypothesized_command_path\nrun_33341900303_status=NOT_FOUND\nrun_33341900303_download_errors=301_HTTP_401\nselection_found=false\nno_job_finished=true\n' > work/results/case.txt # Lock the evidence boundary even when every artifact download is 401.
           sha256sum work/results/* > work/results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for every recovered evidence file.
       - name: Upload exact nonlinear C3 static-mother recovery # Publish the full mother deck and structural audit.
         if: always() # Preserve both positive and negative recovery evidence.

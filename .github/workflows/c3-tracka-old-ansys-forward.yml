@@ -1,5 +1,5 @@
 # Run the strict old-ANSYS-style Track A forward chain on the complete C3 entity model.
-name: Strict old-ANSYS C3 TrackA forward run # Give the final forward workflow an explicit name.
+name: Strict hypothesized C3 TrackA forward run # Agent command path; human_apdl=false; frequency_reproduced=false; missing explicit release is not a solve.
 on: # Define the deterministic trigger.
   push: # Run when this workflow definition is committed.
     branches: [agent/c3-tracka-direct-main13-20260831] # Restrict execution to the isolated Track A branch.
@@ -161,7 +161,7 @@ jobs: # Define the single complete forward job.
                       digest.update(block)  # Bind each exact byte once.
               return digest.hexdigest()  # Return the lowercase hexadecimal identity.
           exact_files = {'inp': {'path': 'run/job.inp', 'sha256': sha256(Path('run/job.inp')), 'bytes': Path('run/job.inp').stat().st_size}, 'dat': {'path': 'run/job.dat', 'sha256': sha256(Path('run/job.dat')), 'bytes': Path('run/job.dat').stat().st_size}, 'frd': {'path': 'run/job.frd', 'sha256': sha256(Path('run/job.frd')), 'bytes': Path('run/job.frd').stat().st_size}, 'stdout': {'path': 'run/job.stdout.txt', 'sha256': sha256(Path('run/job.stdout.txt')), 'bytes': Path('run/job.stdout.txt').stat().st_size}}  # Record exact native file identities.
-          status = {'status': 'COMPLETE', 'construction_model': 'complete C3 entity model plus explicit high master and LINK members plus rigid-offset theta-cross-r equations plus exact inherited C3 NLGEOM gravity history plus eighty perturbation modes', 'target_frequency_used_for_construction': False, 'target_frequency_used_for_assignment': False, 'nearest_frequency_assignment_used': False, 'surrogate_spring_used': False, 'previous_back_tuned_diagnostic_model_used': False, 'static_mother_recovery': STATIC, 'build_audit': BUILD, 'mode_tracking': TRACK, 'prerequisite_artifacts': PREREQUISITES, 'exact_files': exact_files}  # Build the complete final status record without an attachment-fit acceptance criterion.
+          status = {'status': 'COMPLETE', 'human_apdl': False, 'frequency_reproduced': False, 'not_attach_ta1': True, 'source': 'agent_constructed_hypothesized_command_path', 'construction_model': 'complete C3 entity model plus explicit high master and LINK members plus rigid-offset theta-cross-r equations plus exact inherited C3 NLGEOM gravity history plus eighty perturbation modes', 'target_frequency_used_for_construction': False, 'target_frequency_used_for_assignment': False, 'nearest_frequency_assignment_used': False, 'surrogate_spring_used': False, 'previous_back_tuned_diagnostic_model_used': False, 'static_mother_recovery': STATIC, 'build_audit': BUILD, 'mode_tracking': TRACK, 'prerequisite_artifacts': PREREQUISITES, 'exact_files': exact_files}  # Build the complete final status record without an attachment-fit acceptance criterion.
           (OUTPUT / 'FINAL_STATUS.json').write_text(json.dumps(status, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the machine-readable fixed-path status.
           shutil.copy2('results/TRACK_A_OLD_ANSYS_BUILD_AUDIT.json', OUTPUT / 'TRACK_A_OLD_ANSYS_BUILD_AUDIT.json')  # Preserve the exact construction audit.
           shutil.copy2('results/tracking/TRACK_A_OLD_ANSYS_MODE_TRACKING.json', OUTPUT / 'TRACK_A_OLD_ANSYS_MODE_TRACKING.json')  # Preserve the exact mode-tracking record.
@@ -171,10 +171,10 @@ jobs: # Define the single complete forward job.
           selected = TRACK.get('selected_branches', [])  # Select the five historical-workflow branches.
           first14 = TRACK.get('first14_solver_order', [])  # Select the natural first-fourteen strict Track A modes.
           construction = BUILD.get('construction', {})  # Select the strict construction summary.
-          lines = ['# C3 Track A：旧版 ANSYS 式完整正向计算', '', '本结果模拟一名使用旧版 ANSYS/APDL 的工程人员或研究生最可能采用的计算过程：建立高位 master/pilot，使用 LINK 类单元和刚体主从方程连接低位节点，在原 C3 重力与预应力工作状态上重新执行 NLGEOM 静力平衡，再直接提取模态并按自然阶次查看振型。', '', '构模与分支配对均未读取附件目标频率；没有使用 SPRING1、SPRING2、低维模型或逐项最近频率。', '', '## Track 理论离散', '', '\[', '\mathbf u_l=\mathbf u_h+\boldsymbol\theta_h\times\mathbf r_{hl},', '\]', '', '\[', '\Delta U_G=\frac12\sum_j m_j g h_j\theta_j^2,', '\qquad', '\Delta\omega_n^2=\frac{\sum_j m_j g h_j\phi_{\theta n}^2}{I_n}.', '\]', '', f"- 新增高位节点：`{construction.get('new_node_count')}`", f"- 新增实体单元：`{construction.get('new_element_type_counts')}`", f"- 新增约束方程：`{construction.get('new_equation_count')}`", f"- 含转角方程：`{construction.get('rotation_equation_count')}`", f"- 含杠杆系数方程：`{construction.get('lever_equation_count')}`", f"- 刚体公式最大系数残差：`{construction.get('maximum_rigid_formula_error')}`", f"- 新增质量重力行：`{construction.get('injected_gravity_rows')}`", f"- NLGEOM 静力步骤数：`{construction.get('static_step_count')}`", f"- 显式弹簧数：`{construction.get('surrogate_spring_count')}`", '', '## 五分支全局一对一追踪', '', '| 分支 | C3阶次/Hz | Track A阶次/Hz | 频率变化 | Δω² | MAC | Track A前14阶内 | 左右幅相关 | 滚转参与率 | 纵向符号变化 |', '|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|']  # Initialize the complete human-readable report.
+          lines = ['# C3 Track A：假设命令路径完整正向计算', '', 'frequency_reproduced=false. human_apdl=false. C3 M3 0.07267 is not attach TA1 0.0996. Do not write 复现 or 一致.', '', '本结果是 agent 构造的假设命令路径：高位 master、LINK 类单元和刚体主从方程，再继承 C3 NLGEOM 静力历史后提模态。它不是未公开人工 APDL，也不是附件 TA1 复现。', '', '构模与分支配对均未读取附件目标频率；没有使用 SPRING1、SPRING2、低维模型或逐项最近频率。', '', '## Track 理论离散', '', '\[', '\mathbf u_l=\mathbf u_h+\boldsymbol\theta_h\times\mathbf r_{hl},', '\]', '', '\[', '\Delta U_G=\frac12\sum_j m_j g h_j\theta_j^2,', '\qquad', '\Delta\omega_n^2=\frac{\sum_j m_j g h_j\phi_{\theta n}^2}{I_n}.', '\]', '', f"- 新增高位节点：`{construction.get('new_node_count')}`", f"- 新增实体单元：`{construction.get('new_element_type_counts')}`", f"- 新增约束方程：`{construction.get('new_equation_count')}`", f"- 含转角方程：`{construction.get('rotation_equation_count')}`", f"- 含杠杆系数方程：`{construction.get('lever_equation_count')}`", f"- 刚体公式最大系数残差：`{construction.get('maximum_rigid_formula_error')}`", f"- 新增质量重力行：`{construction.get('injected_gravity_rows')}`", f"- NLGEOM 静力步骤数：`{construction.get('static_step_count')}`", f"- 显式弹簧数：`{construction.get('surrogate_spring_count')}`", '', '## 五阶 C3_M* 全局一对一追踪（不是附件家族名）', '', '| C3 index | C3阶次/Hz | daughter阶次/Hz | 频率变化 | Δω² | MAC | 前14阶内 | 左右幅相关 | 滚转参与率 | 纵向符号变化 |', '|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|']  # Initialize the complete human-readable report.
           for row in selected:  # Format each selected physical branch.
               lines.append(f"| {row.get('label')} | M{row.get('baseline_mode')} / {float(row.get('baseline_frequency_hz')):.8f} | M{row.get('track_mode')} / {float(row.get('track_frequency_hz')):.8f} | {float(row.get('frequency_change_percent')):+.3f}% | {float(row.get('delta_omega_squared_rad2_per_s2')):+.8g} | {float(row.get('mac')):.4f} | {'是' if row.get('within_first_14_track_modes') else '否'} | {row.get('track_lr_vertical_correlation')} | {row.get('track_roll_participation')} | {row.get('track_half_wave_sign_changes')} |")  # Append one complete branch row.
-          lines.extend(['', '## 旧版 ANSYS 操作者看到的自然前14阶', '', '| 阶次 | 频率/Hz |', '|---:|---:|'])  # Add the natural-order spectrum header.
+          lines.extend(['', '## daughter 求解器自然前14阶（不是附件家族）', '', '| 阶次 | 频率/Hz |', '|---:|---:|'])  # Add the natural-order spectrum header.
           for item in first14:  # Format every natural-order mode.
               lines.append(f"| {item.get('mode')} | {float(item.get('frequency_hz')):.8f} |")  # Append one natural solver-order row.
           lines.extend(['', '## 原生文件身份', '', f"- INP SHA-256：`{exact_files['inp']['sha256']}`", f"- DAT SHA-256：`{exact_files['dat']['sha256']}`", f"- FRD SHA-256：`{exact_files['frd']['sha256']}`", f"- 求解日志 SHA-256：`{exact_files['stdout']['sha256']}`", ''])  # Append exact file identities.
@@ -193,6 +193,21 @@ jobs: # Define the single complete forward job.
           tar -C package -czf C3_TrackA_old_ANSYS_forward_complete.tar.gz . # Create one compressed complete reproducibility archive.
           sha256sum C3_TrackA_old_ANSYS_forward_complete.tar.gz > C3_TrackA_old_ANSYS_forward_complete.tar.gz.sha256 # Hash the complete archive.
           sha256sum "$OUTPUT_DIR"/* > "$OUTPUT_DIR/SHA256SUMS.txt" # Hash every compact repository evidence file.
+      - name: Stamp evidence boundary even when the chain fails
+        if: always()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p results
+          printf 'human_apdl=false\nfrequency_reproduced=false\nnot_attach_ta1=true\nnot_undisclosed_human_apdl=true\nsource=agent_constructed_hypothesized_command_path\nexplicit_release_tag=c3-tracka-explicit-forward-20260831\nexplicit_release_present=false\nrun_33342111283=release_not_found\nno_job_finished=true\nc3_m3_is_not_attach_ta1=true\n' > results/case.txt
+      - name: Upload boundary even when the chain fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: C3-TrackA-hypothesized-forward-boundary
+          path: results/case.txt
+          if-no-files-found: error
+          retention-days: 14
       - name: Commit compact strict Track A result to the isolated branch # Persist the fixed-path report and matrices.
         shell: bash # Execute deterministic Git commands.
         run: | # Commit only the generated compact evidence directory.
@@ -208,4 +223,4 @@ jobs: # Define the single complete forward job.
         run: | # Create the stable release or replace assets from the same calculation chain.
           set -euxo pipefail # Stop on command, variable, or pipeline errors.
           assets=(C3_TrackA_old_ANSYS_forward_complete.tar.gz C3_TrackA_old_ANSYS_forward_complete.tar.gz.sha256 "$OUTPUT_DIR/FINAL_REPORT.md" "$OUTPUT_DIR/FINAL_STATUS.json" "$OUTPUT_DIR/TRACK_A_OLD_ANSYS_BUILD_AUDIT.json" "$OUTPUT_DIR/TRACK_A_OLD_ANSYS_MODE_TRACKING.json" "$OUTPUT_DIR/all40_global_one_to_one_tracking.csv" "$OUTPUT_DIR/C3_STATIC_MOTHER_RECOVERY.json" "$OUTPUT_DIR/SHA256SUMS.txt") # Define the complete release asset set.
-          if gh release view "$FINAL_RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then gh release upload "$FINAL_RELEASE_TAG" "${assets[@]}" --clobber --repo "$GITHUB_REPOSITORY"; else gh release create "$FINAL_RELEASE_TAG" "${assets[@]}" --title 'C3 Track A 旧版 ANSYS 式完整正向计算' --notes-file "$OUTPUT_DIR/FINAL_REPORT.md" --target "$GITHUB_SHA" --repo "$GITHUB_REPOSITORY"; fi # Create once or replace assets without changing modeling content.
+          if gh release view "$FINAL_RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then gh release upload "$FINAL_RELEASE_TAG" "${assets[@]}" --clobber --repo "$GITHUB_REPOSITORY"; else gh release create "$FINAL_RELEASE_TAG" "${assets[@]}" --title 'C3 Track A 假设命令路径完整正向计算（非复现）' --notes-file "$OUTPUT_DIR/FINAL_REPORT.md" --target "$GITHUB_SHA" --repo "$GITHUB_REPOSITORY"; fi # Create once or replace assets without changing modeling content.
