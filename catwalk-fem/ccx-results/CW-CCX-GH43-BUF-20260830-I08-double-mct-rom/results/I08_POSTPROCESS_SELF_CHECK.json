@@ -1,0 +1,126 @@
+{
+  "status": "PASS_STATIC_SELF_CHECK",
+  "run_id": "CW-CCX-GH43-BUF-20260830-I08",
+  "solver_invocations": 0,
+  "checks": {
+    "authority_hashes_and_order": true,
+    "github_original_result_rejected": true,
+    "github_wind_code_and_final_pipeline_frozen": true,
+    "category_schema": true,
+    "stationarity_boundary": true,
+    "every_nonblank_python_line_commented": true,
+    "no_solver_launch_implementation": true,
+    "all_qa_outputs_use_rsync_excluded_atomic_publication": true,
+    "relative_history_gate_is_1e_minus_6": true,
+    "ccx_endpoint_gate_uses_print_scaled_absolute_and_1e_minus_6_relative": true,
+    "one_e_minus_12_reserved_for_independent_foh_card_closure": true,
+    "job_paths_never_inferred": true,
+    "job_manifest_optional_during_static_wait": true,
+    "pilot_entrypoint_declared": true,
+    "pilot_and_full_batch_use_shared_case_evaluator": true,
+    "recovery_dependencies_byte_bound": true,
+    "master_downstream_contract_declared": true,
+    "load_state_contract_declared": true,
+    "job_hash_contract_declared": true
+  },
+  "diagnostics": {
+    "uncommented_nonblank_lines": [],
+    "forbidden_launch_ast_nodes": [],
+    "direct_output_ast_nodes": [],
+    "shared_evaluator_call_count": 2
+  },
+  "authority": {
+    "path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/AUTHORITY.json",
+    "sha256": "df10da1c759cea9e93c065d9456e583a1944b7b3eb1a730ea048f1821dddc5b7",
+    "repository": "Hiram-test/model",
+    "commit": "c1dfa02e12d82b20a1d34c389c501ce782befb49",
+    "source_blob_sha1": "9b708839baf8e6ccf76df292556c4d5387bf9da4"
+  },
+  "matrix": {
+    "csv_sha256": "12673049d2cfae885fb5a35d855441e7385b644d1182a7cc020d5e49f5e28b7f",
+    "json_sha256": "8f0ed5a30625b998b982caa32453518abd374f1c2c6312989b2548786e2a7b72",
+    "case_count": 43,
+    "category_count": 11
+  },
+  "threshold_contract": {
+    "q_v_history_relative_limit": 1e-06,
+    "q_v_ccx_endpoint_relative_limit": 1e-06,
+    "dat_absolute_limit": "max(1e-2,5e-7*exact_FOH_reference_peak)",
+    "exact_independent_foh_card_closure_relative_limit": 1e-12,
+    "ccx_output_closure_does_not_use_1e-12": true
+  },
+  "output_publication_contract": {
+    "staging_directory_name": ".rsync-tmp",
+    "staging_excluded_from_visible_evidence": true,
+    "file_flush": true,
+    "file_fsync": true,
+    "atomic_replace": true,
+    "source_and_destination_same_filesystem": true,
+    "directory_fsync": true,
+    "direct_output_ast_violations": []
+  },
+  "waiting_behavior": {
+    "job_manifest_present": true,
+    "when_absent": "WAITING_FOR_EXPLICIT_I08_JOB_MANIFEST",
+    "when_any_path_or_hash_missing": "WAITING_FOR_CCX_ARTIFACTS",
+    "pilot_ignores_unselected_case_readiness": true,
+    "partial_aggregation_allowed": false
+  },
+  "stable_output_contract": {
+    "case_master_path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_MASTER.csv",
+    "case_master_required_columns": [
+      "github_scenario_id",
+      "i08_case_id",
+      "category",
+      "confidence",
+      "stationarity",
+      "qa_status",
+      "slack_screen_flag",
+      "linearity_boundary_status",
+      "rope_capacity_status"
+    ],
+    "rope_results_path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_ROPE_RESULTS.csv",
+    "category_summary_path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_CATEGORY_SUMMARY.csv",
+    "knowledge_graph_path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_KNOWLEDGE_GRAPH.jsonld",
+    "triples_path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_TRIPLES.csv",
+    "completion_signal_path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_ACCEPTANCE.json",
+    "completion_signal": "status=PASS and checks.case_count=43 and checks.all_case_qa_pass=true"
+  },
+  "input_contract": {
+    "job_path_fields": [
+      "load_state_path",
+      "deck_path",
+      "stiff_path",
+      "mass_path",
+      "eig_path",
+      "dat_path",
+      "sta_path",
+      "console_path",
+      "build_audit_path",
+      "execution_audit_path"
+    ],
+    "job_artifact_sha256_roles": [
+      "load_state",
+      "deck",
+      "stiff",
+      "mass",
+      "eig",
+      "dat",
+      "sta",
+      "console",
+      "build_audit",
+      "execution_audit"
+    ],
+    "load_state_keys": [
+      "time_s",
+      "generalized_force",
+      "periodic_q0",
+      "periodic_v0",
+      "frequencies_hz",
+      "production_basis_sha256",
+      "mean_generalized_force",
+      "static_modal_mean"
+    ]
+  },
+  "original_github_response_values_consumed": false
+}

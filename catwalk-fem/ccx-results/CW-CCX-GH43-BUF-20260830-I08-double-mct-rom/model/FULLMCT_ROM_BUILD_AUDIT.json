@@ -1,0 +1,63 @@
+{
+  "status": "FULL_MCT_150_MODE_CCX_MODAL_COORDINATE_ROM_GATE_NOT_ELEMENT_LEVEL_NOT_NONLINEAR",
+  "mode_count": 150,
+  "coordinate_count": 153,
+  "node_count": 51,
+  "dummy_frequency_hz": 100.0,
+  "dynamic_duration_s": 5.0,
+  "dt_s": 0.05,
+  "damping_ratio": 0.01,
+  "seed_base": 20260805,
+  "u_seed": 20260816,
+  "w_seed": 20260834,
+  "wind": {
+    "U_mps": 44.9,
+    "full_generation_duration_s": 600.0,
+    "minimum_frequency_hz": 0.0016666666666666668,
+    "maximum_frequency_hz": 2.0,
+    "coherence_decay": 7.0,
+    "cross_width_mode": "coherent",
+    "u_metadata": {
+      "target_sigma_mps": 4.249928039283635,
+      "friction_velocity_mps": 1.8442721501921082,
+      "df_hz": 0.0016666666666666668,
+      "active_bins": 1200.0,
+      "pre_scale_midspan_sigma_mps": 3.75623505125568
+    },
+    "w_metadata": {
+      "target_sigma_mps": 2.2079202156439286,
+      "friction_velocity_mps": 1.8442721501921082,
+      "df_hz": 0.0016666666666666668,
+      "active_bins": 1200.0,
+      "pre_scale_midspan_sigma_mps": 2.149658869241709
+    }
+  },
+  "gate_force_policy": "first 0..5 s segment of the frozen 600 s nominal realization, with each modal FOH time mean removed; mean_Q is excluded and solved separately",
+  "max_abs_foh_mean_Q_after_removal": 1.7497114868092466e-14,
+  "max_abs_removed_five_second_modal_mean_Q": 152.4610843042439,
+  "static_pre_ccx_max_abs_q_difference": 0.0,
+  "static_pre_ccx_max_rel_q_difference": 0.0,
+  "sources": {
+    "mct": "<RUN_ROOT>/ccx_run/runs/CW-CCX-MCT-BUF-20260829-I06/source_package/double_mct_catwalk_buffeting_final_package/inputs/catwalk_gantry_rope_combined_2.mct",
+    "stations": "<RUN_ROOT>/ccx_run/runs/CW-CCX-MCT-BUF-20260829-I06/source_package/double_mct_catwalk_buffeting_final_package/inputs/passage_station_authoritative_map.csv",
+    "coefficients": "<RUN_ROOT>/ccx_run/runs/CW-CCX-MCT-BUF-20260829-I06/source_package/double_mct_catwalk_buffeting_final_package/inputs/zjg_wind_tunnel_coefficients.csv",
+    "package_state": "<RUN_ROOT>/ccx_run/runs/CW-CCX-MCT-BUF-20260829-I06/source_package/double_mct_catwalk_buffeting_final_package/buffeting_results/reduced_response_state.npz",
+    "f01_modal_state": "<RUN_ROOT>/ccx_run/runs/CW-CCX-FULLMCT-FEAS-20260829-F01/F01_AUTH_FULLMCT_150MODES.npz",
+    "f01_stiffness": "<RUN_ROOT>/ccx_run/runs/CW-CCX-FULLMCT-FEAS-20260829-F01/F01_ROM150_SINGLE.stiff",
+    "f01_mass": "<RUN_ROOT>/ccx_run/runs/CW-CCX-FULLMCT-FEAS-20260829-F01/F01_ROM150_SINGLE.mass"
+  },
+  "sha256": {
+    "mct": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+    "stations": "66ff8521860815a8d8665aabf5ff909f64d8dd8d17263f754bf594f5583ed3ca",
+    "coefficients": "8cd1fa26f4d21d62caeba080410bc77febddcdfc00735c2d3b911f73c920c618",
+    "package_state": "2465489342b93033c86179b13fe9004a943fe639c3c487ececb9cd87a4f960a2",
+    "f01_modal_state": "2e8d8296a610417e64f0474e7027d550abf8f7ca44a970396a64b572c06b48c3",
+    "f01_stiffness_source": "22d7650d18e2168bb32880a7ad0508b5bdea7b811334c7988372ecc4f25ed385",
+    "f01_mass_source": "3dffa1d256cdf3863ebf43cdd215a606eace56cbc3cca90671ba499d2ade97b5",
+    "i06_stiffness": "22d7650d18e2168bb32880a7ad0508b5bdea7b811334c7988372ecc4f25ed385",
+    "i06_mass": "3dffa1d256cdf3863ebf43cdd215a606eace56cbc3cca90671ba499d2ade97b5",
+    "dynamic_deck": "426cdb4f788e1b10241d19a83e2cbc3fe961739fd2e7f85a0408142b829ccd9a",
+    "static_deck": "2e679360a7aa005cc48512db38aefe0213b4f80c4100269038bed3ec0d23a6c3",
+    "q_5s_csv": "d87ed045e73253c1f67a242a1877fa509aaf389fcfe4ab74e7c807ce93010cc0"
+  }
+}

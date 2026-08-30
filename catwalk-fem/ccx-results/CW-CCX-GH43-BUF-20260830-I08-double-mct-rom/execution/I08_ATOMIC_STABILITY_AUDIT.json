@@ -1,0 +1,862 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "CW-CCX-GH43-BUF-20260830-I08",
+  "audit_type": "TWO_ROUND_ATOMIC_STABILITY_FINAL_AUDIT",
+  "status": "PASS",
+  "overall_pass": true,
+  "read_only_inputs": true,
+  "pipeline_expected_sha256": "9b162d9901458260ccef059331f8b02bc97bd01a0a9ea00f00614c53944a2d48",
+  "between_round_interval_s": 10.500164486998983,
+  "minimum_required_interval_s": 10.0,
+  "snapshot_stable": true,
+  "rounds": [
+    {
+      "round_index": 1,
+      "started_utc": "2026-08-29T18:59:26.913184+00:00",
+      "finished_utc": "2026-08-29T18:59:44.292573+00:00",
+      "duration_s": 17.379374964999442,
+      "pass": true,
+      "errors": [],
+      "checks": {
+        "exact_github_43_order": true,
+        "job_result_43_of_43": true,
+        "pipeline_sha256": "9b162d9901458260ccef059331f8b02bc97bd01a0a9ea00f00614c53944a2d48",
+        "expected_pipeline_sha256": "9b162d9901458260ccef059331f8b02bc97bd01a0a9ea00f00614c53944a2d48",
+        "staging_residual_count": 0,
+        "staging_residuals": []
+      },
+      "coverage": {
+        "authority_cases": 43,
+        "job_cases": 43,
+        "result_cases": 43,
+        "cases_fully_checked": 43,
+        "manifest_role_hashes": 430,
+        "raw_artifact_hashes": 129,
+        "published_output_hashes": 258,
+        "staged_input_hashes": 301,
+        "npz_schema_shape_checks": 43,
+        "console_completion_checks": 43,
+        "execution_audit_contract_checks": 43
+      },
+      "snapshot_file_count": 607,
+      "snapshot_sha256": "0a3e17c9fdcf670601837a39d324298588290f198a4d043b6274f7f514ec620b",
+      "case_records": [
+        {
+          "case_index": 1,
+          "i08_case_id": "I08-site_gb50009_50yr-S20260805",
+          "github_scenario_id": "site_gb50009_50yr",
+          "pass": true,
+          "execution_audit_sha256": "cf42592929aca52ee70cf3c6223b63b8b64d5fdb52dbbc10e99d3cdd4c018663",
+          "load_state_sha256": "f9f49f6d18539e80860d1837275de5634a80086f048f758b9e8ff5692e62a669",
+          "dat_sha256": "0a126cab16d51032e056df25217551e07d9e7ea7df3afa98229f0e76455d6205"
+        },
+        {
+          "case_index": 2,
+          "i08_case_id": "I08-site_gb50009_100yr-S20260805",
+          "github_scenario_id": "site_gb50009_100yr",
+          "pass": true,
+          "execution_audit_sha256": "c5e2538ff80360f67b444fc03aae891774f5314b2ea2828a715eebc2fd0b7920",
+          "load_state_sha256": "163916317d4d17a662d48baddfa2552df88aa39b59e0e7c20b172af215bf8aa9",
+          "dat_sha256": "6ff14b00db7513ee14a6f958df4ec58e42881a298c0b0d89caec81063c0c4ac6"
+        },
+        {
+          "case_index": 3,
+          "i08_case_id": "I08-site_sutong_100yr_obs-S20260805",
+          "github_scenario_id": "site_sutong_100yr_obs",
+          "pass": true,
+          "execution_audit_sha256": "ac31939eb9f550fa8165bf49bafd6879f4beb9a2e4e38fac444710d53d8581fc",
+          "load_state_sha256": "a15a0312bbb30606daa5d9d4b062d1300f9398e9858025f7326ec202cc9586d8",
+          "dat_sha256": "ac68cdf9dbe84d6cfc3ad108923c13294f2e03d3fb25bb670c83cc131d221b04"
+        },
+        {
+          "case_index": 4,
+          "i08_case_id": "I08-hko_t10-S20260805",
+          "github_scenario_id": "hko_t10",
+          "pass": true,
+          "execution_audit_sha256": "5dd6ae66d7ff0d666b05353efda3bced4eb7c984356633fc6488b65c15b9261d",
+          "load_state_sha256": "d3c1193f89224571e114120b24c491b156543b941d1a33c9edb3a16987ce54e0",
+          "dat_sha256": "1580eb7aef4dcb2fddc4ea6cdfb82c6dcf323b577dad7b9d329d18dc4d62f065"
+        },
+        {
+          "case_index": 5,
+          "i08_case_id": "I08-asce7_risk4_fl-S20260805",
+          "github_scenario_id": "asce7_risk4_fl",
+          "pass": true,
+          "execution_audit_sha256": "1aa38fa6e3b840be3f8fc03c55c8eda211a91d76463c1c6a61c4a7f9693a8a2d",
+          "load_state_sha256": "4f1f660765a6400ffd40582bbfdd112955da67fd057e55d6533ce06427ab6ba5",
+          "dat_sha256": "14465c63e8c43bb18329bf7284970253993cdb099f523ff1588c56346bd7b717"
+        },
+        {
+          "case_index": 6,
+          "i08_case_id": "I08-ss_cat1-S20260805",
+          "github_scenario_id": "ss_cat1",
+          "pass": true,
+          "execution_audit_sha256": "89beb3eb6a72db8d3759733a75b3da80dac4804b735bd9d876a041f56957b6d9",
+          "load_state_sha256": "56d8595291e454d4fbdb84dd4f0a5ebc724449d2889aed1fd6285a0fe8c69dba",
+          "dat_sha256": "4fc77edbeddd9b04aa8f4dd7bb5537101b081a59e2db36fe7c382de5006c5353"
+        },
+        {
+          "case_index": 7,
+          "i08_case_id": "I08-ss_cat2-S20260805",
+          "github_scenario_id": "ss_cat2",
+          "pass": true,
+          "execution_audit_sha256": "ed060ea216b2546ae60257016c07f6ba59d1c327178d1cd32b45ea34cb117f0f",
+          "load_state_sha256": "d8516fb57e949acb21bc170e8b6088f88bcc876c4594f94717bc052fdb439367",
+          "dat_sha256": "615b21067f0a2a4dc7e0264a4f3db13943b6c7a9dd06a8f27ea6e3844ae364db"
+        },
+        {
+          "case_index": 8,
+          "i08_case_id": "I08-ss_cat3-S20260805",
+          "github_scenario_id": "ss_cat3",
+          "pass": true,
+          "execution_audit_sha256": "f6c5818a468fa4734f00247d414ee54c42339973a889a7ad9b743527846d7e19",
+          "load_state_sha256": "6a4ed3ad5fe50428edd73a6af40e46fc353706bdf3a410520e8dc979f0cfff53",
+          "dat_sha256": "2a6277a45a8ab70c1e5acf7a2c14a5ed7f1d5af6b13553bc21c6f8c06e7a6562"
+        },
+        {
+          "case_index": 9,
+          "i08_case_id": "I08-ss_cat4-S20260805",
+          "github_scenario_id": "ss_cat4",
+          "pass": true,
+          "execution_audit_sha256": "512655ca7a989d2205e77b2bd96ac6820825027a7c5de0383d12d7fa74a989f4",
+          "load_state_sha256": "6a6279fb7b21bdcbbdf9562005a9da48d94d82748c54b07eba697cba4ef00661",
+          "dat_sha256": "7967288d2431f8510f0bdd48a2fc806afb79fd7aa7de6520dbefd0ba15340a6f"
+        },
+        {
+          "case_index": 10,
+          "i08_case_id": "I08-ss_cat5-S20260805",
+          "github_scenario_id": "ss_cat5",
+          "pass": true,
+          "execution_audit_sha256": "ff80063e7a5eda20e23d80069d1fa0235ecec2881cc2877a9d9bf93f6be83b60",
+          "load_state_sha256": "90ff71d0c656eb21d4510279dcb7183480398de3f2a6bbc2277e8f0a035a6a9b",
+          "dat_sha256": "7c418d44952fad78b06ae738ceb24eca838873c4d2c815f39f343afa774acc2c"
+        },
+        {
+          "case_index": 11,
+          "i08_case_id": "I08-infa_2021_zhoushan-S20260805",
+          "github_scenario_id": "infa_2021_zhoushan",
+          "pass": true,
+          "execution_audit_sha256": "4c28d6c5e99c78ee2eb56610a679b448ebc985990e1ac6455767855152d24325",
+          "load_state_sha256": "c38da4d43730410a5a07b80ae3eb884ee6d1f5d2b2d03d096eb57255b3be3065",
+          "dat_sha256": "ff17a30ccd3d01919e1be22af623a4dd4e104e65404ad1880f02ac6aaff6545c"
+        },
+        {
+          "case_index": 12,
+          "i08_case_id": "I08-doksuri_2023_jinjiang-S20260805",
+          "github_scenario_id": "doksuri_2023_jinjiang",
+          "pass": true,
+          "execution_audit_sha256": "dfb7ed356fe090f6de5a8e3acadd3e4befd9bb4083640dcd32bb7c79bbd37659",
+          "load_state_sha256": "e12ed2bf1601454d774696ec89bc013a9e5bdead290265c3fbe7cc61c6605d44",
+          "dat_sha256": "a97a2451b388b1d8c13059ae9fb5c0aa1c35653cfbb3938877bcff949f18b89f"
+        },
+        {
+          "case_index": 13,
+          "i08_case_id": "I08-haiyan_2013_peak-S20260805",
+          "github_scenario_id": "haiyan_2013_peak",
+          "pass": true,
+          "execution_audit_sha256": "ed76e258c6f1b398c60ee47e9b7ac2b0394048c83c9aa5592f2f65fb99d747a7",
+          "load_state_sha256": "f99540f020542622e851c97aa50a3e298302bf13c851adb94b4d38ba9950f3ad",
+          "dat_sha256": "3d844811dc60733b74bdcdb4e5336856cf2cb29617269ac83373b034b4f0a76c"
+        },
+        {
+          "case_index": 14,
+          "i08_case_id": "I08-meranti_2016_peak-S20260805",
+          "github_scenario_id": "meranti_2016_peak",
+          "pass": true,
+          "execution_audit_sha256": "92306e69b32865c0bb6243aaa84b8f8367d743e9b0119399b975b8872123abac",
+          "load_state_sha256": "1f8127e7b5b9b2b77c59d0f5def000556616ae03e4dc0d3a7ea7a6997a5589a9",
+          "dat_sha256": "ee941188b98c2caf9cb2a530d8c22446a0c28b67a9e45a7c57129d644f032c85"
+        },
+        {
+          "case_index": 15,
+          "i08_case_id": "I08-goni_2020_landfall-S20260805",
+          "github_scenario_id": "goni_2020_landfall",
+          "pass": true,
+          "execution_audit_sha256": "0f67053a2d0df6af84cfb038c93562b80586982cf67182c8e055ed1adf61730f",
+          "load_state_sha256": "17729a4a95fb8871b19dc3684cd9497ac25e239fac58d660b691a3d1ad8ab6e1",
+          "dat_sha256": "bcfe8323bc7c92e33b95f11ec71c9ac05326997e52499d34bf1d263bfe3c0f64"
+        },
+        {
+          "case_index": 16,
+          "i08_case_id": "I08-tip_1979_peak-S20260805",
+          "github_scenario_id": "tip_1979_peak",
+          "pass": true,
+          "execution_audit_sha256": "34e2c9e3de88d83752b5cb20ed7e35b358700c7d7089c5b73236cf97cdcc9e85",
+          "load_state_sha256": "ddcc647d368921eec238a3e1fe9ef1c4eef8e5cc3e9fecffb8aa2a08dd771fbd",
+          "dat_sha256": "7434ede02a299f05b04db82bde9e5981eb534963c7d6c3c549df628ff75fe116"
+        },
+        {
+          "case_index": 17,
+          "i08_case_id": "I08-mangkhut_2018_peak-S20260805",
+          "github_scenario_id": "mangkhut_2018_peak",
+          "pass": true,
+          "execution_audit_sha256": "3994130fb01c9913d57da92a1884b081e84a9185305d6123af6a848c4b2c4fbb",
+          "load_state_sha256": "444f52b55de9bb2e566360c689c12bf9c0d60d31646e230c3a88de32858aaafc",
+          "dat_sha256": "f93300fe5a130c929dd12385e7955f1563262794c5098e1e7215e055680fd44d"
+        },
+        {
+          "case_index": 18,
+          "i08_case_id": "I08-lanyu_ryan_1995_gust-S20260805",
+          "github_scenario_id": "lanyu_ryan_1995_gust",
+          "pass": true,
+          "execution_audit_sha256": "2f53de61ad0f37e5345c04cde64f92a1e9cec613b476a71c7be71f65b6b4de25",
+          "load_state_sha256": "2107c3f3b3d7ea90993bbf57fc94243271973b3ba40ac8c9794e268f0aafc1c5",
+          "dat_sha256": "70c45ef3bcac57c650fc29565869758a72ebdd8cbba1d1e0cb1be358f6137e03"
+        },
+        {
+          "case_index": 19,
+          "i08_case_id": "I08-patricia_2015_peak-S20260805",
+          "github_scenario_id": "patricia_2015_peak",
+          "pass": true,
+          "execution_audit_sha256": "a446924818f69637d8516ae17b1d72b31ddba30fc1bced79ec56b8c58ef8ff34",
+          "load_state_sha256": "6724e2398149f9c2d7f711da3c83edebd231d80db03c362b30de27ba2de89736",
+          "dat_sha256": "d9fd1347ff490ee17b34f403a417ccca0d5056cfcb51dea06818681dfb7d5356"
+        },
+        {
+          "case_index": 20,
+          "i08_case_id": "I08-dorian_2019_landfall-S20260805",
+          "github_scenario_id": "dorian_2019_landfall",
+          "pass": true,
+          "execution_audit_sha256": "95dd74ffa58239631d21b833d87256a389729e8be3344a3a4669985ab10f232c",
+          "load_state_sha256": "0d620637c7d1ba4023965ac9e45c020918126e09624a4dbd22fe2843a58dbcf1",
+          "dat_sha256": "42f2354df34d4bd941c229853422a0031492757428dbdf297f37b9aa10889afa"
+        },
+        {
+          "case_index": 21,
+          "i08_case_id": "I08-gustav_2008_cuba_gust-S20260805",
+          "github_scenario_id": "gustav_2008_cuba_gust",
+          "pass": true,
+          "execution_audit_sha256": "416d7c0a55d3abf9495e82bb7908418c7ee0a0cd3b5b2b5b024f5b2448cb84a2",
+          "load_state_sha256": "4e94e09ba5a80e69a5d6d6339f22fb5b9db8eb01f13b1124f5d57ee02efd50ca",
+          "dat_sha256": "37836dc5bcc6f2a637d26289c23f2f01558727b29276087d44dbacc350b8586c"
+        },
+        {
+          "case_index": 22,
+          "i08_case_id": "I08-amphan_2020_peak-S20260805",
+          "github_scenario_id": "amphan_2020_peak",
+          "pass": true,
+          "execution_audit_sha256": "714982b71cb63490320d0f52657495396e95bb8aa1e9ff14abe1c3a8bce45da9",
+          "load_state_sha256": "32428d1f48442289733cf5edc9cddcbca1f2b95d2166e1b5d9832af14ff80367",
+          "dat_sha256": "2c73cf4f463c86c47d8e8a3926878c217b05292e650d1cc4962f130ee0801960"
+        },
+        {
+          "case_index": 23,
+          "i08_case_id": "I08-nargis_2008_peak-S20260805",
+          "github_scenario_id": "nargis_2008_peak",
+          "pass": true,
+          "execution_audit_sha256": "4528034bfa8cbf9e88ca74a1d397de87218b9ca741e552b7fbae4ebfc981869f",
+          "load_state_sha256": "553d3fd2ff193544d281eea49edb8ee05d0debf4e05c9f843a45969e3ef365c4",
+          "dat_sha256": "f8da941302c03e8bc9f7b9d72ab013df7373f44652990045ea4080b4c6cb6b4f"
+        },
+        {
+          "case_index": 24,
+          "i08_case_id": "I08-bhola_1970_peak-S20260805",
+          "github_scenario_id": "bhola_1970_peak",
+          "pass": true,
+          "execution_audit_sha256": "3050ffc3bd5db3a8ae1805bded3ed5a58aa46ea0c4785927312580ae29f63e8e",
+          "load_state_sha256": "508070201c730629df6bcc272b725897a0aa5b80bb10d4aff0ad2ac13464f4b3",
+          "dat_sha256": "ce723b6b42f5983b6f33937d0b0c747fb849a1cdff1e86bf58b77d412af326fa"
+        },
+        {
+          "case_index": 25,
+          "i08_case_id": "I08-ef3_anchor-S20260805",
+          "github_scenario_id": "ef3_anchor",
+          "pass": true,
+          "execution_audit_sha256": "9dcc003288f764ab587d4ee5cfaaf52dd4a8d2ef49f402436fdde2906b9f0428",
+          "load_state_sha256": "335e01cb61a6b389c700694ee8a36935a9c9410e9b9cba933de7b585b6202e8d",
+          "dat_sha256": "ae39593c0dce8645d82d79e23f5ec50f202a8db9111e86c37494269ab03395ac"
+        },
+        {
+          "case_index": 26,
+          "i08_case_id": "I08-ef4_anchor-S20260805",
+          "github_scenario_id": "ef4_anchor",
+          "pass": true,
+          "execution_audit_sha256": "92a7bd5813b60c342a05985d3cb98e348b88c9bd966555a302d063e60eb68d3b",
+          "load_state_sha256": "3e0cf3b4bc4a4b18e5a07be7afddf5aca99e528d4b050a7f121e89fa42d2ecbd",
+          "dat_sha256": "bb0f23d68f649d5e2ddd79958a5498196016da3898bc21294b1a41778d0afd20"
+        },
+        {
+          "case_index": 27,
+          "i08_case_id": "I08-ef5_anchor-S20260805",
+          "github_scenario_id": "ef5_anchor",
+          "pass": true,
+          "execution_audit_sha256": "07cdf5932ba3448dc004b941d18355fc5f2363596a82123a3ad4e80e32ce7205",
+          "load_state_sha256": "206e61a16ef92abab6e0eb205e1e2b1f852a7d6e2dd782ae6914ceafce08168c",
+          "dat_sha256": "5fe7c6a4b6a00519d0898a982b2c746eebfeed35563ac8eed82bf614a3cc1169"
+        },
+        {
+          "case_index": 28,
+          "i08_case_id": "I08-funing_2016_ef4-S20260805",
+          "github_scenario_id": "funing_2016_ef4",
+          "pass": true,
+          "execution_audit_sha256": "27d52ea8e639aac64723a44f89658a13415126fb8d2b9a9ac29739a2108c5c3c",
+          "load_state_sha256": "3230bf0c5ce10542f87fc6efcde402d030ed10863633b2a010c5bbcb8499ef90",
+          "dat_sha256": "0a9daa541bdbc3c76d70f35ad6bc8fa11a02dcf141a2b12f9445702533eb9152"
+        },
+        {
+          "case_index": 29,
+          "i08_case_id": "I08-bridge_creek_1999_ref-S20260805",
+          "github_scenario_id": "bridge_creek_1999_ref",
+          "pass": true,
+          "execution_audit_sha256": "86f73c0e314d3178d9ff1f6ae3bcee6db76bfb229ad773949c771bd37a753ec0",
+          "load_state_sha256": "c03eed414e29d046472c294a26370701a060ae6955d4a1cfa92c9665ba4897bb",
+          "dat_sha256": "d57d42724ba35b9e15ca59fda72e610edb6c4a306f6f6b60a093dedd35516fd6"
+        },
+        {
+          "case_index": 30,
+          "i08_case_id": "I08-dongfangzhixing_2015_downburst-S20260805",
+          "github_scenario_id": "dongfangzhixing_2015_downburst",
+          "pass": true,
+          "execution_audit_sha256": "25be9a68bdf7637c25b3f4c916d51b892d453193b06f19985788eea194001780",
+          "load_state_sha256": "86f3d3c598ff43228d1e9a452eab0a01236dc97d4b21923d0e9bcc4a46efe8dc",
+          "dat_sha256": "2bdf0d04f6bebf3601b4be27a65f519251d044f4502a0dcfe4656440781e30e3"
+        },
+        {
+          "case_index": 31,
+          "i08_case_id": "I08-andrews_afb_1983_microburst-S20260805",
+          "github_scenario_id": "andrews_afb_1983_microburst",
+          "pass": true,
+          "execution_audit_sha256": "afb0fa828b4126dfda60733142e033c3e9017a32c7f815c80b52ec81bb4a6293",
+          "load_state_sha256": "6e4b6ae8ab590ec8a4b06123802b4bf7486695dfeb9370440042f92385905a3a",
+          "dat_sha256": "6decba91e90538156d4dff9f63b15c35efaa7032a7337e1fdc8e02d33df96956"
+        },
+        {
+          "case_index": 32,
+          "i08_case_id": "I08-midwest_derecho_2020-S20260805",
+          "github_scenario_id": "midwest_derecho_2020",
+          "pass": true,
+          "execution_audit_sha256": "3a9e59c2e11cb89927ef188fa805cd3581c120d5ac5939edb440fa475bfc9971",
+          "load_state_sha256": "43ed48086418cbdc32e662be64c58a0419b64c129a07cadcf2ff37c0dfbb3925",
+          "dat_sha256": "4a6b3cf9fe323932342c017453895c00eb02ef6f250e3eb69a0576332f9a6994"
+        },
+        {
+          "case_index": 33,
+          "i08_case_id": "I08-great_storm_1987-S20260805",
+          "github_scenario_id": "great_storm_1987",
+          "pass": true,
+          "execution_audit_sha256": "6c49610fadb2937b437d2b45701313135aebc2d5a9f9353610385f001f39a4a0",
+          "load_state_sha256": "1d99cca1211578bd75332b53c7659797db2d738f20b33ef812b36ade8296ffac",
+          "dat_sha256": "e05ff1dddf970f302ead8e3e9e08ba494a858b6b8feea561275bfec1e04a1469"
+        },
+        {
+          "case_index": 34,
+          "i08_case_id": "I08-lothar_1999-S20260805",
+          "github_scenario_id": "lothar_1999",
+          "pass": true,
+          "execution_audit_sha256": "3c8194edbc14e63a3462046281a6db35ef52570235334408c26ff406b92309a4",
+          "load_state_sha256": "ab45a70a2c2eabd9e2d200f582700f12f5e538572c4fff6cf9743ec568fbf52d",
+          "dat_sha256": "9173468733675744918ef2d5af70ab911f27489028d13c8caf7df11d6ef4ed7e"
+        },
+        {
+          "case_index": 35,
+          "i08_case_id": "I08-bora_adriatic-S20260805",
+          "github_scenario_id": "bora_adriatic",
+          "pass": true,
+          "execution_audit_sha256": "85e8341154e28dfa786d3ec2e1e26d21020362ec000b1ca30059c322de35c273",
+          "load_state_sha256": "268e07d3c21daf2d702ceb04650bc805cf73b9df8621eed3cf30fa67e30388ed",
+          "dat_sha256": "2188f08cf078a61e08e482d0fcc07d852665cd4919627d8f65715c40a93d2c65"
+        },
+        {
+          "case_index": 36,
+          "i08_case_id": "I08-mistral_strong-S20260805",
+          "github_scenario_id": "mistral_strong",
+          "pass": true,
+          "execution_audit_sha256": "46f5cf862d08d94b35090e7ecd7c55ec525bb9cc1a2565f0788132fde0e939ce",
+          "load_state_sha256": "8ae1bd6c7dfeea89b871f876b6c91a434a06857edf2a1f3beefcfede0a1327e7",
+          "dat_sha256": "fa8152e44fe16fcaec1b3e2a8d14df368d2fb651a9bd4eb737e9df0925a52901"
+        },
+        {
+          "case_index": 37,
+          "i08_case_id": "I08-patagonia_westerlies-S20260805",
+          "github_scenario_id": "patagonia_westerlies",
+          "pass": true,
+          "execution_audit_sha256": "dd306638a932c0615dbbc07a3c91b885b4d32557a0de8e744a9c65b48c9cd5ec",
+          "load_state_sha256": "b0a890c8552cf102b0b2103dcd2a846d944ba42a8c6d909baca9f24ec3499f35",
+          "dat_sha256": "2774d771cc15ffbec901e2c51a58f0b7740ca52325b9ddb72baf8e4655efd31b"
+        },
+        {
+          "case_index": 38,
+          "i08_case_id": "I08-xinjiang_baili_fengqu-S20260805",
+          "github_scenario_id": "xinjiang_baili_fengqu",
+          "pass": true,
+          "execution_audit_sha256": "9dfd2909a35642722dc30a4e5899a0ba1912ac930dadce06e30f76814976ec7b",
+          "load_state_sha256": "48858920f2049e4d89ea772c9ca3b021801f962692572c0cac1c0f2249bea7b0",
+          "dat_sha256": "37abfc27f43a1b5e445a2577ff1b839b7db638e148abcc92580b85621e7f308f"
+        },
+        {
+          "case_index": 39,
+          "i08_case_id": "I08-cape_denison_katabatic-S20260805",
+          "github_scenario_id": "cape_denison_katabatic",
+          "pass": true,
+          "execution_audit_sha256": "645ca0a916f018db3b57bb4f58c27e9182e415d33a98ef3fe73eb12bbac6695a",
+          "load_state_sha256": "97490b808a3f13c6a1923d8b194da4a1bdbfb25caa601e3b8bb5b3f06d1467a0",
+          "dat_sha256": "89f16a970c2930202b0303528fc8b781469871e70356d01d5d9a5bd35d7e19ad"
+        },
+        {
+          "case_index": 40,
+          "i08_case_id": "I08-thule_1972_gust-S20260805",
+          "github_scenario_id": "thule_1972_gust",
+          "pass": true,
+          "execution_audit_sha256": "ca71d87e109d98bbe968253603efcc52b864cb401870d15b96b792743134045b",
+          "load_state_sha256": "c42c0c3292357d7a79294885acbc24d6313accfc9f14509bace5e552c21a1cc6",
+          "dat_sha256": "780001ec635e08ae1ac153b17a1f03705514daa100a65786ec66693ff53912b1"
+        },
+        {
+          "case_index": 41,
+          "i08_case_id": "I08-piteraq_tasiilaq-S20260805",
+          "github_scenario_id": "piteraq_tasiilaq",
+          "pass": true,
+          "execution_audit_sha256": "464a435d3c18ebbfd8da63eaf20b5c9b8fed6ed32a5894a2d1107ce1ef0256ab",
+          "load_state_sha256": "cc9f7ca629404e9f6998d217a59d2d9a7589d33676ab843370c5860d243b9064",
+          "dat_sha256": "94772ae7062511cc42bf5b51eda66151fabaf8320fdc46ed8adb6c2f6eaf80b4"
+        },
+        {
+          "case_index": 42,
+          "i08_case_id": "I08-barrow_olivia_1996-S20260805",
+          "github_scenario_id": "barrow_olivia_1996",
+          "pass": true,
+          "execution_audit_sha256": "d8805dbbfcfadd82b2bc5afea88be8c8673abe96182e2a3329e52454c6ceab43",
+          "load_state_sha256": "bb70dd7e066c25d185333bf0c494c114ef231c4767d694a46463e798f59e4991",
+          "dat_sha256": "72d824a37d5c6d42468f73c6a79824ad36b58840faa152ae619f92fddf15345c"
+        },
+        {
+          "case_index": 43,
+          "i08_case_id": "I08-mt_washington_1934-S20260805",
+          "github_scenario_id": "mt_washington_1934",
+          "pass": true,
+          "execution_audit_sha256": "c6690a37d0c3800133a16f33819a08e0e20621d0efaff0f55d7920b7c99b8469",
+          "load_state_sha256": "8311371b496260e535d3101fd45029656f20408211b3d39163f4e9f2f794fa2f",
+          "dat_sha256": "454bfefe18353f137e388126f859e764cbf42706cc17eb97d8517f883e4c0716"
+        }
+      ]
+    },
+    {
+      "round_index": 2,
+      "started_utc": "2026-08-29T18:59:54.793944+00:00",
+      "finished_utc": "2026-08-29T19:00:12.027427+00:00",
+      "duration_s": 17.233481709001353,
+      "pass": true,
+      "errors": [],
+      "checks": {
+        "exact_github_43_order": true,
+        "job_result_43_of_43": true,
+        "pipeline_sha256": "9b162d9901458260ccef059331f8b02bc97bd01a0a9ea00f00614c53944a2d48",
+        "expected_pipeline_sha256": "9b162d9901458260ccef059331f8b02bc97bd01a0a9ea00f00614c53944a2d48",
+        "staging_residual_count": 0,
+        "staging_residuals": []
+      },
+      "coverage": {
+        "authority_cases": 43,
+        "job_cases": 43,
+        "result_cases": 43,
+        "cases_fully_checked": 43,
+        "manifest_role_hashes": 430,
+        "raw_artifact_hashes": 129,
+        "published_output_hashes": 258,
+        "staged_input_hashes": 301,
+        "npz_schema_shape_checks": 43,
+        "console_completion_checks": 43,
+        "execution_audit_contract_checks": 43
+      },
+      "snapshot_file_count": 607,
+      "snapshot_sha256": "0a3e17c9fdcf670601837a39d324298588290f198a4d043b6274f7f514ec620b",
+      "case_records": [
+        {
+          "case_index": 1,
+          "i08_case_id": "I08-site_gb50009_50yr-S20260805",
+          "github_scenario_id": "site_gb50009_50yr",
+          "pass": true,
+          "execution_audit_sha256": "cf42592929aca52ee70cf3c6223b63b8b64d5fdb52dbbc10e99d3cdd4c018663",
+          "load_state_sha256": "f9f49f6d18539e80860d1837275de5634a80086f048f758b9e8ff5692e62a669",
+          "dat_sha256": "0a126cab16d51032e056df25217551e07d9e7ea7df3afa98229f0e76455d6205"
+        },
+        {
+          "case_index": 2,
+          "i08_case_id": "I08-site_gb50009_100yr-S20260805",
+          "github_scenario_id": "site_gb50009_100yr",
+          "pass": true,
+          "execution_audit_sha256": "c5e2538ff80360f67b444fc03aae891774f5314b2ea2828a715eebc2fd0b7920",
+          "load_state_sha256": "163916317d4d17a662d48baddfa2552df88aa39b59e0e7c20b172af215bf8aa9",
+          "dat_sha256": "6ff14b00db7513ee14a6f958df4ec58e42881a298c0b0d89caec81063c0c4ac6"
+        },
+        {
+          "case_index": 3,
+          "i08_case_id": "I08-site_sutong_100yr_obs-S20260805",
+          "github_scenario_id": "site_sutong_100yr_obs",
+          "pass": true,
+          "execution_audit_sha256": "ac31939eb9f550fa8165bf49bafd6879f4beb9a2e4e38fac444710d53d8581fc",
+          "load_state_sha256": "a15a0312bbb30606daa5d9d4b062d1300f9398e9858025f7326ec202cc9586d8",
+          "dat_sha256": "ac68cdf9dbe84d6cfc3ad108923c13294f2e03d3fb25bb670c83cc131d221b04"
+        },
+        {
+          "case_index": 4,
+          "i08_case_id": "I08-hko_t10-S20260805",
+          "github_scenario_id": "hko_t10",
+          "pass": true,
+          "execution_audit_sha256": "5dd6ae66d7ff0d666b05353efda3bced4eb7c984356633fc6488b65c15b9261d",
+          "load_state_sha256": "d3c1193f89224571e114120b24c491b156543b941d1a33c9edb3a16987ce54e0",
+          "dat_sha256": "1580eb7aef4dcb2fddc4ea6cdfb82c6dcf323b577dad7b9d329d18dc4d62f065"
+        },
+        {
+          "case_index": 5,
+          "i08_case_id": "I08-asce7_risk4_fl-S20260805",
+          "github_scenario_id": "asce7_risk4_fl",
+          "pass": true,
+          "execution_audit_sha256": "1aa38fa6e3b840be3f8fc03c55c8eda211a91d76463c1c6a61c4a7f9693a8a2d",
+          "load_state_sha256": "4f1f660765a6400ffd40582bbfdd112955da67fd057e55d6533ce06427ab6ba5",
+          "dat_sha256": "14465c63e8c43bb18329bf7284970253993cdb099f523ff1588c56346bd7b717"
+        },
+        {
+          "case_index": 6,
+          "i08_case_id": "I08-ss_cat1-S20260805",
+          "github_scenario_id": "ss_cat1",
+          "pass": true,
+          "execution_audit_sha256": "89beb3eb6a72db8d3759733a75b3da80dac4804b735bd9d876a041f56957b6d9",
+          "load_state_sha256": "56d8595291e454d4fbdb84dd4f0a5ebc724449d2889aed1fd6285a0fe8c69dba",
+          "dat_sha256": "4fc77edbeddd9b04aa8f4dd7bb5537101b081a59e2db36fe7c382de5006c5353"
+        },
+        {
+          "case_index": 7,
+          "i08_case_id": "I08-ss_cat2-S20260805",
+          "github_scenario_id": "ss_cat2",
+          "pass": true,
+          "execution_audit_sha256": "ed060ea216b2546ae60257016c07f6ba59d1c327178d1cd32b45ea34cb117f0f",
+          "load_state_sha256": "d8516fb57e949acb21bc170e8b6088f88bcc876c4594f94717bc052fdb439367",
+          "dat_sha256": "615b21067f0a2a4dc7e0264a4f3db13943b6c7a9dd06a8f27ea6e3844ae364db"
+        },
+        {
+          "case_index": 8,
+          "i08_case_id": "I08-ss_cat3-S20260805",
+          "github_scenario_id": "ss_cat3",
+          "pass": true,
+          "execution_audit_sha256": "f6c5818a468fa4734f00247d414ee54c42339973a889a7ad9b743527846d7e19",
+          "load_state_sha256": "6a4ed3ad5fe50428edd73a6af40e46fc353706bdf3a410520e8dc979f0cfff53",
+          "dat_sha256": "2a6277a45a8ab70c1e5acf7a2c14a5ed7f1d5af6b13553bc21c6f8c06e7a6562"
+        },
+        {
+          "case_index": 9,
+          "i08_case_id": "I08-ss_cat4-S20260805",
+          "github_scenario_id": "ss_cat4",
+          "pass": true,
+          "execution_audit_sha256": "512655ca7a989d2205e77b2bd96ac6820825027a7c5de0383d12d7fa74a989f4",
+          "load_state_sha256": "6a6279fb7b21bdcbbdf9562005a9da48d94d82748c54b07eba697cba4ef00661",
+          "dat_sha256": "7967288d2431f8510f0bdd48a2fc806afb79fd7aa7de6520dbefd0ba15340a6f"
+        },
+        {
+          "case_index": 10,
+          "i08_case_id": "I08-ss_cat5-S20260805",
+          "github_scenario_id": "ss_cat5",
+          "pass": true,
+          "execution_audit_sha256": "ff80063e7a5eda20e23d80069d1fa0235ecec2881cc2877a9d9bf93f6be83b60",
+          "load_state_sha256": "90ff71d0c656eb21d4510279dcb7183480398de3f2a6bbc2277e8f0a035a6a9b",
+          "dat_sha256": "7c418d44952fad78b06ae738ceb24eca838873c4d2c815f39f343afa774acc2c"
+        },
+        {
+          "case_index": 11,
+          "i08_case_id": "I08-infa_2021_zhoushan-S20260805",
+          "github_scenario_id": "infa_2021_zhoushan",
+          "pass": true,
+          "execution_audit_sha256": "4c28d6c5e99c78ee2eb56610a679b448ebc985990e1ac6455767855152d24325",
+          "load_state_sha256": "c38da4d43730410a5a07b80ae3eb884ee6d1f5d2b2d03d096eb57255b3be3065",
+          "dat_sha256": "ff17a30ccd3d01919e1be22af623a4dd4e104e65404ad1880f02ac6aaff6545c"
+        },
+        {
+          "case_index": 12,
+          "i08_case_id": "I08-doksuri_2023_jinjiang-S20260805",
+          "github_scenario_id": "doksuri_2023_jinjiang",
+          "pass": true,
+          "execution_audit_sha256": "dfb7ed356fe090f6de5a8e3acadd3e4befd9bb4083640dcd32bb7c79bbd37659",
+          "load_state_sha256": "e12ed2bf1601454d774696ec89bc013a9e5bdead290265c3fbe7cc61c6605d44",
+          "dat_sha256": "a97a2451b388b1d8c13059ae9fb5c0aa1c35653cfbb3938877bcff949f18b89f"
+        },
+        {
+          "case_index": 13,
+          "i08_case_id": "I08-haiyan_2013_peak-S20260805",
+          "github_scenario_id": "haiyan_2013_peak",
+          "pass": true,
+          "execution_audit_sha256": "ed76e258c6f1b398c60ee47e9b7ac2b0394048c83c9aa5592f2f65fb99d747a7",
+          "load_state_sha256": "f99540f020542622e851c97aa50a3e298302bf13c851adb94b4d38ba9950f3ad",
+          "dat_sha256": "3d844811dc60733b74bdcdb4e5336856cf2cb29617269ac83373b034b4f0a76c"
+        },
+        {
+          "case_index": 14,
+          "i08_case_id": "I08-meranti_2016_peak-S20260805",
+          "github_scenario_id": "meranti_2016_peak",
+          "pass": true,
+          "execution_audit_sha256": "92306e69b32865c0bb6243aaa84b8f8367d743e9b0119399b975b8872123abac",
+          "load_state_sha256": "1f8127e7b5b9b2b77c59d0f5def000556616ae03e4dc0d3a7ea7a6997a5589a9",
+          "dat_sha256": "ee941188b98c2caf9cb2a530d8c22446a0c28b67a9e45a7c57129d644f032c85"
+        },
+        {
+          "case_index": 15,
+          "i08_case_id": "I08-goni_2020_landfall-S20260805",
+          "github_scenario_id": "goni_2020_landfall",
+          "pass": true,
+          "execution_audit_sha256": "0f67053a2d0df6af84cfb038c93562b80586982cf67182c8e055ed1adf61730f",
+          "load_state_sha256": "17729a4a95fb8871b19dc3684cd9497ac25e239fac58d660b691a3d1ad8ab6e1",
+          "dat_sha256": "bcfe8323bc7c92e33b95f11ec71c9ac05326997e52499d34bf1d263bfe3c0f64"
+        },
+        {
+          "case_index": 16,
+          "i08_case_id": "I08-tip_1979_peak-S20260805",
+          "github_scenario_id": "tip_1979_peak",
+          "pass": true,
+          "execution_audit_sha256": "34e2c9e3de88d83752b5cb20ed7e35b358700c7d7089c5b73236cf97cdcc9e85",
+          "load_state_sha256": "ddcc647d368921eec238a3e1fe9ef1c4eef8e5cc3e9fecffb8aa2a08dd771fbd",
+          "dat_sha256": "7434ede02a299f05b04db82bde9e5981eb534963c7d6c3c549df628ff75fe116"
+        },
+        {
+          "case_index": 17,
+          "i08_case_id": "I08-mangkhut_2018_peak-S20260805",
+          "github_scenario_id": "mangkhut_2018_peak",
+          "pass": true,
+          "execution_audit_sha256": "3994130fb01c9913d57da92a1884b081e84a9185305d6123af6a848c4b2c4fbb",
+          "load_state_sha256": "444f52b55de9bb2e566360c689c12bf9c0d60d31646e230c3a88de32858aaafc",
+          "dat_sha256": "f93300fe5a130c929dd12385e7955f1563262794c5098e1e7215e055680fd44d"
+        },
+        {
+          "case_index": 18,
+          "i08_case_id": "I08-lanyu_ryan_1995_gust-S20260805",
+          "github_scenario_id": "lanyu_ryan_1995_gust",
+          "pass": true,
+          "execution_audit_sha256": "2f53de61ad0f37e5345c04cde64f92a1e9cec613b476a71c7be71f65b6b4de25",
+          "load_state_sha256": "2107c3f3b3d7ea90993bbf57fc94243271973b3ba40ac8c9794e268f0aafc1c5",
+          "dat_sha256": "70c45ef3bcac57c650fc29565869758a72ebdd8cbba1d1e0cb1be358f6137e03"
+        },
+        {
+          "case_index": 19,
+          "i08_case_id": "I08-patricia_2015_peak-S20260805",
+          "github_scenario_id": "patricia_2015_peak",
+          "pass": true,
+          "execution_audit_sha256": "a446924818f69637d8516ae17b1d72b31ddba30fc1bced79ec56b8c58ef8ff34",
+          "load_state_sha256": "6724e2398149f9c2d7f711da3c83edebd231d80db03c362b30de27ba2de89736",
+          "dat_sha256": "d9fd1347ff490ee17b34f403a417ccca0d5056cfcb51dea06818681dfb7d5356"
+        },
+        {
+          "case_index": 20,
+          "i08_case_id": "I08-dorian_2019_landfall-S20260805",
+          "github_scenario_id": "dorian_2019_landfall",
+          "pass": true,
+          "execution_audit_sha256": "95dd74ffa58239631d21b833d87256a389729e8be3344a3a4669985ab10f232c",
+          "load_state_sha256": "0d620637c7d1ba4023965ac9e45c020918126e09624a4dbd22fe2843a58dbcf1",
+          "dat_sha256": "42f2354df34d4bd941c229853422a0031492757428dbdf297f37b9aa10889afa"
+        },
+        {
+          "case_index": 21,
+          "i08_case_id": "I08-gustav_2008_cuba_gust-S20260805",
+          "github_scenario_id": "gustav_2008_cuba_gust",
+          "pass": true,
+          "execution_audit_sha256": "416d7c0a55d3abf9495e82bb7908418c7ee0a0cd3b5b2b5b024f5b2448cb84a2",
+          "load_state_sha256": "4e94e09ba5a80e69a5d6d6339f22fb5b9db8eb01f13b1124f5d57ee02efd50ca",
+          "dat_sha256": "37836dc5bcc6f2a637d26289c23f2f01558727b29276087d44dbacc350b8586c"
+        },
+        {
+          "case_index": 22,
+          "i08_case_id": "I08-amphan_2020_peak-S20260805",
+          "github_scenario_id": "amphan_2020_peak",
+          "pass": true,
+          "execution_audit_sha256": "714982b71cb63490320d0f52657495396e95bb8aa1e9ff14abe1c3a8bce45da9",
+          "load_state_sha256": "32428d1f48442289733cf5edc9cddcbca1f2b95d2166e1b5d9832af14ff80367",
+          "dat_sha256": "2c73cf4f463c86c47d8e8a3926878c217b05292e650d1cc4962f130ee0801960"
+        },
+        {
+          "case_index": 23,
+          "i08_case_id": "I08-nargis_2008_peak-S20260805",
+          "github_scenario_id": "nargis_2008_peak",
+          "pass": true,
+          "execution_audit_sha256": "4528034bfa8cbf9e88ca74a1d397de87218b9ca741e552b7fbae4ebfc981869f",
+          "load_state_sha256": "553d3fd2ff193544d281eea49edb8ee05d0debf4e05c9f843a45969e3ef365c4",
+          "dat_sha256": "f8da941302c03e8bc9f7b9d72ab013df7373f44652990045ea4080b4c6cb6b4f"
+        },
+        {
+          "case_index": 24,
+          "i08_case_id": "I08-bhola_1970_peak-S20260805",
+          "github_scenario_id": "bhola_1970_peak",
+          "pass": true,
+          "execution_audit_sha256": "3050ffc3bd5db3a8ae1805bded3ed5a58aa46ea0c4785927312580ae29f63e8e",
+          "load_state_sha256": "508070201c730629df6bcc272b725897a0aa5b80bb10d4aff0ad2ac13464f4b3",
+          "dat_sha256": "ce723b6b42f5983b6f33937d0b0c747fb849a1cdff1e86bf58b77d412af326fa"
+        },
+        {
+          "case_index": 25,
+          "i08_case_id": "I08-ef3_anchor-S20260805",
+          "github_scenario_id": "ef3_anchor",
+          "pass": true,
+          "execution_audit_sha256": "9dcc003288f764ab587d4ee5cfaaf52dd4a8d2ef49f402436fdde2906b9f0428",
+          "load_state_sha256": "335e01cb61a6b389c700694ee8a36935a9c9410e9b9cba933de7b585b6202e8d",
+          "dat_sha256": "ae39593c0dce8645d82d79e23f5ec50f202a8db9111e86c37494269ab03395ac"
+        },
+        {
+          "case_index": 26,
+          "i08_case_id": "I08-ef4_anchor-S20260805",
+          "github_scenario_id": "ef4_anchor",
+          "pass": true,
+          "execution_audit_sha256": "92a7bd5813b60c342a05985d3cb98e348b88c9bd966555a302d063e60eb68d3b",
+          "load_state_sha256": "3e0cf3b4bc4a4b18e5a07be7afddf5aca99e528d4b050a7f121e89fa42d2ecbd",
+          "dat_sha256": "bb0f23d68f649d5e2ddd79958a5498196016da3898bc21294b1a41778d0afd20"
+        },
+        {
+          "case_index": 27,
+          "i08_case_id": "I08-ef5_anchor-S20260805",
+          "github_scenario_id": "ef5_anchor",
+          "pass": true,
+          "execution_audit_sha256": "07cdf5932ba3448dc004b941d18355fc5f2363596a82123a3ad4e80e32ce7205",
+          "load_state_sha256": "206e61a16ef92abab6e0eb205e1e2b1f852a7d6e2dd782ae6914ceafce08168c",
+          "dat_sha256": "5fe7c6a4b6a00519d0898a982b2c746eebfeed35563ac8eed82bf614a3cc1169"
+        },
+        {
+          "case_index": 28,
+          "i08_case_id": "I08-funing_2016_ef4-S20260805",
+          "github_scenario_id": "funing_2016_ef4",
+          "pass": true,
+          "execution_audit_sha256": "27d52ea8e639aac64723a44f89658a13415126fb8d2b9a9ac29739a2108c5c3c",
+          "load_state_sha256": "3230bf0c5ce10542f87fc6efcde402d030ed10863633b2a010c5bbcb8499ef90",
+          "dat_sha256": "0a9daa541bdbc3c76d70f35ad6bc8fa11a02dcf141a2b12f9445702533eb9152"
+        },
+        {
+          "case_index": 29,
+          "i08_case_id": "I08-bridge_creek_1999_ref-S20260805",
+          "github_scenario_id": "bridge_creek_1999_ref",
+          "pass": true,
+          "execution_audit_sha256": "86f73c0e314d3178d9ff1f6ae3bcee6db76bfb229ad773949c771bd37a753ec0",
+          "load_state_sha256": "c03eed414e29d046472c294a26370701a060ae6955d4a1cfa92c9665ba4897bb",
+          "dat_sha256": "d57d42724ba35b9e15ca59fda72e610edb6c4a306f6f6b60a093dedd35516fd6"
+        },
+        {
+          "case_index": 30,
+          "i08_case_id": "I08-dongfangzhixing_2015_downburst-S20260805",
+          "github_scenario_id": "dongfangzhixing_2015_downburst",
+          "pass": true,
+          "execution_audit_sha256": "25be9a68bdf7637c25b3f4c916d51b892d453193b06f19985788eea194001780",
+          "load_state_sha256": "86f3d3c598ff43228d1e9a452eab0a01236dc97d4b21923d0e9bcc4a46efe8dc",
+          "dat_sha256": "2bdf0d04f6bebf3601b4be27a65f519251d044f4502a0dcfe4656440781e30e3"
+        },
+        {
+          "case_index": 31,
+          "i08_case_id": "I08-andrews_afb_1983_microburst-S20260805",
+          "github_scenario_id": "andrews_afb_1983_microburst",
+          "pass": true,
+          "execution_audit_sha256": "afb0fa828b4126dfda60733142e033c3e9017a32c7f815c80b52ec81bb4a6293",
+          "load_state_sha256": "6e4b6ae8ab590ec8a4b06123802b4bf7486695dfeb9370440042f92385905a3a",
+          "dat_sha256": "6decba91e90538156d4dff9f63b15c35efaa7032a7337e1fdc8e02d33df96956"
+        },
+        {
+          "case_index": 32,
+          "i08_case_id": "I08-midwest_derecho_2020-S20260805",
+          "github_scenario_id": "midwest_derecho_2020",
+          "pass": true,
+          "execution_audit_sha256": "3a9e59c2e11cb89927ef188fa805cd3581c120d5ac5939edb440fa475bfc9971",
+          "load_state_sha256": "43ed48086418cbdc32e662be64c58a0419b64c129a07cadcf2ff37c0dfbb3925",
+          "dat_sha256": "4a6b3cf9fe323932342c017453895c00eb02ef6f250e3eb69a0576332f9a6994"
+        },
+        {
+          "case_index": 33,
+          "i08_case_id": "I08-great_storm_1987-S20260805",
+          "github_scenario_id": "great_storm_1987",
+          "pass": true,
+          "execution_audit_sha256": "6c49610fadb2937b437d2b45701313135aebc2d5a9f9353610385f001f39a4a0",
+          "load_state_sha256": "1d99cca1211578bd75332b53c7659797db2d738f20b33ef812b36ade8296ffac",
+          "dat_sha256": "e05ff1dddf970f302ead8e3e9e08ba494a858b6b8feea561275bfec1e04a1469"
+        },
+        {
+          "case_index": 34,
+          "i08_case_id": "I08-lothar_1999-S20260805",
+          "github_scenario_id": "lothar_1999",
+          "pass": true,
+          "execution_audit_sha256": "3c8194edbc14e63a3462046281a6db35ef52570235334408c26ff406b92309a4",
+          "load_state_sha256": "ab45a70a2c2eabd9e2d200f582700f12f5e538572c4fff6cf9743ec568fbf52d",
+          "dat_sha256": "9173468733675744918ef2d5af70ab911f27489028d13c8caf7df11d6ef4ed7e"
+        },
+        {
+          "case_index": 35,
+          "i08_case_id": "I08-bora_adriatic-S20260805",
+          "github_scenario_id": "bora_adriatic",
+          "pass": true,
+          "execution_audit_sha256": "85e8341154e28dfa786d3ec2e1e26d21020362ec000b1ca30059c322de35c273",
+          "load_state_sha256": "268e07d3c21daf2d702ceb04650bc805cf73b9df8621eed3cf30fa67e30388ed",
+          "dat_sha256": "2188f08cf078a61e08e482d0fcc07d852665cd4919627d8f65715c40a93d2c65"
+        },
+        {
+          "case_index": 36,
+          "i08_case_id": "I08-mistral_strong-S20260805",
+          "github_scenario_id": "mistral_strong",
+          "pass": true,
+          "execution_audit_sha256": "46f5cf862d08d94b35090e7ecd7c55ec525bb9cc1a2565f0788132fde0e939ce",
+          "load_state_sha256": "8ae1bd6c7dfeea89b871f876b6c91a434a06857edf2a1f3beefcfede0a1327e7",
+          "dat_sha256": "fa8152e44fe16fcaec1b3e2a8d14df368d2fb651a9bd4eb737e9df0925a52901"
+        },
+        {
+          "case_index": 37,
+          "i08_case_id": "I08-patagonia_westerlies-S20260805",
+          "github_scenario_id": "patagonia_westerlies",
+          "pass": true,
+          "execution_audit_sha256": "dd306638a932c0615dbbc07a3c91b885b4d32557a0de8e744a9c65b48c9cd5ec",
+          "load_state_sha256": "b0a890c8552cf102b0b2103dcd2a846d944ba42a8c6d909baca9f24ec3499f35",
+          "dat_sha256": "2774d771cc15ffbec901e2c51a58f0b7740ca52325b9ddb72baf8e4655efd31b"
+        },
+        {
+          "case_index": 38,
+          "i08_case_id": "I08-xinjiang_baili_fengqu-S20260805",
+          "github_scenario_id": "xinjiang_baili_fengqu",
+          "pass": true,
+          "execution_audit_sha256": "9dfd2909a35642722dc30a4e5899a0ba1912ac930dadce06e30f76814976ec7b",
+          "load_state_sha256": "48858920f2049e4d89ea772c9ca3b021801f962692572c0cac1c0f2249bea7b0",
+          "dat_sha256": "37abfc27f43a1b5e445a2577ff1b839b7db638e148abcc92580b85621e7f308f"
+        },
+        {
+          "case_index": 39,
+          "i08_case_id": "I08-cape_denison_katabatic-S20260805",
+          "github_scenario_id": "cape_denison_katabatic",
+          "pass": true,
+          "execution_audit_sha256": "645ca0a916f018db3b57bb4f58c27e9182e415d33a98ef3fe73eb12bbac6695a",
+          "load_state_sha256": "97490b808a3f13c6a1923d8b194da4a1bdbfb25caa601e3b8bb5b3f06d1467a0",
+          "dat_sha256": "89f16a970c2930202b0303528fc8b781469871e70356d01d5d9a5bd35d7e19ad"
+        },
+        {
+          "case_index": 40,
+          "i08_case_id": "I08-thule_1972_gust-S20260805",
+          "github_scenario_id": "thule_1972_gust",
+          "pass": true,
+          "execution_audit_sha256": "ca71d87e109d98bbe968253603efcc52b864cb401870d15b96b792743134045b",
+          "load_state_sha256": "c42c0c3292357d7a79294885acbc24d6313accfc9f14509bace5e552c21a1cc6",
+          "dat_sha256": "780001ec635e08ae1ac153b17a1f03705514daa100a65786ec66693ff53912b1"
+        },
+        {
+          "case_index": 41,
+          "i08_case_id": "I08-piteraq_tasiilaq-S20260805",
+          "github_scenario_id": "piteraq_tasiilaq",
+          "pass": true,
+          "execution_audit_sha256": "464a435d3c18ebbfd8da63eaf20b5c9b8fed6ed32a5894a2d1107ce1ef0256ab",
+          "load_state_sha256": "cc9f7ca629404e9f6998d217a59d2d9a7589d33676ab843370c5860d243b9064",
+          "dat_sha256": "94772ae7062511cc42bf5b51eda66151fabaf8320fdc46ed8adb6c2f6eaf80b4"
+        },
+        {
+          "case_index": 42,
+          "i08_case_id": "I08-barrow_olivia_1996-S20260805",
+          "github_scenario_id": "barrow_olivia_1996",
+          "pass": true,
+          "execution_audit_sha256": "d8805dbbfcfadd82b2bc5afea88be8c8673abe96182e2a3329e52454c6ceab43",
+          "load_state_sha256": "bb70dd7e066c25d185333bf0c494c114ef231c4767d694a46463e798f59e4991",
+          "dat_sha256": "72d824a37d5c6d42468f73c6a79824ad36b58840faa152ae619f92fddf15345c"
+        },
+        {
+          "case_index": 43,
+          "i08_case_id": "I08-mt_washington_1934-S20260805",
+          "github_scenario_id": "mt_washington_1934",
+          "pass": true,
+          "execution_audit_sha256": "c6690a37d0c3800133a16f33819a08e0e20621d0efaff0f55d7920b7c99b8469",
+          "load_state_sha256": "8311371b496260e535d3101fd45029656f20408211b3d39163f4e9f2f794fa2f",
+          "dat_sha256": "454bfefe18353f137e388126f859e764cbf42706cc17eb97d8517f883e4c0716"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "generated_utc": "2026-08-29T19:00:12.028701+00:00",
+  "evidence_publish": {
+    "path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_ATOMIC_STABILITY_AUDIT.json",
+    "atomic_replace": true,
+    "fsync_file_before_replace": true,
+    "fsync_directory_after_replace": true
+  }
+}
