@@ -33,6 +33,9 @@ jobs:
           chmod +x run/ccx
           printf '%s  %s\n' "$DECK_SHA" run/job.inp | sha256sum -c -
           printf '%s  %s\n' "$CCX_SHA" run/ccx | sha256sum -c -
+      - name: Install solver runtime libraries
+        shell: bash
+        run: sudo apt-get update && sudo apt-get install -y liblapack3 libblas3 libgfortran5
       - name: Solve fourteen modes
         shell: bash
         run: |
