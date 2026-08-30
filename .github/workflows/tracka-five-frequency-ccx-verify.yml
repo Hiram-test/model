@@ -32,7 +32,9 @@ jobs: # Define the single solver job.
           cp catwalk-fem/c0-c5-reproduction/forensic_wrong_model/TrackA_five_frequency_CCX_noMPC_robust.inp run/job.inp # Copy without editing content.
           cd run # Make job the CalculiX input stem.
           ccx -i job 2>&1 | tee job.log # Run the modal extraction and capture native stdout.
+          echo "frequency_reproduced=false back_tuned=true" # Inverse-fit algebra is not attach TA1 reproduction.
           test -s job.dat # Require a nonempty frequency output file.
+          grep -q 'Job finished' job.log # Reject add_bo_st or other incomplete solves.
       - name: Parse and verify frequencies # Extract the five roots from the native DAT table.
         shell: bash # Use Python only as a deterministic result parser.
         run: | # Write machine-readable and human-readable verification outputs.
@@ -53,22 +55,23 @@ jobs: # Define the single solver job.
               frequencies.append(values[2])  # Store the cycles-per-time frequency column.
               if len(frequencies) == 5:  # Stop after the requested five modes.
                   break  # Leave the parsing loop once all roots are collected.
-          expected = [0.0996000000, 0.1150435687, 0.1556126225, 0.1566294277, 0.1751835898]  # Freeze the analytical deck roots.
+          algebra = [0.0996000000, 0.1150435687, 0.1556126225, 0.1566294277, 0.1751835898]  # W2 inverse-fit residual table, not attach TA1.
           if len(frequencies) != 5:  # Require all requested modes.
               raise SystemExit(f'expected 5 frequencies, found {len(frequencies)}: {frequencies}')  # Fail with the observed list.
-          errors = [observed - target for observed, target in zip(frequencies, expected)]  # Compute signed absolute errors.
+          errors = [observed - target for observed, target in zip(frequencies, algebra)]  # Compute signed algebra residuals only.
           max_abs_error = max(abs(error) for error in errors)  # Reduce to the strictest frequency discrepancy.
-          receipt = {'frequencies_hz': frequencies, 'expected_hz': expected, 'errors_hz': errors, 'max_abs_error_hz': max_abs_error, 'passed': max_abs_error < 5.0e-7}  # Build the verification record.
+          receipt = {'frequency_reproduced': False, 'back_tuned': True, 'attach_reproduction': False, 'status': 'TARGET_CONDITIONED_W2_ALGEBRA', 'frequencies_hz': frequencies, 'algebra_hz': algebra, 'algebra_residual_hz': errors, 'max_abs_error_hz': max_abs_error, 'operator_self_consistent': max_abs_error < 5.0e-7}  # Build the non-reproduction receipt.
           pathlib.Path('run/frequencies.txt').write_text('\n'.join(f'{value:.10f}' for value in frequencies) + '\n', encoding='utf-8')  # Save one frequency per line.
           pathlib.Path('run/verification.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')  # Save the complete receipt.
           print(json.dumps(receipt, indent=2))  # Expose the receipt in the workflow log.
-          if not receipt['passed']:  # Enforce numerical agreement after parsing.
-              raise SystemExit('frequency verification failed')  # Mark the workflow unsuccessful on mismatch.
+          print('frequency_reproduced=false back_tuned=true')  # Keep the evidence boundary in the Actions log.
+          if not receipt['operator_self_consistent']:  # Record only whether the toy operator matched its own algebra.
+              raise SystemExit('toy operator is not self-consistent; still not attach reproduction')  # Fail closed without claiming TA1.
           PY
       - name: Upload native solver evidence # Retain input identity and all compact solver outputs.
         uses: actions/upload-artifact@v4 # Store the verification package for independent inspection.
         with: # Configure a stable artifact name and bounded retention.
-          name: TrackA-five-frequency-CCX-noMPC-verified # Identify this exact compact verification run.
+          name: TrackA-five-frequency-CCX-noMPC-algebra # Inverse-fit algebra evidence; frequency_reproduced=false.
           path: | # Upload the committed input and all generated evidence.
             catwalk-fem/c0-c5-reproduction/forensic_wrong_model/TrackA_five_frequency_CCX_noMPC_robust.inp
             run/job.dat

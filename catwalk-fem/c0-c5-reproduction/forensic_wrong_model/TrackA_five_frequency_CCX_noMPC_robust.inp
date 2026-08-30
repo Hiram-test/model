@@ -1,11 +1,18 @@
 *HEADING
-TRACK A five-frequency equivalent model, robust CCX deck, N-mm-tonne-s units
+TRACK A five-frequency equivalent; TARGET-CONDITIONED; frequency_reproduced=false
+** status=TARGET_CONDITIONED_W2_ALGEBRA
+** frequency_reproduced=false
+** back_tuned=true
+** The 0.099600 table below is the W2 inverse-fit residual, not attach TA1
+** reproduction and not a solved C3/true3d frequency.
 ** This deck preserves the retained Track A numerical operator only.
 ** It is not the undisclosed APDL and is not a causal proof.
 ** The prior NLGEOM plus MPC pendulum implementation is removed because it triggers add_bo_st in CCX.
 ** The condensed stiffness increments are represented directly by independent axial truss springs.
 ** The SIDE3 and VS2 mass duplication remains explicit as two parallel MASS elements per node.
-** Expected first five frequencies [Hz]: 0.0996000000, 0.1150435687, 0.1556126225, 0.1566294277, 0.1751835898.
+** Algebraic W2 predictions in Hz (not a solve receipt; frequency_reproduced=false):
+** 0.0996000000, 0.1150435687, 0.1556126225, 0.1566294277, 0.1751835898.
+** stock ccx 2.21: *ERROR in add_bo_st: coefficient should be 0; no Job finished.
 ** A sixth 5 Hz oscillator is included so that requesting five roots satisfies ARPACK dimension requirements.
 ** ----------------------------------------------------------------
 ** MOVING NODES: one active X translation per target branch.
