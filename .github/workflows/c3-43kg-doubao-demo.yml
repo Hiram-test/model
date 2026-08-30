@@ -42,6 +42,9 @@ jobs: # 定义单个端到端 Demo 作业。
       - name: Run unit tests # 覆盖计数、端点、哈希和离线问答。
         run: python -m unittest -v test_c3_agent.py # 使用标准库测试。
         working-directory: ${{ env.PKG }} # 在包目录运行。
+      - name: Verify committed model migration artifacts # 防止源码、权威数据与仓库生成物漂移。
+        run: git diff --exit-code -- generated/knowledge_graph_c3.json generated/knowledge_graph_c3_nodes.csv generated/knowledge_graph_c3_edges.csv generated/c3_agent_traces_43.csv generated/graph_summary.json generated/migration_acceptance.json generated/validation.json generated/SHA256SUMS.txt # 要求确定性重建与提交产物逐字节一致。
+        working-directory: ${{ env.PKG }} # 在包目录运行。
       - name: Run deterministic demos # 生成两个无需凭据的可复查问答。
         shell: bash # 使用 Bash 顺序执行。
         working-directory: ${{ env.PKG }} # 在包目录运行。

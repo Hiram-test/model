@@ -1,0 +1,396 @@
+{
+  "schema_version": "catwalk-c3-source-asset-inventory/v1",
+  "source_repository": "Hiram-test/model",
+  "source_branch": "feat/catwalk-ccx-gh43-double-mct-rom-results",
+  "source_commit": "3b135b2c1a1b5c961ce68a101a0414fa0b525d85",
+  "source_package": "catwalk-fem/ccx-results/CW-CCX-GH43-BUF-20260830-I08-double-mct-rom",
+  "asset_count": 36,
+  "source_total_bytes": 6196831,
+  "category_counts": {
+    "audit_log": 5,
+    "authority": 3,
+    "delivery_metadata": 2,
+    "documentation": 4,
+    "legacy_execution_receipt": 5,
+    "legacy_knowledge_graph": 4,
+    "legacy_numerical_result": 8,
+    "legacy_rom_model": 5
+  },
+  "disposition_counts": {
+    "AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH": 5,
+    "PROVENANCE_ONLY": 2,
+    "PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION": 5,
+    "PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER": 8,
+    "PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER": 5,
+    "RULES_REEXECUTED_ON_C3_NO_TRACE_VALUE_COPY": 1,
+    "SOURCE_DOCUMENT_BOUND_BY_HASH_C3_DOC_REWRITTEN": 4,
+    "SOURCE_GRAPH_RECEIPT_BOUND_BY_HASH": 3,
+    "SOURCE_JSON_BOUND_BY_HASH_CSV_VENDORED": 1,
+    "VENDORED_EXACT_AUTHORITY": 1,
+    "VENDORED_NORMALIZED_AUTHORITY": 1
+  },
+  "all_assets_accounted": true,
+  "numeric_value_transfer": false,
+  "assets": [
+    {
+      "path": "README.md",
+      "category": "delivery_metadata",
+      "git_blob_sha1": "173a3d393998b1d08a0af4d500007ad7348c7e0d",
+      "sha256": "c63d1a6782bccb89218a0378c14147a053a7c513938afc9ad7c32de179dbf384",
+      "size_bytes": 5018,
+      "disposition": "PROVENANCE_ONLY",
+      "target": "legacy_double_mct_lineage.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "SHA256SUMS.txt",
+      "category": "delivery_metadata",
+      "git_blob_sha1": "d18a4338f01d4ff4adf0d77eebecfb4d131f5090",
+      "sha256": "6c1bbed19fae22aa2f345552ce55a45055ed39959ff4d71447c5ee5425db7079",
+      "size_bytes": 3457,
+      "disposition": "PROVENANCE_ONLY",
+      "target": "legacy_double_mct_lineage.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "authority/AUTHORITY.json",
+      "category": "authority",
+      "git_blob_sha1": "171e403fba7b23588c3375130fffdae537f5e00c",
+      "sha256": "df10da1c759cea9e93c065d9456e583a1944b7b3eb1a730ea048f1821dddc5b7",
+      "size_bytes": 5209,
+      "disposition": "VENDORED_EXACT_AUTHORITY",
+      "target": "authority/I08_AUTHORITY.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "authority/I08_GITHUB_43_CASE_MATRIX.csv",
+      "category": "authority",
+      "git_blob_sha1": "373b1adf0bc6d1986c8001bd22122d464314f138",
+      "sha256": "12673049d2cfae885fb5a35d855441e7385b644d1182a7cc020d5e49f5e28b7f",
+      "size_bytes": 29940,
+      "disposition": "VENDORED_NORMALIZED_AUTHORITY",
+      "target": "authority/I08_GITHUB_43_CASE_MATRIX.csv",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "authority/I08_GITHUB_43_CASE_MATRIX.json",
+      "category": "authority",
+      "git_blob_sha1": "16088350106d3e776d4c28539ec1661a33118c75",
+      "sha256": "8f0ed5a30625b998b982caa32453518abd374f1c2c6312989b2548786e2a7b72",
+      "size_bytes": 74030,
+      "disposition": "SOURCE_JSON_BOUND_BY_HASH_CSV_VENDORED",
+      "target": "authority/I08_GITHUB_43_CASE_MATRIX.csv",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "document/I08_CCX43_FINAL_SUMMARY.md",
+      "category": "documentation",
+      "git_blob_sha1": "a2cbe7882ff8d40d323bf11760cf845f6868e2e4",
+      "sha256": "565821ec8f5fdf1b077fb49aa420fa7c11cd1f3e9b6a7f5272fb47e73529d707",
+      "size_bytes": 6498,
+      "disposition": "SOURCE_DOCUMENT_BOUND_BY_HASH_C3_DOC_REWRITTEN",
+      "target": "C3_BUFFETING_43CASES_KG.md",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "document/I08_DELIVERY_MANIFEST.md",
+      "category": "documentation",
+      "git_blob_sha1": "eae9462ea31f1eb40cd309527cc45aee39cd674f",
+      "sha256": "02bc065a28ab9c563183dd642ae6ccbdf431b072182253a6a61a76660234c69f",
+      "size_bytes": 2986,
+      "disposition": "SOURCE_DOCUMENT_BOUND_BY_HASH_C3_DOC_REWRITTEN",
+      "target": "C3_BUFFETING_43CASES_KG.md",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "document/I08_DELIVERY_SHA256SUMS.txt",
+      "category": "documentation",
+      "git_blob_sha1": "e5f40579566c525d476019954b18fdc731fa83c1",
+      "sha256": "98508306d133d6dc6330222f607fc4839aedd32ae4dd371ccae5f36fe33a376a",
+      "size_bytes": 601,
+      "disposition": "SOURCE_DOCUMENT_BOUND_BY_HASH_C3_DOC_REWRITTEN",
+      "target": "C3_BUFFETING_43CASES_KG.md",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "document/超长猫道智能预警系统_第二章抖振知识图谱与智能体推演_20260830_FINAL_R1.pdf",
+      "category": "documentation",
+      "git_blob_sha1": "a1ca019957d1580655138a0acc685263f87a58bd",
+      "sha256": "2d17882bfce050f66d68579ea42cbbf3354f69e005ce7c4e591d055f54d86c28",
+      "size_bytes": 4958931,
+      "disposition": "SOURCE_DOCUMENT_BOUND_BY_HASH_C3_DOC_REWRITTEN",
+      "target": "C3_BUFFETING_43CASES_KG.md",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "errors/CHAPTER2_PDF_ERROR_LOG.md",
+      "category": "audit_log",
+      "git_blob_sha1": "71c5b5298215304de17b3a1a0571d149636f8203",
+      "sha256": "0053babc3e9ad54beb51d6c956dfcd993d3e8313e26b6821ff4341dc45caf990",
+      "size_bytes": 6829,
+      "disposition": "AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH",
+      "target": "source_asset_inventory.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "errors/ERROR_LOG.md",
+      "category": "audit_log",
+      "git_blob_sha1": "46c7dbcab0f8626530b35495c7d89912060a727b",
+      "sha256": "5b9c1828ac6b7afe83cbde8d019f13c51f2fe3362e7dda96bad20496f4eacab0",
+      "size_bytes": 48678,
+      "disposition": "AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH",
+      "target": "source_asset_inventory.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "errors/GITHUB_PUBLISH_ERROR_LOG.md",
+      "category": "audit_log",
+      "git_blob_sha1": "65351d03be7f1d9e5e8599aa941521bdc854621f",
+      "sha256": "7cbb9dfb7878373bf15421e0b8b5f16ffca673af36c375255f6bf799f6a7c7f5",
+      "size_bytes": 2957,
+      "disposition": "AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH",
+      "target": "source_asset_inventory.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "errors/I08_ERROR_LOG.md",
+      "category": "audit_log",
+      "git_blob_sha1": "caeeaf5bfde0b5516f88d8ead59b22559887cf90",
+      "sha256": "140cbdb5fb0fa9fc34c4f57813525c3ac1dc2b1c6ace1805e7eaa466ca328b2f",
+      "size_bytes": 11634,
+      "disposition": "AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH",
+      "target": "source_asset_inventory.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "errors/I08_KG_ERROR_LOG.md",
+      "category": "audit_log",
+      "git_blob_sha1": "792e1f6e12f37b37195f353cbce3308195434c82",
+      "sha256": "15fd49b080e780ab23abf800e79cf3199990c3d8444ada10eb35c651d02a51f6",
+      "size_bytes": 884,
+      "disposition": "AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH",
+      "target": "source_asset_inventory.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "execution/I08_ATOMIC_STABILITY_AUDIT.json",
+      "category": "legacy_execution_receipt",
+      "git_blob_sha1": "0af64255ea5a21d073e393ba6ba59b004e3535fd",
+      "sha256": "bc2f4f9e2b8f15216d5dce85a9d871bcb7b628814533bf6866fd801b9bd090f4",
+      "size_bytes": 44197,
+      "disposition": "PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION",
+      "target": "generated/migration_acceptance.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "execution/I08_JOB_MANIFEST.json",
+      "category": "legacy_execution_receipt",
+      "git_blob_sha1": "96bb021de650755f44f0b069f5cd88115f4a0d1c",
+      "sha256": "328177970bb9bea6c0da6e5e455e6edf5bcfed77cf9b1c21076a76bd22ad7905",
+      "size_bytes": 131785,
+      "disposition": "PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION",
+      "target": "generated/migration_acceptance.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "execution/I08_PIPELINE_SELF_CHECK.json",
+      "category": "legacy_execution_receipt",
+      "git_blob_sha1": "22627661179a31dbca5156208f0a7bcdf01f5217",
+      "sha256": "30067c932e1bb9491f5f7a0486cf76099a27ac8218c262940781d364afc7911b",
+      "size_bytes": 3253,
+      "disposition": "PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION",
+      "target": "generated/migration_acceptance.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "execution/I08_RESULT_MANIFEST.json",
+      "category": "legacy_execution_receipt",
+      "git_blob_sha1": "ba89c082dbfd8cfd29ffff9c9640a1fb01aa5ff8",
+      "sha256": "e16fb9a6b7385947511489e7a8e8554e64654152718a6087f1fcdcb66fa06b3a",
+      "size_bytes": 64290,
+      "disposition": "PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION",
+      "target": "generated/migration_acceptance.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "execution/I08_ROOT_EXECUTION_GATE.json",
+      "category": "legacy_execution_receipt",
+      "git_blob_sha1": "95b216108685529396edb577172e2b85df1554c8",
+      "sha256": "960fb14bcf53a3562489e5a31f9703d713253d906be2db870fa6098586923e91",
+      "size_bytes": 3637,
+      "disposition": "PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION",
+      "target": "generated/migration_acceptance.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "kg/I08_AGENT_SIMULATION_43_TRACE.csv",
+      "category": "legacy_knowledge_graph",
+      "git_blob_sha1": "20eece98e6a5c2c73685e56457e0fa8216943f7e",
+      "sha256": "c9e6e674c67e5472c36e5f4ee8c43956b0b229eeb8cef134cf3fe327ea8c91d6",
+      "size_bytes": 298124,
+      "disposition": "RULES_REEXECUTED_ON_C3_NO_TRACE_VALUE_COPY",
+      "target": "generated/c3_agent_traces_43.csv",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "kg/I08_KG_BUILD_STATUS.json",
+      "category": "legacy_knowledge_graph",
+      "git_blob_sha1": "70b925af913ccca3f3b29bd107d4eb121342909c",
+      "sha256": "9d8517965acffdb6b228779a237e6035f45a04ebb950362573df70b0b6339b3a",
+      "size_bytes": 2293,
+      "disposition": "SOURCE_GRAPH_RECEIPT_BOUND_BY_HASH",
+      "target": "generated/migration_acceptance.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "kg/I08_KG_SELF_CHECK.json",
+      "category": "legacy_knowledge_graph",
+      "git_blob_sha1": "b5ba72682d4a1b5e023e5ea4971e16d98f667977",
+      "sha256": "6fad2101ec20e6754df55751e79e546658b47677c53ca290e3aaaa759e6fc8ea",
+      "size_bytes": 2220,
+      "disposition": "SOURCE_GRAPH_RECEIPT_BOUND_BY_HASH",
+      "target": "generated/migration_acceptance.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "kg/I08_KG_SHA256SUMS.txt",
+      "category": "legacy_knowledge_graph",
+      "git_blob_sha1": "c56a207dc8be9f301c52dddbb6fc5e482186fc83",
+      "sha256": "1e55edb988115abd0273fb2a0c502baf9aae8d716b825cdcfd4a6ee14a74a9c9",
+      "size_bytes": 1126,
+      "disposition": "SOURCE_GRAPH_RECEIPT_BOUND_BY_HASH",
+      "target": "generated/migration_acceptance.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "model/FULLMCT_ROM_BUILD_AUDIT.json",
+      "category": "legacy_rom_model",
+      "git_blob_sha1": "416b3337d20be8214e962e1bc123d26820a2e271",
+      "sha256": "940f92a7941c326846bc9ac4d606b61b43d50981a5054d8375ac359b0530e65d",
+      "size_bytes": 3532,
+      "disposition": "PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER",
+      "target": "model_binding.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "model/FULLMCT_ROM_COORDINATE_MAP.csv",
+      "category": "legacy_rom_model",
+      "git_blob_sha1": "53ed6888c2244a2dd51cd8f56b7babda1d8db3e0",
+      "sha256": "ef30ce214541c655e6da97da0c727c3265b7d0cb083cdb800c86c04fd9529c4e",
+      "size_bytes": 9807,
+      "disposition": "PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER",
+      "target": "model_binding.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "model/FULLMCT_ROM_DYNAMIC_MODE_ERROR.csv",
+      "category": "legacy_rom_model",
+      "git_blob_sha1": "7574f6326a26f00f7b6e083564beff4f4bac0dfb",
+      "sha256": "caa821ca77be37a1e26c5d1a47dbed6ab41fbc3f2346700ec64cc8a295630dec",
+      "size_bytes": 17684,
+      "disposition": "PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER",
+      "target": "model_binding.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "model/FULLMCT_ROM_GATE_RESULT.json",
+      "category": "legacy_rom_model",
+      "git_blob_sha1": "b900167b95e68ea3defef26229182b5e01bf45ae",
+      "sha256": "0291b7b6414ec90805ccc5484b1610ee111652cdd0e74bfec3d7ee7a42a97c32",
+      "size_bytes": 2798,
+      "disposition": "PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER",
+      "target": "model_binding.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "model/FULLMCT_ROM_STATIC_MODE_ERROR.csv",
+      "category": "legacy_rom_model",
+      "git_blob_sha1": "9fd4ccab9887cecf6350885239649c12ac07fc37",
+      "sha256": "09116df7f010ec1c13e685cb582de0316e4c8da285b5e231dc2f34d9cda6807e",
+      "size_bytes": 12244,
+      "disposition": "PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER",
+      "target": "model_binding.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "results/I08_43CASE_ACCEPTANCE.json",
+      "category": "legacy_numerical_result",
+      "git_blob_sha1": "86fc475b6b5a2460090de7aa74b7c83d983d3626",
+      "sha256": "2a40e55d18cd7f7c97fd17b52f21cf1ba9c23101cb0551b2f8b5b78921b15005",
+      "size_bytes": 4329,
+      "disposition": "PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER",
+      "target": "generated/knowledge_graph_c3.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "results/I08_43CASE_MASTER.csv",
+      "category": "legacy_numerical_result",
+      "git_blob_sha1": "452225b2bd3e72784515aa4e54b1608277c49acb",
+      "sha256": "e5bb379a64a091e8fdb561c7c4689af345d397677aefdd18322bc54db41d1a49",
+      "size_bytes": 56475,
+      "disposition": "PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER",
+      "target": "generated/knowledge_graph_c3.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "results/I08_43CASE_SHA256SUMS.txt",
+      "category": "legacy_numerical_result",
+      "git_blob_sha1": "a8caec60600c1e7e9015677e03415a99de09e5b6",
+      "sha256": "d706e617a6d47256f8acdc3149fc0ed00e1d18f13494326b163d3d7a47b0d4c7",
+      "size_bytes": 94937,
+      "disposition": "PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER",
+      "target": "generated/knowledge_graph_c3.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "results/I08_43CASE_STATION_RESULTS.csv",
+      "category": "legacy_numerical_result",
+      "git_blob_sha1": "dbc2ccaabb329ad288ada9a76ef19752d956c41c",
+      "sha256": "c7dfbac9c0bc9c2d0c9a8d906a79c5d6a7f7d75f13e7cf91081828a5a0a7ca7c",
+      "size_bytes": 223265,
+      "disposition": "PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER",
+      "target": "generated/knowledge_graph_c3.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "results/I08_CATEGORY_ROPE_ENVELOPE.csv",
+      "category": "legacy_numerical_result",
+      "git_blob_sha1": "ef2af8361de9269635b6d3188e47855c9b4dcae3",
+      "sha256": "ee6257462017c25380b534397509c8ae858c7f356fea396c84b4fa48fd51aee2",
+      "size_bytes": 6259,
+      "disposition": "PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER",
+      "target": "generated/knowledge_graph_c3.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "results/I08_CATEGORY_STATION_ENVELOPE.csv",
+      "category": "legacy_numerical_result",
+      "git_blob_sha1": "db9e3d8228213149b674cd7de3a49bd3cc08a0bd",
+      "sha256": "5bd5d0ea5d6d02baad1b3ee69eab8718d437e07a221c9dcbc3e86fbcdb967024",
+      "size_bytes": 40956,
+      "disposition": "PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER",
+      "target": "generated/knowledge_graph_c3.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "results/I08_CATEGORY_SUMMARY.csv",
+      "category": "legacy_numerical_result",
+      "git_blob_sha1": "54a2d5116d836ee5605155fa9dcb64d85cacc745",
+      "sha256": "138bb4aa7583a892a99ab8654bf65dc5147e11f7b0d2a06c7bf92872a7e5459d",
+      "size_bytes": 11320,
+      "disposition": "PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER",
+      "target": "generated/knowledge_graph_c3.json",
+      "numeric_value_transfer": false
+    },
+    {
+      "path": "results/I08_POSTPROCESS_SELF_CHECK.json",
+      "category": "legacy_numerical_result",
+      "git_blob_sha1": "8863bc2aa3633b244ab933238ac72c84b2d491fe",
+      "sha256": "7b76558b29c08ea42ec36d7310d85ad037ddc41a35afe18cf03b244165ed156e",
+      "size_bytes": 4648,
+      "disposition": "PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER",
+      "target": "generated/knowledge_graph_c3.json",
+      "numeric_value_transfer": false
+    }
+  ]
+}

@@ -4,761 +4,1166 @@ edge:0002,model:C3,EVIDENCED_BY,artifact:C3-deck,{}
 edge:0003,model:C3,SOLVED_BY,artifact:C3-solver,{}
 edge:0004,model:C3,HAS_MODAL_RUN,run:C3-FT14,{}
 edge:0005,legacy:I08-double-mct,PROVENANCE_ONLY_FOR,project:C3-43KG,"{""numerical_value_transfer"": false}"
-edge:0006,project:C3-43KG,USES_AGENT,agent:AuthorityAgent,{}
-edge:0007,project:C3-43KG,USES_AGENT,agent:SolverEvidenceAgent,{}
-edge:0008,project:C3-43KG,USES_AGENT,agent:PhysicsBoundaryAgent,{}
-edge:0009,project:C3-43KG,USES_AGENT,agent:WarningPolicyAgent,{}
-edge:0010,project:C3-43KG,HAS_WIND_GROUP,group:G0_site,{}
-edge:0011,project:C3-43KG,HAS_WIND_GROUP,group:G1_typhoon,{}
-edge:0012,project:C3-43KG,HAS_WIND_GROUP,group:G2_hurricane,{}
-edge:0013,project:C3-43KG,HAS_WIND_GROUP,group:G3_bob,{}
-edge:0014,project:C3-43KG,HAS_WIND_GROUP,group:G4_tornado,{}
-edge:0015,project:C3-43KG,HAS_WIND_GROUP,group:G5_downburst,{}
-edge:0016,project:C3-43KG,HAS_WIND_GROUP,group:G6_temperate,{}
-edge:0017,project:C3-43KG,HAS_WIND_GROUP,group:G7_polar,{}
-edge:0018,project:C3-43KG,HAS_WIND_GROUP,group:G8_record,{}
-edge:0019,run:C3-FT14,HAS_MODE,mode:C3-M01,{}
-edge:0020,run:C3-FT14,HAS_MODE,mode:C3-M02,{}
-edge:0021,run:C3-FT14,HAS_MODE,mode:C3-M03,{}
-edge:0022,run:C3-FT14,HAS_MODE,mode:C3-M04,{}
-edge:0023,run:C3-FT14,HAS_MODE,mode:C3-M05,{}
-edge:0024,run:C3-FT14,HAS_MODE,mode:C3-M06,{}
-edge:0025,run:C3-FT14,HAS_MODE,mode:C3-M07,{}
-edge:0026,run:C3-FT14,HAS_MODE,mode:C3-M08,{}
-edge:0027,run:C3-FT14,HAS_MODE,mode:C3-M09,{}
-edge:0028,run:C3-FT14,HAS_MODE,mode:C3-M10,{}
-edge:0029,run:C3-FT14,HAS_MODE,mode:C3-M11,{}
-edge:0030,run:C3-FT14,HAS_MODE,mode:C3-M12,{}
-edge:0031,run:C3-FT14,HAS_MODE,mode:C3-M13,{}
-edge:0032,run:C3-FT14,HAS_MODE,mode:C3-M14,{}
-edge:0033,project:C3-43KG,HAS_CASE,case:C3-site_sutong_100yr_obs-S20260830,{}
-edge:0034,case:C3-site_sutong_100yr_obs-S20260830,IN_GROUP,group:G0_site,{}
-edge:0035,case:C3-site_sutong_100yr_obs-S20260830,EVALUATED_ON,model:C3,{}
-edge:0036,case:C3-site_sutong_100yr_obs-S20260830,HAS_RESPONSE_STATE,response:C3-site_sutong_100yr_obs-S20260830,{}
-edge:0037,case:C3-site_sutong_100yr_obs-S20260830,HAS_AGENT_TRACE,trace:C3-site_sutong_100yr_obs-S20260830,{}
-edge:0038,legacy-result:site_sutong_100yr_obs,PROVENANCE_ONLY,case:C3-site_sutong_100yr_obs-S20260830,"{""numerical_value_transfer"": false}"
-edge:0039,trace:C3-site_sutong_100yr_obs-S20260830,HAS_STEP,decision:C3-site_sutong_100yr_obs-S20260830:1,"{""step"": 1}"
-edge:0040,decision:C3-site_sutong_100yr_obs-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0041,trace:C3-site_sutong_100yr_obs-S20260830,HAS_STEP,decision:C3-site_sutong_100yr_obs-S20260830:2,"{""step"": 2}"
-edge:0042,decision:C3-site_sutong_100yr_obs-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0043,decision:C3-site_sutong_100yr_obs-S20260830:1,NEXT_STEP,decision:C3-site_sutong_100yr_obs-S20260830:2,{}
-edge:0044,trace:C3-site_sutong_100yr_obs-S20260830,HAS_STEP,decision:C3-site_sutong_100yr_obs-S20260830:3,"{""step"": 3}"
-edge:0045,decision:C3-site_sutong_100yr_obs-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0046,decision:C3-site_sutong_100yr_obs-S20260830:2,NEXT_STEP,decision:C3-site_sutong_100yr_obs-S20260830:3,{}
-edge:0047,trace:C3-site_sutong_100yr_obs-S20260830,HAS_STEP,decision:C3-site_sutong_100yr_obs-S20260830:4,"{""step"": 4}"
-edge:0048,decision:C3-site_sutong_100yr_obs-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0049,decision:C3-site_sutong_100yr_obs-S20260830:3,NEXT_STEP,decision:C3-site_sutong_100yr_obs-S20260830:4,{}
-edge:0050,project:C3-43KG,HAS_CASE,case:C3-site_gb50009_50yr-S20260830,{}
-edge:0051,case:C3-site_gb50009_50yr-S20260830,IN_GROUP,group:G0_site,{}
-edge:0052,case:C3-site_gb50009_50yr-S20260830,EVALUATED_ON,model:C3,{}
-edge:0053,case:C3-site_gb50009_50yr-S20260830,HAS_RESPONSE_STATE,response:C3-site_gb50009_50yr-S20260830,{}
-edge:0054,case:C3-site_gb50009_50yr-S20260830,HAS_AGENT_TRACE,trace:C3-site_gb50009_50yr-S20260830,{}
-edge:0055,legacy-result:site_gb50009_50yr,PROVENANCE_ONLY,case:C3-site_gb50009_50yr-S20260830,"{""numerical_value_transfer"": false}"
-edge:0056,trace:C3-site_gb50009_50yr-S20260830,HAS_STEP,decision:C3-site_gb50009_50yr-S20260830:1,"{""step"": 1}"
-edge:0057,decision:C3-site_gb50009_50yr-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0058,trace:C3-site_gb50009_50yr-S20260830,HAS_STEP,decision:C3-site_gb50009_50yr-S20260830:2,"{""step"": 2}"
-edge:0059,decision:C3-site_gb50009_50yr-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0060,decision:C3-site_gb50009_50yr-S20260830:1,NEXT_STEP,decision:C3-site_gb50009_50yr-S20260830:2,{}
-edge:0061,trace:C3-site_gb50009_50yr-S20260830,HAS_STEP,decision:C3-site_gb50009_50yr-S20260830:3,"{""step"": 3}"
-edge:0062,decision:C3-site_gb50009_50yr-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0063,decision:C3-site_gb50009_50yr-S20260830:2,NEXT_STEP,decision:C3-site_gb50009_50yr-S20260830:3,{}
-edge:0064,trace:C3-site_gb50009_50yr-S20260830,HAS_STEP,decision:C3-site_gb50009_50yr-S20260830:4,"{""step"": 4}"
-edge:0065,decision:C3-site_gb50009_50yr-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0066,decision:C3-site_gb50009_50yr-S20260830:3,NEXT_STEP,decision:C3-site_gb50009_50yr-S20260830:4,{}
-edge:0067,project:C3-43KG,HAS_CASE,case:C3-site_gb50009_100yr-S20260830,{}
-edge:0068,case:C3-site_gb50009_100yr-S20260830,IN_GROUP,group:G0_site,{}
-edge:0069,case:C3-site_gb50009_100yr-S20260830,EVALUATED_ON,model:C3,{}
-edge:0070,case:C3-site_gb50009_100yr-S20260830,HAS_RESPONSE_STATE,response:C3-site_gb50009_100yr-S20260830,{}
-edge:0071,case:C3-site_gb50009_100yr-S20260830,HAS_AGENT_TRACE,trace:C3-site_gb50009_100yr-S20260830,{}
-edge:0072,legacy-result:site_gb50009_100yr,PROVENANCE_ONLY,case:C3-site_gb50009_100yr-S20260830,"{""numerical_value_transfer"": false}"
-edge:0073,trace:C3-site_gb50009_100yr-S20260830,HAS_STEP,decision:C3-site_gb50009_100yr-S20260830:1,"{""step"": 1}"
-edge:0074,decision:C3-site_gb50009_100yr-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0075,trace:C3-site_gb50009_100yr-S20260830,HAS_STEP,decision:C3-site_gb50009_100yr-S20260830:2,"{""step"": 2}"
-edge:0076,decision:C3-site_gb50009_100yr-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0077,decision:C3-site_gb50009_100yr-S20260830:1,NEXT_STEP,decision:C3-site_gb50009_100yr-S20260830:2,{}
-edge:0078,trace:C3-site_gb50009_100yr-S20260830,HAS_STEP,decision:C3-site_gb50009_100yr-S20260830:3,"{""step"": 3}"
-edge:0079,decision:C3-site_gb50009_100yr-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0080,decision:C3-site_gb50009_100yr-S20260830:2,NEXT_STEP,decision:C3-site_gb50009_100yr-S20260830:3,{}
-edge:0081,trace:C3-site_gb50009_100yr-S20260830,HAS_STEP,decision:C3-site_gb50009_100yr-S20260830:4,"{""step"": 4}"
-edge:0082,decision:C3-site_gb50009_100yr-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0083,decision:C3-site_gb50009_100yr-S20260830:3,NEXT_STEP,decision:C3-site_gb50009_100yr-S20260830:4,{}
-edge:0084,project:C3-43KG,HAS_CASE,case:C3-hko_t10-S20260830,{}
-edge:0085,case:C3-hko_t10-S20260830,IN_GROUP,group:G0_site,{}
-edge:0086,case:C3-hko_t10-S20260830,EVALUATED_ON,model:C3,{}
-edge:0087,case:C3-hko_t10-S20260830,HAS_RESPONSE_STATE,response:C3-hko_t10-S20260830,{}
-edge:0088,case:C3-hko_t10-S20260830,HAS_AGENT_TRACE,trace:C3-hko_t10-S20260830,{}
-edge:0089,legacy-result:hko_t10,PROVENANCE_ONLY,case:C3-hko_t10-S20260830,"{""numerical_value_transfer"": false}"
-edge:0090,trace:C3-hko_t10-S20260830,HAS_STEP,decision:C3-hko_t10-S20260830:1,"{""step"": 1}"
-edge:0091,decision:C3-hko_t10-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0092,trace:C3-hko_t10-S20260830,HAS_STEP,decision:C3-hko_t10-S20260830:2,"{""step"": 2}"
-edge:0093,decision:C3-hko_t10-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0094,decision:C3-hko_t10-S20260830:1,NEXT_STEP,decision:C3-hko_t10-S20260830:2,{}
-edge:0095,trace:C3-hko_t10-S20260830,HAS_STEP,decision:C3-hko_t10-S20260830:3,"{""step"": 3}"
-edge:0096,decision:C3-hko_t10-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0097,decision:C3-hko_t10-S20260830:2,NEXT_STEP,decision:C3-hko_t10-S20260830:3,{}
-edge:0098,trace:C3-hko_t10-S20260830,HAS_STEP,decision:C3-hko_t10-S20260830:4,"{""step"": 4}"
-edge:0099,decision:C3-hko_t10-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0100,decision:C3-hko_t10-S20260830:3,NEXT_STEP,decision:C3-hko_t10-S20260830:4,{}
-edge:0101,project:C3-43KG,HAS_CASE,case:C3-asce7_risk4_fl-S20260830,{}
-edge:0102,case:C3-asce7_risk4_fl-S20260830,IN_GROUP,group:G0_site,{}
-edge:0103,case:C3-asce7_risk4_fl-S20260830,EVALUATED_ON,model:C3,{}
-edge:0104,case:C3-asce7_risk4_fl-S20260830,HAS_RESPONSE_STATE,response:C3-asce7_risk4_fl-S20260830,{}
-edge:0105,case:C3-asce7_risk4_fl-S20260830,HAS_AGENT_TRACE,trace:C3-asce7_risk4_fl-S20260830,{}
-edge:0106,legacy-result:asce7_risk4_fl,PROVENANCE_ONLY,case:C3-asce7_risk4_fl-S20260830,"{""numerical_value_transfer"": false}"
-edge:0107,trace:C3-asce7_risk4_fl-S20260830,HAS_STEP,decision:C3-asce7_risk4_fl-S20260830:1,"{""step"": 1}"
-edge:0108,decision:C3-asce7_risk4_fl-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0109,trace:C3-asce7_risk4_fl-S20260830,HAS_STEP,decision:C3-asce7_risk4_fl-S20260830:2,"{""step"": 2}"
-edge:0110,decision:C3-asce7_risk4_fl-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0111,decision:C3-asce7_risk4_fl-S20260830:1,NEXT_STEP,decision:C3-asce7_risk4_fl-S20260830:2,{}
-edge:0112,trace:C3-asce7_risk4_fl-S20260830,HAS_STEP,decision:C3-asce7_risk4_fl-S20260830:3,"{""step"": 3}"
-edge:0113,decision:C3-asce7_risk4_fl-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0114,decision:C3-asce7_risk4_fl-S20260830:2,NEXT_STEP,decision:C3-asce7_risk4_fl-S20260830:3,{}
-edge:0115,trace:C3-asce7_risk4_fl-S20260830,HAS_STEP,decision:C3-asce7_risk4_fl-S20260830:4,"{""step"": 4}"
-edge:0116,decision:C3-asce7_risk4_fl-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0117,decision:C3-asce7_risk4_fl-S20260830:3,NEXT_STEP,decision:C3-asce7_risk4_fl-S20260830:4,{}
-edge:0118,project:C3-43KG,HAS_CASE,case:C3-infa_2021_zhoushan-S20260830,{}
-edge:0119,case:C3-infa_2021_zhoushan-S20260830,IN_GROUP,group:G1_typhoon,{}
-edge:0120,case:C3-infa_2021_zhoushan-S20260830,EVALUATED_ON,model:C3,{}
-edge:0121,case:C3-infa_2021_zhoushan-S20260830,HAS_RESPONSE_STATE,response:C3-infa_2021_zhoushan-S20260830,{}
-edge:0122,case:C3-infa_2021_zhoushan-S20260830,HAS_AGENT_TRACE,trace:C3-infa_2021_zhoushan-S20260830,{}
-edge:0123,legacy-result:infa_2021_zhoushan,PROVENANCE_ONLY,case:C3-infa_2021_zhoushan-S20260830,"{""numerical_value_transfer"": false}"
-edge:0124,trace:C3-infa_2021_zhoushan-S20260830,HAS_STEP,decision:C3-infa_2021_zhoushan-S20260830:1,"{""step"": 1}"
-edge:0125,decision:C3-infa_2021_zhoushan-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0126,trace:C3-infa_2021_zhoushan-S20260830,HAS_STEP,decision:C3-infa_2021_zhoushan-S20260830:2,"{""step"": 2}"
-edge:0127,decision:C3-infa_2021_zhoushan-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0128,decision:C3-infa_2021_zhoushan-S20260830:1,NEXT_STEP,decision:C3-infa_2021_zhoushan-S20260830:2,{}
-edge:0129,trace:C3-infa_2021_zhoushan-S20260830,HAS_STEP,decision:C3-infa_2021_zhoushan-S20260830:3,"{""step"": 3}"
-edge:0130,decision:C3-infa_2021_zhoushan-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0131,decision:C3-infa_2021_zhoushan-S20260830:2,NEXT_STEP,decision:C3-infa_2021_zhoushan-S20260830:3,{}
-edge:0132,trace:C3-infa_2021_zhoushan-S20260830,HAS_STEP,decision:C3-infa_2021_zhoushan-S20260830:4,"{""step"": 4}"
-edge:0133,decision:C3-infa_2021_zhoushan-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0134,decision:C3-infa_2021_zhoushan-S20260830:3,NEXT_STEP,decision:C3-infa_2021_zhoushan-S20260830:4,{}
-edge:0135,project:C3-43KG,HAS_CASE,case:C3-doksuri_2023_jinjiang-S20260830,{}
-edge:0136,case:C3-doksuri_2023_jinjiang-S20260830,IN_GROUP,group:G1_typhoon,{}
-edge:0137,case:C3-doksuri_2023_jinjiang-S20260830,EVALUATED_ON,model:C3,{}
-edge:0138,case:C3-doksuri_2023_jinjiang-S20260830,HAS_RESPONSE_STATE,response:C3-doksuri_2023_jinjiang-S20260830,{}
-edge:0139,case:C3-doksuri_2023_jinjiang-S20260830,HAS_AGENT_TRACE,trace:C3-doksuri_2023_jinjiang-S20260830,{}
-edge:0140,legacy-result:doksuri_2023_jinjiang,PROVENANCE_ONLY,case:C3-doksuri_2023_jinjiang-S20260830,"{""numerical_value_transfer"": false}"
-edge:0141,trace:C3-doksuri_2023_jinjiang-S20260830,HAS_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:1,"{""step"": 1}"
-edge:0142,decision:C3-doksuri_2023_jinjiang-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0143,trace:C3-doksuri_2023_jinjiang-S20260830,HAS_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:2,"{""step"": 2}"
-edge:0144,decision:C3-doksuri_2023_jinjiang-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0145,decision:C3-doksuri_2023_jinjiang-S20260830:1,NEXT_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:2,{}
-edge:0146,trace:C3-doksuri_2023_jinjiang-S20260830,HAS_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:3,"{""step"": 3}"
-edge:0147,decision:C3-doksuri_2023_jinjiang-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0148,decision:C3-doksuri_2023_jinjiang-S20260830:2,NEXT_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:3,{}
-edge:0149,trace:C3-doksuri_2023_jinjiang-S20260830,HAS_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:4,"{""step"": 4}"
-edge:0150,decision:C3-doksuri_2023_jinjiang-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0151,decision:C3-doksuri_2023_jinjiang-S20260830:3,NEXT_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:4,{}
-edge:0152,project:C3-43KG,HAS_CASE,case:C3-meranti_2016_peak-S20260830,{}
-edge:0153,case:C3-meranti_2016_peak-S20260830,IN_GROUP,group:G1_typhoon,{}
-edge:0154,case:C3-meranti_2016_peak-S20260830,EVALUATED_ON,model:C3,{}
-edge:0155,case:C3-meranti_2016_peak-S20260830,HAS_RESPONSE_STATE,response:C3-meranti_2016_peak-S20260830,{}
-edge:0156,case:C3-meranti_2016_peak-S20260830,HAS_AGENT_TRACE,trace:C3-meranti_2016_peak-S20260830,{}
-edge:0157,legacy-result:meranti_2016_peak,PROVENANCE_ONLY,case:C3-meranti_2016_peak-S20260830,"{""numerical_value_transfer"": false}"
-edge:0158,trace:C3-meranti_2016_peak-S20260830,HAS_STEP,decision:C3-meranti_2016_peak-S20260830:1,"{""step"": 1}"
-edge:0159,decision:C3-meranti_2016_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0160,trace:C3-meranti_2016_peak-S20260830,HAS_STEP,decision:C3-meranti_2016_peak-S20260830:2,"{""step"": 2}"
-edge:0161,decision:C3-meranti_2016_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0162,decision:C3-meranti_2016_peak-S20260830:1,NEXT_STEP,decision:C3-meranti_2016_peak-S20260830:2,{}
-edge:0163,trace:C3-meranti_2016_peak-S20260830,HAS_STEP,decision:C3-meranti_2016_peak-S20260830:3,"{""step"": 3}"
-edge:0164,decision:C3-meranti_2016_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0165,decision:C3-meranti_2016_peak-S20260830:2,NEXT_STEP,decision:C3-meranti_2016_peak-S20260830:3,{}
-edge:0166,trace:C3-meranti_2016_peak-S20260830,HAS_STEP,decision:C3-meranti_2016_peak-S20260830:4,"{""step"": 4}"
-edge:0167,decision:C3-meranti_2016_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0168,decision:C3-meranti_2016_peak-S20260830:3,NEXT_STEP,decision:C3-meranti_2016_peak-S20260830:4,{}
-edge:0169,project:C3-43KG,HAS_CASE,case:C3-haiyan_2013_peak-S20260830,{}
-edge:0170,case:C3-haiyan_2013_peak-S20260830,IN_GROUP,group:G1_typhoon,{}
-edge:0171,case:C3-haiyan_2013_peak-S20260830,EVALUATED_ON,model:C3,{}
-edge:0172,case:C3-haiyan_2013_peak-S20260830,HAS_RESPONSE_STATE,response:C3-haiyan_2013_peak-S20260830,{}
-edge:0173,case:C3-haiyan_2013_peak-S20260830,HAS_AGENT_TRACE,trace:C3-haiyan_2013_peak-S20260830,{}
-edge:0174,legacy-result:haiyan_2013_peak,PROVENANCE_ONLY,case:C3-haiyan_2013_peak-S20260830,"{""numerical_value_transfer"": false}"
-edge:0175,trace:C3-haiyan_2013_peak-S20260830,HAS_STEP,decision:C3-haiyan_2013_peak-S20260830:1,"{""step"": 1}"
-edge:0176,decision:C3-haiyan_2013_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0177,trace:C3-haiyan_2013_peak-S20260830,HAS_STEP,decision:C3-haiyan_2013_peak-S20260830:2,"{""step"": 2}"
-edge:0178,decision:C3-haiyan_2013_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0179,decision:C3-haiyan_2013_peak-S20260830:1,NEXT_STEP,decision:C3-haiyan_2013_peak-S20260830:2,{}
-edge:0180,trace:C3-haiyan_2013_peak-S20260830,HAS_STEP,decision:C3-haiyan_2013_peak-S20260830:3,"{""step"": 3}"
-edge:0181,decision:C3-haiyan_2013_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0182,decision:C3-haiyan_2013_peak-S20260830:2,NEXT_STEP,decision:C3-haiyan_2013_peak-S20260830:3,{}
-edge:0183,trace:C3-haiyan_2013_peak-S20260830,HAS_STEP,decision:C3-haiyan_2013_peak-S20260830:4,"{""step"": 4}"
-edge:0184,decision:C3-haiyan_2013_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0185,decision:C3-haiyan_2013_peak-S20260830:3,NEXT_STEP,decision:C3-haiyan_2013_peak-S20260830:4,{}
-edge:0186,project:C3-43KG,HAS_CASE,case:C3-mangkhut_2018_peak-S20260830,{}
-edge:0187,case:C3-mangkhut_2018_peak-S20260830,IN_GROUP,group:G1_typhoon,{}
-edge:0188,case:C3-mangkhut_2018_peak-S20260830,EVALUATED_ON,model:C3,{}
-edge:0189,case:C3-mangkhut_2018_peak-S20260830,HAS_RESPONSE_STATE,response:C3-mangkhut_2018_peak-S20260830,{}
-edge:0190,case:C3-mangkhut_2018_peak-S20260830,HAS_AGENT_TRACE,trace:C3-mangkhut_2018_peak-S20260830,{}
-edge:0191,legacy-result:mangkhut_2018_peak,PROVENANCE_ONLY,case:C3-mangkhut_2018_peak-S20260830,"{""numerical_value_transfer"": false}"
-edge:0192,trace:C3-mangkhut_2018_peak-S20260830,HAS_STEP,decision:C3-mangkhut_2018_peak-S20260830:1,"{""step"": 1}"
-edge:0193,decision:C3-mangkhut_2018_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0194,trace:C3-mangkhut_2018_peak-S20260830,HAS_STEP,decision:C3-mangkhut_2018_peak-S20260830:2,"{""step"": 2}"
-edge:0195,decision:C3-mangkhut_2018_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0196,decision:C3-mangkhut_2018_peak-S20260830:1,NEXT_STEP,decision:C3-mangkhut_2018_peak-S20260830:2,{}
-edge:0197,trace:C3-mangkhut_2018_peak-S20260830,HAS_STEP,decision:C3-mangkhut_2018_peak-S20260830:3,"{""step"": 3}"
-edge:0198,decision:C3-mangkhut_2018_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0199,decision:C3-mangkhut_2018_peak-S20260830:2,NEXT_STEP,decision:C3-mangkhut_2018_peak-S20260830:3,{}
-edge:0200,trace:C3-mangkhut_2018_peak-S20260830,HAS_STEP,decision:C3-mangkhut_2018_peak-S20260830:4,"{""step"": 4}"
-edge:0201,decision:C3-mangkhut_2018_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0202,decision:C3-mangkhut_2018_peak-S20260830:3,NEXT_STEP,decision:C3-mangkhut_2018_peak-S20260830:4,{}
-edge:0203,project:C3-43KG,HAS_CASE,case:C3-tip_1979_peak-S20260830,{}
-edge:0204,case:C3-tip_1979_peak-S20260830,IN_GROUP,group:G1_typhoon,{}
-edge:0205,case:C3-tip_1979_peak-S20260830,EVALUATED_ON,model:C3,{}
-edge:0206,case:C3-tip_1979_peak-S20260830,HAS_RESPONSE_STATE,response:C3-tip_1979_peak-S20260830,{}
-edge:0207,case:C3-tip_1979_peak-S20260830,HAS_AGENT_TRACE,trace:C3-tip_1979_peak-S20260830,{}
-edge:0208,legacy-result:tip_1979_peak,PROVENANCE_ONLY,case:C3-tip_1979_peak-S20260830,"{""numerical_value_transfer"": false}"
-edge:0209,trace:C3-tip_1979_peak-S20260830,HAS_STEP,decision:C3-tip_1979_peak-S20260830:1,"{""step"": 1}"
-edge:0210,decision:C3-tip_1979_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0211,trace:C3-tip_1979_peak-S20260830,HAS_STEP,decision:C3-tip_1979_peak-S20260830:2,"{""step"": 2}"
-edge:0212,decision:C3-tip_1979_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0213,decision:C3-tip_1979_peak-S20260830:1,NEXT_STEP,decision:C3-tip_1979_peak-S20260830:2,{}
-edge:0214,trace:C3-tip_1979_peak-S20260830,HAS_STEP,decision:C3-tip_1979_peak-S20260830:3,"{""step"": 3}"
-edge:0215,decision:C3-tip_1979_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0216,decision:C3-tip_1979_peak-S20260830:2,NEXT_STEP,decision:C3-tip_1979_peak-S20260830:3,{}
-edge:0217,trace:C3-tip_1979_peak-S20260830,HAS_STEP,decision:C3-tip_1979_peak-S20260830:4,"{""step"": 4}"
-edge:0218,decision:C3-tip_1979_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0219,decision:C3-tip_1979_peak-S20260830:3,NEXT_STEP,decision:C3-tip_1979_peak-S20260830:4,{}
-edge:0220,project:C3-43KG,HAS_CASE,case:C3-goni_2020_landfall-S20260830,{}
-edge:0221,case:C3-goni_2020_landfall-S20260830,IN_GROUP,group:G1_typhoon,{}
-edge:0222,case:C3-goni_2020_landfall-S20260830,EVALUATED_ON,model:C3,{}
-edge:0223,case:C3-goni_2020_landfall-S20260830,HAS_RESPONSE_STATE,response:C3-goni_2020_landfall-S20260830,{}
-edge:0224,case:C3-goni_2020_landfall-S20260830,HAS_AGENT_TRACE,trace:C3-goni_2020_landfall-S20260830,{}
-edge:0225,legacy-result:goni_2020_landfall,PROVENANCE_ONLY,case:C3-goni_2020_landfall-S20260830,"{""numerical_value_transfer"": false}"
-edge:0226,trace:C3-goni_2020_landfall-S20260830,HAS_STEP,decision:C3-goni_2020_landfall-S20260830:1,"{""step"": 1}"
-edge:0227,decision:C3-goni_2020_landfall-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0228,trace:C3-goni_2020_landfall-S20260830,HAS_STEP,decision:C3-goni_2020_landfall-S20260830:2,"{""step"": 2}"
-edge:0229,decision:C3-goni_2020_landfall-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0230,decision:C3-goni_2020_landfall-S20260830:1,NEXT_STEP,decision:C3-goni_2020_landfall-S20260830:2,{}
-edge:0231,trace:C3-goni_2020_landfall-S20260830,HAS_STEP,decision:C3-goni_2020_landfall-S20260830:3,"{""step"": 3}"
-edge:0232,decision:C3-goni_2020_landfall-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0233,decision:C3-goni_2020_landfall-S20260830:2,NEXT_STEP,decision:C3-goni_2020_landfall-S20260830:3,{}
-edge:0234,trace:C3-goni_2020_landfall-S20260830,HAS_STEP,decision:C3-goni_2020_landfall-S20260830:4,"{""step"": 4}"
-edge:0235,decision:C3-goni_2020_landfall-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0236,decision:C3-goni_2020_landfall-S20260830:3,NEXT_STEP,decision:C3-goni_2020_landfall-S20260830:4,{}
-edge:0237,project:C3-43KG,HAS_CASE,case:C3-lanyu_ryan_1995_gust-S20260830,{}
-edge:0238,case:C3-lanyu_ryan_1995_gust-S20260830,IN_GROUP,group:G1_typhoon,{}
-edge:0239,case:C3-lanyu_ryan_1995_gust-S20260830,EVALUATED_ON,model:C3,{}
-edge:0240,case:C3-lanyu_ryan_1995_gust-S20260830,HAS_RESPONSE_STATE,response:C3-lanyu_ryan_1995_gust-S20260830,{}
-edge:0241,case:C3-lanyu_ryan_1995_gust-S20260830,HAS_AGENT_TRACE,trace:C3-lanyu_ryan_1995_gust-S20260830,{}
-edge:0242,legacy-result:lanyu_ryan_1995_gust,PROVENANCE_ONLY,case:C3-lanyu_ryan_1995_gust-S20260830,"{""numerical_value_transfer"": false}"
-edge:0243,trace:C3-lanyu_ryan_1995_gust-S20260830,HAS_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:1,"{""step"": 1}"
-edge:0244,decision:C3-lanyu_ryan_1995_gust-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0245,trace:C3-lanyu_ryan_1995_gust-S20260830,HAS_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:2,"{""step"": 2}"
-edge:0246,decision:C3-lanyu_ryan_1995_gust-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0247,decision:C3-lanyu_ryan_1995_gust-S20260830:1,NEXT_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:2,{}
-edge:0248,trace:C3-lanyu_ryan_1995_gust-S20260830,HAS_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:3,"{""step"": 3}"
-edge:0249,decision:C3-lanyu_ryan_1995_gust-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0250,decision:C3-lanyu_ryan_1995_gust-S20260830:2,NEXT_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:3,{}
-edge:0251,trace:C3-lanyu_ryan_1995_gust-S20260830,HAS_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:4,"{""step"": 4}"
-edge:0252,decision:C3-lanyu_ryan_1995_gust-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0253,decision:C3-lanyu_ryan_1995_gust-S20260830:3,NEXT_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:4,{}
-edge:0254,project:C3-43KG,HAS_CASE,case:C3-ss_cat1-S20260830,{}
-edge:0255,case:C3-ss_cat1-S20260830,IN_GROUP,group:G2_hurricane,{}
-edge:0256,case:C3-ss_cat1-S20260830,EVALUATED_ON,model:C3,{}
-edge:0257,case:C3-ss_cat1-S20260830,HAS_RESPONSE_STATE,response:C3-ss_cat1-S20260830,{}
-edge:0258,case:C3-ss_cat1-S20260830,HAS_AGENT_TRACE,trace:C3-ss_cat1-S20260830,{}
-edge:0259,legacy-result:ss_cat1,PROVENANCE_ONLY,case:C3-ss_cat1-S20260830,"{""numerical_value_transfer"": false}"
-edge:0260,trace:C3-ss_cat1-S20260830,HAS_STEP,decision:C3-ss_cat1-S20260830:1,"{""step"": 1}"
-edge:0261,decision:C3-ss_cat1-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0262,trace:C3-ss_cat1-S20260830,HAS_STEP,decision:C3-ss_cat1-S20260830:2,"{""step"": 2}"
-edge:0263,decision:C3-ss_cat1-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0264,decision:C3-ss_cat1-S20260830:1,NEXT_STEP,decision:C3-ss_cat1-S20260830:2,{}
-edge:0265,trace:C3-ss_cat1-S20260830,HAS_STEP,decision:C3-ss_cat1-S20260830:3,"{""step"": 3}"
-edge:0266,decision:C3-ss_cat1-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0267,decision:C3-ss_cat1-S20260830:2,NEXT_STEP,decision:C3-ss_cat1-S20260830:3,{}
-edge:0268,trace:C3-ss_cat1-S20260830,HAS_STEP,decision:C3-ss_cat1-S20260830:4,"{""step"": 4}"
-edge:0269,decision:C3-ss_cat1-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0270,decision:C3-ss_cat1-S20260830:3,NEXT_STEP,decision:C3-ss_cat1-S20260830:4,{}
-edge:0271,project:C3-43KG,HAS_CASE,case:C3-ss_cat2-S20260830,{}
-edge:0272,case:C3-ss_cat2-S20260830,IN_GROUP,group:G2_hurricane,{}
-edge:0273,case:C3-ss_cat2-S20260830,EVALUATED_ON,model:C3,{}
-edge:0274,case:C3-ss_cat2-S20260830,HAS_RESPONSE_STATE,response:C3-ss_cat2-S20260830,{}
-edge:0275,case:C3-ss_cat2-S20260830,HAS_AGENT_TRACE,trace:C3-ss_cat2-S20260830,{}
-edge:0276,legacy-result:ss_cat2,PROVENANCE_ONLY,case:C3-ss_cat2-S20260830,"{""numerical_value_transfer"": false}"
-edge:0277,trace:C3-ss_cat2-S20260830,HAS_STEP,decision:C3-ss_cat2-S20260830:1,"{""step"": 1}"
-edge:0278,decision:C3-ss_cat2-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0279,trace:C3-ss_cat2-S20260830,HAS_STEP,decision:C3-ss_cat2-S20260830:2,"{""step"": 2}"
-edge:0280,decision:C3-ss_cat2-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0281,decision:C3-ss_cat2-S20260830:1,NEXT_STEP,decision:C3-ss_cat2-S20260830:2,{}
-edge:0282,trace:C3-ss_cat2-S20260830,HAS_STEP,decision:C3-ss_cat2-S20260830:3,"{""step"": 3}"
-edge:0283,decision:C3-ss_cat2-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0284,decision:C3-ss_cat2-S20260830:2,NEXT_STEP,decision:C3-ss_cat2-S20260830:3,{}
-edge:0285,trace:C3-ss_cat2-S20260830,HAS_STEP,decision:C3-ss_cat2-S20260830:4,"{""step"": 4}"
-edge:0286,decision:C3-ss_cat2-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0287,decision:C3-ss_cat2-S20260830:3,NEXT_STEP,decision:C3-ss_cat2-S20260830:4,{}
-edge:0288,project:C3-43KG,HAS_CASE,case:C3-ss_cat3-S20260830,{}
-edge:0289,case:C3-ss_cat3-S20260830,IN_GROUP,group:G2_hurricane,{}
-edge:0290,case:C3-ss_cat3-S20260830,EVALUATED_ON,model:C3,{}
-edge:0291,case:C3-ss_cat3-S20260830,HAS_RESPONSE_STATE,response:C3-ss_cat3-S20260830,{}
-edge:0292,case:C3-ss_cat3-S20260830,HAS_AGENT_TRACE,trace:C3-ss_cat3-S20260830,{}
-edge:0293,legacy-result:ss_cat3,PROVENANCE_ONLY,case:C3-ss_cat3-S20260830,"{""numerical_value_transfer"": false}"
-edge:0294,trace:C3-ss_cat3-S20260830,HAS_STEP,decision:C3-ss_cat3-S20260830:1,"{""step"": 1}"
-edge:0295,decision:C3-ss_cat3-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0296,trace:C3-ss_cat3-S20260830,HAS_STEP,decision:C3-ss_cat3-S20260830:2,"{""step"": 2}"
-edge:0297,decision:C3-ss_cat3-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0298,decision:C3-ss_cat3-S20260830:1,NEXT_STEP,decision:C3-ss_cat3-S20260830:2,{}
-edge:0299,trace:C3-ss_cat3-S20260830,HAS_STEP,decision:C3-ss_cat3-S20260830:3,"{""step"": 3}"
-edge:0300,decision:C3-ss_cat3-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0301,decision:C3-ss_cat3-S20260830:2,NEXT_STEP,decision:C3-ss_cat3-S20260830:3,{}
-edge:0302,trace:C3-ss_cat3-S20260830,HAS_STEP,decision:C3-ss_cat3-S20260830:4,"{""step"": 4}"
-edge:0303,decision:C3-ss_cat3-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0304,decision:C3-ss_cat3-S20260830:3,NEXT_STEP,decision:C3-ss_cat3-S20260830:4,{}
-edge:0305,project:C3-43KG,HAS_CASE,case:C3-ss_cat4-S20260830,{}
-edge:0306,case:C3-ss_cat4-S20260830,IN_GROUP,group:G2_hurricane,{}
-edge:0307,case:C3-ss_cat4-S20260830,EVALUATED_ON,model:C3,{}
-edge:0308,case:C3-ss_cat4-S20260830,HAS_RESPONSE_STATE,response:C3-ss_cat4-S20260830,{}
-edge:0309,case:C3-ss_cat4-S20260830,HAS_AGENT_TRACE,trace:C3-ss_cat4-S20260830,{}
-edge:0310,legacy-result:ss_cat4,PROVENANCE_ONLY,case:C3-ss_cat4-S20260830,"{""numerical_value_transfer"": false}"
-edge:0311,trace:C3-ss_cat4-S20260830,HAS_STEP,decision:C3-ss_cat4-S20260830:1,"{""step"": 1}"
-edge:0312,decision:C3-ss_cat4-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0313,trace:C3-ss_cat4-S20260830,HAS_STEP,decision:C3-ss_cat4-S20260830:2,"{""step"": 2}"
-edge:0314,decision:C3-ss_cat4-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0315,decision:C3-ss_cat4-S20260830:1,NEXT_STEP,decision:C3-ss_cat4-S20260830:2,{}
-edge:0316,trace:C3-ss_cat4-S20260830,HAS_STEP,decision:C3-ss_cat4-S20260830:3,"{""step"": 3}"
-edge:0317,decision:C3-ss_cat4-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0318,decision:C3-ss_cat4-S20260830:2,NEXT_STEP,decision:C3-ss_cat4-S20260830:3,{}
-edge:0319,trace:C3-ss_cat4-S20260830,HAS_STEP,decision:C3-ss_cat4-S20260830:4,"{""step"": 4}"
-edge:0320,decision:C3-ss_cat4-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0321,decision:C3-ss_cat4-S20260830:3,NEXT_STEP,decision:C3-ss_cat4-S20260830:4,{}
-edge:0322,project:C3-43KG,HAS_CASE,case:C3-ss_cat5-S20260830,{}
-edge:0323,case:C3-ss_cat5-S20260830,IN_GROUP,group:G2_hurricane,{}
-edge:0324,case:C3-ss_cat5-S20260830,EVALUATED_ON,model:C3,{}
-edge:0325,case:C3-ss_cat5-S20260830,HAS_RESPONSE_STATE,response:C3-ss_cat5-S20260830,{}
-edge:0326,case:C3-ss_cat5-S20260830,HAS_AGENT_TRACE,trace:C3-ss_cat5-S20260830,{}
-edge:0327,legacy-result:ss_cat5,PROVENANCE_ONLY,case:C3-ss_cat5-S20260830,"{""numerical_value_transfer"": false}"
-edge:0328,trace:C3-ss_cat5-S20260830,HAS_STEP,decision:C3-ss_cat5-S20260830:1,"{""step"": 1}"
-edge:0329,decision:C3-ss_cat5-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0330,trace:C3-ss_cat5-S20260830,HAS_STEP,decision:C3-ss_cat5-S20260830:2,"{""step"": 2}"
-edge:0331,decision:C3-ss_cat5-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0332,decision:C3-ss_cat5-S20260830:1,NEXT_STEP,decision:C3-ss_cat5-S20260830:2,{}
-edge:0333,trace:C3-ss_cat5-S20260830,HAS_STEP,decision:C3-ss_cat5-S20260830:3,"{""step"": 3}"
-edge:0334,decision:C3-ss_cat5-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0335,decision:C3-ss_cat5-S20260830:2,NEXT_STEP,decision:C3-ss_cat5-S20260830:3,{}
-edge:0336,trace:C3-ss_cat5-S20260830,HAS_STEP,decision:C3-ss_cat5-S20260830:4,"{""step"": 4}"
-edge:0337,decision:C3-ss_cat5-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0338,decision:C3-ss_cat5-S20260830:3,NEXT_STEP,decision:C3-ss_cat5-S20260830:4,{}
-edge:0339,project:C3-43KG,HAS_CASE,case:C3-dorian_2019_landfall-S20260830,{}
-edge:0340,case:C3-dorian_2019_landfall-S20260830,IN_GROUP,group:G2_hurricane,{}
-edge:0341,case:C3-dorian_2019_landfall-S20260830,EVALUATED_ON,model:C3,{}
-edge:0342,case:C3-dorian_2019_landfall-S20260830,HAS_RESPONSE_STATE,response:C3-dorian_2019_landfall-S20260830,{}
-edge:0343,case:C3-dorian_2019_landfall-S20260830,HAS_AGENT_TRACE,trace:C3-dorian_2019_landfall-S20260830,{}
-edge:0344,legacy-result:dorian_2019_landfall,PROVENANCE_ONLY,case:C3-dorian_2019_landfall-S20260830,"{""numerical_value_transfer"": false}"
-edge:0345,trace:C3-dorian_2019_landfall-S20260830,HAS_STEP,decision:C3-dorian_2019_landfall-S20260830:1,"{""step"": 1}"
-edge:0346,decision:C3-dorian_2019_landfall-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0347,trace:C3-dorian_2019_landfall-S20260830,HAS_STEP,decision:C3-dorian_2019_landfall-S20260830:2,"{""step"": 2}"
-edge:0348,decision:C3-dorian_2019_landfall-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0349,decision:C3-dorian_2019_landfall-S20260830:1,NEXT_STEP,decision:C3-dorian_2019_landfall-S20260830:2,{}
-edge:0350,trace:C3-dorian_2019_landfall-S20260830,HAS_STEP,decision:C3-dorian_2019_landfall-S20260830:3,"{""step"": 3}"
-edge:0351,decision:C3-dorian_2019_landfall-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0352,decision:C3-dorian_2019_landfall-S20260830:2,NEXT_STEP,decision:C3-dorian_2019_landfall-S20260830:3,{}
-edge:0353,trace:C3-dorian_2019_landfall-S20260830,HAS_STEP,decision:C3-dorian_2019_landfall-S20260830:4,"{""step"": 4}"
-edge:0354,decision:C3-dorian_2019_landfall-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0355,decision:C3-dorian_2019_landfall-S20260830:3,NEXT_STEP,decision:C3-dorian_2019_landfall-S20260830:4,{}
-edge:0356,project:C3-43KG,HAS_CASE,case:C3-patricia_2015_peak-S20260830,{}
-edge:0357,case:C3-patricia_2015_peak-S20260830,IN_GROUP,group:G2_hurricane,{}
-edge:0358,case:C3-patricia_2015_peak-S20260830,EVALUATED_ON,model:C3,{}
-edge:0359,case:C3-patricia_2015_peak-S20260830,HAS_RESPONSE_STATE,response:C3-patricia_2015_peak-S20260830,{}
-edge:0360,case:C3-patricia_2015_peak-S20260830,HAS_AGENT_TRACE,trace:C3-patricia_2015_peak-S20260830,{}
-edge:0361,legacy-result:patricia_2015_peak,PROVENANCE_ONLY,case:C3-patricia_2015_peak-S20260830,"{""numerical_value_transfer"": false}"
-edge:0362,trace:C3-patricia_2015_peak-S20260830,HAS_STEP,decision:C3-patricia_2015_peak-S20260830:1,"{""step"": 1}"
-edge:0363,decision:C3-patricia_2015_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0364,trace:C3-patricia_2015_peak-S20260830,HAS_STEP,decision:C3-patricia_2015_peak-S20260830:2,"{""step"": 2}"
-edge:0365,decision:C3-patricia_2015_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0366,decision:C3-patricia_2015_peak-S20260830:1,NEXT_STEP,decision:C3-patricia_2015_peak-S20260830:2,{}
-edge:0367,trace:C3-patricia_2015_peak-S20260830,HAS_STEP,decision:C3-patricia_2015_peak-S20260830:3,"{""step"": 3}"
-edge:0368,decision:C3-patricia_2015_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0369,decision:C3-patricia_2015_peak-S20260830:2,NEXT_STEP,decision:C3-patricia_2015_peak-S20260830:3,{}
-edge:0370,trace:C3-patricia_2015_peak-S20260830,HAS_STEP,decision:C3-patricia_2015_peak-S20260830:4,"{""step"": 4}"
-edge:0371,decision:C3-patricia_2015_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0372,decision:C3-patricia_2015_peak-S20260830:3,NEXT_STEP,decision:C3-patricia_2015_peak-S20260830:4,{}
-edge:0373,project:C3-43KG,HAS_CASE,case:C3-gustav_2008_cuba_gust-S20260830,{}
-edge:0374,case:C3-gustav_2008_cuba_gust-S20260830,IN_GROUP,group:G2_hurricane,{}
-edge:0375,case:C3-gustav_2008_cuba_gust-S20260830,EVALUATED_ON,model:C3,{}
-edge:0376,case:C3-gustav_2008_cuba_gust-S20260830,HAS_RESPONSE_STATE,response:C3-gustav_2008_cuba_gust-S20260830,{}
-edge:0377,case:C3-gustav_2008_cuba_gust-S20260830,HAS_AGENT_TRACE,trace:C3-gustav_2008_cuba_gust-S20260830,{}
-edge:0378,legacy-result:gustav_2008_cuba_gust,PROVENANCE_ONLY,case:C3-gustav_2008_cuba_gust-S20260830,"{""numerical_value_transfer"": false}"
-edge:0379,trace:C3-gustav_2008_cuba_gust-S20260830,HAS_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:1,"{""step"": 1}"
-edge:0380,decision:C3-gustav_2008_cuba_gust-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0381,trace:C3-gustav_2008_cuba_gust-S20260830,HAS_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:2,"{""step"": 2}"
-edge:0382,decision:C3-gustav_2008_cuba_gust-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0383,decision:C3-gustav_2008_cuba_gust-S20260830:1,NEXT_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:2,{}
-edge:0384,trace:C3-gustav_2008_cuba_gust-S20260830,HAS_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:3,"{""step"": 3}"
-edge:0385,decision:C3-gustav_2008_cuba_gust-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0386,decision:C3-gustav_2008_cuba_gust-S20260830:2,NEXT_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:3,{}
-edge:0387,trace:C3-gustav_2008_cuba_gust-S20260830,HAS_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:4,"{""step"": 4}"
-edge:0388,decision:C3-gustav_2008_cuba_gust-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0389,decision:C3-gustav_2008_cuba_gust-S20260830:3,NEXT_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:4,{}
-edge:0390,project:C3-43KG,HAS_CASE,case:C3-bhola_1970_peak-S20260830,{}
-edge:0391,case:C3-bhola_1970_peak-S20260830,IN_GROUP,group:G3_bob,{}
-edge:0392,case:C3-bhola_1970_peak-S20260830,EVALUATED_ON,model:C3,{}
-edge:0393,case:C3-bhola_1970_peak-S20260830,HAS_RESPONSE_STATE,response:C3-bhola_1970_peak-S20260830,{}
-edge:0394,case:C3-bhola_1970_peak-S20260830,HAS_AGENT_TRACE,trace:C3-bhola_1970_peak-S20260830,{}
-edge:0395,legacy-result:bhola_1970_peak,PROVENANCE_ONLY,case:C3-bhola_1970_peak-S20260830,"{""numerical_value_transfer"": false}"
-edge:0396,trace:C3-bhola_1970_peak-S20260830,HAS_STEP,decision:C3-bhola_1970_peak-S20260830:1,"{""step"": 1}"
-edge:0397,decision:C3-bhola_1970_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0398,trace:C3-bhola_1970_peak-S20260830,HAS_STEP,decision:C3-bhola_1970_peak-S20260830:2,"{""step"": 2}"
-edge:0399,decision:C3-bhola_1970_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0400,decision:C3-bhola_1970_peak-S20260830:1,NEXT_STEP,decision:C3-bhola_1970_peak-S20260830:2,{}
-edge:0401,trace:C3-bhola_1970_peak-S20260830,HAS_STEP,decision:C3-bhola_1970_peak-S20260830:3,"{""step"": 3}"
-edge:0402,decision:C3-bhola_1970_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0403,decision:C3-bhola_1970_peak-S20260830:2,NEXT_STEP,decision:C3-bhola_1970_peak-S20260830:3,{}
-edge:0404,trace:C3-bhola_1970_peak-S20260830,HAS_STEP,decision:C3-bhola_1970_peak-S20260830:4,"{""step"": 4}"
-edge:0405,decision:C3-bhola_1970_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0406,decision:C3-bhola_1970_peak-S20260830:3,NEXT_STEP,decision:C3-bhola_1970_peak-S20260830:4,{}
-edge:0407,project:C3-43KG,HAS_CASE,case:C3-nargis_2008_peak-S20260830,{}
-edge:0408,case:C3-nargis_2008_peak-S20260830,IN_GROUP,group:G3_bob,{}
-edge:0409,case:C3-nargis_2008_peak-S20260830,EVALUATED_ON,model:C3,{}
-edge:0410,case:C3-nargis_2008_peak-S20260830,HAS_RESPONSE_STATE,response:C3-nargis_2008_peak-S20260830,{}
-edge:0411,case:C3-nargis_2008_peak-S20260830,HAS_AGENT_TRACE,trace:C3-nargis_2008_peak-S20260830,{}
-edge:0412,legacy-result:nargis_2008_peak,PROVENANCE_ONLY,case:C3-nargis_2008_peak-S20260830,"{""numerical_value_transfer"": false}"
-edge:0413,trace:C3-nargis_2008_peak-S20260830,HAS_STEP,decision:C3-nargis_2008_peak-S20260830:1,"{""step"": 1}"
-edge:0414,decision:C3-nargis_2008_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0415,trace:C3-nargis_2008_peak-S20260830,HAS_STEP,decision:C3-nargis_2008_peak-S20260830:2,"{""step"": 2}"
-edge:0416,decision:C3-nargis_2008_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0417,decision:C3-nargis_2008_peak-S20260830:1,NEXT_STEP,decision:C3-nargis_2008_peak-S20260830:2,{}
-edge:0418,trace:C3-nargis_2008_peak-S20260830,HAS_STEP,decision:C3-nargis_2008_peak-S20260830:3,"{""step"": 3}"
-edge:0419,decision:C3-nargis_2008_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0420,decision:C3-nargis_2008_peak-S20260830:2,NEXT_STEP,decision:C3-nargis_2008_peak-S20260830:3,{}
-edge:0421,trace:C3-nargis_2008_peak-S20260830,HAS_STEP,decision:C3-nargis_2008_peak-S20260830:4,"{""step"": 4}"
-edge:0422,decision:C3-nargis_2008_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0423,decision:C3-nargis_2008_peak-S20260830:3,NEXT_STEP,decision:C3-nargis_2008_peak-S20260830:4,{}
-edge:0424,project:C3-43KG,HAS_CASE,case:C3-amphan_2020_peak-S20260830,{}
-edge:0425,case:C3-amphan_2020_peak-S20260830,IN_GROUP,group:G3_bob,{}
-edge:0426,case:C3-amphan_2020_peak-S20260830,EVALUATED_ON,model:C3,{}
-edge:0427,case:C3-amphan_2020_peak-S20260830,HAS_RESPONSE_STATE,response:C3-amphan_2020_peak-S20260830,{}
-edge:0428,case:C3-amphan_2020_peak-S20260830,HAS_AGENT_TRACE,trace:C3-amphan_2020_peak-S20260830,{}
-edge:0429,legacy-result:amphan_2020_peak,PROVENANCE_ONLY,case:C3-amphan_2020_peak-S20260830,"{""numerical_value_transfer"": false}"
-edge:0430,trace:C3-amphan_2020_peak-S20260830,HAS_STEP,decision:C3-amphan_2020_peak-S20260830:1,"{""step"": 1}"
-edge:0431,decision:C3-amphan_2020_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0432,trace:C3-amphan_2020_peak-S20260830,HAS_STEP,decision:C3-amphan_2020_peak-S20260830:2,"{""step"": 2}"
-edge:0433,decision:C3-amphan_2020_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0434,decision:C3-amphan_2020_peak-S20260830:1,NEXT_STEP,decision:C3-amphan_2020_peak-S20260830:2,{}
-edge:0435,trace:C3-amphan_2020_peak-S20260830,HAS_STEP,decision:C3-amphan_2020_peak-S20260830:3,"{""step"": 3}"
-edge:0436,decision:C3-amphan_2020_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0437,decision:C3-amphan_2020_peak-S20260830:2,NEXT_STEP,decision:C3-amphan_2020_peak-S20260830:3,{}
-edge:0438,trace:C3-amphan_2020_peak-S20260830,HAS_STEP,decision:C3-amphan_2020_peak-S20260830:4,"{""step"": 4}"
-edge:0439,decision:C3-amphan_2020_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0440,decision:C3-amphan_2020_peak-S20260830:3,NEXT_STEP,decision:C3-amphan_2020_peak-S20260830:4,{}
-edge:0441,project:C3-43KG,HAS_CASE,case:C3-ef3_anchor-S20260830,{}
-edge:0442,case:C3-ef3_anchor-S20260830,IN_GROUP,group:G4_tornado,{}
-edge:0443,case:C3-ef3_anchor-S20260830,EVALUATED_ON,model:C3,{}
-edge:0444,case:C3-ef3_anchor-S20260830,HAS_RESPONSE_STATE,response:C3-ef3_anchor-S20260830,{}
-edge:0445,case:C3-ef3_anchor-S20260830,HAS_AGENT_TRACE,trace:C3-ef3_anchor-S20260830,{}
-edge:0446,legacy-result:ef3_anchor,PROVENANCE_ONLY,case:C3-ef3_anchor-S20260830,"{""numerical_value_transfer"": false}"
-edge:0447,trace:C3-ef3_anchor-S20260830,HAS_STEP,decision:C3-ef3_anchor-S20260830:1,"{""step"": 1}"
-edge:0448,decision:C3-ef3_anchor-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0449,trace:C3-ef3_anchor-S20260830,HAS_STEP,decision:C3-ef3_anchor-S20260830:2,"{""step"": 2}"
-edge:0450,decision:C3-ef3_anchor-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0451,decision:C3-ef3_anchor-S20260830:1,NEXT_STEP,decision:C3-ef3_anchor-S20260830:2,{}
-edge:0452,trace:C3-ef3_anchor-S20260830,HAS_STEP,decision:C3-ef3_anchor-S20260830:3,"{""step"": 3}"
-edge:0453,decision:C3-ef3_anchor-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0454,decision:C3-ef3_anchor-S20260830:2,NEXT_STEP,decision:C3-ef3_anchor-S20260830:3,{}
-edge:0455,trace:C3-ef3_anchor-S20260830,HAS_STEP,decision:C3-ef3_anchor-S20260830:4,"{""step"": 4}"
-edge:0456,decision:C3-ef3_anchor-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0457,decision:C3-ef3_anchor-S20260830:3,NEXT_STEP,decision:C3-ef3_anchor-S20260830:4,{}
-edge:0458,project:C3-43KG,HAS_CASE,case:C3-ef4_anchor-S20260830,{}
-edge:0459,case:C3-ef4_anchor-S20260830,IN_GROUP,group:G4_tornado,{}
-edge:0460,case:C3-ef4_anchor-S20260830,EVALUATED_ON,model:C3,{}
-edge:0461,case:C3-ef4_anchor-S20260830,HAS_RESPONSE_STATE,response:C3-ef4_anchor-S20260830,{}
-edge:0462,case:C3-ef4_anchor-S20260830,HAS_AGENT_TRACE,trace:C3-ef4_anchor-S20260830,{}
-edge:0463,legacy-result:ef4_anchor,PROVENANCE_ONLY,case:C3-ef4_anchor-S20260830,"{""numerical_value_transfer"": false}"
-edge:0464,trace:C3-ef4_anchor-S20260830,HAS_STEP,decision:C3-ef4_anchor-S20260830:1,"{""step"": 1}"
-edge:0465,decision:C3-ef4_anchor-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0466,trace:C3-ef4_anchor-S20260830,HAS_STEP,decision:C3-ef4_anchor-S20260830:2,"{""step"": 2}"
-edge:0467,decision:C3-ef4_anchor-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0468,decision:C3-ef4_anchor-S20260830:1,NEXT_STEP,decision:C3-ef4_anchor-S20260830:2,{}
-edge:0469,trace:C3-ef4_anchor-S20260830,HAS_STEP,decision:C3-ef4_anchor-S20260830:3,"{""step"": 3}"
-edge:0470,decision:C3-ef4_anchor-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0471,decision:C3-ef4_anchor-S20260830:2,NEXT_STEP,decision:C3-ef4_anchor-S20260830:3,{}
-edge:0472,trace:C3-ef4_anchor-S20260830,HAS_STEP,decision:C3-ef4_anchor-S20260830:4,"{""step"": 4}"
-edge:0473,decision:C3-ef4_anchor-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0474,decision:C3-ef4_anchor-S20260830:3,NEXT_STEP,decision:C3-ef4_anchor-S20260830:4,{}
-edge:0475,project:C3-43KG,HAS_CASE,case:C3-ef5_anchor-S20260830,{}
-edge:0476,case:C3-ef5_anchor-S20260830,IN_GROUP,group:G4_tornado,{}
-edge:0477,case:C3-ef5_anchor-S20260830,EVALUATED_ON,model:C3,{}
-edge:0478,case:C3-ef5_anchor-S20260830,HAS_RESPONSE_STATE,response:C3-ef5_anchor-S20260830,{}
-edge:0479,case:C3-ef5_anchor-S20260830,HAS_AGENT_TRACE,trace:C3-ef5_anchor-S20260830,{}
-edge:0480,legacy-result:ef5_anchor,PROVENANCE_ONLY,case:C3-ef5_anchor-S20260830,"{""numerical_value_transfer"": false}"
-edge:0481,trace:C3-ef5_anchor-S20260830,HAS_STEP,decision:C3-ef5_anchor-S20260830:1,"{""step"": 1}"
-edge:0482,decision:C3-ef5_anchor-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0483,trace:C3-ef5_anchor-S20260830,HAS_STEP,decision:C3-ef5_anchor-S20260830:2,"{""step"": 2}"
-edge:0484,decision:C3-ef5_anchor-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0485,decision:C3-ef5_anchor-S20260830:1,NEXT_STEP,decision:C3-ef5_anchor-S20260830:2,{}
-edge:0486,trace:C3-ef5_anchor-S20260830,HAS_STEP,decision:C3-ef5_anchor-S20260830:3,"{""step"": 3}"
-edge:0487,decision:C3-ef5_anchor-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0488,decision:C3-ef5_anchor-S20260830:2,NEXT_STEP,decision:C3-ef5_anchor-S20260830:3,{}
-edge:0489,trace:C3-ef5_anchor-S20260830,HAS_STEP,decision:C3-ef5_anchor-S20260830:4,"{""step"": 4}"
-edge:0490,decision:C3-ef5_anchor-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0491,decision:C3-ef5_anchor-S20260830:3,NEXT_STEP,decision:C3-ef5_anchor-S20260830:4,{}
-edge:0492,project:C3-43KG,HAS_CASE,case:C3-funing_2016_ef4-S20260830,{}
-edge:0493,case:C3-funing_2016_ef4-S20260830,IN_GROUP,group:G4_tornado,{}
-edge:0494,case:C3-funing_2016_ef4-S20260830,EVALUATED_ON,model:C3,{}
-edge:0495,case:C3-funing_2016_ef4-S20260830,HAS_RESPONSE_STATE,response:C3-funing_2016_ef4-S20260830,{}
-edge:0496,case:C3-funing_2016_ef4-S20260830,HAS_AGENT_TRACE,trace:C3-funing_2016_ef4-S20260830,{}
-edge:0497,legacy-result:funing_2016_ef4,PROVENANCE_ONLY,case:C3-funing_2016_ef4-S20260830,"{""numerical_value_transfer"": false}"
-edge:0498,trace:C3-funing_2016_ef4-S20260830,HAS_STEP,decision:C3-funing_2016_ef4-S20260830:1,"{""step"": 1}"
-edge:0499,decision:C3-funing_2016_ef4-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0500,trace:C3-funing_2016_ef4-S20260830,HAS_STEP,decision:C3-funing_2016_ef4-S20260830:2,"{""step"": 2}"
-edge:0501,decision:C3-funing_2016_ef4-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0502,decision:C3-funing_2016_ef4-S20260830:1,NEXT_STEP,decision:C3-funing_2016_ef4-S20260830:2,{}
-edge:0503,trace:C3-funing_2016_ef4-S20260830,HAS_STEP,decision:C3-funing_2016_ef4-S20260830:3,"{""step"": 3}"
-edge:0504,decision:C3-funing_2016_ef4-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0505,decision:C3-funing_2016_ef4-S20260830:2,NEXT_STEP,decision:C3-funing_2016_ef4-S20260830:3,{}
-edge:0506,trace:C3-funing_2016_ef4-S20260830,HAS_STEP,decision:C3-funing_2016_ef4-S20260830:4,"{""step"": 4}"
-edge:0507,decision:C3-funing_2016_ef4-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0508,decision:C3-funing_2016_ef4-S20260830:3,NEXT_STEP,decision:C3-funing_2016_ef4-S20260830:4,{}
-edge:0509,project:C3-43KG,HAS_CASE,case:C3-bridge_creek_1999_ref-S20260830,{}
-edge:0510,case:C3-bridge_creek_1999_ref-S20260830,IN_GROUP,group:G4_tornado,{}
-edge:0511,case:C3-bridge_creek_1999_ref-S20260830,EVALUATED_ON,model:C3,{}
-edge:0512,case:C3-bridge_creek_1999_ref-S20260830,HAS_RESPONSE_STATE,response:C3-bridge_creek_1999_ref-S20260830,{}
-edge:0513,case:C3-bridge_creek_1999_ref-S20260830,HAS_AGENT_TRACE,trace:C3-bridge_creek_1999_ref-S20260830,{}
-edge:0514,legacy-result:bridge_creek_1999_ref,PROVENANCE_ONLY,case:C3-bridge_creek_1999_ref-S20260830,"{""numerical_value_transfer"": false}"
-edge:0515,trace:C3-bridge_creek_1999_ref-S20260830,HAS_STEP,decision:C3-bridge_creek_1999_ref-S20260830:1,"{""step"": 1}"
-edge:0516,decision:C3-bridge_creek_1999_ref-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0517,trace:C3-bridge_creek_1999_ref-S20260830,HAS_STEP,decision:C3-bridge_creek_1999_ref-S20260830:2,"{""step"": 2}"
-edge:0518,decision:C3-bridge_creek_1999_ref-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0519,decision:C3-bridge_creek_1999_ref-S20260830:1,NEXT_STEP,decision:C3-bridge_creek_1999_ref-S20260830:2,{}
-edge:0520,trace:C3-bridge_creek_1999_ref-S20260830,HAS_STEP,decision:C3-bridge_creek_1999_ref-S20260830:3,"{""step"": 3}"
-edge:0521,decision:C3-bridge_creek_1999_ref-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0522,decision:C3-bridge_creek_1999_ref-S20260830:2,NEXT_STEP,decision:C3-bridge_creek_1999_ref-S20260830:3,{}
-edge:0523,trace:C3-bridge_creek_1999_ref-S20260830,HAS_STEP,decision:C3-bridge_creek_1999_ref-S20260830:4,"{""step"": 4}"
-edge:0524,decision:C3-bridge_creek_1999_ref-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0525,decision:C3-bridge_creek_1999_ref-S20260830:3,NEXT_STEP,decision:C3-bridge_creek_1999_ref-S20260830:4,{}
-edge:0526,project:C3-43KG,HAS_CASE,case:C3-dongfangzhixing_2015_downburst-S20260830,{}
-edge:0527,case:C3-dongfangzhixing_2015_downburst-S20260830,IN_GROUP,group:G5_downburst,{}
-edge:0528,case:C3-dongfangzhixing_2015_downburst-S20260830,EVALUATED_ON,model:C3,{}
-edge:0529,case:C3-dongfangzhixing_2015_downburst-S20260830,HAS_RESPONSE_STATE,response:C3-dongfangzhixing_2015_downburst-S20260830,{}
-edge:0530,case:C3-dongfangzhixing_2015_downburst-S20260830,HAS_AGENT_TRACE,trace:C3-dongfangzhixing_2015_downburst-S20260830,{}
-edge:0531,legacy-result:dongfangzhixing_2015_downburst,PROVENANCE_ONLY,case:C3-dongfangzhixing_2015_downburst-S20260830,"{""numerical_value_transfer"": false}"
-edge:0532,trace:C3-dongfangzhixing_2015_downburst-S20260830,HAS_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:1,"{""step"": 1}"
-edge:0533,decision:C3-dongfangzhixing_2015_downburst-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0534,trace:C3-dongfangzhixing_2015_downburst-S20260830,HAS_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:2,"{""step"": 2}"
-edge:0535,decision:C3-dongfangzhixing_2015_downburst-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0536,decision:C3-dongfangzhixing_2015_downburst-S20260830:1,NEXT_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:2,{}
-edge:0537,trace:C3-dongfangzhixing_2015_downburst-S20260830,HAS_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:3,"{""step"": 3}"
-edge:0538,decision:C3-dongfangzhixing_2015_downburst-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0539,decision:C3-dongfangzhixing_2015_downburst-S20260830:2,NEXT_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:3,{}
-edge:0540,trace:C3-dongfangzhixing_2015_downburst-S20260830,HAS_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:4,"{""step"": 4}"
-edge:0541,decision:C3-dongfangzhixing_2015_downburst-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0542,decision:C3-dongfangzhixing_2015_downburst-S20260830:3,NEXT_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:4,{}
-edge:0543,project:C3-43KG,HAS_CASE,case:C3-andrews_afb_1983_microburst-S20260830,{}
-edge:0544,case:C3-andrews_afb_1983_microburst-S20260830,IN_GROUP,group:G5_downburst,{}
-edge:0545,case:C3-andrews_afb_1983_microburst-S20260830,EVALUATED_ON,model:C3,{}
-edge:0546,case:C3-andrews_afb_1983_microburst-S20260830,HAS_RESPONSE_STATE,response:C3-andrews_afb_1983_microburst-S20260830,{}
-edge:0547,case:C3-andrews_afb_1983_microburst-S20260830,HAS_AGENT_TRACE,trace:C3-andrews_afb_1983_microburst-S20260830,{}
-edge:0548,legacy-result:andrews_afb_1983_microburst,PROVENANCE_ONLY,case:C3-andrews_afb_1983_microburst-S20260830,"{""numerical_value_transfer"": false}"
-edge:0549,trace:C3-andrews_afb_1983_microburst-S20260830,HAS_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:1,"{""step"": 1}"
-edge:0550,decision:C3-andrews_afb_1983_microburst-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0551,trace:C3-andrews_afb_1983_microburst-S20260830,HAS_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:2,"{""step"": 2}"
-edge:0552,decision:C3-andrews_afb_1983_microburst-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0553,decision:C3-andrews_afb_1983_microburst-S20260830:1,NEXT_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:2,{}
-edge:0554,trace:C3-andrews_afb_1983_microburst-S20260830,HAS_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:3,"{""step"": 3}"
-edge:0555,decision:C3-andrews_afb_1983_microburst-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0556,decision:C3-andrews_afb_1983_microburst-S20260830:2,NEXT_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:3,{}
-edge:0557,trace:C3-andrews_afb_1983_microburst-S20260830,HAS_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:4,"{""step"": 4}"
-edge:0558,decision:C3-andrews_afb_1983_microburst-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0559,decision:C3-andrews_afb_1983_microburst-S20260830:3,NEXT_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:4,{}
-edge:0560,project:C3-43KG,HAS_CASE,case:C3-midwest_derecho_2020-S20260830,{}
-edge:0561,case:C3-midwest_derecho_2020-S20260830,IN_GROUP,group:G5_downburst,{}
-edge:0562,case:C3-midwest_derecho_2020-S20260830,EVALUATED_ON,model:C3,{}
-edge:0563,case:C3-midwest_derecho_2020-S20260830,HAS_RESPONSE_STATE,response:C3-midwest_derecho_2020-S20260830,{}
-edge:0564,case:C3-midwest_derecho_2020-S20260830,HAS_AGENT_TRACE,trace:C3-midwest_derecho_2020-S20260830,{}
-edge:0565,legacy-result:midwest_derecho_2020,PROVENANCE_ONLY,case:C3-midwest_derecho_2020-S20260830,"{""numerical_value_transfer"": false}"
-edge:0566,trace:C3-midwest_derecho_2020-S20260830,HAS_STEP,decision:C3-midwest_derecho_2020-S20260830:1,"{""step"": 1}"
-edge:0567,decision:C3-midwest_derecho_2020-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0568,trace:C3-midwest_derecho_2020-S20260830,HAS_STEP,decision:C3-midwest_derecho_2020-S20260830:2,"{""step"": 2}"
-edge:0569,decision:C3-midwest_derecho_2020-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0570,decision:C3-midwest_derecho_2020-S20260830:1,NEXT_STEP,decision:C3-midwest_derecho_2020-S20260830:2,{}
-edge:0571,trace:C3-midwest_derecho_2020-S20260830,HAS_STEP,decision:C3-midwest_derecho_2020-S20260830:3,"{""step"": 3}"
-edge:0572,decision:C3-midwest_derecho_2020-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0573,decision:C3-midwest_derecho_2020-S20260830:2,NEXT_STEP,decision:C3-midwest_derecho_2020-S20260830:3,{}
-edge:0574,trace:C3-midwest_derecho_2020-S20260830,HAS_STEP,decision:C3-midwest_derecho_2020-S20260830:4,"{""step"": 4}"
-edge:0575,decision:C3-midwest_derecho_2020-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0576,decision:C3-midwest_derecho_2020-S20260830:3,NEXT_STEP,decision:C3-midwest_derecho_2020-S20260830:4,{}
-edge:0577,project:C3-43KG,HAS_CASE,case:C3-great_storm_1987-S20260830,{}
-edge:0578,case:C3-great_storm_1987-S20260830,IN_GROUP,group:G6_temperate,{}
-edge:0579,case:C3-great_storm_1987-S20260830,EVALUATED_ON,model:C3,{}
-edge:0580,case:C3-great_storm_1987-S20260830,HAS_RESPONSE_STATE,response:C3-great_storm_1987-S20260830,{}
-edge:0581,case:C3-great_storm_1987-S20260830,HAS_AGENT_TRACE,trace:C3-great_storm_1987-S20260830,{}
-edge:0582,legacy-result:great_storm_1987,PROVENANCE_ONLY,case:C3-great_storm_1987-S20260830,"{""numerical_value_transfer"": false}"
-edge:0583,trace:C3-great_storm_1987-S20260830,HAS_STEP,decision:C3-great_storm_1987-S20260830:1,"{""step"": 1}"
-edge:0584,decision:C3-great_storm_1987-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0585,trace:C3-great_storm_1987-S20260830,HAS_STEP,decision:C3-great_storm_1987-S20260830:2,"{""step"": 2}"
-edge:0586,decision:C3-great_storm_1987-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0587,decision:C3-great_storm_1987-S20260830:1,NEXT_STEP,decision:C3-great_storm_1987-S20260830:2,{}
-edge:0588,trace:C3-great_storm_1987-S20260830,HAS_STEP,decision:C3-great_storm_1987-S20260830:3,"{""step"": 3}"
-edge:0589,decision:C3-great_storm_1987-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0590,decision:C3-great_storm_1987-S20260830:2,NEXT_STEP,decision:C3-great_storm_1987-S20260830:3,{}
-edge:0591,trace:C3-great_storm_1987-S20260830,HAS_STEP,decision:C3-great_storm_1987-S20260830:4,"{""step"": 4}"
-edge:0592,decision:C3-great_storm_1987-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0593,decision:C3-great_storm_1987-S20260830:3,NEXT_STEP,decision:C3-great_storm_1987-S20260830:4,{}
-edge:0594,project:C3-43KG,HAS_CASE,case:C3-lothar_1999-S20260830,{}
-edge:0595,case:C3-lothar_1999-S20260830,IN_GROUP,group:G6_temperate,{}
-edge:0596,case:C3-lothar_1999-S20260830,EVALUATED_ON,model:C3,{}
-edge:0597,case:C3-lothar_1999-S20260830,HAS_RESPONSE_STATE,response:C3-lothar_1999-S20260830,{}
-edge:0598,case:C3-lothar_1999-S20260830,HAS_AGENT_TRACE,trace:C3-lothar_1999-S20260830,{}
-edge:0599,legacy-result:lothar_1999,PROVENANCE_ONLY,case:C3-lothar_1999-S20260830,"{""numerical_value_transfer"": false}"
-edge:0600,trace:C3-lothar_1999-S20260830,HAS_STEP,decision:C3-lothar_1999-S20260830:1,"{""step"": 1}"
-edge:0601,decision:C3-lothar_1999-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0602,trace:C3-lothar_1999-S20260830,HAS_STEP,decision:C3-lothar_1999-S20260830:2,"{""step"": 2}"
-edge:0603,decision:C3-lothar_1999-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0604,decision:C3-lothar_1999-S20260830:1,NEXT_STEP,decision:C3-lothar_1999-S20260830:2,{}
-edge:0605,trace:C3-lothar_1999-S20260830,HAS_STEP,decision:C3-lothar_1999-S20260830:3,"{""step"": 3}"
-edge:0606,decision:C3-lothar_1999-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0607,decision:C3-lothar_1999-S20260830:2,NEXT_STEP,decision:C3-lothar_1999-S20260830:3,{}
-edge:0608,trace:C3-lothar_1999-S20260830,HAS_STEP,decision:C3-lothar_1999-S20260830:4,"{""step"": 4}"
-edge:0609,decision:C3-lothar_1999-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0610,decision:C3-lothar_1999-S20260830:3,NEXT_STEP,decision:C3-lothar_1999-S20260830:4,{}
-edge:0611,project:C3-43KG,HAS_CASE,case:C3-bora_adriatic-S20260830,{}
-edge:0612,case:C3-bora_adriatic-S20260830,IN_GROUP,group:G6_temperate,{}
-edge:0613,case:C3-bora_adriatic-S20260830,EVALUATED_ON,model:C3,{}
-edge:0614,case:C3-bora_adriatic-S20260830,HAS_RESPONSE_STATE,response:C3-bora_adriatic-S20260830,{}
-edge:0615,case:C3-bora_adriatic-S20260830,HAS_AGENT_TRACE,trace:C3-bora_adriatic-S20260830,{}
-edge:0616,legacy-result:bora_adriatic,PROVENANCE_ONLY,case:C3-bora_adriatic-S20260830,"{""numerical_value_transfer"": false}"
-edge:0617,trace:C3-bora_adriatic-S20260830,HAS_STEP,decision:C3-bora_adriatic-S20260830:1,"{""step"": 1}"
-edge:0618,decision:C3-bora_adriatic-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0619,trace:C3-bora_adriatic-S20260830,HAS_STEP,decision:C3-bora_adriatic-S20260830:2,"{""step"": 2}"
-edge:0620,decision:C3-bora_adriatic-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0621,decision:C3-bora_adriatic-S20260830:1,NEXT_STEP,decision:C3-bora_adriatic-S20260830:2,{}
-edge:0622,trace:C3-bora_adriatic-S20260830,HAS_STEP,decision:C3-bora_adriatic-S20260830:3,"{""step"": 3}"
-edge:0623,decision:C3-bora_adriatic-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0624,decision:C3-bora_adriatic-S20260830:2,NEXT_STEP,decision:C3-bora_adriatic-S20260830:3,{}
-edge:0625,trace:C3-bora_adriatic-S20260830,HAS_STEP,decision:C3-bora_adriatic-S20260830:4,"{""step"": 4}"
-edge:0626,decision:C3-bora_adriatic-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0627,decision:C3-bora_adriatic-S20260830:3,NEXT_STEP,decision:C3-bora_adriatic-S20260830:4,{}
-edge:0628,project:C3-43KG,HAS_CASE,case:C3-mistral_strong-S20260830,{}
-edge:0629,case:C3-mistral_strong-S20260830,IN_GROUP,group:G6_temperate,{}
-edge:0630,case:C3-mistral_strong-S20260830,EVALUATED_ON,model:C3,{}
-edge:0631,case:C3-mistral_strong-S20260830,HAS_RESPONSE_STATE,response:C3-mistral_strong-S20260830,{}
-edge:0632,case:C3-mistral_strong-S20260830,HAS_AGENT_TRACE,trace:C3-mistral_strong-S20260830,{}
-edge:0633,legacy-result:mistral_strong,PROVENANCE_ONLY,case:C3-mistral_strong-S20260830,"{""numerical_value_transfer"": false}"
-edge:0634,trace:C3-mistral_strong-S20260830,HAS_STEP,decision:C3-mistral_strong-S20260830:1,"{""step"": 1}"
-edge:0635,decision:C3-mistral_strong-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0636,trace:C3-mistral_strong-S20260830,HAS_STEP,decision:C3-mistral_strong-S20260830:2,"{""step"": 2}"
-edge:0637,decision:C3-mistral_strong-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0638,decision:C3-mistral_strong-S20260830:1,NEXT_STEP,decision:C3-mistral_strong-S20260830:2,{}
-edge:0639,trace:C3-mistral_strong-S20260830,HAS_STEP,decision:C3-mistral_strong-S20260830:3,"{""step"": 3}"
-edge:0640,decision:C3-mistral_strong-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0641,decision:C3-mistral_strong-S20260830:2,NEXT_STEP,decision:C3-mistral_strong-S20260830:3,{}
-edge:0642,trace:C3-mistral_strong-S20260830,HAS_STEP,decision:C3-mistral_strong-S20260830:4,"{""step"": 4}"
-edge:0643,decision:C3-mistral_strong-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0644,decision:C3-mistral_strong-S20260830:3,NEXT_STEP,decision:C3-mistral_strong-S20260830:4,{}
-edge:0645,project:C3-43KG,HAS_CASE,case:C3-patagonia_westerlies-S20260830,{}
-edge:0646,case:C3-patagonia_westerlies-S20260830,IN_GROUP,group:G6_temperate,{}
-edge:0647,case:C3-patagonia_westerlies-S20260830,EVALUATED_ON,model:C3,{}
-edge:0648,case:C3-patagonia_westerlies-S20260830,HAS_RESPONSE_STATE,response:C3-patagonia_westerlies-S20260830,{}
-edge:0649,case:C3-patagonia_westerlies-S20260830,HAS_AGENT_TRACE,trace:C3-patagonia_westerlies-S20260830,{}
-edge:0650,legacy-result:patagonia_westerlies,PROVENANCE_ONLY,case:C3-patagonia_westerlies-S20260830,"{""numerical_value_transfer"": false}"
-edge:0651,trace:C3-patagonia_westerlies-S20260830,HAS_STEP,decision:C3-patagonia_westerlies-S20260830:1,"{""step"": 1}"
-edge:0652,decision:C3-patagonia_westerlies-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0653,trace:C3-patagonia_westerlies-S20260830,HAS_STEP,decision:C3-patagonia_westerlies-S20260830:2,"{""step"": 2}"
-edge:0654,decision:C3-patagonia_westerlies-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0655,decision:C3-patagonia_westerlies-S20260830:1,NEXT_STEP,decision:C3-patagonia_westerlies-S20260830:2,{}
-edge:0656,trace:C3-patagonia_westerlies-S20260830,HAS_STEP,decision:C3-patagonia_westerlies-S20260830:3,"{""step"": 3}"
-edge:0657,decision:C3-patagonia_westerlies-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0658,decision:C3-patagonia_westerlies-S20260830:2,NEXT_STEP,decision:C3-patagonia_westerlies-S20260830:3,{}
-edge:0659,trace:C3-patagonia_westerlies-S20260830,HAS_STEP,decision:C3-patagonia_westerlies-S20260830:4,"{""step"": 4}"
-edge:0660,decision:C3-patagonia_westerlies-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0661,decision:C3-patagonia_westerlies-S20260830:3,NEXT_STEP,decision:C3-patagonia_westerlies-S20260830:4,{}
-edge:0662,project:C3-43KG,HAS_CASE,case:C3-xinjiang_baili_fengqu-S20260830,{}
-edge:0663,case:C3-xinjiang_baili_fengqu-S20260830,IN_GROUP,group:G6_temperate,{}
-edge:0664,case:C3-xinjiang_baili_fengqu-S20260830,EVALUATED_ON,model:C3,{}
-edge:0665,case:C3-xinjiang_baili_fengqu-S20260830,HAS_RESPONSE_STATE,response:C3-xinjiang_baili_fengqu-S20260830,{}
-edge:0666,case:C3-xinjiang_baili_fengqu-S20260830,HAS_AGENT_TRACE,trace:C3-xinjiang_baili_fengqu-S20260830,{}
-edge:0667,legacy-result:xinjiang_baili_fengqu,PROVENANCE_ONLY,case:C3-xinjiang_baili_fengqu-S20260830,"{""numerical_value_transfer"": false}"
-edge:0668,trace:C3-xinjiang_baili_fengqu-S20260830,HAS_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:1,"{""step"": 1}"
-edge:0669,decision:C3-xinjiang_baili_fengqu-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0670,trace:C3-xinjiang_baili_fengqu-S20260830,HAS_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:2,"{""step"": 2}"
-edge:0671,decision:C3-xinjiang_baili_fengqu-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0672,decision:C3-xinjiang_baili_fengqu-S20260830:1,NEXT_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:2,{}
-edge:0673,trace:C3-xinjiang_baili_fengqu-S20260830,HAS_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:3,"{""step"": 3}"
-edge:0674,decision:C3-xinjiang_baili_fengqu-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0675,decision:C3-xinjiang_baili_fengqu-S20260830:2,NEXT_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:3,{}
-edge:0676,trace:C3-xinjiang_baili_fengqu-S20260830,HAS_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:4,"{""step"": 4}"
-edge:0677,decision:C3-xinjiang_baili_fengqu-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0678,decision:C3-xinjiang_baili_fengqu-S20260830:3,NEXT_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:4,{}
-edge:0679,project:C3-43KG,HAS_CASE,case:C3-cape_denison_katabatic-S20260830,{}
-edge:0680,case:C3-cape_denison_katabatic-S20260830,IN_GROUP,group:G7_polar,{}
-edge:0681,case:C3-cape_denison_katabatic-S20260830,EVALUATED_ON,model:C3,{}
-edge:0682,case:C3-cape_denison_katabatic-S20260830,HAS_RESPONSE_STATE,response:C3-cape_denison_katabatic-S20260830,{}
-edge:0683,case:C3-cape_denison_katabatic-S20260830,HAS_AGENT_TRACE,trace:C3-cape_denison_katabatic-S20260830,{}
-edge:0684,legacy-result:cape_denison_katabatic,PROVENANCE_ONLY,case:C3-cape_denison_katabatic-S20260830,"{""numerical_value_transfer"": false}"
-edge:0685,trace:C3-cape_denison_katabatic-S20260830,HAS_STEP,decision:C3-cape_denison_katabatic-S20260830:1,"{""step"": 1}"
-edge:0686,decision:C3-cape_denison_katabatic-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0687,trace:C3-cape_denison_katabatic-S20260830,HAS_STEP,decision:C3-cape_denison_katabatic-S20260830:2,"{""step"": 2}"
-edge:0688,decision:C3-cape_denison_katabatic-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0689,decision:C3-cape_denison_katabatic-S20260830:1,NEXT_STEP,decision:C3-cape_denison_katabatic-S20260830:2,{}
-edge:0690,trace:C3-cape_denison_katabatic-S20260830,HAS_STEP,decision:C3-cape_denison_katabatic-S20260830:3,"{""step"": 3}"
-edge:0691,decision:C3-cape_denison_katabatic-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0692,decision:C3-cape_denison_katabatic-S20260830:2,NEXT_STEP,decision:C3-cape_denison_katabatic-S20260830:3,{}
-edge:0693,trace:C3-cape_denison_katabatic-S20260830,HAS_STEP,decision:C3-cape_denison_katabatic-S20260830:4,"{""step"": 4}"
-edge:0694,decision:C3-cape_denison_katabatic-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0695,decision:C3-cape_denison_katabatic-S20260830:3,NEXT_STEP,decision:C3-cape_denison_katabatic-S20260830:4,{}
-edge:0696,project:C3-43KG,HAS_CASE,case:C3-thule_1972_gust-S20260830,{}
-edge:0697,case:C3-thule_1972_gust-S20260830,IN_GROUP,group:G7_polar,{}
-edge:0698,case:C3-thule_1972_gust-S20260830,EVALUATED_ON,model:C3,{}
-edge:0699,case:C3-thule_1972_gust-S20260830,HAS_RESPONSE_STATE,response:C3-thule_1972_gust-S20260830,{}
-edge:0700,case:C3-thule_1972_gust-S20260830,HAS_AGENT_TRACE,trace:C3-thule_1972_gust-S20260830,{}
-edge:0701,legacy-result:thule_1972_gust,PROVENANCE_ONLY,case:C3-thule_1972_gust-S20260830,"{""numerical_value_transfer"": false}"
-edge:0702,trace:C3-thule_1972_gust-S20260830,HAS_STEP,decision:C3-thule_1972_gust-S20260830:1,"{""step"": 1}"
-edge:0703,decision:C3-thule_1972_gust-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0704,trace:C3-thule_1972_gust-S20260830,HAS_STEP,decision:C3-thule_1972_gust-S20260830:2,"{""step"": 2}"
-edge:0705,decision:C3-thule_1972_gust-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0706,decision:C3-thule_1972_gust-S20260830:1,NEXT_STEP,decision:C3-thule_1972_gust-S20260830:2,{}
-edge:0707,trace:C3-thule_1972_gust-S20260830,HAS_STEP,decision:C3-thule_1972_gust-S20260830:3,"{""step"": 3}"
-edge:0708,decision:C3-thule_1972_gust-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0709,decision:C3-thule_1972_gust-S20260830:2,NEXT_STEP,decision:C3-thule_1972_gust-S20260830:3,{}
-edge:0710,trace:C3-thule_1972_gust-S20260830,HAS_STEP,decision:C3-thule_1972_gust-S20260830:4,"{""step"": 4}"
-edge:0711,decision:C3-thule_1972_gust-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0712,decision:C3-thule_1972_gust-S20260830:3,NEXT_STEP,decision:C3-thule_1972_gust-S20260830:4,{}
-edge:0713,project:C3-43KG,HAS_CASE,case:C3-piteraq_tasiilaq-S20260830,{}
-edge:0714,case:C3-piteraq_tasiilaq-S20260830,IN_GROUP,group:G7_polar,{}
-edge:0715,case:C3-piteraq_tasiilaq-S20260830,EVALUATED_ON,model:C3,{}
-edge:0716,case:C3-piteraq_tasiilaq-S20260830,HAS_RESPONSE_STATE,response:C3-piteraq_tasiilaq-S20260830,{}
-edge:0717,case:C3-piteraq_tasiilaq-S20260830,HAS_AGENT_TRACE,trace:C3-piteraq_tasiilaq-S20260830,{}
-edge:0718,legacy-result:piteraq_tasiilaq,PROVENANCE_ONLY,case:C3-piteraq_tasiilaq-S20260830,"{""numerical_value_transfer"": false}"
-edge:0719,trace:C3-piteraq_tasiilaq-S20260830,HAS_STEP,decision:C3-piteraq_tasiilaq-S20260830:1,"{""step"": 1}"
-edge:0720,decision:C3-piteraq_tasiilaq-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0721,trace:C3-piteraq_tasiilaq-S20260830,HAS_STEP,decision:C3-piteraq_tasiilaq-S20260830:2,"{""step"": 2}"
-edge:0722,decision:C3-piteraq_tasiilaq-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0723,decision:C3-piteraq_tasiilaq-S20260830:1,NEXT_STEP,decision:C3-piteraq_tasiilaq-S20260830:2,{}
-edge:0724,trace:C3-piteraq_tasiilaq-S20260830,HAS_STEP,decision:C3-piteraq_tasiilaq-S20260830:3,"{""step"": 3}"
-edge:0725,decision:C3-piteraq_tasiilaq-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0726,decision:C3-piteraq_tasiilaq-S20260830:2,NEXT_STEP,decision:C3-piteraq_tasiilaq-S20260830:3,{}
-edge:0727,trace:C3-piteraq_tasiilaq-S20260830,HAS_STEP,decision:C3-piteraq_tasiilaq-S20260830:4,"{""step"": 4}"
-edge:0728,decision:C3-piteraq_tasiilaq-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0729,decision:C3-piteraq_tasiilaq-S20260830:3,NEXT_STEP,decision:C3-piteraq_tasiilaq-S20260830:4,{}
-edge:0730,project:C3-43KG,HAS_CASE,case:C3-barrow_olivia_1996-S20260830,{}
-edge:0731,case:C3-barrow_olivia_1996-S20260830,IN_GROUP,group:G8_record,{}
-edge:0732,case:C3-barrow_olivia_1996-S20260830,EVALUATED_ON,model:C3,{}
-edge:0733,case:C3-barrow_olivia_1996-S20260830,HAS_RESPONSE_STATE,response:C3-barrow_olivia_1996-S20260830,{}
-edge:0734,case:C3-barrow_olivia_1996-S20260830,HAS_AGENT_TRACE,trace:C3-barrow_olivia_1996-S20260830,{}
-edge:0735,legacy-result:barrow_olivia_1996,PROVENANCE_ONLY,case:C3-barrow_olivia_1996-S20260830,"{""numerical_value_transfer"": false}"
-edge:0736,trace:C3-barrow_olivia_1996-S20260830,HAS_STEP,decision:C3-barrow_olivia_1996-S20260830:1,"{""step"": 1}"
-edge:0737,decision:C3-barrow_olivia_1996-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0738,trace:C3-barrow_olivia_1996-S20260830,HAS_STEP,decision:C3-barrow_olivia_1996-S20260830:2,"{""step"": 2}"
-edge:0739,decision:C3-barrow_olivia_1996-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0740,decision:C3-barrow_olivia_1996-S20260830:1,NEXT_STEP,decision:C3-barrow_olivia_1996-S20260830:2,{}
-edge:0741,trace:C3-barrow_olivia_1996-S20260830,HAS_STEP,decision:C3-barrow_olivia_1996-S20260830:3,"{""step"": 3}"
-edge:0742,decision:C3-barrow_olivia_1996-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0743,decision:C3-barrow_olivia_1996-S20260830:2,NEXT_STEP,decision:C3-barrow_olivia_1996-S20260830:3,{}
-edge:0744,trace:C3-barrow_olivia_1996-S20260830,HAS_STEP,decision:C3-barrow_olivia_1996-S20260830:4,"{""step"": 4}"
-edge:0745,decision:C3-barrow_olivia_1996-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0746,decision:C3-barrow_olivia_1996-S20260830:3,NEXT_STEP,decision:C3-barrow_olivia_1996-S20260830:4,{}
-edge:0747,project:C3-43KG,HAS_CASE,case:C3-mt_washington_1934-S20260830,{}
-edge:0748,case:C3-mt_washington_1934-S20260830,IN_GROUP,group:G8_record,{}
-edge:0749,case:C3-mt_washington_1934-S20260830,EVALUATED_ON,model:C3,{}
-edge:0750,case:C3-mt_washington_1934-S20260830,HAS_RESPONSE_STATE,response:C3-mt_washington_1934-S20260830,{}
-edge:0751,case:C3-mt_washington_1934-S20260830,HAS_AGENT_TRACE,trace:C3-mt_washington_1934-S20260830,{}
-edge:0752,legacy-result:mt_washington_1934,PROVENANCE_ONLY,case:C3-mt_washington_1934-S20260830,"{""numerical_value_transfer"": false}"
-edge:0753,trace:C3-mt_washington_1934-S20260830,HAS_STEP,decision:C3-mt_washington_1934-S20260830:1,"{""step"": 1}"
-edge:0754,decision:C3-mt_washington_1934-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
-edge:0755,trace:C3-mt_washington_1934-S20260830,HAS_STEP,decision:C3-mt_washington_1934-S20260830:2,"{""step"": 2}"
-edge:0756,decision:C3-mt_washington_1934-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
-edge:0757,decision:C3-mt_washington_1934-S20260830:1,NEXT_STEP,decision:C3-mt_washington_1934-S20260830:2,{}
-edge:0758,trace:C3-mt_washington_1934-S20260830,HAS_STEP,decision:C3-mt_washington_1934-S20260830:3,"{""step"": 3}"
-edge:0759,decision:C3-mt_washington_1934-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
-edge:0760,decision:C3-mt_washington_1934-S20260830:2,NEXT_STEP,decision:C3-mt_washington_1934-S20260830:3,{}
-edge:0761,trace:C3-mt_washington_1934-S20260830,HAS_STEP,decision:C3-mt_washington_1934-S20260830:4,"{""step"": 4}"
-edge:0762,decision:C3-mt_washington_1934-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
-edge:0763,decision:C3-mt_washington_1934-S20260830:3,NEXT_STEP,decision:C3-mt_washington_1934-S20260830:4,{}
+edge:0006,project:C3-43KG,DERIVES_CASES_FROM,authority:I08-GITHUB43,{}
+edge:0007,event-library:github43,EVIDENCED_BY,evidence-source:github-extreme-library,{}
+edge:0008,authority:I08-GITHUB43,MATERIALIZES,event-library:github43,{}
+edge:0009,legacy:I08-double-mct,USED_SPECTRAL_METHOD,method:I08-Kaimal-Davenport,{}
+edge:0010,project:C3-43KG,SUBJECT_TO,boundary:C3-native-response,{}
+edge:0011,project:C3-43KG,SUBJECT_TO,gate:C3-model-migration,{}
+edge:0012,project:C3-43KG,SUBJECT_TO,policy:warning-not-armed,{}
+edge:0013,legacy:I08-double-mct,RESTRICTED_BY,limitation:01,{}
+edge:0014,project:C3-43KG,INHERITS_BOUNDARY,limitation:01,{}
+edge:0015,legacy:I08-double-mct,RESTRICTED_BY,limitation:02,{}
+edge:0016,project:C3-43KG,INHERITS_BOUNDARY,limitation:02,{}
+edge:0017,legacy:I08-double-mct,RESTRICTED_BY,limitation:03,{}
+edge:0018,project:C3-43KG,INHERITS_BOUNDARY,limitation:03,{}
+edge:0019,project:C3-43KG,USES_AGENT,agent:AuthorityAgent,{}
+edge:0020,project:C3-43KG,USES_AGENT,agent:SolverEvidenceAgent,{}
+edge:0021,project:C3-43KG,USES_AGENT,agent:PhysicsBoundaryAgent,{}
+edge:0022,project:C3-43KG,USES_AGENT,agent:WarningPolicyAgent,{}
+edge:0023,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:01,"{""disposition"": ""PROVENANCE_ONLY"", ""numerical_value_transfer"": false}"
+edge:0024,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:02,"{""disposition"": ""PROVENANCE_ONLY"", ""numerical_value_transfer"": false}"
+edge:0025,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:03,"{""disposition"": ""VENDORED_EXACT_AUTHORITY"", ""numerical_value_transfer"": false}"
+edge:0026,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:04,"{""disposition"": ""VENDORED_NORMALIZED_AUTHORITY"", ""numerical_value_transfer"": false}"
+edge:0027,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:05,"{""disposition"": ""SOURCE_JSON_BOUND_BY_HASH_CSV_VENDORED"", ""numerical_value_transfer"": false}"
+edge:0028,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:06,"{""disposition"": ""SOURCE_DOCUMENT_BOUND_BY_HASH_C3_DOC_REWRITTEN"", ""numerical_value_transfer"": false}"
+edge:0029,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:07,"{""disposition"": ""SOURCE_DOCUMENT_BOUND_BY_HASH_C3_DOC_REWRITTEN"", ""numerical_value_transfer"": false}"
+edge:0030,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:08,"{""disposition"": ""SOURCE_DOCUMENT_BOUND_BY_HASH_C3_DOC_REWRITTEN"", ""numerical_value_transfer"": false}"
+edge:0031,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:09,"{""disposition"": ""SOURCE_DOCUMENT_BOUND_BY_HASH_C3_DOC_REWRITTEN"", ""numerical_value_transfer"": false}"
+edge:0032,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:10,"{""disposition"": ""AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH"", ""numerical_value_transfer"": false}"
+edge:0033,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:11,"{""disposition"": ""AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH"", ""numerical_value_transfer"": false}"
+edge:0034,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:12,"{""disposition"": ""AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH"", ""numerical_value_transfer"": false}"
+edge:0035,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:13,"{""disposition"": ""AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH"", ""numerical_value_transfer"": false}"
+edge:0036,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:14,"{""disposition"": ""AUDIT_LOG_RETAINED_IN_SOURCE_BRANCH"", ""numerical_value_transfer"": false}"
+edge:0037,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:15,"{""disposition"": ""PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION"", ""numerical_value_transfer"": false}"
+edge:0038,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:16,"{""disposition"": ""PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION"", ""numerical_value_transfer"": false}"
+edge:0039,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:17,"{""disposition"": ""PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION"", ""numerical_value_transfer"": false}"
+edge:0040,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:18,"{""disposition"": ""PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION"", ""numerical_value_transfer"": false}"
+edge:0041,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:19,"{""disposition"": ""PROVENANCE_ONLY_C3_REQUIRES_NATIVE_EXECUTION"", ""numerical_value_transfer"": false}"
+edge:0042,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:20,"{""disposition"": ""RULES_REEXECUTED_ON_C3_NO_TRACE_VALUE_COPY"", ""numerical_value_transfer"": false}"
+edge:0043,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:21,"{""disposition"": ""SOURCE_GRAPH_RECEIPT_BOUND_BY_HASH"", ""numerical_value_transfer"": false}"
+edge:0044,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:22,"{""disposition"": ""SOURCE_GRAPH_RECEIPT_BOUND_BY_HASH"", ""numerical_value_transfer"": false}"
+edge:0045,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:23,"{""disposition"": ""SOURCE_GRAPH_RECEIPT_BOUND_BY_HASH"", ""numerical_value_transfer"": false}"
+edge:0046,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:24,"{""disposition"": ""PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0047,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:25,"{""disposition"": ""PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0048,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:26,"{""disposition"": ""PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0049,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:27,"{""disposition"": ""PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0050,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:28,"{""disposition"": ""PROVENANCE_ONLY_NO_ROM_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0051,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:29,"{""disposition"": ""PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0052,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:30,"{""disposition"": ""PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0053,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:31,"{""disposition"": ""PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0054,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:32,"{""disposition"": ""PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0055,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:33,"{""disposition"": ""PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0056,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:34,"{""disposition"": ""PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0057,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:35,"{""disposition"": ""PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0058,legacy:I08-double-mct,HAS_SOURCE_ASSET,source-asset:I08:36,"{""disposition"": ""PROVENANCE_ONLY_NO_NUMERICAL_VALUE_TRANSFER"", ""numerical_value_transfer"": false}"
+edge:0059,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:01,{}
+edge:0060,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:02,{}
+edge:0061,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:03,{}
+edge:0062,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:04,{}
+edge:0063,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:05,{}
+edge:0064,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:06,{}
+edge:0065,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:07,{}
+edge:0066,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:08,{}
+edge:0067,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:09,{}
+edge:0068,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:10,{}
+edge:0069,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:11,{}
+edge:0070,project:C3-43KG,USES_MIGRATION_RULE,migration-rule:12,{}
+edge:0071,project:C3-43KG,HAS_WIND_GROUP,group:G0_site,{}
+edge:0072,project:C3-43KG,HAS_WIND_GROUP,group:G1_typhoon,{}
+edge:0073,project:C3-43KG,HAS_WIND_GROUP,group:G2_hurricane,{}
+edge:0074,project:C3-43KG,HAS_WIND_GROUP,group:G3_bob,{}
+edge:0075,project:C3-43KG,HAS_WIND_GROUP,group:G4_tornado,{}
+edge:0076,project:C3-43KG,HAS_WIND_GROUP,group:G5_downburst,{}
+edge:0077,project:C3-43KG,HAS_WIND_GROUP,group:G6_temperate,{}
+edge:0078,project:C3-43KG,HAS_WIND_GROUP,group:G7_polar,{}
+edge:0079,project:C3-43KG,HAS_WIND_GROUP,group:G8_record,{}
+edge:0080,run:C3-FT14,HAS_MODE,mode:C3-M01,{}
+edge:0081,run:C3-FT14,HAS_MODE,mode:C3-M02,{}
+edge:0082,run:C3-FT14,HAS_MODE,mode:C3-M03,{}
+edge:0083,run:C3-FT14,HAS_MODE,mode:C3-M04,{}
+edge:0084,run:C3-FT14,HAS_MODE,mode:C3-M05,{}
+edge:0085,run:C3-FT14,HAS_MODE,mode:C3-M06,{}
+edge:0086,run:C3-FT14,HAS_MODE,mode:C3-M07,{}
+edge:0087,run:C3-FT14,HAS_MODE,mode:C3-M08,{}
+edge:0088,run:C3-FT14,HAS_MODE,mode:C3-M09,{}
+edge:0089,run:C3-FT14,HAS_MODE,mode:C3-M10,{}
+edge:0090,run:C3-FT14,HAS_MODE,mode:C3-M11,{}
+edge:0091,run:C3-FT14,HAS_MODE,mode:C3-M12,{}
+edge:0092,run:C3-FT14,HAS_MODE,mode:C3-M13,{}
+edge:0093,run:C3-FT14,HAS_MODE,mode:C3-M14,{}
+edge:0094,project:C3-43KG,HAS_CASE,case:C3-site_sutong_100yr_obs-S20260830,{}
+edge:0095,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:site_sutong_100yr_obs,{}
+edge:0096,case:C3-site_sutong_100yr_obs-S20260830,DERIVED_FROM_AUTHORITY,authority-record:site_sutong_100yr_obs,"{""c3_order"": 1, ""source_case_index"": 3}"
+edge:0097,event-library:github43,CONTAINS_EVENT,github-event:site_sutong_100yr_obs,{}
+edge:0098,github-event:site_sutong_100yr_obs,MAPPED_TO,case:C3-site_sutong_100yr_obs-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0099,case:C3-site_sutong_100yr_obs-S20260830,EVIDENCED_BY,evidence-bundle:C3-site_sutong_100yr_obs-S20260830,{}
+edge:0100,evidence-bundle:C3-site_sutong_100yr_obs-S20260830,BINDS_AUTHORITY,authority-record:site_sutong_100yr_obs,{}
+edge:0101,evidence-bundle:C3-site_sutong_100yr_obs-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0102,case:C3-site_sutong_100yr_obs-S20260830,IN_GROUP,group:G0_site,{}
+edge:0103,case:C3-site_sutong_100yr_obs-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0104,case:C3-site_sutong_100yr_obs-S20260830,HAS_RESPONSE_STATE,response:C3-site_sutong_100yr_obs-S20260830,{}
+edge:0105,case:C3-site_sutong_100yr_obs-S20260830,HAS_AGENT_TRACE,trace:C3-site_sutong_100yr_obs-S20260830,{}
+edge:0106,legacy-result:site_sutong_100yr_obs,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0107,legacy-result:site_sutong_100yr_obs,PROVENANCE_ONLY,case:C3-site_sutong_100yr_obs-S20260830,"{""numerical_value_transfer"": false}"
+edge:0108,trace:C3-site_sutong_100yr_obs-S20260830,HAS_STEP,decision:C3-site_sutong_100yr_obs-S20260830:1,"{""step"": 1}"
+edge:0109,decision:C3-site_sutong_100yr_obs-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0110,trace:C3-site_sutong_100yr_obs-S20260830,HAS_STEP,decision:C3-site_sutong_100yr_obs-S20260830:2,"{""step"": 2}"
+edge:0111,decision:C3-site_sutong_100yr_obs-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0112,decision:C3-site_sutong_100yr_obs-S20260830:1,NEXT_STEP,decision:C3-site_sutong_100yr_obs-S20260830:2,{}
+edge:0113,trace:C3-site_sutong_100yr_obs-S20260830,HAS_STEP,decision:C3-site_sutong_100yr_obs-S20260830:3,"{""step"": 3}"
+edge:0114,decision:C3-site_sutong_100yr_obs-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0115,decision:C3-site_sutong_100yr_obs-S20260830:2,NEXT_STEP,decision:C3-site_sutong_100yr_obs-S20260830:3,{}
+edge:0116,trace:C3-site_sutong_100yr_obs-S20260830,HAS_STEP,decision:C3-site_sutong_100yr_obs-S20260830:4,"{""step"": 4}"
+edge:0117,decision:C3-site_sutong_100yr_obs-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0118,decision:C3-site_sutong_100yr_obs-S20260830:3,NEXT_STEP,decision:C3-site_sutong_100yr_obs-S20260830:4,{}
+edge:0119,project:C3-43KG,HAS_CASE,case:C3-site_gb50009_50yr-S20260830,{}
+edge:0120,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:site_gb50009_50yr,{}
+edge:0121,case:C3-site_gb50009_50yr-S20260830,DERIVED_FROM_AUTHORITY,authority-record:site_gb50009_50yr,"{""c3_order"": 2, ""source_case_index"": 1}"
+edge:0122,event-library:github43,CONTAINS_EVENT,github-event:site_gb50009_50yr,{}
+edge:0123,github-event:site_gb50009_50yr,MAPPED_TO,case:C3-site_gb50009_50yr-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0124,case:C3-site_gb50009_50yr-S20260830,EVIDENCED_BY,evidence-bundle:C3-site_gb50009_50yr-S20260830,{}
+edge:0125,evidence-bundle:C3-site_gb50009_50yr-S20260830,BINDS_AUTHORITY,authority-record:site_gb50009_50yr,{}
+edge:0126,evidence-bundle:C3-site_gb50009_50yr-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0127,case:C3-site_gb50009_50yr-S20260830,IN_GROUP,group:G0_site,{}
+edge:0128,case:C3-site_gb50009_50yr-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0129,case:C3-site_gb50009_50yr-S20260830,HAS_RESPONSE_STATE,response:C3-site_gb50009_50yr-S20260830,{}
+edge:0130,case:C3-site_gb50009_50yr-S20260830,HAS_AGENT_TRACE,trace:C3-site_gb50009_50yr-S20260830,{}
+edge:0131,legacy-result:site_gb50009_50yr,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0132,legacy-result:site_gb50009_50yr,PROVENANCE_ONLY,case:C3-site_gb50009_50yr-S20260830,"{""numerical_value_transfer"": false}"
+edge:0133,trace:C3-site_gb50009_50yr-S20260830,HAS_STEP,decision:C3-site_gb50009_50yr-S20260830:1,"{""step"": 1}"
+edge:0134,decision:C3-site_gb50009_50yr-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0135,trace:C3-site_gb50009_50yr-S20260830,HAS_STEP,decision:C3-site_gb50009_50yr-S20260830:2,"{""step"": 2}"
+edge:0136,decision:C3-site_gb50009_50yr-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0137,decision:C3-site_gb50009_50yr-S20260830:1,NEXT_STEP,decision:C3-site_gb50009_50yr-S20260830:2,{}
+edge:0138,trace:C3-site_gb50009_50yr-S20260830,HAS_STEP,decision:C3-site_gb50009_50yr-S20260830:3,"{""step"": 3}"
+edge:0139,decision:C3-site_gb50009_50yr-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0140,decision:C3-site_gb50009_50yr-S20260830:2,NEXT_STEP,decision:C3-site_gb50009_50yr-S20260830:3,{}
+edge:0141,trace:C3-site_gb50009_50yr-S20260830,HAS_STEP,decision:C3-site_gb50009_50yr-S20260830:4,"{""step"": 4}"
+edge:0142,decision:C3-site_gb50009_50yr-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0143,decision:C3-site_gb50009_50yr-S20260830:3,NEXT_STEP,decision:C3-site_gb50009_50yr-S20260830:4,{}
+edge:0144,project:C3-43KG,HAS_CASE,case:C3-site_gb50009_100yr-S20260830,{}
+edge:0145,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:site_gb50009_100yr,{}
+edge:0146,case:C3-site_gb50009_100yr-S20260830,DERIVED_FROM_AUTHORITY,authority-record:site_gb50009_100yr,"{""c3_order"": 3, ""source_case_index"": 2}"
+edge:0147,event-library:github43,CONTAINS_EVENT,github-event:site_gb50009_100yr,{}
+edge:0148,github-event:site_gb50009_100yr,MAPPED_TO,case:C3-site_gb50009_100yr-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0149,case:C3-site_gb50009_100yr-S20260830,EVIDENCED_BY,evidence-bundle:C3-site_gb50009_100yr-S20260830,{}
+edge:0150,evidence-bundle:C3-site_gb50009_100yr-S20260830,BINDS_AUTHORITY,authority-record:site_gb50009_100yr,{}
+edge:0151,evidence-bundle:C3-site_gb50009_100yr-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0152,case:C3-site_gb50009_100yr-S20260830,IN_GROUP,group:G0_site,{}
+edge:0153,case:C3-site_gb50009_100yr-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0154,case:C3-site_gb50009_100yr-S20260830,HAS_RESPONSE_STATE,response:C3-site_gb50009_100yr-S20260830,{}
+edge:0155,case:C3-site_gb50009_100yr-S20260830,HAS_AGENT_TRACE,trace:C3-site_gb50009_100yr-S20260830,{}
+edge:0156,legacy-result:site_gb50009_100yr,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0157,legacy-result:site_gb50009_100yr,PROVENANCE_ONLY,case:C3-site_gb50009_100yr-S20260830,"{""numerical_value_transfer"": false}"
+edge:0158,trace:C3-site_gb50009_100yr-S20260830,HAS_STEP,decision:C3-site_gb50009_100yr-S20260830:1,"{""step"": 1}"
+edge:0159,decision:C3-site_gb50009_100yr-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0160,trace:C3-site_gb50009_100yr-S20260830,HAS_STEP,decision:C3-site_gb50009_100yr-S20260830:2,"{""step"": 2}"
+edge:0161,decision:C3-site_gb50009_100yr-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0162,decision:C3-site_gb50009_100yr-S20260830:1,NEXT_STEP,decision:C3-site_gb50009_100yr-S20260830:2,{}
+edge:0163,trace:C3-site_gb50009_100yr-S20260830,HAS_STEP,decision:C3-site_gb50009_100yr-S20260830:3,"{""step"": 3}"
+edge:0164,decision:C3-site_gb50009_100yr-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0165,decision:C3-site_gb50009_100yr-S20260830:2,NEXT_STEP,decision:C3-site_gb50009_100yr-S20260830:3,{}
+edge:0166,trace:C3-site_gb50009_100yr-S20260830,HAS_STEP,decision:C3-site_gb50009_100yr-S20260830:4,"{""step"": 4}"
+edge:0167,decision:C3-site_gb50009_100yr-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0168,decision:C3-site_gb50009_100yr-S20260830:3,NEXT_STEP,decision:C3-site_gb50009_100yr-S20260830:4,{}
+edge:0169,project:C3-43KG,HAS_CASE,case:C3-hko_t10-S20260830,{}
+edge:0170,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:hko_t10,{}
+edge:0171,case:C3-hko_t10-S20260830,DERIVED_FROM_AUTHORITY,authority-record:hko_t10,"{""c3_order"": 4, ""source_case_index"": 4}"
+edge:0172,event-library:github43,CONTAINS_EVENT,github-event:hko_t10,{}
+edge:0173,github-event:hko_t10,MAPPED_TO,case:C3-hko_t10-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0174,case:C3-hko_t10-S20260830,EVIDENCED_BY,evidence-bundle:C3-hko_t10-S20260830,{}
+edge:0175,evidence-bundle:C3-hko_t10-S20260830,BINDS_AUTHORITY,authority-record:hko_t10,{}
+edge:0176,evidence-bundle:C3-hko_t10-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0177,case:C3-hko_t10-S20260830,IN_GROUP,group:G0_site,{}
+edge:0178,case:C3-hko_t10-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0179,case:C3-hko_t10-S20260830,HAS_RESPONSE_STATE,response:C3-hko_t10-S20260830,{}
+edge:0180,case:C3-hko_t10-S20260830,HAS_AGENT_TRACE,trace:C3-hko_t10-S20260830,{}
+edge:0181,legacy-result:hko_t10,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0182,legacy-result:hko_t10,PROVENANCE_ONLY,case:C3-hko_t10-S20260830,"{""numerical_value_transfer"": false}"
+edge:0183,trace:C3-hko_t10-S20260830,HAS_STEP,decision:C3-hko_t10-S20260830:1,"{""step"": 1}"
+edge:0184,decision:C3-hko_t10-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0185,trace:C3-hko_t10-S20260830,HAS_STEP,decision:C3-hko_t10-S20260830:2,"{""step"": 2}"
+edge:0186,decision:C3-hko_t10-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0187,decision:C3-hko_t10-S20260830:1,NEXT_STEP,decision:C3-hko_t10-S20260830:2,{}
+edge:0188,trace:C3-hko_t10-S20260830,HAS_STEP,decision:C3-hko_t10-S20260830:3,"{""step"": 3}"
+edge:0189,decision:C3-hko_t10-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0190,decision:C3-hko_t10-S20260830:2,NEXT_STEP,decision:C3-hko_t10-S20260830:3,{}
+edge:0191,trace:C3-hko_t10-S20260830,HAS_STEP,decision:C3-hko_t10-S20260830:4,"{""step"": 4}"
+edge:0192,decision:C3-hko_t10-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0193,decision:C3-hko_t10-S20260830:3,NEXT_STEP,decision:C3-hko_t10-S20260830:4,{}
+edge:0194,project:C3-43KG,HAS_CASE,case:C3-asce7_risk4_fl-S20260830,{}
+edge:0195,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:asce7_risk4_fl,{}
+edge:0196,case:C3-asce7_risk4_fl-S20260830,DERIVED_FROM_AUTHORITY,authority-record:asce7_risk4_fl,"{""c3_order"": 5, ""source_case_index"": 5}"
+edge:0197,event-library:github43,CONTAINS_EVENT,github-event:asce7_risk4_fl,{}
+edge:0198,github-event:asce7_risk4_fl,MAPPED_TO,case:C3-asce7_risk4_fl-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0199,case:C3-asce7_risk4_fl-S20260830,EVIDENCED_BY,evidence-bundle:C3-asce7_risk4_fl-S20260830,{}
+edge:0200,evidence-bundle:C3-asce7_risk4_fl-S20260830,BINDS_AUTHORITY,authority-record:asce7_risk4_fl,{}
+edge:0201,evidence-bundle:C3-asce7_risk4_fl-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0202,case:C3-asce7_risk4_fl-S20260830,IN_GROUP,group:G0_site,{}
+edge:0203,case:C3-asce7_risk4_fl-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0204,case:C3-asce7_risk4_fl-S20260830,HAS_RESPONSE_STATE,response:C3-asce7_risk4_fl-S20260830,{}
+edge:0205,case:C3-asce7_risk4_fl-S20260830,HAS_AGENT_TRACE,trace:C3-asce7_risk4_fl-S20260830,{}
+edge:0206,legacy-result:asce7_risk4_fl,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0207,legacy-result:asce7_risk4_fl,PROVENANCE_ONLY,case:C3-asce7_risk4_fl-S20260830,"{""numerical_value_transfer"": false}"
+edge:0208,trace:C3-asce7_risk4_fl-S20260830,HAS_STEP,decision:C3-asce7_risk4_fl-S20260830:1,"{""step"": 1}"
+edge:0209,decision:C3-asce7_risk4_fl-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0210,trace:C3-asce7_risk4_fl-S20260830,HAS_STEP,decision:C3-asce7_risk4_fl-S20260830:2,"{""step"": 2}"
+edge:0211,decision:C3-asce7_risk4_fl-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0212,decision:C3-asce7_risk4_fl-S20260830:1,NEXT_STEP,decision:C3-asce7_risk4_fl-S20260830:2,{}
+edge:0213,trace:C3-asce7_risk4_fl-S20260830,HAS_STEP,decision:C3-asce7_risk4_fl-S20260830:3,"{""step"": 3}"
+edge:0214,decision:C3-asce7_risk4_fl-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0215,decision:C3-asce7_risk4_fl-S20260830:2,NEXT_STEP,decision:C3-asce7_risk4_fl-S20260830:3,{}
+edge:0216,trace:C3-asce7_risk4_fl-S20260830,HAS_STEP,decision:C3-asce7_risk4_fl-S20260830:4,"{""step"": 4}"
+edge:0217,decision:C3-asce7_risk4_fl-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0218,decision:C3-asce7_risk4_fl-S20260830:3,NEXT_STEP,decision:C3-asce7_risk4_fl-S20260830:4,{}
+edge:0219,project:C3-43KG,HAS_CASE,case:C3-infa_2021_zhoushan-S20260830,{}
+edge:0220,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:infa_2021_zhoushan,{}
+edge:0221,case:C3-infa_2021_zhoushan-S20260830,DERIVED_FROM_AUTHORITY,authority-record:infa_2021_zhoushan,"{""c3_order"": 6, ""source_case_index"": 11}"
+edge:0222,event-library:github43,CONTAINS_EVENT,github-event:infa_2021_zhoushan,{}
+edge:0223,github-event:infa_2021_zhoushan,MAPPED_TO,case:C3-infa_2021_zhoushan-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0224,case:C3-infa_2021_zhoushan-S20260830,EVIDENCED_BY,evidence-bundle:C3-infa_2021_zhoushan-S20260830,{}
+edge:0225,evidence-bundle:C3-infa_2021_zhoushan-S20260830,BINDS_AUTHORITY,authority-record:infa_2021_zhoushan,{}
+edge:0226,evidence-bundle:C3-infa_2021_zhoushan-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0227,case:C3-infa_2021_zhoushan-S20260830,IN_GROUP,group:G1_typhoon,{}
+edge:0228,case:C3-infa_2021_zhoushan-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0229,case:C3-infa_2021_zhoushan-S20260830,HAS_RESPONSE_STATE,response:C3-infa_2021_zhoushan-S20260830,{}
+edge:0230,case:C3-infa_2021_zhoushan-S20260830,HAS_AGENT_TRACE,trace:C3-infa_2021_zhoushan-S20260830,{}
+edge:0231,legacy-result:infa_2021_zhoushan,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0232,legacy-result:infa_2021_zhoushan,PROVENANCE_ONLY,case:C3-infa_2021_zhoushan-S20260830,"{""numerical_value_transfer"": false}"
+edge:0233,trace:C3-infa_2021_zhoushan-S20260830,HAS_STEP,decision:C3-infa_2021_zhoushan-S20260830:1,"{""step"": 1}"
+edge:0234,decision:C3-infa_2021_zhoushan-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0235,trace:C3-infa_2021_zhoushan-S20260830,HAS_STEP,decision:C3-infa_2021_zhoushan-S20260830:2,"{""step"": 2}"
+edge:0236,decision:C3-infa_2021_zhoushan-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0237,decision:C3-infa_2021_zhoushan-S20260830:1,NEXT_STEP,decision:C3-infa_2021_zhoushan-S20260830:2,{}
+edge:0238,trace:C3-infa_2021_zhoushan-S20260830,HAS_STEP,decision:C3-infa_2021_zhoushan-S20260830:3,"{""step"": 3}"
+edge:0239,decision:C3-infa_2021_zhoushan-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0240,decision:C3-infa_2021_zhoushan-S20260830:2,NEXT_STEP,decision:C3-infa_2021_zhoushan-S20260830:3,{}
+edge:0241,trace:C3-infa_2021_zhoushan-S20260830,HAS_STEP,decision:C3-infa_2021_zhoushan-S20260830:4,"{""step"": 4}"
+edge:0242,decision:C3-infa_2021_zhoushan-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0243,decision:C3-infa_2021_zhoushan-S20260830:3,NEXT_STEP,decision:C3-infa_2021_zhoushan-S20260830:4,{}
+edge:0244,project:C3-43KG,HAS_CASE,case:C3-doksuri_2023_jinjiang-S20260830,{}
+edge:0245,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:doksuri_2023_jinjiang,{}
+edge:0246,case:C3-doksuri_2023_jinjiang-S20260830,DERIVED_FROM_AUTHORITY,authority-record:doksuri_2023_jinjiang,"{""c3_order"": 7, ""source_case_index"": 12}"
+edge:0247,event-library:github43,CONTAINS_EVENT,github-event:doksuri_2023_jinjiang,{}
+edge:0248,github-event:doksuri_2023_jinjiang,MAPPED_TO,case:C3-doksuri_2023_jinjiang-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0249,case:C3-doksuri_2023_jinjiang-S20260830,EVIDENCED_BY,evidence-bundle:C3-doksuri_2023_jinjiang-S20260830,{}
+edge:0250,evidence-bundle:C3-doksuri_2023_jinjiang-S20260830,BINDS_AUTHORITY,authority-record:doksuri_2023_jinjiang,{}
+edge:0251,evidence-bundle:C3-doksuri_2023_jinjiang-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0252,case:C3-doksuri_2023_jinjiang-S20260830,IN_GROUP,group:G1_typhoon,{}
+edge:0253,case:C3-doksuri_2023_jinjiang-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0254,case:C3-doksuri_2023_jinjiang-S20260830,HAS_RESPONSE_STATE,response:C3-doksuri_2023_jinjiang-S20260830,{}
+edge:0255,case:C3-doksuri_2023_jinjiang-S20260830,HAS_AGENT_TRACE,trace:C3-doksuri_2023_jinjiang-S20260830,{}
+edge:0256,legacy-result:doksuri_2023_jinjiang,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0257,legacy-result:doksuri_2023_jinjiang,PROVENANCE_ONLY,case:C3-doksuri_2023_jinjiang-S20260830,"{""numerical_value_transfer"": false}"
+edge:0258,trace:C3-doksuri_2023_jinjiang-S20260830,HAS_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:1,"{""step"": 1}"
+edge:0259,decision:C3-doksuri_2023_jinjiang-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0260,trace:C3-doksuri_2023_jinjiang-S20260830,HAS_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:2,"{""step"": 2}"
+edge:0261,decision:C3-doksuri_2023_jinjiang-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0262,decision:C3-doksuri_2023_jinjiang-S20260830:1,NEXT_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:2,{}
+edge:0263,trace:C3-doksuri_2023_jinjiang-S20260830,HAS_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:3,"{""step"": 3}"
+edge:0264,decision:C3-doksuri_2023_jinjiang-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0265,decision:C3-doksuri_2023_jinjiang-S20260830:2,NEXT_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:3,{}
+edge:0266,trace:C3-doksuri_2023_jinjiang-S20260830,HAS_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:4,"{""step"": 4}"
+edge:0267,decision:C3-doksuri_2023_jinjiang-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0268,decision:C3-doksuri_2023_jinjiang-S20260830:3,NEXT_STEP,decision:C3-doksuri_2023_jinjiang-S20260830:4,{}
+edge:0269,project:C3-43KG,HAS_CASE,case:C3-meranti_2016_peak-S20260830,{}
+edge:0270,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:meranti_2016_peak,{}
+edge:0271,case:C3-meranti_2016_peak-S20260830,DERIVED_FROM_AUTHORITY,authority-record:meranti_2016_peak,"{""c3_order"": 8, ""source_case_index"": 14}"
+edge:0272,event-library:github43,CONTAINS_EVENT,github-event:meranti_2016_peak,{}
+edge:0273,github-event:meranti_2016_peak,MAPPED_TO,case:C3-meranti_2016_peak-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0274,case:C3-meranti_2016_peak-S20260830,EVIDENCED_BY,evidence-bundle:C3-meranti_2016_peak-S20260830,{}
+edge:0275,evidence-bundle:C3-meranti_2016_peak-S20260830,BINDS_AUTHORITY,authority-record:meranti_2016_peak,{}
+edge:0276,evidence-bundle:C3-meranti_2016_peak-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0277,case:C3-meranti_2016_peak-S20260830,IN_GROUP,group:G1_typhoon,{}
+edge:0278,case:C3-meranti_2016_peak-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0279,case:C3-meranti_2016_peak-S20260830,HAS_RESPONSE_STATE,response:C3-meranti_2016_peak-S20260830,{}
+edge:0280,case:C3-meranti_2016_peak-S20260830,HAS_AGENT_TRACE,trace:C3-meranti_2016_peak-S20260830,{}
+edge:0281,legacy-result:meranti_2016_peak,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0282,legacy-result:meranti_2016_peak,PROVENANCE_ONLY,case:C3-meranti_2016_peak-S20260830,"{""numerical_value_transfer"": false}"
+edge:0283,trace:C3-meranti_2016_peak-S20260830,HAS_STEP,decision:C3-meranti_2016_peak-S20260830:1,"{""step"": 1}"
+edge:0284,decision:C3-meranti_2016_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0285,trace:C3-meranti_2016_peak-S20260830,HAS_STEP,decision:C3-meranti_2016_peak-S20260830:2,"{""step"": 2}"
+edge:0286,decision:C3-meranti_2016_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0287,decision:C3-meranti_2016_peak-S20260830:1,NEXT_STEP,decision:C3-meranti_2016_peak-S20260830:2,{}
+edge:0288,trace:C3-meranti_2016_peak-S20260830,HAS_STEP,decision:C3-meranti_2016_peak-S20260830:3,"{""step"": 3}"
+edge:0289,decision:C3-meranti_2016_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0290,decision:C3-meranti_2016_peak-S20260830:2,NEXT_STEP,decision:C3-meranti_2016_peak-S20260830:3,{}
+edge:0291,trace:C3-meranti_2016_peak-S20260830,HAS_STEP,decision:C3-meranti_2016_peak-S20260830:4,"{""step"": 4}"
+edge:0292,decision:C3-meranti_2016_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0293,decision:C3-meranti_2016_peak-S20260830:3,NEXT_STEP,decision:C3-meranti_2016_peak-S20260830:4,{}
+edge:0294,project:C3-43KG,HAS_CASE,case:C3-haiyan_2013_peak-S20260830,{}
+edge:0295,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:haiyan_2013_peak,{}
+edge:0296,case:C3-haiyan_2013_peak-S20260830,DERIVED_FROM_AUTHORITY,authority-record:haiyan_2013_peak,"{""c3_order"": 9, ""source_case_index"": 13}"
+edge:0297,event-library:github43,CONTAINS_EVENT,github-event:haiyan_2013_peak,{}
+edge:0298,github-event:haiyan_2013_peak,MAPPED_TO,case:C3-haiyan_2013_peak-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0299,case:C3-haiyan_2013_peak-S20260830,EVIDENCED_BY,evidence-bundle:C3-haiyan_2013_peak-S20260830,{}
+edge:0300,evidence-bundle:C3-haiyan_2013_peak-S20260830,BINDS_AUTHORITY,authority-record:haiyan_2013_peak,{}
+edge:0301,evidence-bundle:C3-haiyan_2013_peak-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0302,case:C3-haiyan_2013_peak-S20260830,IN_GROUP,group:G1_typhoon,{}
+edge:0303,case:C3-haiyan_2013_peak-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0304,case:C3-haiyan_2013_peak-S20260830,HAS_RESPONSE_STATE,response:C3-haiyan_2013_peak-S20260830,{}
+edge:0305,case:C3-haiyan_2013_peak-S20260830,HAS_AGENT_TRACE,trace:C3-haiyan_2013_peak-S20260830,{}
+edge:0306,legacy-result:haiyan_2013_peak,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0307,legacy-result:haiyan_2013_peak,PROVENANCE_ONLY,case:C3-haiyan_2013_peak-S20260830,"{""numerical_value_transfer"": false}"
+edge:0308,trace:C3-haiyan_2013_peak-S20260830,HAS_STEP,decision:C3-haiyan_2013_peak-S20260830:1,"{""step"": 1}"
+edge:0309,decision:C3-haiyan_2013_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0310,trace:C3-haiyan_2013_peak-S20260830,HAS_STEP,decision:C3-haiyan_2013_peak-S20260830:2,"{""step"": 2}"
+edge:0311,decision:C3-haiyan_2013_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0312,decision:C3-haiyan_2013_peak-S20260830:1,NEXT_STEP,decision:C3-haiyan_2013_peak-S20260830:2,{}
+edge:0313,trace:C3-haiyan_2013_peak-S20260830,HAS_STEP,decision:C3-haiyan_2013_peak-S20260830:3,"{""step"": 3}"
+edge:0314,decision:C3-haiyan_2013_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0315,decision:C3-haiyan_2013_peak-S20260830:2,NEXT_STEP,decision:C3-haiyan_2013_peak-S20260830:3,{}
+edge:0316,trace:C3-haiyan_2013_peak-S20260830,HAS_STEP,decision:C3-haiyan_2013_peak-S20260830:4,"{""step"": 4}"
+edge:0317,decision:C3-haiyan_2013_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0318,decision:C3-haiyan_2013_peak-S20260830:3,NEXT_STEP,decision:C3-haiyan_2013_peak-S20260830:4,{}
+edge:0319,project:C3-43KG,HAS_CASE,case:C3-mangkhut_2018_peak-S20260830,{}
+edge:0320,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:mangkhut_2018_peak,{}
+edge:0321,case:C3-mangkhut_2018_peak-S20260830,DERIVED_FROM_AUTHORITY,authority-record:mangkhut_2018_peak,"{""c3_order"": 10, ""source_case_index"": 17}"
+edge:0322,event-library:github43,CONTAINS_EVENT,github-event:mangkhut_2018_peak,{}
+edge:0323,github-event:mangkhut_2018_peak,MAPPED_TO,case:C3-mangkhut_2018_peak-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0324,case:C3-mangkhut_2018_peak-S20260830,EVIDENCED_BY,evidence-bundle:C3-mangkhut_2018_peak-S20260830,{}
+edge:0325,evidence-bundle:C3-mangkhut_2018_peak-S20260830,BINDS_AUTHORITY,authority-record:mangkhut_2018_peak,{}
+edge:0326,evidence-bundle:C3-mangkhut_2018_peak-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0327,case:C3-mangkhut_2018_peak-S20260830,IN_GROUP,group:G1_typhoon,{}
+edge:0328,case:C3-mangkhut_2018_peak-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0329,case:C3-mangkhut_2018_peak-S20260830,HAS_RESPONSE_STATE,response:C3-mangkhut_2018_peak-S20260830,{}
+edge:0330,case:C3-mangkhut_2018_peak-S20260830,HAS_AGENT_TRACE,trace:C3-mangkhut_2018_peak-S20260830,{}
+edge:0331,legacy-result:mangkhut_2018_peak,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0332,legacy-result:mangkhut_2018_peak,PROVENANCE_ONLY,case:C3-mangkhut_2018_peak-S20260830,"{""numerical_value_transfer"": false}"
+edge:0333,trace:C3-mangkhut_2018_peak-S20260830,HAS_STEP,decision:C3-mangkhut_2018_peak-S20260830:1,"{""step"": 1}"
+edge:0334,decision:C3-mangkhut_2018_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0335,trace:C3-mangkhut_2018_peak-S20260830,HAS_STEP,decision:C3-mangkhut_2018_peak-S20260830:2,"{""step"": 2}"
+edge:0336,decision:C3-mangkhut_2018_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0337,decision:C3-mangkhut_2018_peak-S20260830:1,NEXT_STEP,decision:C3-mangkhut_2018_peak-S20260830:2,{}
+edge:0338,trace:C3-mangkhut_2018_peak-S20260830,HAS_STEP,decision:C3-mangkhut_2018_peak-S20260830:3,"{""step"": 3}"
+edge:0339,decision:C3-mangkhut_2018_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0340,decision:C3-mangkhut_2018_peak-S20260830:2,NEXT_STEP,decision:C3-mangkhut_2018_peak-S20260830:3,{}
+edge:0341,trace:C3-mangkhut_2018_peak-S20260830,HAS_STEP,decision:C3-mangkhut_2018_peak-S20260830:4,"{""step"": 4}"
+edge:0342,decision:C3-mangkhut_2018_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0343,decision:C3-mangkhut_2018_peak-S20260830:3,NEXT_STEP,decision:C3-mangkhut_2018_peak-S20260830:4,{}
+edge:0344,project:C3-43KG,HAS_CASE,case:C3-tip_1979_peak-S20260830,{}
+edge:0345,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:tip_1979_peak,{}
+edge:0346,case:C3-tip_1979_peak-S20260830,DERIVED_FROM_AUTHORITY,authority-record:tip_1979_peak,"{""c3_order"": 11, ""source_case_index"": 16}"
+edge:0347,event-library:github43,CONTAINS_EVENT,github-event:tip_1979_peak,{}
+edge:0348,github-event:tip_1979_peak,MAPPED_TO,case:C3-tip_1979_peak-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0349,case:C3-tip_1979_peak-S20260830,EVIDENCED_BY,evidence-bundle:C3-tip_1979_peak-S20260830,{}
+edge:0350,evidence-bundle:C3-tip_1979_peak-S20260830,BINDS_AUTHORITY,authority-record:tip_1979_peak,{}
+edge:0351,evidence-bundle:C3-tip_1979_peak-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0352,case:C3-tip_1979_peak-S20260830,IN_GROUP,group:G1_typhoon,{}
+edge:0353,case:C3-tip_1979_peak-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0354,case:C3-tip_1979_peak-S20260830,HAS_RESPONSE_STATE,response:C3-tip_1979_peak-S20260830,{}
+edge:0355,case:C3-tip_1979_peak-S20260830,HAS_AGENT_TRACE,trace:C3-tip_1979_peak-S20260830,{}
+edge:0356,legacy-result:tip_1979_peak,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0357,legacy-result:tip_1979_peak,PROVENANCE_ONLY,case:C3-tip_1979_peak-S20260830,"{""numerical_value_transfer"": false}"
+edge:0358,trace:C3-tip_1979_peak-S20260830,HAS_STEP,decision:C3-tip_1979_peak-S20260830:1,"{""step"": 1}"
+edge:0359,decision:C3-tip_1979_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0360,trace:C3-tip_1979_peak-S20260830,HAS_STEP,decision:C3-tip_1979_peak-S20260830:2,"{""step"": 2}"
+edge:0361,decision:C3-tip_1979_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0362,decision:C3-tip_1979_peak-S20260830:1,NEXT_STEP,decision:C3-tip_1979_peak-S20260830:2,{}
+edge:0363,trace:C3-tip_1979_peak-S20260830,HAS_STEP,decision:C3-tip_1979_peak-S20260830:3,"{""step"": 3}"
+edge:0364,decision:C3-tip_1979_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0365,decision:C3-tip_1979_peak-S20260830:2,NEXT_STEP,decision:C3-tip_1979_peak-S20260830:3,{}
+edge:0366,trace:C3-tip_1979_peak-S20260830,HAS_STEP,decision:C3-tip_1979_peak-S20260830:4,"{""step"": 4}"
+edge:0367,decision:C3-tip_1979_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0368,decision:C3-tip_1979_peak-S20260830:3,NEXT_STEP,decision:C3-tip_1979_peak-S20260830:4,{}
+edge:0369,project:C3-43KG,HAS_CASE,case:C3-goni_2020_landfall-S20260830,{}
+edge:0370,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:goni_2020_landfall,{}
+edge:0371,case:C3-goni_2020_landfall-S20260830,DERIVED_FROM_AUTHORITY,authority-record:goni_2020_landfall,"{""c3_order"": 12, ""source_case_index"": 15}"
+edge:0372,event-library:github43,CONTAINS_EVENT,github-event:goni_2020_landfall,{}
+edge:0373,github-event:goni_2020_landfall,MAPPED_TO,case:C3-goni_2020_landfall-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0374,case:C3-goni_2020_landfall-S20260830,EVIDENCED_BY,evidence-bundle:C3-goni_2020_landfall-S20260830,{}
+edge:0375,evidence-bundle:C3-goni_2020_landfall-S20260830,BINDS_AUTHORITY,authority-record:goni_2020_landfall,{}
+edge:0376,evidence-bundle:C3-goni_2020_landfall-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0377,case:C3-goni_2020_landfall-S20260830,IN_GROUP,group:G1_typhoon,{}
+edge:0378,case:C3-goni_2020_landfall-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0379,case:C3-goni_2020_landfall-S20260830,HAS_RESPONSE_STATE,response:C3-goni_2020_landfall-S20260830,{}
+edge:0380,case:C3-goni_2020_landfall-S20260830,HAS_AGENT_TRACE,trace:C3-goni_2020_landfall-S20260830,{}
+edge:0381,legacy-result:goni_2020_landfall,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0382,legacy-result:goni_2020_landfall,PROVENANCE_ONLY,case:C3-goni_2020_landfall-S20260830,"{""numerical_value_transfer"": false}"
+edge:0383,trace:C3-goni_2020_landfall-S20260830,HAS_STEP,decision:C3-goni_2020_landfall-S20260830:1,"{""step"": 1}"
+edge:0384,decision:C3-goni_2020_landfall-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0385,trace:C3-goni_2020_landfall-S20260830,HAS_STEP,decision:C3-goni_2020_landfall-S20260830:2,"{""step"": 2}"
+edge:0386,decision:C3-goni_2020_landfall-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0387,decision:C3-goni_2020_landfall-S20260830:1,NEXT_STEP,decision:C3-goni_2020_landfall-S20260830:2,{}
+edge:0388,trace:C3-goni_2020_landfall-S20260830,HAS_STEP,decision:C3-goni_2020_landfall-S20260830:3,"{""step"": 3}"
+edge:0389,decision:C3-goni_2020_landfall-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0390,decision:C3-goni_2020_landfall-S20260830:2,NEXT_STEP,decision:C3-goni_2020_landfall-S20260830:3,{}
+edge:0391,trace:C3-goni_2020_landfall-S20260830,HAS_STEP,decision:C3-goni_2020_landfall-S20260830:4,"{""step"": 4}"
+edge:0392,decision:C3-goni_2020_landfall-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0393,decision:C3-goni_2020_landfall-S20260830:3,NEXT_STEP,decision:C3-goni_2020_landfall-S20260830:4,{}
+edge:0394,project:C3-43KG,HAS_CASE,case:C3-lanyu_ryan_1995_gust-S20260830,{}
+edge:0395,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:lanyu_ryan_1995_gust,{}
+edge:0396,case:C3-lanyu_ryan_1995_gust-S20260830,DERIVED_FROM_AUTHORITY,authority-record:lanyu_ryan_1995_gust,"{""c3_order"": 13, ""source_case_index"": 18}"
+edge:0397,event-library:github43,CONTAINS_EVENT,github-event:lanyu_ryan_1995_gust,{}
+edge:0398,github-event:lanyu_ryan_1995_gust,MAPPED_TO,case:C3-lanyu_ryan_1995_gust-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0399,case:C3-lanyu_ryan_1995_gust-S20260830,EVIDENCED_BY,evidence-bundle:C3-lanyu_ryan_1995_gust-S20260830,{}
+edge:0400,evidence-bundle:C3-lanyu_ryan_1995_gust-S20260830,BINDS_AUTHORITY,authority-record:lanyu_ryan_1995_gust,{}
+edge:0401,evidence-bundle:C3-lanyu_ryan_1995_gust-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0402,case:C3-lanyu_ryan_1995_gust-S20260830,IN_GROUP,group:G1_typhoon,{}
+edge:0403,case:C3-lanyu_ryan_1995_gust-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0404,case:C3-lanyu_ryan_1995_gust-S20260830,HAS_RESPONSE_STATE,response:C3-lanyu_ryan_1995_gust-S20260830,{}
+edge:0405,case:C3-lanyu_ryan_1995_gust-S20260830,HAS_AGENT_TRACE,trace:C3-lanyu_ryan_1995_gust-S20260830,{}
+edge:0406,legacy-result:lanyu_ryan_1995_gust,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0407,legacy-result:lanyu_ryan_1995_gust,PROVENANCE_ONLY,case:C3-lanyu_ryan_1995_gust-S20260830,"{""numerical_value_transfer"": false}"
+edge:0408,trace:C3-lanyu_ryan_1995_gust-S20260830,HAS_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:1,"{""step"": 1}"
+edge:0409,decision:C3-lanyu_ryan_1995_gust-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0410,trace:C3-lanyu_ryan_1995_gust-S20260830,HAS_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:2,"{""step"": 2}"
+edge:0411,decision:C3-lanyu_ryan_1995_gust-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0412,decision:C3-lanyu_ryan_1995_gust-S20260830:1,NEXT_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:2,{}
+edge:0413,trace:C3-lanyu_ryan_1995_gust-S20260830,HAS_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:3,"{""step"": 3}"
+edge:0414,decision:C3-lanyu_ryan_1995_gust-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0415,decision:C3-lanyu_ryan_1995_gust-S20260830:2,NEXT_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:3,{}
+edge:0416,trace:C3-lanyu_ryan_1995_gust-S20260830,HAS_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:4,"{""step"": 4}"
+edge:0417,decision:C3-lanyu_ryan_1995_gust-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0418,decision:C3-lanyu_ryan_1995_gust-S20260830:3,NEXT_STEP,decision:C3-lanyu_ryan_1995_gust-S20260830:4,{}
+edge:0419,project:C3-43KG,HAS_CASE,case:C3-ss_cat1-S20260830,{}
+edge:0420,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:ss_cat1,{}
+edge:0421,case:C3-ss_cat1-S20260830,DERIVED_FROM_AUTHORITY,authority-record:ss_cat1,"{""c3_order"": 14, ""source_case_index"": 6}"
+edge:0422,event-library:github43,CONTAINS_EVENT,github-event:ss_cat1,{}
+edge:0423,github-event:ss_cat1,MAPPED_TO,case:C3-ss_cat1-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0424,case:C3-ss_cat1-S20260830,EVIDENCED_BY,evidence-bundle:C3-ss_cat1-S20260830,{}
+edge:0425,evidence-bundle:C3-ss_cat1-S20260830,BINDS_AUTHORITY,authority-record:ss_cat1,{}
+edge:0426,evidence-bundle:C3-ss_cat1-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0427,case:C3-ss_cat1-S20260830,IN_GROUP,group:G2_hurricane,{}
+edge:0428,case:C3-ss_cat1-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0429,case:C3-ss_cat1-S20260830,HAS_RESPONSE_STATE,response:C3-ss_cat1-S20260830,{}
+edge:0430,case:C3-ss_cat1-S20260830,HAS_AGENT_TRACE,trace:C3-ss_cat1-S20260830,{}
+edge:0431,legacy-result:ss_cat1,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0432,legacy-result:ss_cat1,PROVENANCE_ONLY,case:C3-ss_cat1-S20260830,"{""numerical_value_transfer"": false}"
+edge:0433,trace:C3-ss_cat1-S20260830,HAS_STEP,decision:C3-ss_cat1-S20260830:1,"{""step"": 1}"
+edge:0434,decision:C3-ss_cat1-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0435,trace:C3-ss_cat1-S20260830,HAS_STEP,decision:C3-ss_cat1-S20260830:2,"{""step"": 2}"
+edge:0436,decision:C3-ss_cat1-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0437,decision:C3-ss_cat1-S20260830:1,NEXT_STEP,decision:C3-ss_cat1-S20260830:2,{}
+edge:0438,trace:C3-ss_cat1-S20260830,HAS_STEP,decision:C3-ss_cat1-S20260830:3,"{""step"": 3}"
+edge:0439,decision:C3-ss_cat1-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0440,decision:C3-ss_cat1-S20260830:2,NEXT_STEP,decision:C3-ss_cat1-S20260830:3,{}
+edge:0441,trace:C3-ss_cat1-S20260830,HAS_STEP,decision:C3-ss_cat1-S20260830:4,"{""step"": 4}"
+edge:0442,decision:C3-ss_cat1-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0443,decision:C3-ss_cat1-S20260830:3,NEXT_STEP,decision:C3-ss_cat1-S20260830:4,{}
+edge:0444,project:C3-43KG,HAS_CASE,case:C3-ss_cat2-S20260830,{}
+edge:0445,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:ss_cat2,{}
+edge:0446,case:C3-ss_cat2-S20260830,DERIVED_FROM_AUTHORITY,authority-record:ss_cat2,"{""c3_order"": 15, ""source_case_index"": 7}"
+edge:0447,event-library:github43,CONTAINS_EVENT,github-event:ss_cat2,{}
+edge:0448,github-event:ss_cat2,MAPPED_TO,case:C3-ss_cat2-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0449,case:C3-ss_cat2-S20260830,EVIDENCED_BY,evidence-bundle:C3-ss_cat2-S20260830,{}
+edge:0450,evidence-bundle:C3-ss_cat2-S20260830,BINDS_AUTHORITY,authority-record:ss_cat2,{}
+edge:0451,evidence-bundle:C3-ss_cat2-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0452,case:C3-ss_cat2-S20260830,IN_GROUP,group:G2_hurricane,{}
+edge:0453,case:C3-ss_cat2-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0454,case:C3-ss_cat2-S20260830,HAS_RESPONSE_STATE,response:C3-ss_cat2-S20260830,{}
+edge:0455,case:C3-ss_cat2-S20260830,HAS_AGENT_TRACE,trace:C3-ss_cat2-S20260830,{}
+edge:0456,legacy-result:ss_cat2,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0457,legacy-result:ss_cat2,PROVENANCE_ONLY,case:C3-ss_cat2-S20260830,"{""numerical_value_transfer"": false}"
+edge:0458,trace:C3-ss_cat2-S20260830,HAS_STEP,decision:C3-ss_cat2-S20260830:1,"{""step"": 1}"
+edge:0459,decision:C3-ss_cat2-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0460,trace:C3-ss_cat2-S20260830,HAS_STEP,decision:C3-ss_cat2-S20260830:2,"{""step"": 2}"
+edge:0461,decision:C3-ss_cat2-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0462,decision:C3-ss_cat2-S20260830:1,NEXT_STEP,decision:C3-ss_cat2-S20260830:2,{}
+edge:0463,trace:C3-ss_cat2-S20260830,HAS_STEP,decision:C3-ss_cat2-S20260830:3,"{""step"": 3}"
+edge:0464,decision:C3-ss_cat2-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0465,decision:C3-ss_cat2-S20260830:2,NEXT_STEP,decision:C3-ss_cat2-S20260830:3,{}
+edge:0466,trace:C3-ss_cat2-S20260830,HAS_STEP,decision:C3-ss_cat2-S20260830:4,"{""step"": 4}"
+edge:0467,decision:C3-ss_cat2-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0468,decision:C3-ss_cat2-S20260830:3,NEXT_STEP,decision:C3-ss_cat2-S20260830:4,{}
+edge:0469,project:C3-43KG,HAS_CASE,case:C3-ss_cat3-S20260830,{}
+edge:0470,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:ss_cat3,{}
+edge:0471,case:C3-ss_cat3-S20260830,DERIVED_FROM_AUTHORITY,authority-record:ss_cat3,"{""c3_order"": 16, ""source_case_index"": 8}"
+edge:0472,event-library:github43,CONTAINS_EVENT,github-event:ss_cat3,{}
+edge:0473,github-event:ss_cat3,MAPPED_TO,case:C3-ss_cat3-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0474,case:C3-ss_cat3-S20260830,EVIDENCED_BY,evidence-bundle:C3-ss_cat3-S20260830,{}
+edge:0475,evidence-bundle:C3-ss_cat3-S20260830,BINDS_AUTHORITY,authority-record:ss_cat3,{}
+edge:0476,evidence-bundle:C3-ss_cat3-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0477,case:C3-ss_cat3-S20260830,IN_GROUP,group:G2_hurricane,{}
+edge:0478,case:C3-ss_cat3-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0479,case:C3-ss_cat3-S20260830,HAS_RESPONSE_STATE,response:C3-ss_cat3-S20260830,{}
+edge:0480,case:C3-ss_cat3-S20260830,HAS_AGENT_TRACE,trace:C3-ss_cat3-S20260830,{}
+edge:0481,legacy-result:ss_cat3,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0482,legacy-result:ss_cat3,PROVENANCE_ONLY,case:C3-ss_cat3-S20260830,"{""numerical_value_transfer"": false}"
+edge:0483,trace:C3-ss_cat3-S20260830,HAS_STEP,decision:C3-ss_cat3-S20260830:1,"{""step"": 1}"
+edge:0484,decision:C3-ss_cat3-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0485,trace:C3-ss_cat3-S20260830,HAS_STEP,decision:C3-ss_cat3-S20260830:2,"{""step"": 2}"
+edge:0486,decision:C3-ss_cat3-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0487,decision:C3-ss_cat3-S20260830:1,NEXT_STEP,decision:C3-ss_cat3-S20260830:2,{}
+edge:0488,trace:C3-ss_cat3-S20260830,HAS_STEP,decision:C3-ss_cat3-S20260830:3,"{""step"": 3}"
+edge:0489,decision:C3-ss_cat3-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0490,decision:C3-ss_cat3-S20260830:2,NEXT_STEP,decision:C3-ss_cat3-S20260830:3,{}
+edge:0491,trace:C3-ss_cat3-S20260830,HAS_STEP,decision:C3-ss_cat3-S20260830:4,"{""step"": 4}"
+edge:0492,decision:C3-ss_cat3-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0493,decision:C3-ss_cat3-S20260830:3,NEXT_STEP,decision:C3-ss_cat3-S20260830:4,{}
+edge:0494,project:C3-43KG,HAS_CASE,case:C3-ss_cat4-S20260830,{}
+edge:0495,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:ss_cat4,{}
+edge:0496,case:C3-ss_cat4-S20260830,DERIVED_FROM_AUTHORITY,authority-record:ss_cat4,"{""c3_order"": 17, ""source_case_index"": 9}"
+edge:0497,event-library:github43,CONTAINS_EVENT,github-event:ss_cat4,{}
+edge:0498,github-event:ss_cat4,MAPPED_TO,case:C3-ss_cat4-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0499,case:C3-ss_cat4-S20260830,EVIDENCED_BY,evidence-bundle:C3-ss_cat4-S20260830,{}
+edge:0500,evidence-bundle:C3-ss_cat4-S20260830,BINDS_AUTHORITY,authority-record:ss_cat4,{}
+edge:0501,evidence-bundle:C3-ss_cat4-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0502,case:C3-ss_cat4-S20260830,IN_GROUP,group:G2_hurricane,{}
+edge:0503,case:C3-ss_cat4-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0504,case:C3-ss_cat4-S20260830,HAS_RESPONSE_STATE,response:C3-ss_cat4-S20260830,{}
+edge:0505,case:C3-ss_cat4-S20260830,HAS_AGENT_TRACE,trace:C3-ss_cat4-S20260830,{}
+edge:0506,legacy-result:ss_cat4,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0507,legacy-result:ss_cat4,PROVENANCE_ONLY,case:C3-ss_cat4-S20260830,"{""numerical_value_transfer"": false}"
+edge:0508,trace:C3-ss_cat4-S20260830,HAS_STEP,decision:C3-ss_cat4-S20260830:1,"{""step"": 1}"
+edge:0509,decision:C3-ss_cat4-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0510,trace:C3-ss_cat4-S20260830,HAS_STEP,decision:C3-ss_cat4-S20260830:2,"{""step"": 2}"
+edge:0511,decision:C3-ss_cat4-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0512,decision:C3-ss_cat4-S20260830:1,NEXT_STEP,decision:C3-ss_cat4-S20260830:2,{}
+edge:0513,trace:C3-ss_cat4-S20260830,HAS_STEP,decision:C3-ss_cat4-S20260830:3,"{""step"": 3}"
+edge:0514,decision:C3-ss_cat4-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0515,decision:C3-ss_cat4-S20260830:2,NEXT_STEP,decision:C3-ss_cat4-S20260830:3,{}
+edge:0516,trace:C3-ss_cat4-S20260830,HAS_STEP,decision:C3-ss_cat4-S20260830:4,"{""step"": 4}"
+edge:0517,decision:C3-ss_cat4-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0518,decision:C3-ss_cat4-S20260830:3,NEXT_STEP,decision:C3-ss_cat4-S20260830:4,{}
+edge:0519,project:C3-43KG,HAS_CASE,case:C3-ss_cat5-S20260830,{}
+edge:0520,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:ss_cat5,{}
+edge:0521,case:C3-ss_cat5-S20260830,DERIVED_FROM_AUTHORITY,authority-record:ss_cat5,"{""c3_order"": 18, ""source_case_index"": 10}"
+edge:0522,event-library:github43,CONTAINS_EVENT,github-event:ss_cat5,{}
+edge:0523,github-event:ss_cat5,MAPPED_TO,case:C3-ss_cat5-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0524,case:C3-ss_cat5-S20260830,EVIDENCED_BY,evidence-bundle:C3-ss_cat5-S20260830,{}
+edge:0525,evidence-bundle:C3-ss_cat5-S20260830,BINDS_AUTHORITY,authority-record:ss_cat5,{}
+edge:0526,evidence-bundle:C3-ss_cat5-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0527,case:C3-ss_cat5-S20260830,IN_GROUP,group:G2_hurricane,{}
+edge:0528,case:C3-ss_cat5-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0529,case:C3-ss_cat5-S20260830,HAS_RESPONSE_STATE,response:C3-ss_cat5-S20260830,{}
+edge:0530,case:C3-ss_cat5-S20260830,HAS_AGENT_TRACE,trace:C3-ss_cat5-S20260830,{}
+edge:0531,legacy-result:ss_cat5,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0532,legacy-result:ss_cat5,PROVENANCE_ONLY,case:C3-ss_cat5-S20260830,"{""numerical_value_transfer"": false}"
+edge:0533,trace:C3-ss_cat5-S20260830,HAS_STEP,decision:C3-ss_cat5-S20260830:1,"{""step"": 1}"
+edge:0534,decision:C3-ss_cat5-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0535,trace:C3-ss_cat5-S20260830,HAS_STEP,decision:C3-ss_cat5-S20260830:2,"{""step"": 2}"
+edge:0536,decision:C3-ss_cat5-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0537,decision:C3-ss_cat5-S20260830:1,NEXT_STEP,decision:C3-ss_cat5-S20260830:2,{}
+edge:0538,trace:C3-ss_cat5-S20260830,HAS_STEP,decision:C3-ss_cat5-S20260830:3,"{""step"": 3}"
+edge:0539,decision:C3-ss_cat5-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0540,decision:C3-ss_cat5-S20260830:2,NEXT_STEP,decision:C3-ss_cat5-S20260830:3,{}
+edge:0541,trace:C3-ss_cat5-S20260830,HAS_STEP,decision:C3-ss_cat5-S20260830:4,"{""step"": 4}"
+edge:0542,decision:C3-ss_cat5-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0543,decision:C3-ss_cat5-S20260830:3,NEXT_STEP,decision:C3-ss_cat5-S20260830:4,{}
+edge:0544,project:C3-43KG,HAS_CASE,case:C3-dorian_2019_landfall-S20260830,{}
+edge:0545,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:dorian_2019_landfall,{}
+edge:0546,case:C3-dorian_2019_landfall-S20260830,DERIVED_FROM_AUTHORITY,authority-record:dorian_2019_landfall,"{""c3_order"": 19, ""source_case_index"": 20}"
+edge:0547,event-library:github43,CONTAINS_EVENT,github-event:dorian_2019_landfall,{}
+edge:0548,github-event:dorian_2019_landfall,MAPPED_TO,case:C3-dorian_2019_landfall-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0549,case:C3-dorian_2019_landfall-S20260830,EVIDENCED_BY,evidence-bundle:C3-dorian_2019_landfall-S20260830,{}
+edge:0550,evidence-bundle:C3-dorian_2019_landfall-S20260830,BINDS_AUTHORITY,authority-record:dorian_2019_landfall,{}
+edge:0551,evidence-bundle:C3-dorian_2019_landfall-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0552,case:C3-dorian_2019_landfall-S20260830,IN_GROUP,group:G2_hurricane,{}
+edge:0553,case:C3-dorian_2019_landfall-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0554,case:C3-dorian_2019_landfall-S20260830,HAS_RESPONSE_STATE,response:C3-dorian_2019_landfall-S20260830,{}
+edge:0555,case:C3-dorian_2019_landfall-S20260830,HAS_AGENT_TRACE,trace:C3-dorian_2019_landfall-S20260830,{}
+edge:0556,legacy-result:dorian_2019_landfall,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0557,legacy-result:dorian_2019_landfall,PROVENANCE_ONLY,case:C3-dorian_2019_landfall-S20260830,"{""numerical_value_transfer"": false}"
+edge:0558,trace:C3-dorian_2019_landfall-S20260830,HAS_STEP,decision:C3-dorian_2019_landfall-S20260830:1,"{""step"": 1}"
+edge:0559,decision:C3-dorian_2019_landfall-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0560,trace:C3-dorian_2019_landfall-S20260830,HAS_STEP,decision:C3-dorian_2019_landfall-S20260830:2,"{""step"": 2}"
+edge:0561,decision:C3-dorian_2019_landfall-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0562,decision:C3-dorian_2019_landfall-S20260830:1,NEXT_STEP,decision:C3-dorian_2019_landfall-S20260830:2,{}
+edge:0563,trace:C3-dorian_2019_landfall-S20260830,HAS_STEP,decision:C3-dorian_2019_landfall-S20260830:3,"{""step"": 3}"
+edge:0564,decision:C3-dorian_2019_landfall-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0565,decision:C3-dorian_2019_landfall-S20260830:2,NEXT_STEP,decision:C3-dorian_2019_landfall-S20260830:3,{}
+edge:0566,trace:C3-dorian_2019_landfall-S20260830,HAS_STEP,decision:C3-dorian_2019_landfall-S20260830:4,"{""step"": 4}"
+edge:0567,decision:C3-dorian_2019_landfall-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0568,decision:C3-dorian_2019_landfall-S20260830:3,NEXT_STEP,decision:C3-dorian_2019_landfall-S20260830:4,{}
+edge:0569,project:C3-43KG,HAS_CASE,case:C3-patricia_2015_peak-S20260830,{}
+edge:0570,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:patricia_2015_peak,{}
+edge:0571,case:C3-patricia_2015_peak-S20260830,DERIVED_FROM_AUTHORITY,authority-record:patricia_2015_peak,"{""c3_order"": 20, ""source_case_index"": 19}"
+edge:0572,event-library:github43,CONTAINS_EVENT,github-event:patricia_2015_peak,{}
+edge:0573,github-event:patricia_2015_peak,MAPPED_TO,case:C3-patricia_2015_peak-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0574,case:C3-patricia_2015_peak-S20260830,EVIDENCED_BY,evidence-bundle:C3-patricia_2015_peak-S20260830,{}
+edge:0575,evidence-bundle:C3-patricia_2015_peak-S20260830,BINDS_AUTHORITY,authority-record:patricia_2015_peak,{}
+edge:0576,evidence-bundle:C3-patricia_2015_peak-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0577,case:C3-patricia_2015_peak-S20260830,IN_GROUP,group:G2_hurricane,{}
+edge:0578,case:C3-patricia_2015_peak-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0579,case:C3-patricia_2015_peak-S20260830,HAS_RESPONSE_STATE,response:C3-patricia_2015_peak-S20260830,{}
+edge:0580,case:C3-patricia_2015_peak-S20260830,HAS_AGENT_TRACE,trace:C3-patricia_2015_peak-S20260830,{}
+edge:0581,legacy-result:patricia_2015_peak,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0582,legacy-result:patricia_2015_peak,PROVENANCE_ONLY,case:C3-patricia_2015_peak-S20260830,"{""numerical_value_transfer"": false}"
+edge:0583,trace:C3-patricia_2015_peak-S20260830,HAS_STEP,decision:C3-patricia_2015_peak-S20260830:1,"{""step"": 1}"
+edge:0584,decision:C3-patricia_2015_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0585,trace:C3-patricia_2015_peak-S20260830,HAS_STEP,decision:C3-patricia_2015_peak-S20260830:2,"{""step"": 2}"
+edge:0586,decision:C3-patricia_2015_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0587,decision:C3-patricia_2015_peak-S20260830:1,NEXT_STEP,decision:C3-patricia_2015_peak-S20260830:2,{}
+edge:0588,trace:C3-patricia_2015_peak-S20260830,HAS_STEP,decision:C3-patricia_2015_peak-S20260830:3,"{""step"": 3}"
+edge:0589,decision:C3-patricia_2015_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0590,decision:C3-patricia_2015_peak-S20260830:2,NEXT_STEP,decision:C3-patricia_2015_peak-S20260830:3,{}
+edge:0591,trace:C3-patricia_2015_peak-S20260830,HAS_STEP,decision:C3-patricia_2015_peak-S20260830:4,"{""step"": 4}"
+edge:0592,decision:C3-patricia_2015_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0593,decision:C3-patricia_2015_peak-S20260830:3,NEXT_STEP,decision:C3-patricia_2015_peak-S20260830:4,{}
+edge:0594,project:C3-43KG,HAS_CASE,case:C3-gustav_2008_cuba_gust-S20260830,{}
+edge:0595,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:gustav_2008_cuba_gust,{}
+edge:0596,case:C3-gustav_2008_cuba_gust-S20260830,DERIVED_FROM_AUTHORITY,authority-record:gustav_2008_cuba_gust,"{""c3_order"": 21, ""source_case_index"": 21}"
+edge:0597,event-library:github43,CONTAINS_EVENT,github-event:gustav_2008_cuba_gust,{}
+edge:0598,github-event:gustav_2008_cuba_gust,MAPPED_TO,case:C3-gustav_2008_cuba_gust-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0599,case:C3-gustav_2008_cuba_gust-S20260830,EVIDENCED_BY,evidence-bundle:C3-gustav_2008_cuba_gust-S20260830,{}
+edge:0600,evidence-bundle:C3-gustav_2008_cuba_gust-S20260830,BINDS_AUTHORITY,authority-record:gustav_2008_cuba_gust,{}
+edge:0601,evidence-bundle:C3-gustav_2008_cuba_gust-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0602,case:C3-gustav_2008_cuba_gust-S20260830,IN_GROUP,group:G2_hurricane,{}
+edge:0603,case:C3-gustav_2008_cuba_gust-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0604,case:C3-gustav_2008_cuba_gust-S20260830,HAS_RESPONSE_STATE,response:C3-gustav_2008_cuba_gust-S20260830,{}
+edge:0605,case:C3-gustav_2008_cuba_gust-S20260830,HAS_AGENT_TRACE,trace:C3-gustav_2008_cuba_gust-S20260830,{}
+edge:0606,legacy-result:gustav_2008_cuba_gust,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0607,legacy-result:gustav_2008_cuba_gust,PROVENANCE_ONLY,case:C3-gustav_2008_cuba_gust-S20260830,"{""numerical_value_transfer"": false}"
+edge:0608,trace:C3-gustav_2008_cuba_gust-S20260830,HAS_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:1,"{""step"": 1}"
+edge:0609,decision:C3-gustav_2008_cuba_gust-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0610,trace:C3-gustav_2008_cuba_gust-S20260830,HAS_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:2,"{""step"": 2}"
+edge:0611,decision:C3-gustav_2008_cuba_gust-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0612,decision:C3-gustav_2008_cuba_gust-S20260830:1,NEXT_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:2,{}
+edge:0613,trace:C3-gustav_2008_cuba_gust-S20260830,HAS_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:3,"{""step"": 3}"
+edge:0614,decision:C3-gustav_2008_cuba_gust-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0615,decision:C3-gustav_2008_cuba_gust-S20260830:2,NEXT_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:3,{}
+edge:0616,trace:C3-gustav_2008_cuba_gust-S20260830,HAS_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:4,"{""step"": 4}"
+edge:0617,decision:C3-gustav_2008_cuba_gust-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0618,decision:C3-gustav_2008_cuba_gust-S20260830:3,NEXT_STEP,decision:C3-gustav_2008_cuba_gust-S20260830:4,{}
+edge:0619,project:C3-43KG,HAS_CASE,case:C3-bhola_1970_peak-S20260830,{}
+edge:0620,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:bhola_1970_peak,{}
+edge:0621,case:C3-bhola_1970_peak-S20260830,DERIVED_FROM_AUTHORITY,authority-record:bhola_1970_peak,"{""c3_order"": 22, ""source_case_index"": 24}"
+edge:0622,event-library:github43,CONTAINS_EVENT,github-event:bhola_1970_peak,{}
+edge:0623,github-event:bhola_1970_peak,MAPPED_TO,case:C3-bhola_1970_peak-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0624,case:C3-bhola_1970_peak-S20260830,EVIDENCED_BY,evidence-bundle:C3-bhola_1970_peak-S20260830,{}
+edge:0625,evidence-bundle:C3-bhola_1970_peak-S20260830,BINDS_AUTHORITY,authority-record:bhola_1970_peak,{}
+edge:0626,evidence-bundle:C3-bhola_1970_peak-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0627,case:C3-bhola_1970_peak-S20260830,IN_GROUP,group:G3_bob,{}
+edge:0628,case:C3-bhola_1970_peak-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0629,case:C3-bhola_1970_peak-S20260830,HAS_RESPONSE_STATE,response:C3-bhola_1970_peak-S20260830,{}
+edge:0630,case:C3-bhola_1970_peak-S20260830,HAS_AGENT_TRACE,trace:C3-bhola_1970_peak-S20260830,{}
+edge:0631,legacy-result:bhola_1970_peak,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0632,legacy-result:bhola_1970_peak,PROVENANCE_ONLY,case:C3-bhola_1970_peak-S20260830,"{""numerical_value_transfer"": false}"
+edge:0633,trace:C3-bhola_1970_peak-S20260830,HAS_STEP,decision:C3-bhola_1970_peak-S20260830:1,"{""step"": 1}"
+edge:0634,decision:C3-bhola_1970_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0635,trace:C3-bhola_1970_peak-S20260830,HAS_STEP,decision:C3-bhola_1970_peak-S20260830:2,"{""step"": 2}"
+edge:0636,decision:C3-bhola_1970_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0637,decision:C3-bhola_1970_peak-S20260830:1,NEXT_STEP,decision:C3-bhola_1970_peak-S20260830:2,{}
+edge:0638,trace:C3-bhola_1970_peak-S20260830,HAS_STEP,decision:C3-bhola_1970_peak-S20260830:3,"{""step"": 3}"
+edge:0639,decision:C3-bhola_1970_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0640,decision:C3-bhola_1970_peak-S20260830:2,NEXT_STEP,decision:C3-bhola_1970_peak-S20260830:3,{}
+edge:0641,trace:C3-bhola_1970_peak-S20260830,HAS_STEP,decision:C3-bhola_1970_peak-S20260830:4,"{""step"": 4}"
+edge:0642,decision:C3-bhola_1970_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0643,decision:C3-bhola_1970_peak-S20260830:3,NEXT_STEP,decision:C3-bhola_1970_peak-S20260830:4,{}
+edge:0644,project:C3-43KG,HAS_CASE,case:C3-nargis_2008_peak-S20260830,{}
+edge:0645,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:nargis_2008_peak,{}
+edge:0646,case:C3-nargis_2008_peak-S20260830,DERIVED_FROM_AUTHORITY,authority-record:nargis_2008_peak,"{""c3_order"": 23, ""source_case_index"": 23}"
+edge:0647,event-library:github43,CONTAINS_EVENT,github-event:nargis_2008_peak,{}
+edge:0648,github-event:nargis_2008_peak,MAPPED_TO,case:C3-nargis_2008_peak-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0649,case:C3-nargis_2008_peak-S20260830,EVIDENCED_BY,evidence-bundle:C3-nargis_2008_peak-S20260830,{}
+edge:0650,evidence-bundle:C3-nargis_2008_peak-S20260830,BINDS_AUTHORITY,authority-record:nargis_2008_peak,{}
+edge:0651,evidence-bundle:C3-nargis_2008_peak-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0652,case:C3-nargis_2008_peak-S20260830,IN_GROUP,group:G3_bob,{}
+edge:0653,case:C3-nargis_2008_peak-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0654,case:C3-nargis_2008_peak-S20260830,HAS_RESPONSE_STATE,response:C3-nargis_2008_peak-S20260830,{}
+edge:0655,case:C3-nargis_2008_peak-S20260830,HAS_AGENT_TRACE,trace:C3-nargis_2008_peak-S20260830,{}
+edge:0656,legacy-result:nargis_2008_peak,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0657,legacy-result:nargis_2008_peak,PROVENANCE_ONLY,case:C3-nargis_2008_peak-S20260830,"{""numerical_value_transfer"": false}"
+edge:0658,trace:C3-nargis_2008_peak-S20260830,HAS_STEP,decision:C3-nargis_2008_peak-S20260830:1,"{""step"": 1}"
+edge:0659,decision:C3-nargis_2008_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0660,trace:C3-nargis_2008_peak-S20260830,HAS_STEP,decision:C3-nargis_2008_peak-S20260830:2,"{""step"": 2}"
+edge:0661,decision:C3-nargis_2008_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0662,decision:C3-nargis_2008_peak-S20260830:1,NEXT_STEP,decision:C3-nargis_2008_peak-S20260830:2,{}
+edge:0663,trace:C3-nargis_2008_peak-S20260830,HAS_STEP,decision:C3-nargis_2008_peak-S20260830:3,"{""step"": 3}"
+edge:0664,decision:C3-nargis_2008_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0665,decision:C3-nargis_2008_peak-S20260830:2,NEXT_STEP,decision:C3-nargis_2008_peak-S20260830:3,{}
+edge:0666,trace:C3-nargis_2008_peak-S20260830,HAS_STEP,decision:C3-nargis_2008_peak-S20260830:4,"{""step"": 4}"
+edge:0667,decision:C3-nargis_2008_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0668,decision:C3-nargis_2008_peak-S20260830:3,NEXT_STEP,decision:C3-nargis_2008_peak-S20260830:4,{}
+edge:0669,project:C3-43KG,HAS_CASE,case:C3-amphan_2020_peak-S20260830,{}
+edge:0670,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:amphan_2020_peak,{}
+edge:0671,case:C3-amphan_2020_peak-S20260830,DERIVED_FROM_AUTHORITY,authority-record:amphan_2020_peak,"{""c3_order"": 24, ""source_case_index"": 22}"
+edge:0672,event-library:github43,CONTAINS_EVENT,github-event:amphan_2020_peak,{}
+edge:0673,github-event:amphan_2020_peak,MAPPED_TO,case:C3-amphan_2020_peak-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0674,case:C3-amphan_2020_peak-S20260830,EVIDENCED_BY,evidence-bundle:C3-amphan_2020_peak-S20260830,{}
+edge:0675,evidence-bundle:C3-amphan_2020_peak-S20260830,BINDS_AUTHORITY,authority-record:amphan_2020_peak,{}
+edge:0676,evidence-bundle:C3-amphan_2020_peak-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0677,case:C3-amphan_2020_peak-S20260830,IN_GROUP,group:G3_bob,{}
+edge:0678,case:C3-amphan_2020_peak-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0679,case:C3-amphan_2020_peak-S20260830,HAS_RESPONSE_STATE,response:C3-amphan_2020_peak-S20260830,{}
+edge:0680,case:C3-amphan_2020_peak-S20260830,HAS_AGENT_TRACE,trace:C3-amphan_2020_peak-S20260830,{}
+edge:0681,legacy-result:amphan_2020_peak,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0682,legacy-result:amphan_2020_peak,PROVENANCE_ONLY,case:C3-amphan_2020_peak-S20260830,"{""numerical_value_transfer"": false}"
+edge:0683,trace:C3-amphan_2020_peak-S20260830,HAS_STEP,decision:C3-amphan_2020_peak-S20260830:1,"{""step"": 1}"
+edge:0684,decision:C3-amphan_2020_peak-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0685,trace:C3-amphan_2020_peak-S20260830,HAS_STEP,decision:C3-amphan_2020_peak-S20260830:2,"{""step"": 2}"
+edge:0686,decision:C3-amphan_2020_peak-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0687,decision:C3-amphan_2020_peak-S20260830:1,NEXT_STEP,decision:C3-amphan_2020_peak-S20260830:2,{}
+edge:0688,trace:C3-amphan_2020_peak-S20260830,HAS_STEP,decision:C3-amphan_2020_peak-S20260830:3,"{""step"": 3}"
+edge:0689,decision:C3-amphan_2020_peak-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0690,decision:C3-amphan_2020_peak-S20260830:2,NEXT_STEP,decision:C3-amphan_2020_peak-S20260830:3,{}
+edge:0691,trace:C3-amphan_2020_peak-S20260830,HAS_STEP,decision:C3-amphan_2020_peak-S20260830:4,"{""step"": 4}"
+edge:0692,decision:C3-amphan_2020_peak-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0693,decision:C3-amphan_2020_peak-S20260830:3,NEXT_STEP,decision:C3-amphan_2020_peak-S20260830:4,{}
+edge:0694,project:C3-43KG,HAS_CASE,case:C3-ef3_anchor-S20260830,{}
+edge:0695,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:ef3_anchor,{}
+edge:0696,case:C3-ef3_anchor-S20260830,DERIVED_FROM_AUTHORITY,authority-record:ef3_anchor,"{""c3_order"": 25, ""source_case_index"": 25}"
+edge:0697,event-library:github43,CONTAINS_EVENT,github-event:ef3_anchor,{}
+edge:0698,github-event:ef3_anchor,MAPPED_TO,case:C3-ef3_anchor-S20260830,"{""classification_disposition"": ""UNCHANGED_REFERENCE_ONLY""}"
+edge:0699,case:C3-ef3_anchor-S20260830,EVIDENCED_BY,evidence-bundle:C3-ef3_anchor-S20260830,{}
+edge:0700,evidence-bundle:C3-ef3_anchor-S20260830,BINDS_AUTHORITY,authority-record:ef3_anchor,{}
+edge:0701,evidence-bundle:C3-ef3_anchor-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0702,case:C3-ef3_anchor-S20260830,IN_GROUP,group:G4_tornado,{}
+edge:0703,case:C3-ef3_anchor-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0704,case:C3-ef3_anchor-S20260830,HAS_RESPONSE_STATE,response:C3-ef3_anchor-S20260830,{}
+edge:0705,case:C3-ef3_anchor-S20260830,HAS_AGENT_TRACE,trace:C3-ef3_anchor-S20260830,{}
+edge:0706,legacy-result:ef3_anchor,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0707,legacy-result:ef3_anchor,PROVENANCE_ONLY,case:C3-ef3_anchor-S20260830,"{""numerical_value_transfer"": false}"
+edge:0708,trace:C3-ef3_anchor-S20260830,HAS_STEP,decision:C3-ef3_anchor-S20260830:1,"{""step"": 1}"
+edge:0709,decision:C3-ef3_anchor-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0710,trace:C3-ef3_anchor-S20260830,HAS_STEP,decision:C3-ef3_anchor-S20260830:2,"{""step"": 2}"
+edge:0711,decision:C3-ef3_anchor-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0712,decision:C3-ef3_anchor-S20260830:1,NEXT_STEP,decision:C3-ef3_anchor-S20260830:2,{}
+edge:0713,trace:C3-ef3_anchor-S20260830,HAS_STEP,decision:C3-ef3_anchor-S20260830:3,"{""step"": 3}"
+edge:0714,decision:C3-ef3_anchor-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0715,decision:C3-ef3_anchor-S20260830:2,NEXT_STEP,decision:C3-ef3_anchor-S20260830:3,{}
+edge:0716,trace:C3-ef3_anchor-S20260830,HAS_STEP,decision:C3-ef3_anchor-S20260830:4,"{""step"": 4}"
+edge:0717,decision:C3-ef3_anchor-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0718,decision:C3-ef3_anchor-S20260830:3,NEXT_STEP,decision:C3-ef3_anchor-S20260830:4,{}
+edge:0719,project:C3-43KG,HAS_CASE,case:C3-ef4_anchor-S20260830,{}
+edge:0720,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:ef4_anchor,{}
+edge:0721,case:C3-ef4_anchor-S20260830,DERIVED_FROM_AUTHORITY,authority-record:ef4_anchor,"{""c3_order"": 26, ""source_case_index"": 26}"
+edge:0722,event-library:github43,CONTAINS_EVENT,github-event:ef4_anchor,{}
+edge:0723,github-event:ef4_anchor,MAPPED_TO,case:C3-ef4_anchor-S20260830,"{""classification_disposition"": ""UNCHANGED_REFERENCE_ONLY""}"
+edge:0724,case:C3-ef4_anchor-S20260830,EVIDENCED_BY,evidence-bundle:C3-ef4_anchor-S20260830,{}
+edge:0725,evidence-bundle:C3-ef4_anchor-S20260830,BINDS_AUTHORITY,authority-record:ef4_anchor,{}
+edge:0726,evidence-bundle:C3-ef4_anchor-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0727,case:C3-ef4_anchor-S20260830,IN_GROUP,group:G4_tornado,{}
+edge:0728,case:C3-ef4_anchor-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0729,case:C3-ef4_anchor-S20260830,HAS_RESPONSE_STATE,response:C3-ef4_anchor-S20260830,{}
+edge:0730,case:C3-ef4_anchor-S20260830,HAS_AGENT_TRACE,trace:C3-ef4_anchor-S20260830,{}
+edge:0731,legacy-result:ef4_anchor,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0732,legacy-result:ef4_anchor,PROVENANCE_ONLY,case:C3-ef4_anchor-S20260830,"{""numerical_value_transfer"": false}"
+edge:0733,trace:C3-ef4_anchor-S20260830,HAS_STEP,decision:C3-ef4_anchor-S20260830:1,"{""step"": 1}"
+edge:0734,decision:C3-ef4_anchor-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0735,trace:C3-ef4_anchor-S20260830,HAS_STEP,decision:C3-ef4_anchor-S20260830:2,"{""step"": 2}"
+edge:0736,decision:C3-ef4_anchor-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0737,decision:C3-ef4_anchor-S20260830:1,NEXT_STEP,decision:C3-ef4_anchor-S20260830:2,{}
+edge:0738,trace:C3-ef4_anchor-S20260830,HAS_STEP,decision:C3-ef4_anchor-S20260830:3,"{""step"": 3}"
+edge:0739,decision:C3-ef4_anchor-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0740,decision:C3-ef4_anchor-S20260830:2,NEXT_STEP,decision:C3-ef4_anchor-S20260830:3,{}
+edge:0741,trace:C3-ef4_anchor-S20260830,HAS_STEP,decision:C3-ef4_anchor-S20260830:4,"{""step"": 4}"
+edge:0742,decision:C3-ef4_anchor-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0743,decision:C3-ef4_anchor-S20260830:3,NEXT_STEP,decision:C3-ef4_anchor-S20260830:4,{}
+edge:0744,project:C3-43KG,HAS_CASE,case:C3-ef5_anchor-S20260830,{}
+edge:0745,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:ef5_anchor,{}
+edge:0746,case:C3-ef5_anchor-S20260830,DERIVED_FROM_AUTHORITY,authority-record:ef5_anchor,"{""c3_order"": 27, ""source_case_index"": 27}"
+edge:0747,event-library:github43,CONTAINS_EVENT,github-event:ef5_anchor,{}
+edge:0748,github-event:ef5_anchor,MAPPED_TO,case:C3-ef5_anchor-S20260830,"{""classification_disposition"": ""UNCHANGED_REFERENCE_ONLY""}"
+edge:0749,case:C3-ef5_anchor-S20260830,EVIDENCED_BY,evidence-bundle:C3-ef5_anchor-S20260830,{}
+edge:0750,evidence-bundle:C3-ef5_anchor-S20260830,BINDS_AUTHORITY,authority-record:ef5_anchor,{}
+edge:0751,evidence-bundle:C3-ef5_anchor-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0752,case:C3-ef5_anchor-S20260830,IN_GROUP,group:G4_tornado,{}
+edge:0753,case:C3-ef5_anchor-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0754,case:C3-ef5_anchor-S20260830,HAS_RESPONSE_STATE,response:C3-ef5_anchor-S20260830,{}
+edge:0755,case:C3-ef5_anchor-S20260830,HAS_AGENT_TRACE,trace:C3-ef5_anchor-S20260830,{}
+edge:0756,legacy-result:ef5_anchor,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0757,legacy-result:ef5_anchor,PROVENANCE_ONLY,case:C3-ef5_anchor-S20260830,"{""numerical_value_transfer"": false}"
+edge:0758,trace:C3-ef5_anchor-S20260830,HAS_STEP,decision:C3-ef5_anchor-S20260830:1,"{""step"": 1}"
+edge:0759,decision:C3-ef5_anchor-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0760,trace:C3-ef5_anchor-S20260830,HAS_STEP,decision:C3-ef5_anchor-S20260830:2,"{""step"": 2}"
+edge:0761,decision:C3-ef5_anchor-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0762,decision:C3-ef5_anchor-S20260830:1,NEXT_STEP,decision:C3-ef5_anchor-S20260830:2,{}
+edge:0763,trace:C3-ef5_anchor-S20260830,HAS_STEP,decision:C3-ef5_anchor-S20260830:3,"{""step"": 3}"
+edge:0764,decision:C3-ef5_anchor-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0765,decision:C3-ef5_anchor-S20260830:2,NEXT_STEP,decision:C3-ef5_anchor-S20260830:3,{}
+edge:0766,trace:C3-ef5_anchor-S20260830,HAS_STEP,decision:C3-ef5_anchor-S20260830:4,"{""step"": 4}"
+edge:0767,decision:C3-ef5_anchor-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0768,decision:C3-ef5_anchor-S20260830:3,NEXT_STEP,decision:C3-ef5_anchor-S20260830:4,{}
+edge:0769,project:C3-43KG,HAS_CASE,case:C3-funing_2016_ef4-S20260830,{}
+edge:0770,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:funing_2016_ef4,{}
+edge:0771,case:C3-funing_2016_ef4-S20260830,DERIVED_FROM_AUTHORITY,authority-record:funing_2016_ef4,"{""c3_order"": 28, ""source_case_index"": 28}"
+edge:0772,event-library:github43,CONTAINS_EVENT,github-event:funing_2016_ef4,{}
+edge:0773,github-event:funing_2016_ef4,MAPPED_TO,case:C3-funing_2016_ef4-S20260830,"{""classification_disposition"": ""UNCHANGED_REFERENCE_ONLY""}"
+edge:0774,case:C3-funing_2016_ef4-S20260830,EVIDENCED_BY,evidence-bundle:C3-funing_2016_ef4-S20260830,{}
+edge:0775,evidence-bundle:C3-funing_2016_ef4-S20260830,BINDS_AUTHORITY,authority-record:funing_2016_ef4,{}
+edge:0776,evidence-bundle:C3-funing_2016_ef4-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0777,case:C3-funing_2016_ef4-S20260830,IN_GROUP,group:G4_tornado,{}
+edge:0778,case:C3-funing_2016_ef4-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0779,case:C3-funing_2016_ef4-S20260830,HAS_RESPONSE_STATE,response:C3-funing_2016_ef4-S20260830,{}
+edge:0780,case:C3-funing_2016_ef4-S20260830,HAS_AGENT_TRACE,trace:C3-funing_2016_ef4-S20260830,{}
+edge:0781,legacy-result:funing_2016_ef4,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0782,legacy-result:funing_2016_ef4,PROVENANCE_ONLY,case:C3-funing_2016_ef4-S20260830,"{""numerical_value_transfer"": false}"
+edge:0783,trace:C3-funing_2016_ef4-S20260830,HAS_STEP,decision:C3-funing_2016_ef4-S20260830:1,"{""step"": 1}"
+edge:0784,decision:C3-funing_2016_ef4-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0785,trace:C3-funing_2016_ef4-S20260830,HAS_STEP,decision:C3-funing_2016_ef4-S20260830:2,"{""step"": 2}"
+edge:0786,decision:C3-funing_2016_ef4-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0787,decision:C3-funing_2016_ef4-S20260830:1,NEXT_STEP,decision:C3-funing_2016_ef4-S20260830:2,{}
+edge:0788,trace:C3-funing_2016_ef4-S20260830,HAS_STEP,decision:C3-funing_2016_ef4-S20260830:3,"{""step"": 3}"
+edge:0789,decision:C3-funing_2016_ef4-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0790,decision:C3-funing_2016_ef4-S20260830:2,NEXT_STEP,decision:C3-funing_2016_ef4-S20260830:3,{}
+edge:0791,trace:C3-funing_2016_ef4-S20260830,HAS_STEP,decision:C3-funing_2016_ef4-S20260830:4,"{""step"": 4}"
+edge:0792,decision:C3-funing_2016_ef4-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0793,decision:C3-funing_2016_ef4-S20260830:3,NEXT_STEP,decision:C3-funing_2016_ef4-S20260830:4,{}
+edge:0794,project:C3-43KG,HAS_CASE,case:C3-bridge_creek_1999_ref-S20260830,{}
+edge:0795,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:bridge_creek_1999_ref,{}
+edge:0796,case:C3-bridge_creek_1999_ref-S20260830,DERIVED_FROM_AUTHORITY,authority-record:bridge_creek_1999_ref,"{""c3_order"": 29, ""source_case_index"": 29}"
+edge:0797,event-library:github43,CONTAINS_EVENT,github-event:bridge_creek_1999_ref,{}
+edge:0798,github-event:bridge_creek_1999_ref,MAPPED_TO,case:C3-bridge_creek_1999_ref-S20260830,"{""classification_disposition"": ""UNCHANGED_REFERENCE_ONLY""}"
+edge:0799,case:C3-bridge_creek_1999_ref-S20260830,EVIDENCED_BY,evidence-bundle:C3-bridge_creek_1999_ref-S20260830,{}
+edge:0800,evidence-bundle:C3-bridge_creek_1999_ref-S20260830,BINDS_AUTHORITY,authority-record:bridge_creek_1999_ref,{}
+edge:0801,evidence-bundle:C3-bridge_creek_1999_ref-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0802,case:C3-bridge_creek_1999_ref-S20260830,IN_GROUP,group:G4_tornado,{}
+edge:0803,case:C3-bridge_creek_1999_ref-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0804,case:C3-bridge_creek_1999_ref-S20260830,HAS_RESPONSE_STATE,response:C3-bridge_creek_1999_ref-S20260830,{}
+edge:0805,case:C3-bridge_creek_1999_ref-S20260830,HAS_AGENT_TRACE,trace:C3-bridge_creek_1999_ref-S20260830,{}
+edge:0806,legacy-result:bridge_creek_1999_ref,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0807,legacy-result:bridge_creek_1999_ref,PROVENANCE_ONLY,case:C3-bridge_creek_1999_ref-S20260830,"{""numerical_value_transfer"": false}"
+edge:0808,trace:C3-bridge_creek_1999_ref-S20260830,HAS_STEP,decision:C3-bridge_creek_1999_ref-S20260830:1,"{""step"": 1}"
+edge:0809,decision:C3-bridge_creek_1999_ref-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0810,trace:C3-bridge_creek_1999_ref-S20260830,HAS_STEP,decision:C3-bridge_creek_1999_ref-S20260830:2,"{""step"": 2}"
+edge:0811,decision:C3-bridge_creek_1999_ref-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0812,decision:C3-bridge_creek_1999_ref-S20260830:1,NEXT_STEP,decision:C3-bridge_creek_1999_ref-S20260830:2,{}
+edge:0813,trace:C3-bridge_creek_1999_ref-S20260830,HAS_STEP,decision:C3-bridge_creek_1999_ref-S20260830:3,"{""step"": 3}"
+edge:0814,decision:C3-bridge_creek_1999_ref-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0815,decision:C3-bridge_creek_1999_ref-S20260830:2,NEXT_STEP,decision:C3-bridge_creek_1999_ref-S20260830:3,{}
+edge:0816,trace:C3-bridge_creek_1999_ref-S20260830,HAS_STEP,decision:C3-bridge_creek_1999_ref-S20260830:4,"{""step"": 4}"
+edge:0817,decision:C3-bridge_creek_1999_ref-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0818,decision:C3-bridge_creek_1999_ref-S20260830:3,NEXT_STEP,decision:C3-bridge_creek_1999_ref-S20260830:4,{}
+edge:0819,project:C3-43KG,HAS_CASE,case:C3-dongfangzhixing_2015_downburst-S20260830,{}
+edge:0820,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:dongfangzhixing_2015_downburst,{}
+edge:0821,case:C3-dongfangzhixing_2015_downburst-S20260830,DERIVED_FROM_AUTHORITY,authority-record:dongfangzhixing_2015_downburst,"{""c3_order"": 30, ""source_case_index"": 30}"
+edge:0822,event-library:github43,CONTAINS_EVENT,github-event:dongfangzhixing_2015_downburst,{}
+edge:0823,github-event:dongfangzhixing_2015_downburst,MAPPED_TO,case:C3-dongfangzhixing_2015_downburst-S20260830,"{""classification_disposition"": ""UNCHANGED_REFERENCE_ONLY""}"
+edge:0824,case:C3-dongfangzhixing_2015_downburst-S20260830,EVIDENCED_BY,evidence-bundle:C3-dongfangzhixing_2015_downburst-S20260830,{}
+edge:0825,evidence-bundle:C3-dongfangzhixing_2015_downburst-S20260830,BINDS_AUTHORITY,authority-record:dongfangzhixing_2015_downburst,{}
+edge:0826,evidence-bundle:C3-dongfangzhixing_2015_downburst-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0827,case:C3-dongfangzhixing_2015_downburst-S20260830,IN_GROUP,group:G5_downburst,{}
+edge:0828,case:C3-dongfangzhixing_2015_downburst-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0829,case:C3-dongfangzhixing_2015_downburst-S20260830,HAS_RESPONSE_STATE,response:C3-dongfangzhixing_2015_downburst-S20260830,{}
+edge:0830,case:C3-dongfangzhixing_2015_downburst-S20260830,HAS_AGENT_TRACE,trace:C3-dongfangzhixing_2015_downburst-S20260830,{}
+edge:0831,legacy-result:dongfangzhixing_2015_downburst,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0832,legacy-result:dongfangzhixing_2015_downburst,PROVENANCE_ONLY,case:C3-dongfangzhixing_2015_downburst-S20260830,"{""numerical_value_transfer"": false}"
+edge:0833,trace:C3-dongfangzhixing_2015_downburst-S20260830,HAS_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:1,"{""step"": 1}"
+edge:0834,decision:C3-dongfangzhixing_2015_downburst-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0835,trace:C3-dongfangzhixing_2015_downburst-S20260830,HAS_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:2,"{""step"": 2}"
+edge:0836,decision:C3-dongfangzhixing_2015_downburst-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0837,decision:C3-dongfangzhixing_2015_downburst-S20260830:1,NEXT_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:2,{}
+edge:0838,trace:C3-dongfangzhixing_2015_downburst-S20260830,HAS_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:3,"{""step"": 3}"
+edge:0839,decision:C3-dongfangzhixing_2015_downburst-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0840,decision:C3-dongfangzhixing_2015_downburst-S20260830:2,NEXT_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:3,{}
+edge:0841,trace:C3-dongfangzhixing_2015_downburst-S20260830,HAS_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:4,"{""step"": 4}"
+edge:0842,decision:C3-dongfangzhixing_2015_downburst-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0843,decision:C3-dongfangzhixing_2015_downburst-S20260830:3,NEXT_STEP,decision:C3-dongfangzhixing_2015_downburst-S20260830:4,{}
+edge:0844,project:C3-43KG,HAS_CASE,case:C3-andrews_afb_1983_microburst-S20260830,{}
+edge:0845,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:andrews_afb_1983_microburst,{}
+edge:0846,case:C3-andrews_afb_1983_microburst-S20260830,DERIVED_FROM_AUTHORITY,authority-record:andrews_afb_1983_microburst,"{""c3_order"": 31, ""source_case_index"": 31}"
+edge:0847,event-library:github43,CONTAINS_EVENT,github-event:andrews_afb_1983_microburst,{}
+edge:0848,github-event:andrews_afb_1983_microburst,MAPPED_TO,case:C3-andrews_afb_1983_microburst-S20260830,"{""classification_disposition"": ""UNCHANGED_REFERENCE_ONLY""}"
+edge:0849,case:C3-andrews_afb_1983_microburst-S20260830,EVIDENCED_BY,evidence-bundle:C3-andrews_afb_1983_microburst-S20260830,{}
+edge:0850,evidence-bundle:C3-andrews_afb_1983_microburst-S20260830,BINDS_AUTHORITY,authority-record:andrews_afb_1983_microburst,{}
+edge:0851,evidence-bundle:C3-andrews_afb_1983_microburst-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0852,case:C3-andrews_afb_1983_microburst-S20260830,IN_GROUP,group:G5_downburst,{}
+edge:0853,case:C3-andrews_afb_1983_microburst-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0854,case:C3-andrews_afb_1983_microburst-S20260830,HAS_RESPONSE_STATE,response:C3-andrews_afb_1983_microburst-S20260830,{}
+edge:0855,case:C3-andrews_afb_1983_microburst-S20260830,HAS_AGENT_TRACE,trace:C3-andrews_afb_1983_microburst-S20260830,{}
+edge:0856,legacy-result:andrews_afb_1983_microburst,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0857,legacy-result:andrews_afb_1983_microburst,PROVENANCE_ONLY,case:C3-andrews_afb_1983_microburst-S20260830,"{""numerical_value_transfer"": false}"
+edge:0858,trace:C3-andrews_afb_1983_microburst-S20260830,HAS_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:1,"{""step"": 1}"
+edge:0859,decision:C3-andrews_afb_1983_microburst-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0860,trace:C3-andrews_afb_1983_microburst-S20260830,HAS_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:2,"{""step"": 2}"
+edge:0861,decision:C3-andrews_afb_1983_microburst-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0862,decision:C3-andrews_afb_1983_microburst-S20260830:1,NEXT_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:2,{}
+edge:0863,trace:C3-andrews_afb_1983_microburst-S20260830,HAS_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:3,"{""step"": 3}"
+edge:0864,decision:C3-andrews_afb_1983_microburst-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0865,decision:C3-andrews_afb_1983_microburst-S20260830:2,NEXT_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:3,{}
+edge:0866,trace:C3-andrews_afb_1983_microburst-S20260830,HAS_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:4,"{""step"": 4}"
+edge:0867,decision:C3-andrews_afb_1983_microburst-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0868,decision:C3-andrews_afb_1983_microburst-S20260830:3,NEXT_STEP,decision:C3-andrews_afb_1983_microburst-S20260830:4,{}
+edge:0869,project:C3-43KG,HAS_CASE,case:C3-midwest_derecho_2020-S20260830,{}
+edge:0870,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:midwest_derecho_2020,{}
+edge:0871,case:C3-midwest_derecho_2020-S20260830,DERIVED_FROM_AUTHORITY,authority-record:midwest_derecho_2020,"{""c3_order"": 32, ""source_case_index"": 32}"
+edge:0872,event-library:github43,CONTAINS_EVENT,github-event:midwest_derecho_2020,{}
+edge:0873,github-event:midwest_derecho_2020,MAPPED_TO,case:C3-midwest_derecho_2020-S20260830,"{""classification_disposition"": ""UNCHANGED_REFERENCE_ONLY""}"
+edge:0874,case:C3-midwest_derecho_2020-S20260830,EVIDENCED_BY,evidence-bundle:C3-midwest_derecho_2020-S20260830,{}
+edge:0875,evidence-bundle:C3-midwest_derecho_2020-S20260830,BINDS_AUTHORITY,authority-record:midwest_derecho_2020,{}
+edge:0876,evidence-bundle:C3-midwest_derecho_2020-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0877,case:C3-midwest_derecho_2020-S20260830,IN_GROUP,group:G5_downburst,{}
+edge:0878,case:C3-midwest_derecho_2020-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0879,case:C3-midwest_derecho_2020-S20260830,HAS_RESPONSE_STATE,response:C3-midwest_derecho_2020-S20260830,{}
+edge:0880,case:C3-midwest_derecho_2020-S20260830,HAS_AGENT_TRACE,trace:C3-midwest_derecho_2020-S20260830,{}
+edge:0881,legacy-result:midwest_derecho_2020,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0882,legacy-result:midwest_derecho_2020,PROVENANCE_ONLY,case:C3-midwest_derecho_2020-S20260830,"{""numerical_value_transfer"": false}"
+edge:0883,trace:C3-midwest_derecho_2020-S20260830,HAS_STEP,decision:C3-midwest_derecho_2020-S20260830:1,"{""step"": 1}"
+edge:0884,decision:C3-midwest_derecho_2020-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0885,trace:C3-midwest_derecho_2020-S20260830,HAS_STEP,decision:C3-midwest_derecho_2020-S20260830:2,"{""step"": 2}"
+edge:0886,decision:C3-midwest_derecho_2020-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0887,decision:C3-midwest_derecho_2020-S20260830:1,NEXT_STEP,decision:C3-midwest_derecho_2020-S20260830:2,{}
+edge:0888,trace:C3-midwest_derecho_2020-S20260830,HAS_STEP,decision:C3-midwest_derecho_2020-S20260830:3,"{""step"": 3}"
+edge:0889,decision:C3-midwest_derecho_2020-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0890,decision:C3-midwest_derecho_2020-S20260830:2,NEXT_STEP,decision:C3-midwest_derecho_2020-S20260830:3,{}
+edge:0891,trace:C3-midwest_derecho_2020-S20260830,HAS_STEP,decision:C3-midwest_derecho_2020-S20260830:4,"{""step"": 4}"
+edge:0892,decision:C3-midwest_derecho_2020-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0893,decision:C3-midwest_derecho_2020-S20260830:3,NEXT_STEP,decision:C3-midwest_derecho_2020-S20260830:4,{}
+edge:0894,project:C3-43KG,HAS_CASE,case:C3-great_storm_1987-S20260830,{}
+edge:0895,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:great_storm_1987,{}
+edge:0896,case:C3-great_storm_1987-S20260830,DERIVED_FROM_AUTHORITY,authority-record:great_storm_1987,"{""c3_order"": 33, ""source_case_index"": 33}"
+edge:0897,event-library:github43,CONTAINS_EVENT,github-event:great_storm_1987,{}
+edge:0898,github-event:great_storm_1987,MAPPED_TO,case:C3-great_storm_1987-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0899,case:C3-great_storm_1987-S20260830,EVIDENCED_BY,evidence-bundle:C3-great_storm_1987-S20260830,{}
+edge:0900,evidence-bundle:C3-great_storm_1987-S20260830,BINDS_AUTHORITY,authority-record:great_storm_1987,{}
+edge:0901,evidence-bundle:C3-great_storm_1987-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0902,case:C3-great_storm_1987-S20260830,IN_GROUP,group:G6_temperate,{}
+edge:0903,case:C3-great_storm_1987-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0904,case:C3-great_storm_1987-S20260830,HAS_RESPONSE_STATE,response:C3-great_storm_1987-S20260830,{}
+edge:0905,case:C3-great_storm_1987-S20260830,HAS_AGENT_TRACE,trace:C3-great_storm_1987-S20260830,{}
+edge:0906,legacy-result:great_storm_1987,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0907,legacy-result:great_storm_1987,PROVENANCE_ONLY,case:C3-great_storm_1987-S20260830,"{""numerical_value_transfer"": false}"
+edge:0908,trace:C3-great_storm_1987-S20260830,HAS_STEP,decision:C3-great_storm_1987-S20260830:1,"{""step"": 1}"
+edge:0909,decision:C3-great_storm_1987-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0910,trace:C3-great_storm_1987-S20260830,HAS_STEP,decision:C3-great_storm_1987-S20260830:2,"{""step"": 2}"
+edge:0911,decision:C3-great_storm_1987-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0912,decision:C3-great_storm_1987-S20260830:1,NEXT_STEP,decision:C3-great_storm_1987-S20260830:2,{}
+edge:0913,trace:C3-great_storm_1987-S20260830,HAS_STEP,decision:C3-great_storm_1987-S20260830:3,"{""step"": 3}"
+edge:0914,decision:C3-great_storm_1987-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0915,decision:C3-great_storm_1987-S20260830:2,NEXT_STEP,decision:C3-great_storm_1987-S20260830:3,{}
+edge:0916,trace:C3-great_storm_1987-S20260830,HAS_STEP,decision:C3-great_storm_1987-S20260830:4,"{""step"": 4}"
+edge:0917,decision:C3-great_storm_1987-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0918,decision:C3-great_storm_1987-S20260830:3,NEXT_STEP,decision:C3-great_storm_1987-S20260830:4,{}
+edge:0919,project:C3-43KG,HAS_CASE,case:C3-lothar_1999-S20260830,{}
+edge:0920,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:lothar_1999,{}
+edge:0921,case:C3-lothar_1999-S20260830,DERIVED_FROM_AUTHORITY,authority-record:lothar_1999,"{""c3_order"": 34, ""source_case_index"": 34}"
+edge:0922,event-library:github43,CONTAINS_EVENT,github-event:lothar_1999,{}
+edge:0923,github-event:lothar_1999,MAPPED_TO,case:C3-lothar_1999-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0924,case:C3-lothar_1999-S20260830,EVIDENCED_BY,evidence-bundle:C3-lothar_1999-S20260830,{}
+edge:0925,evidence-bundle:C3-lothar_1999-S20260830,BINDS_AUTHORITY,authority-record:lothar_1999,{}
+edge:0926,evidence-bundle:C3-lothar_1999-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0927,case:C3-lothar_1999-S20260830,IN_GROUP,group:G6_temperate,{}
+edge:0928,case:C3-lothar_1999-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0929,case:C3-lothar_1999-S20260830,HAS_RESPONSE_STATE,response:C3-lothar_1999-S20260830,{}
+edge:0930,case:C3-lothar_1999-S20260830,HAS_AGENT_TRACE,trace:C3-lothar_1999-S20260830,{}
+edge:0931,legacy-result:lothar_1999,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0932,legacy-result:lothar_1999,PROVENANCE_ONLY,case:C3-lothar_1999-S20260830,"{""numerical_value_transfer"": false}"
+edge:0933,trace:C3-lothar_1999-S20260830,HAS_STEP,decision:C3-lothar_1999-S20260830:1,"{""step"": 1}"
+edge:0934,decision:C3-lothar_1999-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0935,trace:C3-lothar_1999-S20260830,HAS_STEP,decision:C3-lothar_1999-S20260830:2,"{""step"": 2}"
+edge:0936,decision:C3-lothar_1999-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0937,decision:C3-lothar_1999-S20260830:1,NEXT_STEP,decision:C3-lothar_1999-S20260830:2,{}
+edge:0938,trace:C3-lothar_1999-S20260830,HAS_STEP,decision:C3-lothar_1999-S20260830:3,"{""step"": 3}"
+edge:0939,decision:C3-lothar_1999-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0940,decision:C3-lothar_1999-S20260830:2,NEXT_STEP,decision:C3-lothar_1999-S20260830:3,{}
+edge:0941,trace:C3-lothar_1999-S20260830,HAS_STEP,decision:C3-lothar_1999-S20260830:4,"{""step"": 4}"
+edge:0942,decision:C3-lothar_1999-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0943,decision:C3-lothar_1999-S20260830:3,NEXT_STEP,decision:C3-lothar_1999-S20260830:4,{}
+edge:0944,project:C3-43KG,HAS_CASE,case:C3-bora_adriatic-S20260830,{}
+edge:0945,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:bora_adriatic,{}
+edge:0946,case:C3-bora_adriatic-S20260830,DERIVED_FROM_AUTHORITY,authority-record:bora_adriatic,"{""c3_order"": 35, ""source_case_index"": 35}"
+edge:0947,event-library:github43,CONTAINS_EVENT,github-event:bora_adriatic,{}
+edge:0948,github-event:bora_adriatic,MAPPED_TO,case:C3-bora_adriatic-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0949,case:C3-bora_adriatic-S20260830,EVIDENCED_BY,evidence-bundle:C3-bora_adriatic-S20260830,{}
+edge:0950,evidence-bundle:C3-bora_adriatic-S20260830,BINDS_AUTHORITY,authority-record:bora_adriatic,{}
+edge:0951,evidence-bundle:C3-bora_adriatic-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0952,case:C3-bora_adriatic-S20260830,IN_GROUP,group:G6_temperate,{}
+edge:0953,case:C3-bora_adriatic-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0954,case:C3-bora_adriatic-S20260830,HAS_RESPONSE_STATE,response:C3-bora_adriatic-S20260830,{}
+edge:0955,case:C3-bora_adriatic-S20260830,HAS_AGENT_TRACE,trace:C3-bora_adriatic-S20260830,{}
+edge:0956,legacy-result:bora_adriatic,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0957,legacy-result:bora_adriatic,PROVENANCE_ONLY,case:C3-bora_adriatic-S20260830,"{""numerical_value_transfer"": false}"
+edge:0958,trace:C3-bora_adriatic-S20260830,HAS_STEP,decision:C3-bora_adriatic-S20260830:1,"{""step"": 1}"
+edge:0959,decision:C3-bora_adriatic-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0960,trace:C3-bora_adriatic-S20260830,HAS_STEP,decision:C3-bora_adriatic-S20260830:2,"{""step"": 2}"
+edge:0961,decision:C3-bora_adriatic-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0962,decision:C3-bora_adriatic-S20260830:1,NEXT_STEP,decision:C3-bora_adriatic-S20260830:2,{}
+edge:0963,trace:C3-bora_adriatic-S20260830,HAS_STEP,decision:C3-bora_adriatic-S20260830:3,"{""step"": 3}"
+edge:0964,decision:C3-bora_adriatic-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0965,decision:C3-bora_adriatic-S20260830:2,NEXT_STEP,decision:C3-bora_adriatic-S20260830:3,{}
+edge:0966,trace:C3-bora_adriatic-S20260830,HAS_STEP,decision:C3-bora_adriatic-S20260830:4,"{""step"": 4}"
+edge:0967,decision:C3-bora_adriatic-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0968,decision:C3-bora_adriatic-S20260830:3,NEXT_STEP,decision:C3-bora_adriatic-S20260830:4,{}
+edge:0969,project:C3-43KG,HAS_CASE,case:C3-mistral_strong-S20260830,{}
+edge:0970,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:mistral_strong,{}
+edge:0971,case:C3-mistral_strong-S20260830,DERIVED_FROM_AUTHORITY,authority-record:mistral_strong,"{""c3_order"": 36, ""source_case_index"": 36}"
+edge:0972,event-library:github43,CONTAINS_EVENT,github-event:mistral_strong,{}
+edge:0973,github-event:mistral_strong,MAPPED_TO,case:C3-mistral_strong-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0974,case:C3-mistral_strong-S20260830,EVIDENCED_BY,evidence-bundle:C3-mistral_strong-S20260830,{}
+edge:0975,evidence-bundle:C3-mistral_strong-S20260830,BINDS_AUTHORITY,authority-record:mistral_strong,{}
+edge:0976,evidence-bundle:C3-mistral_strong-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:0977,case:C3-mistral_strong-S20260830,IN_GROUP,group:G6_temperate,{}
+edge:0978,case:C3-mistral_strong-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:0979,case:C3-mistral_strong-S20260830,HAS_RESPONSE_STATE,response:C3-mistral_strong-S20260830,{}
+edge:0980,case:C3-mistral_strong-S20260830,HAS_AGENT_TRACE,trace:C3-mistral_strong-S20260830,{}
+edge:0981,legacy-result:mistral_strong,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:0982,legacy-result:mistral_strong,PROVENANCE_ONLY,case:C3-mistral_strong-S20260830,"{""numerical_value_transfer"": false}"
+edge:0983,trace:C3-mistral_strong-S20260830,HAS_STEP,decision:C3-mistral_strong-S20260830:1,"{""step"": 1}"
+edge:0984,decision:C3-mistral_strong-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:0985,trace:C3-mistral_strong-S20260830,HAS_STEP,decision:C3-mistral_strong-S20260830:2,"{""step"": 2}"
+edge:0986,decision:C3-mistral_strong-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:0987,decision:C3-mistral_strong-S20260830:1,NEXT_STEP,decision:C3-mistral_strong-S20260830:2,{}
+edge:0988,trace:C3-mistral_strong-S20260830,HAS_STEP,decision:C3-mistral_strong-S20260830:3,"{""step"": 3}"
+edge:0989,decision:C3-mistral_strong-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:0990,decision:C3-mistral_strong-S20260830:2,NEXT_STEP,decision:C3-mistral_strong-S20260830:3,{}
+edge:0991,trace:C3-mistral_strong-S20260830,HAS_STEP,decision:C3-mistral_strong-S20260830:4,"{""step"": 4}"
+edge:0992,decision:C3-mistral_strong-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:0993,decision:C3-mistral_strong-S20260830:3,NEXT_STEP,decision:C3-mistral_strong-S20260830:4,{}
+edge:0994,project:C3-43KG,HAS_CASE,case:C3-patagonia_westerlies-S20260830,{}
+edge:0995,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:patagonia_westerlies,{}
+edge:0996,case:C3-patagonia_westerlies-S20260830,DERIVED_FROM_AUTHORITY,authority-record:patagonia_westerlies,"{""c3_order"": 37, ""source_case_index"": 37}"
+edge:0997,event-library:github43,CONTAINS_EVENT,github-event:patagonia_westerlies,{}
+edge:0998,github-event:patagonia_westerlies,MAPPED_TO,case:C3-patagonia_westerlies-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:0999,case:C3-patagonia_westerlies-S20260830,EVIDENCED_BY,evidence-bundle:C3-patagonia_westerlies-S20260830,{}
+edge:1000,evidence-bundle:C3-patagonia_westerlies-S20260830,BINDS_AUTHORITY,authority-record:patagonia_westerlies,{}
+edge:1001,evidence-bundle:C3-patagonia_westerlies-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:1002,case:C3-patagonia_westerlies-S20260830,IN_GROUP,group:G6_temperate,{}
+edge:1003,case:C3-patagonia_westerlies-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:1004,case:C3-patagonia_westerlies-S20260830,HAS_RESPONSE_STATE,response:C3-patagonia_westerlies-S20260830,{}
+edge:1005,case:C3-patagonia_westerlies-S20260830,HAS_AGENT_TRACE,trace:C3-patagonia_westerlies-S20260830,{}
+edge:1006,legacy-result:patagonia_westerlies,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:1007,legacy-result:patagonia_westerlies,PROVENANCE_ONLY,case:C3-patagonia_westerlies-S20260830,"{""numerical_value_transfer"": false}"
+edge:1008,trace:C3-patagonia_westerlies-S20260830,HAS_STEP,decision:C3-patagonia_westerlies-S20260830:1,"{""step"": 1}"
+edge:1009,decision:C3-patagonia_westerlies-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:1010,trace:C3-patagonia_westerlies-S20260830,HAS_STEP,decision:C3-patagonia_westerlies-S20260830:2,"{""step"": 2}"
+edge:1011,decision:C3-patagonia_westerlies-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:1012,decision:C3-patagonia_westerlies-S20260830:1,NEXT_STEP,decision:C3-patagonia_westerlies-S20260830:2,{}
+edge:1013,trace:C3-patagonia_westerlies-S20260830,HAS_STEP,decision:C3-patagonia_westerlies-S20260830:3,"{""step"": 3}"
+edge:1014,decision:C3-patagonia_westerlies-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:1015,decision:C3-patagonia_westerlies-S20260830:2,NEXT_STEP,decision:C3-patagonia_westerlies-S20260830:3,{}
+edge:1016,trace:C3-patagonia_westerlies-S20260830,HAS_STEP,decision:C3-patagonia_westerlies-S20260830:4,"{""step"": 4}"
+edge:1017,decision:C3-patagonia_westerlies-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:1018,decision:C3-patagonia_westerlies-S20260830:3,NEXT_STEP,decision:C3-patagonia_westerlies-S20260830:4,{}
+edge:1019,project:C3-43KG,HAS_CASE,case:C3-xinjiang_baili_fengqu-S20260830,{}
+edge:1020,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:xinjiang_baili_fengqu,{}
+edge:1021,case:C3-xinjiang_baili_fengqu-S20260830,DERIVED_FROM_AUTHORITY,authority-record:xinjiang_baili_fengqu,"{""c3_order"": 38, ""source_case_index"": 38}"
+edge:1022,event-library:github43,CONTAINS_EVENT,github-event:xinjiang_baili_fengqu,{}
+edge:1023,github-event:xinjiang_baili_fengqu,MAPPED_TO,case:C3-xinjiang_baili_fengqu-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:1024,case:C3-xinjiang_baili_fengqu-S20260830,EVIDENCED_BY,evidence-bundle:C3-xinjiang_baili_fengqu-S20260830,{}
+edge:1025,evidence-bundle:C3-xinjiang_baili_fengqu-S20260830,BINDS_AUTHORITY,authority-record:xinjiang_baili_fengqu,{}
+edge:1026,evidence-bundle:C3-xinjiang_baili_fengqu-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:1027,case:C3-xinjiang_baili_fengqu-S20260830,IN_GROUP,group:G6_temperate,{}
+edge:1028,case:C3-xinjiang_baili_fengqu-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:1029,case:C3-xinjiang_baili_fengqu-S20260830,HAS_RESPONSE_STATE,response:C3-xinjiang_baili_fengqu-S20260830,{}
+edge:1030,case:C3-xinjiang_baili_fengqu-S20260830,HAS_AGENT_TRACE,trace:C3-xinjiang_baili_fengqu-S20260830,{}
+edge:1031,legacy-result:xinjiang_baili_fengqu,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:1032,legacy-result:xinjiang_baili_fengqu,PROVENANCE_ONLY,case:C3-xinjiang_baili_fengqu-S20260830,"{""numerical_value_transfer"": false}"
+edge:1033,trace:C3-xinjiang_baili_fengqu-S20260830,HAS_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:1,"{""step"": 1}"
+edge:1034,decision:C3-xinjiang_baili_fengqu-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:1035,trace:C3-xinjiang_baili_fengqu-S20260830,HAS_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:2,"{""step"": 2}"
+edge:1036,decision:C3-xinjiang_baili_fengqu-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:1037,decision:C3-xinjiang_baili_fengqu-S20260830:1,NEXT_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:2,{}
+edge:1038,trace:C3-xinjiang_baili_fengqu-S20260830,HAS_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:3,"{""step"": 3}"
+edge:1039,decision:C3-xinjiang_baili_fengqu-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:1040,decision:C3-xinjiang_baili_fengqu-S20260830:2,NEXT_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:3,{}
+edge:1041,trace:C3-xinjiang_baili_fengqu-S20260830,HAS_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:4,"{""step"": 4}"
+edge:1042,decision:C3-xinjiang_baili_fengqu-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:1043,decision:C3-xinjiang_baili_fengqu-S20260830:3,NEXT_STEP,decision:C3-xinjiang_baili_fengqu-S20260830:4,{}
+edge:1044,project:C3-43KG,HAS_CASE,case:C3-cape_denison_katabatic-S20260830,{}
+edge:1045,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:cape_denison_katabatic,{}
+edge:1046,case:C3-cape_denison_katabatic-S20260830,DERIVED_FROM_AUTHORITY,authority-record:cape_denison_katabatic,"{""c3_order"": 39, ""source_case_index"": 39}"
+edge:1047,event-library:github43,CONTAINS_EVENT,github-event:cape_denison_katabatic,{}
+edge:1048,github-event:cape_denison_katabatic,MAPPED_TO,case:C3-cape_denison_katabatic-S20260830,"{""classification_disposition"": ""C3_ENVELOPE_ONLY_RECLASSIFIED""}"
+edge:1049,case:C3-cape_denison_katabatic-S20260830,EVIDENCED_BY,evidence-bundle:C3-cape_denison_katabatic-S20260830,{}
+edge:1050,evidence-bundle:C3-cape_denison_katabatic-S20260830,BINDS_AUTHORITY,authority-record:cape_denison_katabatic,{}
+edge:1051,evidence-bundle:C3-cape_denison_katabatic-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:1052,case:C3-cape_denison_katabatic-S20260830,IN_GROUP,group:G7_polar,{}
+edge:1053,case:C3-cape_denison_katabatic-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:1054,case:C3-cape_denison_katabatic-S20260830,HAS_RESPONSE_STATE,response:C3-cape_denison_katabatic-S20260830,{}
+edge:1055,case:C3-cape_denison_katabatic-S20260830,HAS_AGENT_TRACE,trace:C3-cape_denison_katabatic-S20260830,{}
+edge:1056,legacy-result:cape_denison_katabatic,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:1057,legacy-result:cape_denison_katabatic,PROVENANCE_ONLY,case:C3-cape_denison_katabatic-S20260830,"{""numerical_value_transfer"": false}"
+edge:1058,trace:C3-cape_denison_katabatic-S20260830,HAS_STEP,decision:C3-cape_denison_katabatic-S20260830:1,"{""step"": 1}"
+edge:1059,decision:C3-cape_denison_katabatic-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:1060,trace:C3-cape_denison_katabatic-S20260830,HAS_STEP,decision:C3-cape_denison_katabatic-S20260830:2,"{""step"": 2}"
+edge:1061,decision:C3-cape_denison_katabatic-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:1062,decision:C3-cape_denison_katabatic-S20260830:1,NEXT_STEP,decision:C3-cape_denison_katabatic-S20260830:2,{}
+edge:1063,trace:C3-cape_denison_katabatic-S20260830,HAS_STEP,decision:C3-cape_denison_katabatic-S20260830:3,"{""step"": 3}"
+edge:1064,decision:C3-cape_denison_katabatic-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:1065,decision:C3-cape_denison_katabatic-S20260830:2,NEXT_STEP,decision:C3-cape_denison_katabatic-S20260830:3,{}
+edge:1066,trace:C3-cape_denison_katabatic-S20260830,HAS_STEP,decision:C3-cape_denison_katabatic-S20260830:4,"{""step"": 4}"
+edge:1067,decision:C3-cape_denison_katabatic-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:1068,decision:C3-cape_denison_katabatic-S20260830:3,NEXT_STEP,decision:C3-cape_denison_katabatic-S20260830:4,{}
+edge:1069,project:C3-43KG,HAS_CASE,case:C3-thule_1972_gust-S20260830,{}
+edge:1070,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:thule_1972_gust,{}
+edge:1071,case:C3-thule_1972_gust-S20260830,DERIVED_FROM_AUTHORITY,authority-record:thule_1972_gust,"{""c3_order"": 40, ""source_case_index"": 40}"
+edge:1072,event-library:github43,CONTAINS_EVENT,github-event:thule_1972_gust,{}
+edge:1073,github-event:thule_1972_gust,MAPPED_TO,case:C3-thule_1972_gust-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:1074,case:C3-thule_1972_gust-S20260830,EVIDENCED_BY,evidence-bundle:C3-thule_1972_gust-S20260830,{}
+edge:1075,evidence-bundle:C3-thule_1972_gust-S20260830,BINDS_AUTHORITY,authority-record:thule_1972_gust,{}
+edge:1076,evidence-bundle:C3-thule_1972_gust-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:1077,case:C3-thule_1972_gust-S20260830,IN_GROUP,group:G7_polar,{}
+edge:1078,case:C3-thule_1972_gust-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:1079,case:C3-thule_1972_gust-S20260830,HAS_RESPONSE_STATE,response:C3-thule_1972_gust-S20260830,{}
+edge:1080,case:C3-thule_1972_gust-S20260830,HAS_AGENT_TRACE,trace:C3-thule_1972_gust-S20260830,{}
+edge:1081,legacy-result:thule_1972_gust,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:1082,legacy-result:thule_1972_gust,PROVENANCE_ONLY,case:C3-thule_1972_gust-S20260830,"{""numerical_value_transfer"": false}"
+edge:1083,trace:C3-thule_1972_gust-S20260830,HAS_STEP,decision:C3-thule_1972_gust-S20260830:1,"{""step"": 1}"
+edge:1084,decision:C3-thule_1972_gust-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:1085,trace:C3-thule_1972_gust-S20260830,HAS_STEP,decision:C3-thule_1972_gust-S20260830:2,"{""step"": 2}"
+edge:1086,decision:C3-thule_1972_gust-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:1087,decision:C3-thule_1972_gust-S20260830:1,NEXT_STEP,decision:C3-thule_1972_gust-S20260830:2,{}
+edge:1088,trace:C3-thule_1972_gust-S20260830,HAS_STEP,decision:C3-thule_1972_gust-S20260830:3,"{""step"": 3}"
+edge:1089,decision:C3-thule_1972_gust-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:1090,decision:C3-thule_1972_gust-S20260830:2,NEXT_STEP,decision:C3-thule_1972_gust-S20260830:3,{}
+edge:1091,trace:C3-thule_1972_gust-S20260830,HAS_STEP,decision:C3-thule_1972_gust-S20260830:4,"{""step"": 4}"
+edge:1092,decision:C3-thule_1972_gust-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:1093,decision:C3-thule_1972_gust-S20260830:3,NEXT_STEP,decision:C3-thule_1972_gust-S20260830:4,{}
+edge:1094,project:C3-43KG,HAS_CASE,case:C3-piteraq_tasiilaq-S20260830,{}
+edge:1095,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:piteraq_tasiilaq,{}
+edge:1096,case:C3-piteraq_tasiilaq-S20260830,DERIVED_FROM_AUTHORITY,authority-record:piteraq_tasiilaq,"{""c3_order"": 41, ""source_case_index"": 41}"
+edge:1097,event-library:github43,CONTAINS_EVENT,github-event:piteraq_tasiilaq,{}
+edge:1098,github-event:piteraq_tasiilaq,MAPPED_TO,case:C3-piteraq_tasiilaq-S20260830,"{""classification_disposition"": ""C3_ENVELOPE_ONLY_RECLASSIFIED""}"
+edge:1099,case:C3-piteraq_tasiilaq-S20260830,EVIDENCED_BY,evidence-bundle:C3-piteraq_tasiilaq-S20260830,{}
+edge:1100,evidence-bundle:C3-piteraq_tasiilaq-S20260830,BINDS_AUTHORITY,authority-record:piteraq_tasiilaq,{}
+edge:1101,evidence-bundle:C3-piteraq_tasiilaq-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:1102,case:C3-piteraq_tasiilaq-S20260830,IN_GROUP,group:G7_polar,{}
+edge:1103,case:C3-piteraq_tasiilaq-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:1104,case:C3-piteraq_tasiilaq-S20260830,HAS_RESPONSE_STATE,response:C3-piteraq_tasiilaq-S20260830,{}
+edge:1105,case:C3-piteraq_tasiilaq-S20260830,HAS_AGENT_TRACE,trace:C3-piteraq_tasiilaq-S20260830,{}
+edge:1106,legacy-result:piteraq_tasiilaq,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:1107,legacy-result:piteraq_tasiilaq,PROVENANCE_ONLY,case:C3-piteraq_tasiilaq-S20260830,"{""numerical_value_transfer"": false}"
+edge:1108,trace:C3-piteraq_tasiilaq-S20260830,HAS_STEP,decision:C3-piteraq_tasiilaq-S20260830:1,"{""step"": 1}"
+edge:1109,decision:C3-piteraq_tasiilaq-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:1110,trace:C3-piteraq_tasiilaq-S20260830,HAS_STEP,decision:C3-piteraq_tasiilaq-S20260830:2,"{""step"": 2}"
+edge:1111,decision:C3-piteraq_tasiilaq-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:1112,decision:C3-piteraq_tasiilaq-S20260830:1,NEXT_STEP,decision:C3-piteraq_tasiilaq-S20260830:2,{}
+edge:1113,trace:C3-piteraq_tasiilaq-S20260830,HAS_STEP,decision:C3-piteraq_tasiilaq-S20260830:3,"{""step"": 3}"
+edge:1114,decision:C3-piteraq_tasiilaq-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:1115,decision:C3-piteraq_tasiilaq-S20260830:2,NEXT_STEP,decision:C3-piteraq_tasiilaq-S20260830:3,{}
+edge:1116,trace:C3-piteraq_tasiilaq-S20260830,HAS_STEP,decision:C3-piteraq_tasiilaq-S20260830:4,"{""step"": 4}"
+edge:1117,decision:C3-piteraq_tasiilaq-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:1118,decision:C3-piteraq_tasiilaq-S20260830:3,NEXT_STEP,decision:C3-piteraq_tasiilaq-S20260830:4,{}
+edge:1119,project:C3-43KG,HAS_CASE,case:C3-barrow_olivia_1996-S20260830,{}
+edge:1120,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:barrow_olivia_1996,{}
+edge:1121,case:C3-barrow_olivia_1996-S20260830,DERIVED_FROM_AUTHORITY,authority-record:barrow_olivia_1996,"{""c3_order"": 42, ""source_case_index"": 42}"
+edge:1122,event-library:github43,CONTAINS_EVENT,github-event:barrow_olivia_1996,{}
+edge:1123,github-event:barrow_olivia_1996,MAPPED_TO,case:C3-barrow_olivia_1996-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:1124,case:C3-barrow_olivia_1996-S20260830,EVIDENCED_BY,evidence-bundle:C3-barrow_olivia_1996-S20260830,{}
+edge:1125,evidence-bundle:C3-barrow_olivia_1996-S20260830,BINDS_AUTHORITY,authority-record:barrow_olivia_1996,{}
+edge:1126,evidence-bundle:C3-barrow_olivia_1996-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:1127,case:C3-barrow_olivia_1996-S20260830,IN_GROUP,group:G8_record,{}
+edge:1128,case:C3-barrow_olivia_1996-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:1129,case:C3-barrow_olivia_1996-S20260830,HAS_RESPONSE_STATE,response:C3-barrow_olivia_1996-S20260830,{}
+edge:1130,case:C3-barrow_olivia_1996-S20260830,HAS_AGENT_TRACE,trace:C3-barrow_olivia_1996-S20260830,{}
+edge:1131,legacy-result:barrow_olivia_1996,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:1132,legacy-result:barrow_olivia_1996,PROVENANCE_ONLY,case:C3-barrow_olivia_1996-S20260830,"{""numerical_value_transfer"": false}"
+edge:1133,trace:C3-barrow_olivia_1996-S20260830,HAS_STEP,decision:C3-barrow_olivia_1996-S20260830:1,"{""step"": 1}"
+edge:1134,decision:C3-barrow_olivia_1996-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:1135,trace:C3-barrow_olivia_1996-S20260830,HAS_STEP,decision:C3-barrow_olivia_1996-S20260830:2,"{""step"": 2}"
+edge:1136,decision:C3-barrow_olivia_1996-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:1137,decision:C3-barrow_olivia_1996-S20260830:1,NEXT_STEP,decision:C3-barrow_olivia_1996-S20260830:2,{}
+edge:1138,trace:C3-barrow_olivia_1996-S20260830,HAS_STEP,decision:C3-barrow_olivia_1996-S20260830:3,"{""step"": 3}"
+edge:1139,decision:C3-barrow_olivia_1996-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:1140,decision:C3-barrow_olivia_1996-S20260830:2,NEXT_STEP,decision:C3-barrow_olivia_1996-S20260830:3,{}
+edge:1141,trace:C3-barrow_olivia_1996-S20260830,HAS_STEP,decision:C3-barrow_olivia_1996-S20260830:4,"{""step"": 4}"
+edge:1142,decision:C3-barrow_olivia_1996-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:1143,decision:C3-barrow_olivia_1996-S20260830:3,NEXT_STEP,decision:C3-barrow_olivia_1996-S20260830:4,{}
+edge:1144,project:C3-43KG,HAS_CASE,case:C3-mt_washington_1934-S20260830,{}
+edge:1145,authority:I08-GITHUB43,CONTAINS_AUTHORITY_RECORD,authority-record:mt_washington_1934,{}
+edge:1146,case:C3-mt_washington_1934-S20260830,DERIVED_FROM_AUTHORITY,authority-record:mt_washington_1934,"{""c3_order"": 43, ""source_case_index"": 43}"
+edge:1147,event-library:github43,CONTAINS_EVENT,github-event:mt_washington_1934,{}
+edge:1148,github-event:mt_washington_1934,MAPPED_TO,case:C3-mt_washington_1934-S20260830,"{""classification_disposition"": ""UNCHANGED_STATIONARY_ELIGIBLE""}"
+edge:1149,case:C3-mt_washington_1934-S20260830,EVIDENCED_BY,evidence-bundle:C3-mt_washington_1934-S20260830,{}
+edge:1150,evidence-bundle:C3-mt_washington_1934-S20260830,BINDS_AUTHORITY,authority-record:mt_washington_1934,{}
+edge:1151,evidence-bundle:C3-mt_washington_1934-S20260830,BINDS_MODAL_RUN,run:C3-FT14,{}
+edge:1152,case:C3-mt_washington_1934-S20260830,IN_GROUP,group:G8_record,{}
+edge:1153,case:C3-mt_washington_1934-S20260830,TARGETS_MODEL,model:C3,"{""response_state"": ""NOT_MATERIALIZED""}"
+edge:1154,case:C3-mt_washington_1934-S20260830,HAS_RESPONSE_STATE,response:C3-mt_washington_1934-S20260830,{}
+edge:1155,case:C3-mt_washington_1934-S20260830,HAS_AGENT_TRACE,trace:C3-mt_washington_1934-S20260830,{}
+edge:1156,legacy-result:mt_washington_1934,PART_OF_LEGACY_RESULT_SET,legacy:I08-double-mct,{}
+edge:1157,legacy-result:mt_washington_1934,PROVENANCE_ONLY,case:C3-mt_washington_1934-S20260830,"{""numerical_value_transfer"": false}"
+edge:1158,trace:C3-mt_washington_1934-S20260830,HAS_STEP,decision:C3-mt_washington_1934-S20260830:1,"{""step"": 1}"
+edge:1159,decision:C3-mt_washington_1934-S20260830:1,EXECUTED_BY,agent:AuthorityAgent,{}
+edge:1160,trace:C3-mt_washington_1934-S20260830,HAS_STEP,decision:C3-mt_washington_1934-S20260830:2,"{""step"": 2}"
+edge:1161,decision:C3-mt_washington_1934-S20260830:2,EXECUTED_BY,agent:SolverEvidenceAgent,{}
+edge:1162,decision:C3-mt_washington_1934-S20260830:1,NEXT_STEP,decision:C3-mt_washington_1934-S20260830:2,{}
+edge:1163,trace:C3-mt_washington_1934-S20260830,HAS_STEP,decision:C3-mt_washington_1934-S20260830:3,"{""step"": 3}"
+edge:1164,decision:C3-mt_washington_1934-S20260830:3,EXECUTED_BY,agent:PhysicsBoundaryAgent,{}
+edge:1165,decision:C3-mt_washington_1934-S20260830:2,NEXT_STEP,decision:C3-mt_washington_1934-S20260830:3,{}
+edge:1166,trace:C3-mt_washington_1934-S20260830,HAS_STEP,decision:C3-mt_washington_1934-S20260830:4,"{""step"": 4}"
+edge:1167,decision:C3-mt_washington_1934-S20260830:4,EXECUTED_BY,agent:WarningPolicyAgent,{}
+edge:1168,decision:C3-mt_washington_1934-S20260830:3,NEXT_STEP,decision:C3-mt_washington_1934-S20260830:4,{}
