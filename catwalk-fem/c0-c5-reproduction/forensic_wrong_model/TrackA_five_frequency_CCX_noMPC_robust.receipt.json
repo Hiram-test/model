@@ -4,7 +4,8 @@
   "back_tuned": true,
   "attach_reproduction": false,
   "deck": "TrackA_five_frequency_CCX_noMPC_robust.inp",
-  "note": "The 0.099600 table in the deck is the W2 inverse-fit residual, not attach TA1 reproduction and not a solved C3/true3d frequency.",
+  "input_sha256": "689037cfa52b556bc3debe7175fc4ae06fd71eac5b5ad5162d963c5197d7f380",
+  "note": "The 0.099600 table is the W2 inverse-fit residual. SPRING1 stiffnesses were chosen from that table, so a Job finished match is operator self-consistency, not attach TA1 reproduction and not a solved C3/true3d frequency.",
   "algebraic_prediction_hz": {
     "TA1": 0.0996,
     "TS1": 0.1150435687,
@@ -13,9 +14,13 @@
     "VS2": 0.1751835898
   },
   "stock_ccx_2_21_smoke": {
-    "job_finished": false,
-    "exit_code": 201,
-    "error": "*ERROR in add_bo_st: coefficient should be 0",
-    "matches_algebraic_0_0996": false
+    "job_finished": true,
+    "elapsed_s": 0.014445,
+    "exit_code": 0,
+    "elements_reported": 108,
+    "frequency_hz": [0.0996, 0.1150436, 0.1556126, 0.1566294, 0.1751836],
+    "max_abs_algebra_residual_hz": 3.13e-08,
+    "operator_self_consistent": true,
+    "matches_algebraic_0_0996": true
   }
 }

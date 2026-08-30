@@ -25,15 +25,17 @@ Evidence boundary:
 
 ## Native frequencies
 
-| Mode | Frequency / Hz |
-|---:|---:|
-| 1 | 0.0996000 |
-| 2 | 0.1150436 |
-| 3 | 0.1556126 |
-| 4 | 0.1566294 |
-| 5 | 0.1751836 |
+These five roots match the inverse-fit W2 `K/M` algebra (max `|Δ| = 3.13e-8 Hz`)
+because each `SPRING1` stiffness was chosen from that table. This is operator
+self-consistency, not attach TA1 / TS1 / VS2 reproduction.
 
-Maximum difference from the retained Track A algebraic values: `3.13e-8 Hz`.
+| Mode | Algebra / Hz | CCX 2.21 / Hz |
+|---:|---:|---:|
+| 1 | 0.0996000000 | 0.0996000 |
+| 2 | 0.1150435687 | 0.1150436 |
+| 3 | 0.1556126225 | 0.1556126 |
+| 4 | 0.1566294277 | 0.1566294 |
+| 5 | 0.1751835898 | 0.1751836 |
 
 The two earlier decks are invalid for delivery:
 
