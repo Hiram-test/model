@@ -1,5 +1,5 @@
 # Run target-blind old-ANSYS master operations on independent C3 pilot/master degrees of freedom.
-name: C3 TrackA resolved-master human forward variants # Identify the corrected full-C3 forward reconstruction.
+name: C3 TrackA resolved-master command-path variants # Agent-constructed independent-master ROTX/UZ path; human_apdl=false; frequency_reproduced=false.
 # Start only when this corrected workflow definition is committed on the isolated branch.
 on: # Define the deterministic trigger.
   push: # Run after the workflow file is pushed.
@@ -22,7 +22,7 @@ jobs: # Hold the target-blind variant matrix.
       C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Lock the exact released C3 parent identity.
       C3_OBS_SHA: 50250d6f545a8f73854e77c1b132b36c2674724c09c99baca4c682de410a0c11 # Lock the unchanged forty-mode common-observation deck.
       CCX_SHA: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e # Lock the validated custom solver identity.
-      FORWARD_SHA: 9459fbf99d1b447d53d5070b4c69370b4ce33ffad83048af1fb0ece91705e228 # Lock the decoded resolved-master generator identity.
+      FORWARD_SHA: 0e009f553b4b8ea2f01b1f3a7efc66aca935cd820f38fc18254ee391eae9461c # Lock the decoded resolved-master generator identity.
       OMP_NUM_THREADS: "1" # Keep sparse eigensolutions deterministic and memory-bounded.
     strategy: # Execute all discrete human operations independently.
       fail-fast: false # Preserve the complete matrix when one variant fails.
@@ -85,13 +85,13 @@ jobs: # Hold the target-blind variant matrix.
           set -euxo pipefail # Stop on unexpected collection errors.
           cp -a run/job.dat run/job.frd run/job.sta run/job.cvg run/job.stdout.txt run/job.exit results/ 2>/dev/null || true # Retain native CalculiX outputs when present.
           awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true # Extract the forty-mode table for rapid inspection.
-          printf 'variant=%s\nparent_c3_sha=%s\ncommon_observation_sha=%s\nsource_commit=%s\ntarget_conditioned=false\nfull_c3=true\nlow_dimensional=false\nroots=40\nresolved_independent_masters=true\n' "${{ matrix.variant }}" "$C3_SHA" "$C3_OBS_SHA" "${{ github.sha }}" > results/case.txt # Record the exact variant and evidence boundary.
+          printf 'variant=%s\nparent_c3_sha=%s\ncommon_observation_sha=%s\nsource_commit=%s\ntarget_conditioned=false\nfull_c3=true\nlow_dimensional=false\nroots=40\nresolved_independent_masters=true\nhuman_apdl=false\nfrequency_reproduced=false\nnot_attach_ta1=true\nnot_undisclosed_human_apdl=true\nsource=agent_constructed_legacy_command_path\n' "${{ matrix.variant }}" "$C3_SHA" "$C3_OBS_SHA" "${{ github.sha }}" > results/case.txt # Agent command path only; not human APDL and not attach TA1.
           sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true # Record exact identities for all staged artifacts.
       - name: Upload one complete resolved-master C3 package # Publish the daughter and native evidence independently.
         if: always() # Retain evidence even when one variant intentionally exposes a solver conflict.
         uses: actions/upload-artifact@v4 # Store the package as a downloadable Actions artifact.
         with: # Configure stable naming and strict presence checks.
-          name: C3-TrackA-resolved-${{ matrix.variant }} # Identify the exact resolved-master legacy variant.
+          name: C3-TrackA-resolved-cmd-${{ matrix.variant }} # Identify the exact resolved-master agent variant.
           path: results/ # Upload complete inputs receipts and native outputs.
           if-no-files-found: error # Reject an empty evidence package.
           retention-days: 30 # Keep each package available for independent reruns.
