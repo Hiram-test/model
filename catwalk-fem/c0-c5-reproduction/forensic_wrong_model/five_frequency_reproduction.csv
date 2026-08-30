@@ -1,0 +1,16 @@
+model,label,physical_baseline_hz,attachment_target_hz,wrong_model_hz,relative_error_percent,interpretation,mechanism
+W0_strict_label,TA1,0.07109342845263997,0.0996,0.09959999999999998,-1.1102230246251565e-14,auto_TS2_mode10,高位平动 master + NLGEOM 重力平衡产生伪摆式滚转约束；塔顶/下拉 master 增加反对称端部约束
+W0_strict_label,TS1,0.10113532460650478,0.1147,0.11650078214878591,1.5699931550007928,auto_TS2_mode10,高位平动 master + NLGEOM 重力平衡产生伪摆式滚转约束
+W0_strict_label,TS2,0.14291348747210253,0.1571,0.15463354075349375,-1.5699931550007817,auto_TS2_mode10,高位平动 master + NLGEOM 重力平衡产生伪摆式滚转约束
+W0_strict_label,SIDE3,0.16590792974776788,0.1557,0.1553072985190259,-0.252216750786205,inverse_effective_mass,横向通道 MASS21 的 full/half 重复记账增加有效模态质量
+W0_strict_label,VS2,0.18677370918342245,0.1744,0.1748398660133711,0.2522167507861717,inverse_effective_mass,横向通道 MASS21 的 full/half 重复记账增加有效模态质量；VS2 取 mode21 n=5 而非自动 mode13 n=1
+W1_relabel_inverse_mass,TA1,0.07109342845263997,0.0996,0.0996,0.0,clean_n4_mode16,高位平动 master + NLGEOM 重力平衡产生伪摆式滚转约束；塔顶/下拉 master 增加反对称端部约束
+W1_relabel_inverse_mass,TS1,0.10113532460650478,0.1147,0.11504356866961385,0.29953676513849725,clean_n4_mode16,高位平动 master + NLGEOM 重力平衡产生伪摆式滚转约束
+W1_relabel_inverse_mass,TS2,0.146576212135106,0.1571,0.15662942774196748,-0.29953676513845284,clean_n4_mode16,高位平动 master + NLGEOM 重力平衡产生伪摆式滚转约束；clean n=4 T 分支被报告为 TS2
+W1_relabel_inverse_mass,SIDE3,0.16590792974776788,0.1557,0.1553072985190259,-0.252216750786205,inverse_effective_mass,横向通道 MASS21 的 full/half 重复记账增加有效模态质量
+W1_relabel_inverse_mass,VS2,0.18677370918342245,0.1744,0.1748398660133711,0.2522167507861717,inverse_effective_mass,横向通道 MASS21 的 full/half 重复记账增加有效模态质量；VS2 取 mode21 n=5 而非自动 mode13 n=1
+W2_relabel_bookkeeping,TA1,0.07109342845263997,0.0996,0.0996,0.0,clean_n4_mode16,高位平动 master + NLGEOM 重力平衡产生伪摆式滚转约束；塔顶/下拉 master 增加反对称端部约束
+W2_relabel_bookkeeping,TS1,0.10113532460650478,0.1147,0.11504356866961385,0.29953676513849725,clean_n4_mode16,高位平动 master + NLGEOM 重力平衡产生伪摆式滚转约束
+W2_relabel_bookkeeping,TS2,0.146576212135106,0.1571,0.15662942774196748,-0.29953676513845284,clean_n4_mode16,高位平动 master + NLGEOM 重力平衡产生伪摆式滚转约束；clean n=4 T 分支被报告为 TS2
+W2_relabel_bookkeeping,SIDE3,0.16590792974776788,0.1557,0.1556126225401801,-0.056119113564490064,fixed_full_half_bookkeeping,横向通道 MASS21 的 full/half 重复记账增加有效模态质量
+W2_relabel_bookkeeping,VS2,0.18677370918342245,0.1744,0.17518358978848217,0.44930607137738665,fixed_full_half_bookkeeping,横向通道 MASS21 的 full/half 重复记账增加有效模态质量；VS2 取 mode21 n=5 而非自动 mode13 n=1
