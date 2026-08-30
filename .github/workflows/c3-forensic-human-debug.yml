@@ -1,0 +1,94 @@
+# Diagnose the common full-C3 target-blind builder failure before rerunning the complete matrix.
+name: C3 forensic human-workflow builder debug
+# Trigger only when this diagnostic workflow is added or revised.
+on:
+  # Start from a branch push.
+  push:
+    # Restrict execution to the dedicated evidence branch.
+    branches:
+      # Use the immutable forensic branch.
+      - agent/c3-forensic-human-final-20260831
+    # Run only for this diagnostic definition.
+    paths:
+      # Admit this workflow file.
+      - .github/workflows/c3-forensic-human-debug.yml
+# Keep the diagnostic read-only.
+permissions:
+  # Permit repository checkout.
+  contents: read
+# Define one bounded BASE40 diagnostic job.
+jobs:
+  # Reconstruct and exercise the exact builder once.
+  debug:
+    # Use the validated C3 runner generation.
+    runs-on: ubuntu-24.04
+    # Bound the diagnostic duration.
+    timeout-minutes: 20
+    # Freeze source paths and SHA identities.
+    env:
+      # Locate the exact C3 fragments.
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14
+      # Locate the target-blind builder.
+      BUILDER: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/final_inverse/build_human_error_variants.py
+      # Bind the parent bytes.
+      C3_SHA256: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86
+    # Execute checkout, reconstruction, and one build.
+    steps:
+      # Check out the triggering commit.
+      - name: Checkout immutable forensic snapshot
+        # Use GitHub's maintained checkout action.
+        uses: actions/checkout@v4
+        # Pin the exact commit without write credentials.
+        with:
+          # Use the immutable trigger SHA.
+          ref: ${{ github.sha }}
+          # Fetch one snapshot only.
+          fetch-depth: 1
+          # Remove retained credentials.
+          persist-credentials: false
+      # Reconstruct and run the exact BASE40 generation while preserving stderr.
+      - name: Reconstruct and debug BASE40
+        # Execute strict Bash commands.
+        shell: bash
+        # Capture every builder diagnostic into the artifact.
+        run: |
+          # Propagate pipeline failures and echo commands.
+          set -uxo pipefail
+          # Create isolated directories.
+          mkdir -p run results
+          # Reconstruct the exact C3 parent.
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > run/source.inp
+          # Verify the exact parent SHA.
+          printf '%s  %s\n' "$C3_SHA256" run/source.inp | sha256sum -c -
+          # Record the checked-out builder digest and Python version.
+          sha256sum "$BUILDER" | tee results/builder.sha256
+          # Record the active Python interpreter.
+          python3 --version 2>&1 | tee results/python-version.txt
+          # Compile the checked-out builder.
+          python3 -m py_compile "$BUILDER" 2>&1 | tee results/pycompile.txt
+          # Execute BASE40 and capture both stdout and stderr.
+          python3 "$BUILDER" --source run/source.inp --output run/job.inp --case BASE40 --roots 40 2>&1 | tee results/build.log
+          # Preserve the actual builder pipeline exit code.
+          echo "${PIPESTATUS[0]}" > results/build.exit
+          # Copy any generated daughter or receipt.
+          cp -a run/job.inp run/job.inp.receipt.json results/ 2>/dev/null || true
+          # Return the builder status after evidence has been staged.
+          exit "$(cat results/build.exit)"
+      # Upload diagnostics whether the builder succeeds or fails.
+      - name: Upload builder diagnostics
+        # Execute after every prior outcome.
+        if: always()
+        # Use GitHub's artifact uploader.
+        uses: actions/upload-artifact@v4
+        # Preserve the complete diagnostic directory.
+        with:
+          # Use a stable diagnostic artifact name.
+          name: c3-human-builder-debug-${{ github.run_id }}
+          # Upload all captured diagnostic files.
+          path: results/
+          # Reject an empty diagnostic artifact.
+          if-no-files-found: error
+          # Retain the diagnostic evidence for review.
+          retention-days: 30
+          # Compress text efficiently.
+          compression-level: 9
