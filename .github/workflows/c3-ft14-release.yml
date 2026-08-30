@@ -1,0 +1,38 @@
+name: C3 FT14 parser-safe deck release # Reconstruct and publish the exact twenty-seven-megabyte C3 input deck.
+on: # Trigger only when the dedicated release package changes on its branch.
+  push: # Use the branch update itself to pull a fresh hosted runner.
+    branches: [feat/catwalk-c0-c5-physical-reproduction] # Restrict execution to the C0-C5 physical-reproduction branch.
+    paths: [.github/workflows/c3-ft14-release.yml, catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14/**] # Ignore unrelated branch changes.
+permissions: # Grant the minimum permission needed to create a repository release.
+  contents: write # Permit tag, release, and release-asset creation.
+jobs: # Define one bounded reconstruction and publication job.
+  publish: # Rebuild the exact deck and publish it as a release asset.
+    runs-on: ubuntu-22.04 # Pull a clean GitHub-hosted Linux runner.
+    timeout-minutes: 15 # Bound checkout, reconstruction, hashing, and upload time.
+    env: # Freeze release identifiers and paths once.
+      TAG: c3-ft14-parser-safe-667c5047 # Use a content-addressed release tag.
+      PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14 # Select the seven committed gzip parts.
+      DECK: release/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp # Restore the exact requested filename.
+      EXPECTED_SHA256: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86 # Freeze the authoritative deck identity.
+    steps: # Execute checkout, exact reconstruction, verification, artifact retention, and release publication.
+      - name: Checkout release parts # Pull the branch containing all seven bounded blobs.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Keep checkout behavior explicit.
+          fetch-depth: 1 # Fetch only the triggering branch head.
+          persist-credentials: false # Keep repository checkout read-only after the initial fetch.
+      - name: Reconstruct and verify exact deck # Join ordered parts, decompress once, and reject any identity drift.
+        shell: bash # Use strict Bash pipeline semantics.
+        run: set -euxo pipefail; mkdir -p release; cat "$PARTS"/*.inp.gz.part* | gzip -dc > "$DECK"; printf '%s  %s\n' "$EXPECTED_SHA256" "$DECK" | sha256sum -c -; sha256sum "$DECK" > "$DECK.sha256"; test "$(stat -c %s "$DECK")" = 26839638 # Recreate and verify all 26,839,638 bytes before publication.
+      - name: Retain reconstructed runner artifact # Preserve the exact input independently of the release page.
+        uses: actions/upload-artifact@v4 # Upload the reconstructed file from this runner.
+        with: # Bind a stable artifact name and full verification sidecar.
+          name: C3-UB-FT14-PARSER-SAFE-m14-667c5047 # Identify the parser-safe fourteen-mode deck.
+          path: release/ # Upload the input and SHA-256 sidecar together.
+          if-no-files-found: error # Reject a missing reconstruction.
+          retention-days: 90 # Keep the runner artifact available for downstream solves.
+          compression-level: 6 # Compress the large text deck during artifact transfer.
+      - name: Create release and upload exact deck # Publish the original filename plus its SHA-256 sidecar.
+        env: # Expose only the workflow-scoped GitHub token.
+          GH_TOKEN: ${{ github.token }} # Authenticate release creation in the same repository.
+        shell: bash # Use GitHub CLI for idempotent release publication.
+        run: if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then gh release upload "$TAG" "$DECK" "$DECK.sha256" --clobber --repo "$GITHUB_REPOSITORY"; else gh release create "$TAG" "$DECK" "$DECK.sha256" --target "$GITHUB_SHA" --title "C3 FT14 parser-safe CalculiX deck" --notes "Exact 14-mode C3 upper-bound frozen-tangent input. Size: 26,839,638 bytes. SHA-256: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86." --repo "$GITHUB_REPOSITORY"; fi # Create once and safely replace assets on a rerun.
