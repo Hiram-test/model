@@ -1,0 +1,99 @@
+{
+  "source_branch": "feat/catwalk-c0-c5-physical-reproduction",
+  "source_head_at_design": "527dcd704a9625f3799a36c3ad527e0af3a1d1e1",
+  "operator": "f_T,w^2=f_T,0^2+a*sum(phi_j^2)+b*I_TA1; f_H,w=f_H,0/sqrt(1+eta)",
+  "W0_strict_label": {
+    "a": 0.0004789233313037773,
+    "b": 0.001532234865809349,
+    "prediction_hz": {
+      "TA1": 0.09959999999999998,
+      "TS1": 0.11650078214878591,
+      "TS2": 0.15463354075349375
+    },
+    "statistics": {
+      "mae_percent": 0.7288839623147925,
+      "rms_percent": 1.0056822154391454,
+      "max_abs_percent": 1.5699931550007928
+    }
+  },
+  "W1_relabel_inverse_mass": {
+    "a": 0.0004306011067805429,
+    "b": 0.0018685921744522817,
+    "eta": 0.14117055496669662,
+    "prediction_t_hz": {
+      "TA1": 0.0996,
+      "TS1": 0.11504356866961385,
+      "TS2": 0.15662942774196748
+    },
+    "prediction_high_hz": {
+      "SIDE3": 0.1553072985190259,
+      "VS2": 0.1748398660133711
+    },
+    "statistics": {
+      "mae_percent": 0.22070140636986535,
+      "rms_percent": 0.24765747559624698,
+      "max_abs_percent": 0.29953676513849725
+    }
+  },
+  "W2_relabel_bookkeeping": {
+    "a": 0.0004306011067805429,
+    "b": 0.0018685921744522817,
+    "eta_fixed": 0.13669681810894577,
+    "prediction_t_hz": {
+      "TA1": 0.0996,
+      "TS1": 0.11504356866961385,
+      "TS2": 0.15662942774196748
+    },
+    "prediction_high_hz": {
+      "SIDE3": 0.1556126225401801,
+      "VS2": 0.17518358978848217
+    },
+    "statistics": {
+      "mae_percent": 0.22089974304376536,
+      "rms_percent": 0.2772976191831042,
+      "max_abs_percent": 0.44930607137738665
+    }
+  },
+  "mass_budget": {
+    "inverse_effective_eta": 0.14117055496669662,
+    "duplicate_13_over_mass21": 0.13669681810894577,
+    "duplicate_21_over_mass21": 0.2208179369452201
+  },
+  "mechanism_translation": {
+    "shared_effective_pendulum_height_m": 5.607480846148725,
+    "ta1_extra_effective_height_m": 3.4610524428520746,
+    "ta1_total_effective_height_m": 9.0685332890008,
+    "shared_kz_per_passage_N_per_m": 4803.704002585913,
+    "shared_kroll_per_passage_Nm_per_rad": 8840784.88339914,
+    "ta1_extra_kz_N_per_m": 20845.65869959983,
+    "ta1_extra_kroll_Nm_per_rad": 38364558.72733052
+  },
+  "mode_identification": {
+    "auto_TS2_mode10": {
+      "frequency_hz": 0.14291348747210253,
+      "half_wave": 1,
+      "template_mac": 0.6579286921367938
+    },
+    "clean_T_mode16": {
+      "frequency_hz": 0.146576212135106,
+      "half_wave": 4,
+      "template_mac": 0.9925879412497127,
+      "physical_label": "TA2"
+    },
+    "auto_VS2_mode13": {
+      "frequency_hz": 0.14442351076238347,
+      "half_wave": 1,
+      "template_mac": 0.6523081554425327
+    },
+    "true_VS2_mode21": {
+      "frequency_hz": 0.18677370918342245,
+      "half_wave": 5,
+      "template_mac": 0.9388442018714379
+    }
+  },
+  "independent_wrong_3d_check_hz": {
+    "TA1": 0.09809481,
+    "TS1": 0.1087891,
+    "clean_n4_T": 0.1517195
+  }
+}

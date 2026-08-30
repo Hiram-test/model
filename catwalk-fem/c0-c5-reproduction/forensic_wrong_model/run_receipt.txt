@@ -1,0 +1,25 @@
+five-frequency forensic wrong-model reproduction
+branch=feat/catwalk-c0-c5-physical-reproduction
+physical_source_head=527dcd704a9625f3799a36c3ad527e0af3a1d1e1
+
+primary_model=W2_relabel_bookkeeping
+fitted_constraint_coefficients=2
+fixed_mass_bookkeeping_eta=0.13669681810894577
+
+TA1 target=0.0996000000 predicted=0.0996000000 error_percent=0.000000
+TS1 target=0.1147000000 predicted=0.1150435687 error_percent=0.299537
+TS2 target=0.1571000000 predicted=0.1566294277 error_percent=-0.299537
+SIDE3 target=0.1557000000 predicted=0.1556126225 error_percent=-0.056119
+VS2 target=0.1744000000 predicted=0.1751835898 error_percent=0.449306
+
+mae_percent=0.220900
+rms_percent=0.277298
+max_abs_percent=0.449306
+
+shared_false_pendulum_height_m=5.607481
+ta1_extra_false_pendulum_height_m=3.461052
+ta1_total_false_pendulum_height_m=9.068533
+shared_false_relative_vertical_stiffness_per_passage_N_per_m=4803.704003
+shared_false_roll_stiffness_per_passage_Nm_per_rad=8840784.883399
+
+forensic_scope=This proves that a low-dimensional and APDL-plausible wrong abstraction is sufficient to generate all five attachment frequencies; it does not prove the unavailable original APDL used the identical command sequence.
