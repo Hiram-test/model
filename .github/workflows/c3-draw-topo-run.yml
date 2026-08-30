@@ -1,0 +1,63 @@
+name: c3-draw-topo-run
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - feat/catwalk-c3-actions-verify
+    paths:
+      - ".github/workflows/c3-draw-topo-run.yml"
+      - "catwalk-fem/c0-c5-reproduction/code/patch_c3_draw_topology.py"
+
+jobs:
+  patch-c3-draw-topo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download C3 parser-safe deck
+        run: |
+          mkdir -p work artifacts
+          curl -L --fail -o work/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp \
+            https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp
+          echo 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86  work/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp | sha256sum -c
+
+      - name: Apply drawing topology hinge patch
+        run: |
+          C3_SRC="$GITHUB_WORKSPACE/work/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp" \
+          C3_OUT="$GITHUB_WORKSPACE/artifacts" \
+          python3 "$GITHUB_WORKSPACE/catwalk-fem/c0-c5-reproduction/code/patch_c3_draw_topology.py" \
+            | tee artifacts/c3_draw_topo_actions.json
+          test -s artifacts/C3-UB-FT14-DRAW-TOPO_m14.inp
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          rec = json.loads(Path("artifacts/C3_DRAW_TOPO_PATCH.json").read_text())
+          assert rec["stats"]["elements_deleted"] == 0
+          assert rec["stats"]["hinge_rewritten"] >= 4000
+          print("PATCH_OK", rec["output"]["sha256"], rec["stats"])
+          PY
+
+      - name: Install stock ccx and invoke it
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq calculix-ccx
+          ccx -v || true
+          set +e
+          (cd artifacts && timeout 120 ccx -i C3-UB-FT14-DRAW-TOPO_m14) \
+            > artifacts/ccx_draw_topo.log 2>&1
+          echo CCX_EXIT=$? | tee -a artifacts/ccx_draw_topo.log
+          tail -n 80 artifacts/ccx_draw_topo.log
+
+      - name: Upload patched deck and ccx log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3-draw-topo-run
+          path: |
+            artifacts/C3-UB-FT14-DRAW-TOPO_m14.inp
+            artifacts/C3_DRAW_TOPO_PATCH.json
+            artifacts/c3_draw_topo_actions.json
+            artifacts/ccx_draw_topo.log
+          retention-days: 90
