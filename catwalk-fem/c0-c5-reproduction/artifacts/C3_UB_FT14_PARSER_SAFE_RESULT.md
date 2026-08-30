@@ -55,4 +55,4 @@ This is therefore a valid C3 modal calculation and a negative reproduction resul
 - Mode CSV SHA-256: `ff1d792e8af0d31fd20d46fed8468c1ac0dde066e7a8406ff4af72275ab76d1d`
 - Mode JSON SHA-256: `db03c70e466d9a821f1bce2575df04d105e3fe27d383cb9707f48e78e6b03514`
 
-The 112 MB FRD and other transient solver files are intentionally excluded from version control. The committed input deck, DAT table, classification records, generators, and UCAB3 patch evidence are the review package.
+The compact GitHub review package contains the DAT table, classification records, generators, and UCAB3 patch evidence. The two approximately 27 MB input decks, the 112 MB FRD, and other transient solver files remain local; their immutable identities are recorded above.
