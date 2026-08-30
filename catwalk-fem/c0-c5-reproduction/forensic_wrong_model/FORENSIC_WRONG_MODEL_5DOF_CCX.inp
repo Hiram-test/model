@@ -1,0 +1,196 @@
+** -----------------------------------------------------------------------------
+** CalculiX five-branch forensic equivalent model.
+** -----------------------------------------------------------------------------
+** This deck implements the W2_relabel_bookkeeping operator as five uncoupled
+** generalized modal coordinates. It is an auditable reduced-order equivalent,
+** not the full catwalk finite-element model and not evidence of an exact APDL
+** command sequence.
+** -----------------------------------------------------------------------------
+** Unit system used by this deck: N, kg, m, s.
+** -----------------------------------------------------------------------------
+** Shared source parameters retained from the forensic model:
+** a = 4.306011067805429e-4 Hz^2.
+** b = 1.868592174452282e-3 Hz^2.
+** eta = 1.366968181089458e-1.
+** S_TA1 = 6.960716563890901.
+** S_TS1 = 6.982492059662598.
+** S_TS2 = 7.078922053152392.
+** -----------------------------------------------------------------------------
+** Generalized base mass for every branch is 1.0e6 kg.
+** SIDE3 and VS2 receive a second parallel MASS element of eta times that mass.
+** T branches receive parallel SPRING1 elements for the baseline stiffness,
+** the common high-master stiffness, and the TA1-only end restraint.
+** -----------------------------------------------------------------------------
+** Expected sorted CalculiX eigenfrequencies in Hz:
+** 1 TA1   = 0.099600000000000
+** 2 TS1   = 0.115043568669614
+** 3 SIDE3 = 0.155612622540180
+** 4 TS2   = 0.156629427741967
+** 5 VS2   = 0.175183589788482
+** -----------------------------------------------------------------------------
+** Begin the input deck heading keyword.
+*HEADING
+** Identify the deck inside CalculiX output files.
+FORENSIC W2 FIVE-DOF EQUIVALENT; TARGET-CONDITIONED; NOT FULL CATWALK FE
+** -----------------------------------------------------------------------------
+** Define the five generalized modal-coordinate nodes.
+*NODE, NSET=N_MODAL
+** Node 101 is the TA1 generalized coordinate.
+101, 0.0, 0.0, 0.0
+** Node 102 is the TS1 generalized coordinate.
+102, 1.0, 0.0, 0.0
+** Node 103 is the TS2 generalized coordinate.
+103, 2.0, 0.0, 0.0
+** Node 104 is the SIDE3 generalized coordinate.
+104, 3.0, 0.0, 0.0
+** Node 105 is the VS2 generalized coordinate.
+105, 4.0, 0.0, 0.0
+** -----------------------------------------------------------------------------
+** Add one 1.0e6 kg baseline mass element to each generalized coordinate.
+*ELEMENT, TYPE=MASS, ELSET=E_MASS_BASE
+** Baseline mass element for TA1.
+1001, 101
+** Baseline mass element for TS1.
+1002, 102
+** Baseline mass element for TS2.
+1003, 103
+** Baseline mass element for SIDE3.
+1004, 104
+** Baseline mass element for VS2.
+1005, 105
+** Assign the common baseline generalized mass to every element in E_MASS_BASE.
+*MASS, ELSET=E_MASS_BASE
+** M0 = 1.0e6 kg.
+1.000000000000000e+06
+** -----------------------------------------------------------------------------
+** Add the 13.66968181089458 percent duplicate passage-mass projection only to
+** the passage-rich SIDE3 and VS2 coordinates.
+*ELEMENT, TYPE=MASS, ELSET=E_MASS_DUP
+** Duplicate effective mass element for SIDE3.
+1014, 104
+** Duplicate effective mass element for VS2.
+1015, 105
+** Assign eta times M0 to each duplicate mass element.
+*MASS, ELSET=E_MASS_DUP
+** Mdup = eta*M0 = 136696.8181089458 kg.
+1.366968181089458e+05
+** -----------------------------------------------------------------------------
+** Define the TA1 baseline one-node spring acting in global degree of freedom 1.
+*ELEMENT, TYPE=SPRING1, ELSET=E_K_TA1_BASE
+** TA1 baseline spring element.
+2001, 101
+** Assign the TA1 baseline spring property.
+*SPRING, ELSET=E_K_TA1_BASE
+** Select global displacement degree of freedom 1.
+1
+** K0_TA1 = M0*(2*pi*0.07109342845263997)^2 N/m.
+1.995348016064302e+05
+** -----------------------------------------------------------------------------
+** Define the shared high-master stiffness contribution for TA1.
+*ELEMENT, TYPE=SPRING1, ELSET=E_K_TA1_SHARED
+** TA1 shared-error spring element.
+2101, 101
+** Assign the TA1 shared-error spring property.
+*SPRING, ELSET=E_K_TA1_SHARED
+** Select global displacement degree of freedom 1.
+1
+** Kshared_TA1 = M0*(2*pi)^2*a*S_TA1 N/m.
+1.183283553803507e+05
+** -----------------------------------------------------------------------------
+** Define the TA1-only tower or end-master restraint contribution.
+*ELEMENT, TYPE=SPRING1, ELSET=E_K_TA1_EXTRA
+** TA1 extra-restraint spring element.
+2201, 101
+** Assign the TA1 extra-restraint spring property.
+*SPRING, ELSET=E_K_TA1_EXTRA
+** Select global displacement degree of freedom 1.
+1
+** Kextra_TA1 = M0*(2*pi)^2*b N/m.
+7.376906219526150e+04
+** -----------------------------------------------------------------------------
+** Define the TS1 baseline one-node spring.
+*ELEMENT, TYPE=SPRING1, ELSET=E_K_TS1_BASE
+** TS1 baseline spring element.
+2002, 102
+** Assign the TS1 baseline spring property.
+*SPRING, ELSET=E_K_TS1_BASE
+** Select global displacement degree of freedom 1.
+1
+** K0_TS1 = M0*(2*pi*0.10113532460650478)^2 N/m.
+4.037992260086112e+05
+** -----------------------------------------------------------------------------
+** Define the shared high-master stiffness contribution for TS1.
+*ELEMENT, TYPE=SPRING1, ELSET=E_K_TS1_SHARED
+** TS1 shared-error spring element.
+2102, 102
+** Assign the TS1 shared-error spring property.
+*SPRING, ELSET=E_K_TS1_SHARED
+** Select global displacement degree of freedom 1.
+1
+** Kshared_TS1 = M0*(2*pi)^2*a*S_TS1 N/m.
+1.186985268387927e+05
+** -----------------------------------------------------------------------------
+** Define the TS2 baseline one-node spring using the clean n=4 branch.
+*ELEMENT, TYPE=SPRING1, ELSET=E_K_TS2_BASE
+** TS2 baseline spring element.
+2003, 103
+** Assign the TS2 baseline spring property.
+*SPRING, ELSET=E_K_TS2_BASE
+** Select global displacement degree of freedom 1.
+1
+** K0_TS2 = M0*(2*pi*0.146576212135106)^2 N/m.
+8.481774567385969e+05
+** -----------------------------------------------------------------------------
+** Define the shared high-master stiffness contribution for TS2.
+*ELEMENT, TYPE=SPRING1, ELSET=E_K_TS2_SHARED
+** TS2 shared-error spring element.
+2103, 103
+** Assign the TS2 shared-error spring property.
+*SPRING, ELSET=E_K_TS2_SHARED
+** Select global displacement degree of freedom 1.
+1
+** Kshared_TS2 = M0*(2*pi)^2*a*S_TS2 N/m.
+1.203377837219385e+05
+** -----------------------------------------------------------------------------
+** Define the SIDE3 baseline spring; its stiffness remains unchanged while its
+** generalized mass is increased by the duplicate MASS element above.
+*ELEMENT, TYPE=SPRING1, ELSET=E_K_SIDE3_BASE
+** SIDE3 baseline spring element.
+2004, 104
+** Assign the SIDE3 baseline spring property.
+*SPRING, ELSET=E_K_SIDE3_BASE
+** Select global displacement degree of freedom 1.
+1
+** K0_SIDE3 = M0*(2*pi*0.16590792974776788)^2 N/m.
+1.086660860589812e+06
+** -----------------------------------------------------------------------------
+** Define the VS2 baseline spring; its stiffness also remains unchanged while
+** its generalized mass is increased by the duplicate MASS element above.
+*ELEMENT, TYPE=SPRING1, ELSET=E_K_VS2_BASE
+** VS2 baseline spring element.
+2005, 105
+** Assign the VS2 baseline spring property.
+*SPRING, ELSET=E_K_VS2_BASE
+** Select global displacement degree of freedom 1.
+1
+** K0_VS2 = M0*(2*pi*0.18677370918342245)^2 N/m.
+1.377181639143701e+06
+** -----------------------------------------------------------------------------
+** Restrain degrees of freedom 2 and 3 at every modal node, leaving exactly one
+** active translational coordinate per branch.
+*BOUNDARY
+** Fix global degrees of freedom 2 through 3 for the complete N_MODAL set.
+N_MODAL, 2, 3, 0.0
+** -----------------------------------------------------------------------------
+** Start the linear eigenfrequency extraction step.
+*STEP
+** Request all five nonzero eigenfrequencies.
+*FREQUENCY
+** Extract the five lowest modes.
+5
+** Request nodal displacement eigenvectors in the FRD result file.
+*NODE FILE, NSET=N_MODAL
+** Output the displacement vector U for each mode.
+U
+** End the eigenfrequency extraction step.
+*END STEP
