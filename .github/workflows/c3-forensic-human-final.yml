@@ -1,0 +1,192 @@
+# Execute the target-blind full-C3 old-ANSYS human-workflow inverse investigation.
+name: C3 forensic human-workflow final matrix
+# Trigger only from the immutable forensic branch used for this investigation.
+on:
+  # Start the matrix whenever the preregistered builder or this workflow changes.
+  push:
+    # Restrict execution to the dedicated evidence branch.
+    branches:
+      # Use the branch created from the frozen physical-reproduction state.
+      - agent/c3-forensic-human-final-20260831
+    # Ignore unrelated files on the evidence branch.
+    paths:
+      # Admit this workflow definition.
+      - .github/workflows/c3-forensic-human-final.yml
+      # Admit only the target-blind variant builder.
+      - catwalk-fem/c0-c5-reproduction/forensic_wrong_model/final_inverse/build_human_error_variants.py
+# Keep the workflow read-only because all daughter decks are uploaded as Actions artifacts.
+permissions:
+  # Permit checkout of the immutable repository snapshot.
+  contents: read
+# Define the complete causal forward-model matrix.
+jobs:
+  # Build and solve one full-C3 daughter per human-workflow hypothesis.
+  solve:
+    # Use the same runner generation as the validated custom C3 solve.
+    runs-on: ubuntu-24.04
+    # Bound each complete eigensolve while allowing the matrix to finish overnight.
+    timeout-minutes: 90
+    # Freeze exact source identities and deterministic runtime controls.
+    env:
+      # Locate the exact parser-safe C3 parent fragments.
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14
+      # Locate the validated UCOR6 plus UCAB3 custom solver fragments.
+      CCX_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3
+      # Locate the line-commented target-blind builder.
+      BUILDER: catwalk-fem/c0-c5-reproduction/forensic_wrong_model/final_inverse/build_human_error_variants.py
+      # Bind every daughter to the validated C3 parent bytes.
+      C3_SHA256: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86
+      # Bind every solve to the validated custom CalculiX executable.
+      CCX_SHA256: b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e
+      # Prevent nondeterministic threaded sparse-factorization behavior.
+      OMP_NUM_THREADS: "1"
+    # Run all preregistered human-workflow cases without stopping on one failure.
+    strategy:
+      # Preserve all negative and failed evidence.
+      fail-fast: false
+      # Limit simultaneous complete C3 solves to a stable runner count.
+      max-parallel: 7
+      # Enumerate every case before any attachment target frequency is read.
+      matrix:
+        # Use a simple case list because every case shares identical solver controls.
+        case:
+          # Recompute the unmodified parent with the same compact observation set.
+          - BASE40
+          # Clear ROTX at the twenty-six main-span passage-center masters.
+          - ROT_MAIN13_CENTER
+          # Clear ROTX at all forty-two passage-center masters.
+          - ROT_ALL21_CENTER
+          # Clear ROTX at repeated main-span lower gate masters.
+          - ROT_MAIN13_GATE_BOTTOM
+          # Clear ROTX at all seventy-two lower gate masters.
+          - ROT_ALL_GATE_BOTTOM
+          # Clear ROTX at all seventy-two actual high gate endpoints.
+          - ROT_ALL_GATE_TOP
+          # Clear ROTX only at the four posts of the tallest gate station.
+          - ROT_MAX_GATE_BOTTOM
+          # Reproduce an overly broad ALL selection across passage and gate masters.
+          - ROT_CENTER_PLUS_GATE_BOTTOM
+          # Tie lower gate references to translation-only LINK nodes at zero eccentricity.
+          - LINK_ZERO_ALL
+          # Tie actual-height high references to translation-only LINK nodes at all stations.
+          - LINK_HIGH_ALL_REAL
+          # Apply the actual-height high-reference operation only to the main-span thirteen stations.
+          - LINK_HIGH_MAIN13_REAL
+          # Apply the actual-height high-reference operation only at the tallest station.
+          - LINK_HIGH_MAX_REAL
+          # Reproduce a copied 9.08 m high-reference template at every repeated post.
+          - LINK_HIGH_ALL_9080
+          # Tie every actual gate-top translation directly to the existing LINK node.
+          - LINK_TOP_ALL
+    # Execute reconstruction, generation, solution, and evidence collection.
+    steps:
+      # Check out exactly the commit that triggered the matrix.
+      - name: Checkout immutable forensic snapshot
+        # Use GitHub's maintained checkout implementation.
+        uses: actions/checkout@v4
+        # Pin checkout to the triggering commit and discard write credentials.
+        with:
+          # Use the immutable workflow commit.
+          ref: ${{ github.sha }}
+          # Fetch only the required snapshot.
+          fetch-depth: 1
+          # Prevent accidental repository writes from the runner.
+          persist-credentials: false
+      # Reconstruct and verify the exact C3 parent and custom solver.
+      - name: Reconstruct verified parent and solver
+        # Execute strict Bash commands.
+        shell: bash
+        # Decode the immutable repository fragments.
+        run: |
+          # Stop on every error, unset variable, or failed pipeline component.
+          set -euxo pipefail
+          # Create isolated working and evidence directories.
+          mkdir -p run results
+          # Reconstruct the exact validated C3 parent input.
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > run/source.inp
+          # Reject any parent differing by one byte from the validated SHA-256.
+          printf '%s  %s\n' "$C3_SHA256" run/source.inp | sha256sum -c -
+          # Verify the builder syntax before it can modify the parent.
+          python3 -m py_compile "$BUILDER"
+          # Reconstruct the validated custom CalculiX executable.
+          cat "$CCX_PARTS"/part*.b64 | base64 -d | gzip -dc > run/ccx
+          # Mark the reconstructed solver executable.
+          chmod +x run/ccx
+          # Reject any solver differing from the validated SHA-256.
+          printf '%s  %s\n' "$CCX_SHA256" run/ccx | sha256sum -c -
+      # Install only the runtime libraries required by the validated solver.
+      - name: Install validated solver runtime
+        # Execute package installation under Bash.
+        shell: bash
+        # Install the same BLAS, LAPACK, and Fortran runtime as the successful C3 run.
+        run: sudo apt-get update && sudo apt-get install -y liblapack3 libblas3 libgfortran5
+      # Generate one full-C3 daughter without reading attachment target frequencies.
+      - name: Build target-blind full-C3 daughter
+        # Execute strict generation commands.
+        shell: bash
+        # Run the preregistered topology-bound builder.
+        run: |
+          # Stop on every identity, topology, or dependency invariant failure.
+          set -euxo pipefail
+          # Generate forty modes on the selected old-ANSYS-style human-workflow case.
+          python3 "$BUILDER" --source run/source.inp --output run/job.inp --case "${{ matrix.case }}" --roots 40 | tee results/build.stdout.json
+          # Preserve the exact daughter identity before solution.
+          sha256sum run/job.inp > results/job.inp.sha256
+          # Preserve the complete machine-readable construction receipt.
+          cp run/job.inp.receipt.json results/
+      # Solve the complete physical model with the validated custom kernel.
+      - name: Solve forty full-C3 modes
+        # Preserve the actual CalculiX exit status through the logging pipeline.
+        shell: bash
+        # Execute the complete sparse eigenvalue calculation.
+        run: |
+          # Propagate any solver failure through tee.
+          set -o pipefail
+          # Enter the isolated CalculiX directory.
+          cd run
+          # Execute the validated custom solver and preserve resource statistics and stdout.
+          /usr/bin/time -v ./ccx job 2>&1 | tee job.stdout.txt
+          # Preserve the native solver exit status independently of the workflow state.
+          echo "${PIPESTATUS[0]}" > job.exit
+          # Return the native exit status to GitHub Actions.
+          exit "$(cat job.exit)"
+      # Collect complete positive or negative evidence for every case.
+      - name: Collect full-C3 forensic evidence
+        # Execute even when generation or solution failed.
+        if: always()
+        # Use strict Bash while tolerating files absent after a failed stage.
+        shell: bash
+        # Stage all reproducibility and native solver artifacts.
+        run: |
+          # Stop on unexpected collection failures.
+          set -euxo pipefail
+          # Preserve the complete modified C3 input.
+          cp -a run/job.inp results/ 2>/dev/null || true
+          # Preserve the exact construction receipt.
+          cp -a run/job.inp.receipt.json results/ 2>/dev/null || true
+          # Preserve native modal, shape, convergence, status, log, and exit files.
+          cp -a run/job.dat run/job.frd run/job.cvg run/job.sta run/job.stdout.txt run/job.exit results/ 2>/dev/null || true
+          # Extract the complete eigenvalue-output block for rapid inspection.
+          awk '/E I G E N V A L U E   O U T P U T/{take=1} take{print}' run/job.dat > results/modal-table.txt 2>/dev/null || true
+          # Record the immutable case and workflow commit without target frequencies.
+          printf 'case=%s\ncommit=%s\nrun_id=%s\ntarget_frequencies_read=false\nfull_c3=true\nroots=40\n' "${{ matrix.case }}" "${{ github.sha }}" "${{ github.run_id }}" > results/case.txt
+          # Bind every collected artifact to an exact digest.
+          sha256sum results/* > results/SHA256SUMS.txt 2>/dev/null || true
+      # Upload one independent evidence package for the current case.
+      - name: Upload full-C3 case evidence
+        # Upload both successful and failed cases.
+        if: always()
+        # Use GitHub's maintained artifact uploader.
+        uses: actions/upload-artifact@v4
+        # Preserve the complete daughter and native outputs.
+        with:
+          # Encode the case and run identifier in the artifact name.
+          name: c3-human-final-${{ matrix.case }}-${{ github.run_id }}
+          # Upload the isolated evidence directory.
+          path: results/
+          # Reject an empty evidence package.
+          if-no-files-found: error
+          # Retain the forensic matrix long enough for independent review.
+          retention-days: 90
+          # Compress the large ASCII daughter deck efficiently.
+          compression-level: 9
