@@ -1,0 +1,640 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,top=18mm,bottom=19mm,left=18mm,right=18mm,headheight=23pt,footskip=9mm]{geometry}
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\babelprovide[import,main]{chinese}
+\babelfont[chinese]{rm}[Path=/workspace/scratch/d78ef4d422de/tmp/pdfs/fonts/,UprightFont=NotoSansCJKsc-Regular.otf,BoldFont=NotoSansCJKsc-Bold.otf]{Noto Sans CJK SC}
+\babelfont[chinese]{sf}[Path=/workspace/scratch/d78ef4d422de/tmp/pdfs/fonts/,UprightFont=NotoSansCJKsc-Regular.otf,BoldFont=NotoSansCJKsc-Bold.otf]{Noto Sans CJK SC}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage[table]{xcolor}
+\usepackage{booktabs,array,tabularx,longtable,multirow}
+\usepackage{graphicx,float}
+\usepackage[skins,breakable]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr,lastpage}
+\usepackage{xurl,hyperref}
+\usepackage{caption}
+\definecolor{Navy}{HTML}{17324D}
+\definecolor{Blue}{HTML}{356A91}
+\definecolor{Gray}{HTML}{5D6873}
+\definecolor{Pale}{HTML}{EEF3F7}
+\definecolor{Mist}{HTML}{F7F8F9}
+\definecolor{Ink}{HTML}{1D2329}
+\definecolor{Warn}{HTML}{8B3A32}
+\hypersetup{colorlinks=true,linkcolor=Navy,urlcolor=Navy,citecolor=Navy,pdftitle={附件2-3后续计算：双MCT—门架索—横通道等效杆抖振响应},pdfauthor={双MCT猫道简化模型复算}}
+\captionsetup{font=small,labelfont={bf,color=Navy},textfont={color=Ink}}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.18em}
+\setlength{\abovedisplayskip}{6pt}
+\setlength{\belowdisplayskip}{6pt}
+\renewcommand{\arraystretch}{1.22}
+\setlist[itemize]{leftmargin=2em,itemsep=0.2em,topsep=0.3em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.2em,topsep=0.3em}
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\titleformat{\section}{\Large\bfseries\color{Navy}}{\thesection}{0.72em}{}[\vspace{-0.35em}\color{Navy!25}\titlerule]
+\titleformat{\subsection}{\large\bfseries\color{Navy}}{\thesubsection}{0.62em}{}
+\titlespacing*{\section}{0pt}{1.0em}{0.62em}
+\titlespacing*{\subsection}{0pt}{0.8em}{0.4em}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{Gray}附件 2--3 后续计算·数学例题讲义}
+\fancyhead[R]{\small\color{Gray}双 MCT—门架索—横通道等效杆}
+\fancyfoot[C]{\small\color{Gray}\thepage\,/\,\pageref*{LastPage}}
+\renewcommand{\headrulewidth}{0.35pt}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcommand{\T}{\mathsf{T}}
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\Step}[1]{\par\medskip\noindent\textcolor{Navy}{\bfseries 步骤 #1}\quad}
+\newcommand{\NumCheck}{\par\medskip\noindent\textcolor{Blue}{\bfseries 数值核对}\quad}
+\newcommand{\Scope}{\par\medskip\noindent\textcolor{Warn}{\bfseries 适用边界}\quad}
+\newtcolorbox{problem}[1]{enhanced,breakable,colback=white,colframe=Navy,boxrule=0.75pt,arc=1mm,left=3mm,right=3mm,top=2.4mm,bottom=2.4mm,title={#1},fonttitle=\bfseries,coltitle=white,colbacktitle=Navy,attach boxed title to top left={xshift=3mm,yshift=-2mm},boxed title style={arc=1mm,boxrule=0pt},before skip=7pt,after skip=7pt}
+\newtcolorbox{answerbox}[1][答案]{enhanced,breakable,colback=Pale,colframe=Navy!65,boxrule=0.5pt,arc=1mm,left=3mm,right=3mm,top=2mm,bottom=2mm,title={#1},fonttitle=\bfseries,coltitle=Navy,colbacktitle=Pale,attach title to upper={\quad},before skip=6pt,after skip=6pt}
+\newtcolorbox{warningbox}[1][不可越过的边界]{enhanced,breakable,colback=white,colframe=Warn,boxrule=0.55pt,arc=1mm,left=3mm,right=3mm,top=2mm,bottom=2mm,title={#1},fonttitle=\bfseries,coltitle=Warn,before skip=6pt,after skip=6pt}
+\begin{document}
+\begin{titlepage}
+\thispagestyle{empty}
+\vspace*{5mm}
+\noindent{\color{Navy}\rule{\textwidth}{1.1pt}}
+\vspace{10mm}
+{\fontsize{25}{33}\selectfont\bfseries\color{Navy}附件 2--3 后续计算\par}
+\vspace{2mm}
+{\fontsize{18}{26}\selectfont\bfseries\color{Ink}双 MCT—门架索—横通道等效杆抖振响应\par}
+\vspace{4mm}
+{\large\color{Gray}数学例题形式：题设—推导—代入—核对—边界\par}
+\vspace{8mm}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{/workspace/scratch/d78ef4d422de/output/double_mct_results_gate_corrected_final/double_mct_topology.png}
+\end{center}
+\vspace{2mm}
+\begin{answerbox}[本次真正计算的对象]
+不是一根索。模型由两个完整 MCT 平面组成：每幅均含承重索链、门架索链和 71 个门架连接位置；其余 50 品普通门架按有限门架凝聚为秩一等效杆，21 个横通道站则用“左右承重索＋左右门架索”四端口 $12\times12$ 完整凝聚刚度连接。双幅中心距为 $42.9\,\mathrm m$，承重索等效为每幅 16 根、两幅共 32 根物理索。
+\end{answerbox}
+\vfill
+{\small\color{Gray}定稿：2026-08-05\hfill 结构、风场、响应、索力与反力均附机器审计和 SHA-256}
+\end{titlepage}
+
+\pagenumbering{roman}
+\section*{先给结论}
+\addcontentsline{toc}{section}{先给结论}
+本次修正后的模型含 2250 个节点、6750 个平动自由度，其中自由平动 DOF 为 6642；总质量为 $4108.467045\,\mathrm t$。普通门架和横通道凝聚件均为零新增密度，因其重量已在 MCT 集中质量中计入一次。
+
+名义抖振工况取猫道平均高度风速 $44.9\,\mathrm{m/s}$、$1/600$--$2\,\mathrm{Hz}$、$\zeta=1\%$、左右幅同一位置共用风场、150 阶模态和 5 组随机实现。跨中横向位移均值为 $47.86\,\mathrm m$、抖振标准差为 $18.15\,\mathrm m$；附件经方向与 RMS 口径纠正后的对应值为 $72.33\,\mathrm m$ 和 $19.45\,\mathrm m$。三站横向抖振标准差误差为 $-8.0\%$、$-6.7\%$、$-9.5\%$。
+
+14 个附件模态的总体平均绝对误差为 $5.92\%$，非扭转族为 $3.12\%$，扭转族为 $16.21\%$。扭转偏差并非隐藏的数值误差：普通门架仅保留平动端口后只有客观轴向刚度，真实门架横剪需要端口转角才能无伪刚度地保留。因此横向位移与主索力可作低频简化复算，局部扭转只能作当前等效层级的风险结果。
+
+\begin{warningbox}[结果等级]
+这是“依据附件输入、在显式补充假设下完成的双 MCT 简化复算”，不是附件原有限元逐时程严格再现。附件未给 $u_*$、空间相干常数、结构阻尼、左右幅风场关系、随机相位和精确 FFT 约定；当前模型也没有恢复横通道局部应力、施工舒适度、疲劳损伤或全频加速度。
+\end{warningbox}
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\section{例题一：把“双 MCT 猫道”写成可计算拓扑}
+\begin{problem}{题设}
+权威源文件为“猫道—门架索合建模型 2.mct”。单幅模型有 1125 节点、1194 单元，其中承重索 729 个 TENSTR、门架索 394 个 TENSTR、承重索—门架索连接 71 个 TRUSS。要求建立双幅三维简化模型，并在 21 个横通道位置连接两幅。
+\end{problem}
+
+\Step{1：完整复制，而不是抽出一根主索}令源节点坐标为 $(X_i,0,Z_i)$，复制为
+\begin{equation}
+\bm x_i^{L}=(X_i-X_0,-21.45,Z_i),\qquad
+\bm x_i^{R}=(X_i-X_0,+21.45,Z_i),qquad X_0=831.091\,\mathrm m.
+\end{equation}
+每一幅都保留原承重索节点、门架索节点、支承条件、初张力和节点质量。双幅模型的物理组成见表~\ref{tab:topology}。
+
+\begin{table}[H]
+\centering
+\caption{双 MCT 拓扑与等效层级}
+\label{tab:topology}
+\small
+\begin{tabularx}{\textwidth}{LrrL}
+\toprule
+组成 & 单幅数量 & 双幅/全桥数量 & 本次处理 \\
+\midrule
+承重索 TENSTR & 729 & 1458 & 保留源 EA、初力、几何刚度；每幅等效 16 根物理索 \\
+门架索 TENSTR & 394 & 788 & 完整保留；每幅等效 6 根 $\phi54$ 门架索 \\
+普通门架站 & 50 & 100 & 删除原 property-3 竖杆，换为有限门架秩一轴向凝聚 \\
+横通道站原门架 & 21 & 42 & 删除原 property-3 竖杆，纳入四端口门架—通道总成 \\
+四端口横通道总成 & --- & 21 & 每站装配一个完整 $12\times12$ 刚度矩阵 \\
+节点 & 1125 & 2250 & 每节点仅保留 $U_X,U_Y,U_Z$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\Step{2：质量闭合}源索分布质量与二期集中质量分别为
+\begin{align}
+M_{\mathrm{rope}}&=3144.6555268\,\mathrm t,\\
+M_{\mathrm{lump}}&=963.8115183\,\mathrm t,\\
+M_{\mathrm{total}}&=4108.4670450\,\mathrm t.
+\end{align}
+独立目标为 $4108.46690758\,\mathrm t$，差值仅 $0.00013747\,\mathrm t=0.137\,\mathrm{kg}$。横通道单品 $99.38\,\mathrm{kN}$ 已含在 MCT 二期质量中，所以凝聚矩阵必须取零新增密度。
+
+\begin{answerbox}[本题答案]
+本模型不是“用一根索代表猫道后再乘 32”。它保留两套完整 MCT 承重索—门架索体系；32 只用于把单幅等效索束轴力恢复到物理单根承重索，绝不用于重复放大单幅截面风力。
+\end{answerbox}
+
+\section{例题二：推导预张力索单元的切线刚度}
+\begin{problem}{题设}
+对任一 TENSTR 单元，已知当前弦长 $L$、方向单位向量 $\bm n$、轴向刚度 $EA$ 和 MCT 初力 $N_0>0$。求三维小扰动切线刚度。
+\end{problem}
+
+\Step{1：分解相对位移}节点相对位移写成
+\begin{equation}
+\Delta\bm u=(\bm n\bm n^{\T})\Delta\bm u+
+(\bm I-\bm n\bm n^{\T})\Delta\bm u.
+\end{equation}
+第一项改变轴向伸长，第二项改变索方向并由初张力产生几何恢复力。
+
+\Step{2：形成 $3\times3$ 方向刚度}
+\begin{equation}
+\boxed{\bm k_e=\frac{EA}{L}\bm n\bm n^{\T}
++\frac{N_0}{L}\left(\bm I-\bm n\bm n^{\T}\right)}.
+\end{equation}
+两节点的 $6\times6$ 刚度为
+\begin{equation}
+\bm K_e=
+\begin{bmatrix}
+\bm k_e&-\bm k_e\\
+-\bm k_e&\bm k_e
+\end{bmatrix}.
+\end{equation}
+
+\NumCheck 承重索单幅等效 $EA=2.675843\,\mathrm{GN}$，门架索单幅等效 $EA=1.008358\,\mathrm{GN}$。程序逐单元继承 INIFORCE：主跨承重索平均约 $10.492\,\mathrm{MN}$，主跨门架索平均约 $3.194\,\mathrm{MN}$；没有把两类索错误地共用一个水平张力。
+
+\Scope 公式是当前预应力平衡态附近的线性切线。它能用于模态与一阶抖振，但不等于大位移时域中的完整索形更新。
+
+\section{例题三：由有限门架得到普通门架等效杆}
+\begin{problem}{题设}
+普通门架的详细 H10 模板含 30 个 BEAM188，并通过 16 个承重索接口和 6 个门架索接口连接上下索族。将两组索接口各凝聚为一个中心端口，端口只保留三平动、中心转角自由。求可用于双 MCT 平动模型的等效刚度。
+\end{problem}
+
+\Step{1：静力 Schur 凝聚}将详细门架自由度分为保留端口 $r$ 与内部自由度 $i$：
+\begin{equation}
+\bm K=
+\begin{bmatrix}\bm K_{rr}&\bm K_{ri}\\\bm K_{ir}&\bm K_{ii}\end{bmatrix},
+\qquad
+\bm K_c=\bm K_{rr}-\bm K_{ri}\bm K_{ii}^{-1}\bm K_{ir}.
+\end{equation}
+上下端口转角继续自由凝聚后，两个三平动端口形成球铰连接：六个端口平动中仅相对轴向伸长有能量，其余五个为机制。
+
+\Step{2：写成站点方向相关的秩一杆}设某站下端到上端方向为 $\bm n_g$、长度为 $L_g$，则
+\begin{equation}
+\boxed{\bm K_g=\frac{EA_{g,\mathrm{eq}}}{L_g}
+\begin{bmatrix}
+\bm n_g\bm n_g^{\T}&-\bm n_g\bm n_g^{\T}\\
+-\bm n_g\bm n_g^{\T}&\bm n_g\bm n_g^{\T}
+\end{bmatrix}},
+\end{equation}
+其中
+\begin{equation}
+EA_{g,\mathrm{eq}}=1.99405719\times10^8\,\mathrm N.
+\end{equation}
+H10 代表站 $L_g=8.0000045\,\mathrm m$，故
+\begin{equation}
+k_N=\frac{EA_{g,\mathrm{eq}}}{L_g}=24{,}925.70\,\mathrm{N/mm}.
+\end{equation}
+
+\Step{3：核对原 property-3}原平面 MCT 竖杆在 H10 的轴向刚度为 $126{,}071.93\,\mathrm{N/mm}$。有限门架仅为其
+\begin{equation}
+\frac{24{,}925.70}{126{,}071.93}=0.19771=19.77\%.
+\end{equation}
+单位轴向相对位移的详细门架应变能分配为：顶梁弯曲 $62.14\%$、两立柱 $30.81\%$、底梁 $7.06\%$。因此原 property-3 只按立柱轴向工作会明显偏硬。
+
+\begin{warningbox}[普通门架的扭转边界]
+三平动端口不能客观保存门架横剪：若硬加一个两节点横剪弹簧，整体刚体转动也会产生伪能量。要恢复真实门式横剪和局部 roll，必须保留端口转角并装配 $12\times12$ 门架矩阵。本次主模型选择严格客观的秩一轴杆，因此扭转族频率和局部转角必须单独审慎评价。
+\end{warningbox}
+
+\section{例题四：把一品横通道凝聚成四端口等效杆组}
+\begin{problem}{题设}
+一品横通道详细模型由 639 个 BEAM188 组成；连同左右两品各 30 个 BEAM188 的有限门架，共 699 个梁单元。要求连接左右两幅的承重索底端 $B_L,B_R$ 与门架索上端 $T_L,T_R$，每个端口只保留 $U_X,U_Y,U_Z$。
+\end{problem}
+
+\Step{1：定义端口向量}
+\begin{equation}
+\bm u_p=
+\begin{bmatrix}
+\bm u_{B_L}^{\T}&\bm u_{T_L}^{\T}&\bm u_{B_R}^{\T}&\bm u_{T_R}^{\T}
+\end{bmatrix}^{\T}\in\mathbb R^{12}.
+\end{equation}
+详细模型用 74 条内部刚臂和 44 组索平动接口保持虚功一致；凝聚后得到对称半正定矩阵 $\bm K_{p0}\in\mathbb R^{12\times12}$。
+
+\Step{2：刚体与变形模态核对}经一致量纲缩放后，$\bm K_{p0}$ 有 6 个刚体零模态和 6 个正变形模态；正值为
+\begin{equation}
+3.2505,\ 70.1198,\ 154.8416,\ 5.02698\!\times10^4,\
+5.04492\!\times10^4,\ 7.99891\!\times10^4\ \mathrm{N/mm}.
+\end{equation}
+没有负刚度根，刚体残差约 $3.8\times10^{-17}$。
+
+\Step{3：旋转到每个实际站位}H10 凝聚矩阵采用局部顺桥—横桥—竖向坐标。第 $j$ 站局部到全局旋转为 $\bm R_j$，则
+\begin{equation}
+\bm T_j=\operatorname{blkdiag}(\bm R_j^{\T},\bm R_j^{\T},\bm R_j^{\T},\bm R_j^{\T}),
+\qquad
+\boxed{\bm K_{p,j}=\bm T_j^{\T}\bm K_{p0}\bm T_j}.
+\end{equation}
+在 21 个权威站位，先删除左右两幅相应的原 property-3 TRUSS，再且仅再装配一次 $\bm K_{p,j}$。这样既不重复门架刚度，也不把横通道误接成 bottom--bottom 单根弹簧。
+
+\begin{answerbox}[本题答案]
+最终连接拓扑是四端口，不是 CP 刚性耦合，也不是只连 $U_Y$ 的单杆：
+\[
+(B_L,T_L,B_R,T_R)\times(U_X,U_Y,U_Z).
+\]
+矩阵所有非对角耦合项均保留，质量仍由原 MCT 节点质量承担一次。
+\end{answerbox}
+
+\section{例题五：全桥模态方程与附件表 4--1 校核}
+\begin{problem}{题设}
+将双幅索单元、100 个普通门架秩一杆和 21 个四端口通道矩阵组装，求预应力平衡态附近低阶模态，并按附件家族内频率顺序配对。
+\end{problem}
+
+\Step{1：广义特征值问题}
+\begin{equation}
+\bm K\bm\phi_r=\omega_r^2\bm M\bm\phi_r,
+\qquad
+\bm\phi_r^{\T}\bm M\bm\phi_s=\delta_{rs},
+\qquad
+f_r=\frac{\omega_r}{2\pi}.
+\end{equation}
+本次自由平动 DOF 为 6642；前 60 阶最低频率 $0.036773\,\mathrm{Hz}$，$0.01\,\mathrm{Hz}$ 以下模态数为 0。独立重组 $\bm K,\bm M$ 后，前 24 阶最大特征残差为 $8.03\times10^{-11}$，没有发现伪低频或单节点局部化模态。
+
+\Step{2：14 行一一配对}附件未提供振型向量，所以 TS2/VS2 仍按同一主跨家族、相同奇偶性中的升频序号配对；半波 MAC 仅作形状指纹，不擅自重编号。
+
+\begin{table}[H]
+\centering
+\caption{附件表 4--1 与门架修正双 MCT 模型配对}
+\small
+\begin{tabular}{lrrr@{\qquad}lrrr}
+\toprule
+模态 & 附件/Hz & 模型/Hz & 误差/\% & 模态 & 附件/Hz & 模型/Hz & 误差/\% \\
+\midrule
+LS1   & .0365 & .036773 & +0.75 & SIDE1 & .1149 & .116182 & +1.12 \\
+VA1   & .0700 & .071446 & +2.07 & SIDE2 & .1239 & .124815 & +0.74 \\
+LA1   & .0726 & .073502 & +1.24 & VA2   & .1438 & .146445 & +1.84 \\
+TA1   & .0996 & .071491 & -28.22& LA2   & .1449 & .146579 & +1.16 \\
+VS1   & .1028 & .101177 & -1.58 & SIDE3 & .1557 & .164799 & +5.84 \\
+LS2   & .1087 & .110112 & +1.30 & TS2   & .1571 & .143814 & -8.46 \\
+TS1   & .1147 & .100981 & -11.96& VS2   & .1744 & .145334 & -16.67 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{/workspace/scratch/d78ef4d422de/output/double_mct_report_assets_gate_corrected/modal_14_mode_validation.png}
+\caption{14 个附件频率的配对值与有符号误差。}
+\end{figure}
+
+\NumCheck 全 14 行 MAE 为 $5.92\%$，RMS 误差为 $9.78\%$；T 家族 MAE 为 $16.21\%$，非 T 家族为 $3.12\%$。最低根及 L/V 主导模态没有机制问题，但 TA1 明显偏软，说明三平动普通门架凝聚不能当作扭转精细模型。
+
+独立筛查还发现：从 M37（$0.28045\,\mathrm{Hz}$）起有 13 阶门架索横向解耦敏感分支，其门架索动能超过 $95\%$。它们不是近零局部机制，却对“普通门架无横剪”的三平动理想化高度敏感。150 阶抖振中仍保留这些数学分支以检查位移收敛，但由它们主导的局部 roll 不得升级为物理验收值。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{/workspace/scratch/d78ef4d422de/output/double_mct_results_gate_corrected_final/mode_shapes_first12.png}
+\caption{前 12 阶主跨观测量；横弯取两幅共同横移，竖弯取共同竖移，扭转取两幅差动高程形成的系统滚转。}
+\end{figure}
+
+\section{例题六：把附件风速和三分力系数变成线荷载}
+\begin{problem}{题设}
+附件给出施工期 $10\,\mathrm m$ 基本风速 $V_{10}=30.1\,\mathrm{m/s}$、猫道平均高度 $Z=169.54\,\mathrm m$、幂指数 $0.134$、$k_f=1.02$；风洞表 3--1 给出 $-12^\circ$ 至 $12^\circ$ 的 $C_D,C_L,C_M$。求名义来流和零攻角三分力。
+\end{problem}
+
+\Step{1：风速高度换算}
+\begin{equation}
+U(Z)=k_f\left(\frac{Z}{10}\right)^{0.134}V_{10}
+=1.02\left(\frac{169.54}{10}\right)^{0.134}\!\times30.1
+=44.86\approx44.9\,\mathrm{m/s}.
+\end{equation}
+$30.1\,\mathrm{m/s}$ 是 $U_{10}$，$44.9\,\mathrm{m/s}$ 才是均匀化猫道高度名义来流。若直接把 30.1 代入动压，均值气动力只剩
+\begin{equation}
+\left(\frac{30.1}{44.9}\right)^2=0.4494.
+\end{equation}
+
+\Step{2：严格区分三种参考量}对单幅、单位跨长，取 $B=5.40\,\mathrm m$、$H_s=1.50\,\mathrm m$：
+\begin{align}
+D&=\tfrac12\rho U^2H_sC_D,\\
+L&=\tfrac12\rho U^2BC_L,\\
+M&=\tfrac12\rho U^2B^2C_M.
+\end{align}
+$D,L$ 的单位为 N/m，$M$ 为 N·m/m。不能把 $42.9\,\mathrm m$ 当作气动参考宽度，也不能把单幅线荷载再乘 16。
+
+\Step{3：代入零度值}取 $\rho=1.225\,\mathrm{kg/m^3}$，附件零度值
+\begin{equation}
+C_D=0.526049,\qquad C_L=-0.010230,\qquad C_M=-0.006930,
+\end{equation}
+得单幅
+\begin{equation}
+D_0=974.35\,\mathrm{N/m},\qquad
+L_0=-68.21\,\mathrm{N/m},\qquad
+M_0=-249.53\,\mathrm{N\,m/m}.
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{/workspace/scratch/d78ef4d422de/output/double_mct_report_assets_gate_corrected/measured_three_force_coefficients.png}
+\caption{计算直接使用的附件离散三分力系数；零度导数由 PCHIP 求得，不用高阶多项式跨区拟合。}
+\end{figure}
+
+\section{例题七：建立局部门架转角和一阶准定常抖振力}
+\begin{problem}{题设}
+每个风场站都能从承重索和门架索模态插值得到横向位移。要求把单幅气动力矩以虚功一致方式施加到结构，并避免把双幅整体滚转误当作单幅局部扭转。
+\end{problem}
+
+\Step{1：定义两个不同转角}第 $a=L,R$ 幅的局部门架转角为
+\begin{equation}
+\boxed{\theta_a(x)=\frac{u_{y,b,a}(x)-u_{y,g,a}(x)}{h_g(x)}},
+\qquad h_g=z_g-z_b=7.09\sim9.08\,\mathrm m.
+\end{equation}
+双幅系统滚转另定义为
+\begin{equation}
+\psi_{\mathrm{sys}}(x)=\frac{u_{z,R}(x)-u_{z,L}(x)}{42.9}.
+\end{equation}
+$M_a\,\delta\theta_a$ 是单幅气动力矩的虚功；$\psi_{\mathrm{sys}}$ 只作观测量，不拿来替代 $\theta_a$。
+
+\Step{2：零攻角一阶阵风核}本次采用与附件“忽略自激力/气动阻尼”一致的线性阵风核，不把结构速度放入相对风。对 $u,w$ 有
+\begin{align}
+\Delta F_H&=b_{Hu}u+b_{Hw}w,\\
+\Delta F_V&=b_{Vu}u+b_{Vw}w,\\
+\Delta M&=b_{Mu}u+b_{Mw}w.
+\end{align}
+代入 PCHIP 零度导数
+\begin{equation}
+C_D'=0.17363,\quad C_L'=0.17707,\quad C_M'=-0.0015279\quad(\mathrm{rad}^{-1}),
+\end{equation}
+得到
+\begin{align}
+b_{Hu}&=43.401, & b_{Hw}&=8.682 &&\mathrm{N/(m\,m/s)},\\
+b_{Vu}&=-3.038, & b_{Vw}&=47.997 &&\mathrm{N/(m\,m/s)},\\
+b_{Mu}&=-11.115,& b_{Mw}&=-1.225 &&\mathrm{N\,m/(m\,m/s)}.
+\end{align}
+
+\Step{3：277 站虚功积分}以梯形权重 $\Delta s_j$，模态矩阵在第 $j$ 站、幅 $a$ 为
+\begin{equation}
+\bm\Psi_{ja}=
+\begin{bmatrix}
+\bm\phi_{y,ja}\\ \bm\phi_{z,ja}\\ \bm\theta_{ja}
+\end{bmatrix},
+\end{equation}
+广义阵风力为
+\begin{equation}
+\boxed{\bm Q_g(t)=\sum_{a\in\{L,R\}}\sum_{j=1}^{277}
+\Delta s_j\,\bm\Psi_{ja}^{\T}
+\begin{bmatrix}\Delta F_{H,ja}\\\Delta F_{V,ja}\\\Delta M_{ja}\end{bmatrix}}.
+\end{equation}
+
+\Scope 本次一阶核没有加入 $C'(0)\theta$ 气动刚度，也没有结构速度气动阻尼。它是附件缺参条件下的可审计线性复算，不是含自激力的全非线性气弹分析。
+
+\section{例题八：生成 277 点相关风场并求稳态频域响应}
+\begin{problem}{题设}
+附件指定 Simiu 水平谱、Panofsky 竖向谱、277 个沿跨位置和 Cholesky 思路，但未给 $u_*$、粗糙度、相干常数及左右幅相关性。建立一套显式假设并避免低阻尼启动瞬态。
+\end{problem}
+
+\Step{1：单边 Hz 谱}取 $x=fz/U$：
+\begin{align}
+S_u(f)&=\frac{200u_*^2z/U}{(1+50fz/U)^{5/3}},\\
+S_w(f)&=\frac{6u_*^2z/U}{(1+4fz/U)^2}.
+\end{align}
+以显式开阔地假定 $z_0=0.01\,\mathrm m$，
+\begin{equation}
+u_*=\frac{0.4U}{\ln(z/z_0)}=1.84427\,\mathrm{m/s}.
+\end{equation}
+在 $T=600\,\mathrm s$、$\Delta t=0.05\,\mathrm s$ 的 DFT 线上，$\Delta f=1/600\,\mathrm{Hz}$；按 $S(f_k)\Delta f$ 离散求和的目标标准差为 $\sigma_u=4.24993\,\mathrm{m/s}$、$\sigma_w=2.20792\,\mathrm{m/s}$。
+
+\Step{2：相干与随机场}沿跨采用
+\begin{equation}
+\gamma(f,\Delta x)=\exp\!\left(-C\frac{f|\Delta x|}{U}\right),\qquad C=7.
+\end{equation}
+名义工况让相同 $x$ 处左右幅共用风场，以对应附件只描述一条 277 点风线的口径；另算跨宽 Davenport 相干作为敏感性。每个站的有限样本再归一到目标边际方差，5 组独立随机实现按方差平均。
+
+\Step{3：稳态频域解}质量归一化后，第 $r$ 模态满足
+\begin{equation}
+\ddot q_r+2\zeta\omega_r\dot q_r+\omega_r^2q_r=Q_r(t).
+\end{equation}
+对 DFT 频率 $f_k$，
+\begin{equation}
+\hat q_r(f_k)=
+\frac{\hat Q_r(f_k)}{\omega_r^2-(2\pi f_k)^2+2\mathrm i\zeta\omega_r(2\pi f_k)}.
+\end{equation}
+用 \texttt{irfft} 直接得到周期稳态响应，不从静平衡状态突然施加随机风，因此没有最低模态约 $430\,\mathrm s$ 衰减时间常数导致的启动自由振动污染。
+
+\Step{4：统计量}
+\begin{equation}
+\sigma_y=\sqrt{\frac{1}{N-1}\sum_{n=1}^{N}(y_n-\bar y)^2},
+\qquad y_{\pm}=\bar y\pm3.5\sigma_y.
+\end{equation}
+附件表 5--1 的印刷 RMS 按
+\begin{equation}
+\sigma_{\mathrm{att}}=\sqrt{\mathrm{RMS}_{\mathrm{raw}}^2-\bar y_{\mathrm{att}}^2}
+\end{equation}
+反推去均值抖振标准差；同时按图 5--7 至图 5--9 修正横向/竖向行对调。
+
+\section{例题九：位移和转角结果与附件对照}
+\begin{problem}{题设}
+用 150 阶模态、$U=44.9\,\mathrm{m/s}$、$\zeta=1\%$、$1/600$--$2\,\mathrm{Hz}$ 和 5 组随机实现，求主跨 $L/4,L/2,3L/4$ 的共同横移、共同竖移与单幅局部门架转角。
+\end{problem}
+
+\begin{table}[H]
+\centering
+\caption{名义工况与附件表 5--1 纠正值}
+\small
+\begin{tabular}{llrrrr}
+\toprule
+响应 & 位置 & 附件均值 & 模型均值 & 附件 $\sigma$ & 模型 $\sigma$ \\
+\midrule
+横向位移/m & $L/4$  & $-55.41$ & 35.98 & 14.20 & 13.06 \\
+             & $L/2$  & $-72.33$ & 47.86 & 19.45 & 18.15 \\
+             & $3L/4$ & $-56.32$ & 35.98 & 14.43 & 13.06 \\
+\addlinespace
+竖向位移/m & $L/4$  & 0.21  & $-0.176$ & 2.280 & 1.537 \\
+             & $L/2$  & 0.29  & $-0.241$ & 1.216 & 1.232 \\
+             & $3L/4$ & $-0.85$ & $-0.176$ & 2.330 & 1.535 \\
+\addlinespace
+局部转角/deg & $L/4$  & 2.24  & 5.212 & 0.604 & 1.128 \\
+              & $L/2$  & $-0.08$ & 3.598 & 0.139 & 0.698 \\
+              & $3L/4$ & 2.72  & 5.180 & 0.706 & 1.143 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{/workspace/scratch/d78ef4d422de/output/double_mct_report_assets_gate_corrected/attachment_three_response_comparison.png}
+\caption{附件与模型的三站均值绝对值和去均值抖振标准差。}
+\end{figure}
+
+\NumCheck 横向标准差模型/附件比为 $0.920,0.933,0.905$；对应误差 $-8.0\%,-6.7\%,-9.5\%$。横向均值只达到附件绝对值的 $64\%$--$66\%$，说明当前线性静力和全桥边界仍偏柔/荷载映射仍有缺项。跨中竖向标准差比为 $1.013$，但两侧仅约 $0.66$--$0.67$。局部转角明显偏大，符合普通门架横剪未在三平动端口中保留的理论预期。
+
+\begin{warningbox}[不能把局部 roll 和 system roll 混在一起]
+附件扭转只与左右幅各自的 $\theta_L,\theta_R$ 比较；系统滚转 $\psi_{\mathrm{sys}}$ 被单独输出。名义跨中 $\psi_{\mathrm{sys}}$ 均值为 $0.724^\circ$、标准差 $0.241^\circ$，不拿它替换附件局部扭转。
+\end{warningbox}
+
+\section{例题十：由等效索束恢复单根索力}
+\begin{problem}{题设}
+MCT 承重索单幅等效 16 根物理索，门架索单幅等效 6 根。求单根承重索的均值、标准差、$\bar T+3.5\sigma_T$ 和破断力比。
+\end{problem}
+
+\Step{1：线性轴力恢复}对索单元方向 $\bm n$，模态轴力恢复行向量为
+\begin{equation}
+\bm a_e=\frac{EA_e}{L_e}\bm n^{\T}(\bm\Phi_j-\bm\Phi_i).
+\end{equation}
+索束轴力增量 $\Delta T_e=\bm a_e\bm q$；承重索单根除以 16，门架索单根除以 6。保留完整模态协方差 $\bm\Sigma_q$：
+\begin{equation}
+\sigma_{T,e}=\frac{1}{n_e}\sqrt{\bm a_e\bm\Sigma_q\bm a_e^{\T}}.
+\end{equation}
+
+\Step{2：名义结果}主跨风响应控制承重索为源 E443：
+\begin{equation}
+\bar T=705.12\,\mathrm{kN},\qquad
+\sigma_T=15.96\,\mathrm{kN},\qquad
+T_{3.5}=760.99\,\mathrm{kN}.
+\end{equation}
+以附件单根破断力 $2380\,\mathrm{kN}$，
+\begin{equation}
+\gamma_{\mathrm{break}}=\frac{2380}{760.99}=3.128.
+\end{equation}
+全线绝对最大值出现在固定短段 E2，初始单根轴力 $982.77\,\mathrm{kN}$、几乎无本次主跨风动态增量，破断力比 $2.422$。门架索最大 $\bar T+3.5\sigma=633.20\,\mathrm{kN}$；附件未给门架索破断力，故不虚构安全系数。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{/workspace/scratch/d78ef4d422de/output/double_mct_report_assets_gate_corrected/rope_force_recovery.png}
+\caption{两幅承重索与门架索的单根均值和 $\bar T+3.5\sigma$ 恢复。}
+\end{figure}
+
+\Scope 附件表 5--4 的北、南锚峰值约为 $772.9$、$787.0\,\mathrm{kN}$，与本次 $760.99\,\mathrm{kN}$ 同量级；但附件是完整四跨锚端索力，本次是主跨风响应控制单元，且均值/标准差分解并不一致。因此只能说容量量级接近，不能称锚端索力复现。
+
+\section{例题十一：恢复支座反力并说明为什么不能强行对表}
+\begin{problem}{题设}
+由保存的 150 阶响应状态恢复约束 DOF 反力，并与附件表 5--2、5--3 对照。模型采用对角集中质量，阻尼仅以模态阻尼比给出。
+\end{problem}
+
+\Step{1：约束行平衡}自由/约束分块后，取“支座作用在结构上的力”为正：
+\begin{equation}
+\bm R_c=\bm M_{cf}\ddot{\bm u}_f+\bm C_{cf}\dot{\bm u}_f+
+\bm K_{cf}\bm u_f-\bm f_c.
+\end{equation}
+本模型 $\bm M_{cf}=0$；模态阻尼不能唯一反推出物理 $\bm C_{cf}$，故不虚构支点阻尼项；主跨风也没有直接施加到约束 DOF，$\bm f_c=0$。因此
+\begin{equation}
+\Delta\bm R_{W,c}=\bm K_{cf}\bm\Phi_f\bm q_s,
+\qquad
+\bm\Sigma_R=\bm A\bm\Sigma_q\bm A^{\T},
+\qquad \bm A=\bm K_{cf}\bm\Phi_f.
+\end{equation}
+
+\Step{2：独立程序复核}108 个约束平动 DOF 逐行重算后，静风增量与主程序最大差 $3.28\times10^{-13}\,\mathrm{kN}$，RMS 最大差 $2.84\times10^{-14}\,\mathrm{kN}$，说明反力恢复实现本身正确。
+
+\Step{3：附件映射边界}附件“水平/竖向/横向”分别对应全局 $X/Z/Y$。北、南锚和塔中跨侧六个映射节点的 $U_X$ 是滑动自由，因此不存在 $X$ 向节点支反力；附件水平力若要比较，必须另定义相邻索切口力。
+
+只有两塔中跨侧出现主要 Y/Z 反力：模型 $U=44.9\,\mathrm{m/s}$ 时，Y 向 RMS 为 $235.8$--$236.5\,\mathrm{kN}$，Z 向 RMS 为 $117.0$--$119.2\,\mathrm{kN}$；附件 $U_{10}=30.1\,\mathrm{m/s}$ 对应范围分别为 $306.7$--$312.4\,\mathrm{kN}$ 和 $145.8$--$149.8\,\mathrm{kN}$。风速不同，抖振 RMS 不能按 $U^2$ 简单缩放。
+
+\begin{warningbox}[反力尚未同边界复现]
+32 个附件 Y/Z 映射行中有 24 行模型 RMS 小于 $0.001\,\mathrm{kN}$，主要位于锚碇鞍和塔边跨侧；附件这些位置却有明显反力。这表示当前主跨加载与支承分段没有复现附件的完整四跨传力路径，不是反力公式算错。静风结果也仅为增量，不含恒载反力基线。
+\end{warningbox}
+
+\section{例题十二：频带、风速、相干、阻尼和模态数敏感性}
+\begin{problem}{题设}
+附件缺少若干控制抖振绝对值的输入，且“0.1--2 Hz”与低阶模态冲突。以名义工况为基准，分别改变风速、频带、左右幅相干和阻尼，并检查模态截断。
+\end{problem}
+
+\begin{table}[H]
+\centering
+\caption{150 阶、5 随机实现敏感性结果}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+工况 & 跨中横向 $\sigma$/m & 竖向 $\sigma$/m & 局部转角 $\sigma$/deg & 系统滚转 $\sigma$/deg & 主索峰值/kN \\
+\midrule
+44.9/full/1\%/同风 & 18.153 & 1.232 & 0.698 & 0.241 & 760.99 \\
+30.1 m/s & 6.213 & 0.436 & 0.283 & 0.088 & 715.49 \\
+字面 0.1--2 Hz & 0.729 & 0.854 & 0.378 & 0.212 & 742.89 \\
+跨宽 Davenport $C_y=7$ & 19.194 & 1.038 & 1.728 & 1.575 & 761.69 \\
+$\zeta=0.5\%$ & 29.900 & 1.577 & 0.778 & 0.278 & 777.87 \\
+$\zeta=2\%$ & 11.945 & 0.902 & 0.649 & 0.205 & 748.12 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{/workspace/scratch/d78ef4d422de/output/double_mct_report_assets_gate_corrected/buffeting_sensitivity.png}
+\caption{风速、频带、跨宽相干和阻尼对四种响应标准差的影响。}
+\end{figure}
+
+\NumCheck 按“0.1--2 Hz”字面高通后，跨中横向标准差从 $18.15$ 降至 $0.73\,\mathrm m$，减少约 $96\%$；它剔除了 $0.0368,0.0714,0.0735\,\mathrm{Hz}$ 等主导低阶模态，因此不能作为名义物理复算。若附件的 0.1--2 实为 rad/s，则对应 $0.0159$--$0.318\,\mathrm{Hz}$，反而能包含首阶，这是更合理但无法由原文确认的解释。
+
+\Step{模态数收敛}采用相同前三组随机种子：
+\begin{table}[H]
+\centering
+\caption{模态截断收敛}
+\small
+\begin{tabular}{rrrrrr}
+\toprule
+阶数 & 最高频率/Hz & 横向均值/m & 横向 $\sigma$/m & 局部转角均值/deg & 局部转角 $\sigma$/deg \\
+\midrule
+30  & .232 & 47.864 & 17.951 & .919 & .255 \\
+50  & .325 & 47.758 & 17.946 & 2.069 & .365 \\
+100 & .477 & 47.851 & 17.952 & 3.632 & .703 \\
+150 & .579 & 47.855 & 17.953 & 3.598 & .705 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.94\textwidth]{/workspace/scratch/d78ef4d422de/output/double_mct_report_assets_gate_corrected/mode_count_convergence.png}
+\caption{30/50/100/150 阶收敛。横向位移很早稳定，局部门架转角需至少约 100 阶。}
+\end{figure}
+
+\Scope 150 阶最高频率仅 $0.579\,\mathrm{Hz}$，本节只证明所列低频位移和转角在当前 ROM 中趋稳；不能据此接受 $2\,\mathrm{Hz}$ 加速度、舒适度、构件反力高频部分或疲劳结果。
+
+\section{例题十三：最终能说什么，不能说什么}
+\begin{answerbox}[可采用的结论]
+\begin{enumerate}
+\item 双 MCT—门架索—横通道四端口的结构拓扑和质量闭合已经建立；普通门架与横通道均避免刚度、质量重复。
+\item L/V 主导模态及横向抖振量级可以由该模型解释。三站横向标准差比附件低约 $7\%$--$10\%$，属于有用的低频简化复算。
+\item 名义主跨单根承重索 $\bar T+3.5\sigma=760.99\,\mathrm{kN}$，对 $2380\,\mathrm{kN}$ 破断力比为 3.128；这是当前主跨响应控制值。
+\item 44.9 m/s 是平均猫道高度均匀来流的合理名义值；30.1 m/s 应保留为 $U_{10}$ 字面敏感性，不应混写。
+\end{enumerate}
+\end{answerbox}
+
+\begin{warningbox}[不得升级为设计验收的内容]
+\begin{enumerate}
+\item TA1、TS1、TS2 与局部转角仍受普通门架平动端口缺少客观横剪刚度控制；必须引入端口转角或显式门架后再作扭转验收。
+\item 21 道横通道统一复用 H10 凝聚矩阵；站点独立门架几何、局部应力和连接应力尚未恢复。
+\item 附件反力来自完整四跨传力，而本次主跨风加载下多数锚/边跨反力近零；不可用当前支反力替代附件表 5--2、5--3。
+\item 附件缺失的阻尼、$u_*$、相干、左右幅关系和随机相位使绝对 RMS 非唯一；敏感性区间必须随主值一并交付。
+\item 当前是线性预应力切线结构＋一阶准定常阵风；未含气动刚度、自激气动力、非线性索形更新、碰撞、松索和局部构件屈曲。
+\end{enumerate}
+\end{warningbox}
+
+\section{复现清单与输入指纹}
+\begin{table}[H]
+\centering
+\caption{定稿核心输入与 SHA-256}
+\scriptsize
+\begin{tabularx}{\textwidth}{L L}
+\toprule
+文件/对象 & SHA-256 \\
+\midrule
+猫道—门架索合建 MCT & {\tiny\texttt{0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1}} \\
+21 站四端口 $K_{12}$ & {\tiny\texttt{28ed7b14afd260595e62bbf2e606daf4f3a325ec8f04134f8e102653cf618341}} \\
+普通门架凝聚审计 & {\tiny\texttt{5629bcd041074640734dbb41a5fb9ff696ffa303a41a2b65d2bac548ced7aa6b}} \\
+附件三分力 CSV & {\tiny\texttt{8cd1fa26f4d21d62caeba080410bc77febddcdfc00735c2d3b911f73c920c618}} \\
+结构组装脚本 & {\tiny\texttt{e666793f6e9728f84bfcba4290cf736b71fa1f637b24e7884d080f9f35cfe1cc}} \\
+抖振响应脚本 & {\tiny\texttt{bcf29137bfcb7ef12e15a057221a80801702af4f94942ea6c8d5bbcbc340adbf}} \\
+150 阶响应状态 & {\tiny\texttt{2465489342b93033c86179b13fe9004a943fe639c3c487ececb9cd87a4f960a2}} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+建议复现顺序：先运行结构组装与模态校核，再运行 150 阶、5 种子名义抖振，随后运行敏感性和报告图表脚本。交付包同时包含源 MCT、站位映射、普通门架审计、四端口矩阵、模态配对 CSV、响应 CSV、索力、反力、代码和本 PDF。
+
+\vfill
+\begin{center}
+\color{Gray}\small —— 报告结束 ——
+\end{center}
+\end{document}

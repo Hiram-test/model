@@ -1,0 +1,77 @@
+{
+  "audit": {
+    "n_nodes": 51896,
+    "n_elements": 30317,
+    "n_components": 22096,
+    "n_pair_fragments": 19371,
+    "n_pair_t3d2": 17756,
+    "n_pair_b31": 1615,
+    "pair_t3d2_plus_b31": 19371,
+    "n_unconstrained_components": 21426,
+    "n_unconstrained": 21426,
+    "n_unconstrained_pairs": 18825,
+    "n_unconstrained_nodes": 50676,
+    "unconstrained_means": "components with no constraint node",
+    "not_unconstrained_node_count": true,
+    "size_hist": {
+      "2": 19371,
+      "3": 1149,
+      "4": 1285,
+      "5": 120,
+      "6": 80,
+      "7": 16,
+      "9": 27,
+      "28": 12,
+      "46": 12,
+      "58": 12,
+      "129": 12
+    },
+    "largest": [
+      129,
+      129,
+      129,
+      129,
+      129,
+      129,
+      129,
+      129,
+      129,
+      129
+    ],
+    "n_deg1": 43468,
+    "n_deg0": 0,
+    "pair_fragment_roles": {
+      "floor_rope": 17616,
+      "portal_or_beam": 1594,
+      "portal_rope": 136,
+      "handrail_rope": 4,
+      "cross_passage": 21
+    },
+    "n_bc_nodes": 1220,
+    "path": "catwalk-fem/artifacts/zjg_catwalk_ccx221.inp",
+    "sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+    "bytes": 26839981,
+    "three_anchor": {
+      "by_name": {
+        "N_FLOOR_ANCHOR": 312,
+        "N_PORTAL_ANCHOR": 16,
+        "N_SUPPORT_SADDLE_ENDS": 904
+      },
+      "n_union": 1220,
+      "floor_portal_overlap": 0
+    },
+    "n_bc_union_three": 1220,
+    "n_unconstrained_nodes_three": 50676
+  },
+  "match_given": {
+    "sha256": true,
+    "n_components": true,
+    "n_pair_fragments": true,
+    "n_pair_t3d2": true,
+    "n_pair_b31": true,
+    "n_unconstrained_components": true,
+    "n_unconstrained_nodes": true,
+    "n_bc_union_three": true,
+    "all": true
+  }
+}

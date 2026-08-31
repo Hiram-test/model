@@ -1,0 +1,85 @@
+{
+  "evaluator": "Cursor Grok 4.6",
+  "run": "bc-73577ac1-8652-4f6d-a324-a34ba9877b08",
+  "original_model_name": "cursor-grok-4.6-xhigh-fast",
+  "asked_not_to_contact_user": true,
+  "fabricated_ansys": false,
+  "pushed": false,
+  "merged": false,
+  "claimed_new_main": false,
+  "frozen_760c0ee4": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+  "self_issued_build": {
+    "buildId": "bld-20260825-7e5b95a9-3d87-4469-ad78-4ec42dfbe000",
+    "ref": "cursor/catwalk-main-deck-gate-f23d",
+    "repoUrl": "github.com/Hiram-test/model",
+    "isDraft": true
+  },
+  "boot_build": "bld-20260825-aa3e8778-2bd8-4b82-9b7b-55cdb2778bbb",
+  "catwalkskill": {
+    "path_model_catwalkskill": "NOT_FOUND",
+    "skill_file": "catwalk-fem/SKILL.md",
+    "skill_name_in_frontmatter": "catwalk-step-inp-pipeline",
+    "note": "GitHub code search repo:Hiram-test/model catwalkskill returned 0. Archive manifest catwalkskill hits 0. The skill text says it is used when the user asks for catwalkskill."
+  },
+  "ledger_git_pr19": {
+    "cdb": 0,
+    "rst": 0,
+    "db": 0,
+    "apdl": 0,
+    "note": "PR #19 branch has homemade CalculiX inp only. ANSYS binaries are not in git ledger."
+  },
+  "found_ansys_sources": [
+    {
+      "kind": "ANSYS_DB",
+      "name": "cw_S10_0716t050342_a4_eq.db",
+      "bytes": 700186624,
+      "sha256": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd",
+      "where": "/tmp/ansys-s10/cw_S10_0716t050342_a4_eq.db",
+      "release": "https://github.com/Hiram-test/model/releases/tag/catwalk-attachment23-v2.0-s10-20260716",
+      "verified_this_turn": true,
+      "magic_ascii": "WINDOWS 46xS_wc0_01LLUF"
+    },
+    {
+      "kind": "APDL_SNAPSHOT",
+      "run": "S10_SECTION_SHEAR_20260716T050342389124Z",
+      "archive_path": "03_猫道动力分析/附件2-3全模态精确对齐_V2.0/ultra_runs/S10_SECTION_SHEAR_20260716T050342389124Z/input_snapshot/",
+      "local": "catwalk-fem/ansys-s10/input_snapshot/",
+      "hash_closed_to_archive_manifest": true
+    },
+    {
+      "kind": "ORACLE_LINK180",
+      "file": "catwalk-fem/ansys-s10/oracle/s10_link180_axial_force_n.csv",
+      "sha256": "80bf13d4648d23ca064ef3a8d1fe8f79be8092d8274e3ecfe9954da52485c47b",
+      "n": 73692,
+      "min_N": 519002.6875,
+      "max_N": 1573314.125
+    }
+  ],
+  "archive_manifest_ext": {
+    "cdb": 0,
+    "apdl": 0,
+    "db": 16,
+    "rst": 92,
+    "note": "Counted from archive/zhangjinggao/archive-manifest.csv on agent/archive-zhangjinggao-20260729. No .cdb/.apdl. Official S10 .db is the release asset, not a git blob."
+  },
+  "current_fem_on_pr19_ledger": {
+    "name": "homemade cleared CalculiX deck",
+    "file": "catwalk-fem/artifacts/zjg_catwalk_cleared.inp",
+    "sha256": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+    "is_ansys_migration": false,
+    "treated_as_new_main_this_turn": false
+  },
+  "mct_from_zero": {
+    "path": "01_设计资料与规范/猫道 - 门架索合建模型2.mct",
+    "bytes": 448673,
+    "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+    "archive_dir_index_only": "03_猫道动力分析/MCT基准复现_V1.0/",
+    "used_archive_csv_as_new_main": false,
+    "unicode_escape_filename": false,
+    "prestress_blocks": ["*INIFORCE", "*INI-EFORCE", "*EQUI-MFORCE"]
+  },
+  "ansys_db_extract": {
+    "extracted": false,
+    "reason": "No MAPDL. ASCII probe key_counts all 0 for INISTATE/LINK180/PRESTRESS. No fabricated tables."
+  }
+}

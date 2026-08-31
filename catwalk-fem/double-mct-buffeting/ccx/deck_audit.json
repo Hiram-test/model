@@ -1,0 +1,59 @@
+{
+  "deck": "double_mct_frequency.inp",
+  "modes_requested": 60,
+  "nodes": 2250,
+  "elements": {
+    "carry_t3d2": 1458,
+    "gantry_t3d2": 788,
+    "gate_rank1_t3d2": 100,
+    "passage_bt_bars": 42,
+    "passage_bb_bars": 21,
+    "tension_spring2": 6738,
+    "mass_elements": 2250
+  },
+  "boundary_dofs": 108,
+  "uy_fixed_dofs": 44,
+  "no_global_uy_pinning": true,
+  "four_port_treatment": {
+    "rule": "no spring decomposition (no extra DOFs); dominant K12 blocks as zero-mass axial bars",
+    "k_bt_N_per_m": 25178424.60391,
+    "k_bb_N_per_m": 39956081.44732,
+    "dropped_blocks_N_per_m": {
+      "T_L_UY-T_R_UY": 1301.216723612,
+      "B_L_UY-T_L_UY": -242410.5742363,
+      "B_L_UX-B_L_UX": 831.1927775766
+    }
+  },
+  "axial_surplus_note": "T3D2 keeps full EA; spring triplet adds N/L isotropically, so axial stiffness is (EA+N)/L (max +0.6%)",
+  "mass_model": {
+    "rule": "all element densities 1e-9; total mass lumped into per-node MASS elements (rope halves + first *CONLOAD block)",
+    "total_lumped_mass_tonne": 4108.467045047827,
+    "reference_target_tonne": 4108.46690758
+  },
+  "sag_check": [
+    {
+      "width": "L",
+      "tower_top_mct_node": 1063,
+      "tower_top_z_deck_m": 350.312000000003,
+      "tower_top_z_source_m": 350.312000000003,
+      "midspan_mct_node": 301,
+      "midspan_x_m": 1845.909,
+      "midspan_z_deck_m": 113.343046628001,
+      "midspan_z_source_m": 113.343046628001,
+      "tower_minus_midspan_m": 236.96895337200203,
+      "max_abs_coord_diff_vs_source_m": 0.0
+    },
+    {
+      "width": "R",
+      "tower_top_mct_node": 1063,
+      "tower_top_z_deck_m": 350.312000000003,
+      "tower_top_z_source_m": 350.312000000003,
+      "midspan_mct_node": 301,
+      "midspan_x_m": 1845.909,
+      "midspan_z_deck_m": 113.343046628001,
+      "midspan_z_source_m": 113.343046628001,
+      "tower_minus_midspan_m": 236.96895337200203,
+      "max_abs_coord_diff_vs_source_m": 0.0
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema": {
+    "name": "MCTBaselineReproductionAudit",
+    "version": "1.0.0"
+  },
+  "source_mct": "D:\\张靖皋大桥\\01_设计资料与规范\\猫道 - 门架索合建模型2.mct",
+  "counts": {
+    "nodes": 1125,
+    "elements": 1194,
+    "element_types": {
+      "TENSTR": 1123,
+      "TRUSS": 71
+    },
+    "secondary_nodal_loads": 1123,
+    "iniforce_elements": 1123,
+    "equilibrium_force_elements": 1123,
+    "initial_element_force_elements": 1123
+  },
+  "baseline_policy": {
+    "geometry": "原始MCT NODE坐标",
+    "prestress_for_mapdl": "MCT INI-EFORCE端力平均值换算LINK180初始应力",
+    "equilibrium_force_usage": "EQUI-MFORCE仅用于平衡审计，不重复作为外荷载",
+    "dead_load": "MCT SELFWEIGHT加MCT二期CONLOAD",
+    "additional_wind": "本基准禁止加入；必须在平衡状态复现通过后另建分析步"
+  },
+  "status": "mapdl_baseline_converged_midas_direct_comparison_pending",
+  "mapdl_solution": {
+    "schema": {
+      "name": "MCTBaselineSolutionSummary",
+      "version": "1.0.0"
+    },
+    "solver_return_code": 0,
+    "solver_error_message_count": 0,
+    "solution_converged": true,
+    "result_node_count": 1125,
+    "max_total_displacement_mm": 42.57771305336941,
+    "max_abs_vertical_displacement_mm": 42.577356495017,
+    "max_abs_longitudinal_displacement_mm": 12.245184281703,
+    "interpretation": "原始MCT目标坐标在自重、二期恒载和MCT初始内力共同作用下仅产生毫米级增量位移",
+    "direct_midas_result_comparison": "pending: MCB需由MIDAS Civil打开并导出节点位移/索力结果表"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "kind": "mct_vs_ansys_statics_prestress",
+  "not_a_scientific_claim": true,
+  "one_to_one_elem_map": false,
+  "mct": {
+    "source": "猫道 - 门架索合建模型2.mct body",
+    "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+    "unit": "kN, mm",
+    "n_nodes": 1125,
+    "n_elems": 1194,
+    "n_TENSTR": 1123,
+    "INIFORCE_AXIAL_kN": {
+      "n": 1123,
+      "min": 1482.74,
+      "max": 15724.3,
+      "sum": 8946571.59,
+      "mean": 7966.671050756901
+    },
+    "INI-EFORCE_mean_kN": {
+      "n": 1123,
+      "min": 1482.74,
+      "max": 15724.3,
+      "sum": 8946571.54,
+      "mean": 7966.671006233303
+    },
+    "elem_728_INIFORCE_kN": 1482.74,
+    "elem_728_INI-EFORCE_i_j_kN": [
+      1471.51,
+      1493.97
+    ],
+    "elem_729_INIFORCE_kN": 1570.17,
+    "note": "Y≈0 single-line 2-D equivalent. Face-layer anchors and gantry anchors are separate groups in the MCT."
+  },
+  "ansys_db": {
+    "extracted": false,
+    "trace": "No MAPDL/ANSYS on this VM. Full-file ASCII probe of the .db found 0 prestress/LINK180 keys. Numbers were not invented.",
+    "db_sha256_match": true,
+    "link180_from_db": null,
+    "prestress_from_db": null
+  },
+  "ansys_apdl_snapshot_not_from_db": {
+    "labeled": true,
+    "source": "archive APDL of official run S10_SECTION_SHEAR_20260716T050342389124Z + LS2 oracle CSV. Not .db POST1.",
+    "n_LINK180_oracle": 73692,
+    "oracle_min_N": 519002.6875,
+    "oracle_max_N": 1573314.125,
+    "oracle_max_elem": 400003,
+    "downpull_apdl_comment": "MCT elements 728/729: north/south main-tower catwalk downpull equivalents. Each MCT 2-D equivalent is duplicated to the two physical catwalks.",
+    "downpull_apdl_area_mm2": 22298.69164950066,
+    "mct_section1_area_mm2": 22298.69164950066
+  },
+  "compare_notes": [
+    "Different meshes: MCT 1194 elems vs S10 73692 LINK180. No 1:1 map.",
+    "MCT 728 INIFORCE is in kN from the .mct. S10 oracle max is N on LINK180 400003 from APDL/oracle, not from the .db.",
+    "Do not treat APDL/oracle numbers as extracted from cw_S10_0716t050342_a4_eq.db."
+  ]
+}

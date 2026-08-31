@@ -1,0 +1,71 @@
+{
+  "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+  "bytes": 7702117,
+  "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+  "frozen_sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+  "hash_unchanged": true,
+  "bytes_match": true,
+  "heading_has_k16876": true,
+  "has_25556": false,
+  "has_00296": false,
+  "n_floor_anchor": 312,
+  "n_portal_anchor": 16,
+  "anchor_overlap": 0,
+  "anchors_disjoint": true,
+  "boundary": {
+    "n_cards": 3,
+    "sets": [
+      "N_FLOOR_ANCHOR",
+      "N_PORTAL_ANCHOR",
+      "N_SUPPORT_SADDLE_ENDS"
+    ]
+  },
+  "initial_conditions": {
+    "present": true,
+    "keyword_line": "*INITIAL CONDITIONS, TYPE=STRESS",
+    "keyword_line_no": 90863,
+    "rows": [
+      {
+        "raw": "E_FLOOR_ROPE, 3.549611e+08",
+        "fields": [
+          "E_FLOOR_ROPE",
+          "3.549611e+08"
+        ],
+        "n_fields": 2,
+        "first_token": "E_FLOOR_ROPE",
+        "elset_plus_uniaxial": true,
+        "ccx_2_21_legal": false,
+        "reason": "ELSET name + one axial stress; CalculiX 2.21 §7.76 TYPE=STRESS requires element number, integration point, Sxx Syy Szz Sxy Sxz Syz"
+      },
+      {
+        "raw": "E_PORTAL_ROPE, 2.426295e+08",
+        "fields": [
+          "E_PORTAL_ROPE",
+          "2.426295e+08"
+        ],
+        "n_fields": 2,
+        "first_token": "E_PORTAL_ROPE",
+        "elset_plus_uniaxial": true,
+        "ccx_2_21_legal": false,
+        "reason": "ELSET name + one axial stress; CalculiX 2.21 §7.76 TYPE=STRESS requires element number, integration point, Sxx Syy Szz Sxy Sxz Syz"
+      }
+    ],
+    "all_elset_uniaxial": true,
+    "any_ccx_2_21_legal": false
+  },
+  "sigma_floor_writer_Pa": 354961146.3121035,
+  "sigma_floor_writer_fmt": "3.549611e+08",
+  "floor_ic_matches_writer": true,
+  "ccx_2_21_requires": [
+    "element_number",
+    "integration_point",
+    "Sxx",
+    "Syy",
+    "Szz",
+    "Sxy",
+    "Sxz",
+    "Syz"
+  ],
+  "deck_ic_is_elset_uniaxial": true,
+  "do_not_rewrite_inp": true
+}
