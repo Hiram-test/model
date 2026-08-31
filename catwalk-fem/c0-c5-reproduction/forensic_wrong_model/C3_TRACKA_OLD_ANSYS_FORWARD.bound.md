@@ -26,4 +26,12 @@ Workflow `c3-exact-static-mother-recovery.yml` Actions conclusion is success, bu
 
 Workflow `c3-tracka-old-ansys-forward.yml` failed at `gh release download c3-tracka-explicit-forward-20260831` with `release not found`. Solver, merger, and tracker were skipped. No Job finished. Do not invent an eighty-mode spectrum.
 
+## Wave I1 — rebuild kit (`3359589`, run `33358611771`)
+
+Workflow `c3-tracka-export-rebuild-kit.yml` failed decoding incomplete `build_legacy_tracka_main13.py.gz.b64.part*` (`base64: invalid input`). No kit uploaded. Incomplete part00 is not a generator.
+
+## Wave I2 — rebuild kit (`923f2b0`, run `33358783510`)
+
+Same workflow dropped the broken main13 fragments and uploaded `C3-TrackA-reconstruction-kit`. Contents are source only: C3 parent sha `667c5047`, custom ccx sha `b498dad8`, already-stamped hypothesized builders, and copies of Track A yml files. Green export is not a Job finished solve and not a recovered entity. `human_apdl=false`. `frequency_reproduced=false`. `not_attach_ta1=true`.
+
 Do not treat this path as the true3d reduced C4 deck.

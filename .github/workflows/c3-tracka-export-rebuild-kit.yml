@@ -1,5 +1,5 @@
-# Export the repository-contained C3 Track A reconstruction kit as one immutable Actions artifact.
-name: Export C3 TrackA reconstruction kit
+# Export repository source pieces for the hypothesized Track A command path. Not a solve. Not human APDL.
+name: Export C3 TrackA reconstruction kit # Source pack only; human_apdl=false; frequency_reproduced=false; green kit is not a found model.
 on:
   push:
     branches: [agent/c3-tracka-direct-main13-20260831]
@@ -16,7 +16,7 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: 1
-      - name: Reconstruct parent solver and usable historical generator
+      - name: Reconstruct parent solver and hypothesized generators
         shell: bash
         run: |
           set -euxo pipefail
@@ -31,10 +31,21 @@ jobs:
           sha256sum rebuild_kit/input/C3_parent.inp rebuild_kit/solver/ccx rebuild_kit/code/* > rebuild_kit/SHA256SUMS.txt
           test "$(sha256sum rebuild_kit/input/C3_parent.inp | cut -d' ' -f1)" = "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86"
           test "$(sha256sum rebuild_kit/solver/ccx | cut -d' ' -f1)" = "b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e"
+          printf '%s\n' \
+            'human_apdl=false' \
+            'frequency_reproduced=false' \
+            'not_attach_ta1=true' \
+            'not_undisclosed_human_apdl=true' \
+            'source=agent_constructed_hypothesized_command_path' \
+            'kit_is_source_pack_not_a_solve=true' \
+            'green_kit_is_not_a_found_model=true' \
+            'incomplete_main13_b64_omitted=true' \
+            'do_not_label_C3_M3_as_TA1=true' \
+            > rebuild_kit/case.txt
       - name: Upload reconstruction kit
         uses: actions/upload-artifact@v4
         with:
-          name: C3-TrackA-reconstruction-kit
+          name: C3-TrackA-reconstruction-kit-boundary
           path: rebuild_kit
           if-no-files-found: error
           retention-days: 30
