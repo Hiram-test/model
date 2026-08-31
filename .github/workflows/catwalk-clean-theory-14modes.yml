@@ -22,7 +22,7 @@ jobs: # Define the bounded calculation job.
         uses: actions/setup-python@v5 # Use the maintained Python setup action.
         with: # Freeze the interpreter major/minor version.
           python-version: "3.12" # Use Python 3.12 for SciPy compatibility.
-      - name: Install numerical dependencies # Install only the libraries imported by the revised solver.
+      - name: Install numerical dependencies # Install only the libraries imported by the final solver.
         shell: bash # Use strict Bash for dependency installation.
         run: | # Execute one deterministic installation block.
           set -euxo pipefail # Fail immediately on any command or pipeline error.
@@ -33,16 +33,16 @@ jobs: # Define the bounded calculation job.
         run: | # Remove any stale result directory before solving.
           set -euxo pipefail # Fail on unexpected filesystem errors.
           rm -rf catwalk-fem/clean-theory-14modes/results # Delete stale calculation outputs.
-      - name: Run revised clean inverse statics and modal solve # Execute the target-free calculation and physical classification.
+      - name: Run final clean inverse statics and modal solve # Execute the target-free calculation and corrected physical classification.
         shell: bash # Use strict Bash for the solver invocation.
-        run: | # Run the revised solver from its own directory.
+        run: | # Run the final solver from its own directory.
           set -euxo pipefail # Fail immediately if the solver exits nonzero.
-          python catwalk-fem/clean-theory-14modes/solve_v2.py # Rebuild prestress from formed geometry plus explicit load inputs, then solve K-M eigenpairs.
+          python catwalk-fem/clean-theory-14modes/solve_v3.py # Rebuild prestress, solve K-M eigenpairs, and classify twin-catwalk global torsion from differential vertical motion.
       - name: Run post-freeze comparison # Load the fourteen external frequencies only after frozen_results.json exists.
         shell: bash # Use strict Bash for the comparison node.
         run: | # Execute the isolated comparison script.
           set -euxo pipefail # Fail on any comparison or file error.
-          python catwalk-fem/clean-theory-14modes/compare_after_freeze.py # Generate external error statistics without changing the solve.
+          python catwalk-fem/clean-theory-14modes/compare_after_freeze.py # Generate external error statistics without changing the solve or classification.
       - name: Verify required outputs # Reject incomplete or silently truncated calculations.
         shell: bash # Use Bash for deterministic file and content checks.
         run: | # Verify all core outputs before artifact publication.
@@ -52,12 +52,15 @@ jobs: # Define the bounded calculation job.
           test -s catwalk-fem/clean-theory-14modes/results/classified_14_modes.csv # Require the fourteen physical-family classification table.
           test -s catwalk-fem/clean-theory-14modes/results/comparison_after_freeze.csv # Require the post-freeze comparison table.
           test -s catwalk-fem/clean-theory-14modes/results/unstressed_lengths.json # Require recovered unstressed cable lengths.
+          test -s catwalk-fem/clean-theory-14modes/results/mode_shape_TA1.png # Require the global torsion TA1 shape plot.
+          test -s catwalk-fem/clean-theory-14modes/results/mode_shape_TS1.png # Require the global torsion TS1 shape plot.
+          test -s catwalk-fem/clean-theory-14modes/results/mode_shape_TS2.png # Require the global torsion TS2 shape plot.
           sha256sum catwalk-fem/clean-theory-14modes/results/* > catwalk-fem/clean-theory-14modes/results/SHA256SUMS.txt # Freeze every result file for delivery.
           printf '%s\n' "$GITHUB_SHA" > catwalk-fem/clean-theory-14modes/results/GITHUB_COMMIT.txt # Record the exact source commit identity.
       - name: Upload complete result artifact # Publish all numerical evidence as one downloadable artifact.
         uses: actions/upload-artifact@v4 # Use GitHub's maintained artifact uploader.
         with: # Configure deterministic artifact retention.
-          name: dual-catwalk-clean-theory-14modes-v2 # Use an English artifact name for downstream delivery.
+          name: dual-catwalk-clean-theory-14modes-v3 # Use an English artifact name for downstream delivery.
           path: catwalk-fem/clean-theory-14modes/results/ # Upload raw, classified, plots, hashes, and receipts together.
           if-no-files-found: error # Reject an empty or missing result set.
           retention-days: 90 # Retain the reproducible result package for ninety days.
