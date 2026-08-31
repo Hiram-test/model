@@ -28,4 +28,10 @@ Family label `TA1` in classification is not attach TA1 `0.0996`. T-family only v
 - Frozen theory labels vs attach 2-3 (comparison node only): TA1 **0.12608 ≠ 0.0996 (+26.6%)**; TS1 0.12921 ≠ 0.1147 (+12.7%); TS2 0.20437 ≠ 0.1571 (+30.1%). L/V rows are not 复现.
 - Green zip `dual-catwalk-clean-theory-14modes-v3` is a theory 14-label table, not attach reproduction and not true3d C4. Family label `TA1` is still not attach TA1.
 
+## Wave O1 — drawing-constant overlay (`f228aac`, `903272b`, run `33433820161`)
+
+- `solve_v4_drawing_corrected.py` mutates gantry 7.38 m / y=±2.00/2.26/2.52, portal 160×4, portal mass 1142.76 kg, passage span 42.90 m / depth 1.70 m (cited MD4-01/02, MD1-05, MD5-02). Residual gate stays 5e-3. No attach Hz in the solver.
+- Actions `33433820161` residual **0.003332**. Theory TA1 **0.12654 ≠ 0.0996 (+27.1%)**; TS1 0.13030 ≠ 0.1147 (+13.6%); TS2 0.20377 ≠ 0.1571 (+29.7%). vs v3, TA1 moved 0.12608→0.12654. Not a knob to attach TA1.
+- Artifact name `*-v4-drawing-corrected` is not attach reproduction and not 复现. This patrol does not treat the MD* citations as independently re-measured from the PDF.
+
 Do not treat this path as the true3d reduced C4 deck.

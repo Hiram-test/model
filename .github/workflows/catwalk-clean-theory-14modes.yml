@@ -57,11 +57,30 @@ jobs: # Define the bounded calculation job.
           test -s catwalk-fem/clean-theory-14modes/results/mode_shape_TS2.png # Require the TS2 system-roll shape.
           sha256sum catwalk-fem/clean-theory-14modes/results/* > catwalk-fem/clean-theory-14modes/results/SHA256SUMS.txt # Freeze every generated result file.
           printf '%s\n' "$GITHUB_SHA" > catwalk-fem/clean-theory-14modes/results/GITHUB_COMMIT.txt # Record the exact source revision.
-      - name: Upload complete result artifact # Publish the complete result directory for direct retrieval.
-        uses: actions/upload-artifact@v4 # Use the maintained artifact uploader.
-        with: # Configure the final result package.
-          name: dual-catwalk-clean-theory-14modes-v4-drawing-corrected # Use an explicit versioned artifact name.
-          path: catwalk-fem/clean-theory-14modes/results/ # Upload raw tables, frozen JSON, plots, lengths, hashes, and receipts.
-          if-no-files-found: error # Reject an empty artifact.
-          retention-days: 90 # Retain the reproducible numerical result for ninety days.
-          compression-level: 6 # Use moderate compression for CSV, JSON, and PNG outputs.
+      - name: Stamp boundary evidence after success or residual reject
+        if: always()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p catwalk-fem/clean-theory-14modes/results
+          cp -f catwalk-fem/clean-theory-14modes/CLEAN_THEORY_14MODES.bound.md catwalk-fem/clean-theory-14modes/results/BOUND.md
+          cp -f catwalk-fem/clean-theory-14modes/case.txt catwalk-fem/clean-theory-14modes/results/CASE_BOUND.txt
+          printf '%s\n' "${GITHUB_SHA}" > catwalk-fem/clean-theory-14modes/results/GITHUB_COMMIT.txt
+          if [ ! -s catwalk-fem/clean-theory-14modes/results/frozen_results.json ]; then
+            printf '%s\n' \
+              'frequency_reproduced=false' \
+              'not_attach_ta1=true' \
+              'not_attach_fourteen_mode_table=true' \
+              'inverse_equilibrium_rejected=true' \
+              'note=A rejected inverse static is not a 14-mode table and not attach TA1.' \
+              > catwalk-fem/clean-theory-14modes/results/INVERSE_RESIDUAL_REJECT.txt
+          fi
+      - name: Upload complete result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dual-catwalk-clean-theory-14modes-v4-drawing-corrected-boundary
+          path: catwalk-fem/clean-theory-14modes/results/
+          if-no-files-found: warn
+          retention-days: 90
+          compression-level: 6

@@ -56,6 +56,8 @@ def main() -> int:  # Execute the complete drawing-corrected fourteen-family cal
         "target_frequency_used": False,  # Certify that target frequencies were excluded from the solve.
         "mct_internal_force_used": False,  # Certify that MCT internal-force results were excluded.
         "frequency_reproduced": False,  # Certify that this is a forward calculation rather than target-conditioned reproduction.
+        "not_attach_ta1": True,  # Family label TA1 is not attach TA1.
+        "not_attach_fourteen_mode_table": True,  # This table is not the attach 2-3 fourteen-mode result.
         "topology": {"explicit_floor_ropes": 32, "explicit_gantry_ropes": 12, "explicit_ropes_total": 44, "portals": 142, "passages": 21},  # Record the retained physical skeleton.
         "drawing_corrections": {"gantry_width_m": DRAWING_GANTRY_WIDTH, "gantry_y_m": DRAWING_GANTRY_Y.tolist(), "portal_outer_m": DRAWING_PORTAL_B, "portal_wall_m": DRAWING_PORTAL_T, "portal_mass_kg": DRAWING_PORTAL_TOTAL_MASS, "passage_port_span_m": DRAWING_PASSAGE_PORT_SPAN, "passage_depth_m": DRAWING_PASSAGE_HEIGHT},  # Store every corrected input numerically.
         "assumptions": assumptions,  # Store the complete assumption registry.
@@ -72,7 +74,7 @@ def main() -> int:  # Execute the complete drawing-corrected fourteen-family cal
     base.write_csv(raw, selected, [])  # Write the raw spectrum and fourteen-family target-free classification.
     base.plots(raw, selected, [], classification_meta)  # Plot the spectrum and all non-system-roll selected shapes.
     v3.plot_global_torsion_shapes(model, system, floor_nodes, vectors, selected)  # Plot TA1, TS1, and TS2 with the accepted system-roll coordinate.
-    summary = {"kind": "clean_theory_44_rope_catwalk_summary_v4_drawing_corrected", "git_sha": os.environ.get("GITHUB_SHA", "local"), "source_mct_sha256": model["source"]["sha256"], "frozen_sha256": frozen_sha, "identified_count": sum(1 for item in selected.values() if "frequency_hz" in item), "inverse_static": frozen["inverse_static"], "matrix_checks": checks, "drawing_corrections": frozen["drawing_corrections"], "target_frequency_used": False, "mct_internal_force_used": False, "frequency_reproduced": False}  # Build a concise audit summary.
+    summary = {"kind": "clean_theory_44_rope_catwalk_summary_v4_drawing_corrected", "git_sha": os.environ.get("GITHUB_SHA", "local"), "source_mct_sha256": model["source"]["sha256"], "frozen_sha256": frozen_sha, "identified_count": sum(1 for item in selected.values() if "frequency_hz" in item), "inverse_static": frozen["inverse_static"], "matrix_checks": checks, "drawing_corrections": frozen["drawing_corrections"], "target_frequency_used": False, "mct_internal_force_used": False, "frequency_reproduced": False, "not_attach_ta1": True, "not_attach_fourteen_mode_table": True}  # Build a concise audit summary.
     base.dump(OUT / "summary.json", summary)  # Write the concise target-free summary.
     base.dump(OUT / "unstressed_lengths.json", system["recovered"])  # Preserve all recovered explicit-rope unstressed lengths and forces.
     (OUT / "SHA256SUMS.txt").write_text("\n".join(f"{base.sha(path)}  {path.name}" for path in sorted(OUT.iterdir()) if path.is_file()) + "\n", encoding="utf-8")  # Hash every primary result file.
