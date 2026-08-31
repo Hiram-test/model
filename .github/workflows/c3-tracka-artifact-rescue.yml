@@ -1,0 +1,264 @@
+# Recover the exact historical explicit-height Track A entity-model artifact before any reconstruction.
+name: Recover exact historical C3 TrackA artifact
+on:
+  push:
+    branches: [agent/c3-tracka-direct-main13-20260831]
+    paths: [".github/workflows/c3-tracka-artifact-rescue.yml"]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  rescue:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14
+      C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86
+    steps:
+      - name: Checkout exact rescue branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Reconstruct exact C3 parent
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p rescue/downloads rescue/output
+          cat "$C3_PARTS"/*.inp.gz.part* | gzip -dc > rescue/C3_parent.inp
+          printf '%s  %s\n' "$C3_SHA" rescue/C3_parent.inp | sha256sum -c -
+      - name: List download and fingerprint historical artifacts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euxo pipefail
+          cat > rescue_artifacts.py <<'PY'
+          from __future__ import annotations  # Keep type annotations deterministic on the runner Python version.
+          from collections import Counter  # Compare inherited and daughter equation and element multisets.
+          from pathlib import Path  # Resolve every local rescue path without current-directory ambiguity.
+          import io  # Hold archive bytes when validating downloaded ZIP containers.
+          import json  # Parse artifact metadata and emit complete machine-readable audits.
+          import math  # Validate every parsed floating-point frequency and coefficient.
+          import os  # Read the repository identity and token supplied by the workflow.
+          import re  # Match candidate artifact names and CalculiX numerical records.
+          import shutil  # Copy exact candidate bytes without rewriting their contents.
+          import subprocess  # Invoke the authenticated GitHub CLI for API downloads.
+          import zipfile  # Inspect each historical Actions artifact archive.
+          ROOT = Path('rescue')  # Bind the complete rescue workspace.
+          DOWNLOADS = ROOT / 'downloads'  # Bind the immutable downloaded artifact archives.
+          OUTPUT = ROOT / 'output'  # Bind exact recovered outputs and audit records.
+          PARENT = ROOT / 'C3_parent.inp'  # Bind the exact released C3 parent input.
+          REPOSITORY = os.environ['GH_REPOSITORY']  # Read the owner/name repository identity.
+          DOWNLOADS.mkdir(parents=True, exist_ok=True)  # Create the archive cache directory.
+          OUTPUT.mkdir(parents=True, exist_ok=True)  # Create the rescue output directory.
+          def gh_json(endpoint: str) -> object:  # Read one authenticated GitHub API JSON response.
+              completed = subprocess.run(['gh', 'api', endpoint], check=True, stdout=subprocess.PIPE)  # Execute the authenticated API request.
+              return json.loads(completed.stdout.decode('utf-8'))  # Decode and parse the complete JSON response.
+          def gh_download(endpoint: str, destination: Path) -> None:  # Download one binary GitHub API response through the authenticated CLI.
+              with destination.open('wb') as handle:  # Open the exact destination byte stream.
+                  subprocess.run(['gh', 'api', endpoint], check=True, stdout=handle)  # Follow GitHub redirects and preserve the returned ZIP bytes.
+          def first_step_index(lines: list[str]) -> int:  # Locate the first analysis step in one CalculiX deck.
+              for index, raw in enumerate(lines):  # Traverse every line in original order.
+                  if raw.strip().upper().startswith('*STEP'):  # Detect the first step header.
+                      return index  # Return the zero-based model-definition terminus.
+              return len(lines)  # Treat a deck without a step as entirely model-level for forensic counting.
+          def parse_nodes(lines: list[str]) -> dict[int, tuple[float, float, float]]:  # Parse every model-level node coordinate.
+              nodes: dict[int, tuple[float, float, float]] = {}  # Initialize the node-coordinate mapping.
+              active = False  # Track whether traversal is inside one NODE block.
+              for raw in lines[:first_step_index(lines)]:  # Traverse model definitions only.
+                  line = raw.strip()  # Normalize surrounding whitespace.
+                  upper = line.upper()  # Normalize keyword matching.
+                  if not line or line.startswith('**'):  # Ignore blank and comment records.
+                      continue  # Continue to the next record.
+                  if line.startswith('*'):  # Handle one keyword record.
+                      active = upper == '*NODE' or upper.startswith('*NODE,')  # Select NODE blocks only.
+                      continue  # Complete keyword handling.
+                  if not active:  # Ignore data outside a NODE block.
+                      continue  # Continue traversal.
+                  fields = [field.strip() for field in line.split(',')]  # Split the node label and coordinates.
+                  if len(fields) < 4:  # Reject malformed coordinate rows locally.
+                      continue  # Continue scanning the candidate instead of aborting the entire rescue.
+                  try:  # Parse one candidate node row defensively.
+                      nodes[int(fields[0])] = (float(fields[1]), float(fields[2]), float(fields[3]))  # Preserve label and coordinates.
+                  except ValueError:  # Ignore nonnumeric rows in malformed candidates.
+                      continue  # Continue scanning the remaining records.
+              return nodes  # Return the complete parsed node mapping.
+          def parse_elements(lines: list[str]) -> dict[int, tuple[str, tuple[int, ...]]]:  # Parse every model-level element type and connectivity.
+              elements: dict[int, tuple[str, tuple[int, ...]]] = {}  # Initialize the element mapping.
+              active_type: str | None = None  # Track the current ELEMENT block type.
+              for raw in lines[:first_step_index(lines)]:  # Traverse model definitions only.
+                  line = raw.strip()  # Normalize surrounding whitespace.
+                  upper = line.upper()  # Normalize keyword matching.
+                  if not line or line.startswith('**'):  # Ignore blank and comment records.
+                      continue  # Continue traversal.
+                  if line.startswith('*'):  # Handle one keyword record.
+                      active_type = None  # Close any prior element block.
+                      if upper.startswith('*ELEMENT,'):  # Parse one element header.
+                          for field in line.split(',')[1:]:  # Traverse header attributes.
+                              if '=' not in field:  # Ignore flag-only attributes.
+                                  continue  # Continue to the next attribute.
+                              key, value = field.split('=', 1)  # Split one normalized attribute.
+                              if key.strip().upper() == 'TYPE':  # Select the element-type attribute.
+                                  active_type = value.strip().upper()  # Preserve the normalized element type.
+                      continue  # Complete keyword handling.
+                  if active_type is None:  # Ignore data outside an ELEMENT block.
+                      continue  # Continue traversal.
+                  try:  # Parse one element row defensively.
+                      values = [int(field.strip()) for field in line.split(',') if field.strip()]  # Parse label and connectivity.
+                  except ValueError:  # Ignore malformed nonnumeric rows.
+                      continue  # Continue scanning the candidate.
+                  if values:  # Preserve nonempty element records.
+                      elements[values[0]] = (active_type, tuple(values[1:]))  # Store type and exact connectivity.
+              return elements  # Return the complete parsed element mapping.
+          def parse_equations(lines: list[str]) -> list[tuple[tuple[int, int, float], ...]]:  # Parse every model-level sparse equation.
+              equations: list[tuple[tuple[int, int, float], ...]] = []  # Initialize the ordered equation list.
+              prefix = lines[:first_step_index(lines)]  # Select model definitions only.
+              index = 0  # Initialize zero-based traversal.
+              while index < len(prefix):  # Traverse every model-definition row.
+                  if prefix[index].strip().upper() != '*EQUATION':  # Skip non-equation keywords and data.
+                      index += 1  # Advance one row.
+                      continue  # Continue traversal.
+                  if index + 1 >= len(prefix):  # Reject a truncated declaration locally.
+                      break  # Stop parsing further equations in this malformed candidate.
+                  try:  # Parse the declared sparse arity defensively.
+                      declared = int(prefix[index + 1].strip().split(',')[0])  # Read the declared term count.
+                  except ValueError:  # Reject a malformed declaration locally.
+                      index += 1  # Advance beyond the invalid keyword.
+                      continue  # Continue scanning.
+                  fields: list[str] = []  # Accumulate sparse continuation fields.
+                  cursor = index + 2  # Start at the first equation-body row.
+                  while cursor < len(prefix) and len(fields) < 3 * declared:  # Consume the declared equation body.
+                      body = prefix[cursor].strip()  # Normalize the continuation row.
+                      if body.startswith('*'):  # Detect a truncated equation body.
+                          break  # Stop consuming this equation.
+                      fields.extend(field.strip() for field in body.split(',') if field.strip())  # Append nonempty fields.
+                      cursor += 1  # Advance to the next row.
+                  if len(fields) == 3 * declared:  # Preserve only complete equations.
+                      try:  # Parse node DOF and coefficient triples defensively.
+                          terms = tuple((int(fields[3 * position]), int(fields[3 * position + 1]), float(fields[3 * position + 2].replace('D', 'E').replace('d', 'e'))) for position in range(declared))  # Build the complete sparse equation.
+                          equations.append(terms)  # Preserve the exact ordered equation.
+                      except ValueError:  # Ignore malformed numerical bodies.
+                          pass  # Preserve rescue progress for other candidates.
+                  index = max(cursor, index + 1)  # Advance beyond the consumed equation rows.
+              return equations  # Return every complete parsed equation.
+          def equation_key(terms: tuple[tuple[int, int, float], ...]) -> tuple[tuple[int, int, float], ...]:  # Normalize one equation for multiset comparison.
+              return tuple(sorted(((node, dof, round(coefficient, 10)) for node, dof, coefficient in terms), key=lambda item: (item[0], item[1], item[2])))  # Sort sparse terms and suppress parser noise.
+          def parse_frequencies(data: str) -> list[float]:  # Extract ordered CalculiX cyclic frequencies from one DAT or text output.
+              frequencies: list[float] = []  # Initialize the ordered frequency sequence.
+              pattern = re.compile(r'^\s*\d+\s+[-+0-9.EeDd]+\s+[-+0-9.EeDd]+\s+([-+0-9.EeDd]+)\s*$')  # Match standard eigenvalue-table rows.
+              for raw in data.splitlines():  # Traverse every output row.
+                  match = pattern.match(raw)  # Test the standard four-column frequency record.
+                  if match is None:  # Ignore unrelated numerical tables.
+                      continue  # Continue traversal.
+                  try:  # Parse one frequency defensively.
+                      value = float(match.group(1).replace('D', 'E').replace('d', 'e'))  # Decode the cyclic frequency field.
+                  except ValueError:  # Ignore malformed numerical records.
+                      continue  # Continue traversal.
+                  if math.isfinite(value) and value > 0.0:  # Retain positive finite roots only.
+                      frequencies.append(value)  # Preserve solver order.
+              return frequencies  # Return the ordered frequency list.
+          parent_lines = PARENT.read_text(encoding='ascii', errors='strict').splitlines()  # Read the exact C3 parent once.
+          parent_nodes = parse_nodes(parent_lines)  # Parse exact parent nodes.
+          parent_elements = parse_elements(parent_lines)  # Parse exact parent elements.
+          parent_equations = parse_equations(parent_lines)  # Parse exact parent equations.
+          parent_equation_inventory = Counter(equation_key(terms) for terms in parent_equations)  # Count inherited equation signatures.
+          pages: list[dict[str, object]] = []  # Accumulate every artifact metadata page.
+          page = 1  # Initialize one-based GitHub pagination.
+          while True:  # Traverse all artifact pages until exhausted.
+              payload = gh_json(f'repos/{REPOSITORY}/actions/artifacts?per_page=100&page={page}')  # Read one complete artifact page.
+              if not isinstance(payload, dict):  # Reject an unexpected API shape.
+                  raise SystemExit('Artifact listing did not return a JSON object')  # Surface the API contract failure.
+              artifacts = payload.get('artifacts', [])  # Select the artifact array.
+              if not isinstance(artifacts, list) or not artifacts:  # Stop after the first empty page.
+                  break  # Complete pagination.
+              pages.extend(artifact for artifact in artifacts if isinstance(artifact, dict))  # Preserve every artifact metadata record.
+              if len(artifacts) < 100:  # Stop after the final partial page.
+                  break  # Complete pagination.
+              page += 1  # Advance to the next page.
+          (OUTPUT / 'all_artifacts.json').write_text(json.dumps(pages, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the complete historical artifact index.
+          name_pattern = re.compile(r'(C3|Track.?A|explicit|height|master|ANSYS|main13|old)', re.IGNORECASE)  # Select likely Track A and C3 artifact names.
+          candidates = [artifact for artifact in pages if not bool(artifact.get('expired', False)) and name_pattern.search(str(artifact.get('name', '')))]  # Retain nonexpired likely candidates.
+          candidates.sort(key=lambda artifact: str(artifact.get('created_at', '')), reverse=True)  # Search newest candidates first.
+          audits: list[dict[str, object]] = []  # Accumulate every model-level candidate fingerprint.
+          exact_records: list[dict[str, object]] = []  # Accumulate exact structural and numerical matches.
+          for artifact in candidates[:120]:  # Bound download volume while covering every relevant recent C3 artifact.
+              artifact_id = int(artifact['id'])  # Parse the immutable artifact identity.
+              archive_path = DOWNLOADS / f'{artifact_id}.zip'  # Resolve the local archive cache path.
+              try:  # Isolate unavailable or malformed artifacts without aborting the complete rescue.
+                  gh_download(f'repos/{REPOSITORY}/actions/artifacts/{artifact_id}/zip', archive_path)  # Download the complete immutable archive.
+                  with zipfile.ZipFile(archive_path) as archive:  # Validate and inspect the downloaded ZIP container.
+                      names = archive.namelist()  # Read every archived path once.
+                      inp_names = [name for name in names if name.lower().endswith('.inp') and archive.getinfo(name).file_size > 20_000_000]  # Select full-size entity-model inputs.
+                      dat_names = [name for name in names if name.lower().endswith('.dat')]  # Select native DAT outputs.
+                      frd_names = [name for name in names if name.lower().endswith('.frd')]  # Select native FRD outputs.
+                      stdout_names = [name for name in names if name.lower().endswith(('.stdout.txt', '.log', 'stdout.txt'))]  # Select native solver logs.
+                      for inp_name in inp_names:  # Fingerprint every full-size input independently.
+                          inp_bytes = archive.read(inp_name)  # Read the exact candidate input bytes.
+                          try:  # Decode one ASCII CalculiX deck.
+                              inp_lines = inp_bytes.decode('ascii').splitlines()  # Preserve exact line order.
+                          except UnicodeDecodeError:  # Reject non-ASCII candidate inputs.
+                              continue  # Continue to the next candidate input.
+                          daughter_nodes = parse_nodes(inp_lines)  # Parse candidate nodes.
+                          daughter_elements = parse_elements(inp_lines)  # Parse candidate elements.
+                          daughter_equations = parse_equations(inp_lines)  # Parse candidate equations.
+                          added_node_ids = sorted(set(daughter_nodes) - set(parent_nodes))  # Recover daughter-only nodes.
+                          added_element_ids = sorted(set(daughter_elements) - set(parent_elements))  # Recover daughter-only elements.
+                          daughter_inventory = Counter(equation_key(terms) for terms in daughter_equations)  # Count candidate equation signatures.
+                          inherited_inventory = parent_equation_inventory.copy()  # Copy the exact parent equation inventory.
+                          added_equations: list[tuple[tuple[int, int, float], ...]] = []  # Accumulate daughter-only equations.
+                          for terms in daughter_equations:  # Traverse candidate equations in original order.
+                              key = equation_key(terms)  # Normalize the current equation.
+                              if inherited_inventory[key] > 0:  # Match one inherited parent occurrence.
+                                  inherited_inventory[key] -= 1  # Consume the inherited occurrence.
+                              else:  # Preserve one daughter-only equation.
+                                  added_equations.append(terms)  # Append the complete sparse equation.
+                          added_types = Counter(daughter_elements[element_id][0] for element_id in added_element_ids)  # Count daughter-only element types.
+                          mass_added = sum(1 for element_id in added_element_ids if daughter_elements[element_id][0] == 'MASS')  # Count daughter-only MASS elements.
+                          axial_added = sum(count for element_type, count in added_types.items() if element_type in {'T3D2', 'UCAB3', 'T3D2H'})  # Count daughter-only axial connectors.
+                          nonunit_equations = sum(1 for terms in added_equations if any(abs(abs(coefficient) - 1.0) > 1.0e-8 for _, _, coefficient in terms))  # Count equations carrying geometric lever coefficients.
+                          dat_payloads: list[tuple[str, list[float], bytes]] = []  # Accumulate every parseable native DAT candidate.
+                          for dat_name in dat_names:  # Parse each archived DAT output.
+                              dat_bytes = archive.read(dat_name)  # Read exact native DAT bytes.
+                              frequencies = parse_frequencies(dat_bytes.decode('ascii', errors='ignore'))  # Recover ordered cyclic frequencies.
+                              dat_payloads.append((dat_name, frequencies, dat_bytes))  # Preserve name roots and exact bytes.
+                          best_dat = max(dat_payloads, key=lambda item: len(item[1]), default=('', [], b''))  # Select the DAT with the most parsed roots.
+                          frequencies = best_dat[1]  # Select the candidate solver-order roots.
+                          numerical_fingerprint = all(any(abs(value - target) <= 5.0e-6 for value in frequencies) for target in (0.09956064, 0.1111595, 0.1636203))  # Test the known three-root historical fingerprint.
+                          job_finished = False  # Initialize native-completion evidence.
+                          for stdout_name in stdout_names:  # Inspect every candidate solver log.
+                              if 'Job finished' in archive.read(stdout_name).decode('ascii', errors='ignore'):  # Detect complete native termination.
+                                  job_finished = True  # Preserve positive completion evidence.
+                                  break  # Stop after the first complete log.
+                          structural_exact = len(added_node_ids) == 30 and axial_added == 15 and len(added_equations) == 90 and mass_added == 26 and not any(element_type.startswith('SPRING') or element_type.startswith('CONN') for element_type in added_types)  # Test the exact historical structural cardinality.
+                          score = abs(len(added_node_ids) - 30) + abs(axial_added - 15) + abs(len(added_equations) - 90) + abs(mass_added - 26) + (0 if numerical_fingerprint else 50)  # Rank candidates by the complete structural and numerical fingerprint.
+                          audit = {'artifact_id': artifact_id, 'artifact_name': artifact.get('name'), 'created_at': artifact.get('created_at'), 'archive_bytes': archive_path.stat().st_size, 'inp_name': inp_name, 'dat_name': best_dat[0], 'frd_names': frd_names, 'added_node_count': len(added_node_ids), 'added_element_types': dict(added_types), 'added_axial_count': axial_added, 'added_equation_count': len(added_equations), 'nonunit_equation_count': nonunit_equations, 'mass_added': mass_added, 'frequency_count': len(frequencies), 'first_frequencies_hz': frequencies[:80], 'numerical_fingerprint': numerical_fingerprint, 'job_finished': job_finished, 'structural_exact': structural_exact, 'score': score}  # Build one complete candidate audit.
+                          audits.append(audit)  # Preserve the candidate audit.
+                          if structural_exact and numerical_fingerprint and job_finished and frd_names and best_dat[2]:  # Accept only complete exact historical results.
+                              exact_dir = OUTPUT / f'exact_{artifact_id}'  # Resolve an immutable exact-candidate directory.
+                              exact_dir.mkdir(parents=True, exist_ok=True)  # Create the exact-candidate directory.
+                              (exact_dir / 'C3_TrackA_explicit_high_master.inp').write_bytes(inp_bytes)  # Preserve exact model bytes.
+                              (exact_dir / 'job.dat').write_bytes(best_dat[2])  # Preserve exact native DAT bytes.
+                              largest_frd = max(frd_names, key=lambda name: archive.getinfo(name).file_size)  # Select the largest complete native FRD.
+                              (exact_dir / 'job.frd').write_bytes(archive.read(largest_frd))  # Preserve exact native FRD bytes.
+                              for stdout_name in stdout_names:  # Preserve every available native solver log.
+                                  (exact_dir / Path(stdout_name).name).write_bytes(archive.read(stdout_name))  # Copy exact log bytes.
+                              exact_records.append({**audit, 'exact_dir': str(exact_dir), 'selected_frd': largest_frd})  # Preserve exact selection provenance.
+              except Exception as error:  # Record artifact-level retrieval or parsing failures explicitly.
+                  audits.append({'artifact_id': artifact_id, 'artifact_name': artifact.get('name'), 'created_at': artifact.get('created_at'), 'download_or_parse_error': f'{type(error).__name__}: {error}', 'score': 10_000})  # Publish the bounded failure record.
+          audits.sort(key=lambda item: (int(item.get('score', 10_000)), str(item.get('created_at', ''))), reverse=False)  # Rank the complete candidate table deterministically.
+          exact_records.sort(key=lambda item: str(item.get('created_at', '')), reverse=True)  # Prefer the newest exact completed candidate.
+          result = {'repository': REPOSITORY, 'parent_node_count': len(parent_nodes), 'parent_element_count': len(parent_elements), 'parent_equation_count': len(parent_equations), 'artifact_count': len(pages), 'filtered_artifact_count': len(candidates), 'downloaded_limit': min(len(candidates), 120), 'exact_found': bool(exact_records), 'selected': exact_records[0] if exact_records else None, 'exact_records': exact_records, 'ranked_candidates': audits[:200]}  # Build the complete rescue result.
+          (OUTPUT / 'C3_TRACKA_ARTIFACT_RESCUE.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the machine-readable rescue audit.
+          print(json.dumps({'exact_found': result['exact_found'], 'selected': result['selected'], 'best_candidates': audits[:10]}, ensure_ascii=False, indent=2))  # Print a compact result to the Actions log.
+          PY
+          python3 rescue_artifacts.py
+      - name: Upload exact rescue evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: C3-TrackA-exact-artifact-rescue
+          path: rescue/output
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
