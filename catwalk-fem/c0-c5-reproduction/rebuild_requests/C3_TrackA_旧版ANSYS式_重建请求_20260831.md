@@ -1,5 +1,14 @@
-# C3 Track A 旧版 ANSYS 式重建请求
+# C3 Track A hypothesized command-path rebuild request
 
-本文件触发并记录一次全链重建。目标交付为完整实体 INP、原生 DAT、FRD、完整计算报告、全局一对一模态追踪表、十四项附件事后对照表及最终 ZIP。
+`human_apdl=false`. `frequency_reproduced=false`. `not_attach_ta1=true`.
+`source=agent_constructed_hypothesized_command_path`. `not_undisclosed_human_apdl=true`.
 
-所有输出必须标记为 reconstructed；不得冒充已丢失的临时 sandbox 原始字节。
+This markdown does not trigger a solver. Commit `6182e83` only added this file.
+Path-filtered Track A workflows did not run. The only Actions on that SHA are
+unrelated zhaqing-prestress failures. No Job finished. No entity INP, DAT, FRD,
+report, MAC table, 14-row attachment comparison, or ZIP exists from this commit.
+
+Do not write 复现, 一致, or 旧版 ANSYS/APDL as provenance. A later 14-row
+attachment table, if produced, is a comparison node only. Frozen C3 M3
+`0.07267216 Hz` is not attach TA1 `0.0996`. Do not treat this path as the
+true3d reduced C4 deck.

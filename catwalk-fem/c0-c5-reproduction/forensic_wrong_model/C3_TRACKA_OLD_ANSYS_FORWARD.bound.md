@@ -34,4 +34,8 @@ Workflow `c3-tracka-export-rebuild-kit.yml` failed decoding incomplete `build_le
 
 Same workflow dropped the broken main13 fragments and uploaded `C3-TrackA-reconstruction-kit`. Contents are source only: C3 parent sha `667c5047`, custom ccx sha `b498dad8`, already-stamped hypothesized builders, and copies of Track A yml files. Green export is not a Job finished solve and not a recovered entity. `human_apdl=false`. `frequency_reproduced=false`. `not_attach_ta1=true`.
 
+## Wave J1 — rebuild request note (`6182e83`)
+
+Markdown `rebuild_requests/C3_TrackA_旧版ANSYS式_重建请求_20260831.md` claims to trigger a full-chain reconstruction (INP/DAT/FRD/report/MAC/14-row attachment table/ZIP). It does not. Path-filtered Track A workflows did not run. Actions on this SHA are only zhaqing-prestress failures. No Job finished. Five new branches (`rebuild`, `rebuild-execution`, `rebuild-execution-v2`, `rebuild-final`, `reconstruction-run`) are aliases of `3a8578e` with 0 unique commits and no PRs.
+
 Do not treat this path as the true3d reduced C4 deck.
