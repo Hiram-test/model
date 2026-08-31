@@ -28,4 +28,8 @@ Family label `TA1` in classification is not attach TA1 `0.0996`. T-family only v
 - Frozen theory labels vs attach 2-3 (comparison node only): TA1 **0.12608 ≠ 0.0996 (+26.6%)**; TS1 0.12921 ≠ 0.1147 (+12.7%); TS2 0.20437 ≠ 0.1571 (+30.1%). L/V rows are not 复现.
 - Green zip `dual-catwalk-clean-theory-14modes-v3` is a theory 14-label table, not attach reproduction and not true3d C4. Family label `TA1` is still not attach TA1.
 
+## Wave N1 — archived drawing extract only (`03e2839`, `87f3516`, run `33432125425`)
+
+New branch `feat/catwalk-clean-theory-v4-flexible-section` from `9a8b969`. Workflow downloads `zhangjinggao-full-20260729` shard `archive-0001.tar.zst` and extracts `01_设计资料与规范/00张靖皋长江大桥南航道桥猫道图纸1225.pdf` (20 566 268 B, sha `8df26c6b…`). `03e2839` failed because three copies of the same basename exist. No solver, no section properties, no 14-mode table. Green PDF is not a flexible-section model and not attach TA1.
+
 Do not treat this path as the true3d reduced C4 deck.

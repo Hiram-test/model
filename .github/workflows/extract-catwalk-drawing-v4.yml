@@ -2,7 +2,10 @@ name: Extract Catwalk Drawing v4 # Isolated evidence-recovery workflow for the f
 on: # Define automatic execution for this branch only.
   push: # Start once when this workflow is created or revised.
     branches: [feat/catwalk-clean-theory-v4-flexible-section] # Restrict execution to the v4 branch.
-    paths: [".github/workflows/extract-catwalk-drawing-v4.yml"] # Avoid unrelated repository pushes.
+    paths:
+      - ".github/workflows/extract-catwalk-drawing-v4.yml"
+      - "catwalk-fem/clean-theory-14modes/V4_DRAWING.bound.md"
+      - "catwalk-fem/clean-theory-14modes/v4_drawing.case.txt"
   workflow_dispatch: # Allow exact reruns without changing source files.
 permissions: # Declare only the permission needed to download release assets.
   contents: read # Keep repository access read-only.
@@ -51,12 +54,33 @@ jobs: # Define the single extraction job.
           tar --use-compress-program=unzstd -xf "/tmp/archive-shard/$SHARD" -C /tmp/extracted "$MATCH" # Extract only the selected drawing member.
           cp "/tmp/extracted/$MATCH" /tmp/delivery/Old_Catwalk_Drawing_2025.pdf # Copy the drawing to a stable ASCII artifact name.
           cp /tmp/catwalk-drawing-location.json /tmp/delivery/archive_location.json # Preserve the index-derived provenance record.
-          sha256sum /tmp/delivery/Old_Catwalk_Drawing_2025.pdf > /tmp/delivery/SHA256SUMS.txt # Freeze the recovered PDF identity.
-      - name: Upload recovered drawing # Preserve the exact PDF for the v4 section-property audit.
-        uses: actions/upload-artifact@v4 # Use GitHub's maintained artifact uploader.
-        with: # Configure the small evidence artifact.
-          name: catwalk-drawing-2025-v4 # Give the recovered source a stable English artifact name.
-          path: /tmp/delivery/ # Upload the PDF, archive location, and hash receipt together.
-          if-no-files-found: error # Reject an empty extraction result.
-          retention-days: 30 # Keep enough time for independent section-property review.
-          compression-level: 0 # Avoid recompressing an already compressed PDF.
+          cp -f catwalk-fem/clean-theory-14modes/V4_DRAWING.bound.md /tmp/delivery/BOUND.md
+          cp -f catwalk-fem/clean-theory-14modes/v4_drawing.case.txt /tmp/delivery/case.txt
+          printf '%s\n' "${GITHUB_SHA}" > /tmp/delivery/GITHUB_COMMIT.txt
+          (cd /tmp/delivery && sha256sum Old_Catwalk_Drawing_2025.pdf archive_location.json BOUND.md case.txt GITHUB_COMMIT.txt > SHA256SUMS.txt)
+      - name: Stamp boundary evidence after success or extract reject
+        if: always()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p /tmp/delivery
+          cp -f catwalk-fem/clean-theory-14modes/V4_DRAWING.bound.md /tmp/delivery/BOUND.md
+          cp -f catwalk-fem/clean-theory-14modes/v4_drawing.case.txt /tmp/delivery/case.txt
+          printf '%s\n' "${GITHUB_SHA}" > /tmp/delivery/GITHUB_COMMIT.txt
+          if [ ! -s /tmp/delivery/Old_Catwalk_Drawing_2025.pdf ]; then
+            printf '%s\n' \
+              'frequency_reproduced=false' \
+              'not_attach_ta1=true' \
+              'not_flexible_section_model=true' \
+              'kind=archived_drawing_extract_failed' \
+              > /tmp/delivery/EXTRACT_REJECT.txt
+          fi
+      - name: Upload recovered drawing
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catwalk-drawing-2025-v4-boundary
+          path: /tmp/delivery/
+          if-no-files-found: warn
+          retention-days: 30
+          compression-level: 0
