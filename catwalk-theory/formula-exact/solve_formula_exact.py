@@ -133,3 +133,6 @@ for row in rows[:50]:  # Print first fifty raw modes for audit.
     print('RAW', *row)  # Print complete raw physical classification.
 for label, row in labels.items():  # Print every requested classified mode.
     print('CLASS', label, row[0] if row else None, row[1] if row else None)  # Print physical label, numerical order and frequency.
+print('frequency_reproduced', False)  # This parabola toy is not attach reproduction.
+print('not_attach_ta1', True)  # Family label TA1 is not attach TA1.
+print('not_formula_exact', True)  # eigh of an 80-segment parabola is not a closed-form exact solution.
