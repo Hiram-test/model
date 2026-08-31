@@ -1,0 +1,60 @@
+name: Extract Catwalk Drawing v4 # Isolated evidence-recovery workflow for the flexible-section rebuild.
+on: # Define automatic execution for this branch only.
+  push: # Start once when this workflow is created or revised.
+    branches: [feat/catwalk-clean-theory-v4-flexible-section] # Restrict execution to the v4 branch.
+    paths: [".github/workflows/extract-catwalk-drawing-v4.yml"] # Avoid unrelated repository pushes.
+  workflow_dispatch: # Allow exact reruns without changing source files.
+permissions: # Declare only the permission needed to download release assets.
+  contents: read # Keep repository access read-only.
+jobs: # Define the single extraction job.
+  extract: # Recover only the archived catwalk drawing PDF.
+    runs-on: ubuntu-24.04 # Use a current hosted Linux runner.
+    timeout-minutes: 30 # Bound release download and extraction time.
+    steps: # Execute the evidence-recovery chain.
+      - name: Checkout # Record the exact branch state used for recovery.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Configure a shallow read-only checkout.
+          fetch-depth: 1 # Fetch only the triggering commit.
+          persist-credentials: false # Prevent repository writes from the runner.
+      - name: Install zstd # Ensure the archived tar.zst shard can be inspected.
+        shell: bash # Use strict Bash semantics.
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq zstd # Install only the decompressor required by the archive format.
+      - name: Locate archived drawing # Resolve the exact shard from the published package index.
+        shell: bash # Use strict Bash for GitHub CLI and Python parsing.
+        env: # Expose the workflow-scoped token only to this step.
+          GH_TOKEN: ${{ github.token }} # Authenticate release-asset download in the same repository.
+        run: | # Execute the deterministic index lookup.
+          set -euxo pipefail # Fail on missing index rows or ambiguous extraction.
+          gh release download zhangjinggao-full-20260729 --repo "$GITHUB_REPOSITORY" --pattern package-members.csv --dir /tmp/archive-index # Download only the small published package index.
+          python3 - <<'PY' # Parse the index without shell encoding assumptions.
+          import csv  # Read the quoted package-members CSV safely.
+          import json  # Write the selected shard and path for the next shell commands.
+          from pathlib import Path  # Handle the downloaded index path deterministically.
+          path = Path('/tmp/archive-index/package-members.csv')  # Point to the published package index.
+          matches = []  # Collect rows whose archived path is the 2025 catwalk drawing.
+          with path.open('r', encoding='utf-8-sig', newline='') as handle:  # Open the index with BOM-safe UTF-8 decoding.
+              for row in csv.reader(handle):  # Traverse every published package-member row.
+                  if len(row) >= 3 and '猫道图纸1225.pdf' in row[2]:  # Match only the archived catwalk drawing basename.
+                      matches.append({'shard': row[0], 'relative': row[2].replace('\\\\', '/').replace('\\', '/')})  # Preserve the exact shard and normalized path.
+          if len(matches) != 1:  # Require one and only one archived source file.
+              raise SystemExit(f'expected one catwalk drawing row, found {len(matches)}: {matches}')  # Reject ambiguous archive evidence.
+          Path('/tmp/catwalk-drawing-location.json').write_text(json.dumps(matches[0], ensure_ascii=False, indent=2) + '\n', encoding='utf-8')  # Save the resolved archive location.
+          print(json.dumps(matches[0], ensure_ascii=False))  # Emit the selected shard and path into the Actions log.
+          PY
+          SHARD=$(python3 -c "import json; print(json.load(open('/tmp/catwalk-drawing-location.json'))['shard'])") # Read the exact archive shard selected by the index.
+          gh release download zhangjinggao-full-20260729 --repo "$GITHUB_REPOSITORY" --pattern "$SHARD" --dir /tmp/archive-shard # Download only that one archive shard.
+          mkdir -p /tmp/extracted /tmp/delivery # Create isolated extraction and delivery directories.
+          MATCH=$(tar --use-compress-program=unzstd -tf "/tmp/archive-shard/$SHARD" | grep '猫道图纸1225.pdf' | head -n 1) # Resolve the exact tar member path from the downloaded shard.
+          test -n "$MATCH" # Reject an archive that does not contain the indexed drawing.
+          tar --use-compress-program=unzstd -xf "/tmp/archive-shard/$SHARD" -C /tmp/extracted "$MATCH" # Extract only the selected drawing member.
+          cp "/tmp/extracted/$MATCH" /tmp/delivery/Old_Catwalk_Drawing_2025.pdf # Copy the drawing to a stable ASCII artifact name.
+          cp /tmp/catwalk-drawing-location.json /tmp/delivery/archive_location.json # Preserve the index-derived provenance record.
+          sha256sum /tmp/delivery/Old_Catwalk_Drawing_2025.pdf > /tmp/delivery/SHA256SUMS.txt # Freeze the recovered PDF identity.
+      - name: Upload recovered drawing # Preserve the exact PDF for the v4 section-property audit.
+        uses: actions/upload-artifact@v4 # Use GitHub's maintained artifact uploader.
+        with: # Configure the small evidence artifact.
+          name: catwalk-drawing-2025-v4 # Give the recovered source a stable English artifact name.
+          path: /tmp/delivery/ # Upload the PDF, archive location, and hash receipt together.
+          if-no-files-found: error # Reject an empty extraction result.
+          retention-days: 30 # Keep enough time for independent section-property review.
+          compression-level: 0 # Avoid recompressing an already compressed PDF.
