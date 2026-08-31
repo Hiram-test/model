@@ -127,6 +127,8 @@ def main() -> int:  # Define the diagnostic entry point.
         "portal": [min(portal_ids), max(portal_ids)],  # Record the portal-link element range.
         "downpull_candidates": [eid for eid, element in elems.items() if int(element["mat"]) == 1 and eid not in floor_ids],  # Record aggregate floor-material links outside the continuous line.
     }  # Finish the element-range summary.
+    portal_class_counter = Counter((item["n1_floor"], item["n2_floor"], item["n1_gantry"], item["n2_gantry"]) for item in portal_records)  # Count the portal endpoint topology classes.
+    portal_class_json = {"|".join("1" if value else "0" for value in key): count for key, count in portal_class_counter.items()}  # Convert tuple keys to deterministic JSON string keys.
     output = {  # Assemble the complete diagnostic object.
         "source_sha256": model["source"]["sha256"],  # Record the verified MCT source hash.
         "counts": model["counts"],  # Record original model object counts.
@@ -137,7 +139,7 @@ def main() -> int:  # Define the diagnostic entry point.
         "portal_records": portal_records,  # Record all portal endpoint mappings.
         "passage_records": passage_records,  # Record all cross-passage station mappings.
         "constraints": constraint_records,  # Record all physical support mappings.
-        "portal_endpoint_classes": dict(Counter((item["n1_floor"], item["n2_floor"], item["n1_gantry"], item["n2_gantry"]) for item in portal_records)),  # Count portal endpoint topology classes.
+        "portal_endpoint_classes": portal_class_json,  # Record JSON-safe portal endpoint topology class counts.
     }  # Finish the diagnostic object.
     OUT.parent.mkdir(parents=True, exist_ok=True)  # Create the artifact directory if needed.
     OUT.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # Write deterministic UTF-8 JSON output.
