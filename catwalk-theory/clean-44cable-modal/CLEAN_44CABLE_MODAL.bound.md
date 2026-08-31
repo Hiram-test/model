@@ -13,6 +13,13 @@ New branch `feat/catwalk-clean-theory-14modes` from already-reviewed `d372295`.
 - Bot commit `fd31a76` is 3732-line `input_topology_diagnostic.json` only. `solve_clean_model.py` and `compare_after_freeze.py` are absent.
 - Green JSON / artifact name `*-modal-results` is not a Job finished solve and not a 14-mode table.
 
+## Wave L2 — attach MCT source + parser to the inspect zip (`a3d6264`…`6cd1231`, run `33422810017`)
+
+- `a3d6264` put the MCT path on `upload-artifact` next to YAML `#` comments. Actions treated the comments as path text (`33422263751` "No files were found"). Not a model failure.
+- `ba978d9` copies the same MCT to transient `artifacts/source_geometry.mct` after the bot commit (no in-tree duplicate). Run `33422810017` success.
+- `6cd1231` also copies `parse_mct.py` into the zip. Copied MCT `0d18e3f7…` (448673 B); parser `91963266…`. Existing `mct-from-zero` files, not a new model.
+- Still no `solve_clean_model.py`. Green zip with MCT + parser + topology JSON is not a 14-mode table and not attach TA1.
+
 Comparison, if later added, must stay in `compare_after_freeze.py` after freeze. T-family only via three-stack brackets. Relabel any `TA1` on a C3/MCT root to a model-local id.
 
 Do not treat this path as the true3d reduced C4 deck.

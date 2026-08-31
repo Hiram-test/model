@@ -46,10 +46,20 @@ jobs:  # Define the workflow jobs.
             git commit -m 'Record clean catwalk calculation artifacts [skip ci]'  # Commit outputs without recursively starting another run.
             git push origin HEAD:feat/catwalk-clean-theory-14modes  # Push the exact output commit to the isolated branch.
           fi  # End the changed-artifact condition.
-      - name: Copy source and parser into the transient artifact directory  # Preserve exact inputs without committing duplicate files.
-        run: |  # Start the source-copy shell block.
-          cp 'catwalk-fem/mct-from-zero/source/01_设计资料与规范/猫道 - 门架索合建模型2.mct' 'catwalk-theory/clean-44cable-modal/artifacts/source_geometry.mct'  # Copy the verified geometry-only MCT source.
-          cp 'catwalk-fem/mct-from-zero/parse_mct.py' 'catwalk-theory/clean-44cable-modal/artifacts/parse_mct.py'  # Copy the exact parser used by the diagnostic.
+      - name: Copy source and parser into the transient artifact directory  # After the git commit so copies are zip-only.
+        run: |
+          cp 'catwalk-fem/mct-from-zero/source/01_设计资料与规范/猫道 - 门架索合建模型2.mct' 'catwalk-theory/clean-44cable-modal/artifacts/source_geometry.mct'
+          cp 'catwalk-fem/mct-from-zero/parse_mct.py' 'catwalk-theory/clean-44cable-modal/artifacts/parse_mct.py'
+          python3 -c "import hashlib
+want={'source_geometry.mct':'0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1','parse_mct.py':'919632663922fd86335c2434cac92b8d1127d2fb21d5d15c9f61cf85e1f7c69b'}
+base='catwalk-theory/clean-44cable-modal/artifacts'
+for name,exp in want.items():
+ h=hashlib.sha256(open(f'{base}/{name}','rb').read()).hexdigest(); assert h==exp, (name,h); print(name,h)
+"
+          echo 'kind=mct_topology_diagnostic_only' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
+          echo 'source_geometry_sha256=0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
+          echo 'parse_mct_sha256=919632663922fd86335c2434cac92b8d1127d2fb21d5d15c9f61cf85e1f7c69b' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
+          echo 'frequency_reproduced=false' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
       - name: Upload topology diagnostic package  # Preserve diagnostics, parser, and the exact geometry-only source for independent review.
         uses: actions/upload-artifact@v4  # Use the official artifact upload action.
         with:  # Configure the uploaded diagnostic package.
