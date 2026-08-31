@@ -23,3 +23,7 @@ New branch `feat/catwalk-clean-theory-14modes` from already-reviewed `d372295`.
 Comparison, if later added, must stay in `compare_after_freeze.py` after freeze. T-family only via three-stack brackets. Relabel any `TA1` on a C3/MCT root to a model-local id.
 
 Do not treat this path as the true3d reduced C4 deck.
+
+## Wave M1 — solver source under catwalk-fem/clean-theory-14modes (`f28294d`)
+
+See `catwalk-fem/clean-theory-14modes/CLEAN_THEORY_14MODES.bound.md`. Attach Hz were stripped out of `solve.py`. No Job finished.

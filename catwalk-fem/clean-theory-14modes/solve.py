@@ -41,7 +41,7 @@ PIPE_T = 0.006  # Use the main-chord wall thickness.
 PORTAL_B = 0.161  # Use the MCT portal-equivalent box outer size.
 PORTAL_T = 0.008  # Use the MCT portal-equivalent box wall size.
 BETA_H = np.array([0.0, 2.82, 5.63, 8.75, 12.44, 15.68, 18.89, -20.24, -16.99, -13.36, -10.78, -7.39])  # Retain H1-H12 local slopes.
-LABEL_ORDER = ["LS1", "VA1", "LA1", "TA1", "VS1", "LS2", "TS1", "SIDE1", "SIDE2", "VA2", "LA2", "SIDE3", "TS2", "VS2"]  # Fix only the reporting order.
+LABEL_ORDER = ["LS1", "VA1", "LA1", "TA1", "VS1", "LS2", "TS1", "SIDE1", "SIDE2", "VA2", "LA2", "SIDE3", "TS2", "VS2"]  # Family names only; TA1 here is not attach TA1.
 def dump(path: Path, value: object) -> None:  # Write deterministic UTF-8 JSON.
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")  # Serialize with stable key ordering.
 def sha(path: Path) -> str:  # Compute a file SHA-256 digest.
@@ -562,19 +562,20 @@ def plots(raw: list[dict], selected: dict[str, dict], comparison: list[dict], me
     plt.tight_layout()  # Fit labels inside the canvas.
     plt.savefig(OUT / "spectrum_first_40.png", dpi=180)  # Save the spectrum figure.
     plt.close()  # Release the spectrum canvas.
-    valid = [item for item in comparison if item["computed_hz"] is not None]  # Select identified physical labels.
-    plt.figure(figsize=(11.0, 5.8))  # Create one post-freeze comparison figure.
-    positions = np.arange(len(valid))  # Form categorical positions.
-    plt.bar(positions - 0.19, [item["computed_hz"] for item in valid], width=0.38, label="Computed")  # Plot frozen computed values.
-    plt.bar(positions + 0.19, [item["target_hz"] for item in valid], width=0.38, label="External target")  # Plot externally loaded targets.
-    plt.xticks(positions, [item["label"] for item in valid], rotation=45.0, ha="right")  # Label physical families.
-    plt.ylabel("Frequency / Hz")  # Label the frequency axis.
-    plt.title("External comparison loaded after model freeze")  # State the post-freeze protocol.
-    plt.legend()  # Show data-series identity.
-    plt.grid(True, axis="y", alpha=0.25)  # Add a light horizontal grid.
-    plt.tight_layout()  # Fit labels inside the canvas.
-    plt.savefig(OUT / "comparison_after_freeze.png", dpi=180)  # Save the comparison figure.
-    plt.close()  # Release the comparison canvas.
+    if comparison:  # Comparison figures belong in compare_after_freeze.py, not this solver.
+        valid = [item for item in comparison if item["computed_hz"] is not None]  # Select identified physical labels.
+        plt.figure(figsize=(11.0, 5.8))  # Create one post-freeze comparison figure.
+        positions = np.arange(len(valid))  # Form categorical positions.
+        plt.bar(positions - 0.19, [item["computed_hz"] for item in valid], width=0.38, label="Computed")  # Plot frozen computed values.
+        plt.bar(positions + 0.19, [item["target_hz"] for item in valid], width=0.38, label="External target")  # Plot externally loaded targets.
+        plt.xticks(positions, [item["label"] for item in valid], rotation=45.0, ha="right")  # Label physical families.
+        plt.ylabel("Frequency / Hz")  # Label the frequency axis.
+        plt.title("External comparison loaded after model freeze")  # State the post-freeze protocol.
+        plt.legend()  # Show data-series identity.
+        plt.grid(True, axis="y", alpha=0.25)  # Add a light horizontal grid.
+        plt.tight_layout()  # Fit labels inside the canvas.
+        plt.savefig(OUT / "comparison_after_freeze.png", dpi=180)  # Save the comparison figure.
+        plt.close()  # Release the comparison canvas.
     for label in LABEL_ORDER:  # Draw one independent mode-shape figure per identified label.
         if label not in meta["selected_shapes"] or meta["selected_shapes"][label] is None:  # Skip unidentified families.
             continue  # Continue to the next label.
@@ -609,10 +610,11 @@ def write_csv(raw: list[dict], selected: dict[str, dict], comparison: list[dict]
         for label in LABEL_ORDER:  # Preserve the requested reporting order.
             item = selected[label]  # Read the current frozen assignment.
             writer.writerow([label, item.get("status", "identified"), item.get("mode"), item.get("frequency_hz"), item.get("family"), item.get("parity_label"), item.get("longitudinal_order"), (item.get("span_fraction") or {}).get("main"), item.get("same_global_sign_correlation"), item.get("selection_rule")])  # Write the classification row.
-    with (OUT / "comparison_after_freeze.csv").open("w", newline="", encoding="utf-8-sig") as handle:  # Open the post-freeze external comparison table.
-        writer = csv.DictWriter(handle, fieldnames=["label", "mode", "computed_hz", "target_hz", "error_percent", "status"])  # Create a named-field writer.
-        writer.writeheader()  # Write the comparison header.
-        writer.writerows(comparison)  # Write all fourteen comparison rows.
+    if comparison:  # Keep attach Hz out of this solver; comparison writes its own table.
+        with (OUT / "comparison_after_freeze.csv").open("w", newline="", encoding="utf-8-sig") as handle:  # Open the post-freeze external comparison table.
+            writer = csv.DictWriter(handle, fieldnames=["label", "mode", "computed_hz", "target_hz", "error_percent", "status"])  # Create a named-field writer.
+            writer.writeheader()  # Write the comparison header.
+            writer.writerows(comparison)  # Write all fourteen comparison rows.
 def main() -> int:  # Execute the clean calculation protocol.
     model = load_mct()  # Parse and hash-check the original MCT source.
     floor_nodes, floor_elements = chain(model, [int(element_id) for element_id in model["groups"]["ZJG04_bcs"]["elems"]])  # Recover the formed floor chain.
@@ -624,21 +626,13 @@ def main() -> int:  # Execute the clean calculation protocol.
     frequencies, vectors, residuals, checks = solve_eigen(system)  # Solve and verify the global spectrum.
     raw, selected, classification_meta = classify(model, system, floor_nodes, top_nodes, frequencies, vectors, residuals)  # Classify physical families without targets.
     assumptions = [{"name": "MCT use", "value": "formed coordinates, topology, groups, and restraint topology only; no INIFORCE, INI-EFORCE, CONLOAD, or modal result"}, {"name": "floor ropes", "value": "16 explicit ropes per catwalk; one smart rope at each inner local position, mirror-symmetric globally"}, {"name": "gantry ropes", "value": "6 explicit ropes per catwalk, represented as left and right triplets across 7.46 m"}, {"name": "secondary floor system", "value": "q=2.766 kN/m total lower-system mass; explicit ropes and handrails removed before residual width-distributed mass"}, {"name": "portals", "value": "71 per catwalk; 1429.98 kg each; 161x161x8 equivalent two-column frame"}, {"name": "passages", "value": "21 full multi-port equivalents; 10130 kg each; three phi152x6 chords; longitudinal bracing stiffness factor 0.03"}, {"name": "supports", "value": "current MCT restraint topology interpreted as the fixed-contact linearization state"}, {"name": "classification", "value": "L/V/T energy, main-span sine order, parity, and span localization only; no target frequency"}]  # Record every decisive modelling assumption.
-    frozen = {"kind": "clean_theory_44_rope_catwalk_frozen", "git_sha": os.environ.get("GITHUB_SHA", "local"), "source_mct_sha256": model["source"]["sha256"], "source_mct_bytes": model["source"]["bytes"], "target_frequency_used": False, "topology": {"explicit_floor_ropes": 32, "explicit_gantry_ropes": 12, "explicit_ropes_total": 44, "portals": 142, "passages": 21, "floor_chain_nodes": len(floor_nodes), "floor_chain_elements": len(floor_elements), "top_chain_nodes": len(top_nodes), "top_chain_elements": len(top_elements)}, "assumptions": assumptions, "inverse_static": {key: value for key, value in static.items() if key != "force_kN"}, "matrix_checks": checks, "smart_index_zero_based": system["smart_index"], "portal_map": system["portals"], "passage_parameters": system["passages"], "raw_modes": raw, "classified_14": selected, "classification_meta": {key: value for key, value in classification_meta.items() if key != "selected_shapes"}}  # Form the target-free frozen result object.
+    frozen = {"kind": "clean_theory_44_rope_catwalk_frozen", "git_sha": os.environ.get("GITHUB_SHA", "local"), "source_mct_sha256": model["source"]["sha256"], "source_mct_bytes": model["source"]["bytes"], "target_frequency_used": False, "frequency_reproduced": False, "not_attach_ta1": True, "not_fourteen_mode_table": True, "topology": {"explicit_floor_ropes": 32, "explicit_gantry_ropes": 12, "explicit_ropes_total": 44, "portals": 142, "passages": 21, "floor_chain_nodes": len(floor_nodes), "floor_chain_elements": len(floor_elements), "top_chain_nodes": len(top_nodes), "top_chain_elements": len(top_elements)}, "assumptions": assumptions, "inverse_static": {key: value for key, value in static.items() if key != "force_kN"}, "matrix_checks": checks, "smart_index_zero_based": system["smart_index"], "portal_map": system["portals"], "passage_parameters": system["passages"], "raw_modes": raw, "classified_14": selected, "classification_meta": {key: value for key, value in classification_meta.items() if key != "selected_shapes"}}  # Form the target-free frozen result object.
     frozen_path = OUT / "frozen_results.json"  # Define the target-free result path.
-    dump(frozen_path, frozen)  # Write classification and frequencies before targets exist in memory.
+    dump(frozen_path, frozen)  # Write classification and frequencies with no attach Hz in this file.
     frozen_sha = sha(frozen_path)  # Freeze the result identity.
-    targets = {"LS1": 0.0365, "VA1": 0.0700, "LA1": 0.0726, "TA1": 0.0996, "VS1": 0.1028, "LS2": 0.1087, "TS1": 0.1147, "SIDE1": 0.1149, "SIDE2": 0.1239, "VA2": 0.1438, "LA2": 0.1449, "SIDE3": 0.1557, "TS2": 0.1571, "VS2": 0.1744}  # Load external targets only after freeze and hashing.
-    comparison: list[dict] = []  # Initialize external comparison rows.
-    for label in LABEL_ORDER:  # Traverse the fourteen declared labels.
-        item = selected[label]  # Read the frozen physical assignment.
-        computed = float(item["frequency_hz"]) if "frequency_hz" in item else None  # Read the computed value if identified.
-        error = None if computed is None else 100.0 * (computed - targets[label]) / targets[label]  # Evaluate post-freeze relative error.
-        comparison.append({"label": label, "mode": item.get("mode"), "computed_hz": computed, "target_hz": targets[label], "error_percent": error, "status": item.get("status", "identified")})  # Append the auditable comparison row.
-    write_csv(raw, selected, comparison)  # Write raw, classified, and comparison tables.
-    plots(raw, selected, comparison, classification_meta)  # Write spectrum and selected mode-shape plots.
-    identified_errors = [abs(float(item["error_percent"])) for item in comparison if item["error_percent"] is not None]  # Collect identified absolute errors.
-    summary = {"kind": "clean_theory_44_rope_catwalk_summary", "git_sha": os.environ.get("GITHUB_SHA", "local"), "source_mct_sha256": model["source"]["sha256"], "frozen_sha256": frozen_sha, "identified_count": len(identified_errors), "mae_percent": float(np.mean(identified_errors)) if identified_errors else None, "max_abs_error_percent": float(np.max(identified_errors)) if identified_errors else None, "inverse_static": frozen["inverse_static"], "matrix_checks": checks, "classified": comparison}  # Build the concise final calculation summary.
+    write_csv(raw, selected, [])  # Write raw and classified tables only.
+    plots(raw, selected, [], classification_meta)  # Write spectrum and selected mode-shape plots without attach Hz.
+    summary = {"kind": "clean_theory_44_rope_catwalk_summary", "git_sha": os.environ.get("GITHUB_SHA", "local"), "source_mct_sha256": model["source"]["sha256"], "frozen_sha256": frozen_sha, "identified_count": sum(1 for item in selected.values() if "frequency_hz" in item), "mae_percent": None, "max_abs_error_percent": None, "inverse_static": frozen["inverse_static"], "matrix_checks": checks, "frequency_reproduced": False, "not_attach_ta1": True, "not_fourteen_mode_table": True}  # Build the concise solver-only summary.
     dump(OUT / "summary.json", summary)  # Write the final summary.
     dump(OUT / "unstressed_lengths.json", system["recovered"])  # Write all explicit-rope recovered unstressed lengths.
     (OUT / "SHA256SUMS.txt").write_text("\n".join(f"{sha(path)}  {path.name}" for path in sorted(OUT.iterdir()) if path.is_file()) + "\n", encoding="utf-8")  # Hash every primary result file.
