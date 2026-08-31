@@ -1,4 +1,4 @@
-name: Clean catwalk 44-cable modal analysis  # Identify the independent theory-first workflow.
+name: Clean catwalk 44-cable topology diagnostic  # Inspect-only until solve_clean_model.py exists; not a 14-mode table.
 on:  # Define workflow activation conditions.
   push:  # Run whenever the clean-model source changes on its isolated branch.
     branches:  # Restrict execution to the isolated calculation branch.
@@ -10,7 +10,7 @@ on:  # Define workflow activation conditions.
 permissions:  # Declare the minimum repository permissions required by this workflow.
   contents: write  # Allow the workflow to commit deterministic calculation artifacts.
 jobs:  # Define the workflow jobs.
-  solve:  # Define the single reproducible calculation job.
+  inspect:  # Topology diagnostic only; solver and comparison stay optional and separate.
     runs-on: ubuntu-24.04  # Use a current deterministic Linux runner.
     timeout-minutes: 60  # Bound the calculation runtime without changing the numerical model.
     steps:  # Define the ordered job steps.
@@ -46,10 +46,10 @@ jobs:  # Define the workflow jobs.
             git commit -m 'Record clean catwalk calculation artifacts [skip ci]'  # Commit outputs without recursively starting another run.
             git push origin HEAD:feat/catwalk-clean-theory-14modes  # Push the exact output commit to the isolated branch.
           fi  # End the changed-artifact condition.
-      - name: Upload complete calculation package  # Preserve a downloadable immutable workflow artifact.
+      - name: Upload topology diagnostic package  # Inspect JSON is not a 14-mode result and not attach TA1.
         uses: actions/upload-artifact@v4  # Use the official artifact upload action.
         with:  # Configure the uploaded calculation package.
-          name: clean-catwalk-44cable-modal-results  # Assign a stable artifact name.
+          name: clean-catwalk-44cable-topology-diagnostic-boundary  # Name the package as inspect-only.
           path: catwalk-theory/clean-44cable-modal/artifacts  # Upload the complete deterministic artifact directory.
           if-no-files-found: error  # Fail rather than silently publish an empty result package.
           compression-level: 6  # Use balanced deterministic ZIP compression.

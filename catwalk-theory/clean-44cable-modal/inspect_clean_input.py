@@ -140,10 +140,34 @@ def main() -> int:  # Define the diagnostic entry point.
         "passage_records": passage_records,  # Record all cross-passage station mappings.
         "constraints": constraint_records,  # Record all physical support mappings.
         "portal_endpoint_classes": portal_class_json,  # Record JSON-safe portal endpoint topology class counts.
+        "boundary": {  # Stamp so a green inspect JSON cannot be read as a 14-mode table.
+            "human_apdl": False,  # This path is not human APDL.
+            "frequency_reproduced": False,  # No eigen solve ran.
+            "not_attach_ta1": True,  # Do not map this output to attach TA1 0.0996.
+            "not_fourteen_mode_table": True,  # Topology only; no 14-row attach comparison.
+            "solver_present": (HERE / "solve_clean_model.py").is_file(),  # Record whether the deferred solver exists.
+            "compare_present": (HERE / "compare_after_freeze.py").is_file(),  # Record whether the deferred comparison exists.
+            "kind": "mct_topology_diagnostic_only",  # Name the artifact class.
+        },  # Finish the boundary stamp.
     }  # Finish the diagnostic object.
     OUT.parent.mkdir(parents=True, exist_ok=True)  # Create the artifact directory if needed.
     OUT.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # Write deterministic UTF-8 JSON output.
-    print(json.dumps({"output": str(OUT), "floor_components": len(floor_components), "gantry_components": len(gantry_components), "portal_count": len(portal_records)}, ensure_ascii=False))  # Print a concise workflow summary.
+    case_txt = (  # Always-on receipt next to the diagnostic JSON.
+        "human_apdl=false\n"
+        "frequency_reproduced=false\n"
+        "not_attach_ta1=true\n"
+        "not_fourteen_mode_table=true\n"
+        f"solver_present={'true' if output['boundary']['solver_present'] else 'false'}\n"
+        f"compare_present={'true' if output['boundary']['compare_present'] else 'false'}\n"
+        "kind=mct_topology_diagnostic_only\n"
+    )
+    (OUT.parent / "case.txt").write_text(case_txt, encoding="utf-8")  # Persist the receipt that Actions will upload.
+    (OUT.parent / "BOUND.txt").write_text(  # Short bound for the downloadable package.
+        "Inspect-only MCT topology JSON is not a 14-mode table, not attach TA1, "
+        "and not 复现. Green Actions artifact is not a Job finished solve.\n",
+        encoding="utf-8",
+    )
+    print(json.dumps({"output": str(OUT), "floor_components": len(floor_components), "gantry_components": len(gantry_components), "portal_count": len(portal_records), "kind": "mct_topology_diagnostic_only", "frequency_reproduced": False}, ensure_ascii=False))  # Print a concise workflow summary.
     return 0  # Return a successful process status.
 if __name__ == "__main__":  # Check whether the script is executed as the main program.
     raise SystemExit(main())  # Run the diagnostic entry point and propagate its status.
