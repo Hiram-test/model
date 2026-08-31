@@ -58,8 +58,9 @@ def main() -> int:
         "human_apdl=false\n"
         "frequency_reproduced=false\n"
         "not_attach_ta1=true\n"
-        "not_fourteen_mode_table=true\n"
+        "not_attach_fourteen_mode_table=true\n"
         "kind=post_freeze_comparison_only\n"
+        "note=theory family TA1 is not attach TA1 0.0996\n"
     )
     (OUT / "case.txt").write_text(receipt, encoding="utf-8")
     print(json.dumps({"kind": "post_freeze_comparison_only", "frequency_reproduced": False, "rows": len(rows)}, ensure_ascii=False))

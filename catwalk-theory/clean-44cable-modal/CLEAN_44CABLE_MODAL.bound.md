@@ -27,3 +27,7 @@ Do not treat this path as the true3d reduced C4 deck.
 ## Wave M1 — solver source under catwalk-fem/clean-theory-14modes (`f28294d`)
 
 See `catwalk-fem/clean-theory-14modes/CLEAN_THEORY_14MODES.bound.md`. Attach Hz were stripped out of `solve.py`. No Job finished.
+
+## Wave M2–M4 — solver CI (`50cb382` residual reject → `9572e19` v3 zip)
+
+v1 inverse residual 0.177 rejected. v2 residual 0.003385, T unidentified. v3 theory TA1 0.12608 Hz is not attach TA1 0.0996. Green zip is not 复现.
