@@ -1,0 +1,43 @@
+# Export the repository-contained C3 Track A reconstruction kit as one immutable Actions artifact.
+name: Export C3 TrackA reconstruction kit
+on:
+  push:
+    branches: [agent/c3-tracka-direct-main13-20260831]
+    paths: [".github/workflows/c3-tracka-export-rebuild-kit.yml"]
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact reconstruction source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Reconstruct parent solver and historical generators
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p rebuild_kit/code rebuild_kit/input rebuild_kit/solver
+          cat catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14/*.inp.gz.part* | gzip -dc > rebuild_kit/input/C3_parent.inp
+          cat catwalk-fem/c0-c5-reproduction/release_parts/ccx_ucor6_ucab3/part*.b64 | base64 -d | gzip -dc > rebuild_kit/solver/ccx
+          chmod +x rebuild_kit/solver/ccx
+          cp catwalk-fem/c0-c5-reproduction/code/build_tracka_old_ansys_forward.py rebuild_kit/code/
+          cp catwalk-fem/c0-c5-reproduction/code/track_tracka_old_ansys_modes.py rebuild_kit/code/
+          cat catwalk-fem/c0-c5-reproduction/forensic_wrong_model/human_forward/build_legacy_tracka_variants.py.gz.b64 | base64 -d | gzip -dc > rebuild_kit/code/build_legacy_tracka_variants.py
+          cat catwalk-fem/c0-c5-reproduction/forensic_wrong_model/human_forward/build_legacy_tracka_main13.py.gz.b64.part* | base64 -d | gzip -dc > rebuild_kit/code/build_legacy_tracka_main13.py
+          cat catwalk-fem/c0-c5-reproduction/forensic_wrong_model/human_forward/build_legacy_tracka_main13_v1.py.gz.b64.part* | base64 -d | gzip -dc > rebuild_kit/code/build_legacy_tracka_main13_v1.py
+          find .github/workflows -maxdepth 1 -type f -name '*tracka*' -exec cp {} rebuild_kit/code/ \;
+          sha256sum rebuild_kit/input/C3_parent.inp rebuild_kit/solver/ccx rebuild_kit/code/* > rebuild_kit/SHA256SUMS.txt
+          test "$(sha256sum rebuild_kit/input/C3_parent.inp | cut -d' ' -f1)" = "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86"
+          test "$(sha256sum rebuild_kit/solver/ccx | cut -d' ' -f1)" = "b498dad80b0415d53ab112409adc85b8a1fd19eb7846dc31e778f4c83b437a0e"
+      - name: Upload reconstruction kit
+        uses: actions/upload-artifact@v4
+        with:
+          name: C3-TrackA-reconstruction-kit
+          path: rebuild_kit
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
