@@ -16,7 +16,7 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: 1
-      - name: Reconstruct parent solver and historical generators
+      - name: Reconstruct parent solver and usable historical generator
         shell: bash
         run: |
           set -euxo pipefail
@@ -27,8 +27,6 @@ jobs:
           cp catwalk-fem/c0-c5-reproduction/code/build_tracka_old_ansys_forward.py rebuild_kit/code/
           cp catwalk-fem/c0-c5-reproduction/code/track_tracka_old_ansys_modes.py rebuild_kit/code/
           cat catwalk-fem/c0-c5-reproduction/forensic_wrong_model/human_forward/build_legacy_tracka_variants.py.gz.b64 | base64 -d | gzip -dc > rebuild_kit/code/build_legacy_tracka_variants.py
-          cat catwalk-fem/c0-c5-reproduction/forensic_wrong_model/human_forward/build_legacy_tracka_main13.py.gz.b64.part* | base64 -d | gzip -dc > rebuild_kit/code/build_legacy_tracka_main13.py
-          cat catwalk-fem/c0-c5-reproduction/forensic_wrong_model/human_forward/build_legacy_tracka_main13_v1.py.gz.b64.part* | base64 -d | gzip -dc > rebuild_kit/code/build_legacy_tracka_main13_v1.py
           find .github/workflows -maxdepth 1 -type f -name '*tracka*' -exec cp {} rebuild_kit/code/ \;
           sha256sum rebuild_kit/input/C3_parent.inp rebuild_kit/solver/ccx rebuild_kit/code/* > rebuild_kit/SHA256SUMS.txt
           test "$(sha256sum rebuild_kit/input/C3_parent.inp | cut -d' ' -f1)" = "667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86"
