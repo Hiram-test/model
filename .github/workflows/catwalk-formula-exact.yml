@@ -1,0 +1,22 @@
+name: catwalk-formula-exact
+on:
+  push:
+    branches: [feat/catwalk-formula-exact]
+    paths:
+      - 'catwalk-theory/formula-exact/**'
+      - '.github/workflows/catwalk-formula-exact.yml'
+  workflow_dispatch:
+jobs:
+  solve:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy scipy
+      - run: python catwalk-theory/formula-exact/solve_formula_exact.py | tee formula_exact_results.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: catwalk-formula-exact-results
+          path: formula_exact_results.txt
