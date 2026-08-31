@@ -50,12 +50,18 @@ jobs:  # Define the workflow jobs.
         run: |
           cp 'catwalk-fem/mct-from-zero/source/01_设计资料与规范/猫道 - 门架索合建模型2.mct' 'catwalk-theory/clean-44cable-modal/artifacts/source_geometry.mct'
           cp 'catwalk-fem/mct-from-zero/parse_mct.py' 'catwalk-theory/clean-44cable-modal/artifacts/parse_mct.py'
-          python3 -c "import hashlib
-want={'source_geometry.mct':'0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1','parse_mct.py':'919632663922fd86335c2434cac92b8d1127d2fb21d5d15c9f61cf85e1f7c69b'}
-base='catwalk-theory/clean-44cable-modal/artifacts'
-for name,exp in want.items():
- h=hashlib.sha256(open(f'{base}/{name}','rb').read()).hexdigest(); assert h==exp, (name,h); print(name,h)
-"
+          python3 << 'PY'
+          import hashlib
+          want = {
+              "source_geometry.mct": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+              "parse_mct.py": "919632663922fd86335c2434cac92b8d1127d2fb21d5d15c9f61cf85e1f7c69b",
+          }
+          base = "catwalk-theory/clean-44cable-modal/artifacts"
+          for name, exp in want.items():
+              digest = hashlib.sha256(open(f"{base}/{name}", "rb").read()).hexdigest()
+              assert digest == exp, (name, digest)
+              print(name, digest)
+          PY
           echo 'kind=mct_topology_diagnostic_only' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
           echo 'source_geometry_sha256=0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
           echo 'parse_mct_sha256=919632663922fd86335c2434cac92b8d1127d2fb21d5d15c9f61cf85e1f7c69b' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
