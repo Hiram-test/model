@@ -23,7 +23,6 @@ jobs:  # Define the workflow jobs.
         uses: actions/setup-python@v5  # Use the official Python setup action.
         with:  # Configure the Python runtime.
           python-version: '3.12'  # Use Python 3.12 for the model scripts.
-          cache: 'pip'  # Cache numerical Python wheels between runs.
       - name: Install numerical and reporting dependencies  # Install only explicit open-source runtime dependencies.
         run: python -m pip install --upgrade pip numpy scipy matplotlib reportlab  # Install the sparse solver and deterministic report stack.
       - name: Inspect geometry-only MCT topology  # Verify cable chains, portal links, passages, and supports before solving.
