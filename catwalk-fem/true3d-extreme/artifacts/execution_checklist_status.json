@@ -1,0 +1,47 @@
+{
+  "plan": "report/true3d_extreme_experiment_plan_cn.tex §执行清单",
+  "head": "dd59aacf3efec198a9dfa8b198c0df954d426774",
+  "conclusion_allowed": false,
+  "items": [
+    {
+      "n": 1,
+      "task": "bash code/run_solver.sh",
+      "status": "done_prior",
+      "note": "G-P1/P2/P3 PASS; G-P4 FAIL recorded in gp4_error_ledger.json; not re-run"
+    },
+    {
+      "n": 2,
+      "task": "three external inputs",
+      "aero": "done_prior (attach23_extract.json table 3-1 → site_wind.json; placeholder_values_used_if_missing=false)",
+      "rope_break_kN": 2380.0,
+      "rms_digitized": "placeholder_three_stations_table_5_1; PDF along-span figures not in tree; no interpolation",
+      "c_level": "placeholder_unverified_C_15; no silent promotion"
+    },
+    {
+      "n": 3,
+      "task": "python3 code/buffeting.py --scenario site_sutong_100yr_obs",
+      "status": "done_prior",
+      "artifact": "artifacts/buffeting_rms_alongspan_site_sutong_100yr_obs.csv"
+    },
+    {
+      "n": 4,
+      "task": "python3 code/sweep_extreme.py",
+      "status": "done_prior",
+      "n_ok": 43,
+      "amphan_U10": 63.5
+    },
+    {
+      "n": 5,
+      "task": "make_atlas A1-A4 + pairing into formal report",
+      "atlas": "done_prior (artifacts/atlas/ A1-A5)",
+      "pairing": "done_prior 14 rows, not re-paired this session",
+      "report_backfill": "this_session comparison_record_only"
+    },
+    {
+      "n": 6,
+      "task": "COARSEN=2 extra file",
+      "status": "done_prior extra file true3d_ccx_c2; did not overwrite C4"
+    }
+  ],
+  "not_claimed": "scientific success / attachment reproduction"
+}

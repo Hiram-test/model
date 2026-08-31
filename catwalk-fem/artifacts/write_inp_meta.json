@@ -1,0 +1,227 @@
+{
+  "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+  "n_nodes": 51896,
+  "n_elements": 30317,
+  "role_counts": {
+    "cross_passage": 21,
+    "floor_rope": 25299,
+    "handrail_rope": 34,
+    "longitudinal_other": 17,
+    "portal_or_beam": 4719,
+    "portal_rope": 227
+  },
+  "x_min": 0.0,
+  "x_max": 4270.609,
+  "supports": {
+    "X0": {
+      "id": "X0",
+      "x": 0.0,
+      "kind": "north_nominal_end",
+      "source": "DRW-B",
+      "n": 12,
+      "x_mean": 0.0,
+      "dx_max": 0.0
+    },
+    "NT_SADDLE": {
+      "id": "NT_SADDLE",
+      "x": 666.679,
+      "kind": "north_tower_saddle",
+      "source": "CALC-INPUT",
+      "n": 240,
+      "x_mean": 664.97517985604,
+      "dx_max": 7.649664340699928
+    },
+    "ST_SADDLE": {
+      "id": "ST_SADDLE",
+      "x": 2953.321,
+      "kind": "south_tower_saddle",
+      "source": "CALC-INPUT",
+      "n": 132,
+      "x_mean": 2951.6917024061213,
+      "dx_max": 7.8247219179997956
+    },
+    "AUX": {
+      "id": "AUX",
+      "x": 3677.0,
+      "kind": "south_aux_break",
+      "source": "DRW-B",
+      "n": 128,
+      "x_mean": 3676.2809194754373,
+      "dx_max": 6.9090000000001055
+    },
+    "X4180": {
+      "id": "X4180",
+      "x": 4180.0,
+      "kind": "south_nominal_end",
+      "source": "DRW-B",
+      "n": 392,
+      "x_mean": 4180.025663178285,
+      "dx_max": 7.908999999999651
+    },
+    "NT_NOMINAL": {
+      "id": "NT_NOMINAL",
+      "x": 660.0,
+      "kind": "north_tower_nominal",
+      "n": 228,
+      "x_mean": 659.3371685967473,
+      "dx_max": 7.02407834739995
+    },
+    "ST_NOMINAL": {
+      "id": "ST_NOMINAL",
+      "x": 2960.0,
+      "kind": "south_tower_nominal",
+      "n": 120,
+      "x_mean": 2959.740741202567,
+      "dx_max": 5.985297369999898
+    }
+  },
+  "initial_state": {
+    "control": "sag_and_distributed_load",
+    "sag_m": 227.3,
+    "forbidden_sag_m": 255.56,
+    "w_floor_npm": 2766.0,
+    "w_portal_npm": 709.0,
+    "L_saddle_m": 2286.642,
+    "L_nominal_m": 2300.0,
+    "H_floor_deck_saddle_N": 7953515.016294336,
+    "H_floor_deck_nominal_N": 8046711.394632644,
+    "H_floor_rope_saddle_N": 497094.688518396,
+    "H_portal_deck_saddle_N": 2038699.2576112382,
+    "H_portal_rope_saddle_N": 339783.209601873,
+    "sigma_floor_Pa": 354961146.3121035,
+    "sigma_portal_Pa": 242629503.72164991,
+    "l0_f1_hz": 0.03671855913145064,
+    "l0_f2_hz": 0.07343711826290128,
+    "source": "CALC-INPUT w from report table 1-1/1-3; h=227.300 m; L from table 1-9 saddles",
+    "independent_of": [
+      "S10.db",
+      "B00",
+      "MCT",
+      "TARGET-FREQ"
+    ]
+  },
+  "loads": {
+    "floor_truss_length_m": 164515.62552963925,
+    "n_floor_ropes_per_deck": 16,
+    "extra_dead_deck_npm": 877.1607568000002,
+    "extra_dead_npm": 54.82254730000001,
+    "extra_dead_resultant_N": 9019165.662187736,
+    "personnel_deck_npm": 8400.0,
+    "personnel_npm": 525.0,
+    "personnel_resultant_N": 86370703.40306062,
+    "wind_deck_npm": 500.0,
+    "wind_npm": 31.25,
+    "wind_resultant_N": 5141113.297801226,
+    "personnel_source": "ASSUMP construction walkway 1.5 kPa on 5.60 m effective width",
+    "wind_source": "ASSUMP construction wind 0.50 kN/m per deck, +Y",
+    "distribution": "per-deck package split equally onto 16 floor ropes"
+  },
+  "missing_keywords": [],
+  "complete": true,
+  "target_freq_in_deck": false,
+  "xmin_shift_used": false,
+  "anchors": {
+    "FLOOR_N": {
+      "station": "K16+852.105",
+      "x": -23.895,
+      "id": "FLOOR_N",
+      "family": "floor",
+      "role": "floor_rope",
+      "end": "north",
+      "source": "DRW-B / theory v1.2 §4; not the portal-rope north anchor",
+      "n": 12,
+      "x_mean": 0.0,
+      "dx_to_target": 23.895,
+      "mode": "step_north_end_proxy",
+      "family_x_span": [
+        0.0,
+        4270.609
+      ],
+      "y_mean": 0.0,
+      "z_mean": 44.31,
+      "x_min": 0.0,
+      "x_max": 0.0
+    },
+    "FLOOR_S": {
+      "station": "K21+086.368",
+      "x": 4210.368,
+      "id": "FLOOR_S",
+      "family": "floor",
+      "role": "floor_rope",
+      "end": "south",
+      "source": "DRW-B / theory v1.2 §4; not the portal-rope south anchor",
+      "n": 300,
+      "x_mean": 4209.98473021472,
+      "dx_to_target": 0.38326978528039035,
+      "mode": "matched_x",
+      "family_x_span": [
+        0.0,
+        4270.609
+      ],
+      "y_mean": 4.7369515717340015e-17,
+      "z_mean": 47.47488933020854,
+      "x_min": 4202.909,
+      "x_max": 4218.064871128
+    },
+    "PORTAL_N": {
+      "station": "K16+831.091",
+      "x": -44.909,
+      "id": "PORTAL_N",
+      "family": "portal",
+      "role": "portal_rope",
+      "end": "north",
+      "source": "DRW-B / theory v1.2 §4; not the floor-rope north anchor",
+      "n": 12,
+      "x_mean": 46.357632882316665,
+      "dx_to_target": 91.26663288231666,
+      "mode": "step_north_end_proxy",
+      "family_x_span": [
+        43.871,
+        4221.093
+      ],
+      "y_mean": -2.9605947323337506e-16,
+      "z_mean": 57.562929987196675,
+      "x_min": 43.871,
+      "x_max": 48.84642222429
+    },
+    "PORTAL_S": {
+      "station": "K21+101.700",
+      "x": 4225.7,
+      "id": "PORTAL_S",
+      "family": "portal",
+      "role": "portal_rope",
+      "end": "south",
+      "source": "DRW-B / theory v1.2 §4; not the floor-rope south anchor",
+      "n": 4,
+      "x_mean": 4221.093,
+      "dx_to_target": 4.606999999999971,
+      "mode": "matched_x",
+      "family_x_span": [
+        43.871,
+        4221.093
+      ],
+      "y_mean": -8.881784197001252e-16,
+      "z_mean": 46.282000000000004,
+      "x_min": 4221.093,
+      "x_max": 4221.093
+    },
+    "_audit": {
+      "n_floor": 312,
+      "n_portal": 16,
+      "n_overlap": 0,
+      "overlap_idx": [],
+      "disjoint": true,
+      "rule": "floor and portal anchors must not share a node or NSET"
+    }
+  },
+  "anchor_nsets_disjoint": true,
+  "n_floor_anchor_nodes": 312,
+  "n_portal_anchor_nodes": 16,
+  "hash": {
+    "path": "/workspace/catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+    "name": "zjg_catwalk_coarsened.inp",
+    "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+    "bytes": 7702117,
+    "sidecar": "/workspace/catwalk-fem/artifacts/zjg_catwalk_coarsened.inp.sha256"
+  }
+}

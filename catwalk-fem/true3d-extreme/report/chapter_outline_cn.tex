@@ -1,0 +1,128 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2.1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\setCJKmainfont{Noto Sans CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
+\renewcommand{\arraystretch}{1.15}
+\setlist[itemize]{leftmargin=1.4em,itemsep=0.12em,topsep=0.2em}
+\setlist[enumerate]{leftmargin=1.5em,itemsep=0.12em,topsep=0.2em}
+\newcommand{\tofill}[1]{\textcolor{red!60!black}{〔待填:#1〕}}
+
+\title{\bfseries 猫道抖振图谱与系统预警——章节大纲\\
+\large 三节主干 + 可选第四节 · 具体内容由 Grok Build 按脚手架填充}
+\author{脚手架文件：\texttt{catwalk-fem/true3d-extreme/report/chapter\_outline\_for\_grok.md}}
+\date{2026 年 8 月 28 日}
+
+\begin{document}
+\maketitle
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep}{
+\textbf{使用方式}：本 PDF 是大纲的阅读版；执行版（含每小节【输入/产出/填写指令】
+与文件路径）在同目录 markdown。铁律：数字全部来自工件或规范，禁止编造；
+附件 2--3 只在对照位读取；T 族三栈括弧只引用、不宣布复现。}}
+
+\section{结构基本计算}
+
+\textbf{1.1 模型来源与简化契约}——S10 V2.0 权威源（109{,}086 节点、
+44 根实体索、双步道带、门架索 $+8.5$ m、142 榀门架、21 品横通道、
+塔位 714.5/2995.3 m）$\to$ ccx 约 7k 单元，R1--R7 简化契约 + 质量台账闭合
+（4{,}108.467 t）。收敛档 COARSEN=2 量化 R1/R2 误差。
+
+\textbf{1.2 静力与模态}——NLGEOM 全载荷单增量 + 摄动 100 阶；
+四道 gate（44 索线恒等、台账 $<1\%$、静力收敛、无伪模态）；
+分类观测量 $L/V/T_{\rm cw}/T_{\rm g}$；表 4--1 锁定规则配对；
+与双 MCT / f99 / S10-MAPDL 四栈对照，T 族只对括弧表态。
+
+\textbf{1.3 抖振基本响应}——设计风锚点（苏通桥位实测百年 10-min
+\textbf{38.9 m/s}）下四通道 RMS 沿跨分布；Kaimal + Davenport 相干 +
+气动阻尼 + SRSS + 峰值因子（引擎已落码 \texttt{code/buffeting.py}）；
+与附件 2--3 数字化曲线对照。气动参数回填前一律标"占位气动 v0"。
+
+\section{极端工况与图谱构建（含新方法）}
+
+\textbf{2.1 工况库}——43 项全球极端风（台风/飓风/龙卷/下击暴流/derecho/
+温带/下降风/纪录/规范锚点），统一 $U_{10}$ 口径，A/B/C 置信分级；
+15 项 C 级先复核。
+
+\textbf{2.2 图谱构建新方法：主曲线连续图谱}（方法学贡献）——
+把"逐工况离散表"升级为\textbf{风特征空间 $(U, I_u)$ 上的连续响应曲面}：
+\begin{enumerate}
+  \item 无量纲化：折减频率 $\tilde n_k = n_k L_u/U$、相干数
+        $\chi_k = C n_k L_{\rm ref}/U$；Davenport 背景+共振分解下，
+        联合接受函数 $\hat J_k(\tilde n,\chi)$ 只依赖模态基，
+        \textbf{一次计算存主曲线族}；
+  \item 连续层：任意 $(U,I_u)$ 的四通道响应 = 主曲线插值 +
+        $\zeta_{\rm aero}(U)$ 修正，查询 $O(1)$ 毫秒级——预警系统的实时基础；
+        43 个命名事件退化为曲面上的投影点（事件层）；
+  \item 边界层：曲面叠三条等值线（施工限值、设计值、生存边界
+        =索利用率 1，破断力\tofill{图纸}）+ 平稳性适用域
+        （龙卷/下击暴流域外挂静阵风推覆界）；
+  \item 不确定度带：$C_D D$ 区间 $\times$ $I_u$ 类别 $\times$ 工况置信
+        $\to$ 每点 $[P_{16},P_{84}]$；
+  \item 版本化"活图谱"：v0 占位气动 $\to$ v1 附件校准 $\to$ v2 实测贝叶斯更新。
+\end{enumerate}
+验收：主曲线法对 43 事件点与逐工况直算全量交叉验证，误差 $<5\%$。
+
+\textbf{2.3 图谱产品}——A1 工况$\times$通道热图（锚点归一）；A2 沿跨曲线族；
+A3 生存边界；A4 附件对照；\textbf{A5 连续图谱主图}（$(U,I_u)$ 等值线 +
+三边界线 + 事件点散布，预警系统直接挂载）。
+
+\section{系统预警架构（图谱之后系统怎么判别）}
+
+\textbf{3.1 输入层与状态判别}——10 分钟滑动窗三路判别：
+\begin{enumerate}
+  \item \textbf{风侧（前馈）}：风速仪 $\to (U, I_u, {\rm GF},$ 谱形$)$；
+        先判平稳性（GF$>$\tofill{2.0} 或 Kaimal 谱形检验失败 $\to$
+        非平稳模式查 A3 包络），平稳则查 A5 得四通道预测带 $[P_{16},P_{84}]$；
+  \item \textbf{响应侧（反馈）}：加速度计 RMS（0.02--1 Hz 带通）与预测带比对：
+        带内正常；\textbf{超带只触发异常复核}（结构状态或模型漂移），
+        不直接升级风预警；
+  \item \textbf{预报侧（提前量）}：台风路径 72 h 在图谱上预演，
+        输出"预计 $T{+}xx$ h 达黄/橙"。
+\end{enumerate}
+
+\textbf{3.2 阈值体系与分级动作}
+\begin{center}\small
+\begin{tabular}{lll}
+\toprule
+级 & 触发（任一） & 动作\\
+\midrule
+蓝 & $U$ 达施工作业限值 \tofill{规范停工风速} & 限制作业/系挂\\
+黄 & 预测带 $P_{84}\ge 50\%$ 设计响应 \tofill{附件设计RMS} & 停工、清空猫道\\
+橙 & $\ge 80\%$ 设计响应 或 索利用率$\ge$\tofill{系数} & 全撤、锁定、1-min 加密\\
+红 & 触生存边界或实测强非平稳事件 & 结构应急、禁入、事后检查\\
+\bottomrule
+\end{tabular}
+\end{center}
+阈值未回填出处前"不可上线"。
+
+\textbf{3.3 预警时间线}——72 h 预演 $\to$ 24 h 窗口调度 $\to$ 1--6 h 临近
+$\to$ 10-min 实时 $\to$ 事件中 1-min $\to$ 事后 24 h 复核。
+与张靖皋猫道 2026-09 架设窗口对齐。
+
+\textbf{3.4 活图谱回路}——事件后 $(U,I_u,\sigma_{\rm meas})$ 入库 $\to$
+贝叶斯更新 $C_D D, C_L'$ 后验（先验=附件风洞值）$\to$ 重生成主曲面、
+阈值线联动、版本 $+1$；连续 $N$ 次超带且更新后仍超 $\to$
+转结构核查（预警系统与健康监测的交接面）。
+
+\section*{（可选）第四节 工程落地与验证}
+
+影子运行 3 个月（只记录不动作）$\to$ v2 图谱；指标：命中率/误报率/
+闭环时长/查询延迟；施工阶段推进的图谱换代里程碑（猫道 $\to$ 主缆架设）。
+
+\section*{Grok Build 总执行序}
+
+\begin{enumerate}
+  \item \texttt{bash code/run\_solver.sh}（1.1/1.2 数字）；
+  \item 回填附件气动 + RMS 数字化、破断力、C 级复核；
+  \item \texttt{buffeting.py --scenario site\_sutong\_100yr\_obs}（1.3）；
+  \item 写 \texttt{master\_surface.py} + 交叉验证（2.2）；
+  \item \texttt{sweep\_extreme.py} + \texttt{make\_atlas.py} 完成 A1--A5（2.3）；
+  \item 按大纲成文并回填阈值（第三节），出终稿 PDF。
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,424 @@
+{
+  "kind": "mct_from_zero_sidecar",
+  "not_a_scientific_claim": true,
+  "used_archive_csv_as_new_main": false,
+  "source": {
+    "path": "catwalk-fem/mct-from-zero/source/01_设计资料与规范/猫道 - 门架索合建模型2.mct",
+    "relative": "01_设计资料与规范/猫道 - 门架索合建模型2.mct",
+    "bytes": 448673,
+    "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+    "expected_sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+    "sha256_match": true,
+    "encoding": "GB18030",
+    "product": "MIDAS Civil NX MCT",
+    "version": "9.6.5",
+    "unit_force": "KN",
+    "unit_length": "MM",
+    "gravity_STRUCTYPE": 9806.0,
+    "new_main": false,
+    "from_zero": true,
+    "used_archive_csv_as_source": false
+  },
+  "counts": {
+    "n_nodes": 1125,
+    "n_elems": 1194,
+    "n_TENSTR": 1123,
+    "n_TRUSS": 71,
+    "elem_types": {
+      "TENSTR": 1123,
+      "TRUSS": 71
+    },
+    "elem_mats": {
+      "1": 729,
+      "2": 394,
+      "3": 71
+    },
+    "elem_secs": {
+      "1": 729,
+      "2": 394,
+      "3": 71
+    },
+    "n_iniforce_rows": 1056,
+    "n_iniforce_eids": 1123,
+    "n_iniforce_duplicate_eids": 0,
+    "n_ini_eforce": 1123,
+    "n_equi_mforce": 1123,
+    "n_conload_erqi": 1123,
+    "n_groups": 21
+  },
+  "bbox_mm": {
+    "x_min": 831091.0,
+    "x_max": 5101700.0,
+    "y_min": -2.37289764547357e-12,
+    "y_max": 3.54026939415282e-13,
+    "z_min": 22510.0,
+    "z_max": 350312.000000003,
+    "note": "MCT Y is numerically ~0 (single-line 2-D equivalent). Not the dual-walkway S10 mesh."
+  },
+  "materials": {
+    "1": {
+      "id": 1,
+      "type": "USER",
+      "name": "猫道承重索",
+      "E_kN_per_mm2": 120.0,
+      "nu": 0.3,
+      "den_raw": 1.24031e-07,
+      "line": 2400,
+      "raw": "1, USER , 猫道承重索             , 0, 0, , C, NO, 0, 2,  1.2000e+02,   0.3,  1.2000e-05, 1.24031e-07,     0"
+    },
+    "2": {
+      "id": 2,
+      "type": "USER",
+      "name": "门架承重索",
+      "E_kN_per_mm2": 120.0,
+      "nu": 0.3,
+      "den_raw": 8.432e-08,
+      "line": 2401,
+      "raw": "2, USER , 门架承重索             , 0, 0, , C, NO, 0, 2,  1.2000e+02,   0.3,  1.2000e-05, 8.432e-08,     0"
+    },
+    "3": {
+      "id": 3,
+      "type": "STEEL",
+      "name": "Q235",
+      "E_kN_per_mm2": 206.0,
+      "nu": 0.31,
+      "den_raw": 1e-16,
+      "line": 2402,
+      "raw": "3, STEEL, Q235              , 0, 0, , C, YES, 0.02, 2,  2.0600e+02,  0.31,  1.2000e-05, 1e-16,     0"
+    }
+  },
+  "sections": {
+    "1": {
+      "id": 1,
+      "name": "猫道承重索",
+      "shape": "SR",
+      "data": [
+        168.498,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "area_mm2": 22298.69164950066,
+      "area_formula": "SR solid round A=pi*(D/2)^2 with D=168.498 mm from *SECTION",
+      "line": 2511,
+      "raw": "1, DBUSER    , 猫道承重索             , CC, 0, 0, 0, 0, 0, 0, YES, NO, SR , 2, 168.498, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+    },
+    "2": {
+      "id": 2,
+      "name": "门架承重索",
+      "shape": "SR",
+      "data": [
+        103.436,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "area_mm2": 8402.979737976504,
+      "area_formula": "SR solid round A=pi*(D/2)^2 with D=103.436 mm from *SECTION",
+      "line": 2512,
+      "raw": "2, DBUSER    , 门架承重索             , CC, 0, 0, 0, 0, 0, 0, YES, NO, SR , 2, 103.436, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+    },
+    "3": {
+      "id": 3,
+      "name": "2根B 160x4",
+      "shape": "B",
+      "data": [
+        161.0,
+        161.0,
+        8.0,
+        8.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "area_mm2": 9792.0,
+      "area_formula": "B box A=n*(B*H-(B-2tw)*(H-2tf)) B=161.0 H=161.0 tw=8.0 tf=8.0 n=2.0 from *SECTION name='2根B 160x4'",
+      "line": 2513,
+      "raw": "3, DBUSER    , 2根B 160x4         , CC, 0, 0, 0, 0, 0, 0, YES, NO, B  , 2, 161, 161, 8, 8, 0, 0, 0, 0, 0, 0, NO, 0, NO, 0, 0"
+    }
+  },
+  "prestress_stats_kN": {
+    "INIFORCE_AXIAL": {
+      "n": 1123,
+      "min": 1482.74,
+      "max": 15724.3,
+      "sum": 8946571.59,
+      "mean": 7966.671050756901
+    },
+    "INI-EFORCE_mean": {
+      "n": 1123,
+      "min": 1482.74,
+      "max": 15724.3,
+      "sum": 8946571.54,
+      "mean": 7966.671006233303
+    },
+    "INI-EFORCE_i": {
+      "n": 1123,
+      "min": 1471.51,
+      "max": 15722.7,
+      "sum": 8946580.24,
+      "mean": 7966.67875333927
+    },
+    "INI-EFORCE_j": {
+      "n": 1123,
+      "min": 1493.97,
+      "max": 15725.9,
+      "sum": 8946562.84,
+      "mean": 7966.663259127337
+    }
+  },
+  "mct_internal_force_consistency": {
+    "n_both": 1123,
+    "n_iniforce_only": 0,
+    "n_ini_eforce_only": 0,
+    "abs_rel_iniforce_vs_ini_eforce_mean": {
+      "n": 1123,
+      "min": 0.0,
+      "max": 1.5336482424446935e-05,
+      "sum": 0.003752136636663133,
+      "mean": 3.3411724280170375e-06
+    },
+    "note": "Both columns are from the same .mct. INIFORCE is geometric-stiffness axial; INI-EFORCE is i/j element axial."
+  },
+  "named_cables": {
+    "728": {
+      "elem": {
+        "id": 728,
+        "type": "TENSTR",
+        "mat": 1,
+        "sec": 1,
+        "n1": 729,
+        "n2": 160,
+        "line": 1890
+      },
+      "iniforce_kN": 1482.74,
+      "iniforce_line": 7225,
+      "ini_eforce_i_kN": 1471.51,
+      "ini_eforce_j_kN": 1493.97,
+      "ini_eforce_line": 10118
+    },
+    "729": {
+      "elem": {
+        "id": 729,
+        "type": "TENSTR",
+        "mat": 1,
+        "sec": 1,
+        "n1": 444,
+        "n2": 730,
+        "line": 1891
+      },
+      "iniforce_kN": 1570.17,
+      "iniforce_line": 7578,
+      "ini_eforce_i_kN": 1581.25,
+      "ini_eforce_j_kN": 1559.09,
+      "ini_eforce_line": 10119
+    },
+    "1": {
+      "elem": {
+        "id": 1,
+        "type": "TENSTR",
+        "mat": 1,
+        "sec": 1,
+        "n1": 1,
+        "n2": 2,
+        "line": 1163
+      },
+      "iniforce_kN": 15686.3,
+      "iniforce_line": 8140,
+      "ini_eforce_i_kN": 15649.8,
+      "ini_eforce_j_kN": 15722.7,
+      "ini_eforce_line": 9391
+    },
+    "2": {
+      "elem": {
+        "id": 2,
+        "type": "TENSTR",
+        "mat": 1,
+        "sec": 1,
+        "n1": 2,
+        "n2": 3,
+        "line": 1164
+      },
+      "iniforce_kN": 15724.3,
+      "iniforce_line": 8257,
+      "ini_eforce_i_kN": 15722.7,
+      "ini_eforce_j_kN": 15725.9,
+      "ini_eforce_line": 9392
+    },
+    "4": {
+      "elem": {
+        "id": 4,
+        "type": "TENSTR",
+        "mat": 1,
+        "sec": 1,
+        "n1": 4,
+        "n2": 5,
+        "line": 1166
+      },
+      "iniforce_kN": 12209.3,
+      "iniforce_line": 7206,
+      "ini_eforce_i_kN": 12206.4,
+      "ini_eforce_j_kN": 12212.2,
+      "ini_eforce_line": 9394
+    }
+  },
+  "group_counts": {
+    "0": {
+      "n_nodes": 0,
+      "n_elems": 0
+    },
+    "大横梁": {
+      "n_nodes": 0,
+      "n_elems": 0
+    },
+    "滚筒": {
+      "n_nodes": 0,
+      "n_elems": 0
+    },
+    "ZJG04_bcs": {
+      "n_nodes": 0,
+      "n_elems": 727
+    },
+    "节点组": {
+      "n_nodes": 717,
+      "n_elems": 0
+    },
+    "垂点组": {
+      "n_nodes": 3,
+      "n_elems": 0
+    },
+    "一次成桥": {
+      "n_nodes": 1125,
+      "n_elems": 1194
+    },
+    "横向通道节点": {
+      "n_nodes": 21,
+      "n_elems": 0
+    },
+    "钢架节点": {
+      "n_nodes": 8,
+      "n_elems": 0
+    },
+    "索验算": {
+      "n_nodes": 720,
+      "n_elems": 719
+    },
+    "门架索": {
+      "n_nodes": 395,
+      "n_elems": 394
+    },
+    "门架": {
+      "n_nodes": 0,
+      "n_elems": 71
+    },
+    "猫道索加载单位": {
+      "n_nodes": 728,
+      "n_elems": 727
+    },
+    "北边跨": {
+      "n_nodes": 150,
+      "n_elems": 149
+    },
+    "主跨": {
+      "n_nodes": 296,
+      "n_elems": 295
+    },
+    "南边跨": {
+      "n_nodes": 161,
+      "n_elems": 160
+    },
+    "南辅跨": {
+      "n_nodes": 116,
+      "n_elems": 115
+    },
+    "门架索北边跨": {
+      "n_nodes": 65,
+      "n_elems": 64
+    },
+    "门架索主跨": {
+      "n_nodes": 217,
+      "n_elems": 216
+    },
+    "门架索南边跨": {
+      "n_nodes": 68,
+      "n_elems": 67
+    },
+    "门架索南辅跨": {
+      "n_nodes": 48,
+      "n_elems": 47
+    }
+  },
+  "constraints": [
+    {
+      "nodes": [
+        1,
+        154,
+        450,
+        728,
+        729,
+        730,
+        1001,
+        1066,
+        1280,
+        1395
+      ],
+      "dof": "111000",
+      "name": "一次成桥",
+      "line": 2639
+    },
+    {
+      "nodes": [
+        3,
+        6,
+        157,
+        447,
+        608,
+        723,
+        726,
+        1003,
+        1063,
+        1283,
+        1347,
+        1393
+      ],
+      "dof": "011000",
+      "name": "一次成桥",
+      "line": 2640
+    }
+  ],
+  "selfweight": {
+    "gx": 0.0,
+    "gy": 0.0,
+    "gz": -1.0,
+    "group": "自重",
+    "line": 2646
+  },
+  "conload_erqi_stats_kN": {
+    "n": 1123,
+    "n_nonzero_fz": 764,
+    "fz": {
+      "n": 1123,
+      "min": -70.12,
+      "max": -1e-06,
+      "sum": -4725.567874,
+      "mean": -4.2079856402493325
+    }
+  },
+  "tenstr_without_iniforce": [],
+  "tenstr_without_ini_eforce": []
+}

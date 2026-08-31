@@ -1,0 +1,46 @@
+{
+  "site": {
+    "name": "Zhangjinggao Yangtze bridge, south channel catwalk",
+    "z_deck_m": 60.0,
+    "z0_m": 0.003,
+    "rho_air": 1.225,
+    "kappa": 0.4,
+    "profile": "log",
+    "anchor_design_wind_U10": 38.9,
+    "anchor_source": "Sutong bridge site observational study (100-yr, 10-min); same reach"
+  },
+  "turbulence": {
+    "model": "kaimal",
+    "Lu_m": 120.0,
+    "Lw_m": 60.0,
+    "sigma_w_over_sigma_u": 0.5,
+    "coherence": {"model": "davenport_exp", "Cy_lateral": 8.0, "Cz_vertical": 8.0},
+    "note": "Iu per scenario from extreme_weather_library.json; sigma_u = Iu * U(z_ref=10m) scaled to deck by log profile"
+  },
+  "aero": {
+    "note": "Filled from artifacts/attach23_extract.json (附件2-3 表3-1). Modeling/solver scripts do not import the extract; this file is the only site-fill consumer.",
+    "placeholder_values_used_if_missing": false,
+    "source_extract": "artifacts/attach23_extract.json",
+    "catwalk_per_band": {
+      "Cd_D_m": 0.39453675,
+      "dCl_dalpha_B_m": 0.5589,
+      "reference": "附件2-3 表3-1 α=0: CD=0.526049, H_proto=1.5 m → Cd*H=0.7890735 m for the full section; two walkway bands split equally. Cl'≈0.207 /rad from CL(-3°…+3°); Cl'*B_proto=1.1178 m, per band 0.5589 m"
+    },
+    "gantry_rope_line": {"Cd": 1.0, "D_m": 0.20},
+    "downpull": {"Cd": 1.2, "D_m": 0.17}
+  },
+  "structure": {
+    "zeta_structural": 0.005,
+    "rope_break_force_kN_per_bearing_rope": 2380.0,
+    "rope_break_note": "附件2-3 正文（表5-4 附近）：φ50 CFRC8×36WS+IWRC 单根破断力 2380 kN",
+    "modal_basis_file": "artifacts/modal_basis.npz",
+    "n_modes_use": 60
+  },
+  "response_channels": ["L_lateral", "V_vertical", "T_torsion_per_catwalk", "T_torsion_global"],
+  "outputs": {
+    "rms_along_span_csv": "artifacts/buffeting_rms_alongspan_{scenario}.csv",
+    "sweep_table": "artifacts/extreme_sweep_responses.csv",
+    "atlas_dir": "artifacts/atlas/"
+  },
+  "peak_factor": {"T_s": 600.0, "formula": "davenport g=sqrt(2 ln(nu T))+0.5772/sqrt(2 ln(nu T))"}
+}

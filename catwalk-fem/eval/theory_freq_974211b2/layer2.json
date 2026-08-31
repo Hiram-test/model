@@ -1,0 +1,348 @@
+{
+  "layer": 2,
+  "title": "dual MCT: floor TENSTR + portal TENSTR + discrete portals",
+  "assumptions": [
+    "Two continuous lines in one vertical plane: MAT1 floor bundle + MAT2 6×φ50 portal ropes.",
+    "T and μ from locked 主跨 INIFORCE means and main-deck ρA.",
+    "71 / 41 portals are axial connectors, h=8.0 m (overlay floor z_min 113.3 vs portal 121.3).",
+    "MAT3 density is ~0, so portal-frame mass is not in the CCX inertia.",
+    "In-phase rigid connector recovers one equivalent cable with T_sum, μ_sum.",
+    "Optical (floor vs portal) uses the 41 main-span stations and EA/h of the B31 posts.",
+    "Y=0 plane: no two-deck torsion, no lateral passages as springs."
+  ],
+  "inputs": {
+    "L_m": 2302.0,
+    "T_floor_kN": 10431.682050847458,
+    "T_portal_kN": 3193.636574074074,
+    "mu_floor_kg_m": 282.044570937506,
+    "mu_portal_kg_m": 72.25568511516389,
+    "c_floor_m_s": 192.3172758369594,
+    "c_portal_m_s": 210.23583057553896,
+    "c_inphase_m_s": 196.1045184489807,
+    "beta_Tp_over_Tf_wave": 1.1950246750096962,
+    "h_portal_m": 8.0,
+    "k_one_portal_N_m": 252144000.0,
+    "n_main_portals": 41,
+    "H_sag_floor_kN": 8059.922190670938,
+    "H_sag_portal_kN": 2049.4017844910086
+  },
+  "formulas": {
+    "uncoupled": "each line f_n = n/(2L) √(T/μ)",
+    "inphase": "f_n = n/(2L) √((T_f+T_p)/(μ_f+μ_p))",
+    "optical": "K = diag(T k_n²)+k_eq[[1,-1],[-1,1]],  k_eq=Σ k sin²(nπx/L)",
+    "k_portal": "k = (EA)_B31 / h,  h=8 m"
+  },
+  "inphase_irvine": {
+    "c_m_s": 196.1045184489807,
+    "f_taut_Hz": 0.04259437846415741,
+    "lambda2": 156.51185321937837,
+    "Le_over_L": 1.0779970576713032,
+    "crossover_4pi2": 39.47841760435743,
+    "lambda2_above_crossover": true,
+    "symmetric": [
+      {
+        "index": 1,
+        "Omega": 8.594602501326854,
+        "f_Hz": 0.11652744071456894,
+        "f_over_ftaut": 2.7357469439922735
+      }
+    ],
+    "antisymmetric": [
+      {
+        "index": 1,
+        "Omega": 6.283185307179586,
+        "f_Hz": 0.08518875692831482,
+        "f_over_ftaut": 2.0
+      },
+      {
+        "index": 2,
+        "Omega": 12.566370614359172,
+        "f_Hz": 0.17037751385662964,
+        "f_over_ftaut": 4.0
+      },
+      {
+        "index": 3,
+        "Omega": 18.84955592153876,
+        "f_Hz": 0.2555662707849445,
+        "f_over_ftaut": 6.0
+      }
+    ],
+    "first_inplane_Hz": 0.08518875692831482,
+    "formula_sym": "tan(Ω/2) = Ω/2 − 4/λ² (Ω/2)³,  Ω = ωL/√(H/μ)",
+    "formula_antisym": "f = n/L √(H/μ) = 2n f_taut,  n = 1,2,…"
+  },
+  "optical_harmonics": [
+    {
+      "f_low_Hz": 0.04259437952713982,
+      "f_high_Hz": 1557.321451504154,
+      "k_eq_N_m": 5507247185.27976,
+      "n": 1,
+      "n_portals": 41
+    },
+    {
+      "f_low_Hz": 0.08518875683890034,
+      "f_high_Hz": 1523.2378208041819,
+      "k_eq_N_m": 5268821256.193733,
+      "n": 2,
+      "n_portals": 41
+    },
+    {
+      "f_low_Hz": 0.1277831348891206,
+      "f_high_Hz": 1525.9630012551577,
+      "k_eq_N_m": 5287690687.199957,
+      "n": 3,
+      "n_portals": 41
+    },
+    {
+      "f_low_Hz": 0.17037751423164552,
+      "f_high_Hz": 1537.9906843826823,
+      "k_eq_N_m": 5371374613.089737,
+      "n": 4,
+      "n_portals": 41
+    }
+  ],
+  "compare_rows": [
+    {
+      "name": "floor_only_n1",
+      "f_Hz": 0.04177178015572532,
+      "formula": "(1/2L)√(T_f/μ_f)",
+      "vs_att_0.0296": {
+        "abs": 0.012171780155725322,
+        "rel": 0.41120878904477437
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09176851984427467,
+        "rel": -0.687197196983043
+      }
+    },
+    {
+      "name": "portal_only_n1",
+      "f_Hz": 0.04566373383482601,
+      "formula": "(1/2L)√(T_p/μ_p)",
+      "vs_att_0.0296": {
+        "abs": 0.01606373383482601,
+        "rel": 0.5426937106360138
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.08787656616517399,
+        "rel": -0.6580527838051434
+      }
+    },
+    {
+      "name": "inphase_rigid_n1",
+      "f_Hz": 0.04259437846415741,
+      "formula": "(1/2L)√((T_f+T_p)/(μ_f+μ_p))",
+      "vs_att_0.0296": {
+        "abs": 0.012994378464157408,
+        "rel": 0.4389992724377502
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09094592153584259,
+        "rel": -0.6810372714142666
+      }
+    },
+    {
+      "name": "inphase_rigid_n3",
+      "f_Hz": 0.12778313539247224,
+      "formula": "3 × in-phase taut",
+      "vs_att_0.0296": {
+        "abs": 0.09818313539247224,
+        "rel": 3.316997817313251
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.005757164607527759,
+        "rel": -0.043111814242799806
+      }
+    },
+    {
+      "name": "inphase_irvine_antisym1",
+      "f_Hz": 0.08518875692831482,
+      "formula": "2 f_inphase",
+      "vs_att_0.0296": {
+        "abs": 0.05558875692831482,
+        "rel": 1.8779985448755006
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.04835154307168518,
+        "rel": -0.3620745428285333
+      }
+    },
+    {
+      "name": "inphase_irvine_sym1",
+      "f_Hz": 0.11652744071456894,
+      "formula": "Irvine symmetric of the locked pair",
+      "vs_att_0.0296": {
+        "abs": 0.08692744071456894,
+        "rel": 2.9367378619786804
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.01701285928543106,
+        "rel": -0.12739869002414297
+      }
+    },
+    {
+      "name": "inphase_irvine_first",
+      "f_Hz": 0.08518875692831482,
+      "formula": "min of the in-phase Irvine pair",
+      "vs_att_0.0296": {
+        "abs": 0.05558875692831482,
+        "rel": 1.8779985448755006
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.04835154307168518,
+        "rel": -0.3620745428285333
+      }
+    },
+    {
+      "name": "optical_n1_low",
+      "f_Hz": 0.04259437952713982,
+      "formula": "2-DOF in-phase-ish with 41 axial posts",
+      "vs_att_0.0296": {
+        "abs": 0.012994379527139818,
+        "rel": 0.43899930834931816
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.09094592047286018,
+        "rel": -0.6810372634542545
+      }
+    },
+    {
+      "name": "optical_n1_high",
+      "f_Hz": 1557.321451504154,
+      "formula": "2-DOF floor-vs-portal (optical)",
+      "vs_att_0.0296": {
+        "abs": 1557.291851504154,
+        "rel": 52611.21119946466
+      },
+      "vs_ccx_0.1335403": {
+        "abs": 1557.187911204154,
+        "rel": 11660.808843503826
+      }
+    },
+    {
+      "name": "optical_n2_low",
+      "f_Hz": 0.08518875683890034,
+      "formula": "2-DOF in-phase-ish with 41 axial posts",
+      "vs_att_0.0296": {
+        "abs": 0.05558875683890034,
+        "rel": 1.8779985418547411
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.04835154316109966,
+        "rel": -0.36207454349810253
+      }
+    },
+    {
+      "name": "optical_n2_high",
+      "f_Hz": 1523.2378208041819,
+      "formula": "2-DOF floor-vs-portal (optical)",
+      "vs_att_0.0296": {
+        "abs": 1523.2082208041818,
+        "rel": 51459.737189330466
+      },
+      "vs_ccx_0.1335403": {
+        "abs": 1523.1042805041818,
+        "rel": 11405.577795648069
+      }
+    },
+    {
+      "name": "optical_n3_low",
+      "f_Hz": 0.1277831348891206,
+      "formula": "2-DOF in-phase-ish with 41 axial posts",
+      "vs_att_0.0296": {
+        "abs": 0.0981831348891206,
+        "rel": 3.3169978003081284
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.0057571651108793975,
+        "rel": -0.04311181801208622
+      }
+    },
+    {
+      "name": "optical_n3_high",
+      "f_Hz": 1525.9630012551577,
+      "formula": "2-DOF floor-vs-portal (optical)",
+      "vs_att_0.0296": {
+        "abs": 1525.9334012551576,
+        "rel": 51551.80409645802
+      },
+      "vs_ccx_0.1335403": {
+        "abs": 1525.8294609551576,
+        "rel": 11425.984971990909
+      }
+    },
+    {
+      "name": "optical_n4_low",
+      "f_Hz": 0.17037751423164552,
+      "formula": "2-DOF in-phase-ish with 41 axial posts",
+      "vs_att_0.0296": {
+        "abs": 0.14077751423164553,
+        "rel": 4.755997102420457
+      },
+      "vs_ccx_0.1335403": {
+        "abs": 0.036837214231645515,
+        "rel": 0.2758509171511934
+      }
+    },
+    {
+      "name": "optical_n4_high",
+      "f_Hz": 1537.9906843826823,
+      "formula": "2-DOF floor-vs-portal (optical)",
+      "vs_att_0.0296": {
+        "abs": 1537.9610843826822,
+        "rel": 51958.14474265818
+      },
+      "vs_ccx_0.1335403": {
+        "abs": 1537.8571440826822,
+        "rel": 11516.052787680439
+      }
+    },
+    {
+      "name": "south_span_floor_n1",
+      "f_Hz": 0.13285712747545675,
+      "formula": "南边跨 taut, locked T_floor / μ_floor",
+      "vs_att_0.0296": {
+        "abs": 0.10325712747545675,
+        "rel": 3.4884164687654304
+      },
+      "vs_ccx_0.1335403": {
+        "abs": -0.0006831725245432518,
+        "rel": -0.00511585285148567
+      }
+    },
+    {
+      "name": "south_span_inphase_n1",
+      "f_Hz": 0.1357245950314294,
+      "formula": "南边跨 taut, T_sum / μ_sum",
+      "vs_att_0.0296": {
+        "abs": 0.10612459503142939,
+        "rel": 3.585290372683425
+      },
+      "vs_ccx_0.1335403": {
+        "abs": 0.0021842950314293896,
+        "rel": 0.01635682285743996
+      }
+    },
+    {
+      "name": "north_span_floor_n1",
+      "f_Hz": 0.15167409952699595,
+      "formula": "北边跨 taut, locked T_floor / μ_floor",
+      "vs_att_0.0296": {
+        "abs": 0.12207409952699595,
+        "rel": 4.124124984020133
+      },
+      "vs_ccx_0.1335403": {
+        "abs": 0.018133799526995953,
+        "rel": 0.13579271221493402
+      }
+    }
+  ],
+  "self_judge": {
+    "nearest_att_0.0296": "floor_only_n1",
+    "nearest_ccx_0.1335403": "south_span_floor_n1",
+    "optical_is_out_of_band": true,
+    "approaches_attachment_pair": "in-phase n=1 remains ~0.043 Hz; still the 0.03-order band, not a hit",
+    "approaches_ccx_f1": "南边跨 taut n=1 sits on 0.1335; main-span in-phase n=3 and Irvine sym1 are the other neighbours",
+    "does_not_claim_符合": true
+  }
+}

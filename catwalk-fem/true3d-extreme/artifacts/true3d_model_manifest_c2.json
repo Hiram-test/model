@@ -1,0 +1,103 @@
+{
+ "deck_sha256": "22cd9e2674724aeb860afb0f9359c1205522c1eaabc49f19bdbb656b1a304748",
+ "grid_stations": 1137,
+ "coarsen": 2,
+ "groups": {
+  "MIB": {
+   "n_ropes": 8,
+   "y_eq_m": -19.69,
+   "A_eq_mm2": 11149.35
+  },
+  "MIG": {
+   "n_ropes": 3,
+   "y_eq_m": -19.5,
+   "A_eq_mm2": 4201.49
+  },
+  "MOB": {
+   "n_ropes": 8,
+   "y_eq_m": -23.21,
+   "A_eq_mm2": 11149.35
+  },
+  "MOG": {
+   "n_ropes": 3,
+   "y_eq_m": -23.4,
+   "A_eq_mm2": 4201.49
+  },
+  "PIB": {
+   "n_ropes": 8,
+   "y_eq_m": 19.69,
+   "A_eq_mm2": 11149.35
+  },
+  "PIG": {
+   "n_ropes": 3,
+   "y_eq_m": 19.5,
+   "A_eq_mm2": 4201.49
+  },
+  "POB": {
+   "n_ropes": 8,
+   "y_eq_m": 23.21,
+   "A_eq_mm2": 11149.35
+  },
+  "POG": {
+   "n_ropes": 3,
+   "y_eq_m": 23.4,
+   "A_eq_mm2": 4201.49
+  }
+ },
+ "elements": {
+  "E_ROPE_MIB": 1134,
+  "E_ROPE_MIG": 1136,
+  "E_ROPE_MOB": 1134,
+  "E_ROPE_MOG": 1136,
+  "E_ROPE_PIB": 1134,
+  "E_ROPE_PIG": 1136,
+  "E_ROPE_POB": 1134,
+  "E_ROPE_POG": 1136,
+  "E_DOWNPULL": 4,
+  "E_GATE_BOT": 142,
+  "E_GATE_POST": 284,
+  "E_GATE_TOP": 142,
+  "E_CROSS": 2258,
+  "E_PASS": 105
+ },
+ "elements_total": 12015,
+ "nodes_total": 9138,
+ "portals": 142,
+ "passages": 21,
+ "passages_raw_x_stations": 63,
+ "passages_cluster_gap_mm": 5000.0,
+ "passages_note": "R5: 21 equivalent beams from 63 sec-63 x-stations clustered at 5000 mm",
+ "ic_elements": 9084,
+ "boundary_nodes": 84,
+ "boundary_uy_nodes": 84,
+ "boundary_uy_frac": 0.009192383453709783,
+ "uy_gate": {
+  "rule": "UY only at S10-mapped supports; forbid all-mesh UY=0",
+  "uy_frac_max": 0.05,
+  "uy_frac": 0.009192383453709783,
+  "pass": true
+ },
+ "equations": 24,
+ "density_bins": 863,
+ "mass_ledger_t": {
+  "rope_base": 3132.0670084742624,
+  "downpull_base": 12.587823865299379,
+  "mass21_folded": 963.8113807872732,
+  "total": 4108.466213126835,
+  "s10_reference": 4108.46690758
+ },
+ "dropped_F_loads": {
+  "n": 23028,
+  "sum_kN": -9451.1344,
+  "reason": "sum(F)/g == sum(MASS21) exactly; folded densities carry weight"
+ },
+ "simplifications": [
+  "R1 band-merge 8/3 ropes",
+  "R2 coarsen x4 (~7.9 m)",
+  "R3 parametric portals shared-node",
+  "R4 smeared crossrows",
+  "R5 passage 2-chord equivalent beam",
+  "R6 MASS21->density bins",
+  "R7 ROTY file skipped"
+ ]
+}
