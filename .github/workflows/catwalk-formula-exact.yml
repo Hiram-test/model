@@ -21,13 +21,15 @@ jobs:
         run: |
           set -euxo pipefail
           mkdir -p /tmp/formula-exact-v4
-          cp -f formula_exact_v4_log.txt /tmp/formula-exact-v4/
+          cp -f formula_exact_v4_log.txt /tmp/formula-exact-v4/ || true
           cp -f catwalk-theory/formula-exact/results_v4/*.csv /tmp/formula-exact-v4/ || true
           cp -f catwalk-theory/formula-exact/results_v4/*.json /tmp/formula-exact-v4/ || true
+          cp -f catwalk-theory/formula-exact/FORMULA_EXACT.bound.md /tmp/formula-exact-v4/BOUND.md
+          cp -f catwalk-theory/formula-exact/case.txt /tmp/formula-exact-v4/case.txt
           printf '%s\n' "${GITHUB_SHA}" > /tmp/formula-exact-v4/GITHUB_COMMIT.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: catwalk-formula-exact-v4-results
+          name: catwalk-formula-exact-v4-boundary
           path: /tmp/formula-exact-v4/
-          if-no-files-found: error
+          if-no-files-found: warn
