@@ -1,5 +1,5 @@
-# Recover the exact historical explicit-height Track A entity-model artifact before any reconstruction.
-name: Recover exact historical C3 TrackA artifact
+# Recover a prior Actions artifact by structural+numerical fingerprint. Not human APDL. Not attach TA1.
+name: Recover exact historical C3 TrackA artifact # Recovery-only; human_apdl=false; frequency_reproduced=false; 0.09956064 is not attach TA1; green JSON is not a found model.
 on:
   push:
     branches: [agent/c3-tracka-direct-main13-20260831]
@@ -14,6 +14,9 @@ jobs:
     env:
       C3_PARTS: catwalk-fem/c0-c5-reproduction/release_parts/c3_ft14
       C3_SHA: 667c504770b99d4a3c484a114e16bb7c048c883d3a004f3e10dd71536f33dc86
+      RECOVERY_FREQ_1: "0.09956064" # Prior-run fingerprint only; NOT attach TA1 0.0996; frequency_reproduced=false.
+      RECOVERY_FREQ_2: "0.1111595" # Prior-run fingerprint only; not an attachment target.
+      RECOVERY_FREQ_3: "0.1636203" # Prior-run fingerprint only; not an attachment target.
     steps:
       - name: Checkout exact rescue branch
         uses: actions/checkout@v4
@@ -225,7 +228,7 @@ jobs:
                               dat_payloads.append((dat_name, frequencies, dat_bytes))  # Preserve name roots and exact bytes.
                           best_dat = max(dat_payloads, key=lambda item: len(item[1]), default=('', [], b''))  # Select the DAT with the most parsed roots.
                           frequencies = best_dat[1]  # Select the candidate solver-order roots.
-                          numerical_fingerprint = all(any(abs(value - target) <= 5.0e-6 for value in frequencies) for target in (0.09956064, 0.1111595, 0.1636203))  # Test the known three-root historical fingerprint.
+                          numerical_fingerprint = all(any(abs(value - target) <= 5.0e-6 for value in frequencies) for target in (0.09956064, 0.1111595, 0.1636203))  # Prior-run search key only; 0.09956064 is not attach TA1 0.0996.
                           job_finished = False  # Initialize native-completion evidence.
                           for stdout_name in stdout_names:  # Inspect every candidate solver log.
                               if 'Job finished' in archive.read(stdout_name).decode('ascii', errors='ignore'):  # Detect complete native termination.
@@ -249,15 +252,32 @@ jobs:
                   audits.append({'artifact_id': artifact_id, 'artifact_name': artifact.get('name'), 'created_at': artifact.get('created_at'), 'download_or_parse_error': f'{type(error).__name__}: {error}', 'score': 10_000})  # Publish the bounded failure record.
           audits.sort(key=lambda item: (int(item.get('score', 10_000)), str(item.get('created_at', ''))), reverse=False)  # Rank the complete candidate table deterministically.
           exact_records.sort(key=lambda item: str(item.get('created_at', '')), reverse=True)  # Prefer the newest exact completed candidate.
-          result = {'repository': REPOSITORY, 'parent_node_count': len(parent_nodes), 'parent_element_count': len(parent_elements), 'parent_equation_count': len(parent_equations), 'artifact_count': len(pages), 'filtered_artifact_count': len(candidates), 'downloaded_limit': min(len(candidates), 120), 'exact_found': bool(exact_records), 'selected': exact_records[0] if exact_records else None, 'exact_records': exact_records, 'ranked_candidates': audits[:200]}  # Build the complete rescue result.
+          result = {'repository': REPOSITORY, 'parent_node_count': len(parent_nodes), 'parent_element_count': len(parent_elements), 'parent_equation_count': len(parent_equations), 'artifact_count': len(pages), 'filtered_artifact_count': len(candidates), 'downloaded_limit': min(len(candidates), 120), 'exact_found': bool(exact_records), 'selected': exact_records[0] if exact_records else None, 'exact_records': exact_records, 'ranked_candidates': audits[:200], 'human_apdl': False, 'frequency_reproduced': False, 'not_attach_ta1': True, 'not_undisclosed_human_apdl': True, 'source': 'agent_constructed_hypothesized_command_path', 'fingerprint_0_09956064_is_not_attach_ta1': True, 'green_json_is_not_a_found_model': not bool(exact_records)}  # Build the complete rescue result. Flags stay false even if a prior-run deck is copied.
           (OUTPUT / 'C3_TRACKA_ARTIFACT_RESCUE.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')  # Publish the machine-readable rescue audit.
           print(json.dumps({'exact_found': result['exact_found'], 'selected': result['selected'], 'best_candidates': audits[:10]}, ensure_ascii=False, indent=2))  # Print a compact result to the Actions log.
           PY
           python3 rescue_artifacts.py
+      - name: Stamp recovery boundary
+        if: always()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p rescue/output
+          printf '%s\n' \
+            'human_apdl=false' \
+            'frequency_reproduced=false' \
+            'not_attach_ta1=true' \
+            'not_undisclosed_human_apdl=true' \
+            'source=agent_constructed_hypothesized_command_path' \
+            'fingerprint_0.09956064_is_not_attach_ta1=true' \
+            'green_json_is_not_a_found_model=true' \
+            'do_not_label_C3_M3_as_TA1=true' \
+            > rescue/output/case.txt
       - name: Upload exact rescue evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: C3-TrackA-exact-artifact-rescue
+          name: C3-TrackA-exact-artifact-rescue-boundary
           path: rescue/output
           if-no-files-found: error
           retention-days: 30
