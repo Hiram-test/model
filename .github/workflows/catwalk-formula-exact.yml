@@ -15,19 +15,19 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install numpy scipy
-      - run: python catwalk-theory/formula-exact/solve_formula_exact.py | tee formula_exact_results.txt
-      - name: Stamp boundary evidence
+      - run: python catwalk-theory/formula-exact/solve_formula_exact_v4.py | tee formula_exact_v4_log.txt
+      - name: Collect repaired results
         if: always()
         run: |
           set -euxo pipefail
-          mkdir -p /tmp/formula-exact-delivery
-          cp -f formula_exact_results.txt /tmp/formula-exact-delivery/formula_exact_results.txt || true
-          cp -f catwalk-theory/formula-exact/FORMULA_EXACT.bound.md /tmp/formula-exact-delivery/BOUND.md
-          cp -f catwalk-theory/formula-exact/case.txt /tmp/formula-exact-delivery/case.txt
-          printf '%s\n' "${GITHUB_SHA}" > /tmp/formula-exact-delivery/GITHUB_COMMIT.txt
+          mkdir -p /tmp/formula-exact-v4
+          cp -f formula_exact_v4_log.txt /tmp/formula-exact-v4/
+          cp -f catwalk-theory/formula-exact/results_v4/*.csv /tmp/formula-exact-v4/ || true
+          cp -f catwalk-theory/formula-exact/results_v4/*.json /tmp/formula-exact-v4/ || true
+          printf '%s\n' "${GITHUB_SHA}" > /tmp/formula-exact-v4/GITHUB_COMMIT.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: catwalk-formula-exact-boundary
-          path: /tmp/formula-exact-delivery/
-          if-no-files-found: warn
+          name: catwalk-formula-exact-v4-results
+          path: /tmp/formula-exact-v4/
+          if-no-files-found: error
