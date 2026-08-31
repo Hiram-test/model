@@ -1,75 +1,65 @@
-name: Clean catwalk 44-cable topology diagnostic  # Inspect-only until solve_clean_model.py exists; not a 14-mode table.
-on:  # Define workflow activation conditions.
-  push:  # Run whenever the clean-model source changes on its isolated branch.
-    branches:  # Restrict execution to the isolated calculation branch.
-      - feat/catwalk-clean-theory-14modes  # Select the dedicated clean-model branch.
-    paths:  # Restrict push activation to calculation source files.
-      - 'catwalk-theory/clean-44cable-modal/*.py'  # Watch Python calculation and diagnostic sources.
-      - '.github/workflows/catwalk-clean-theory-14modes.yml'  # Watch this workflow definition.
-  workflow_dispatch:  # Permit an explicit manual rerun without changing model inputs.
-permissions:  # Declare the minimum repository permissions required by this workflow.
-  contents: write  # Allow the workflow to commit deterministic calculation artifacts.
-jobs:  # Define the workflow jobs.
-  inspect:  # Topology diagnostic only; solver and comparison stay optional and separate.
-    runs-on: ubuntu-24.04  # Use a current deterministic Linux runner.
-    timeout-minutes: 60  # Bound the calculation runtime without changing the numerical model.
-    steps:  # Define the ordered job steps.
-      - name: Check out isolated calculation branch  # Retrieve the exact committed source state.
-        uses: actions/checkout@v4  # Use the official repository checkout action.
-        with:  # Configure the checkout action.
-          ref: feat/catwalk-clean-theory-14modes  # Check out the dedicated clean-model branch.
-          fetch-depth: 1  # Fetch only the committed state needed for this run.
-      - name: Set up Python  # Install the requested Python runtime.
-        uses: actions/setup-python@v5  # Use the official Python setup action.
-        with:  # Configure the Python runtime.
-          python-version: '3.12'  # Use Python 3.12 for the model scripts.
-      - name: Install numerical and reporting dependencies  # Install only explicit open-source runtime dependencies.
-        run: python -m pip install --upgrade pip numpy scipy matplotlib reportlab  # Install the sparse solver and deterministic report stack.
-      - name: Inspect geometry-only MCT topology  # Verify cable chains, portal links, passages, and supports before solving.
-        run: python catwalk-theory/clean-44cable-modal/inspect_clean_input.py  # Execute the hash-checked topology diagnostic.
-      - name: Run clean 44-cable modal solver when present  # Execute the complete solver after it has been committed.
-        run: |  # Start a conditional shell block.
-          if [ -f catwalk-theory/clean-44cable-modal/solve_clean_model.py ]; then  # Check whether the solver source exists.
-            python catwalk-theory/clean-44cable-modal/solve_clean_model.py  # Run geometry inversion, matrix assembly, eigenanalysis, and classification.
-          fi  # End the solver-source condition.
-      - name: Compare frozen modes with the external fourteen-mode table when present  # Keep benchmark comparison separate from model construction.
-        run: |  # Start a conditional comparison block.
-          if [ -f catwalk-theory/clean-44cable-modal/compare_after_freeze.py ]; then  # Check whether the post-freeze comparison source exists.
-            python catwalk-theory/clean-44cable-modal/compare_after_freeze.py  # Run the benchmark-only comparison after freezing the calculated modes.
-          fi  # End the comparison-source condition.
-      - name: Commit deterministic artifacts  # Persist diagnostics and calculation products on the isolated branch.
-        run: |  # Start the artifact commit shell block.
-          git config user.name 'github-actions[bot]'  # Configure the standard Actions commit identity.
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'  # Configure the standard Actions email identity.
-          git add catwalk-theory/clean-44cable-modal/artifacts  # Stage only deterministic calculation artifacts.
-          if ! git diff --cached --quiet; then  # Check whether this run produced changed artifacts.
-            git commit -m 'Record clean catwalk calculation artifacts [skip ci]'  # Commit outputs without recursively starting another run.
-            git push origin HEAD:feat/catwalk-clean-theory-14modes  # Push the exact output commit to the isolated branch.
-          fi  # End the changed-artifact condition.
-      - name: Copy source and parser into the transient artifact directory  # After the git commit so copies are zip-only.
-        run: |
-          cp 'catwalk-fem/mct-from-zero/source/01_设计资料与规范/猫道 - 门架索合建模型2.mct' 'catwalk-theory/clean-44cable-modal/artifacts/source_geometry.mct'
-          cp 'catwalk-fem/mct-from-zero/parse_mct.py' 'catwalk-theory/clean-44cable-modal/artifacts/parse_mct.py'
-          python3 << 'PY'
-          import hashlib
-          want = {
-              "source_geometry.mct": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
-              "parse_mct.py": "919632663922fd86335c2434cac92b8d1127d2fb21d5d15c9f61cf85e1f7c69b",
-          }
-          base = "catwalk-theory/clean-44cable-modal/artifacts"
-          for name, exp in want.items():
-              digest = hashlib.sha256(open(f"{base}/{name}", "rb").read()).hexdigest()
-              assert digest == exp, (name, digest)
-              print(name, digest)
-          PY
-          echo 'kind=mct_topology_diagnostic_only' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
-          echo 'source_geometry_sha256=0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
-          echo 'parse_mct_sha256=919632663922fd86335c2434cac92b8d1127d2fb21d5d15c9f61cf85e1f7c69b' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
-          echo 'frequency_reproduced=false' >> catwalk-theory/clean-44cable-modal/artifacts/case.txt
-      - name: Upload topology diagnostic package  # Preserve diagnostics, parser, and the exact geometry-only source for independent review.
-        uses: actions/upload-artifact@v4  # Use the official artifact upload action.
-        with:  # Configure the uploaded diagnostic package.
-          name: clean-catwalk-44cable-topology-diagnostic-boundary  # Name the package as inspect-only.
-          path: catwalk-theory/clean-44cable-modal/artifacts  # Upload the complete transient diagnostic directory.
-          if-no-files-found: error  # Fail rather than silently publish an empty result package.
-          compression-level: 6  # Use balanced deterministic ZIP compression.
+name: Clean Catwalk Fourteen Modes # Dedicated workflow for the clean theoretical catwalk solve.
+on: # Define only branch-scoped triggers for this calculation.
+  push: # Recompute when the dedicated solver or this workflow changes.
+    branches: [feat/catwalk-clean-theory-14modes] # Restrict execution to the clean-theory branch.
+    paths: # Restrict triggering paths to the isolated calculation package.
+      - "catwalk-fem/clean-theory-14modes/**" # Trigger for solver and comparison changes.
+      - ".github/workflows/catwalk-clean-theory-14modes.yml" # Trigger when this workflow is revised.
+  workflow_dispatch: # Allow an explicit manual rerun without changing model inputs.
+permissions: # Keep repository checkout read-only for the solve.
+  contents: read # Grant only source checkout permission.
+jobs: # Define the bounded calculation job.
+  solve: # Run the clean theoretical inverse-statics and modal solve.
+    runs-on: ubuntu-24.04 # Use a current GitHub-hosted Linux runner.
+    timeout-minutes: 30 # Bound dependency installation and matrix solve time.
+    steps: # Execute the full reproducible calculation chain.
+      - name: Checkout # Fetch the exact triggering branch state.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Configure a deterministic shallow checkout.
+          fetch-depth: 1 # Fetch only the triggering commit.
+          persist-credentials: false # Prevent later repository writes from the runner.
+      - name: Set up Python # Install the Python runtime used by the solver.
+        uses: actions/setup-python@v5 # Use the maintained Python setup action.
+        with: # Freeze the interpreter major/minor version.
+          python-version: "3.12" # Use Python 3.12 for SciPy compatibility.
+          cache: pip # Cache downloaded wheels without caching calculation outputs.
+      - name: Install numerical dependencies # Install only the libraries imported by solve.py.
+        shell: bash # Use strict Bash for dependency installation.
+        run: | # Execute one deterministic installation block.
+          set -euxo pipefail # Fail immediately on any command or pipeline error.
+          python -m pip install --upgrade pip # Use the current package installer.
+          python -m pip install numpy scipy matplotlib # Install sparse eigensolver, optimization, and plotting dependencies.
+      - name: Clean previous results # Guarantee the uploaded result directory belongs to this run only.
+        shell: bash # Use Bash for filesystem cleanup.
+        run: | # Remove any stale result directory before solving.
+          set -euxo pipefail # Fail on unexpected filesystem errors.
+          rm -rf catwalk-fem/clean-theory-14modes/results # Delete stale calculation outputs.
+      - name: Run clean inverse statics and modal solve # Execute the target-free calculation and physical classification.
+        shell: bash # Use strict Bash for the solver invocation.
+        run: | # Run the solver from its own directory.
+          set -euxo pipefail # Fail immediately if the solver exits nonzero.
+          python catwalk-fem/clean-theory-14modes/solve.py # Rebuild prestress, K, M, eigenpairs, and target-free labels.
+      - name: Run post-freeze comparison # Load the fourteen external frequencies only after frozen_results.json exists.
+        shell: bash # Use strict Bash for the comparison node.
+        run: | # Execute the isolated comparison script.
+          set -euxo pipefail # Fail on any comparison or file error.
+          python catwalk-fem/clean-theory-14modes/compare_after_freeze.py # Generate external error statistics without changing the solve.
+      - name: Verify required outputs # Reject incomplete or silently truncated calculations.
+        shell: bash # Use Bash for deterministic file and content checks.
+        run: | # Verify all core outputs before artifact publication.
+          set -euxo pipefail # Fail on the first missing or inconsistent output.
+          test -s catwalk-fem/clean-theory-14modes/results/frozen_results.json # Require the target-free frozen result file.
+          test -s catwalk-fem/clean-theory-14modes/results/raw_modes.csv # Require the raw global modal spectrum.
+          test -s catwalk-fem/clean-theory-14modes/results/classified_14_modes.csv # Require the fourteen physical-family classification table.
+          test -s catwalk-fem/clean-theory-14modes/results/comparison_after_freeze.csv # Require the post-freeze comparison table.
+          test -s catwalk-fem/clean-theory-14modes/results/unstressed_lengths.json # Require recovered unstressed cable lengths.
+          sha256sum catwalk-fem/clean-theory-14modes/results/* > catwalk-fem/clean-theory-14modes/results/SHA256SUMS.txt # Freeze every result file for delivery.
+          printf '%s\n' "$GITHUB_SHA" > catwalk-fem/clean-theory-14modes/results/GITHUB_COMMIT.txt # Record the exact source commit identity.
+      - name: Upload complete result artifact # Publish all numerical evidence as one downloadable artifact.
+        uses: actions/upload-artifact@v4 # Use GitHub's maintained artifact uploader.
+        with: # Configure deterministic artifact retention.
+          name: dual-catwalk-clean-theory-14modes # Use an English artifact name for downstream delivery.
+          path: catwalk-fem/clean-theory-14modes/results/ # Upload raw, classified, plots, hashes, and receipts together.
+          if-no-files-found: error # Reject an empty or missing result set.
+          retention-days: 90 # Retain the reproducible result package for ninety days.
+          compression-level: 6 # Use moderate ZIP compression for CSV, JSON, and PNG outputs.
