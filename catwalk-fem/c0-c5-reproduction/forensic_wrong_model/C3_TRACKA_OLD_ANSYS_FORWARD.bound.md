@@ -34,4 +34,8 @@ Workflow `c3-tracka-export-rebuild-kit.yml` failed decoding incomplete `build_le
 
 Same workflow dropped the broken main13 fragments and uploaded `C3-TrackA-reconstruction-kit`. Contents are source only: C3 parent sha `667c5047`, custom ccx sha `b498dad8`, already-stamped hypothesized builders, and copies of Track A yml files. Green export is not a Job finished solve and not a recovered entity. `human_apdl=false`. `frequency_reproduced=false`. `not_attach_ta1=true`.
 
+## Wave K1 — entity-sensitivity-fix alias (`923f2b0`)
+
+New branch `agent/c3-tracka-entity-sensitivity-fix-20260831` is `923f2b0` with 0 unique commits. It is not an entity-sensitivity study, not a recovered model, and not attach TA1. No PR. Actions on the create-push were only zhaqing-prestress failures (unrelated). No Job finished. `human_apdl=false`. `frequency_reproduced=false`. `not_attach_ta1=true`.
+
 Do not treat this path as the true3d reduced C4 deck.

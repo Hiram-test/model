@@ -2,7 +2,7 @@
 name: Export C3 TrackA reconstruction kit # Source pack only; human_apdl=false; frequency_reproduced=false; green kit is not a found model.
 on:
   push:
-    branches: [agent/c3-tracka-direct-main13-20260831]
+    branches: [agent/c3-tracka-direct-main13-20260831, agent/c3-tracka-entity-sensitivity-fix-20260831]
     paths: [".github/workflows/c3-tracka-export-rebuild-kit.yml"]
 permissions:
   contents: read
@@ -41,6 +41,7 @@ jobs:
             'green_kit_is_not_a_found_model=true' \
             'incomplete_main13_b64_omitted=true' \
             'do_not_label_C3_M3_as_TA1=true' \
+            'not_entity_sensitivity_study=true' \
             > rebuild_kit/case.txt
       - name: Upload reconstruction kit
         uses: actions/upload-artifact@v4
