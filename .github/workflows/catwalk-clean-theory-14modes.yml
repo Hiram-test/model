@@ -22,7 +22,7 @@ jobs: # Define the bounded calculation job.
         uses: actions/setup-python@v5 # Use the maintained Python setup action.
         with: # Freeze the interpreter major/minor version.
           python-version: "3.12" # Use Python 3.12 for SciPy compatibility.
-      - name: Install numerical dependencies # Install only the libraries imported by solve.py.
+      - name: Install numerical dependencies # Install only the libraries imported by the revised solver.
         shell: bash # Use strict Bash for dependency installation.
         run: | # Execute one deterministic installation block.
           set -euxo pipefail # Fail immediately on any command or pipeline error.
@@ -33,11 +33,11 @@ jobs: # Define the bounded calculation job.
         run: | # Remove any stale result directory before solving.
           set -euxo pipefail # Fail on unexpected filesystem errors.
           rm -rf catwalk-fem/clean-theory-14modes/results # Delete stale calculation outputs.
-      - name: Run clean inverse statics and modal solve # Execute the target-free calculation and physical classification.
+      - name: Run revised clean inverse statics and modal solve # Execute the target-free calculation and physical classification.
         shell: bash # Use strict Bash for the solver invocation.
-        run: | # Run the solver from its own directory.
+        run: | # Run the revised solver from its own directory.
           set -euxo pipefail # Fail immediately if the solver exits nonzero.
-          python catwalk-fem/clean-theory-14modes/solve.py # Rebuild prestress, K, M, eigenpairs, and target-free labels.
+          python catwalk-fem/clean-theory-14modes/solve_v2.py # Rebuild prestress from formed geometry plus explicit load inputs, then solve K-M eigenpairs.
       - name: Run post-freeze comparison # Load the fourteen external frequencies only after frozen_results.json exists.
         shell: bash # Use strict Bash for the comparison node.
         run: | # Execute the isolated comparison script.
@@ -57,7 +57,7 @@ jobs: # Define the bounded calculation job.
       - name: Upload complete result artifact # Publish all numerical evidence as one downloadable artifact.
         uses: actions/upload-artifact@v4 # Use GitHub's maintained artifact uploader.
         with: # Configure deterministic artifact retention.
-          name: dual-catwalk-clean-theory-14modes # Use an English artifact name for downstream delivery.
+          name: dual-catwalk-clean-theory-14modes-v2 # Use an English artifact name for downstream delivery.
           path: catwalk-fem/clean-theory-14modes/results/ # Upload raw, classified, plots, hashes, and receipts together.
           if-no-files-found: error # Reject an empty or missing result set.
           retention-days: 90 # Retain the reproducible result package for ninety days.
