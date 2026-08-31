@@ -1,0 +1,64 @@
+{
+  "documentId": "CATWALK-COMPARISON-QOI-20260825",
+  "chapter": "猫道比对章 / Experiment Setup & Results",
+  "decision": "insufficient",
+  "thisStudyStatus": "NA-NO-SOLVE",
+  "forbiddenVerdictLanguage": true,
+  "reference": {
+    "name": "附件2-3 表4-1 猫道动力特性（前14阶）",
+    "kind": "ANSYS_FEM_eigenvalues_in_SWJTU_report",
+    "not": [
+      "wind_tunnel_measured_full_bridge_frequencies",
+      "PR17_F_att",
+      "PR18_isolated_TARGET-FREQ.json"
+    ],
+    "sourceFile": {
+      "auditBranch": "audit/release-inventory-20260803",
+      "path": "attachment23_report.pdf",
+      "bytes": 3188161,
+      "sha256": "d17d4061c5726c10b88cc80f3f292b16f0dbf3408e032a30840b1bcaad9173d3",
+      "originalLedgerPath": "01_设计资料与规范\\附件2-3：猫道结构抗风性能试验报告.pdf",
+      "onMain920a94b": false
+    },
+    "extraction": "attachment23_report_plain.txt pages covering 表 4-1; labels L/V/T + S/A as defined in the table note",
+    "unit": "Hz"
+  },
+  "thisStudy": {
+    "solver": "CalculiX/ccx",
+    "status": "NA-NO-SOLVE",
+    "reason": "No catwalk .inp/.frd/.dat/.sta/.cvg on main 920a94b, on this workspace, or in Release catwalk-attachment23-v2.0-s10-20260716. PR #18 is draft/unmerged and artifacts/ contains only empty .gitkeep.",
+    "vmSuccessIsNotAScientificClaim": true
+  },
+  "conflicts_not_reconciled": [
+    {
+      "id": "SAG-H",
+      "attachment23": "H=255.56 m used as 猫道矢高 in §2.2 wind-height formula Z=P1-P2-2/3H",
+      "pr18_and_theory_v12": "formed sag h=227.300 m (z_saddle 340.600 − z_mid 113.300)",
+      "pr17": "locks F_M=255.56 m and forbids 227.30 m",
+      "action": "do_not_silently_reconcile"
+    },
+    {
+      "id": "FOURTEEN-FREQ-SETS",
+      "table41": [0.0365, 0.0700, 0.0726, 0.0996, 0.1028, 0.1087, 0.1147, 0.1149, 0.1239, 0.1438, 0.1449, 0.1557, 0.1571, 0.1744],
+      "F_att_PR17": [0.0296, 0.0301, 0.0601, 0.0608, 0.0714, 0.0733, 0.0735, 0.0873, 0.1012, 0.1012, 0.1098, 0.1102, 0.1155, 0.1187],
+      "PR18_isolated_TARGET_FREQ": [0.0296, 0.0301, 0.0601, 0.0608, 0.0714, 0.0733, 0.0735, 0.0873, 0.1012, 0.1012, 0.1098, 0.1102, 0.1155, 0.1187],
+      "note": "PR #18 isolated file labels itself as attachment 2-3 frequency table, but the numbers equal F_att and do not equal 表4-1. This study does not adopt F_att as 表4-1."
+    }
+  ],
+  "rows": [
+    {"qoiId": "QOI-01", "modeNo": 1, "label": "LS1", "labelNote": "第一阶正对称横弯", "referenceHz": 0.0365, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-02", "modeNo": 2, "label": "VA1", "labelNote": "第一阶反对称竖弯", "referenceHz": 0.0700, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-03", "modeNo": 3, "label": "LA1", "labelNote": "第一阶反对称横弯", "referenceHz": 0.0726, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-04", "modeNo": 4, "label": "TA1", "labelNote": "第一阶反对称扭转", "referenceHz": 0.0996, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-05", "modeNo": 5, "label": "VS1", "labelNote": "第一阶正对称竖弯", "referenceHz": 0.1028, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-06", "modeNo": 6, "label": "LS2", "labelNote": "第二阶正对称横弯", "referenceHz": 0.1087, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-07", "modeNo": 7, "label": "TS1", "labelNote": "第一阶正对称扭转", "referenceHz": 0.1147, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-08", "modeNo": 8, "label": "SIDE1", "labelNote": "边跨模态（附件未给 L/V/T 族名）", "referenceHz": 0.1149, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-09", "modeNo": 9, "label": "SIDE2", "labelNote": "边跨模态（附件未给 L/V/T 族名）", "referenceHz": 0.1239, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-10", "modeNo": 10, "label": "VA2", "labelNote": "第二阶反对称竖弯", "referenceHz": 0.1438, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-11", "modeNo": 11, "label": "LA2", "labelNote": "第二阶反对称横弯", "referenceHz": 0.1449, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-12", "modeNo": 12, "label": "SIDE3", "labelNote": "边跨模态（附件未给 L/V/T 族名）", "referenceHz": 0.1557, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-13", "modeNo": 13, "label": "TS2", "labelNote": "第二阶正对称扭转", "referenceHz": 0.1571, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"},
+    {"qoiId": "QOI-14", "modeNo": 14, "label": "VS2", "labelNote": "第二阶正对称竖弯", "referenceHz": 0.1744, "thisStudy": "NA-NO-SOLVE", "decision": "insufficient"}
+  ]
+}
