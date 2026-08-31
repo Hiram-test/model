@@ -1,0 +1,38 @@
+{
+  "convention": "x = chainage - K16+876.000",
+  "distribution": "per-deck package split equally onto 16 floor ropes",
+  "cases": [
+    {
+      "id": "LC-DEAD-PRESTRESS",
+      "type": "NLGEOM static",
+      "gravity": 9.80665,
+      "extra_dead_deck_Npm": 877.1607568,
+      "extra_dead_per_rope_Npm": 54.8225473,
+      "resultant_N": 9019165.662187736,
+      "source": "CALC-INPUT floor system 2.766 kN/m minus 16*12.038*g"
+    },
+    {
+      "id": "LC-PERSONNEL-UNIFORM",
+      "type": "NLGEOM static",
+      "deck_Npm": 8400.0,
+      "per_rope_Npm": 525.0,
+      "resultant_N": 86370703.40306062,
+      "source": "ASSUMP 1.5 kPa on 5.60 m"
+    },
+    {
+      "id": "LC-WIND-Y",
+      "type": "NLGEOM static",
+      "deck_Npm": 500.0,
+      "per_rope_Npm": 31.25,
+      "resultant_N": 5141113.297801226,
+      "source": "ASSUMP 0.50 kN/m per deck +Y"
+    },
+    {
+      "id": "LC-FREQ",
+      "type": "FREQUENCY 20",
+      "note": "does not read TARGET-FREQ"
+    }
+  ],
+  "floor_truss_length_m": 164515.62552963925,
+  "closure": "each CLOAD resultant equals w_per_rope * floor_truss_length"
+}

@@ -1,0 +1,56 @@
+{
+  "kind": "ansys_s10_db_extract_trace",
+  "extracted_from_db": false,
+  "reason": "No MAPDL/ANSYS on this VM. Full-file ASCII probe of the .db found 0 prestress/LINK180 keys. Numbers were not invented.",
+  "db": {
+    "name": "cw_S10_0716t050342_a4_eq.db",
+    "release": "https://github.com/Hiram-test/model/releases/download/catwalk-attachment23-v2.0-s10-20260716/cw_S10_0716t050342_a4_eq.db",
+    "expected_sha256": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd",
+    "expected_bytes": 700186624,
+    "observed_sha256": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd",
+    "observed_bytes": 700186624,
+    "sha256_match": true
+  },
+  "string_probe": {
+    "file": "/tmp/s10-db-reread/cw_S10_0716t050342_a4_eq.db",
+    "bytes": 700186624,
+    "n_strings_ge6": 158568,
+    "key_counts": {
+      "INISTATE": 0,
+      "INIFORCE": 0,
+      "LINK180": 0,
+      "LINK10": 0,
+      "ISTRESS": 0,
+      "ISTRAN": 0,
+      "SMISC": 0,
+      "ETABLE": 0,
+      "PRESTRESS": 0,
+      "ANTYPE": 0,
+      "NLGEOM": 0,
+      "ACEL": 0,
+      "SECDATA": 0,
+      "cw_S10": 0,
+      "S10": 0
+    },
+    "key_samples": {
+      "INISTATE": [],
+      "INIFORCE": [],
+      "LINK180": [],
+      "LINK10": [],
+      "ISTRESS": [],
+      "ISTRAN": [],
+      "SMISC": [],
+      "ETABLE": [],
+      "PRESTRESS": [],
+      "ANTYPE": [],
+      "NLGEOM": [],
+      "ACEL": [],
+      "SECDATA": [],
+      "cw_S10": [],
+      "S10": []
+    },
+    "head_hex": "640000000000008010000000ffffffffcc2a02006c273501ffffffff00000000000000000000000000000000312e36326a253501444e49572053574f20343678",
+    "head_ascii": "d................*..l'5.....................1.62j%5.DNIW SWO 46xS_wc0_01LLUF        susa        .............@..l.n..)..........S_wc0_01t6173050a_24   4        ........ 01SAGELC YCLPMO ETELLUFIRB  EGDSERPSERT DESADOM   L                                    "
+  },
+  "mapdl_present": false
+}

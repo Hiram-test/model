@@ -1,0 +1,159 @@
+{
+  "status": "SIMPLIFIED_LINEAR_BUFFETING_WITH_EXPLICIT_ASSUMPTIONS",
+  "structural_model": "two complete MCT planes with explicit carrying and gantry ropes plus 21 four-port condensed gate-and-passage assemblies",
+  "mct_sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+  "station_map_sha256": "66ff8521860815a8d8665aabf5ff909f64d8dd8d17263f754bf594f5583ed3ca",
+  "passage_matrix_path": "tmp/gate_passage_condensation/K12_translation_ports.csv",
+  "passage_matrix_sha256": "28ed7b14afd260595e62bbf2e606daf4f3a325ec8f04134f8e102653cf618341",
+  "mass_tonne": 4108.467045047827,
+  "passage_assembly": {
+    "count": 21,
+    "ports_per_station": [
+      "bottom_left",
+      "gantry_left",
+      "bottom_right",
+      "gantry_right"
+    ],
+    "replaced_planar_truss_count": 21,
+    "replaced_planar_truss_elements": [
+      1397,
+      1400,
+      1403,
+      1408,
+      1411,
+      1414,
+      1417,
+      1420,
+      1423,
+      1426,
+      1429,
+      1432,
+      1435,
+      1438,
+      1441,
+      1444,
+      1449,
+      1452,
+      1455,
+      1460,
+      1463
+    ],
+    "replacement_rule": "At each of the 21 authoritative stations, remove the duplicated source property-3 gate TRUSS and assemble one transformed 12x12 four-port condensed gate-plus-passage matrix."
+  },
+  "aerodynamics": {
+    "coefficient_file": "output/data/zjg_wind_tunnel_coefficients.csv",
+    "air_density_kg_m3": 1.225,
+    "B_m": 5.4,
+    "H_m": 1.5,
+    "kernel": {
+      "CD": 0.526049,
+      "CL": -0.01023,
+      "CM": -0.00693,
+      "CD_prime_per_rad": 0.1736273801071814,
+      "CL_prime_per_rad": 0.17707216584841548,
+      "CM_prime_per_rad": -0.001527887453682188,
+      "mean_FH_N_per_m": 974.3527908751873,
+      "mean_FV_N_per_m": -68.21315995724999,
+      "mean_M_Nm_per_m": -249.52813997265,
+      "b_H_u_N_per_m_per_mps": 43.40101518375,
+      "b_H_w_N_per_m_per_mps": 8.681679033258932,
+      "b_V_u_N_per_m_per_mps": -3.0384481049999996,
+      "b_V_w_N_per_m_per_mps": 47.99691945748417,
+      "b_M_u_Nm_per_m_per_mps": -11.114839197,
+      "b_M_w_Nm_per_m_per_mps": -1.2252686406054332
+    },
+    "method": "linear quasi-steady, no aerodynamic damping/admittance; each width's local moment is mapped by virtual work to its own carrying-rope/gantry-rope relative lateral rotation"
+  },
+  "rotation_convention": {
+    "local_roll_L_rad": "(u_y,bottom,L - u_y,gantry,L) / (z_gantry - z_bottom)",
+    "local_roll_R_rad": "(u_y,bottom,R - u_y,gantry,R) / (z_gantry - z_bottom)",
+    "sign": "positive rotation about global +X by the right-hand rule",
+    "bottom_interpolation_nodes": "carrying-rope MCT nodes 157-447",
+    "gantry_interpolation_nodes": "gantry-rope MCT nodes 1001-1395",
+    "gate_height_min_m": 7.090260199884995,
+    "gate_height_max_m": 9.083515123125721,
+    "system_roll_rad": "(u_z,R - u_z,L) / 42.9",
+    "interpretation": "local_roll_L/R are the moment-conjugate gate/catwalk section rotations; system_roll is a separate cross-width observation and is not Attachment 2-3 local torsion"
+  },
+  "wind": {
+    "mean_speed_mps": 44.9,
+    "minimum_frequency_hz": 0.1,
+    "maximum_frequency_hz": 2.0,
+    "duration_s": 600.0,
+    "dt_s": 0.05,
+    "coherence_decay": 7.0,
+    "cross_width_mode": "coherent",
+    "seed_count": 5,
+    "roughness_length_m": 0.01
+  },
+  "structure_dynamics": {
+    "mode_count": 150,
+    "highest_retained_frequency_hz": 0.579084428459635,
+    "modal_damping_ratio": 0.01,
+    "response_solution": "FFT periodic steady state; no startup transient",
+    "static_solution": "linear about MCT prestressed equilibrium"
+  },
+  "critical_carrying_rope": {
+    "width": "L",
+    "element_id": 2,
+    "n1": 2,
+    "n2": 3,
+    "family": "carrying_rope",
+    "mean_tension_per_rope_kn": 982.7687500000009,
+    "sigma_per_rope_kn": 8.836908769126472e-13,
+    "peak_mean_plus_3p5sigma_kn": 982.7687500000039,
+    "capacity_ratio_to_break": 2.421729425157231
+  },
+  "critical_main_span_carrying_rope": {
+    "width": "L",
+    "element_id": 443,
+    "n1": 443,
+    "n2": 444,
+    "family": "carrying_rope",
+    "mean_tension_per_rope_kn": 705.1167717822399,
+    "sigma_per_rope_kn": 10.792218469094415,
+    "peak_mean_plus_3p5sigma_kn": 742.8895364240703,
+    "capacity_ratio_to_break": 3.2037064507009063
+  },
+  "critical_wind_responsive_carrying_rope": {
+    "width": "L",
+    "element_id": 443,
+    "n1": 443,
+    "n2": 444,
+    "family": "carrying_rope",
+    "mean_tension_per_rope_kn": 705.1167717822399,
+    "sigma_per_rope_kn": 10.792218469094415,
+    "peak_mean_plus_3p5sigma_kn": 742.8895364240703,
+    "capacity_ratio_to_break": 3.2037064507009063
+  },
+  "critical_gantry_rope": {
+    "width": "L",
+    "element_id": 1279,
+    "n1": 1279,
+    "n2": 1280,
+    "family": "gantry_rope",
+    "mean_tension_per_rope_kn": 575.83789212552,
+    "sigma_per_rope_kn": 11.070657478028052,
+    "peak_mean_plus_3p5sigma_kn": 614.5851932986183,
+    "capacity_ratio_to_break": NaN
+  },
+  "support_reaction_recovery": {
+    "formula": "R_c=K_cf*Phi*q-f_c; f_c=0 for this main-span wind application",
+    "lumped_mass_cross_block": "M_cf=0",
+    "physical_damping_cross_block": "not defined; no C_cf term invented",
+    "static_result_scope": "static-wind increment only, excluding dead-load baseline",
+    "buffeting_covariance": "A*Sigma_q*A^T with full modal cross-covariance",
+    "attachment_mapping_path": "tmp/reaction_recovery/attachment_table5_support_mapping.csv",
+    "attachment_reference_path": "tmp/reaction_recovery/attachment_table5_2_5_3_reference.csv",
+    "constrained_dof_count": 108,
+    "recoverable_attachment_rows": 36
+  },
+  "limitations": [
+    "The four-port stiffness is a static condensation of the finite gate-plus-passage model; local internal passage stresses require recovery from that detailed model and are not available from the twelve interface translations alone.",
+    "The reported local_roll_L/R are carrying-rope versus gantry-rope portal rotations, while system_roll is the differential vertical movement of the two MCT planes; neither is silently equated with Attachment 2-3 local deck torsion.",
+    "Only displacement and low-frequency rope-force response are reported; retained modes do not support acceleration, comfort, fatigue, or local passage stress acceptance.",
+    "The stated 2380 kN breaking force is applied only to each physical carrying rope; no gantry-rope capacity ratio is reported because its breaking force is absent from Attachment 2-3.",
+    "Attachment omits structural damping, u-star, coherence constants, air density, random phases, and several force-mapping details; this is a stated-assumption recalculation, not an exact reproduction.",
+    "At six mapped sliding saddle nodes UX is free, so Attachment horizontal-X values cannot be represented as nodal support reactions; adjacent cable cut forces would be a different quantity."
+  ]
+}

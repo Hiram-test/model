@@ -1,0 +1,616 @@
+﻿{
+  "schema": {
+    "name": "MCTSixStaticCasesIndependentAudit",
+    "version": "1.0.0"
+  },
+  "generated_at_local": "2026-07-12T23:23:42+08:00",
+  "scope": {
+    "model": "original_2d_mct_topology_reproduced_in_mapdl",
+    "source_mct": "D:\\张靖皋大桥\\01_设计资料与规范\\猫道 - 门架索合建模型2.mct",
+    "not_the_full_3d_79460_node_model": true,
+    "all_nodes_uy_fixed": true,
+    "cannot_validate_3d_transverse_connection_or_torsion": true
+  },
+  "topology": {
+    "node_count": 1125,
+    "element_count": 1194,
+    "element_type_counts": {
+      "TENSTR": 1123,
+      "TRUSS": 71
+    },
+    "component_sizes": [
+      1125
+    ],
+    "assessment": "二维猫道索、门架索和71根TRUSS在结构单元层面连成一个网络。"
+  },
+  "cases": {
+    "1": {
+      "case_id": 1,
+      "definition": "恒载",
+      "solver": {
+        "solution_converged_line_count": 7,
+        "completed_substep_count": 7,
+        "final_load_step": 1,
+        "final_substep": 7,
+        "cumulative_iterations": 9,
+        "warning_count": 0,
+        "error_count": 0,
+        "run_completed": true,
+        "clean_success": true
+      },
+      "input_scope": {
+        "global_uy_fixed": true,
+        "incremental_load_command_counts": {},
+        "incremental_load_sums_n_or_nmm": {},
+        "temperature_c": null,
+        "transverse_fy_is_fully_restrained": false
+      },
+      "node_result_count": 1125,
+      "element_force_result_count": 1194,
+      "displacement_extrema": {
+        "UX": {
+          "node_id": 87,
+          "signed_value_mm": 12.245184281703,
+          "absolute_value_mm": 12.245184281703
+        },
+        "UY": {
+          "node_id": 1,
+          "signed_value_mm": 0.0,
+          "absolute_value_mm": 0.0
+        },
+        "UZ": {
+          "node_id": 304,
+          "signed_value_mm": -42.577356495017,
+          "absolute_value_mm": 42.577356495017
+        },
+        "USUM": {
+          "node_id": 304,
+          "signed_value_mm": 42.57771305336941,
+          "absolute_value_mm": 42.57771305336941
+        }
+      },
+      "element_geometry_metrics": {
+        "minimum_deformed_to_original_length_ratio": 0.9999999265495403,
+        "minimum_ratio_element_id": 1426,
+        "maximum_deformed_to_original_length_ratio": 1.0000103554223436,
+        "maximum_ratio_element_id": 160
+      },
+      "force_metrics": {
+        "force_result_count": 1194,
+        "tenstr_count": 1123,
+        "tenstr_nonpositive_count": 0,
+        "tenstr_min_kN": 1485.53575,
+        "tenstr_max_kN": 15744.466,
+        "truss_count": 71,
+        "truss_min_kN": -0.07408069610595701,
+        "truss_max_kN": 0.1496460723877
+      },
+      "span_force_comparison": {
+        "north_side_span": {
+          "report_kn": 11466.0,
+          "ansys_kn": 11480.835,
+          "difference_kn": 14.834999999999127,
+          "relative_error": 0.0012938252223965749
+        },
+        "main_span": {
+          "report_kn": 11005.0,
+          "ansys_kn": 11028.395,
+          "difference_kn": 23.395000000000437,
+          "relative_error": 0.0021258518855066274
+        },
+        "south_side_span": {
+          "report_kn": 10928.0,
+          "ansys_kn": 10943.169,
+          "difference_kn": 15.168999999999869,
+          "relative_error": 0.0013880856515373233
+        },
+        "south_auxiliary_span": {
+          "report_kn": 10338.0,
+          "ansys_kn": 10351.759,
+          "difference_kn": 13.759000000000015,
+          "relative_error": 0.0013309150706132728
+        }
+      },
+      "max_report_force_relative_error_percent": 0.21258518855066275
+    },
+    "2": {
+      "case_id": 2,
+      "definition": "恒载+施工荷载",
+      "solver": {
+        "solution_converged_line_count": 14,
+        "completed_substep_count": 14,
+        "final_load_step": 2,
+        "final_substep": 7,
+        "cumulative_iterations": 17,
+        "warning_count": 0,
+        "error_count": 0,
+        "run_completed": true,
+        "clean_success": true
+      },
+      "input_scope": {
+        "global_uy_fixed": true,
+        "incremental_load_command_counts": {
+          "FZ": 1123
+        },
+        "incremental_load_sums_n_or_nmm": {
+          "FZ": -3344260.611999996
+        },
+        "temperature_c": null,
+        "transverse_fy_is_fully_restrained": false
+      },
+      "node_result_count": 1125,
+      "element_force_result_count": 1194,
+      "displacement_extrema": {
+        "UX": {
+          "node_id": 85,
+          "signed_value_mm": 653.39285486664,
+          "absolute_value_mm": 653.39285486664
+        },
+        "UY": {
+          "node_id": 1,
+          "signed_value_mm": 0.0,
+          "absolute_value_mm": 0.0
+        },
+        "UZ": {
+          "node_id": 1176,
+          "signed_value_mm": -2684.7788718179,
+          "absolute_value_mm": 2684.7788718179
+        },
+        "USUM": {
+          "node_id": 1176,
+          "signed_value_mm": 2684.837902342347,
+          "absolute_value_mm": 2684.837902342347
+        }
+      },
+      "element_geometry_metrics": {
+        "minimum_deformed_to_original_length_ratio": 0.9999946391350613,
+        "minimum_ratio_element_id": 1405,
+        "maximum_deformed_to_original_length_ratio": 1.0006223251112305,
+        "maximum_ratio_element_id": 1066
+      },
+      "force_metrics": {
+        "force_result_count": 1194,
+        "tenstr_count": 1123,
+        "tenstr_nonpositive_count": 0,
+        "tenstr_min_kN": 1658.733,
+        "tenstr_max_kN": 16846.282,
+        "truss_count": 71,
+        "truss_min_kN": -5.4068833007812,
+        "truss_max_kN": 0.33546740722656
+      },
+      "span_force_comparison": {
+        "north_side_span": {
+          "report_kn": 12317.0,
+          "ansys_kn": 12346.897,
+          "difference_kn": 29.897000000000844,
+          "relative_error": 0.002427295607696748
+        },
+        "main_span": {
+          "report_kn": 12624.0,
+          "ansys_kn": 12646.829,
+          "difference_kn": 22.828999999999724,
+          "relative_error": 0.0018083808618504216
+        },
+        "south_side_span": {
+          "report_kn": 11803.0,
+          "ansys_kn": 11832.291,
+          "difference_kn": 29.290999999999258,
+          "relative_error": 0.002481657205795074
+        },
+        "south_auxiliary_span": {
+          "report_kn": 11140.0,
+          "ansys_kn": 11167.377,
+          "difference_kn": 27.377000000000407,
+          "relative_error": 0.0024575403949731065
+        }
+      },
+      "max_report_force_relative_error_percent": 0.24816572057950742
+    },
+    "3": {
+      "case_id": 3,
+      "definition": "恒载+施工荷载+温降15℃",
+      "solver": {
+        "solution_converged_line_count": 14,
+        "completed_substep_count": 14,
+        "final_load_step": 2,
+        "final_substep": 7,
+        "cumulative_iterations": 17,
+        "warning_count": 0,
+        "error_count": 0,
+        "run_completed": true,
+        "clean_success": true
+      },
+      "input_scope": {
+        "global_uy_fixed": true,
+        "incremental_load_command_counts": {
+          "FZ": 1123
+        },
+        "incremental_load_sums_n_or_nmm": {
+          "FZ": -3344260.611999996
+        },
+        "temperature_c": -15.0,
+        "transverse_fy_is_fully_restrained": false
+      },
+      "node_result_count": 1125,
+      "element_force_result_count": 1194,
+      "displacement_extrema": {
+        "UX": {
+          "node_id": 85,
+          "signed_value_mm": 478.12301733419,
+          "absolute_value_mm": 478.12301733419
+        },
+        "UY": {
+          "node_id": 1,
+          "signed_value_mm": 0.0,
+          "absolute_value_mm": 0.0
+        },
+        "UZ": {
+          "node_id": 1176,
+          "signed_value_mm": -1909.9699348934,
+          "absolute_value_mm": 1909.9699348934
+        },
+        "USUM": {
+          "node_id": 1176,
+          "signed_value_mm": 1910.0116845522327,
+          "absolute_value_mm": 1910.0116845522327
+        }
+      },
+      "element_geometry_metrics": {
+        "minimum_deformed_to_original_length_ratio": 0.9998159742184073,
+        "minimum_ratio_element_id": 1405,
+        "maximum_deformed_to_original_length_ratio": 1.0004549025337164,
+        "maximum_ratio_element_id": 1066
+      },
+      "force_metrics": {
+        "force_result_count": 1194,
+        "tenstr_count": 1123,
+        "tenstr_nonpositive_count": 0,
+        "tenstr_min_kN": 1680.022875,
+        "tenstr_max_kN": 17205.87,
+        "truss_count": 71,
+        "truss_min_kN": -4.07813671875,
+        "truss_max_kN": 0.36943759155273
+      },
+      "span_force_comparison": {
+        "north_side_span": {
+          "report_kn": 12572.0,
+          "ansys_kn": 12592.984,
+          "difference_kn": 20.98400000000038,
+          "relative_error": 0.0016691059497295879
+        },
+        "main_span": {
+          "report_kn": 12657.0,
+          "ansys_kn": 12684.279,
+          "difference_kn": 27.27900000000045,
+          "relative_error": 0.0021552500592557835
+        },
+        "south_side_span": {
+          "report_kn": 12047.0,
+          "ansys_kn": 12068.209,
+          "difference_kn": 21.209000000000742,
+          "relative_error": 0.0017605212916079309
+        },
+        "south_auxiliary_span": {
+          "report_kn": 11378.0,
+          "ansys_kn": 11397.78,
+          "difference_kn": 19.780000000000655,
+          "relative_error": 0.0017384426085428595
+        }
+      },
+      "max_report_force_relative_error_percent": 0.21552500592557836
+    },
+    "4": {
+      "case_id": 4,
+      "definition": "恒载+施工荷载+施工阶段风荷载",
+      "solver": {
+        "solution_converged_line_count": 14,
+        "completed_substep_count": 14,
+        "final_load_step": 2,
+        "final_substep": 7,
+        "cumulative_iterations": 17,
+        "warning_count": 0,
+        "error_count": 0,
+        "run_completed": true,
+        "clean_success": true
+      },
+      "input_scope": {
+        "global_uy_fixed": true,
+        "incremental_load_command_counts": {
+          "FZ": 2246,
+          "FY": 1123
+        },
+        "incremental_load_sums_n_or_nmm": {
+          "FZ": -3586731.5808999864,
+          "FY": 2246926.0479999967
+        },
+        "temperature_c": null,
+        "transverse_fy_is_fully_restrained": true
+      },
+      "node_result_count": 1125,
+      "element_force_result_count": 1194,
+      "displacement_extrema": {
+        "UX": {
+          "node_id": 85,
+          "signed_value_mm": 697.0018012711,
+          "absolute_value_mm": 697.0018012711
+        },
+        "UY": {
+          "node_id": 1,
+          "signed_value_mm": 0.0,
+          "absolute_value_mm": 0.0
+        },
+        "UZ": {
+          "node_id": 1176,
+          "signed_value_mm": -2870.9034216123,
+          "absolute_value_mm": 2870.9034216123
+        },
+        "USUM": {
+          "node_id": 1176,
+          "signed_value_mm": 2870.9665987120216,
+          "absolute_value_mm": 2870.9665987120216
+        }
+      },
+      "element_geometry_metrics": {
+        "minimum_deformed_to_original_length_ratio": 0.9999944212462747,
+        "minimum_ratio_element_id": 1405,
+        "maximum_deformed_to_original_length_ratio": 1.0006658254591565,
+        "maximum_ratio_element_id": 1066
+      },
+      "force_metrics": {
+        "force_result_count": 1194,
+        "tenstr_count": 1123,
+        "tenstr_nonpositive_count": 0,
+        "tenstr_min_kN": 1670.3695,
+        "tenstr_max_kN": 16924.64,
+        "truss_count": 71,
+        "truss_min_kN": -5.6266450195312,
+        "truss_max_kN": 0.50989324951172
+      },
+      "span_force_comparison": {
+        "north_side_span": {
+          "report_kn": 12380.0,
+          "ansys_kn": 12408.708,
+          "difference_kn": 28.70800000000054,
+          "relative_error": 0.0023189014539580404
+        },
+        "main_span": {
+          "report_kn": 12741.0,
+          "ansys_kn": 12762.162,
+          "difference_kn": 21.162000000000262,
+          "relative_error": 0.001660937132093263
+        },
+        "south_side_span": {
+          "report_kn": 11869.0,
+          "ansys_kn": 11895.577,
+          "difference_kn": 26.576999999999316,
+          "relative_error": 0.002239194540399302
+        },
+        "south_auxiliary_span": {
+          "report_kn": 11200.0,
+          "ansys_kn": 11225.316,
+          "difference_kn": 25.316000000000713,
+          "relative_error": 0.0022603571428572067
+        }
+      },
+      "max_report_force_relative_error_percent": 0.23189014539580405
+    },
+    "5": {
+      "case_id": 5,
+      "definition": "恒载+最大阵风荷载",
+      "solver": {
+        "solution_converged_line_count": 14,
+        "completed_substep_count": 14,
+        "final_load_step": 2,
+        "final_substep": 7,
+        "cumulative_iterations": 17,
+        "warning_count": 0,
+        "error_count": 0,
+        "run_completed": true,
+        "clean_success": true
+      },
+      "input_scope": {
+        "global_uy_fixed": true,
+        "incremental_load_command_counts": {
+          "FY": 1123,
+          "FZ": 1123
+        },
+        "incremental_load_sums_n_or_nmm": {
+          "FY": 15303735.373,
+          "FZ": -1651461.4169999976
+        },
+        "temperature_c": null,
+        "transverse_fy_is_fully_restrained": true
+      },
+      "node_result_count": 1125,
+      "element_force_result_count": 1194,
+      "displacement_extrema": {
+        "UX": {
+          "node_id": 86,
+          "signed_value_mm": 337.05100916656,
+          "absolute_value_mm": 337.05100916656
+        },
+        "UY": {
+          "node_id": 1,
+          "signed_value_mm": 0.0,
+          "absolute_value_mm": 0.0
+        },
+        "UZ": {
+          "node_id": 306,
+          "signed_value_mm": -1335.7343280312,
+          "absolute_value_mm": 1335.7343280312
+        },
+        "USUM": {
+          "node_id": 306,
+          "signed_value_mm": 1335.7734445522826,
+          "absolute_value_mm": 1335.7734445522826
+        }
+      },
+      "element_geometry_metrics": {
+        "minimum_deformed_to_original_length_ratio": 0.999998541220351,
+        "minimum_ratio_element_id": 1405,
+        "maximum_deformed_to_original_length_ratio": 1.0003107895466712,
+        "maximum_ratio_element_id": 1279
+      },
+      "force_metrics": {
+        "force_result_count": 1194,
+        "tenstr_count": 1123,
+        "tenstr_nonpositive_count": 0,
+        "tenstr_min_kN": 1570.643625,
+        "tenstr_max_kN": 16292.691,
+        "truss_count": 71,
+        "truss_min_kN": -1.4712943115234,
+        "truss_max_kN": 1.3377075195312
+      },
+      "span_force_comparison": {
+        "north_side_span": {
+          "report_kn": 11892.0,
+          "ansys_kn": 11911.29,
+          "difference_kn": 19.290000000000873,
+          "relative_error": 0.0016220988900101643
+        },
+        "main_span": {
+          "report_kn": 11802.0,
+          "ansys_kn": 11825.249,
+          "difference_kn": 23.248999999999796,
+          "relative_error": 0.001969920352482613
+        },
+        "south_side_span": {
+          "report_kn": 11368.0,
+          "ansys_kn": 11386.237,
+          "difference_kn": 18.23699999999917,
+          "relative_error": 0.0016042399718507363
+        },
+        "south_auxiliary_span": {
+          "report_kn": 10741.0,
+          "ansys_kn": 10758.269,
+          "difference_kn": 17.269000000000233,
+          "relative_error": 0.0016077646401638798
+        }
+      },
+      "max_report_force_relative_error_percent": 0.1969920352482613
+    },
+    "6": {
+      "case_id": 6,
+      "definition": "恒载+施工荷载+温降34℃",
+      "solver": {
+        "solution_converged_line_count": 14,
+        "completed_substep_count": 14,
+        "final_load_step": 2,
+        "final_substep": 7,
+        "cumulative_iterations": 17,
+        "warning_count": 0,
+        "error_count": 0,
+        "run_completed": true,
+        "clean_success": true
+      },
+      "input_scope": {
+        "global_uy_fixed": true,
+        "incremental_load_command_counts": {
+          "FZ": 1123
+        },
+        "incremental_load_sums_n_or_nmm": {
+          "FZ": -3344260.611999996
+        },
+        "temperature_c": -34.0,
+        "transverse_fy_is_fully_restrained": false
+      },
+      "node_result_count": 1125,
+      "element_force_result_count": 1194,
+      "displacement_extrema": {
+        "UX": {
+          "node_id": 86,
+          "signed_value_mm": 259.97184896794,
+          "absolute_value_mm": 259.97184896794
+        },
+        "UY": {
+          "node_id": 1,
+          "signed_value_mm": 0.0,
+          "absolute_value_mm": 0.0
+        },
+        "UZ": {
+          "node_id": 1166,
+          "signed_value_mm": -927.31479952577,
+          "absolute_value_mm": 927.31479952577
+        },
+        "USUM": {
+          "node_id": 1166,
+          "signed_value_mm": 927.4138039940444,
+          "absolute_value_mm": 927.4138039940444
+        }
+      },
+      "element_geometry_metrics": {
+        "minimum_deformed_to_original_length_ratio": 0.9995897482513459,
+        "minimum_ratio_element_id": 1405,
+        "maximum_deformed_to_original_length_ratio": 1.000324217451551,
+        "maximum_ratio_element_id": 2
+      },
+      "force_metrics": {
+        "force_result_count": 1194,
+        "tenstr_count": 1123,
+        "tenstr_nonpositive_count": 0,
+        "tenstr_min_kN": 1707.266125,
+        "tenstr_max_kN": 17677.726,
+        "truss_count": 71,
+        "truss_min_kN": -2.3569252929688,
+        "truss_max_kN": 0.41244812011719
+      },
+      "span_force_comparison": {
+        "north_side_span": {
+          "report_kn": 12906.0,
+          "ansys_kn": 12916.145,
+          "difference_kn": 10.145000000000437,
+          "relative_error": 0.00078606849527355
+        },
+        "main_span": {
+          "report_kn": 12700.0,
+          "ansys_kn": 12732.231,
+          "difference_kn": 32.23099999999977,
+          "relative_error": 0.002537874015748013
+        },
+        "south_side_span": {
+          "report_kn": 12365.0,
+          "ansys_kn": 12378.877,
+          "difference_kn": 13.877000000000407,
+          "relative_error": 0.0011222806308128109
+        },
+        "south_auxiliary_span": {
+          "report_kn": 11689.0,
+          "ansys_kn": 11701.111,
+          "difference_kn": 12.111000000000786,
+          "relative_error": 0.0010361023184190937
+        }
+      },
+      "max_report_force_relative_error_percent": 0.2537874015748013
+    }
+  },
+  "all_cases_clean_success": true,
+  "all_tenstr_forces_positive": true,
+  "global_max_report_force_relative_error_percent": 0.2537874015748013,
+  "full_3d_status": {
+    "case_result_exists": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true,
+      "6": true
+    },
+    "all_case_result_files_exist": true,
+    "six_case_machine_audit_pass": true,
+    "six_case_report": "D:\\张靖皋大桥\\03_猫道动力分析\\三维六静力工况复核_V1.0\\post\\三维六静力工况与复核报告对照_20260712.md",
+    "assessment": "三维工况1沿用正式V1.1结果，工况2-6已有独立三维输入和结果；六工况面内索力与复核报告直接对照通过。"
+  },
+  "final_assessment": {
+    "two_dimensional_six_cases": "PASS",
+    "three_dimensional_six_cases": "PASS_INPLANE_REPORT_COMPARISON",
+    "connection_conclusion": "二维及三维六工况共同证明面内MCT基准、荷载映射和索系装配正确；但由于报告对照口径固定UY，仍不能证明三维横向通道有限刚度和扭转运动学正确。"
+  },
+  "outputs": {
+    "report": "六静力工况独立验证_20260712.md",
+    "json": "mct_six_static_cases_independent_audit.json",
+    "csv": "mct_six_static_cases_extrema.csv",
+    "actual_deformed_geometry_png": "six_static_cases_actual_deformed_geometry.png",
+    "displacement_profiles_png": "six_static_cases_displacement_profiles.png",
+    "force_comparison_png": "six_static_cases_force_comparison.png"
+  }
+}

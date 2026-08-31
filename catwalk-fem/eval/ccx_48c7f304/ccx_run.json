@@ -1,0 +1,39 @@
+{
+  "ccx": "This is Version 2.21",
+  "copy_sha256": "48c7f304e9e47227217390d8db032ee6d0c828e41c54e9b6c31177fc724e7a14",
+  "matches_new_main": true,
+  "frozen_sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+  "frozen_untouched": true,
+  "exit_code": 255,
+  "wall_s": 11.360798890999945,
+  "stdout_tail": "\n************************************************************\n\nCalculiX Version 2.21, Copyright(C) 1998-2023 Guido Dhondt\nCalculiX comes with ABSOLUTELY NO WARRANTY. This is free\nsoftware, and you are welcome to redistribute it under\ncertain conditions, see gpl.htm\n\n************************************************************\n\nYou are using an executable made on Sat Jul 29 10:52:01 CEST 2023\n\n  The numbers below are estimated upper bounds\n\n  number of:\n\n   nodes:      1689014\n   elements:        30317\n   one-dimensional elements:        30317\n   two-dimensional elements:            0\n   integration points per element:            8\n   degrees of freedom per node:            3\n   layers per element:            2\n\n   distributed facial loads:            0\n   distributed volumetric loads:            6\n   concentrated loads:      1674684\n   single point constraints:      2216088\n   multiple point constraints:      3638041\n   terms in all multiple point constraints:     23283457\n   tie constraints:            0\n   dependent nodes tied by cyclic constraints:            0\n   dependent nodes in pre-tension constraints:            0\n\n   sets:           23\n   terms in all sets:       141931\n\n   materials:            5\n   constants per material and temperature:            2\n   temperature points per material:            1\n   plastic data points per material:            0\n\n   orientations:            0\n   amplitudes:           10\n   data points in all amplitudes:           10\n   print requests:            6\n   transformations:            0\n   property cards:            0\n\n\n STEP            1\n\n *INFO reading *STEP: nonlinear geometric\n       effects are turned on\n\n *WARNING in calinput. Card image cannot be interpreted:\n *WARNING reading the input file. Card image:\n          LC-DEAD-PRESTRESS\n\n *WARNING reading *STATIC: a nonlinear analysis is requested\n          but no time increment nor step is specified\n          the defaults (1,1) are used\n\n Static analysis was selected\n\n Newton-Raphson iterative procedure is active\n\n Nonlinear geometric effects are taken into account\n\n Decascading the MPC's\n\n *INFO in cascade: linear MPCs and\n       nonlinear MPCs depend on each other\n       common node: 51900 in direction 2\n\n increment 1 attempt 1 \n increment size= 1.000000e+00\n sum of previous increments=0.000000e+00\n actual step time=1.000000e+00\n actual total time=1.000000e+00\n\n iteration 1\n\n Decascading the MPC's\n\n *INFO in cascade: linear MPCs and\n       nonlinear MPCs depend on each other\n       common node: 51900 in direction 2\n\n Determining the structure of the matrix:\n\n Using up to 1 cpu(s) for setting up the structure of the matrix.\n number of equations\n 879076\n number of nonzero lower triangular matrix elements\n 13420543\n\n Using up to 1 cpu(s) for the stress calculation.\n\n Using up to 1 cpu(s) for the symmetric stiffness/mass contributions.\n\n Factoring the system of equations using the symmetric spooles solver\n Using up to 1 cpu(s) for spooles.\n\n",
+  "stderr_tail": "",
+  "files": {
+    ".frd": {
+      "exists": true,
+      "bytes": 80
+    },
+    ".dat": {
+      "exists": true,
+      "bytes": 42
+    },
+    ".sta": {
+      "exists": true,
+      "bytes": 98
+    },
+    ".cvg": {
+      "exists": true,
+      "bytes": 274
+    },
+    ".12d": {
+      "exists": true,
+      "bytes": 8465448
+    },
+    ".equ": {
+      "exists": false,
+      "bytes": 0
+    }
+  },
+  "parse_fail_ic": false,
+  "mentions_E_FLOOR_ROPE_card": false
+}
