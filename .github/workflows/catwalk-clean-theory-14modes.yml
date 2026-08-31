@@ -22,7 +22,6 @@ jobs: # Define the bounded calculation job.
         uses: actions/setup-python@v5 # Use the maintained Python setup action.
         with: # Freeze the interpreter major/minor version.
           python-version: "3.12" # Use Python 3.12 for SciPy compatibility.
-          cache: pip # Cache downloaded wheels without caching calculation outputs.
       - name: Install numerical dependencies # Install only the libraries imported by solve.py.
         shell: bash # Use strict Bash for dependency installation.
         run: | # Execute one deterministic installation block.
