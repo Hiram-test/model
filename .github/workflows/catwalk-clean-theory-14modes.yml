@@ -46,12 +46,12 @@ jobs:  # Define the workflow jobs.
             git commit -m 'Record clean catwalk calculation artifacts [skip ci]'  # Commit outputs without recursively starting another run.
             git push origin HEAD:feat/catwalk-clean-theory-14modes  # Push the exact output commit to the isolated branch.
           fi  # End the changed-artifact condition.
+      - name: Copy geometry source into the transient artifact directory  # Preserve the exact geometry-only source without committing a duplicate.
+        run: cp 'catwalk-fem/mct-from-zero/source/01_设计资料与规范/猫道 - 门架索合建模型2.mct' 'catwalk-theory/clean-44cable-modal/artifacts/source_geometry.mct'  # Copy the verified MCT source after the committed-artifact step.
       - name: Upload topology diagnostic package  # Preserve diagnostics and the exact geometry-only source for local independent review.
         uses: actions/upload-artifact@v4  # Use the official artifact upload action.
         with:  # Configure the uploaded diagnostic package.
           name: clean-catwalk-44cable-topology-diagnostic-boundary  # Name the package as inspect-only.
-          path: |  # Upload both the deterministic diagnostics and the exact MCT geometry source.
-            catwalk-theory/clean-44cable-modal/artifacts  # Include generated topology diagnostics.
-            catwalk-fem/mct-from-zero/source/01_设计资料与规范/猫道 - 门架索合建模型2.mct  # Include the geometry-only MCT source for independent local verification.
+          path: catwalk-theory/clean-44cable-modal/artifacts  # Upload the complete transient diagnostic directory.
           if-no-files-found: error  # Fail rather than silently publish an empty result package.
           compression-level: 6  # Use balanced deterministic ZIP compression.
