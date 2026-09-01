@@ -1,0 +1,58 @@
+name: Extract C3 Midspan Passage
+on:
+  push:
+    branches: [feat/catwalk-inverse-formfinding-mct]
+    paths:
+      - 'catwalk-fem/inverse-formfinding-mct/extract_c3_midspan_passage.py'
+      - '.github/workflows/extract-c3-midspan-passage.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact extraction source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install extraction dependency
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python -m pip install numpy
+      - name: Download and extract immutable C3 passage
+        shell: bash
+        run: |
+          set -euxo pipefail
+          rm -rf catwalk-fem/inverse-formfinding-mct/c3_midspan_passage_extract
+          python catwalk-fem/inverse-formfinding-mct/extract_c3_midspan_passage.py | tee c3_midspan_passage_extract.log
+      - name: Preserve extraction evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p catwalk-fem/inverse-formfinding-mct/c3_midspan_passage_extract
+          cp -f c3_midspan_passage_extract.log catwalk-fem/inverse-formfinding-mct/c3_midspan_passage_extract/solver.log || true
+          rm -f catwalk-fem/inverse-formfinding-mct/c3_midspan_passage_extract/C3.inp
+          printf '%s\n' "$GITHUB_SHA" > catwalk-fem/inverse-formfinding-mct/c3_midspan_passage_extract/GITHUB_COMMIT.txt
+      - name: Verify extraction output
+        shell: bash
+        run: |
+          set -euxo pipefail
+          test -s catwalk-fem/inverse-formfinding-mct/c3_midspan_passage_extract/c3_midspan_passage_extract.json
+      - name: Upload extracted passage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3-midspan-passage-extract
+          path: catwalk-fem/inverse-formfinding-mct/c3_midspan_passage_extract/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
