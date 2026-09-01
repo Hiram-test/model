@@ -45,4 +45,13 @@ Family label `TA1` is not attach TA1 `0.0996`. Do not write 复现 / 一致.
 - Same-spectrum relabels vs Q4: SIDE2 0.12492→0.16590; SIDE3 0.16751→0.19753; VS2 0.18735→0.14542. TA1 stays **0.12654451 Hz** vs attach **0.0996** = **+27.05%**. MAE 9.47%, max 33.90% (SIDE2).
 - Green Actions `33524823112` artifact was `catwalk-modal-branch-clean-v2`. `CASE_BOUND` omitted `frequency_reproduced` / `not_recovered_iniforce`. Stamp adds those flags; artifact `*-boundary`. Residual gates 1e-8 / 1e-4 / 5e-3 not loosened.
 
+
+## Wave Q6 — v3 finalizes the TS2 re-label (`191652d`…`d61a878`, run `33525569463`)
+
+- New `solve_modal_branch_clean_v3.py` + `compare_modal_branch_clean_v3.py` + workflow. Same inverse residual **0.0032826 > 1e-8**. Same `eigsh` spectrum. Isolation: attach Hz only in the comparison node.
+- SIDE2/SIDE3 return to Q4 (0.12492 / 0.16751). Official `classified_14` still labels TS2 as mode 14 **0.15187 Hz** (n=1, −3.33% vs attach 0.1571) and parks n=5 **0.20377 Hz** (mode 23) as an "alternate audit". That is still a rematch, not attach TS2, not 复现.
+- VS2 official 0.14542 (n=1); n=5 alternate 0.18735. TA1 **0.12654451 Hz** vs attach **0.0996** = **+27.05%**. MAE 5.73%, T-family MAE 14.66%, max 27.05% (TA1).
+- `CASE_BOUND` again omitted `frequency_reproduced` / `not_recovered_iniforce`. Comments still said verified MCT force field. Artifact was `catwalk-modal-branch-clean-v3`.
+- Stamp: rematch is not official pairing; residual gates 1e-8 / 1e-4 / 5e-3 not loosened; artifact `*-boundary`.
+
 Do not treat this path as the true3d reduced C4 deck.
