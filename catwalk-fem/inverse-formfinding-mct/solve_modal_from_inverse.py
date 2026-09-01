@@ -1,7 +1,5 @@
 from __future__ import annotations  # Enable stable modern type annotations.
-import csv  # Write deterministic modal and benchmark tables.
 import json  # Write machine-readable calculation receipts.
-import math  # Evaluate frequency error statistics.
 import os  # Record the exact GitHub commit identity.
 import sys  # Add the two isolated solver directories to the import path.
 from pathlib import Path  # Resolve repository and output paths safely.
@@ -14,7 +12,7 @@ CATWALK_FEM = HERE.parent  # Locate the common catwalk-fem directory.
 CLEAN_DIR = CATWALK_FEM / "clean-theory-14modes"  # Locate the accepted explicit 44-rope dynamic implementation.
 sys.path.insert(0, str(HERE))  # Make the inverse-equilibrium helpers importable.
 sys.path.insert(0, str(CLEAN_DIR))  # Make the explicit dynamic solver modules importable.
-import solve_inverse as inverse  # type: ignore  # Reuse the verified MCT geometry, load, and equilibrium operators.
+import solve_inverse as inverse  # type: ignore  # MCT geometry/load/equilibrium operators. Residual 0.00328 is not verified INIFORCE.
 import solve as base  # type: ignore  # Reuse the audited rope, frame, mass, eigen, plotting, and CSV implementation.
 import solve_v2 as v2  # type: ignore  # Reuse the mass-consistent assembly correction.
 import solve_v3 as v3  # type: ignore  # Reuse the accepted twin-catwalk global-torsion classifier.
@@ -26,23 +24,7 @@ base.OUT = OUT  # Redirect the base solver tables and plots into the isolated mo
 v2.OUT = OUT  # Redirect any v2 outputs into the isolated modal directory.
 v3.OUT = OUT  # Redirect the global-torsion plots into the isolated modal directory.
 v4.OUT = OUT  # Redirect any v4 outputs into the isolated modal directory.
-
-TARGETS = {  # Store the external fourteen-family frequencies only for post-freeze comparison.
-    "LS1": 0.0365,  # Store the external LS1 frequency in hertz.
-    "VA1": 0.0700,  # Store the external VA1 frequency in hertz.
-    "LA1": 0.0726,  # Store the external LA1 frequency in hertz.
-    "TA1": 0.0996,  # Store the external TA1 frequency in hertz.
-    "VS1": 0.1028,  # Store the external VS1 frequency in hertz.
-    "LS2": 0.1087,  # Store the external LS2 frequency in hertz.
-    "TS1": 0.1147,  # Store the external TS1 frequency in hertz.
-    "SIDE1": 0.1149,  # Store the external SIDE1 frequency in hertz.
-    "SIDE2": 0.1239,  # Store the external SIDE2 frequency in hertz.
-    "VA2": 0.1438,  # Store the external VA2 frequency in hertz.
-    "LA2": 0.1449,  # Store the external LA2 frequency in hertz.
-    "SIDE3": 0.1557,  # Store the external SIDE3 frequency in hertz.
-    "TS2": 0.1571,  # Store the external TS2 frequency in hertz.
-    "VS2": 0.1744,  # Store the external VS2 frequency in hertz.
-}  # Close the external comparison table.
+# Attach 2-3 family Hz are not stored here. comparison_after_freeze.py is the only comparison node.
 
 
 def recover_static_state(model: dict) -> dict:  # Recover the complete aggregate axial-force state without using stored MCT initial forces.
@@ -90,30 +72,7 @@ def recover_static_state(model: dict) -> dict:  # Recover the complete aggregate
     }  # Close the inverse-static state record.
 
 
-def write_post_freeze_comparison(selected: dict[str, dict]) -> tuple[list[dict], dict]:  # Compare the frozen physical classifications with external frequencies after the solve.
-    rows: list[dict] = []  # Initialize the post-freeze comparison rows.
-    signed_errors: list[float] = []  # Initialize signed percentage errors for identified families.
-    for label, target_hz in TARGETS.items():  # Traverse the external family table in declared order.
-        record = selected.get(label) or {}  # Read the frozen physical classification for the current family.
-        computed = record.get("frequency_hz")  # Read the frozen computed frequency when identified.
-        error_percent = None if computed is None else 100.0 * (float(computed) - target_hz) / target_hz  # Calculate the signed frequency error only after model freeze.
-        if error_percent is not None:  # Test whether the family was physically identified.
-            signed_errors.append(float(error_percent))  # Add the current error to aggregate statistics.
-        rows.append({"label": label, "mode": record.get("mode"), "computed_hz": computed, "target_hz": target_hz, "error_percent": error_percent, "status": record.get("status", "identified" if computed is not None else "missing")})  # Store the complete post-freeze family row.
-    with (OUT / "comparison_after_freeze.csv").open("w", newline="", encoding="utf-8-sig") as handle:  # Open the post-freeze comparison table.
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))  # Create a named-column CSV writer.
-        writer.writeheader()  # Write the comparison-table header.
-        writer.writerows(rows)  # Write all fourteen family rows.
-    metrics = {  # Calculate aggregate benchmark metrics over physically identified families only.
-        "identified_count": int(len(signed_errors)),  # Store the number of identified benchmark families.
-        "mean_absolute_error_percent": float(np.mean(np.abs(signed_errors))) if signed_errors else None,  # Store the mean absolute frequency error.
-        "root_mean_square_error_percent": float(math.sqrt(np.mean(np.square(signed_errors)))) if signed_errors else None,  # Store the RMS frequency error.
-        "maximum_absolute_error_percent": float(np.max(np.abs(signed_errors))) if signed_errors else None,  # Store the maximum absolute frequency error.
-    }  # Close the aggregate benchmark metrics.
-    return rows, metrics  # Return the post-freeze rows and metrics.
-
-
-def main() -> int:  # Execute the MCT-geometry inverse-prestress modal calculation.
+def main() -> int:  # Execute the MCT-geometry inverse-prestress modal calculation. Attach Hz are not read here.
     v4.apply_drawing_corrections()  # Apply only the independently documented drawing corrections before dynamic assembly.
     model = base.load_mct()  # Parse and hash-check the sole MCT geometry, topology, support, and load source.
     floor_nodes, floor_elements = base.chain(model, [int(element_id) for element_id in model["groups"]["ZJG04_bcs"]["elems"]])  # Recover the complete formed lower-chain topology.
@@ -125,8 +84,9 @@ def main() -> int:  # Execute the MCT-geometry inverse-prestress modal calculati
         raise RuntimeError(f"Inverse equilibrium nullity is {static['nullity']}")  # Reject an unresolved self-stress branch.
     if float(static["min_cable_force_kN"]) <= 0.0:  # Require every cable member to remain in tension.
         raise RuntimeError(f"Minimum recovered cable force is {static['min_cable_force_kN']:.6f} kN")  # Reject cable compression before tangent assembly.
-    if float(static["max_abs_force_error_percent"]) > 0.5:  # Enforce the already reviewed initial-force agreement criterion.
+    if float(static["max_abs_force_error_percent"]) > 0.5:  # Elementwise |Δ| is a comparison diagnostic, not the 1e-8 residual gate.
         raise RuntimeError(f"Maximum MCT initial-force mismatch is {static['max_abs_force_error_percent']:.6f}%")  # Reject a prestress state that no longer reproduces the MCT force field.
+    # Residual 0.00328 > 1e-8 remains not_recovered_iniforce. Do not treat |Δ| p95 as verified prestress.
     system = v2.assemble_v2(model, static, floor_nodes, floor_elements, top_nodes, top_elements)  # Assemble the drawing-corrected explicit 44-rope tangent stiffness and consistent mass matrices.
     frequencies, vectors, residuals, checks = base.solve_eigen(system)  # Solve and verify the low global generalized eigenpairs.
     raw, selected, classification_meta = v3.classify_v3(model, system, floor_nodes, top_nodes, frequencies, vectors, residuals)  # Classify fourteen physical families without target frequencies.
@@ -137,7 +97,12 @@ def main() -> int:  # Execute the MCT-geometry inverse-prestress modal calculati
         "source_mct_bytes": model["source"]["bytes"],  # Record the verified MCT source size.
         "target_frequency_used": False,  # Certify that target frequencies were absent from assembly and eigensolution.
         "mct_initial_force_used_in_inverse": False,  # Certify that stored MCT initial forces were absent from the inverse solve.
-        "mct_initial_force_used_after_inverse_for_verification": True,  # Record the post-solve prestress verification step.
+        "mct_initial_force_used_after_inverse_for_verification": True,  # Post-solve |Δ| vs stored INIFORCE is a comparison diagnostic.
+        "inverse_force_verified": False,  # Residual 0.00328 > 1e-8 is not recovered INIFORCE.
+        "not_recovered_iniforce": True,  # Absolute residual gates stay 1e-8 / 1e-4.
+        "frequency_reproduced": False,  # Python eigsh zip is not attach 复现.
+        "not_attach_ta1": True,  # Theory family TA1 is not attach TA1.
+        "not_ccx_job_finished": True,  # This path is scipy eigsh, not CalculiX.
         "inverse_static": {key: value for key, value in static.items() if key != "force_kN"},  # Store inverse diagnostics without duplicating the large force vector.
         "drawing_corrections": {"gantry_width_m": v4.DRAWING_GANTRY_WIDTH, "gantry_y_m": v4.DRAWING_GANTRY_Y.tolist(), "portal_outer_m": v4.DRAWING_PORTAL_B, "portal_wall_m": v4.DRAWING_PORTAL_T, "portal_mass_kg": v4.DRAWING_PORTAL_TOTAL_MASS, "passage_port_span_m": v4.DRAWING_PASSAGE_PORT_SPAN, "passage_depth_m": v4.DRAWING_PASSAGE_HEIGHT},  # Store every drawing correction numerically.
         "topology": {"explicit_floor_ropes": 32, "explicit_gantry_ropes": 12, "explicit_ropes_total": 44, "portals": 142, "passages": 21},  # Store the complete explicit dynamic topology.
@@ -154,18 +119,23 @@ def main() -> int:  # Execute the MCT-geometry inverse-prestress modal calculati
     base.write_csv(raw, selected, [])  # Write the raw spectrum and fourteen-family table without external target values.
     base.plots(raw, selected, [], classification_meta)  # Generate the spectrum and non-system-torsion mode-shape plots.
     v3.plot_global_torsion_shapes(model, system, floor_nodes, vectors, selected)  # Generate the three twin-catwalk global-torsion mode-shape plots.
-    _comparison_rows, comparison_metrics = write_post_freeze_comparison(selected)  # Load the external benchmark only after the frozen result exists.
     base.dump(OUT / "unstressed_lengths.json", system["recovered"])  # Preserve every explicit rope force and recovered unstressed length.
-    summary = {  # Build the concise calculation receipt.
+    summary = {  # Build the concise calculation receipt. Comparison metrics live in compare_after_freeze.py only.
         "kind": "mct_inverse_prestress_44_rope_modal_summary_v1",  # Identify the completed calculation.
         "git_sha": os.environ.get("GITHUB_SHA", "local"),  # Record the exact calculation commit.
         "source_mct_sha256": model["source"]["sha256"],  # Record the verified MCT source identity.
         "frozen_sha256": frozen_sha,  # Record the frozen target-free result digest.
         "inverse_static": frozen["inverse_static"],  # Store the initial-force agreement and equilibrium diagnostics.
         "matrix_checks": checks,  # Store the eigenproblem verification diagnostics.
-        "comparison_metrics": comparison_metrics,  # Store post-freeze benchmark metrics.
         "identified_frequencies_hz": {label: record.get("frequency_hz") for label, record in selected.items()},  # Store the fourteen classified frequencies compactly.
         "target_frequency_used_in_solve": False,  # Certify target isolation in the eigensolution.
+        "inverse_force_verified": False,  # Residual 0.00328 > 1e-8 is not verified prestress.
+        "not_recovered_iniforce": True,  # Absolute residual gates stay 1e-8 / 1e-4.
+        "frequency_reproduced": False,  # Green eigsh zip is not attach 复现.
+        "not_attach_ta1": True,  # Theory family TA1 is not attach TA1.
+        "not_ccx_job_finished": True,  # This path is scipy eigsh, not CalculiX.
+        "absolute_recovered_residual_limit": 1.0e-8,  # Inverse form-finding residual gate. Do not loosen.
+        "absolute_stored_residual_limit": 1.0e-4,  # Stored-INIFORCE residual gate. Do not loosen.
     }  # Close the concise calculation receipt.
     base.dump(OUT / "summary.json", summary)  # Write the concise modal summary.
     (OUT / "SHA256SUMS.txt").write_text("\n".join(f"{base.sha(path)}  {path.name}" for path in sorted(OUT.iterdir()) if path.is_file()) + "\n", encoding="utf-8")  # Hash every primary result file.

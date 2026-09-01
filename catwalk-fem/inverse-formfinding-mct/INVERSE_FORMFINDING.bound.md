@@ -27,4 +27,13 @@ Family label `TA1` is not attach TA1 `0.0996`. Do not write 复现 / 一致.
 - Numbers unchanged: recovered residual **0.003283**, stored **0.004256**, endpoint **0.184**. Relative `0.003283 < 0.004256` is a comparison diagnostic, not recovered INIFORCE and not attach TA1.
 - Absolute gates restored on this stamp. `success_initial_force_agreement` stays **false**. Relative comparison kept as `success_relative_to_stored_mean_force`. Artifact name back to `*-boundary`.
 
+## Wave Q4 — modal from unverified inverse (`59194f7`, `36f82ed`, run `33505293202`)
+
+- New `solve_modal_from_inverse.py` (177 lines) + `.github/workflows/catwalk-modal-from-inverse.yml`. Reuses clean-theory `solve.py` / `solve_v2` / `solve_v3` / `solve_v4_drawing_corrected` (`scipy.sparse.linalg.eigsh`). Not CalculiX. MCT sha `0d18e3f7…`.
+- Isolation FAIL on Grok tip: attach 14-family `TARGETS` including TA1 `0.0996` lived inside the solver (Wave M1 already banned this). Comparison now lives only in `compare_after_freeze.py`.
+- Workflow `CASE_BOUND` wrote `inverse_force_verified_before_modal=true`. Inverse residual is still **0.0032826 > 1e-8**; stored-INIFORCE residual **0.004256 > 1e-4**; Q3 `success_initial_force_agreement=false`. Body TENSTR |Δ| p95 **0.291%** and the 0.5% force-match gate do not verify INIFORCE. Endpoint residual **0.184**.
+- Artifact name was `catwalk-modal-from-mct-inverse-prestress`. Green Actions `33505293202` is a Python `eigsh` zip, not a CalculiX Job finished, not attach 复现.
+- Frozen classified frequencies (run `33505293202`): theory TA1 **0.12654451 Hz** vs attach **0.0996** = **+27.05%** (same overlay as v4 drawing-corrected). TS1 0.13030 vs 0.1147 = +13.60%. TS2 0.20377 vs 0.1571 = +29.71% (mode 23, n-order not rematched to TS3). MAE 6.96%, max 29.71%.
+- Stamp: `frequency_reproduced=false` `not_attach_ta1=true` `not_ccx_job_finished=true` `inverse_force_verified_before_modal=false` `not_recovered_iniforce=true`. Artifact `*-boundary`. Residual gates 1e-8 / 1e-4 and modal inverse 5e-3 were not loosened.
+
 Do not treat this path as the true3d reduced C4 deck.

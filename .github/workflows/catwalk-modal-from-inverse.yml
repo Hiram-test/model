@@ -1,4 +1,4 @@
-name: Catwalk Modal From MCT Inverse Prestress # Identify the isolated modal calculation.
+name: Catwalk Modal From MCT Inverse (boundary) # Isolated modal path; inverse residual is not verified prestress.
 on: # Define branch-scoped automatic and manual triggers.
   push: # Recompute after any source change in this calculation chain.
     branches: [feat/catwalk-inverse-formfinding-mct] # Restrict automatic execution to the inverse-form-finding branch.
@@ -39,6 +39,11 @@ jobs: # Define the bounded modal calculation job.
         run: | # Execute the complete numerical solve.
           set -euxo pipefail # Stop immediately if any numerical stage fails.
           python catwalk-fem/inverse-formfinding-mct/solve_modal_from_inverse.py | tee catwalk_modal_from_inverse.log # Preserve the full solver receipt.
+      - name: Post-freeze comparison only # Attach family Hz live only in compare_after_freeze.py.
+        shell: bash # Use strict Bash for the comparison node.
+        run: | # Compare frozen families after the solver has written results.
+          set -euxo pipefail # Stop immediately if comparison cannot run.
+          python catwalk-fem/inverse-formfinding-mct/compare_after_freeze.py | tee catwalk_modal_compare.log # Preserve the comparison receipt.
       - name: Verify primary results # Reject incomplete or unverified calculations before artifact publication.
         shell: bash # Use Bash for deterministic result checks.
         run: | # Require every decisive target-free and post-freeze output.
@@ -60,12 +65,13 @@ jobs: # Define the bounded modal calculation job.
           mkdir -p catwalk-fem/inverse-formfinding-mct/modal_results # Ensure the artifact directory exists.
           cp -f catwalk-fem/inverse-formfinding-mct/INVERSE_FORMFINDING.bound.md catwalk-fem/inverse-formfinding-mct/modal_results/BOUND.md # Preserve the inverse-input boundary.
           cp -f catwalk_modal_from_inverse.log catwalk-fem/inverse-formfinding-mct/modal_results/solver.log || true # Preserve the numerical log when available.
-          printf '%s\n' 'mct_geometry_used=true' 'inverse_force_verified_before_modal=true' 'target_frequency_used_in_solve=false' 'comparison_after_freeze=true' > catwalk-fem/inverse-formfinding-mct/modal_results/CASE_BOUND.txt # Stamp the modal calculation protocol.
+          cp -f catwalk-fem/inverse-formfinding-mct/case.txt catwalk-fem/inverse-formfinding-mct/modal_results/case.txt # Preserve the inverse/modal case stamps.
+          printf '%s\n' 'frequency_reproduced=false' 'not_attach_ta1=true' 'not_ccx_job_finished=true' 'not_recovered_iniforce=true' 'inverse_force_verified_before_modal=false' 'mct_geometry_used=true' 'target_frequency_used_in_solve=false' 'comparison_after_freeze=true' > catwalk-fem/inverse-formfinding-mct/modal_results/CASE_BOUND.txt # Inverse residual 0.00328 is not verified prestress.
       - name: Upload complete modal artifact # Publish the full auditable result package.
         if: always() # Publish diagnostics even when a numerical gate rejects the solve.
         uses: actions/upload-artifact@v4 # Use the maintained artifact uploader.
         with: # Configure artifact identity and retention.
-          name: catwalk-modal-from-mct-inverse-prestress # Give the result package a unique stable name.
+          name: catwalk-modal-from-mct-inverse-prestress-boundary # Green eigsh zip is not recovered INIFORCE and not attach 复现.
           path: catwalk-fem/inverse-formfinding-mct/modal_results/ # Upload the complete isolated result directory.
           if-no-files-found: error # Reject an empty artifact.
           retention-days: 90 # Retain the result package for ninety days.
