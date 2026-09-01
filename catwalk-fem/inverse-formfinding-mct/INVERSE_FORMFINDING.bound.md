@@ -36,4 +36,13 @@ Family label `TA1` is not attach TA1 `0.0996`. Do not write 复现 / 一致.
 - Frozen classified frequencies (run `33505293202`): theory TA1 **0.12654451 Hz** vs attach **0.0996** = **+27.05%** (same overlay as v4 drawing-corrected). TS1 0.13030 vs 0.1147 = +13.60%. TS2 0.20377 vs 0.1571 = +29.71% (mode 23, n-order not rematched to TS3). MAE 6.96%, max 29.71%.
 - Stamp: `frequency_reproduced=false` `not_attach_ta1=true` `not_ccx_job_finished=true` `inverse_force_verified_before_modal=false` `not_recovered_iniforce=true`. Artifact `*-boundary`. Residual gates 1e-8 / 1e-4 and modal inverse 5e-3 were not loosened.
 
+
+## Wave Q5 — branch-clean re-label (`035698d`…`7bd7e67`, run `33524823112`)
+
+- New `solve_modal_branch_clean.py` (256) + `solve_modal_branch_clean_v2.py` (72) + `compare_modal_branch_clean_v2.py` + workflow. Same inverse residual **0.0032826 > 1e-8**. Same `eigsh` spectrum as Q4; not CalculiX. MCT sha `0d18e3f7…`. Isolation: attach Hz only in the comparison node.
+- Comments and 0.5% force-match gate still called the inverse "verified". It is not. Q3 `success_initial_force_agreement=false`.
+- Reclassification drops n-order as a pairing lock and takes rank-2 T-differential-S. TS2 moves from Q4 mode 23 **0.20377 Hz** to mode 14 **0.15187 Hz** (descriptor n=1) vs attach **0.1571** = **−3.33%**. This is a label rematch, not attach TS2, not permission to write 复现 / 一致. Official pairing stays family-order; do not treat the n=1 branch as TS2→closer-to-0.1571.
+- Same-spectrum relabels vs Q4: SIDE2 0.12492→0.16590; SIDE3 0.16751→0.19753; VS2 0.18735→0.14542. TA1 stays **0.12654451 Hz** vs attach **0.0996** = **+27.05%**. MAE 9.47%, max 33.90% (SIDE2).
+- Green Actions `33524823112` artifact was `catwalk-modal-branch-clean-v2`. `CASE_BOUND` omitted `frequency_reproduced` / `not_recovered_iniforce`. Stamp adds those flags; artifact `*-boundary`. Residual gates 1e-8 / 1e-4 / 5e-3 not loosened.
+
 Do not treat this path as the true3d reduced C4 deck.

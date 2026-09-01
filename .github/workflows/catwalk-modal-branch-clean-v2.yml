@@ -1,4 +1,4 @@
-name: Catwalk Modal Branch Clean V2
+name: Catwalk Modal Branch Clean V2 (boundary)
 on:
   push:
     branches: [feat/catwalk-inverse-formfinding-mct]
@@ -66,9 +66,16 @@ jobs:
           mkdir -p catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v2
           cp -f modal_branch_clean_v2.log catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v2/solver.log || true
           cp -f comparison_branch_clean_v2.log catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v2/comparison.log || true
+          cp -f catwalk-fem/inverse-formfinding-mct/case.txt catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v2/case.txt
+          cp -f catwalk-fem/inverse-formfinding-mct/INVERSE_FORMFINDING.bound.md catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v2/BOUND.md
           printf '%s\n' \
-            'mct_geometry_used=true' \
+            'frequency_reproduced=false' \
+            'not_attach_ta1=true' \
+            'not_ccx_job_finished=true' \
+            'not_recovered_iniforce=true' \
+            'inverse_force_verified=false' \
             'inverse_force_recomputed=true' \
+            'mct_geometry_used=true' \
             'all_matrices_reassembled=true' \
             'all_eigenpairs_recomputed=true' \
             'fixed_harmonic_order_used_for_selection=false' \
@@ -77,12 +84,13 @@ jobs:
             'target_frequency_used_in_solve=false' \
             'target_frequency_used_in_classification=false' \
             'comparison_after_freeze=true' \
+            'ts2_n1_relabel_not_attach=true' \
             > catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v2/CASE_BOUND.txt
       - name: Upload complete recalculation artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: catwalk-modal-branch-clean-v2
+          name: catwalk-modal-branch-clean-v2-boundary
           path: catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v2/
           if-no-files-found: error
           retention-days: 90
