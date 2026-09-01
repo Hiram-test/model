@@ -21,4 +21,10 @@ Family label `TA1` is not attach TA1 `0.0996`. Do not write 复现 / 一致.
 - Endpoint-force audit: INI-EFORCE free-node residual **0.184**; mean INIFORCE residual 0.004256. MCT endpoint forces do not close free-node equilibrium.
 - Residual gates were not loosened. Green zip `*-results` is not a recovered form-found model and not attach TA1.
 
+## Wave Q3 — post-hoc relative verdict (`f6c5e7a`, `ea181e6`, run `33500833756`)
+
+- `review_verdict.py` overwrote `success_initial_force_agreement` to **true** by dropping the 1e-8 / 1e-4 absolute residual gates and keeping only `recovered_residual <= stored_residual` plus |Δ| ≤ 0.5%. Artifact renamed `*-reviewed`; `not_recovered_iniforce` dropped from `CASE_BOUND`.
+- Numbers unchanged: recovered residual **0.003283**, stored **0.004256**, endpoint **0.184**. Relative `0.003283 < 0.004256` is a comparison diagnostic, not recovered INIFORCE and not attach TA1.
+- Absolute gates restored on this stamp. `success_initial_force_agreement` stays **false**. Relative comparison kept as `success_relative_to_stored_mean_force`. Artifact name back to `*-boundary`.
+
 Do not treat this path as the true3d reduced C4 deck.
