@@ -1,7 +1,7 @@
 name: Catwalk Modal No Passage # Identify the no-transverse-passage dynamic ablation workflow.
 on: # Define branch-scoped workflow triggers.
   push: # Recompute automatically when the isolated ablation changes.
-    branches: [feat/catwalk-inverse-formfinding-mct] # Restrict automatic execution to the verified inverse-form-finding branch.
+    branches: [feat/catwalk-inverse-formfinding-mct] # Restrict automatic execution to the inverse-form-finding branch. Residual 0.00328 is not verified prestress.
     paths: # Restrict triggering files to this calculation package.
       - 'catwalk-fem/inverse-formfinding-mct/solve_modal_no_passage.py' # Trigger when the no-passage solver changes.
       - '.github/workflows/catwalk-modal-no-passage.yml' # Trigger when this workflow changes.
@@ -56,12 +56,33 @@ jobs: # Define the complete calculation job.
           set -euxo pipefail # Stop on unexpected evidence-copy failures.
           mkdir -p catwalk-fem/inverse-formfinding-mct/modal_results_no_passage # Ensure the result directory exists.
           cp -f modal_no_passage.log catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/solver.log || true # Preserve the numerical log when available.
-          printf '%s\n' 'mct_geometry_used=true' 'verified_inverse_prestress_frozen=true' 'transverse_passage_stiffness_included=false' 'transverse_passage_mass_included=false' 'passage_dead_load_not_removed_from_frozen_prestress=true' 'all_dynamic_matrices_reassembled=true' 'single_catwalk_block_solved=true' 'common_differential_pairs_are_exactly_degenerate=true' 'target_frequency_used_in_solve=false' 'target_frequency_used_in_classification=false' > catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/CASE_BOUND.txt # Record the precise ablation protocol.
+          cp -f catwalk-fem/inverse-formfinding-mct/case.txt catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/case.txt
+          cp -f catwalk-fem/inverse-formfinding-mct/INVERSE_FORMFINDING.bound.md catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/BOUND.md
+          printf '%s\n' \
+            'frequency_reproduced=false' \
+            'not_attach_ta1=true' \
+            'not_ccx_job_finished=true' \
+            'not_recovered_iniforce=true' \
+            'inverse_force_verified=false' \
+            'verified_inverse_prestress_frozen=false' \
+            'mct_geometry_used=true' \
+            'transverse_passage_stiffness_included=false' \
+            'transverse_passage_mass_included=false' \
+            'passage_dead_load_not_removed_from_frozen_prestress=true' \
+            'all_dynamic_matrices_reassembled=true' \
+            'single_catwalk_block_solved=true' \
+            'common_differential_pairs_are_exactly_degenerate=true' \
+            'target_frequency_used_in_solve=false' \
+            'target_frequency_used_in_classification=false' \
+            'no_passage_ta1_not_attach=true' \
+            'no_passage_ta1_hz=0.07390563' \
+            'ts2_n1_relabel_not_attach=true' \
+            > catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/CASE_BOUND.txt # Residual 0.00328 is not verified prestress.
       - name: Upload complete no-passage artifact # Publish the complete calculation package.
         if: always() # Upload successful or diagnostically rejected results.
         uses: actions/upload-artifact@v4 # Use the maintained artifact action.
         with: # Configure the result package.
-          name: catwalk-modal-no-passage # Assign the artifact name.
+          name: catwalk-modal-no-passage-boundary # Green eigsh zip is not a recovered model.
           path: catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/ # Upload the isolated result directory.
           if-no-files-found: error # Reject an empty artifact.
           retention-days: 90 # Preserve the artifact for ninety days.

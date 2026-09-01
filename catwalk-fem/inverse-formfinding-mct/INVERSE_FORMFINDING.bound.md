@@ -54,4 +54,16 @@ Family label `TA1` is not attach TA1 `0.0996`. Do not write 复现 / 一致.
 - `CASE_BOUND` again omitted `frequency_reproduced` / `not_recovered_iniforce`. Comments still said verified MCT force field. Artifact was `catwalk-modal-branch-clean-v3`.
 - Stamp: rematch is not official pairing; residual gates 1e-8 / 1e-4 / 5e-3 not loosened; artifact `*-boundary`.
 
+
+
+## Wave Q7 — no-passage ablation (`75a228f`, `0bfcd08`, run `33527360519`)
+
+- New `solve_modal_no_passage.py` (209) + `.github/workflows/catwalk-modal-no-passage.yml`. Zeros all 21 transverse-passage K and M, then solves one catwalk `eigsh` and assigns common+differential 14-family labels as exact degenerates. Isolation: no attach Hz / TARGETS / 复现 in the solver. Not CalculiX. MCT sha `0d18e3f7…`.
+- Inverse residual is still **0.0032826 > 1e-8**; stored-INIFORCE residual **0.004256 > 1e-4**; endpoint **0.184**. Q3 `success_initial_force_agreement=false`. The 0.5% force-match gate does not verify INIFORCE. Comments, `prestress_state`, and `CASE_BOUND` wrote `verified inverse / verified_inverse_prestress_frozen=true`. That is false.
+- Ablation spectrum is not the Q4/Q6 with-passage table. Labeled TA1 **0.07390563 Hz** is the exact degenerate of VA1 (mode 2, n=2). vs attach **0.0996** = **−25.80%**. Near C3 M4 0.07356 / S10 0.0733 is not attach TA1 and not C3 复现.
+- Labeled TS2 **0.15038472 Hz** is the exact degenerate of VS2 (mode 11, n=1, 0 zero crossings) vs attach **0.1571** = **−4.27%**. That is the same rematch philosophy as Q5/Q6, now on a different (no-passage) spectrum. Official with-passage pairing stays Q4 n=5 **0.20376923 Hz**.
+- Other labeled freqs (run `33527360519`): LS1 0.03808 (+4.33%), VA1 0.07391 (+5.58%), LA1 0.07599 (+4.67%), VS1=TS1 0.10486, LS2 0.11389, SIDE1 0.11991, SIDE2 0.12885, VA2 0.15161, LA2 0.15174, SIDE3 0.17312, VS2=TS2 0.15038. Comparison-only MAE 7.39%, T-family MAE 12.88%, max 25.80% (TA1).
+- Artifact was `catwalk-modal-no-passage`. Green Actions `33527360519` is a Python `eigsh` zip, not a CalculiX Job finished, not attach 复现.
+- Stamp: drop verified-prestress wording; `frequency_reproduced=false` `not_attach_ta1=true` `not_ccx_job_finished=true` `not_recovered_iniforce=true` `inverse_force_verified=false`; artifact `*-boundary`. Residual gates 1e-8 / 1e-4 / 5e-3 not loosened.
+
 Do not treat this path as the true3d reduced C4 deck.
