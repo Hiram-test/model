@@ -10,11 +10,11 @@ OUT = HERE / "c3_midspan_passage_extract"  # Define the isolated extraction dire
 OUT.mkdir(parents=True, exist_ok=True)  # Create the extraction directory idempotently.
 URL = "https://github.com/Hiram-test/model/releases/download/c3-ft14-parser-safe-667c5047/C3-UB-FT14-PARSER-SAFE_m14_667c504770b99d4a.inp"  # Freeze the audited release URL.
 DECK = OUT / "C3.inp"  # Define the temporary downloaded deck path.
-SEED_SET = "UG64_0084"  # Select the flat main-span-midpoint passage block identified by coordinate audit.
-X_MARGIN_MM = 2000.0  # Retain the full 1.5-m passage longitudinal width and nearby connection nodes.
-Y_LIMIT_MM = 26000.0  # Retain both catwalks and the complete 49.655-m passage width.
-Z_BELOW_MM = 3500.0  # Retain the 1.7-m triangular passage depth and nearby lower connections.
-Z_ABOVE_MM = 12000.0  # Retain the complete approximately 9-m high passage support frame.
+SEED_SET = "UG64_0084"  # Coordinate-audit seed block only. Not a drawing-verified passage.
+X_MARGIN_MM = 2000.0  # Window heuristic only. Not a drawing comparison.
+Y_LIMIT_MM = 26000.0  # Window heuristic only. Not a drawing comparison.
+Z_BELOW_MM = 3500.0  # Window heuristic only. Not a drawing comparison.
+Z_ABOVE_MM = 12000.0  # Window heuristic only. Not a drawing comparison.
 
 
 def parse_options(line: str) -> dict[str, str]:  # Parse comma-separated CalculiX keyword options.
@@ -97,7 +97,7 @@ def main() -> int:  # Download, parse, isolate, and export the midspan passage s
     element_records = [{"element": int(element_id), "type": elements[element_id]["type"], "set": elements[element_id]["set"], "nodes": [int(value) for value in elements[element_id]["nodes"]]} for element_id in expanded_elements]  # Export all extracted element records.
     equation_records = [[{"node": int(node_id), "dof": int(dof), "coefficient": float(coefficient)} for node_id, dof, coefficient in terms] for terms in local_equations]  # Export all local multipoint equations.
     coordinates = np.array([nodes[node_id] for node_id in expanded_node_set], dtype=float)  # Stack expanded local coordinates for extent audit.
-    report = {"source_url": URL, "seed_set": SEED_SET, "seed_element_count": len(seed_elements), "seed_node_count": len(seed_nodes), "x_centre": x_centre, "z_floor_estimate": z_floor, "window": {"x_margin_mm": X_MARGIN_MM, "y_limit_mm": Y_LIMIT_MM, "z_below_mm": Z_BELOW_MM, "z_above_mm": Z_ABOVE_MM}, "local_window_node_count": len(local_nodes), "equation_linked_node_count": len(equation_nodes), "expanded_node_count": len(expanded_node_set), "expanded_element_count": len(expanded_elements), "local_equation_count": len(local_equations), "coordinate_minimum": np.min(coordinates, axis=0).tolist(), "coordinate_maximum": np.max(coordinates, axis=0).tolist(), "coordinate_extent": np.ptp(coordinates, axis=0).tolist(), "block_counts": {name: dict(counts) for name, counts in block_counts.items()}, "nodes": coordinate_records, "elements": element_records, "equations": equation_records}  # Assemble the complete extracted passage report.
+    report = {"source_url": URL, "seed_set": SEED_SET, "seed_element_count": len(seed_elements), "seed_node_count": len(seed_nodes), "x_centre": x_centre, "z_floor_estimate": z_floor, "window": {"x_margin_mm": X_MARGIN_MM, "y_limit_mm": Y_LIMIT_MM, "z_below_mm": Z_BELOW_MM, "z_above_mm": Z_ABOVE_MM}, "local_window_node_count": len(local_nodes), "equation_linked_node_count": len(equation_nodes), "expanded_node_count": len(expanded_node_set), "expanded_element_count": len(expanded_elements), "local_equation_count": len(local_equations), "coordinate_minimum": np.min(coordinates, axis=0).tolist(), "coordinate_maximum": np.max(coordinates, axis=0).tolist(), "coordinate_extent": np.ptp(coordinates, axis=0).tolist(), "block_counts": {name: dict(counts) for name, counts in block_counts.items()}, "nodes": coordinate_records, "elements": element_records, "equations": equation_records, "frequency_reproduced": False, "not_attach_ta1": True, "not_ccx_job_finished": True, "not_recovered_iniforce": True, "drawing_compared": False, "not_true3d": True, "not_passage_drawing_match": True, "local_window_only": True, "source_c3_parent": "667c5047"}  # Local C3 window dump only. Not a drawing extract and not attach TA1.
     (OUT / "c3_midspan_passage_extract.json").write_text(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")  # Write the full machine-readable passage extraction.
     print(json.dumps({key: report[key] for key in ("seed_set", "seed_element_count", "seed_node_count", "x_centre", "z_floor_estimate", "local_window_node_count", "equation_linked_node_count", "expanded_node_count", "expanded_element_count", "local_equation_count", "coordinate_extent", "block_counts")}, ensure_ascii=False, indent=2, sort_keys=True))  # Print the concise extraction summary into the workflow log.
     return 0  # Report successful passage extraction.
