@@ -1,0 +1,68 @@
+name: Catwalk Modal No Passage # Identify the no-transverse-passage dynamic ablation workflow.
+on: # Define branch-scoped workflow triggers.
+  push: # Recompute automatically when the isolated ablation changes.
+    branches: [feat/catwalk-inverse-formfinding-mct] # Restrict automatic execution to the verified inverse-form-finding branch.
+    paths: # Restrict triggering files to this calculation package.
+      - 'catwalk-fem/inverse-formfinding-mct/solve_modal_no_passage.py' # Trigger when the no-passage solver changes.
+      - '.github/workflows/catwalk-modal-no-passage.yml' # Trigger when this workflow changes.
+  workflow_dispatch: # Permit an explicit rerun without modifying calculation inputs.
+permissions: # Keep the numerical runner read-only.
+  contents: read # Permit repository checkout only.
+jobs: # Define the complete calculation job.
+  modal: # Execute the no-passage ablation.
+    runs-on: ubuntu-24.04 # Use the current Ubuntu runner image.
+    timeout-minutes: 30 # Bound dependency installation and sparse eigenanalysis time.
+    steps: # Execute the reproducible calculation chain.
+      - name: Checkout exact source # Fetch the exact triggering commit.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Configure deterministic checkout behavior.
+          fetch-depth: 1 # Fetch only the triggering commit.
+          persist-credentials: false # Prevent repository writes from the runner.
+      - name: Set up Python # Install the numerical Python runtime.
+        uses: actions/setup-python@v5 # Use the maintained Python setup action.
+        with: # Freeze the interpreter version.
+          python-version: '3.12' # Use Python 3.12 for SciPy compatibility.
+      - name: Install numerical dependencies # Install only the imported numerical libraries.
+        shell: bash # Use strict Bash execution.
+        run: | # Execute the deterministic dependency installation block.
+          set -euxo pipefail # Stop on every command or pipeline failure.
+          python -m pip install --upgrade pip # Upgrade the package installer.
+          python -m pip install numpy scipy matplotlib # Install arrays, sparse solvers, and imported plotting support.
+      - name: Clean previous no-passage results # Ensure the artifact belongs only to this run.
+        shell: bash # Use strict Bash execution.
+        run: | # Remove every stale ablation output.
+          set -euxo pipefail # Stop on unexpected filesystem errors.
+          rm -rf catwalk-fem/inverse-formfinding-mct/modal_results_no_passage # Delete the previous result directory.
+      - name: Recompute no-passage modal system # Rebuild prestress, matrices, and single-catwalk eigenbranches.
+        shell: bash # Use strict Bash execution.
+        run: | # Execute the no-passage calculation once.
+          set -euxo pipefail # Stop immediately on numerical failure.
+          python catwalk-fem/inverse-formfinding-mct/solve_modal_no_passage.py | tee modal_no_passage.log # Preserve the complete numerical receipt.
+      - name: Verify primary no-passage outputs # Reject incomplete calculations before publication.
+        shell: bash # Use strict Bash execution.
+        run: | # Require every primary calculation artifact.
+          set -euxo pipefail # Stop on the first missing or empty file.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/frozen_results_no_passage.json # Require the immutable target-free result.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/raw_single_catwalk_modes.csv # Require the complete one-catwalk spectrum table.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/classified_14_modes_no_passage.csv # Require the no-passage fourteen-family table.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/selected_mode_shapes_no_passage.json # Require selected physical fields.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/unstressed_lengths.json # Require every explicit rope force and unstressed length.
+          printf '%s\n' "$GITHUB_SHA" > catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/GITHUB_COMMIT.txt # Record the exact source revision.
+          sha256sum catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/* > catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/SHA256SUMS_FINAL.txt # Freeze every generated file digest.
+      - name: Preserve ablation protocol # Stamp the physical meaning of this calculation.
+        if: always() # Preserve evidence even if a numerical gate rejects the run.
+        shell: bash # Use strict Bash execution.
+        run: | # Write the ablation boundary record.
+          set -euxo pipefail # Stop on unexpected evidence-copy failures.
+          mkdir -p catwalk-fem/inverse-formfinding-mct/modal_results_no_passage # Ensure the result directory exists.
+          cp -f modal_no_passage.log catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/solver.log || true # Preserve the numerical log when available.
+          printf '%s\n' 'mct_geometry_used=true' 'verified_inverse_prestress_frozen=true' 'transverse_passage_stiffness_included=false' 'transverse_passage_mass_included=false' 'passage_dead_load_not_removed_from_frozen_prestress=true' 'all_dynamic_matrices_reassembled=true' 'single_catwalk_block_solved=true' 'common_differential_pairs_are_exactly_degenerate=true' 'target_frequency_used_in_solve=false' 'target_frequency_used_in_classification=false' > catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/CASE_BOUND.txt # Record the precise ablation protocol.
+      - name: Upload complete no-passage artifact # Publish the complete calculation package.
+        if: always() # Upload successful or diagnostically rejected results.
+        uses: actions/upload-artifact@v4 # Use the maintained artifact action.
+        with: # Configure the result package.
+          name: catwalk-modal-no-passage # Assign the artifact name.
+          path: catwalk-fem/inverse-formfinding-mct/modal_results_no_passage/ # Upload the isolated result directory.
+          if-no-files-found: error # Reject an empty artifact.
+          retention-days: 90 # Preserve the artifact for ninety days.
+          compression-level: 6 # Use balanced ZIP compression.
