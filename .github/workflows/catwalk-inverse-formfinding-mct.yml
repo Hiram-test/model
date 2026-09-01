@@ -1,0 +1,34 @@
+name: catwalk-inverse-formfinding-mct
+on:
+  push:
+    branches: [feat/catwalk-inverse-formfinding-mct]
+    paths:
+      - 'catwalk-fem/inverse-formfinding-mct/**'
+      - '.github/workflows/catwalk-inverse-formfinding-mct.yml'
+  workflow_dispatch:
+jobs:
+  inverse:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy scipy
+      - run: python catwalk-fem/inverse-formfinding-mct/solve_inverse.py | tee inverse_formfinding_log.txt
+      - name: Collect inverse-form-finding evidence
+        if: always()
+        run: |
+          set -euxo pipefail
+          mkdir -p /tmp/inverse-formfinding-mct
+          cp -f inverse_formfinding_log.txt /tmp/inverse-formfinding-mct/
+          cp -f catwalk-fem/inverse-formfinding-mct/results/*.json /tmp/inverse-formfinding-mct/ || true
+          cp -f catwalk-fem/inverse-formfinding-mct/results/*.csv /tmp/inverse-formfinding-mct/ || true
+          cp -f catwalk-fem/inverse-formfinding-mct/INVERSE_FORMFINDING.bound.md /tmp/inverse-formfinding-mct/
+          printf '%s\n' "${GITHUB_SHA}" > /tmp/inverse-formfinding-mct/GITHUB_COMMIT.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: catwalk-inverse-formfinding-mct-results
+          path: /tmp/inverse-formfinding-mct/
+          if-no-files-found: error
