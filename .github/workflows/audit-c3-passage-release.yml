@@ -1,0 +1,57 @@
+name: Audit C3 Passage Release
+on:
+  push:
+    branches: [feat/catwalk-inverse-formfinding-mct]
+    paths:
+      - 'catwalk-fem/inverse-formfinding-mct/audit_c3_passage_release.py'
+      - '.github/workflows/audit-c3-passage-release.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact audit source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audit dependency
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python -m pip install numpy
+      - name: Download and audit immutable C3 release deck
+        shell: bash
+        run: |
+          set -euxo pipefail
+          rm -rf catwalk-fem/inverse-formfinding-mct/c3_passage_audit
+          python catwalk-fem/inverse-formfinding-mct/audit_c3_passage_release.py | tee c3_passage_audit.log
+      - name: Preserve audit evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p catwalk-fem/inverse-formfinding-mct/c3_passage_audit
+          cp -f c3_passage_audit.log catwalk-fem/inverse-formfinding-mct/c3_passage_audit/solver.log || true
+          rm -f catwalk-fem/inverse-formfinding-mct/c3_passage_audit/C3.inp
+          printf '%s\n' "$GITHUB_SHA" > catwalk-fem/inverse-formfinding-mct/c3_passage_audit/GITHUB_COMMIT.txt
+      - name: Verify audit output
+        shell: bash
+        run: |
+          set -euxo pipefail
+          test -s catwalk-fem/inverse-formfinding-mct/c3_passage_audit/c3_passage_topology_audit.json
+      - name: Upload topology audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3-passage-topology-audit
+          path: catwalk-fem/inverse-formfinding-mct/c3_passage_audit/
+          if-no-files-found: error
+          retention-days: 30
