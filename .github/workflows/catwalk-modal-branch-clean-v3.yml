@@ -1,0 +1,92 @@
+name: Catwalk Modal Branch Clean V3
+on:
+  push:
+    branches: [feat/catwalk-inverse-formfinding-mct]
+    paths:
+      - 'catwalk-fem/inverse-formfinding-mct/solve_modal_branch_clean.py'
+      - 'catwalk-fem/inverse-formfinding-mct/solve_modal_branch_clean_v2.py'
+      - 'catwalk-fem/inverse-formfinding-mct/solve_modal_branch_clean_v3.py'
+      - 'catwalk-fem/inverse-formfinding-mct/compare_modal_branch_clean_v3.py'
+      - '.github/workflows/catwalk-modal-branch-clean-v3.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  modal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install numerical dependencies
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy matplotlib
+      - name: Clean previous final results
+        shell: bash
+        run: |
+          set -euxo pipefail
+          rm -rf catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3
+      - name: Recompute inverse state matrices eigenpairs and branch classifications
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python catwalk-fem/inverse-formfinding-mct/solve_modal_branch_clean_v3.py | tee modal_branch_clean_v3.log
+      - name: Compare only after target-free freeze
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python catwalk-fem/inverse-formfinding-mct/compare_modal_branch_clean_v3.py | tee comparison_branch_clean_v3.log
+      - name: Verify final recalculation outputs
+        shell: bash
+        run: |
+          set -euxo pipefail
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/frozen_results_branch_clean_v3.json
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/raw_branch_modes.csv
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/classified_14_modes_branch_clean.csv
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/selected_mode_shapes.json
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/classification_ambiguity_audit.json
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/comparison_after_freeze_branch_clean_v3.csv
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/comparison_metrics_branch_clean_v3.json
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/unstressed_lengths.json
+          printf '%s\n' "$GITHUB_SHA" > catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/GITHUB_COMMIT.txt
+          sha256sum catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/* > catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/SHA256SUMS_FINAL.txt
+      - name: Preserve final calculation protocol
+        if: always()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3
+          cp -f modal_branch_clean_v3.log catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/solver.log || true
+          cp -f comparison_branch_clean_v3.log catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/comparison.log || true
+          printf '%s\n' \
+            'mct_geometry_used=true' \
+            'inverse_force_recomputed=true' \
+            'all_matrices_reassembled=true' \
+            'all_eigenpairs_recomputed=true' \
+            'fixed_harmonic_order_used_for_selection=false' \
+            'harmonic_order_is_descriptor_only=true' \
+            'side_labels_use_lowest_span_localized_global_branch=true' \
+            'vs2_ts2_alternate_n5_candidates_preserved=true' \
+            'target_frequency_used_in_solve=false' \
+            'target_frequency_used_in_classification=false' \
+            'comparison_after_freeze=true' \
+            > catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/CASE_BOUND.txt
+      - name: Upload complete final recalculation artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catwalk-modal-branch-clean-v3
+          path: catwalk-fem/inverse-formfinding-mct/modal_results_branch_clean_v3/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
