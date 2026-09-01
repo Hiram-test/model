@@ -1,0 +1,72 @@
+name: Catwalk Modal From MCT Inverse Prestress # Identify the isolated modal calculation.
+on: # Define branch-scoped automatic and manual triggers.
+  push: # Recompute after any source change in this calculation chain.
+    branches: [feat/catwalk-inverse-formfinding-mct] # Restrict automatic execution to the inverse-form-finding branch.
+    paths: # Restrict automatic execution to relevant calculation files.
+      - 'catwalk-fem/inverse-formfinding-mct/**' # Watch inverse and modal source files.
+      - 'catwalk-fem/clean-theory-14modes/**' # Watch the reused audited dynamic implementation.
+      - '.github/workflows/catwalk-modal-from-inverse.yml' # Watch this workflow definition.
+  workflow_dispatch: # Permit an explicit rerun without changing inputs.
+permissions: # Keep the numerical runner read-only.
+  contents: read # Grant only repository checkout access.
+jobs: # Define the bounded modal calculation job.
+  modal: # Execute inverse prestress, tangent assembly, eigenanalysis, and post-freeze comparison.
+    runs-on: ubuntu-24.04 # Use the current Linux numerical runner image.
+    timeout-minutes: 30 # Bound dependency installation and sparse eigensolution time.
+    steps: # Execute the complete reproducible calculation chain.
+      - name: Checkout exact source # Fetch the exact triggering commit.
+        uses: actions/checkout@v4 # Use the maintained checkout action.
+        with: # Configure deterministic checkout behavior.
+          fetch-depth: 1 # Fetch only the triggering revision.
+          persist-credentials: false # Prevent repository writes from the runner.
+      - name: Set up Python # Install the numerical Python runtime.
+        uses: actions/setup-python@v5 # Use the maintained Python setup action.
+        with: # Freeze the interpreter version.
+          python-version: '3.12' # Use Python 3.12 for current SciPy compatibility.
+      - name: Install numerical dependencies # Install only packages imported by the calculation.
+        shell: bash # Use strict Bash execution.
+        run: | # Execute the deterministic dependency block.
+          set -euxo pipefail # Stop on every command or pipeline failure.
+          python -m pip install --upgrade pip # Upgrade the package installer.
+          python -m pip install numpy scipy matplotlib # Install linear algebra, sparse eigenanalysis, and plotting packages.
+      - name: Clean modal output # Remove stale result files before solving.
+        shell: bash # Use Bash for deterministic filesystem cleanup.
+        run: | # Execute the isolated cleanup command.
+          set -euxo pipefail # Stop on any cleanup failure.
+          rm -rf catwalk-fem/inverse-formfinding-mct/modal_results # Remove all prior modal outputs.
+      - name: Solve modal spectrum # Run inverse prestress and the drawing-corrected explicit dynamic model once.
+        shell: bash # Use strict Bash for the solver invocation.
+        run: | # Execute the complete numerical solve.
+          set -euxo pipefail # Stop immediately if any numerical stage fails.
+          python catwalk-fem/inverse-formfinding-mct/solve_modal_from_inverse.py | tee catwalk_modal_from_inverse.log # Preserve the full solver receipt.
+      - name: Verify primary results # Reject incomplete or unverified calculations before artifact publication.
+        shell: bash # Use Bash for deterministic result checks.
+        run: | # Require every decisive target-free and post-freeze output.
+          set -euxo pipefail # Stop on the first missing or empty result.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results/frozen_results.json # Require the target-free frozen modal result.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results/summary.json # Require the concise modal receipt.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results/raw_modes.csv # Require the complete raw low-order spectrum.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results/classified_14_modes.csv # Require the fourteen-family physical classification.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results/comparison_after_freeze.csv # Require the post-freeze benchmark comparison.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results/unstressed_lengths.json # Require every explicit rope force and unstressed length.
+          test -s catwalk-fem/inverse-formfinding-mct/modal_results/spectrum_first_40.png # Require the low-order spectrum plot.
+          printf '%s\n' "${GITHUB_SHA}" > catwalk-fem/inverse-formfinding-mct/modal_results/GITHUB_COMMIT.txt # Record the exact source revision.
+          sha256sum catwalk-fem/inverse-formfinding-mct/modal_results/* > catwalk-fem/inverse-formfinding-mct/modal_results/SHA256SUMS_FINAL.txt # Freeze every published result file.
+      - name: Add calculation boundary # Preserve the input-isolation and interpretation boundary with the result package.
+        if: always() # Execute even when the numerical solve rejects the model.
+        shell: bash # Use Bash for deterministic evidence collection.
+        run: | # Copy boundary files and the solver log into the result directory.
+          set -euxo pipefail # Stop on unexpected evidence-copy errors.
+          mkdir -p catwalk-fem/inverse-formfinding-mct/modal_results # Ensure the artifact directory exists.
+          cp -f catwalk-fem/inverse-formfinding-mct/INVERSE_FORMFINDING.bound.md catwalk-fem/inverse-formfinding-mct/modal_results/BOUND.md # Preserve the inverse-input boundary.
+          cp -f catwalk_modal_from_inverse.log catwalk-fem/inverse-formfinding-mct/modal_results/solver.log || true # Preserve the numerical log when available.
+          printf '%s\n' 'mct_geometry_used=true' 'inverse_force_verified_before_modal=true' 'target_frequency_used_in_solve=false' 'comparison_after_freeze=true' > catwalk-fem/inverse-formfinding-mct/modal_results/CASE_BOUND.txt # Stamp the modal calculation protocol.
+      - name: Upload complete modal artifact # Publish the full auditable result package.
+        if: always() # Publish diagnostics even when a numerical gate rejects the solve.
+        uses: actions/upload-artifact@v4 # Use the maintained artifact uploader.
+        with: # Configure artifact identity and retention.
+          name: catwalk-modal-from-mct-inverse-prestress # Give the result package a unique stable name.
+          path: catwalk-fem/inverse-formfinding-mct/modal_results/ # Upload the complete isolated result directory.
+          if-no-files-found: error # Reject an empty artifact.
+          retention-days: 90 # Retain the result package for ninety days.
+          compression-level: 6 # Use balanced ZIP compression.
