@@ -17,6 +17,7 @@ jobs:
       - run: pip install numpy scipy
       - run: python catwalk-fem/inverse-formfinding-mct/solve_inverse.py | tee inverse_formfinding_log.txt
       - run: python catwalk-fem/inverse-formfinding-mct/audit_endpoint_forces.py | tee endpoint_force_audit_log.txt
+      - run: python catwalk-fem/inverse-formfinding-mct/review_verdict.py | tee reviewed_verdict_log.txt
       - name: Collect inverse-form-finding evidence
         if: always()
         run: |
@@ -24,15 +25,16 @@ jobs:
           mkdir -p /tmp/inverse-formfinding-mct
           cp -f inverse_formfinding_log.txt /tmp/inverse-formfinding-mct/
           cp -f endpoint_force_audit_log.txt /tmp/inverse-formfinding-mct/ || true
+          cp -f reviewed_verdict_log.txt /tmp/inverse-formfinding-mct/ || true
           cp -f catwalk-fem/inverse-formfinding-mct/results/*.json /tmp/inverse-formfinding-mct/ || true
           cp -f catwalk-fem/inverse-formfinding-mct/results/*.csv /tmp/inverse-formfinding-mct/ || true
           cp -f catwalk-fem/inverse-formfinding-mct/INVERSE_FORMFINDING.bound.md /tmp/inverse-formfinding-mct/
-          cp -f catwalk-fem/inverse-formfinding-mct/case.txt /tmp/inverse-formfinding-mct/case.txt
-          printf '%s\n' 'frequency_reproduced=false' 'not_attach_ta1=true' 'not_recovered_iniforce=true' 'not_ccx_job_finished=true' > /tmp/inverse-formfinding-mct/CASE_BOUND.txt
+          cp -f catwalk-fem/inverse-formfinding-mct/case.txt /tmp/inverse-formfinding-mct/case.txt || true
+          printf '%s\n' 'frequency_reproduced=false' 'not_attach_ta1=true' 'not_ccx_job_finished=true' > /tmp/inverse-formfinding-mct/CASE_BOUND.txt
           printf '%s\n' "${GITHUB_SHA}" > /tmp/inverse-formfinding-mct/GITHUB_COMMIT.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: catwalk-inverse-formfinding-mct-boundary
+          name: catwalk-inverse-formfinding-mct-reviewed
           path: /tmp/inverse-formfinding-mct/
           if-no-files-found: error
