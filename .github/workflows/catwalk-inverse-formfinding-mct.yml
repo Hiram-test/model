@@ -16,12 +16,14 @@ jobs:
           python-version: '3.12'
       - run: pip install numpy scipy
       - run: python catwalk-fem/inverse-formfinding-mct/solve_inverse.py | tee inverse_formfinding_log.txt
+      - run: python catwalk-fem/inverse-formfinding-mct/audit_endpoint_forces.py | tee endpoint_force_audit_log.txt
       - name: Collect inverse-form-finding evidence
         if: always()
         run: |
           set -euxo pipefail
           mkdir -p /tmp/inverse-formfinding-mct
           cp -f inverse_formfinding_log.txt /tmp/inverse-formfinding-mct/
+          cp -f endpoint_force_audit_log.txt /tmp/inverse-formfinding-mct/ || true
           cp -f catwalk-fem/inverse-formfinding-mct/results/*.json /tmp/inverse-formfinding-mct/ || true
           cp -f catwalk-fem/inverse-formfinding-mct/results/*.csv /tmp/inverse-formfinding-mct/ || true
           cp -f catwalk-fem/inverse-formfinding-mct/INVERSE_FORMFINDING.bound.md /tmp/inverse-formfinding-mct/
