@@ -1,0 +1,32 @@
+name: Catwalk drawing recomputation runtime # Prepare the native solver used by the independent recomputation.
+on: # Restrict execution to this isolated computation branch and runtime file.
+  push: # Run once when this workflow is created or deliberately updated.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Do not change any existing scientific branch.
+    paths: [.github/workflows/catwalk-recalc-runtime-20260905.yml] # Avoid launching this setup for result commits.
+permissions: # Runtime preparation needs no repository writes.
+  contents: read # Permit provenance reads only.
+jobs: # Install and archive the real executable and its runtime dependencies.
+  runtime: # Keep tool acquisition separate from scientific inputs and outputs.
+    runs-on: ubuntu-22.04 # Use a stable compatible GNU/Linux runtime.
+    timeout-minutes: 10 # Bound this installation job only.
+    steps: # Prepare a self-contained native executable archive.
+      - name: Install CalculiX # Obtain the distribution-maintained CrunchiX executable.
+        run: sudo apt-get update -qq && sudo apt-get install -y calculix-ccx # Install the actual finite-element solver.
+      - name: Collect runtime and provenance # Preserve the executable, loader, dependencies, and package version.
+        shell: bash # Use deterministic shell expansion for dependency collection.
+        run: | # Every command records or copies a necessary runtime component.
+          set -euo pipefail # Stop only for a failed installation or file-copy operation.
+          mkdir -p runtime/bin runtime/lib # Separate the executable and shared libraries.
+          cp "$(command -v ccx)" runtime/bin/ccx # Copy the installed native solver.
+          ldd "$(command -v ccx)" > runtime/ldd.txt # Record exact dynamically linked dependencies.
+          awk '/=> \/|^\s*\// {for(i=1;i<=NF;i++) if($i ~ /^\//) print $i}' runtime/ldd.txt | sort -u | while read -r p; do cp -L "$p" runtime/lib/; done # Copy resolved libraries without following unrelated files.
+          cp -L /lib64/ld-linux-x86-64.so.2 runtime/lib/ld-linux-x86-64.so.2 # Include the matching GNU runtime loader.
+          dpkg-query -W calculix-ccx > runtime/package-version.txt # Record the exact installed solver package version.
+          sha256sum runtime/bin/ccx > runtime/solver-sha256.txt # Bind all later calculations to this native executable.
+          printf '%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > runtime/source-run.txt # Preserve immutable workflow provenance.
+      - name: Preserve runtime # Make the native solver available to the current calculation session.
+        uses: actions/upload-artifact@v4 # Upload via the authenticated artifact service.
+        with: # Use a run-specific archive name.
+          name: catwalk-ccx-runtime-${{ github.run_id }} # Avoid collisions with any scientific result archive.
+          path: runtime # Upload executable, runtime libraries, and provenance only.
+          retention-days: 14 # Keep this reproducibility dependency temporarily available.
