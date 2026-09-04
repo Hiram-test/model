@@ -1,0 +1,25 @@
+name: Catwalk upstream Fortran runtime # Complete the upstream binary runtime without modifying the host system.
+on: # Restrict acquisition to the isolated calculation branch and this file.
+  push: # Download only after this explicit reproducibility update.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Leave the scientific main branch untouched.
+    paths: [.github/workflows/catwalk-fortran-runtime-20260905.yml] # Avoid running on unrelated repository updates.
+permissions: # This acquisition job does not write repository contents.
+  contents: read # Keep the runtime job read-only.
+jobs: # Recover the exact shared library from the Ubuntu package archive.
+  runtime: # Extract locally rather than installing an obsolete library globally.
+    runs-on: ubuntu-22.04 # Use the same archive-compatible runner family.
+    timeout-minutes: 5 # Bound this small network retrieval.
+    steps: # Preserve package bytes and the needed runtime library.
+      - name: Recover GNU Fortran 4 ABI # Obtain the dependency required by the upstream ccx executable.
+        run: | # Use the distribution archive and retain package provenance.
+          set -euo pipefail # Surface acquisition failures rather than silently changing the solver.
+          mkdir -p runtime # Isolate the extracted package from system directories.
+          curl -fL --retry 2 --max-time 60 'https://archive.ubuntu.com/ubuntu/pool/main/g/gcc-7/libgfortran4_7.5.0-3ubuntu1~18.04_amd64.deb' -o runtime/libgfortran4.deb # Download the exact published runtime package.
+          dpkg-deb -x runtime/libgfortran4.deb runtime/extracted # Extract the library without installing it on the runner.
+          sha256sum runtime/libgfortran4.deb > runtime/sha256.txt # Preserve the downloaded package identity.
+      - name: Preserve dependency # Return the dependency through authenticated artifact transport.
+        uses: actions/upload-artifact@v4 # Archive the actual extracted library and source package.
+        with: # Bind the dependency to the acquisition run.
+          name: catwalk-fortran4-${{ github.run_id }} # Keep this distinct from scientific evidence.
+          path: runtime # Preserve the package and extraction together.
+          retention-days: 14 # Retain the runtime evidence temporarily.
