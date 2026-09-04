@@ -1,0 +1,31 @@
+name: Official CalculiX catwalk runtime # Recover the upstream executable separately from distribution 2.17.
+on: # Restrict this setup to its isolated calculation branch and file.
+  push: # Run only on an explicit update of this runtime workflow.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Never modify or run a scientific baseline branch.
+    paths: [.github/workflows/catwalk-official-runtime-20260905.yml] # Avoid reruns for unrelated source changes.
+permissions: # No repository mutation is needed during runtime preparation.
+  contents: read # Preserve read-only execution permissions.
+jobs: # Collect the upstream distribution and necessary runtime libraries.
+  runtime: # Keep native-solver acquisition separate from calculation results.
+    runs-on: ubuntu-22.04 # Use the same compatible host family as the distribution runtime.
+    timeout-minutes: 8 # Limit network setup time without constraining scientific calculations.
+    steps: # Download the official executable and preserve its provenance.
+      - name: Recover upstream executable # Obtain CalculiX directly from the author's distribution.
+        shell: bash # Use explicit file and network error handling.
+        run: | # Preserve every retrieval and extraction operation.
+          set -euo pipefail # Report genuine acquisition failures.
+          mkdir -p runtime/official runtime/lib runtime/bin # Separate upstream files, executable, and dependencies.
+          curl -fL --retry 2 --max-time 90 https://dhondt.de/ccx_2.23.tar.bz2 -o runtime/ccx_2.23.tar.bz2 # Download the actual official Linux release archive.
+          tar -xjf runtime/ccx_2.23.tar.bz2 -C runtime/official # Extract the upstream archive without changing source files.
+          find runtime/official -type f -maxdepth 6 -print > runtime/upstream-files.txt # Preserve the upstream file list for reproducibility.
+          p="$(find runtime/official -type f -name 'ccx_2.23' | head -1)"; test -n "$p"; chmod +x "$p"; cp "$p" runtime/bin/ccx # Select the named upstream executable rather than a wrapper.
+          ldd runtime/bin/ccx > runtime/ldd.txt || true # Record dynamic dependencies or a static-executable notice.
+          awk '/=> \/|^\s*\// {for(i=1;i<=NF;i++) if($i ~ /^\//) print $i}' runtime/ldd.txt | sort -u | while read -r p; do cp -L "$p" runtime/lib/; done # Collect only resolved shared libraries.
+          cp -L /lib64/ld-linux-x86-64.so.2 runtime/lib/ld-linux-x86-64.so.2 # Preserve a matching loader for dynamic execution.
+          sha256sum runtime/bin/ccx runtime/ccx_2.23.tar.bz2 > runtime/solver-sha256.txt # Bind the executable and upstream distribution to their exact bytes.
+      - name: Preserve upstream runtime # Return the exact binary archive to the current calculation session.
+        uses: actions/upload-artifact@v4 # Use the authenticated artifact transport.
+        with: # Keep this runtime distinct from all calculation outputs.
+          name: catwalk-official-ccx223-${{ github.run_id }} # Bind the runtime archive to its actual workflow run.
+          path: runtime # Preserve source provenance, executable, and available dependencies.
+          retention-days: 14 # Keep this temporary runtime artifact for reproducibility.
