@@ -22,9 +22,9 @@ class BeamLine:  # Mesh one actual flexible native transverse member and attach 
     def attach(self,y,xyz,existing=None,mass=0.):  # Attach a rope, clamp or nonstructural mass at its actual physical position.
         ref,rot=self.section(y)  # Preserve the local flexible beam response at the requested physical station.
         if existing is None:return self.d.lever_from_body(ref,rot,xyz,mass)  # Use the real finite-rotation lever arm.
-        for members,r,q,label in self.d.bodies:  # Reuse the declared physical cable node rather than create a second coincident rope.
-            if r==ref and q==rot:members.append(existing);self.d.add_mass(existing,mass);return existing  # Place each cable point in one physical clamp body.
-        raise RuntimeError('Native connection body was not found')  # Expose an actual topology error.
+        members=self.d.body_members(ref,rot)  # Resolve the same physical clamp's original member list through the append-only body index.
+        if members is None:raise RuntimeError('Native connection body was not found')  # Preserve the original missing-body error without creating a replacement connection.
+        members.append(existing);self.d.add_mass(existing,mass);return existing  # Preserve the existing physical cable node, insertion order and exactly-once mass allocation.
     def mass_at(self,y,z,mass):return self.attach(y,(self.x,y,z),mass=mass)  # Keep spatial inertia at the actual component elevation.
 def ordinary_gantry(d,xf,zf,xu,zu,center,upper_points,lower_points,tag,post_axis=0,beam_cells=6):  # Build an ordinary gantry from actual upper/lower source stations and relative pin joints.
     top_owner=tag+'_upper';bottom_owner=tag+'_bottom';top=BeamLine(d,xu,zu-.105,np.linspace(center-3.73,center+3.73,beam_cells+1),BOX160,top_owner,tag+'_top')  # Preserve the actual upper beam width and its rope-bearing offset.

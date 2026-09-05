@@ -29,8 +29,18 @@ def run_native(folder,job,timeout=600):  # Execute real CCX after removing outpu
         if p.exists():p.unlink()  # Preserve the original INP while removing only superseded run output.
     started=time.time();wrapper=(ROOT/'ccx').resolve();input_path=folder/(job+'.inp');info={'job':job,'workflow_run':os.environ.get('GITHUB_RUN_ID'),'source_commit':os.environ.get('GITHUB_SHA'),'start_unix':started,'input_sha256':hashlib.sha256(input_path.read_bytes()).hexdigest(),'solver_launcher':wrapper.read_text()}  # Bind numerical evidence to exact input bytes and the executable invocation.
     with (folder/'native_solver.txt').open('w') as log:  # Preserve complete standard output and diagnostic errors.
-        try:process=subprocess.run([str(wrapper),job],cwd=folder,stdout=log,stderr=subprocess.STDOUT,timeout=timeout);code=process.returncode  # Run the actual compiled native solver.
-        except subprocess.TimeoutExpired:code=-999  # Distinguish genuine execution timeout from solver success.
+        process=subprocess.Popen([str(wrapper),job],cwd=folder,stdout=log,stderr=subprocess.STDOUT)  # Execute the same native solver while exposing progress before a possible runner interruption.
+        while True:  # Keep the existing native timeout while periodically preserving current solver diagnostics.
+            remaining=timeout-(time.time()-started)  # Measure the actual elapsed native invocation time.
+            if remaining<=0:process.kill();process.wait();code=-999;break  # Preserve the existing timeout status and stop only this native process.
+            try:code=process.wait(timeout=min(20.,remaining));break  # Return the real native exit code as soon as the process completes.
+            except subprocess.TimeoutExpired:  # A heartbeat is observational and does not change solver inputs or tolerances.
+                with (folder/'native_solver.txt').open('rb') as current:current.seek(max(0,(folder/'native_solver.txt').stat().st_size-2200));tail=current.read().decode(errors='replace')  # Read only the current log tail without loading a growing solver log into memory.
+                status_path=Path('/proc')/str(process.pid)/'status';memory=status_path.read_text() if status_path.exists() else ''  # Inspect this exact native process without searching or exposing unrelated processes.
+                memory_lines=[line for line in memory.splitlines() if line.startswith(('VmRSS:','VmPeak:','VmSize:'))]  # Record native resident and virtual memory to diagnose resource interruption.
+                available=[line for line in Path('/proc/meminfo').read_text().splitlines() if line.startswith(('MemTotal:','MemAvailable:'))]  # Record the execution machine's available physical memory.
+                info['heartbeat']={'elapsed_seconds':time.time()-started,'native_memory':memory_lines,'machine_memory':available};(folder/'invocation.json').write_text(json.dumps(info,indent=2))  # Preserve a truthful incomplete invocation if the machine stops before native completion.
+                print('NATIVE_HEARTBEAT',job,json.dumps(info['heartbeat']),tail,flush=True)  # Put current solver diagnostics into durable workflow logs before final artifact upload.
     info['exit_code']=code;info['elapsed_seconds']=time.time()-started;info['native_outputs']={p.name:{'bytes':p.stat().st_size,'modified_unix':p.stat().st_mtime} for p in folder.glob(job+'.*') if p.suffix!='.inp'}  # Preserve output freshness and process status.
     (folder/'invocation.json').write_text(json.dumps(info,indent=2));print('NATIVE_RUN',job,code,(folder/'native_solver.txt').read_text(errors='replace')[-2200:],flush=True)  # Report actual native status rather than a workflow completion label.
     return code  # Keep scientific interpretation separate from execution status.

@@ -1,5 +1,6 @@
 from pathlib import Path  # Preserve a complete source-based full-bridge calculation and its explicit physical assumptions.
-import json, hashlib, numpy as np  # Audit geometry, original mass budgets and exact native input bytes.
+import json, hashlib, gc, numpy as np  # Audit geometry, original mass budgets and release completed assembly objects before native factorization.
+from types import SimpleNamespace  # Preserve only the observation map and mass ledger required by the native-result parser.
 import spatial_native as base  # Reuse only the spatial assembly written during this reconstruction, not historical model data.
 from physical_members import BeamLine  # Retain flexible native beams everywhere except the explicitly identified stiff deformation frames.
 from run_workstate import run_native  # Execute a fresh native calculation with input and executable provenance.
@@ -52,6 +53,7 @@ def compute(source,state):  # Execute the complete source-based native static-pl
     inspect();folder=ROOT/'results/full_spatial_native';folder.mkdir(parents=True,exist_ok=True);model=Reconstruction(source,cells=4,pin_axis=0,fork_axis=1)  # Select physical connector axes and a declared discretization before loading any target spectrum.
     model.make_members();model.make_ropes_and_mass();model.save(folder);model.d.write(folder/'bridge.inp',modes=80,gravity=source['g'])  # Save a complete native model with enough roots to expose extra low modes instead of selecting fourteen favorable ones.
     (folder/'input_sha256.txt').write_text(hashlib.sha256((folder/'bridge.inp').read_bytes()).hexdigest());print('FULL_MODEL_ASSEMBLED',json.dumps({'nodes':len(model.d.nodes),'native_beams':len(model.d.beams),'native_shells':len(model.d.shells),'native_axial':len(model.d.axial),'mass':model.mass_summary}),flush=True)  # Publish actual model counts and source-mass conservation.
-    code=run_native(folder,'bridge',3600);status=base.analyze(folder,model,code)  # Run a real fresh nonlinear equilibrium and native eigensolution, retaining every output.
+    observation=SimpleNamespace(observe=model.observe,mass_summary=model.mass_summary);del model;gc.collect()  # Release the full Python assembly while retaining the exact serialized input and required output mapping.
+    code=run_native(folder,'bridge',3600);status=base.analyze(folder,observation,code)  # Run a real fresh nonlinear equilibrium and native eigensolution, retaining every output.
     if code!=0 or status['native_eigenvalue_count']<14:raise RuntimeError('Full native calculation did not produce fourteen verified roots; inspect its fresh invocation and solver diagnostics')  # Do not relabel an input build or partial solver run as a completed frequency calculation.
     return status  # Keep numerical completion separate from target reproduction and physical-model certainty.
