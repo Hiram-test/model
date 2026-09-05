@@ -1,0 +1,36 @@
+name: Catwalk MCT geometry transfer # Transport only original geometry and its provenance to the independent computation.
+on: # Run this small source transfer only after this explicit file update.
+  push: # Keep source acquisition separate from old numerical workflows.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Use the existing isolated computation branch.
+    paths: [.github/workflows/catwalk-mct-geometry-transfer-20260905.yml] # Avoid rerunning on scientific result commits.
+permissions: # No repository writes are needed by the source transfer.
+  contents: read # Allow read-only source acquisition.
+jobs: # Recover and filter the pinned original MCT input.
+  geometry: # Do not load any historical forces, masses, matrices, or modes.
+    runs-on: ubuntu-22.04 # Use a standard runner for byte-preserving transport.
+    steps: # Download the raw source and extract the geometry whitelist.
+      - name: Recover exact original MCT # Pin the source commit rather than a moving branch.
+        run: | # Preserve the original bytes only for provenance outside the solver input.
+          mkdir -p source # Isolate the transferred source files.
+          curl -fL --retry 2 'https://raw.githubusercontent.com/Hiram-test/model/cfbf39ef51a5bb86f13372553cee122d02df0f57/catwalk-fem/double-mct-buffeting/inputs/catwalk_gantry_rope_combined_2.mct' -o source/original.mct # Download the exact original file identified in the tree.
+          sha256sum source/original.mct > source/original.sha256 # Record its immutable byte identity.
+      - name: Extract geometry only # Exclude historical physical parameters and solver results.
+        shell: python # Decode the source and retain only unit and node geometry sections.
+        run: | # All extraction operations are explicit and independently reproducible.
+          from pathlib import Path # Use local source files only.
+          raw = Path('source/original.mct').read_bytes() # Read original bytes without interpreting other sections.
+          text = raw.decode('gb18030') # MCT exports commonly use the Chinese Windows encoding.
+          selected = [] # Collect the node geometry and units only.
+          active = False # Start outside all selected sections.
+          for line in text.splitlines(): # Inspect section names without parsing physical results.
+              s = line.strip() # Normalize whitespace around the section header.
+              if s.startswith('*'): active = s.split(';')[0].strip().upper() in ('*UNIT', '*NODE') # Whitelist only geometry and unit records.
+              if active: selected.append(line) # Save the original selected lines unchanged.
+          Path('source/geometry_only.mct').write_text('\n'.join(selected), encoding='utf-8') # Provide a solver-safe geometry-only input file.
+          Path('source/source_commit.txt').write_text('cfbf39ef51a5bb86f13372553cee122d02df0f57\n') # Bind the geometry to the inspected repository commit.
+      - name: Preserve original and filtered geometry # Return exact bytes through the authenticated artifact transport.
+        uses: actions/upload-artifact@v4 # Upload source files only, not any historical numerical result.
+        with: # Bind the source transfer to its actual runner execution.
+          name: catwalk-mct-geometry-${{ github.run_id }} # Avoid collisions with solver result artifacts.
+          path: source # Transport the original source and geometry-only derivative.
+          retention-days: 14 # Preserve temporary reproducibility evidence.
