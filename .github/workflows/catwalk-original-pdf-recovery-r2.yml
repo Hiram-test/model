@@ -1,0 +1,37 @@
+name: Catwalk original PDFs recovery # Recover original project documents, not intermediate reports.
+on: # Restrict the source extraction to this workflow.
+  push: # Start after this explicit acquisition request.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Use the isolated calculation branch.
+    paths: [.github/workflows/catwalk-original-pdf-recovery-r2.yml] # Ignore unrelated source changes.
+permissions: # The job only reads sources.
+  contents: read # No modification of original documents is allowed.
+jobs: # Extract exactly two permitted source PDFs.
+  recover: # Never load earlier analysis scripts or numerical results.
+    runs-on: ubuntu-22.04 # Provide archive transport and decompression.
+    timeout-minutes: 10 # Bound transport failures.
+    steps: # Download the known original archive and extract selected members.
+      - name: Download original archive # This archive contains the engineering originals.
+        run: curl -fL --retry 2 --max-time 240 'https://github.com/Hiram-test/model/releases/download/zhangjinggao-full-20260729/archive-0001.tar.zst' -o original.tar.zst # Retrieve the exact source archive.
+      - name: Extract and verify only original PDFs # Copy original bytes using an exact filename and checksum whitelist.
+        shell: python # Use streaming decompression without extracting other members.
+        run: | # Every file read below is one of the two authorized original reports.
+          from pathlib import Path # Create a source-only output directory.
+          import subprocess,tarfile,hashlib,json # Stream the archive and verify source identities.
+          wanted={'01_设计资料与规范/附件2-3：猫道结构抗风性能试验报告.pdf':'d17d4061c5726c10b88cc80f3f292b16f0dbf3408e032a30840b1bcaad9173d3','01_设计资料与规范/张靖皋长江大桥南航道桥 猫道结构复核计算报告0324.pdf':'8b2f0eb267216cd7d1e9746adb28f8973b4614d27fa1e2290eb12c2a6a45ca90'} # Use the original archive inventory, not derived content.
+          out=Path('original_sources');out.mkdir();records=[] # Keep only permitted original files and provenance.
+          p=subprocess.Popen(['zstd','-dc','original.tar.zst'],stdout=subprocess.PIPE) # Read the original archive sequentially.
+          with tarfile.open(fileobj=p.stdout,mode='r|') as tar: # Inspect member names without reading unwanted members.
+              for member in tar: # Locate exact original source paths.
+                  name=member.name.replace('\\','/').removeprefix('./') # Normalize archive path separators only.
+                  if name not in wanted: continue # Exclude all intermediate materials.
+                  raw=tar.extractfile(member).read();sha=hashlib.sha256(raw).hexdigest() # Read the original PDF bytes.
+                  if sha!=wanted[name]: raise ValueError('Original source hash mismatch: '+name) # Do not silently substitute another file.
+                  (out/Path(name).name).write_bytes(raw);records.append({'source_path':name,'sha256':sha,'size':len(raw)}) # Preserve the verified original exactly.
+          p.wait();(out/'original_source_provenance.json').write_text(json.dumps(records,ensure_ascii=False,indent=2));print(json.dumps(records,ensure_ascii=False)) # Record only original document provenance.
+          if len(records)!=2: raise ValueError('A requested original PDF was not found') # Report an actual missing source, not an empty successful extraction.
+      - name: Return verified originals # Send only the permitted source PDFs and their hashes.
+        uses: actions/upload-artifact@v4 # Use authenticated artifact transport.
+        with: # Preserve a source-specific artifact.
+          name: catwalk-original-pdfs-r2 # Do not mix with computation outputs.
+          path: original_sources # Upload the two verified original PDFs.
+          retention-days: 30 # Preserve the source acquisition evidence.
