@@ -1,32 +1,32 @@
 --- upstream/gen3dnor.f
-+++ joint-coordinate/gen3dnor.f
-@@ -36,6 +36,7 @@
++++ joint-coordinates/gen3dnor.f
+@@ -35,6 +35,7 @@
+ !     6: rot_about_z
  !     
        implicit none
- !     
 +      integer, allocatable :: requestedknots(:)
+ !     
        logical fixed,composite,beam
  !     
-       character*1 type,typeboun(*)
 @@ -73,6 +74,22 @@
  !     calculating the normals in nodes belonging to shells/beams
  !     
        nkold=nk
-+      allocate(requestedknots(nkold))
-+      requestedknots=0
-+      do j=1,nmpc
-+         index=ipompc(j)
-+         do while(index.ne.0)
-+            node=nodempc(1,index)
-+            if((node.gt.0).and.(node.le.nkold)) then
-+               if((nodempc(2,index).gt.3).or.
-+     &              (labmpc(j)(1:5).eq.'RIGID')) then
-+                  requestedknots(node)=1
-+               endif
-+            endif
-+            index=nodempc(3,index)
-+         enddo
-+      enddo
++      allocate(requestedknots(nkold)) ! Input joint
++      requestedknots=0 ! Input joint
++      do j=1,nmpc ! Input joint
++         index=ipompc(j) ! Input joint
++         do while(index.ne.0) ! Input joint
++            node=nodempc(1,index) ! Input joint
++            if((node.gt.0).and.(node.le.nkold)) then ! Input joint
++               if((nodempc(2,index).gt.3).or. ! Input joint
++     &              (labmpc(j)(1:5).eq.'RIGID')) then ! Input joint
++                  requestedknots(node)=1 ! Input joint
++               endif ! Input joint
++            endif ! Input joint
++            index=nodempc(3,index) ! Input joint
++         enddo ! Input joint
++      enddo ! Input joint
 +
  !     
        do i=1,nkold
