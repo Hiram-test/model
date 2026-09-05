@@ -1,0 +1,27 @@
+name: Catwalk original source locator # Inspect archive metadata only, without loading intermediate calculations.
+on: # Restrict this source lookup to one explicit workflow file.
+  push: # Run on this workflow's creation.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Keep the main repository unchanged.
+    paths: [.github/workflows/catwalk-original-source-locate-r2.yml] # Do not run on result updates.
+permissions: # Read-only access suffices.
+  contents: read # Allow access to the original source archive.
+jobs: # Locate the requested original PDFs by filename.
+  locate: # Do not inspect generated reports or numerical results.
+    runs-on: ubuntu-22.04 # Use a stable network-enabled source transport.
+    steps: # Download a manifest and return only relevant source-file metadata.
+      - name: Locate original PDFs # Search filenames within the original archive inventory.
+        shell: python # Use the standard library only.
+        run: | # Every operation concerns metadata, not historical numerical content.
+          import csv, io, json, urllib.request # Parse the original archive inventory.
+          from pathlib import Path # Store only the filtered source metadata.
+          u='https://raw.githubusercontent.com/Hiram-test/model/zhangjinggao-full-20260729/archive/zhangjinggao/package-members.csv' # Pin the original archive manifest.
+          t=urllib.request.urlopen(u,timeout=60).read().decode('utf-8-sig') # Read archive member names and checksums.
+          rows=list(csv.DictReader(io.StringIO(t)));print('FIELDS',list(rows[0])) # Identify the manifest columns.
+          chosen=[r for r in rows if any(('猫道' in str(v) and ('复核' in str(v) or '抗风' in str(v)) or '附件2-3' in str(v) or '附件 2-3' in str(v)) and str(v).lower().endswith('.pdf') for v in r.values())] # Select permitted original reports by their PDF filenames.
+          Path('source_metadata').mkdir();Path('source_metadata/original_pdf_members.json').write_text(json.dumps(chosen,ensure_ascii=False,indent=2)) # Save source paths, package identifiers, and hashes.
+          print(json.dumps(chosen,ensure_ascii=False,indent=2)) # Return the discovered original source locations.
+      - name: Return original file locations # Preserve the filtered inventory for reproducibility.
+        uses: actions/upload-artifact@v4 # Use authenticated transport.
+        with: # Return metadata only.
+          name: catwalk-original-source-locations # Name the source-location artifact.
+          path: source_metadata # Do not include other archive files.
