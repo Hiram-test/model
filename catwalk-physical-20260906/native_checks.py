@@ -1,0 +1,29 @@
+from pathlib import Path  # Keep unit-test evidence alongside the full native reconstruction.
+import json, math, numpy as np  # Evaluate analytic mechanics without any bridge target frequencies.
+from scipy.spatial.transform import Rotation  # Independently evaluate a prescribed finite three-dimensional rotation.
+from physical_connectors import Deck  # Use true native rigid-body offsets and relative directional pins.
+from run_workstate import run_native, vector_blocks  # Run the upstream solver and parse its actual nodal output.
+ROOT=Path(__file__).parent  # Resolve only this reconstruction's files.
+BOX=('BOX',(.16,.16,.004,.004,.004,.004))  # Use the ordinary gantry section from the engineering drawings.
+PIPE=('PIPE',(.076,.006))  # Use the passage chord's actual outer radius and wall thickness.
+def solve(deck,name,loads=None,prescribed=None):  # Save and execute an actual native static unit test.
+    folder=ROOT/'results/native_checks'/name;folder.mkdir(parents=True,exist_ok=True);deck.observation=list(deck.labels.values());deck.write(folder/'test.inp',modes=0,gravity=0.,loads=loads,prescribed=prescribed)  # Keep unit-test supports separate from bridge supports.
+    code=run_native(folder,'test',180);u=vector_blocks(folder/'test.dat');rf=vector_blocks(folder/'test.dat','forces');result={'exit':code,'displacements':u[-1] if u else {},'forces':rf[-1] if rf else {}}  # Preserve actual native vectors, including missing-output failures.
+    (folder/'native_vectors.json').write_text(json.dumps(result,indent=2));return result  # Never fill absent native results using analytic expectations.
+def execute_checks():  # Exercise the exact member and connection types used by the complete model.
+    results={}  # Keep each independent mechanical test distinguishable.
+    for name,section in [('box',BOX),('pipe',PIPE)]:  # Test actual hollow section integration rather than solid-section surrogates.
+        d=Deck('Native hollow-section cantilever verification');a=d.node((0.,0.,0.));b=d.node((0.,2.,0.));d.beam(a,b,section,name,12);d.fixed.update((a,i) for i in range(1,7));d.labels={'base':a,'tip':b}  # Build a native quadratic-beam cantilever.
+        native=solve(d,name,loads=[(b,3,-100.)]);I=(.16**4-.152**4)/12 if name=='box' else math.pi*(.076**4-.070**4)/4;expected=-100.*2.**3/(3*206e9*I);value=native['displacements'].get(b,[None]*3)[2]  # Compare the bending response with the elementary beam scale.
+        results[name]={'native_exit':native['exit'],'native_tip_z_m':value,'Euler_Bernoulli_tip_z_m':expected,'native_to_bending_ratio':value/expected if value is not None else None}  # Retain shear-deformation differences instead of forcing an exact match.
+    d=Deck('Finite rigid-offset compatibility verification');a=d.node((0.,0.,0.));b=d.node((0.,2.,0.));d.beam(a,b,BOX,'offset',8);d.fixed.update((a,i) for i in range(1,7));offset=np.array([.23,.17,.41]);p=d.arm(b,d.nodes[b]+offset);d.labels={'tip':b,'offset_point':p};theta=np.array([.03,.02,-.04])  # Create an actual native finite-rotation connector on a deformable beam.
+    native=solve(d,'finite_offset',prescribed=[(b,i+1,0.) for i in range(3)]+[(b,i+4,float(theta[i])) for i in range(3)]);predicted=Rotation.from_rotvec(theta).apply(offset)-offset  # Compute the finite kinematic displacement independently.
+    measured=np.array(native['displacements'][p])-np.array(native['displacements'][b]) if p in native['displacements'] and b in native['displacements'] else None  # Read the actual constrained physical point motion.
+    results['finite_offset']={'native_exit':native['exit'],'native_relative_displacement_m':measured.tolist() if measured is not None else None,'Rodrigues_prediction_m':predicted.tolist(),'max_difference_m':float(np.max(np.abs(measured-predicted))) if measured is not None else None}  # Detect distance-only or missing lever-arm kinematics directly.
+    for axis in (0,1):  # Distinguish the intended free pin axis from a perpendicular locked bending direction.
+        d=Deck('Directional relative-pin objectivity verification');anchor=d.node((-.2,0.,0.));master=d.node((0.,0.,0.));d.beam(anchor,master,BOX,'fixture',2);d.fixed.update((n,i) for n in (anchor,master) for i in range(1,7));slave=d.newnode((0.,0.,0.));tip=d.node((0.,2.,0.));d.beam(slave,tip,BOX,'member',10);d.pin(slave,master,axis,label='test_pin');d.labels={'tip':tip,'pin':slave}  # Apply relative pin constraints, not a global rotation lock to the member.
+        native=solve(d,'pin_axis_'+str(axis),prescribed=[(tip,1,0.),(tip,3,.01)]);value=native['forces'].get(tip,[None]*3)[2];results['pin_axis_'+str(axis)]={'native_exit':native['exit'],'tip_reaction_z_N':value,'tip_displacement_m':native['displacements'].get(tip)}  # A free X hinge should permit nearly strain-free in-plane rigid rotation.
+    d=Deck('Open HW-section shell cantilever verification');top,caps,mass=d.irow(0.,0.,np.linspace(0.,2.,13),owner='HW',tag='HW');root,rr=caps[0.];tip,tr=caps[2.];d.fixed.update((n,i) for n in (root,rr) for i in range(1,4));d.labels={'root':root,'tip':tip};native=solve(d,'open_HW_shell',loads=[(tip,3,-100.)]);I=(.17*.17**3-(.17-.007)*(.17-2*.011)**3)/12;expected=-100.*8/(3*206e9*I)  # Preserve open-section plate kinematics, including warping between connection caps.
+    results['open_HW_shell']={'native_exit':native['exit'],'tip_z_m':native['displacements'].get(tip,[None]*3)[2],'beam_bending_scale_m':expected,'actual_shell_mass_kg':mass}  # Report the true native result and its analytic reference.
+    folder=ROOT/'results/native_checks';(folder/'summary.json').write_text(json.dumps(results,indent=2));print('NATIVE_MEMBER_CONNECTION_CHECKS',json.dumps(results),flush=True)  # Save actual member and connection verification before the global run.
+    return results  # Keep these tests separate from any fourteen-mode reproduction claim.
