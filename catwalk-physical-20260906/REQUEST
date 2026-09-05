@@ -1,3 +1,4 @@
-run_request: 2026-09-06-native-connection-checks
-scope: original MCT equilibrium; native hollow beams; open HW shells; true rigid offsets; directional relative pins
-purpose: detect implementation errors without adjusting any bridge target frequency
+run_request: 2026-09-06-native-finite-rotation-checks
+scope: original MCT equilibrium; native BOX/PIPE beams; open HW shells; finite rigid offsets; directional relative pins
+change: activate actual native rotational knots using zero moment records in a vanishing-duration initialization, followed by full static equilibrium
+physical_model_change: none; no added support, elastic stiffness, physical mass or nonzero load
