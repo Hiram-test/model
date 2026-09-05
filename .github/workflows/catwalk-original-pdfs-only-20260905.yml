@@ -1,0 +1,60 @@
+name: Catwalk original PDFs only # Retrieve original documents without opening any intermediate calculation.
+on: # Run only for this explicit source recovery.
+  push: # Use the isolated calculation branch.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Do not alter the main branch.
+    paths: [.github/workflows/catwalk-original-pdfs-only-20260905.yml] # Do not rerun on result changes.
+permissions: # No repository writes are needed.
+  contents: read # Permit original archive reads.
+jobs: # Recover only two original PDF types.
+  recover: # Source transport only, no numerical reconstruction here.
+    runs-on: ubuntu-22.04 # Use a compatible archive reader.
+    timeout-minutes: 15 # Limit source acquisition time.
+    steps: # Inspect archive metadata and extract exact original members.
+      - name: Install archive reader # Use the ordinary compressed archive library.
+        run: python3 -m pip install zstandard requests # Install archive transport dependencies only.
+      - name: Recover originals # Whitelist original titles and never extract old source code or results.
+        shell: python # Read metadata and archive bytes directly.
+        run: | # Each executable line documents its role.
+          import csv, io, json, re, tarfile, hashlib, requests, zstandard # Use standard parsing and zstd decompression.
+          from pathlib import Path # Save exact original bytes.
+          out = Path('originals'); out.mkdir() # Keep originals isolated.
+          url = 'https://raw.githubusercontent.com/Hiram-test/model/agent/archive-zhangjinggao-20260729/archive/zhangjinggao/package-members.csv' # Use the discovered archive index.
+          response = requests.get(url, timeout=90); response.raise_for_status() # Fetch filename metadata only.
+          text = response.content.decode('utf-8-sig') # Decode the archive's CSV.
+          rows = list(csv.DictReader(io.StringIO(text))); print('columns', list(rows[0])) # Determine the actual index schema.
+          groups = {'review': [], 'attachment23': []} # Limit permitted original document titles.
+          for row in rows: # Inspect file metadata without opening any unrelated member.
+              value = ' '.join(str(v) for v in row.values()) # Search the original path fields.
+              if '猫道结构复核计算报告0324' in value and '.pdf' in value.lower(): groups['review'].append(row) # Select the engineering review original.
+              if ('附件2-3' in value or '附件 2-3' in value) and '抗风' in value and '.pdf' in value.lower(): groups['attachment23'].append(row) # Select the original wind report.
+          (out/'matching_original_metadata.json').write_text(json.dumps(groups, ensure_ascii=False, indent=2)) # Preserve citable provenance without old calculations.
+          selected = {key: min(value, key=lambda r: len(str(r))) for key, value in groups.items() if value} # Choose the least deeply nested original copy.
+          packages = {} # Group required documents by archive volume.
+          for key, row in selected.items(): # Decode the actual package name from metadata.
+              match = re.search(r'archive-\d+\.tar\.zst', str(row)) # Find the explicitly listed volume.
+              if match: packages.setdefault(match.group(0), []).append(key) # Never guess a replacement volume.
+          print('selected metadata', json.dumps(selected, ensure_ascii=False)); print('packages', packages) # Report exact retrieval evidence.
+          provenance = [] # Record only original PDF byte hashes.
+          for package, keys in packages.items(): # Fetch only volumes containing requested originals.
+              link = 'https://github.com/Hiram-test/model/releases/download/zhangjinggao-full-20260729/' + package # Use the discovered public release.
+              response = requests.get(link, stream=True, timeout=180); response.raise_for_status() # Open the original archive stream.
+              reader = zstandard.ZstdDecompressor().stream_reader(response.raw) # Decode without writing unrelated files.
+              with tarfile.open(fileobj=reader, mode='r|') as archive: # Stream tar headers and skip unrelated content.
+                  for member in archive: # Select by exact original titles.
+                      name = member.name # Preserve the archive's original filename.
+                      key = 'review' if '猫道结构复核计算报告0324' in name else ('attachment23' if ('附件2-3' in name or '附件 2-3' in name) and '抗风' in name else None) # Exclude all generated review reports.
+                      if key not in keys or not name.lower().endswith('.pdf') or not member.isfile(): continue # Do not read any intermediate data.
+                      data = archive.extractfile(member).read(); digest = hashlib.sha256(data).hexdigest() # Read the selected original PDF only.
+                      target = out/(key+'_'+digest[:12]+'.pdf'); target.write_bytes(data) # Preserve the exact original bytes.
+                      provenance.append({'type':key,'archive':package,'member':name,'sha256':digest,'file':target.name}) # Bind each PDF to the original archive member.
+                      keys.remove(key) # One byte-complete copy per original is sufficient.
+                      if not keys: break # Stop without reading later archive members.
+          (out/'provenance.json').write_text(json.dumps(provenance, ensure_ascii=False, indent=2)) # Save the source chain.
+          print('recovered originals', json.dumps(provenance, ensure_ascii=False)) # Expose only original-document metadata.
+      - name: Preserve originals # Return original PDFs and metadata, never numerical history.
+        if: always() # Preserve genuine retrieval failures as well.
+        uses: actions/upload-artifact@v4 # Use authenticated artifact transport.
+        with: # Name the actual recovery run.
+          name: catwalk-original-pdfs-${{ github.run_id }} # Bind originals to the run.
+          path: originals # Upload only whitelisted originals and source metadata.
+          retention-days: 14 # Keep the transport archive temporarily.
