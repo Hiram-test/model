@@ -24,6 +24,15 @@ jobs: # Execute real solver processes and preserve complete diagnostics.
           fetch-depth: 1 # Avoid executing historical code.
       - name: Install numerical dependencies # Install libraries only, not engineering models.
         run: python3 -m pip install numpy scipy matplotlib requests pymupdf # Obtain native parsing and independent numerical support.
+      - name: Extend native memory backing # Retain the same physical equations when preprocessing exceeds resident RAM.
+        run: | # Add temporary disk-backed memory on this disposable calculation runner.
+          free -m # Record actual physical memory and existing swap before the native calculation.
+          df -h /mnt # Record available disk space for the temporary swap file and complete numerical outputs.
+          sudo fallocate -l 16G /mnt/catwalk-native.swap # Reserve backing storage without changing solver formulas or physical constraints.
+          sudo chmod 600 /mnt/catwalk-native.swap # Restrict this temporary runner-local memory file to its owner.
+          sudo mkswap /mnt/catwalk-native.swap # Format only the newly allocated temporary file as swap.
+          sudo swapon /mnt/catwalk-native.swap # Permit the operating system to page native allocations instead of terminating the runner.
+          free -m # Preserve the actual augmented memory configuration in the execution record.
       - name: Recover originals and native runtime # Use immutable engineering MCT and original report PDFs.
         run: python3 catwalk-physical-20260906/source_audit.py # Preserve exact original bytes and solver provenance.
       - name: Execute work state and spatial model # Perform actual native and independent computations.

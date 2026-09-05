@@ -15,7 +15,7 @@ class Deck(BaseDeck):  # Attach physical connector points to native section rota
         return BaseDeck.area(profile)  # Preserve existing BOX, PIPE and rectangular section definitions.
     def arm(self,reference,xyz,mass=0.,existing=None):  # Attach a real offset point with complete finite rigid-body kinematics.
         if reference not in self.offset_bodies:  # Define one connector orientation for all points on the same physical section.
-            center=self.nodes[reference];rot=self.newnode(center);markers=[self.newnode(center+np.array([.031,0.,0.])),self.newnode(center+np.array([0.,.037,0.])),self.newnode(center+np.array([0.,0.,.041]))]  # Massless orientation witnesses contribute neither stiffness nor inertia.
+            center=self.nodes[reference];rot=self.newnode(center);markers=[]  # Exactly eliminate unreferenced massless orientation witnesses; the existing native-section rotation equations retain all three physical rotation components.
             proxy=self.newnode(center);members=list(markers);self.bodies.append((members,proxy,rot,'offset_'+str(reference)));self.offset_bodies[reference]=(members,rot)  # Use the independently verified coincident translation reference so native beam expansion and external rigid-body coordinates remain distinct.
             for d in range(3):self.equations.append([(proxy,d+1,1.),(reference,d+1,-1.)])  # Preserve exact free translation compatibility without adding stiffness, mass, or a grounded rotation.
             for d in range(3):self.equations.append([(rot,d+1,1.),(reference,d+4,-1.)])  # Couple relative rotations to the native section's actual knot coordinates.
@@ -29,4 +29,5 @@ class Deck(BaseDeck):  # Attach physical connector points to native section rota
     def point_on_surface(self,reference,xyz,existing=None):return self.arm(reference,xyz,0.,existing)  # Use the native reinforced shell intersection as the rope-clamp reference.
     def write(self,path,*args,**kwargs):  # Use ordinary nonlinear static equilibrium without any activation load or integration step.
         if self.rigidlinks:raise ValueError('Distance-only BEAM MPC cannot represent a rigid connection lever')  # Exclude a physically different constraint type.
+        self.bodies=[body for body in self.bodies if body[0]]  # Omit empty rigid-body cards after auxiliary-point elimination while retaining every reference coordinate and external compatibility equation.
         return super().write(path,*args,**kwargs)  # The documented preprocessing correction only realizes the rotations already specified by this input.

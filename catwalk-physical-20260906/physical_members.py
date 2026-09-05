@@ -17,7 +17,7 @@ class BeamLine:  # Mesh one actual flexible native transverse member and attach 
         for direction in range(3):  # Interpolate both translations and actual native section rotations.
             self.d.equations.append([(ref,direction+1,1.)]+[(n,direction+1,-float(w)) for n,w in zip(nodes,weights) if abs(w)>1.e-13])  # Transfer physical point forces by virtual-work-consistent interpolation.
             self.d.equations.append([(rot,direction+1,1.)]+[(n,direction+4,-float(w)) for n,w in zip(nodes,weights) if abs(w)>1.e-13])  # Retain flexible beam rotation instead of setting it equal to zero.
-        center=self.d.nodes[ref];members=[self.d.newnode(center+np.array([.031,0.,0.])),self.d.newnode(center+np.array([0.,.037,0.])),self.d.newnode(center+np.array([0.,0.,.041]))];self.d.bodies.append((members,ref,rot,self.tag+'_section'))  # Add massless orientation witnesses for exact finite-offset motion.
+        members=[];self.d.bodies.append((members,ref,rot,self.tag+'_section'))  # Exactly eliminate unreferenced massless orientation witnesses; actual attachments still receive the same finite-offset rigid-body equations from the independently interpolated section coordinates.
         self.ports[key]=(ref,rot);return ref,rot  # Return the physical section's free translational and rotational references.
     def attach(self,y,xyz,existing=None,mass=0.):  # Attach a rope, clamp or nonstructural mass at its actual physical position.
         ref,rot=self.section(y)  # Preserve the local flexible beam response at the requested physical station.
