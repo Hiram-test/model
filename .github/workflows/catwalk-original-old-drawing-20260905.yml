@@ -1,0 +1,43 @@
+name: Original catwalk drawing version # Retrieve an original design drawing, not an intermediate model.
+on: # Limit acquisition to this explicitly requested source-only investigation.
+  push: # Keep the original-source transfer isolated.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Leave the main branch unchanged.
+    paths: [.github/workflows/catwalk-original-old-drawing-20260905.yml] # Trigger only on this source-recovery file.
+permissions: # No repository writes are needed.
+  contents: read # Read original archives only.
+jobs: # Preserve exact original design bytes.
+  recover: # No previous numerical script or result is opened.
+    runs-on: ubuntu-22.04 # Standard archive transport environment.
+    timeout-minutes: 12 # Bound source retrieval time.
+    steps: # Inspect archive filename metadata and extract only the original drawing.
+      - name: Install readers # Obtain the ordinary archive transport dependencies.
+        run: python3 -m pip install requests zstandard # These tools do not interpret engineering parameters.
+      - name: Read original drawing # Select the named 1225 drawing from the existing original archive.
+        shell: python # Decode index and selected PDF bytes only.
+        run: | # Every executable line documents its source-preserving operation.
+          import requests, csv, io, json, re, tarfile, zstandard, hashlib # Read archive headers and exact selected bytes.
+          from pathlib import Path # Keep the recovered drawing separate.
+          out=Path('original');out.mkdir() # Create a source-only output directory.
+          r=requests.get('https://raw.githubusercontent.com/Hiram-test/model/agent/archive-zhangjinggao-20260729/archive/zhangjinggao/package-members.csv',timeout=90);r.raise_for_status() # Read only archive filename metadata.
+          rows=list(csv.DictReader(io.StringIO(r.content.decode('utf-8-sig')))) # Decode the documented archive index.
+          rows=[x for x in rows if '猫道图纸1225' in str(x) and '.pdf' in str(x).lower()] # Restrict to the original engineering drawing title.
+          (out/'source_metadata.json').write_text(json.dumps(rows,ensure_ascii=False,indent=2)) # Preserve all matching original-file metadata.
+          packages=sorted(set(re.findall(r'archive-\d+\.tar\.zst',str(rows)))) # Use only the volume named by the original index.
+          found=False # Record genuine extraction success.
+          for package in packages: # Open volumes that actually contain the selected original drawing.
+              r=requests.get('https://github.com/Hiram-test/model/releases/download/zhangjinggao-full-20260729/'+package,stream=True,timeout=180);r.raise_for_status() # Stream the original archive without unpacking other files.
+              with tarfile.open(fileobj=zstandard.ZstdDecompressor().stream_reader(r.raw),mode='r|') as tar: # Skip unrelated archive members by header.
+                  for m in tar: # Read only the original PDF's bytes.
+                      if not m.isfile() or '猫道图纸1225' not in m.name or not m.name.lower().endswith('.pdf'): continue # Exclude every numerical model and generated report.
+                      data=tar.extractfile(m).read();(out/'original_drawing_1225.pdf').write_bytes(data) # Preserve the selected original PDF unchanged.
+                      (out/'provenance.json').write_text(json.dumps({'archive':package,'member':m.name,'sha256':hashlib.sha256(data).hexdigest()},ensure_ascii=False,indent=2)) # Bind the drawing to its exact original archive member.
+                      found=True;break # One complete original is sufficient.
+              if found: break # Do not read later unrelated archive data.
+          print('original drawing recovered:',found) # Report actual retrieval status.
+      - name: Preserve original # Return only the selected original drawing and metadata.
+        if: always() # Preserve a truthful empty-source diagnostic too.
+        uses: actions/upload-artifact@v4 # Use the authenticated artifact transport.
+        with: # Bind the recovered original to this run.
+          name: catwalk-original-drawing-${{ github.run_id }} # Avoid mixing source and numerical artifacts.
+          path: original # Only original PDF and provenance are included.
+          retention-days: 14 # Keep the transport artifact temporarily.
