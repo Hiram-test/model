@@ -1,0 +1,106 @@
+{
+  "name": "arm_force_10",
+  "completed": true,
+  "test_definition": {
+    "fixture": "Standalone 2 m cantilever, root section fixed; every loaded-tip motion is solved, not prescribed.",
+    "force_z_N": -10.0,
+    "offset_m": [
+      0.0,
+      0.35,
+      0.4
+    ],
+    "equivalent_tip_moment_x_Nm": -3.5,
+    "analytic_tip_z_m": -1.6132621068082197e-05,
+    "analytic_tip_theta_x_rad": -1.293804263875899e-05,
+    "rigid_motion": {
+      "reference": 2,
+      "rotation": 18,
+      "point": 20,
+      "offset_m": [
+        0.0,
+        0.35,
+        0.4
+      ]
+    }
+  },
+  "input_sha256": "00207cb021d92c94ca04c93acc4c5ec05da55a496fdc3dcef6fb5dc37fc18d36",
+  "node_count": 20,
+  "beam_count": 8,
+  "shell_count": 0,
+  "body_count": 1,
+  "gravity_m_s2": 0.0,
+  "explicit_loads": [
+    [
+      20,
+      3,
+      -10.0
+    ]
+  ],
+  "native_exit": 0,
+  "displacement_block_count": 1,
+  "last_displacements_by_label": {
+    "base": [
+      0.0,
+      8.02457e-30,
+      -2.598681e-25
+    ],
+    "tip": [
+      -7.157262e-21,
+      -7.867017e-11,
+      -1.600542e-05
+    ],
+    "load_point": [
+      -2.297193e-21,
+      5.120784e-06,
+      -2.048624e-05
+    ],
+    "section_rotation": [
+      -1.280223e-05,
+      1.505614e-20,
+      3.320986e-21
+    ]
+  },
+  "last_forces_by_label": {
+    "base": [
+      2.381828e-14,
+      9.947598e-14,
+      10.0
+    ],
+    "tip": [
+      -8.746291e-14,
+      2.538236e-11,
+      -10.0
+    ],
+    "load_point": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "section_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "max_printed_vector_norm": 2.1116544653713022e-05,
+  "tip_z_to_analytic_ratio": 0.992115288176336,
+  "free_loaded_rigid_motion": {
+    "native_rotation_rad": [
+      -1.280223e-05,
+      1.505614e-20,
+      3.320986e-21
+    ],
+    "native_relative_displacement_m": [
+      4.860069e-21,
+      5.120862670169999e-06,
+      -4.480820000000001e-06
+    ],
+    "Rodrigues_prediction_m": [
+      4.860068665032662e-21,
+      5.120863317831237e-06,
+      -4.480813279306162e-06
+    ],
+    "max_difference_m": 6.720693839228249e-12,
+    "theta_x_to_analytic_ratio": 0.9895028450167469
+  }
+}

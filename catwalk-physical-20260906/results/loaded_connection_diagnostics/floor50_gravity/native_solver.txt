@@ -1,0 +1,84 @@
+
+************************************************************
+
+CalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt
+CalculiX comes with ABSOLUTELY NO WARRANTY. This is free
+software, and you are welcome to redistribute it under
+certain conditions, see gpl.htm
+
+************************************************************
+
+You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
+
+  The numbers below are estimated upper bounds
+
+  number of:
+
+   nodes:          337
+   elements:            8
+   one-dimensional elements:            4
+   two-dimensional elements:            0
+   integration points per element:           50
+   degrees of freedom per node:            3
+   layers per element:            2
+
+   distributed facial loads:            0
+   distributed volumetric loads:            1
+   concentrated loads:           36
+   single point constraints:         1260
+   multiple point constraints:          649
+   terms in all multiple point constraints:         3865
+   tie constraints:            0
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:           24
+   terms in all sets:          226
+
+   materials:            3
+   constants per material and temperature:            2
+   temperature points per material:            1
+   plastic data points per material:            0
+
+   orientations:            0
+   amplitudes:            3
+   data points in all amplitudes:            3
+   print requests:            2
+   transformations:            0
+   property cards:           16
+
+
+ STEP            1
+
+ *INFO reading *STEP: nonlinear geometric
+       effects are turned on
+
+ *WARNING reading *STATIC:
+          the minimum increment    1.0000000000000000E-008
+          is smaller then 1.e-6 times the 
+          step time;
+          the minimum increment is changed
+          to    9.9999999999999995E-007
+          which is the minimum of the initial
+          increment time and 1.e-6 times the step time
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ *WARNING in calinput: no elastic constants 
+  were assigned to material MASS
+          in a (thermo)mechanical calculation
+
+ Static analysis was selected
+
+ Newton-Raphson iterative procedure is active
+
+ Nonlinear geometric effects are taken into account
+
+ Decascading the MPC's
+
+ *ERROR in cascade: the DOF corresponding to 
+ node 10 in direction 1 is detected on the 
+ dependent side of a MPC and a SPC
+

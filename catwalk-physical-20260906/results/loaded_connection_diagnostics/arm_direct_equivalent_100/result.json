@@ -1,0 +1,62 @@
+{
+  "name": "arm_direct_equivalent_100",
+  "completed": true,
+  "test_definition": {
+    "fixture": "Standalone 2 m cantilever, root section fixed; every loaded-tip motion is solved, not prescribed.",
+    "force_z_N": -100.0,
+    "offset_m": [
+      0.0,
+      0.35,
+      0.4
+    ],
+    "equivalent_tip_moment_x_Nm": -35.0,
+    "analytic_tip_z_m": -0.00016132621068082196,
+    "analytic_tip_theta_x_rad": -0.0001293804263875899
+  },
+  "input_sha256": "43553cfcbc07a1f60d677cf17660ab342addc962fb5f1a2f61bc2db26f21b7f2",
+  "node_count": 17,
+  "beam_count": 8,
+  "shell_count": 0,
+  "body_count": 0,
+  "gravity_m_s2": 0.0,
+  "explicit_loads": [
+    [
+      2,
+      3,
+      -100.0
+    ],
+    [
+      2,
+      4,
+      -35.0
+    ]
+  ],
+  "native_exit": 0,
+  "displacement_block_count": 1,
+  "last_displacements_by_label": {
+    "base": [
+      0.0,
+      5.706503e-28,
+      2.732362e-25
+    ],
+    "tip": [
+      -5.65196e-20,
+      -7.867961e-09,
+      -0.0001600683
+    ]
+  },
+  "last_forces_by_label": {
+    "base": [
+      -2.104222e-13,
+      5.115908e-12,
+      100.0
+    ],
+    "tip": [
+      3.894374e-13,
+      1.038033e-07,
+      -100.0
+    ]
+  },
+  "max_printed_vector_norm": 0.00016006830019336997,
+  "tip_z_to_analytic_ratio": 0.9922026887291694
+}

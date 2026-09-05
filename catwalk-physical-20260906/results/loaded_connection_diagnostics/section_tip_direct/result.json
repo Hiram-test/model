@@ -1,0 +1,76 @@
+{
+  "name": "section_tip_direct",
+  "completed": true,
+  "test_definition": {
+    "fixture": "Standalone cantilever; only its physical root section is fixed.",
+    "position_m": 2.0,
+    "load_z_N": -100.0,
+    "original_section_on_mesh": true,
+    "mesh_stations_m": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      1.75,
+      2.0
+    ],
+    "analytic_load_point_z_m": -0.00012778313717292828,
+    "analytic_tip_z_m": -0.00012778313717292828,
+    "comparison_scope": "At y=1 and y=2 the base mesh is identical; at y=.93 the direct reference inserts the real load station, retaining the same geometry and material."
+  },
+  "input_sha256": "b7b7bd5da0f47cb22d3e661d3c455368e1bf98c4c045d85cda7cdbcac81e9d33",
+  "node_count": 17,
+  "beam_count": 8,
+  "shell_count": 0,
+  "body_count": 0,
+  "gravity_m_s2": 0.0,
+  "explicit_loads": [
+    [
+      16,
+      3,
+      -100.0
+    ]
+  ],
+  "native_exit": 0,
+  "displacement_block_count": 1,
+  "last_displacements_by_label": {
+    "base": [
+      0.0,
+      3.785544e-28,
+      1.864085e-24
+    ],
+    "tip": [
+      -7.36841e-20,
+      -4.843357e-09,
+      -0.0001268509
+    ],
+    "load_point": [
+      -7.36841e-20,
+      -4.843357e-09,
+      -0.0001268509
+    ]
+  },
+  "last_forces_by_label": {
+    "base": [
+      2.893897e-14,
+      4.3201e-12,
+      100.0
+    ],
+    "tip": [
+      -8.327658e-13,
+      3.175247e-08,
+      -100.0
+    ],
+    "load_point": [
+      -8.327658e-13,
+      3.175247e-08,
+      -100.0
+    ]
+  },
+  "max_printed_vector_norm": 0.0001268509000924633,
+  "tip_z_to_analytic_ratio": 0.9927045368148484,
+  "load_point_z_to_analytic_ratio": 0.9927045368148484
+}

@@ -1,0 +1,106 @@
+{
+  "name": "arm_force_100",
+  "completed": true,
+  "test_definition": {
+    "fixture": "Standalone 2 m cantilever, root section fixed; every loaded-tip motion is solved, not prescribed.",
+    "force_z_N": -100.0,
+    "offset_m": [
+      0.0,
+      0.35,
+      0.4
+    ],
+    "equivalent_tip_moment_x_Nm": -35.0,
+    "analytic_tip_z_m": -0.00016132621068082196,
+    "analytic_tip_theta_x_rad": -0.0001293804263875899,
+    "rigid_motion": {
+      "reference": 2,
+      "rotation": 18,
+      "point": 20,
+      "offset_m": [
+        0.0,
+        0.35,
+        0.4
+      ]
+    }
+  },
+  "input_sha256": "91f4af82a3755232e406c4904c892ba0b6d11dc644fd6070eb6bc746bc7e3603",
+  "node_count": 20,
+  "beam_count": 8,
+  "shell_count": 0,
+  "body_count": 1,
+  "gravity_m_s2": 0.0,
+  "explicit_loads": [
+    [
+      20,
+      3,
+      -100.0
+    ]
+  ],
+  "native_exit": 0,
+  "displacement_block_count": 1,
+  "last_displacements_by_label": {
+    "base": [
+      0.0,
+      8.559583e-28,
+      -3.183716e-25
+    ],
+    "tip": [
+      -2.220971e-19,
+      -7.867464e-09,
+      -0.0001600586
+    ],
+    "load_point": [
+      -2.370068e-19,
+      5.119992e-05,
+      -0.0002048712
+    ],
+    "section_rotation": [
+      -0.0001280266,
+      1.325536e-19,
+      1.940664e-19
+    ]
+  },
+  "last_forces_by_label": {
+    "base": [
+      -7.683807e-14,
+      -1.580247e-11,
+      100.0
+    ],
+    "tip": [
+      -5.566644e-13,
+      1.033336e-07,
+      -100.0
+    ],
+    "load_point": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "section_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "max_printed_vector_norm": 0.00021117206348721037,
+  "tip_z_to_analytic_ratio": 0.9921425621077168,
+  "free_loaded_rigid_motion": {
+    "native_rotation_rad": [
+      -0.0001280266,
+      1.325536e-19,
+      1.940664e-19
+    ],
+    "native_relative_displacement_m": [
+      -1.4909700000000006e-20,
+      5.1207787464e-05,
+      -4.481260000000002e-05
+    ],
+    "Rodrigues_prediction_m": [
+      -1.4909738909230648e-20,
+      5.12077714682202e-05,
+      -4.481258803967769e-05
+    ],
+    "max_difference_m": 1.59957798010835e-11,
+    "theta_x_to_analytic_ratio": 0.9895360803377307
+  }
+}

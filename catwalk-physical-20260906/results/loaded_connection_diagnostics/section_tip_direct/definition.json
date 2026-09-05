@@ -1,0 +1,37 @@
+{
+  "name": "section_tip_direct",
+  "completed": false,
+  "test_definition": {
+    "fixture": "Standalone cantilever; only its physical root section is fixed.",
+    "position_m": 2.0,
+    "load_z_N": -100.0,
+    "original_section_on_mesh": true,
+    "mesh_stations_m": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      1.75,
+      2.0
+    ],
+    "analytic_load_point_z_m": -0.00012778313717292828,
+    "analytic_tip_z_m": -0.00012778313717292828,
+    "comparison_scope": "At y=1 and y=2 the base mesh is identical; at y=.93 the direct reference inserts the real load station, retaining the same geometry and material."
+  },
+  "input_sha256": "b7b7bd5da0f47cb22d3e661d3c455368e1bf98c4c045d85cda7cdbcac81e9d33",
+  "node_count": 17,
+  "beam_count": 8,
+  "shell_count": 0,
+  "body_count": 0,
+  "gravity_m_s2": 0.0,
+  "explicit_loads": [
+    [
+      16,
+      3,
+      -100.0
+    ]
+  ]
+}

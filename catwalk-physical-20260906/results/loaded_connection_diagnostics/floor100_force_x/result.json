@@ -1,0 +1,115 @@
+{
+  "name": "floor100_force_x",
+  "completed": false,
+  "test_definition": {
+    "fixture": "Only translations 1/2/3 at the 16 actual floor-rope clamps are fixed; there is no artificial rotational gauge.",
+    "fixture_nodes": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "fixed_rotation_count": 0,
+    "profile": [
+      "BOX",
+      [
+        0.1,
+        0.1,
+        0.004,
+        0.004,
+        0.004,
+        0.004
+      ]
+    ],
+    "handrail_tributary_length_m": 3.0,
+    "handrail_total_mass_kg": 88.08,
+    "loading": "100 N total global X force at the four actual rail mass points; all gravity disabled",
+    "interpretation": "Any surviving rotation mechanism or load instability is preserved as a diagnostic result, not suppressed by an added support."
+  },
+  "input_sha256": "f65caf305e7e1adf027ba37a2613bcc290df39c16775c57f7aa746903ff7b6e5",
+  "node_count": 65,
+  "beam_count": 4,
+  "shell_count": 0,
+  "body_count": 18,
+  "gravity_m_s2": 0.0,
+  "explicit_loads": [
+    [
+      60,
+      1,
+      25.0
+    ],
+    [
+      61,
+      1,
+      25.0
+    ],
+    [
+      64,
+      1,
+      25.0
+    ],
+    [
+      65,
+      1,
+      25.0
+    ]
+  ],
+  "native_exit": 201,
+  "displacement_block_count": 0,
+  "last_displacements_by_label": {
+    "rail_0": null,
+    "rail_1": null,
+    "rail_2": null,
+    "rail_3": null,
+    "clip_0": null,
+    "clip_1": null,
+    "clip_2": null,
+    "clip_3": null,
+    "clip_4": null,
+    "clip_5": null,
+    "clip_6": null,
+    "clip_7": null,
+    "clip_8": null,
+    "clip_9": null,
+    "clip_10": null,
+    "clip_11": null,
+    "clip_12": null,
+    "clip_13": null,
+    "clip_14": null,
+    "clip_15": null
+  },
+  "last_forces_by_label": {
+    "rail_0": null,
+    "rail_1": null,
+    "rail_2": null,
+    "rail_3": null,
+    "clip_0": null,
+    "clip_1": null,
+    "clip_2": null,
+    "clip_3": null,
+    "clip_4": null,
+    "clip_5": null,
+    "clip_6": null,
+    "clip_7": null,
+    "clip_8": null,
+    "clip_9": null,
+    "clip_10": null,
+    "clip_11": null,
+    "clip_12": null,
+    "clip_13": null,
+    "clip_14": null,
+    "clip_15": null
+  }
+}

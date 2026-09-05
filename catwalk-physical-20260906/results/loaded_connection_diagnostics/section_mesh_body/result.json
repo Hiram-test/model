@@ -1,0 +1,96 @@
+{
+  "name": "section_mesh_body",
+  "completed": true,
+  "test_definition": {
+    "fixture": "Standalone cantilever; only its physical root section is fixed.",
+    "position_m": 1.0,
+    "load_z_N": -100.0,
+    "original_section_on_mesh": true,
+    "mesh_stations_m": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      1.75,
+      2.0
+    ],
+    "analytic_load_point_z_m": -1.5972892146616035e-05,
+    "analytic_tip_z_m": -3.993223036654009e-05,
+    "comparison_scope": "At y=1 and y=2 the base mesh is identical; at y=.93 the direct reference inserts the real load station, retaining the same geometry and material."
+  },
+  "input_sha256": "e3a7852186c4b896d49bd8327456aed107260dd57b8f2731540df8f7e9705462",
+  "node_count": 20,
+  "beam_count": 8,
+  "shell_count": 0,
+  "body_count": 1,
+  "gravity_m_s2": 0.0,
+  "explicit_loads": [
+    [
+      20,
+      3,
+      -100.0
+    ]
+  ],
+  "native_exit": 0,
+  "displacement_block_count": 1,
+  "last_displacements_by_label": {
+    "base": [
+      0.0,
+      -1.491061e-29,
+      1.626568e-24
+    ],
+    "tip": [
+      -1.160144e-20,
+      -4.289159e-10,
+      -3.944698e-05
+    ],
+    "section": [
+      2.42885e-21,
+      -1.536416e-10,
+      -1.598214e-05
+    ],
+    "section_rotation": [
+      -2.346484e-05,
+      5.80577e-21,
+      4.276013e-21
+    ],
+    "load_point": [
+      2.42885e-21,
+      -1.536416e-10,
+      -1.598214e-05
+    ]
+  },
+  "last_forces_by_label": {
+    "base": [
+      8.879592e-14,
+      3.979039e-13,
+      100.0
+    ],
+    "tip": [
+      4.26514e-13,
+      1.212668e-10,
+      -4.94912e-12
+    ],
+    "section": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "section_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "load_point": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "max_printed_vector_norm": 3.944698000233185e-05,
+  "tip_z_to_analytic_ratio": 0.9878481526805303,
+  "load_point_z_to_analytic_ratio": 1.0005789717540867
+}

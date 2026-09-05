@@ -1,0 +1,96 @@
+{
+  "name": "section_tip_body",
+  "completed": true,
+  "test_definition": {
+    "fixture": "Standalone cantilever; only its physical root section is fixed.",
+    "position_m": 2.0,
+    "load_z_N": -100.0,
+    "original_section_on_mesh": true,
+    "mesh_stations_m": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      1.75,
+      2.0
+    ],
+    "analytic_load_point_z_m": -0.00012778313717292828,
+    "analytic_tip_z_m": -0.00012778313717292828,
+    "comparison_scope": "At y=1 and y=2 the base mesh is identical; at y=.93 the direct reference inserts the real load station, retaining the same geometry and material."
+  },
+  "input_sha256": "89e44f1bc20ee88e3ca64b1f96809d1c22376a145207c3d2d00ba3ef1dff7c64",
+  "node_count": 20,
+  "beam_count": 8,
+  "shell_count": 0,
+  "body_count": 1,
+  "gravity_m_s2": 0.0,
+  "explicit_loads": [
+    [
+      20,
+      3,
+      -100.0
+    ]
+  ],
+  "native_exit": 0,
+  "displacement_block_count": 1,
+  "last_displacements_by_label": {
+    "base": [
+      0.0,
+      2.271323e-28,
+      8.633294e-25
+    ],
+    "tip": [
+      -6.102823e-20,
+      -4.843739e-09,
+      -0.0001268468
+    ],
+    "section": [
+      -6.102823e-20,
+      -4.843739e-09,
+      -0.0001268468
+    ],
+    "section_rotation": [
+      -9.487687e-05,
+      1.081916e-19,
+      4.782519e-20
+    ],
+    "load_point": [
+      -6.102823e-20,
+      -4.843739e-09,
+      -0.0001268468
+    ]
+  },
+  "last_forces_by_label": {
+    "base": [
+      -1.614584e-13,
+      2.955858e-12,
+      100.0
+    ],
+    "tip": [
+      3.40267e-12,
+      2.824047e-08,
+      -100.0
+    ],
+    "section": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "section_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "load_point": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "max_printed_vector_norm": 0.0001268468000924809,
+  "tip_z_to_analytic_ratio": 0.9926724512040964,
+  "load_point_z_to_analytic_ratio": 0.9926724512040964
+}
