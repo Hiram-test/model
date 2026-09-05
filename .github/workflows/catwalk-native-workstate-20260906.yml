@@ -1,0 +1,32 @@
+name: Catwalk native workstate 20260906 # This run computes the MCT foundation; it does not claim a spatial fourteen-mode answer.
+on: # Execute on explicit updates of the new calculation files.
+  push: # The isolated calculation branch is already authorized for this task.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Do not affect the main branch.
+    paths: # Only the new solver and this workflow trigger this calculation.
+      - catwalk-fem/connection-baseline-20260906/mct_workstate.py # Rerun after a real solver correction.
+      - .github/workflows/catwalk-native-workstate-20260906.yml # Rerun after an explicit execution change.
+permissions: # The execution job only reads the repository.
+  contents: read # No historical results or files are modified.
+jobs: # Perform real native and independent equilibrium calculations.
+  solve: # Preserve raw evidence whether the calculation succeeds or fails.
+    runs-on: ubuntu-22.04 # Stable distribution with the native CalculiX package.
+    timeout-minutes: 25 # Bound compute cost and preserve any genuine timeout.
+    steps: # Install the solver, execute new code, and retain evidence.
+      - name: Read new calculation code # Do not check out or reuse old numerical models.
+        uses: actions/checkout@v4 # Use the exact triggering commit.
+        with: # Restrict checkout to this new solver directory.
+          sparse-checkout: catwalk-fem/connection-baseline-20260906 # Historical scripts are not used.
+      - name: Install native solver and numerical dependencies # Use the actual CCX executable.
+        run: sudo apt-get update -qq && sudo apt-get install -y calculix-ccx python3-numpy python3-scipy python3-requests # Do not install or call ANSYS wrappers.
+      - name: Compute original MCT equilibrium and native transfer # Execute the new calculation instead of announcing an unstarted job.
+        run: python3 catwalk-fem/connection-baseline-20260906/mct_workstate.py # Save INP, DAT, FRD, native log, matrices and execution status.
+      - name: Preserve exact solver provenance # Record the real installed binary version.
+        if: always() # Preserve failures as well as successes.
+        run: mkdir -p catwalk-current-run && dpkg-query -W calculix-ccx > catwalk-current-run/solver-package.txt && sha256sum /usr/bin/ccx > catwalk-current-run/solver-sha256.txt # Bind evidence to its actual native solver.
+      - name: Save raw calculation evidence # Return results without converting failures into success.
+        if: always() # Never discard a failed input or log.
+        uses: actions/upload-artifact@v4 # Store all raw files for direct inspection.
+        with: # Name this run-specific evidence precisely.
+          name: catwalk-mct-workstate-${{ github.run_id }} # Clearly identify the planar work-state scope.
+          path: catwalk-current-run # Preserve input, actual output, and explicit limits together.
+          retention-days: 30 # Keep the evidence available for continuing the authorized calculation.
