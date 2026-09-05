@@ -1,0 +1,86 @@
+name: Collect actual catwalk native results # Publish real solver termination and frequencies, including genuine failures.
+on: # Run only when this evidence-collection workflow is deliberately created or revised.
+  push: # Keep source reconstruction and evidence publication on the isolated branch.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Never overwrite the user's original engineering archive.
+    paths: [.github/workflows/catwalk-native-connection-results-20260906.yml] # Result commits do not recursively trigger another collection.
+permissions: # Restrict writes to the explicitly requested calculation repository.
+  contents: write # Save actual new numerical evidence to the calculation branch.
+  actions: read # Read the known native solver run and its artifact.
+jobs: # Keep postprocessing separate from the finite-element solve.
+  collect: # This job does not alter an engineering parameter or rerun a failed model with artificial constraints.
+    runs-on: ubuntu-22.04 # A standard public runner is sufficient for streaming result extraction.
+    timeout-minutes: 190 # Allow the actual180minute solver allocation to finish.
+    steps: # Find the explicit native workflow, read its actual result, and publish small evidence files.
+      - name: Collect native evidence # Do not infer success from a green Python wrapper.
+        env: # Use the repository-scoped token without exposing credentials.
+          GH_TOKEN: ${{ github.token }} # Authentication is needed for artifact download and the requested evidence writeback.
+          SOURCE_BRANCH: calc/catwalk-drawing-recalc-20260905 # Read and write only this isolated calculation branch.
+        shell: python # Stream native text and JSON directly.
+        run: | # Every executable line documents its purpose.
+          import os,json,time,urllib.request,urllib.parse,zipfile,io,base64,csv,hashlib # Use standard transport and parsing only.
+          from pathlib import Path # Preserve a local copy of the published evidence.
+          repo='Hiram-test/model';branch=os.environ['SOURCE_BRANCH'];base='https://api.github.com/repos/'+repo;headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'} # Limit API activity to the requested repository.
+          def get(url): # Retrieve an actual GitHub response with the scoped job token.
+              return json.load(urllib.request.urlopen(urllib.request.Request(url,headers=headers),timeout=90)) # Preserve server responses instead of guessing run identifiers.
+          runs=[] # Find the explicitly named native calculation, not an unrelated successful workflow.
+          for attempt in range(12): # Allow source-trigger registration to complete.
+              runs=get(base+'/actions/workflows/catwalk-native-connection-baseline-20260906.yml/runs?branch='+urllib.parse.quote(branch,safe='')+'&per_page=3')['workflow_runs'] # Query the exact finite-element workflow.
+              if runs:break # Never substitute a historical model run.
+              time.sleep(15) # Wait only for this explicitly requested run registration.
+          if not runs:raise RuntimeError('No native spatial run exists for the requested workflow and branch') # Report an actual missing execution.
+          run=runs[0];rid=run['id'];deadline=time.time()+180*60 # Bind all subsequent evidence to one actual run ID.
+          while run['status']!='completed' and time.time()<deadline: # Observe the actual solver job rather than promising an unspecified background task.
+              print(json.dumps({'run_id':rid,'status':run['status'],'url':run['html_url']}),flush=True);time.sleep(30);run=get(base+'/actions/runs/'+str(rid)) # Preserve progress evidence from GitHub itself.
+          out=Path('evidence');out.mkdir();summary={'run_id':rid,'run_url':run['html_url'],'run_head_sha':run['head_sha'],'workflow_status':run['status'],'workflow_conclusion':run.get('conclusion'),'native_returncode':None,'state':'NO_VERIFIED_MODAL_RESULT'} # A completed workflow is not automatically a valid finite-element result.
+          artifacts=get(base+'/actions/runs/'+str(rid)+'/artifacts')['artifacts'];artifact=next((a for a in artifacts if a['name']=='catwalk-native-spatial-'+str(rid)),None) # Select only the evidence from this exact native run.
+          frequencies=[];source_audit=None;inventory=None;termination=None;native_log='' # Keep missing data explicit.
+          if artifact is not None: # Read the actual preserved native archive when it exists.
+              req=urllib.request.Request(artifact['archive_download_url'],headers=headers) # Request the authenticated artifact redirect.
+              with urllib.request.urlopen(req,timeout=180) as src,open('native.zip','wb') as dst: # Stream the potentially large native evidence.
+                  while True: # Avoid keeping the compressed archive in memory.
+                      chunk=src.read(4*1024*1024) # Read bounded transport chunks.
+                      if not chunk:break # Stop at the actual archive end.
+                      dst.write(chunk) # Preserve the actual compressed bytes.
+              with zipfile.ZipFile('native.zip') as z: # Read only this run's relevant result members.
+                  def find(suffix): # Locate one exact result suffix within the artifact.
+                      return next((n for n in z.namelist() if n.endswith(suffix)),None) # Do not open unrelated historical files.
+                  for suffix,label in [('source_state/audit.json','source_state'),('spatial_s3_pin5/inventory.json','inventory'),('spatial_s3_pin5/native_execution.json','termination')]: # Preserve source-state and spatial-status evidence separately.
+                      n=find(suffix) # Use the exact current-run member.
+                      if n:summary[label]=json.loads(z.read(n));(out/(label+'.json')).write_bytes(z.read(n)) # Publish actual recorded values, not reconstructed claims.
+                  n=find('spatial_s3_pin5/stdout.txt') # Preserve a useful tail of the actual native log.
+                  if n: # Failed calculations also retain their diagnostic log.
+                      with z.open(n) as h: # Stream instead of loading a large warning log into memory.
+                          from collections import deque # Bound the diagnostic tail.
+                          tail=deque((line.decode(errors='replace') for line in h),maxlen=200) # Keep the genuine final solver messages.
+                      native_log=''.join(tail);(out/'native_log_tail.txt').write_text(native_log) # Preserve actual termination evidence.
+                  n=find('spatial_s3_pin5/job.dat');active=False # Only the native eigenvalue table can supply a frequency result.
+                  if n: # Do not create a substitute frequency table for a failed solve.
+                      with z.open(n) as h: # Stream the real native numerical output.
+                          for raw in h: # Preserve the original sorted order, including negative or complex roots.
+                              line=raw.decode(errors='replace');v=line.split() # Decode standard native numeric output.
+                              if 'E I G E N V A L U E' in line:active=True # Begin the actual eigenvalue table.
+                              if 'P A R T I C I P A T I O N' in line:active=False # End before a different native numeric table.
+                              if active and len(v)==5 and v[0].isdigit():frequencies.append({'native_mode':int(v[0]),'eigenvalue':float(v[1]),'angular_frequency':float(v[2]),'frequency_hz':float(v[3]),'imaginary_angular_frequency':float(v[4])}) # Read cycles per time from the correct native column.
+          summary['native_returncode']=summary.get('termination',{}).get('returncode');summary['native_frequency_count']=len(frequencies);summary['first14']=frequencies[:14] # Keep numerical completeness and solver termination visible together.
+          if summary['native_returncode']==0 and len(frequencies)>=14:summary['state']='NATIVE_OUTPUT_PRESENT_PHYSICAL_VALIDATION_NOT_COMPLETED' # Numerical output is not proof of actual connection fidelity or SWJTU reproduction.
+          (out/'actual_result_summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)) # Preserve the exact current result state.
+          if frequencies: # Export all actual native roots, not a selected14-value match.
+              with (out/'native_frequencies.csv').open('w',newline='') as h:w=csv.DictWriter(h,fieldnames=list(frequencies[0]));w.writeheader();w.writerows(frequencies) # Keep extra modes and instability evidence intact.
+          lines=['# 本轮原生CCX实际执行记录','',f'Actions运行：{run["html_url"]}',f'模型提交：`{run["head_sha"]}`',f'工作流状态：`{run["status"]}` / `{run.get("conclusion")}`',f'原生退出码：`{summary["native_returncode"]}`',f'实际频率条目：{len(frequencies)}',f'结果状态：`{summary["state"]}`','','本文件仅转录真实原生求解输出，不宣称连接已全部认证，也不宣称西南交大十四阶已经复现或被否定。'] # Prevent a green collector workflow from being mistaken for a scientific conclusion.
+          if frequencies:lines+=['','| 原生阶次 | 频率/Hz | 特征值 | 虚部角频率 |','|---:|---:|---:|---:|']+[f'| {a["native_mode"]} | {a["frequency_hz"]:.8g} | {a["eigenvalue"]:.8g} | {a["imaginary_angular_frequency"]:.8g} |' for a in frequencies[:14]] # Present the unaltered native first14 entries without guessed modal family labels.
+          (out/'CURRENT_NATIVE_RUN.md').write_text('\n'.join(lines)+'\n') # Provide a readable factual execution entry.
+          for p in out.iterdir(): # Write only this new execution's small evidence files into GitHub.
+              target='catwalk-fem/connection-baseline-20260906/results/'+str(rid)+'/'+p.name;payload={'message':'Record actual native catwalk execution '+str(rid),'content':base64.b64encode(p.read_bytes()).decode(),'branch':branch} # Use a run-specific destination to preserve earlier evidence.
+              url=base+'/contents/'+urllib.parse.quote(target,safe='/') # Address only the intended result path.
+              try:existing=get(url+'?ref='+urllib.parse.quote(branch,safe=''));payload['sha']=existing['sha'] # Permit an idempotent rewrite of this collector's own run-specific record.
+              except urllib.error.HTTPError as exc: # Distinguish a new result file from another API failure.
+                  if exc.code!=404:raise # Do not conceal denied access or a failed write.
+              response=urllib.request.urlopen(urllib.request.Request(url,data=json.dumps(payload).encode(),headers=headers,method='PUT'),timeout=90);response.read() # Actually commit the recorded result rather than merely describing a future upload.
+          print(json.dumps(summary,ensure_ascii=False,indent=2),flush=True) # Show actual solver outcome without an invented frequency table.
+      - name: Preserve collected evidence # Keep a downloadable copy in addition to the requested repository writeback.
+        if: always() # Preserve truthful partial and failure evidence.
+        uses: actions/upload-artifact@v4 # Archive only actual collected files.
+        with: # Bind publication to its real workflow run.
+          name: catwalk-native-collected-${{ github.run_id }} # Distinguish the collector from the finite-element solver.
+          path: evidence # Include only the generated factual evidence directory.
+          retention-days: 30 # Preserve the ongoing investigation's numerical provenance.
