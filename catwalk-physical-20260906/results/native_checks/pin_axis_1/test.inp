@@ -80,6 +80,20 @@ Directional relative-pin objectivity verification
 2,6,6
 *NSET,NSET=OBS
 7,6
+*STEP,NLGEOM,INC=4
+*DYNAMIC,DIRECT
+1.00000000e-06,1.00000000e-06
+*CLOAD
+1,4,0.0
+1,5,0.0
+1,6,0.0
+2,4,0.0
+2,5,0.0
+2,6,0.0
+6,4,0.0
+6,5,0.0
+6,6,0.0
+*END STEP
 *STEP,NLGEOM,INC=100
 *STATIC
 1.,1.,1.e-8,1.

@@ -24,7 +24,7 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
 
    distributed facial loads:            0
    distributed volumetric loads:            0
-   concentrated loads:            0
+   concentrated loads:           54
    single point constraints:          792
    multiple point constraints:          976
    terms in all multiple point constraints:         6223
@@ -41,8 +41,8 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
    plastic data points per material:            0
 
    orientations:            0
-   amplitudes:            3
-   data points in all amplitudes:            3
+   amplitudes:            4
+   data points in all amplitudes:            4
    print requests:            2
    transformations:            0
    property cards:           16
@@ -53,14 +53,9 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
  *INFO reading *STEP: nonlinear geometric
        effects are turned on
 
- *WARNING reading *STATIC:
-          the minimum increment    1.0000000000000000E-008
-          is smaller then 1.e-6 times the 
-          step time;
-          the minimum increment is changed
-          to    9.9999999999999995E-007
-          which is the minimum of the initial
-          increment time and 1.e-6 times the step time
+ *INFO reading *DYNAMIC: for implicit calculations
+       the calculation of the internal energy
+       is activated.
 
  *ERROR in gen3dmpc: nodes belonging to
         beam elements must not be
