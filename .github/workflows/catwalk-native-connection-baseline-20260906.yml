@@ -1,0 +1,79 @@
+name: Catwalk native spatial connection baseline # Execute the actual newly assembled native model, not a historical numerical report.
+on: # Run this computation only after an explicit workflow revision.
+  push: # The isolated scientific branch remains separate from main.
+    branches: [calc/catwalk-drawing-recalc-20260905] # Keep existing engineering archives unchanged.
+    paths: [.github/workflows/catwalk-native-connection-baseline-20260906.yml] # Avoid automatic reruns for result or source-document commits.
+permissions: # Only read source code and known solver artifacts.
+  contents: read # Do not modify original engineering files during execution.
+  actions: read # Permit recovery of the exact previously acquired official solver runtime.
+jobs: # Preserve a full native execution independently from source extraction.
+  native: # No parameter optimization or target-frequency fit is run here.
+    runs-on: ubuntu-22.04 # The public repository runner provides more memory than the local4GB container.
+    timeout-minutes: 180 # Bound the execution service allocation, not the engineering convergence definition.
+    env: # Keep linear algebra thread use explicit and reproducible.
+      OMP_NUM_THREADS: '4' # Use the available public-runner cores.
+      OPENBLAS_NUM_THREADS: '1' # Avoid oversubscribing the independent source-state solve.
+      NUMBER_OF_CPUS: '4' # Supply the native solver's thread-count convention.
+    steps: # Recover exact source and executable, then execute the new model.
+      - name: Read only the new spatial model source # Exclude historical engineering models and old frequency tables.
+        uses: actions/checkout@v4 # Checkout the immutable workflow triggering commit.
+        with: # Limit the working tree to this newly written calculation.
+          sparse-checkout: catwalk-fem/connection-baseline-20260906 # Original source MCT is recovered separately below.
+          filter: blob:none # Do not fetch unrelated large engineering archives.
+      - name: Prepare Python # Use a documented stable numerical interpreter.
+        uses: actions/setup-python@v5 # Isolate numerical dependencies from the runner system.
+        with: # Keep the interpreter version explicit.
+          python-version: '3.11' # Compatible with the pinned numerical libraries below.
+      - name: Numerical dependencies # Install only the new parser's independent numerical solver.
+        run: python -m pip install numpy==1.26.4 scipy==1.13.1 # Pin versions; neither library supplies engineering parameters.
+      - name: Restore exact official CalculiX2.23 runtime # Reuse generic executable provenance, not an old engineering calculation.
+        uses: actions/download-artifact@v4 # Recover the official executable acquired directly from its author.
+        with: # Bind the executable to the already recorded acquisition run.
+          name: catwalk-official-ccx223-33917427695 # Exact generic-runtime artifact name.
+          run-id: 33917427695 # Official solver acquisition run.
+          github-token: ${{ github.token }} # Authorize read-only artifact transport.
+          path: catwalk-fem/connection-baseline-20260906/runtime # Match the native launcher's isolated runtime path.
+      - name: Restore required GNU Fortran runtime # Keep the original executable unchanged.
+        uses: actions/download-artifact@v4 # Recover the documented dependency separately.
+        with: # Use the exact dependency-acquisition evidence.
+          name: catwalk-fortran4-33918514107 # Generic runtime dependency only.
+          run-id: 33918514107 # Recorded dependency-acquisition run.
+          github-token: ${{ github.token }} # Read-only artifact access.
+          path: fortran-runtime # Keep dependency extraction outside the engineering source directory.
+      - name: Prepare original MCT and execution provenance # No old matrix, initial-force sidecar or modal result is loaded.
+        shell: bash # Preserve every actual execution command.
+        run: | # Record source bytes, runtime, available memory and generator identity.
+          set -euo pipefail # Report genuine source or runtime retrieval failure.
+          root=catwalk-fem/connection-baseline-20260906 # Use only this new calculation's directory.
+          mkdir -p "$root/sources" "$root/runs" # Separate original engineering source from outputs.
+          curl -fL --retry 2 'https://raw.githubusercontent.com/Hiram-test/model/cfbf39ef51a5bb86f13372553cee122d02df0f57/catwalk-fem/double-mct-buffeting/inputs/catwalk_gantry_rope_combined_2.mct' -o "$root/sources/original.mct" # Retrieve the unchanged original engineering MCT.
+          printf '%s  %s\n' '0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1' "$root/sources/original.mct" | sha256sum -c - # Confirm exact original source identity before calculation.
+          find fortran-runtime -type f -name 'libgfortran.so.4*' -exec cp -L '{}' "$root/runtime/lib/" \; # Provide the official executable's required Fortran library.
+          cd "$root/runtime/lib" && ln -sf libgfortran.so.4.0.0 libgfortran.so.4 && cd - # Keep the ABI soname valid without installing a system library.
+          chmod +x "$root/runtime/bin/ccx" "$root/runtime/lib/ld-linux-x86-64.so.2" # Restore executable bits lost by artifact transport.
+          free -h > "$root/runs/runner-memory.txt" # Record actual available memory rather than assuming a capacity.
+          uname -a > "$root/runs/runner-platform.txt" # Preserve platform provenance.
+          sha256sum "$root/runtime/bin/ccx" "$root"/code/*.py > "$root/runs/executable-and-source.sha256" # Bind every result to the exact executable and new generator.
+          printf '%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$root/runs/run-provenance.txt" # Preserve the actual commit and Actions run.
+          python -m compileall -q "$root/code" # Check new source syntax without changing model parameters.
+      - name: Recompute original MCT working state # Independently solve source equilibrium before spatial assembly.
+        run: python -u catwalk-fem/connection-baseline-20260906/code/source_state.py # Use original geometry, axial force, self weight and second-stage permanent load together.
+      - name: Run full native spatial equilibrium and80 modes # Keep all real3m small beams,44 longitudinal ropes and21 passages.
+        shell: bash # Preserve the actual native exit status and resource evidence.
+        run: | # Do not coarsen or remove physical members to fit the local memory limit.
+          set -o pipefail # Propagate genuine generator or solver failure.
+          root=catwalk-fem/connection-baseline-20260906 # Bind this invocation to the newly written model.
+          /usr/bin/time -v python -u "$root/code/build_spatial.py" 3 5 2>&1 | tee "$root/runs/spatial-driver.txt" # Run the actual native equilibrium and prestressed modal calculation.
+          python -c 'import json,pathlib; p=pathlib.Path("catwalk-fem/connection-baseline-20260906/runs/spatial_s3_pin5/native_execution.json"); a=json.loads(p.read_text()); raise SystemExit(0 if a["returncode"]==0 else 1)' # Distinguish solver success from a Python wrapper that merely recorded a failed process.
+      - name: Preserve complete actual evidence # Failed executions remain visible and cannot masquerade as modal results.
+        if: always() # Archive source-state and native logs even if the spatial solve fails.
+        uses: actions/upload-artifact@v4 # Return actual inputs, outputs and numerical provenance.
+        with: # Keep this run distinct from every prior report and calculation.
+          name: catwalk-native-spatial-${{ github.run_id }} # Bind the evidence archive to the actual solver run.
+          path: | # Preserve only this new calculation's evidence and original MCT.
+            catwalk-fem/connection-baseline-20260906/code
+            catwalk-fem/connection-baseline-20260906/sources
+            catwalk-fem/connection-baseline-20260906/runs
+            catwalk-fem/connection-baseline-20260906/PROJECT_TIMELINE.md
+          compression-level: 3 # Compress large native physical fields without excessive archive overhead.
+          retention-days: 30 # Preserve reproducibility evidence for the ongoing investigation.
