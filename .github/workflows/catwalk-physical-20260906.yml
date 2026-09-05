@@ -1,45 +1,47 @@
-name: Catwalk physical-joint computation # Execute newly written source-based reconstruction only.
-on: # Keep the calculation separate from historical work branches.
-  push: # Run after explicit changes to the new calculation source.
-    branches: [calc/catwalk-physical-joints-20260906] # Use the isolated physical-joint branch.
-    paths: [catwalk-physical-20260906/*.py, .github/workflows/catwalk-physical-20260906.yml] # Never trigger from result commits.
-permissions: # Allow source artifact reads and result preservation in this authorized repository.
-  actions: read # Read only the original-source transfer artifacts.
-  contents: write # Preserve actual results and logs on the isolated branch.
-jobs: # Native execution, not a placeholder or future promise.
-  compute: # Start with source-state audit and then execute the physical model when present.
-    runs-on: ubuntu-22.04 # Keep the native ABI compatible with upstream CalculiX.
-    timeout-minutes: 90 # Allow complete static and modal computations with retained failure evidence.
-    env: # Use controlled linear-algebra thread counts and standard artifact authorization.
-      GH_TOKEN: ${{ github.token }} # Use the repository-scoped runner token without exposing it.
-      OMP_NUM_THREADS: 2 # Prevent oversubscription in native factorization.
-      OPENBLAS_NUM_THREADS: 2 # Keep numerical comparisons reproducible.
-    steps: # Preserve every calculation input, output and failure.
-      - uses: actions/checkout@v4 # Retrieve repository files without executing historical numerical code.
-        with: # Check out this exact branch for result commits.
-          ref: calc/catwalk-physical-joints-20260906 # Keep new code and evidence in one auditable branch.
-          fetch-depth: 1 # Avoid reading historical code history.
-      - name: Install numerical dependencies # Use current supported parsing and linear-algebra libraries.
-        run: python3 -m pip install numpy scipy matplotlib requests pymupdf # These dependencies do not supply engineering model parameters.
-      - name: Audit originals and test native cable # Establish the actual source state and native solver implementation.
-        run: python3 catwalk-physical-20260906/source_audit.py # Read only original engineering documents and upstream solver files.
-      - name: Compute physical-joint model # Run newly written physical reconstruction when its source has been committed.
-        run: | # Do not pretend a missing model has run.
-          if test -f catwalk-physical-20260906/solve_physical.py; then python3 catwalk-physical-20260906/solve_physical.py; else echo 'Physical model source is not yet committed; this run contains source audit and unit test only.'; fi # Report precisely which calculations actually executed.
-      - name: Commit concise actual evidence # Preserve readable results and original-input audits on the calculation branch.
-        if: always() # Preserve failure diagnostics rather than losing an incomplete run.
-        run: | # Commit only generated evidence, not copies of old models.
-          git config user.name github-actions[bot] # Attribute result preservation to the actual runner.
+name: Catwalk physical-joint computation # Execute only newly written source-based reconstruction.
+on: # Start a calculation only after an explicit run request or entrypoint change.
+  push: # Keep numerical execution isolated from unrelated repository work.
+    branches: [calc/catwalk-physical-joints-20260906] # Use the physical-joint reconstruction branch.
+    paths: [catwalk-physical-20260906/solve_physical.py, catwalk-physical-20260906/REQUEST, .github/workflows/catwalk-physical-20260906.yml] # Allow supporting code to be completed before its invocation.
+concurrency: # Avoid concurrent result writers in this scientific work directory.
+  group: catwalk-physical-20260906 # Serialize only this independent computation.
+  cancel-in-progress: false # Never cancel a running native calculation for a source edit.
+permissions: # Use the existing repository authorization for original sources and result preservation.
+  actions: read # Read original PDF acquisition artifacts only.
+  contents: write # Save actual numerical evidence to the calculation branch.
+jobs: # Execute real solver processes and preserve complete diagnostics.
+  compute: # Source-state reconstruction followed by full physical calculations.
+    runs-on: ubuntu-22.04 # Use a compatible native ABI.
+    timeout-minutes: 90 # Permit static equilibration and complete eigensolution.
+    env: # Limit thread oversubscription and retain standard source authorization.
+      GH_TOKEN: ${{ github.token }} # Use the repository-scoped runtime credential without displaying it.
+      OMP_NUM_THREADS: 2 # Keep native resource use controlled.
+      OPENBLAS_NUM_THREADS: 2 # Keep independent sparse calculations reproducible.
+    steps: # Preserve source identity, native outputs, and execution failures.
+      - uses: actions/checkout@v4 # Read the exact source revision that requested this run.
+        with: # Avoid substituting later source edits while a run is queued.
+          ref: ${{ github.sha }} # Bind numerical inputs to the actual triggering commit.
+          fetch-depth: 1 # Avoid executing historical code.
+      - name: Install numerical dependencies # Install libraries only, not engineering models.
+        run: python3 -m pip install numpy scipy matplotlib requests pymupdf # Obtain native parsing and independent numerical support.
+      - name: Recover originals and native runtime # Use immutable engineering MCT and original report PDFs.
+        run: python3 catwalk-physical-20260906/source_audit.py # Preserve exact original bytes and solver provenance.
+      - name: Execute work state and spatial model # Perform actual native and independent computations.
+        run: python3 catwalk-physical-20260906/solve_physical.py # No success placeholder is substituted for missing solver code.
+      - name: Preserve readable evidence # Commit actual source audits and native diagnostics, including ignored solver extensions.
+        if: always() # Retain both successful and unsuccessful calculation evidence.
+        run: | # Keep the original run identity and never force-push scientific history.
+          git config user.name github-actions[bot] # Attribute result preservation to the executing runner.
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com # Use the standard bot identity.
-          git add catwalk-physical-20260906/evidence catwalk-physical-20260906/unit_string || true # Preserve the actual source audit and unit-test output.
-          if test -d catwalk-physical-20260906/results; then find catwalk-physical-20260906/results -type f -size -5M -print0 | xargs -0 -r git add; fi # Keep concise native outputs and summary tables accessible through the connector.
-          git diff --cached --quiet || git commit -m "Record physical-joint computation evidence from run $GITHUB_RUN_ID" # Do not create empty status commits.
-          git pull --rebase origin calc/catwalk-physical-joints-20260906 # Preserve concurrently added source commits without overwriting them.
-          git push origin HEAD:calc/catwalk-physical-joints-20260906 # Save evidence in the explicitly authorized project repository.
-      - name: Archive complete native evidence # Preserve original files and all large native outputs.
-        if: always() # Keep useful diagnostic files even when the native solver fails.
-        uses: actions/upload-artifact@v4 # Use the authenticated artifact service for complete provenance.
-        with: # Bind the archive to this exact computation run.
-          name: catwalk-physical-${{ github.run_id }} # Keep each computation distinguishable.
-          path: catwalk-physical-20260906 # Include source, exact inputs, native logs, results and runtime provenance.
-          retention-days: 30 # Retain the full native evidence for follow-up verification.
+          git add -f catwalk-physical-20260906/evidence catwalk-physical-20260906/unit_string # Preserve native logs regardless of repository-wide ignore patterns.
+          if test -d catwalk-physical-20260906/results; then find catwalk-physical-20260906/results -type f -size -5M -print0 | xargs -0 -r git add -f; fi # Preserve concise evidence without failing on spooles.out or native log extensions.
+          git diff --cached --quiet || git commit -m "Record actual physical-joint computation from run $GITHUB_RUN_ID" # Commit only genuinely produced files.
+          git pull --rebase origin calc/catwalk-physical-joints-20260906 # Retain independently committed source changes.
+          git push origin HEAD:calc/catwalk-physical-joints-20260906 # Save evidence in the authorized repository without overwriting other branches.
+      - name: Archive complete native files # Keep large inputs, FRD fields, exact sources and logs together.
+        if: always() # Preserve reproducibility evidence even on native solver failure.
+        uses: actions/upload-artifact@v4 # Transfer the full run folder through the artifact service.
+        with: # Bind the artifact to this immutable run.
+          name: catwalk-physical-${{ github.run_id }} # Keep independent attempts distinguishable.
+          path: catwalk-physical-20260906 # Include original sources and every newly generated native file.
+          retention-days: 30 # Retain the complete native evidence for verification.
