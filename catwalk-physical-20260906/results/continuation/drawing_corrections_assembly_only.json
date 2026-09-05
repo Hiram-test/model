@@ -1,0 +1,58 @@
+{
+  "status": "assembly_only_not_solved",
+  "native_solver_executed": false,
+  "native_input_serialized": false,
+  "assembly_seconds": 4.649363355001697,
+  "validation_seconds": 4.926877664998756,
+  "nodes": 272110,
+  "native_beams": 21740,
+  "native_shells": 8500,
+  "native_axial": 86024,
+  "nonempty_rigid_bodies": 50060,
+  "empty_rigid_bodies": 0,
+  "ordinary_small_rows": 1576,
+  "ordinary_large_rows": 1078,
+  "railing_support_stations_per_deck": 597,
+  "floor_grid_station_count": 2541,
+  "unconnected_floor_nodes": 0,
+  "nodes_created_by_observation_save": 0,
+  "large_clamp_x_offsets_m": [
+    -0.075,
+    0.075
+  ],
+  "elevated_railing_mass_on_small_rows": 0,
+  "railing_mass_difference_kg": -5.820766091346741e-11,
+  "geometry_examples": [
+    {
+      "tag": "F0_3238.000000",
+      "tube_length_m": 5.520000000000003,
+      "center_above_rope_m": 0.05000000000001137,
+      "steel_kg": 31.89235200000005,
+      "rope_attachment_x_offsets_m": [
+        0.0
+      ]
+    },
+    {
+      "tag": "F0_4911.000000",
+      "tube_length_m": 5.7719999999999985,
+      "center_above_rope_m": 0.07500000000000284,
+      "steel_kg": 69.59646720000009,
+      "rope_attachment_x_offsets_m": [
+        -0.075,
+        0.075
+      ]
+    }
+  ],
+  "mass": {
+    "source_one_deck_kg": 2054233.5225541848,
+    "source_two_decks_kg": 4108467.0451083696,
+    "native_steel_kg": 383836.7302901124,
+    "explicit_lumped_kg": 3724630.314757715,
+    "assembled_total_kg": 4108467.0450478275,
+    "floor_residual_nonstructural_kg_per_m": 55.16924820822109,
+    "railing_two_decks_kg": 259290.07937014356,
+    "railing_source_two_decks_kg": 259290.07937014362,
+    "mass_relative_difference": -1.473587918354724e-11
+  },
+  "remaining_physical_limit": "Small floor-row single-point attachments remain; original MD1-03 gives no binding, friction or preload needed to define finite bearing contact."
+}
