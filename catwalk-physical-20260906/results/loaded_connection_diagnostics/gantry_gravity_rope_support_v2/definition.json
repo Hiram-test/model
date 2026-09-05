@@ -1,0 +1,687 @@
+{
+  "name": "gantry_gravity_rope_support_v2",
+  "completed": false,
+  "test_definition": {
+    "source": {
+      "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+      "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+      "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+      "floor_node": 296,
+      "upper_node": 1168,
+      "floor_xyz_m": [
+        2637.0085,
+        -2.25478355929456e-15,
+        113.820474028094
+      ],
+      "upper_xyz_m": [
+        2637.0085,
+        0.0,
+        121.741342722274
+      ],
+      "floor_point_load_N": 3180.0,
+      "upper_point_load_N": 18123.0,
+      "gravity_m_s2": 9.806
+    },
+    "fixture": "Independent neighboring original-MCT rope endpoints have translations 1/2/3 fixed; tested clip nodes remain free and connect through actual source prestressed rope segments.",
+    "fixture_nodes": [
+      423,
+      424,
+      425,
+      426,
+      427,
+      428,
+      429,
+      430,
+      431,
+      432,
+      433,
+      434,
+      435,
+      436,
+      437,
+      438,
+      439,
+      440,
+      441,
+      442,
+      443,
+      444,
+      445,
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452,
+      453,
+      454,
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466
+    ],
+    "fixed_rotation_count": 0,
+    "upper_source_mass_kg": 1848.1541913114422,
+    "upper_native_steel_kg": 559.3864410434695,
+    "upper_hardware_mass_kg": 1288.7677502679726,
+    "loading": "native steel and actual upper hardware gravity",
+    "previous_fixture": "Direct clip SPCs conflicted with automatically generated rigid-body dependent MPC terms; the original native201 cases remain preserved.",
+    "physical_rope_clip_nodes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22
+    ],
+    "source_rope_spans": [
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 423,
+        "clip_node": 1,
+        "anchor_xyz_m": [
+          2632.0,
+          -24.119999999999997,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 424,
+        "clip_node": 1,
+        "anchor_xyz_m": [
+          2641.0,
+          -24.119999999999997,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 425,
+        "clip_node": 2,
+        "anchor_xyz_m": [
+          2632.0,
+          -23.86,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 426,
+        "clip_node": 2,
+        "anchor_xyz_m": [
+          2641.0,
+          -23.86,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 427,
+        "clip_node": 3,
+        "anchor_xyz_m": [
+          2632.0,
+          -23.599999999999998,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 428,
+        "clip_node": 3,
+        "anchor_xyz_m": [
+          2641.0,
+          -23.599999999999998,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 429,
+        "clip_node": 4,
+        "anchor_xyz_m": [
+          2632.0,
+          -23.34,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 430,
+        "clip_node": 4,
+        "anchor_xyz_m": [
+          2641.0,
+          -23.34,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 431,
+        "clip_node": 5,
+        "anchor_xyz_m": [
+          2632.0,
+          -23.08,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 432,
+        "clip_node": 5,
+        "anchor_xyz_m": [
+          2641.0,
+          -23.08,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 433,
+        "clip_node": 6,
+        "anchor_xyz_m": [
+          2632.0,
+          -22.82,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 434,
+        "clip_node": 6,
+        "anchor_xyz_m": [
+          2641.0,
+          -22.82,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 435,
+        "clip_node": 7,
+        "anchor_xyz_m": [
+          2632.0,
+          -22.56,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 436,
+        "clip_node": 7,
+        "anchor_xyz_m": [
+          2641.0,
+          -22.56,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 437,
+        "clip_node": 8,
+        "anchor_xyz_m": [
+          2632.0,
+          -22.3,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 438,
+        "clip_node": 8,
+        "anchor_xyz_m": [
+          2641.0,
+          -22.3,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 439,
+        "clip_node": 9,
+        "anchor_xyz_m": [
+          2632.0,
+          -20.599999999999998,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 440,
+        "clip_node": 9,
+        "anchor_xyz_m": [
+          2641.0,
+          -20.599999999999998,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 441,
+        "clip_node": 10,
+        "anchor_xyz_m": [
+          2632.0,
+          -20.34,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 442,
+        "clip_node": 10,
+        "anchor_xyz_m": [
+          2641.0,
+          -20.34,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 443,
+        "clip_node": 11,
+        "anchor_xyz_m": [
+          2632.0,
+          -20.08,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 444,
+        "clip_node": 11,
+        "anchor_xyz_m": [
+          2641.0,
+          -20.08,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 445,
+        "clip_node": 12,
+        "anchor_xyz_m": [
+          2632.0,
+          -19.82,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 446,
+        "clip_node": 12,
+        "anchor_xyz_m": [
+          2641.0,
+          -19.82,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 447,
+        "clip_node": 13,
+        "anchor_xyz_m": [
+          2632.0,
+          -19.56,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 448,
+        "clip_node": 13,
+        "anchor_xyz_m": [
+          2641.0,
+          -19.56,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 449,
+        "clip_node": 14,
+        "anchor_xyz_m": [
+          2632.0,
+          -19.3,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 450,
+        "clip_node": 14,
+        "anchor_xyz_m": [
+          2641.0,
+          -19.3,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 451,
+        "clip_node": 15,
+        "anchor_xyz_m": [
+          2632.0,
+          -19.04,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 452,
+        "clip_node": 15,
+        "anchor_xyz_m": [
+          2641.0,
+          -19.04,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 453,
+        "clip_node": 16,
+        "anchor_xyz_m": [
+          2632.0,
+          -18.78,
+          113.914894331858
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 454,
+        "clip_node": 16,
+        "anchor_xyz_m": [
+          2641.0,
+          -18.78,
+          113.751291215332
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 1167,
+        "source_neighbor_node": 1167,
+        "anchor_node": 455,
+        "clip_node": 17,
+        "anchor_xyz_m": [
+          2628.0092999999997,
+          -23.9,
+          121.934035247837
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519303.3333333333
+      },
+      {
+        "source_element": 1168,
+        "source_neighbor_node": 1169,
+        "anchor_node": 456,
+        "clip_node": 17,
+        "anchor_xyz_m": [
+          2646.0092999999997,
+          -23.9,
+          121.619369488383
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519231.6666666667
+      },
+      {
+        "source_element": 1167,
+        "source_neighbor_node": 1167,
+        "anchor_node": 457,
+        "clip_node": 18,
+        "anchor_xyz_m": [
+          2628.0092999999997,
+          -23.05,
+          121.934035247837
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519303.3333333333
+      },
+      {
+        "source_element": 1168,
+        "source_neighbor_node": 1169,
+        "anchor_node": 458,
+        "clip_node": 18,
+        "anchor_xyz_m": [
+          2646.0092999999997,
+          -23.05,
+          121.619369488383
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519231.6666666667
+      },
+      {
+        "source_element": 1167,
+        "source_neighbor_node": 1167,
+        "anchor_node": 459,
+        "clip_node": 19,
+        "anchor_xyz_m": [
+          2628.0092999999997,
+          -22.2,
+          121.934035247837
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519303.3333333333
+      },
+      {
+        "source_element": 1168,
+        "source_neighbor_node": 1169,
+        "anchor_node": 460,
+        "clip_node": 19,
+        "anchor_xyz_m": [
+          2646.0092999999997,
+          -22.2,
+          121.619369488383
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519231.6666666667
+      },
+      {
+        "source_element": 1167,
+        "source_neighbor_node": 1167,
+        "anchor_node": 461,
+        "clip_node": 20,
+        "anchor_xyz_m": [
+          2628.0092999999997,
+          -20.7,
+          121.934035247837
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519303.3333333333
+      },
+      {
+        "source_element": 1168,
+        "source_neighbor_node": 1169,
+        "anchor_node": 462,
+        "clip_node": 20,
+        "anchor_xyz_m": [
+          2646.0092999999997,
+          -20.7,
+          121.619369488383
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519231.6666666667
+      },
+      {
+        "source_element": 1167,
+        "source_neighbor_node": 1167,
+        "anchor_node": 463,
+        "clip_node": 21,
+        "anchor_xyz_m": [
+          2628.0092999999997,
+          -19.849999999999998,
+          121.934035247837
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519303.3333333333
+      },
+      {
+        "source_element": 1168,
+        "source_neighbor_node": 1169,
+        "anchor_node": 464,
+        "clip_node": 21,
+        "anchor_xyz_m": [
+          2646.0092999999997,
+          -19.849999999999998,
+          121.619369488383
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519231.6666666667
+      },
+      {
+        "source_element": 1167,
+        "source_neighbor_node": 1167,
+        "anchor_node": 465,
+        "clip_node": 22,
+        "anchor_xyz_m": [
+          2628.0092999999997,
+          -19.0,
+          121.934035247837
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519303.3333333333
+      },
+      {
+        "source_element": 1168,
+        "source_neighbor_node": 1169,
+        "anchor_node": 466,
+        "clip_node": 22,
+        "anchor_xyz_m": [
+          2646.0092999999997,
+          -19.0,
+          121.619369488383
+        ],
+        "EA_N": 168059594.75953004,
+        "initial_tension_N": 519231.6666666667
+      }
+    ],
+    "support_span_mass_scope": "Support spans provide their exact original static EA/prestress/geometry; no additional segment dead load is added to the explicitly stated member/hardware gravity test.",
+    "gravity_disabled_scope": "Disabling gravity removes the test component selfweight and hardware gravity only; original support-rope prestress remains active.",
+    "fixture_version": "rope_support_v2"
+  },
+  "input_sha256": "c0f4d5c76315105d355bd50eed1522b9c4ae976d8596eafb8c81d5a9f2e7ab08",
+  "node_count": 466,
+  "beam_count": 18,
+  "shell_count": 85,
+  "body_count": 25,
+  "gravity_m_s2": 9.806,
+  "explicit_loads": []
+}

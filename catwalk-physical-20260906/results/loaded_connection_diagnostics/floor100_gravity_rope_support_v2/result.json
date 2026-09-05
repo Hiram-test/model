@@ -1,0 +1,550 @@
+{
+  "name": "floor100_gravity_rope_support_v2",
+  "completed": false,
+  "test_definition": {
+    "fixture": "Independent neighboring original-MCT rope endpoints have translations 1/2/3 fixed; tested clip nodes remain free and connect through actual source prestressed rope segments.",
+    "fixture_nodes": [
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97
+    ],
+    "fixed_rotation_count": 0,
+    "profile": [
+      "BOX",
+      [
+        0.1,
+        0.1,
+        0.004,
+        0.004,
+        0.004,
+        0.004
+      ]
+    ],
+    "handrail_tributary_length_m": 3.0,
+    "handrail_total_mass_kg": 88.08,
+    "loading": "native beam and current offset handrail gravity",
+    "interpretation": "Any surviving rotation mechanism or load instability is preserved as a diagnostic result, not suppressed by an added support.",
+    "previous_fixture": "Direct clip SPCs conflicted with automatically generated rigid-body dependent MPC terms; the original native201 cases remain preserved.",
+    "physical_rope_clip_nodes": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "source_rope_spans": [
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 66,
+        "clip_node": 10,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          -2.67,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 67,
+        "clip_node": 10,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          -2.67,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 68,
+        "clip_node": 11,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          -2.41,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 69,
+        "clip_node": 11,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          -2.41,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 70,
+        "clip_node": 12,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          -2.15,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 71,
+        "clip_node": 12,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          -2.15,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 72,
+        "clip_node": 13,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          -1.8900000000000001,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 73,
+        "clip_node": 13,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          -1.8900000000000001,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 74,
+        "clip_node": 14,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          -1.6300000000000001,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 75,
+        "clip_node": 14,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          -1.6300000000000001,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 76,
+        "clip_node": 15,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          -1.37,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 77,
+        "clip_node": 15,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          -1.37,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 78,
+        "clip_node": 16,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          -1.1100000000000003,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 79,
+        "clip_node": 16,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          -1.1100000000000003,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 80,
+        "clip_node": 17,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          -0.85,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 81,
+        "clip_node": 17,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          -0.85,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 82,
+        "clip_node": 18,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          0.85,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 83,
+        "clip_node": 18,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          0.85,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 84,
+        "clip_node": 19,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          1.1099999999999999,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 85,
+        "clip_node": 19,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          1.1099999999999999,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 86,
+        "clip_node": 20,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          1.3699999999999999,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 87,
+        "clip_node": 20,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          1.3699999999999999,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 88,
+        "clip_node": 21,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          1.63,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 89,
+        "clip_node": 21,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          1.63,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 90,
+        "clip_node": 22,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          1.8899999999999997,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 91,
+        "clip_node": 22,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          1.8899999999999997,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 92,
+        "clip_node": 23,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          2.15,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 93,
+        "clip_node": 23,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          2.15,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 94,
+        "clip_node": 24,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          2.4099999999999997,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 95,
+        "clip_node": 24,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          2.4099999999999997,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_neighbor_node": 295,
+        "anchor_node": 96,
+        "clip_node": 25,
+        "anchor_xyz_m": [
+          -5.008499999999913,
+          2.67,
+          0.09442030376399657
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_neighbor_node": 297,
+        "anchor_node": 97,
+        "clip_node": 25,
+        "anchor_xyz_m": [
+          3.9915000000000873,
+          2.67,
+          -0.06918281276199423
+        ],
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      }
+    ],
+    "support_span_mass_scope": "Support spans provide their exact original static EA/prestress/geometry; no additional segment dead load is added to the explicitly stated member/hardware gravity test.",
+    "gravity_disabled_scope": "Disabling gravity removes the test component selfweight and hardware gravity only; original support-rope prestress remains active.",
+    "fixture_version": "rope_support_v2"
+  },
+  "input_sha256": "bfa60e267e46ac49fe22de85dc79f71f75cb85512de19cf8ca7beb9606f25aba",
+  "node_count": 97,
+  "beam_count": 4,
+  "shell_count": 0,
+  "body_count": 18,
+  "gravity_m_s2": 9.806,
+  "explicit_loads": [],
+  "native_exit": 201,
+  "displacement_block_count": 0,
+  "last_displacements_by_label": {
+    "rail_0": null,
+    "rail_1": null,
+    "rail_2": null,
+    "rail_3": null,
+    "clip_0": null,
+    "clip_1": null,
+    "clip_2": null,
+    "clip_3": null,
+    "clip_4": null,
+    "clip_5": null,
+    "clip_6": null,
+    "clip_7": null,
+    "clip_8": null,
+    "clip_9": null,
+    "clip_10": null,
+    "clip_11": null,
+    "clip_12": null,
+    "clip_13": null,
+    "clip_14": null,
+    "clip_15": null
+  },
+  "last_forces_by_label": {
+    "rail_0": null,
+    "rail_1": null,
+    "rail_2": null,
+    "rail_3": null,
+    "clip_0": null,
+    "clip_1": null,
+    "clip_2": null,
+    "clip_3": null,
+    "clip_4": null,
+    "clip_5": null,
+    "clip_6": null,
+    "clip_7": null,
+    "clip_8": null,
+    "clip_9": null,
+    "clip_10": null,
+    "clip_11": null,
+    "clip_12": null,
+    "clip_13": null,
+    "clip_14": null,
+    "clip_15": null
+  }
+}
