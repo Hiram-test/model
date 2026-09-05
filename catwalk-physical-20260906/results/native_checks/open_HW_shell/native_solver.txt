@@ -9,6 +9,88 @@ certain conditions, see gpl.htm
 ************************************************************
 
 You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
+ Decascading the MPC's
+
+ *INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1 in direction 1
+
+ increment 1 attempt 1 
+ increment size= 1.000000e+00
+ sum of previous increments=0.000000e+00
+ actual step time=1.000000e+00
+ actual total time=1.000000e+00
+
+ iteration 1
+
+ Decascading the MPC's
+
+ *INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1 in direction 1
+
+ Determining the structure of the matrix:
+
+ Using up to 2 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 1436
+ number of nonzero lower triangular matrix elements
+ 68844
+
+ Using up to 2 cpu(s) for the stress calculation.
+
+ Using up to 2 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using 1 cpu for spooles.
+
+ Using up to 2 cpu(s) for the stress calculation.
+
+ average force= 18.313062
+ time avg. forc= 18.313062
+ largest residual force= 3.355424 in node 185 and dof 1
+ largest increment of disp= 5.376694e-05
+ largest correction to disp= 5.376694e-05 in node 206 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Decascading the MPC's
+
+ *INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1 in direction 1
+
+ Determining the structure of the matrix:
+
+ Using up to 2 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 1436
+ number of nonzero lower triangular matrix elements
+ 69099
+
+ Using up to 2 cpu(s) for the stress calculation.
+
+ Using up to 2 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using 1 cpu for spooles.
+
+ Using up to 2 cpu(s) for the stress calculation.
+
+ average force= 18.201950
+ time avg. forc= 18.201950
+ largest residual force= 0.000000 in node 196 and dof 3
+ largest increment of disp= 5.376694e-05
+ largest correction to disp= 8.490036e-10 in node 206 and dof 2
+
+ convergence
+
+ the increment size exceeds the remainder of the step and is decreased to 0.000000e+00
+
+ Using up to 2 cpu(s) for the stress calculation.
+
 
   The numbers below are estimated upper bounds
 
@@ -18,13 +100,13 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
    elements:           60
    one-dimensional elements:            0
    two-dimensional elements:           60
-   integration points per element:           27
+   integration points per element:            8
    degrees of freedom per node:            3
    layers per element:            1
 
    distributed facial loads:            0
    distributed volumetric loads:            0
-   concentrated loads:          172
+   concentrated loads:            4
    single point constraints:         4512
    multiple point constraints:         7243
    terms in all multiple point constraints:        46333
@@ -41,8 +123,8 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
    plastic data points per material:            0
 
    orientations:           60
-   amplitudes:            3
-   data points in all amplitudes:            3
+   amplitudes:            2
+   data points in all amplitudes:            2
    print requests:            2
    transformations:            0
    property cards:            0
@@ -53,10 +135,25 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
  *INFO reading *STEP: nonlinear geometric
        effects are turned on
 
- *INFO reading *DYNAMIC: for implicit calculations
-       the calculation of the internal energy
-       is activated.
+ *WARNING reading *STATIC:
+          the minimum increment    1.0000000000000000E-008
+          is smaller then 1.e-6 times the 
+          step time;
+          the minimum increment is changed
+          to    9.9999999999999995E-007
+          which is the minimum of the initial
+          increment time and 1.e-6 times the step time
 
- *ERROR in gen3dmpc: nodes belonging to
-        shell elements must not be
-        subject to a RIGID                MPC.
+ Static analysis was selected
+
+ Newton-Raphson iterative procedure is active
+
+ Nonlinear geometric effects are taken into account
+
+
+ Job finished
+
+________________________________________
+
+Total CalculiX Time: 0.134628
+________________________________________

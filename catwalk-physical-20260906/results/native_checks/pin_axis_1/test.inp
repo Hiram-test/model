@@ -1,5 +1,5 @@
 *HEADING
-Directional relative-pin objectivity verification
+Directional relative-pin bending verification
 *NODE,NSET=ALL
 1,-2.00000000000e-01,0.00000000000e+00,0.00000000000e+00
 2,0.00000000000e+00,0.00000000000e+00,0.00000000000e+00
@@ -78,22 +78,9 @@ Directional relative-pin objectivity verification
 2,4,4
 2,5,5
 2,6,6
+7,5,5
 *NSET,NSET=OBS
 7,6
-*STEP,NLGEOM,INC=4
-*DYNAMIC,DIRECT
-1.00000000e-06,1.00000000e-06
-*CLOAD
-1,4,0.0
-1,5,0.0
-1,6,0.0
-2,4,0.0
-2,5,0.0
-2,6,0.0
-6,4,0.0
-6,5,0.0
-6,6,0.0
-*END STEP
 *STEP,NLGEOM,INC=100
 *STATIC
 1.,1.,1.e-8,1.

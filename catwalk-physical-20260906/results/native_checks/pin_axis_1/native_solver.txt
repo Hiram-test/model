@@ -9,6 +9,88 @@ certain conditions, see gpl.htm
 ************************************************************
 
 You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
+ Decascading the MPC's
+
+ *INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 6 in direction 1
+
+ increment 1 attempt 1 
+ increment size= 1.000000e+00
+ sum of previous increments=0.000000e+00
+ actual step time=1.000000e+00
+ actual total time=1.000000e+00
+
+ iteration 1
+
+ Decascading the MPC's
+
+ *INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 6 in direction 1
+
+ Determining the structure of the matrix:
+
+ Using up to 2 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 404
+ number of nonzero lower triangular matrix elements
+ 14695
+
+ Using up to 2 cpu(s) for the stress calculation.
+
+ Using up to 2 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using 1 cpu for spooles.
+
+ Using up to 2 cpu(s) for the stress calculation.
+
+ average force= 4521.578147
+ time avg. forc= 4521.578147
+ largest residual force= 12994.989366 in node 16 and dof 3
+ largest increment of disp= 1.000000e-02
+ largest correction to disp= 1.000000e-02 in node 7 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Decascading the MPC's
+
+ *INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 6 in direction 1
+
+ Determining the structure of the matrix:
+
+ Using up to 2 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 404
+ number of nonzero lower triangular matrix elements
+ 14695
+
+ Using up to 2 cpu(s) for the stress calculation.
+
+ Using up to 2 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using 1 cpu for spooles.
+
+ Using up to 2 cpu(s) for the stress calculation.
+
+ average force= 3473.080206
+ time avg. forc= 3473.080206
+ largest residual force= 0.536080 in node 16 and dof 3
+ largest increment of disp= 1.000000e-02
+ largest correction to disp= 3.012969e-05 in node 7 and dof 2
+
+ convergence
+
+ the increment size exceeds the remainder of the step and is decreased to 0.000000e+00
+
+ Using up to 2 cpu(s) for the stress calculation.
+
 
   The numbers below are estimated upper bounds
 
@@ -24,8 +106,8 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
 
    distributed facial loads:            0
    distributed volumetric loads:            0
-   concentrated loads:           81
-   single point constraints:          990
+   concentrated loads:            0
+   single point constraints:          999
    multiple point constraints:         1446
    terms in all multiple point constraints:         9227
    tie constraints:            0
@@ -41,8 +123,8 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
    plastic data points per material:            0
 
    orientations:            0
-   amplitudes:            3
-   data points in all amplitudes:            3
+   amplitudes:            2
+   data points in all amplitudes:            2
    print requests:            2
    transformations:            0
    property cards:           32
@@ -53,42 +135,25 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
  *INFO reading *STEP: nonlinear geometric
        effects are turned on
 
- *INFO reading *DYNAMIC: for implicit calculations
-       the calculation of the internal energy
-       is activated.
+ *WARNING reading *STATIC:
+          the minimum increment    1.0000000000000000E-008
+          is smaller then 1.e-6 times the 
+          step time;
+          the minimum increment is changed
+          to    9.9999999999999995E-007
+          which is the minimum of the initial
+          increment time and 1.e-6 times the step time
 
- Dynamic analysis was selected
+ Static analysis was selected
 
  Newton-Raphson iterative procedure is active
 
  Nonlinear geometric effects are taken into account
 
- Decascading the MPC's
 
- *INFO in cascade: linear MPCs and
-       nonlinear MPCs depend on each other
-       common node: 6 in direction 1
+ Job finished
 
- Decascading the MPC's
+________________________________________
 
- *INFO in cascade: linear MPCs and
-       nonlinear MPCs depend on each other
-       common node: 6 in direction 1
-
- Determining the structure of the matrix:
-
- Using up to 2 cpu(s) for setting up the structure of the matrix.
- number of equations
- 414
- number of nonzero lower triangular matrix elements
- 15282
-
- Using up to 2 cpu(s) for the stress calculation.
-
- Using up to 2 cpu(s) for the energy calculation.
-
- Using up to 2 cpu(s) for the symmetric stiffness/mass contributions.
-
- Factoring the system of equations using the symmetric spooles solver
- Using 1 cpu for spooles.
-
+Total CalculiX Time: 0.017162
+________________________________________

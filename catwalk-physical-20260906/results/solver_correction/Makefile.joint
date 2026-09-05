@@ -1,0 +1,15 @@
+CC=gcc
+FC=gfortran
+CFLAGS=-O2 -fcommon -fopenmp -DARCH="Linux" -DSPOOLES -DARPACK -DMATRIXSTORAGE -I/usr/include/spooles
+FFLAGS=-O2 -cpp -std=legacy -fopenmp -fallow-argument-mismatch
+include Makefile.inc
+OBJS=$(sort $(SCCXF:.f=.o) $(SCCXC:.c=.o))
+all: ccx_joint
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.f
+	$(FC) $(FFLAGS) -c $< -o $@
+ccx_library.a: $(OBJS)
+	ar rcs $@ $(OBJS)
+ccx_joint: ccx_2.23.o ccx_library.a
+	$(FC) -fopenmp -o $@ ccx_2.23.o ccx_library.a -lspooles -larpack -llapack -lblas -lpthread -lm

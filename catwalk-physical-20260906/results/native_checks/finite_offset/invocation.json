@@ -1,0 +1,32 @@
+{
+  "job": "test",
+  "workflow_run": "33982657315",
+  "source_commit": "5d836e1b05cdaa9059d2687a240f5dcaa45953d4",
+  "start_unix": 1788631311.1561806,
+  "input_sha256": "58861fe083840b4ca5b4485da94f0c2e00a6152595f584b45817ffeb24d3fe98",
+  "solver_launcher": "#!/bin/sh\n# Execute official CCX 2.23 with explicitly requested joint-coordinate activation.\nexec \"/home/runner/work/model/model/catwalk-physical-20260906/runtime_joint/CalculiX/ccx_2.23/src/ccx_joint\" \"$@\" # Preserve the native element and solver routines.\n",
+  "exit_code": 255,
+  "elapsed_seconds": 0.015755653381347656,
+  "native_outputs": {
+    "test.12d": {
+      "bytes": 3545,
+      "modified_unix": 1788631311.1579127
+    },
+    "test.frd": {
+      "bytes": 80,
+      "modified_unix": 1788631311.1589127
+    },
+    "test.cvg": {
+      "bytes": 274,
+      "modified_unix": 1788631311.1639125
+    },
+    "test.sta": {
+      "bytes": 98,
+      "modified_unix": 1788631311.1639125
+    },
+    "test.dat": {
+      "bytes": 42,
+      "modified_unix": 1788631311.1639125
+    }
+  }
+}

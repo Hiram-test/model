@@ -1,18 +1,18 @@
 {
   "box": {
     "native_exit": 0,
-    "native_tip_z_m": -0.0001267771,
+    "native_tip_z_m": -0.0001274849,
     "Euler_Bernoulli_tip_z_m": -0.00012778313717292828,
-    "native_to_bending_ratio": 0.9921269958213123
+    "native_to_bending_ratio": 0.9976660678433285
   },
   "pipe": {
     "native_exit": 0,
-    "native_tip_z_m": -0.0001746472,
+    "native_tip_z_m": -0.0001752985,
     "Euler_Bernoulli_tip_z_m": -0.00017623775797220956,
-    "native_to_bending_ratio": 0.9909749307383928
+    "native_to_bending_ratio": 0.9946705065757948
   },
   "finite_offset": {
-    "native_exit": 201,
+    "native_exit": 255,
     "native_relative_displacement_m": null,
     "Rodrigues_prediction_m": [
       0.014567853749582776,
@@ -22,18 +22,28 @@
     "max_difference_m": null
   },
   "pin_axis_0": {
-    "native_exit": 255,
-    "tip_reaction_z_N": null,
-    "tip_displacement_m": null
+    "native_exit": 0,
+    "tip_reaction_z_N": -2.596825e-09,
+    "tip_displacement_m": [
+      0.0,
+      -2.500016e-05,
+      0.01
+    ],
+    "test_only_axial_spin_gauge": false
   },
   "pin_axis_1": {
-    "native_exit": 255,
-    "tip_reaction_z_N": null,
-    "tip_displacement_m": null
+    "native_exit": 0,
+    "tip_reaction_z_N": 7904.081,
+    "tip_displacement_m": [
+      0.0,
+      -3.012697e-05,
+      0.01
+    ],
+    "test_only_axial_spin_gauge": true
   },
   "open_HW_shell": {
-    "native_exit": 201,
-    "tip_z_m": null,
+    "native_exit": 0,
+    "tip_z_m": -5.376687e-05,
     "beam_bending_scale_m": -5.063261639011807e-05,
     "actual_shell_mass_kg": 76.19210000000004
   }
