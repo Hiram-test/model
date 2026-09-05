@@ -1,32 +1,32 @@
 {
   "job": "string",
-  "workflow_run": "33984036256",
-  "source_commit": "7ee02fef943767b4e47aeb70c30a97cd1e1458d2",
-  "start_unix": 1788632781.701754,
+  "workflow_run": "33984938968",
+  "source_commit": "acccac4a08bb0080ad48fc135cc66967e1be0946",
+  "start_unix": 1788633827.2305796,
   "input_sha256": "9a879988e982cd542015d41fdb00900354d70725ac77ad7a91ad742b4f11c904",
   "solver_launcher": "#!/bin/sh\n# Launch the upstream CalculiX executable with its compatibility library.\nexport LD_LIBRARY_PATH=\"/home/runner/work/model/model/catwalk-physical-20260906/runtime/compat/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}\" # Use only the required library path.\nexec \"/home/runner/work/model/model/catwalk-physical-20260906/runtime/CalculiX/ccx_2.23/src/ccx_2.23\" \"$@\" # Execute the actual upstream solver.\n",
   "exit_code": 0,
-  "elapsed_seconds": 0.06443548202514648,
+  "elapsed_seconds": 0.06432890892028809,
   "native_outputs": {
     "string.sta": {
       "bytes": 170,
-      "modified_unix": 1788632781.7093663
+      "modified_unix": 1788633827.2376997
     },
     "string.cvg": {
       "bytes": 438,
-      "modified_unix": 1788632781.7093663
+      "modified_unix": 1788633827.2376997
     },
     "string.frd": {
       "bytes": 80152,
-      "modified_unix": 1788632781.7603674
+      "modified_unix": 1788633827.287701
     },
     "string.12d": {
       "bytes": 0,
-      "modified_unix": 1788632781.7053664
+      "modified_unix": 1788633827.2336996
     },
     "string.dat": {
       "bytes": 146157,
-      "modified_unix": 1788632781.7603674
+      "modified_unix": 1788633827.287701
     }
   }
 }

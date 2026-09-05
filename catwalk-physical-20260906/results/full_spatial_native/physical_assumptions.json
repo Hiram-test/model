@@ -1,0 +1,29 @@
+{
+  "upper_rope_offsets_m": [
+    -2.45,
+    -1.6,
+    -0.75,
+    0.75,
+    1.6,
+    2.45
+  ],
+  "upper_rope_offsets_status": "Transverse interpretation of raster gantry drawing, not identified by the planar MCT",
+  "ordinary_pin_axis_xyz": 0,
+  "passage_fork_lower_pin_axis_xyz": 1,
+  "passage_mounting_normal_offset_m": 0.4,
+  "passage_panelization": "33 alternating truss panels over 49.65 m; module-specific bay labels remain a declared idealization",
+  "hanger_rod_diameter_m": 0.02,
+  "downpull_group_offsets_m": [
+    -2.2800000000000002,
+    -1.24,
+    1.24,
+    2.28
+  ],
+  "coincident_floor_members": "Ordinary HW gate beam replaces a coincident standalone floor crossbeam; original homogenized permanent mass is retained",
+  "deformation_frames": "Finite-rotation, ungrounded rigid spreader at each original MCT deformation-frame station; all sixteen rope ports and four down-pull force ports remain separate. Local built-up plate flexibility is not resolved, so this is an explicit stiff-frame approximation, not a detailed frame-shell model.",
+  "source_scope": "Original design-institute MCT and original engineering review/drawings; no previous calculated spectrum or matrices used",
+  "passage_mass_distribution": "Symmetric over both actual upper chords; no artificial mass eccentricity.",
+  "native_solver": "Official CCX 2.23 with a documented joint-coordinate preprocessing correction; native element, material and eigensolver formulas unchanged.",
+  "auxiliary_witness_elimination": "Exactly eliminated massless, unloaded orientation witness points referenced only by their own rigid-body MPCs. All physical members, attachment offsets, masses, supports, reference translation and rotation coordinates, and external compatibility equations are retained. Empty rigid-body cards are omitted; real HW connection patches remain.",
+  "requested_native_modes": 20
+}
