@@ -1,0 +1,48 @@
+{
+  "scope": "Continuation of calc/catwalk-physical-joints-20260906; no target spectrum used as input",
+  "interrupted_runs": [
+    {
+      "run_id": 33984144351,
+      "source_commit": "d93a44318cb8035fd9004bf388b12ed70fe71293",
+      "result": "Runner shutdown after complete assembly and approximately 67 seconds of native execution; no native modes produced"
+    },
+    {
+      "run_id": 33984581414,
+      "source_commit": "303419fd0ab700c944df9ef257751ce8b0249bd8",
+      "result": "Runner shutdown with resident native memory approaching available physical RAM; no native modes produced",
+      "observed_seconds": 60.161545276641846,
+      "native_vm_size_kib": 22679164,
+      "native_resident_kib": 15283040,
+      "machine_total_kib": 16376708,
+      "machine_available_kib": 239640
+    }
+  ],
+  "corrections": [
+    "Integrated the previously verified independent coincident translation reference into native finite-offset connectors",
+    "Accepted whitespace in original MCT group names",
+    "Used the canonical attachment API for down-pull spreader ports",
+    "Indexed existing connector bodies without changing serialized small-model input",
+    "Released Python assembly graph before native solve",
+    "Eliminated 165276 passive witness nodes and omitted 2080 empty rigid-body cards without removing physical members, reference coordinates, or external compatibility equations"
+  ],
+  "current_run": {
+    "run_id": 33984938968,
+    "source_commit": "acccac4a08bb0080ad48fc135cc66967e1be0946",
+    "requested_roots": 20,
+    "physical_ram_gib": 16,
+    "added_swap_gib": 16,
+    "status_at_recording": "in_progress; no frequencies claimed"
+  },
+  "physical_counts": {
+    "nodes": 250222,
+    "beams": 21740,
+    "shells": 8500,
+    "axial_members": 51528,
+    "external_equations": 351684
+  },
+  "mass": {
+    "source_two_decks_kg": 4108467.0451083696,
+    "assembled_kg": 4108467.0450479155,
+    "relative_difference": -1.4714451879171975e-11
+  }
+}
