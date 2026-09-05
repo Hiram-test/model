@@ -4507,10 +4507,10 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
  5775
 
  increment 1 attempt 1 
- increment size= 1.000000e-01
+ increment size= 1.000000e+00
  sum of previous increments=0.000000e+00
- actual step time=1.000000e-01
- actual total time=1.000000e-01
+ actual step time=1.000000e+00
+ actual total time=1.000000e+00
 
  iteration 1
 
@@ -4523,11 +4523,11 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
 
  Using up to 2 cpu(s) for the stress calculation.
 
- average force= 1479550.899274
- time avg. forc= 1479550.899274
- largest residual force= 3873564.578380 in node 6 and dof 1
- largest increment of disp= 1.462152e+01
- largest correction to disp= 1.462152e+01 in node 302 and dof 3
+ average force= 3033065.000184
+ time avg. forc= 3033065.000184
+ largest residual force= 35.673882 in node 6 and dof 1
+ largest increment of disp= 4.242137e-02
+ largest correction to disp= 4.242137e-02 in node 304 and dof 3
 
  no convergence
 
@@ -4540,11 +4540,17 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
 
  Using up to 2 cpu(s) for the stress calculation.
 
- average force= 1228563.779103
- time avg. forc= 1228563.779103
- largest residual force= 576904.998148 in node 723 and dof 1
- largest increment of disp= 1.462152e+01
- largest correction to disp= 5.317924e+00 in node 1315 and dof 3
+ average force= 3033061.371720
+ time avg. forc= 3033061.371720
+ largest residual force= 0.002141 in node 609 and dof 1
+ largest increment of disp= 4.242137e-02
+ largest correction to disp= 3.328969e-05 in node 523 and dof 3
+
+ convergence
+
+ the increment size exceeds the remainder of the step and is decreased to 0.000000e+00
+
+ Using up to 2 cpu(s) for the stress calculation.
 
 
  *WARNING in calinput: no elastic constants 
@@ -4617,12 +4623,10 @@ You are using an executable made on Sun Oct 19 18:23:34 CEST 2025
 
  Nonlinear geometric effects are taken into account
 
- no convergence
 
- iteration 3
+ Job finished
 
- Using up to 2 cpu(s) for the symmetric stiffness/mass contributions.
+________________________________________
 
- Factoring the system of equations using the symmetric spooles solver
- Using 1 cpu for spooles.
-
+Total CalculiX Time: 0.089550
+________________________________________
