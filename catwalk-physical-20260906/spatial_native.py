@@ -64,7 +64,7 @@ class Reconstruction:  # Preserve source topology, physical member geometry and 
             for deck,center in enumerate(CENTERS):  # Preserve each catwalk's source-equivalent down-pull action independently.
                 kind,row=self.rows[(deck,round(float(xf),9))]  # Transfer each pulley group's force through the modeled transverse floor member.
                 for j,dy in enumerate(groups):  # Do not attach the entire down-pull bundle to a single arbitrary high master node.
-                    y=center+dy;ref,rot=row.section(y);top=d.lever_from_body(ref,rot,(xf,y,zf));bottom=d.node((s['nodes'][lower][0],y,s['nodes'][lower][2]),'down_anchor');d.axial_member(bottom,top,EA/4,N/4,True,'downpull',eid);mass=s['weight'][mat]*s['area'][mat]*L/(4*s['g']);d.add_mass(top,mass/2);d.add_mass(bottom,mass/2);self.source_map[(deck,lower,j)]=bottom  # Preserve aggregate source tension, stiffness and gravity mass without a fabricated ground rotation.
+                    y=center+dy;top=row.attach(y,(xf,y,zf));bottom=d.node((s['nodes'][lower][0],y,s['nodes'][lower][2]),'down_anchor');d.axial_member(bottom,top,EA/4,N/4,True,'downpull',eid);mass=s['weight'][mat]*s['area'][mat]*L/(4*s['g']);d.add_mass(top,mass/2);d.add_mass(bottom,mass/2);self.source_map[(deck,lower,j)]=bottom  # Preserve aggregate source tension, stiffness and gravity mass without a fabricated ground rotation.
                     d.fixed.update((bottom,q) for q in (1,2,3))  # Apply the source's actual anchored down-pull support.
         self.downpull_offsets_m=groups.tolist()  # Preserve the lateral split assumption for a later sensitivity check.
     def make_ropes_and_mass(self):  # Expand source cable segments and keep the original permanent-load mass budget exact.

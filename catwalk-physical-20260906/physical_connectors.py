@@ -10,7 +10,8 @@ class Deck(BaseDeck):  # Attach physical connector points to native section rota
     def arm(self,reference,xyz,mass=0.,existing=None):  # Attach a real offset point with complete finite rigid-body kinematics.
         if reference not in self.offset_bodies:  # Define one connector orientation for all points on the same physical section.
             center=self.nodes[reference];rot=self.newnode(center);markers=[self.newnode(center+np.array([.031,0.,0.])),self.newnode(center+np.array([0.,.037,0.])),self.newnode(center+np.array([0.,0.,.041]))]  # Massless orientation witnesses contribute neither stiffness nor inertia.
-            members=list(markers);self.bodies.append((members,reference,rot,'offset_'+str(reference)));self.offset_bodies[reference]=(members,rot)  # Leave the native section free to translate and rotate.
+            proxy=self.newnode(center);members=list(markers);self.bodies.append((members,proxy,rot,'offset_'+str(reference)));self.offset_bodies[reference]=(members,rot)  # Use the independently verified coincident translation reference so native beam expansion and external rigid-body coordinates remain distinct.
+            for d in range(3):self.equations.append([(proxy,d+1,1.),(reference,d+1,-1.)])  # Preserve exact free translation compatibility without adding stiffness, mass, or a grounded rotation.
             for d in range(3):self.equations.append([(rot,d+1,1.),(reference,d+4,-1.)])  # Couple relative rotations to the native section's actual knot coordinates.
         members,rot=self.offset_bodies[reference];n=self.newnode(xyz) if existing is None else existing;members.append(n);self.add_mass(n,mass)  # Keep each physical cable or mass node in one connector body only.
         return n  # Return the real attachment point with all offset terms preserved.
