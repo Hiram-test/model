@@ -1,0 +1,1370 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+gfortran is already the newest version (4:11.2.0-1ubuntu1).
+liblapack-dev is already the newest version (3.10.0-2ubuntu1).
+liblapack-dev set to manually installed.
+The following additional packages will be installed:
+  ibverbs-providers libarpack2 libcaf-openmpi-3 libcoarrays-dev
+  libcoarrays-openmpi-dev libevent-2.1-7 libevent-core-2.1-7 libevent-dev
+  libevent-extra-2.1-7 libevent-openssl-2.1-7 libevent-pthreads-2.1-7
+  libfabric1 libhwloc-dev libhwloc-plugins libhwloc15 libibverbs-dev
+  libibverbs1 libjs-jquery-ui libnl-3-dev libnl-route-3-200 libnl-route-3-dev
+  libnuma-dev libopenmpi-dev libopenmpi3 libpmix-dev libpmix2
+  libpsm-infinipath1 libpsm2-2 librdmacm1 libspooles2.2 libucx0 libxnvctrl0
+  mpi-default-dev ocl-icd-libopencl1 openmpi-bin openmpi-common
+Suggested packages:
+  libhwloc-contrib-plugins libjs-jquery-ui-docs openmpi-doc spooles-doc
+  opencl-icd
+The following NEW packages will be installed:
+  ibverbs-providers libarpack2 libarpack2-dev libcaf-openmpi-3 libcoarrays-dev
+  libcoarrays-openmpi-dev libevent-2.1-7 libevent-dev libevent-extra-2.1-7
+  libevent-openssl-2.1-7 libfabric1 libhwloc-dev libhwloc-plugins libhwloc15
+  libibverbs-dev libibverbs1 libjs-jquery-ui libnl-3-dev libnl-route-3-200
+  libnl-route-3-dev libnuma-dev libopenmpi-dev libopenmpi3 libpmix-dev
+  libpmix2 libpsm-infinipath1 libpsm2-2 librdmacm1 libspooles-dev
+  libspooles2.2 libucx0 libxnvctrl0 mpi-default-dev ocl-icd-libopencl1
+  openmpi-bin openmpi-common
+The following packages will be upgraded:
+  libevent-core-2.1-7 libevent-pthreads-2.1-7
+2 upgraded, 36 newly installed, 0 to remove and 32 not upgraded.
+Need to get 11.7 MB of archives.
+After this operation, 60.2 MB of additional disk space will be used.
+Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+Get:2 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libnl-route-3-200 amd64 3.5.0-0.1 [180 kB]
+Get:3 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libibverbs1 amd64 39.0-1 [69.3 kB]
+Get:4 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 ibverbs-providers amd64 39.0-1 [341 kB]
+Get:5 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libarpack2 amd64 3.8.0-1 [92.4 kB]
+Get:6 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libarpack2-dev amd64 3.8.0-1 [105 kB]
+Get:7 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libevent-pthreads-2.1-7 amd64 2.1.12-stable-1ubuntu0.1 [7636 B]
+Get:8 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libevent-core-2.1-7 amd64 2.1.12-stable-1ubuntu0.1 [94.2 kB]
+Get:9 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libpsm-infinipath1 amd64 3.3+20.604758e7-6.1 [170 kB]
+Get:10 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libpsm2-2 amd64 11.2.185-1 [182 kB]
+Get:11 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 librdmacm1 amd64 39.0-1 [71.2 kB]
+Get:12 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libfabric1 amd64 1.11.0-3 [558 kB]
+Get:13 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libhwloc15 amd64 2.7.0-2ubuntu1 [159 kB]
+Get:14 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libxnvctrl0 amd64 510.47.03-0ubuntu1.22.04.1 [11.4 kB]
+Get:15 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 ocl-icd-libopencl1 amd64 2.2.14-3 [39.1 kB]
+Get:16 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libhwloc-plugins amd64 2.7.0-2ubuntu1 [15.6 kB]
+Get:17 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libpmix2 amd64 4.1.2-2ubuntu1 [604 kB]
+Get:18 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libucx0 amd64 1.12.1~rc2-1 [891 kB]
+Get:19 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libopenmpi3 amd64 4.1.2-2ubuntu1 [2594 kB]
+Get:20 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libcaf-openmpi-3 amd64 2.9.2-3 [36.5 kB]
+Get:21 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libcoarrays-dev amd64 2.9.2-3 [40.5 kB]
+Get:22 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 openmpi-common all 4.1.2-2ubuntu1 [162 kB]
+Get:23 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 openmpi-bin amd64 4.1.2-2ubuntu1 [116 kB]
+Get:24 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libcoarrays-openmpi-dev amd64 2.9.2-3 [452 kB]
+Get:25 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libevent-2.1-7 amd64 2.1.12-stable-1ubuntu0.1 [149 kB]
+Get:26 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libevent-extra-2.1-7 amd64 2.1.12-stable-1ubuntu0.1 [65.7 kB]
+Get:27 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libevent-openssl-2.1-7 amd64 2.1.12-stable-1ubuntu0.1 [15.8 kB]
+Get:28 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libevent-dev amd64 2.1.12-stable-1ubuntu0.1 [279 kB]
+Get:29 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libjs-jquery-ui all 1.13.1+dfsg-1 [253 kB]
+Get:30 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libnl-3-dev amd64 3.5.0-0.1 [101 kB]
+Get:31 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libnl-route-3-dev amd64 3.5.0-0.1 [202 kB]
+Get:32 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libnuma-dev amd64 2.0.14-3ubuntu2 [35.9 kB]
+Get:33 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libhwloc-dev amd64 2.7.0-2ubuntu1 [256 kB]
+Get:34 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libpmix-dev amd64 4.1.2-2ubuntu1 [805 kB]
+Get:35 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libibverbs-dev amd64 39.0-1 [628 kB]
+Get:36 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libopenmpi-dev amd64 4.1.2-2ubuntu1 [867 kB]
+Get:37 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libspooles2.2 amd64 2.2-14 [466 kB]
+Get:38 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 mpi-default-dev amd64 1.14 [3698 B]
+Get:39 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libspooles-dev amd64 2.2-14 [593 kB]
+Fetched 11.7 MB in 2s (6045 kB/s)
+Selecting previously unselected package libnl-route-3-200:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 262009 files and directories currently installed.)
+Preparing to unpack .../00-libnl-route-3-200_3.5.0-0.1_amd64.deb ...
+Unpacking libnl-route-3-200:amd64 (3.5.0-0.1) ...
+Selecting previously unselected package libibverbs1:amd64.
+Preparing to unpack .../01-libibverbs1_39.0-1_amd64.deb ...
+Unpacking libibverbs1:amd64 (39.0-1) ...
+Selecting previously unselected package ibverbs-providers:amd64.
+Preparing to unpack .../02-ibverbs-providers_39.0-1_amd64.deb ...
+Unpacking ibverbs-providers:amd64 (39.0-1) ...
+Selecting previously unselected package libarpack2:amd64.
+Preparing to unpack .../03-libarpack2_3.8.0-1_amd64.deb ...
+Unpacking libarpack2:amd64 (3.8.0-1) ...
+Selecting previously unselected package libarpack2-dev:amd64.
+Preparing to unpack .../04-libarpack2-dev_3.8.0-1_amd64.deb ...
+Unpacking libarpack2-dev:amd64 (3.8.0-1) ...
+Preparing to unpack .../05-libevent-pthreads-2.1-7_2.1.12-stable-1ubuntu0.1_amd64.deb ...
+Unpacking libevent-pthreads-2.1-7:amd64 (2.1.12-stable-1ubuntu0.1) over (2.1.12-stable-1build3) ...
+Preparing to unpack .../06-libevent-core-2.1-7_2.1.12-stable-1ubuntu0.1_amd64.deb ...
+Unpacking libevent-core-2.1-7:amd64 (2.1.12-stable-1ubuntu0.1) over (2.1.12-stable-1build3) ...
+Selecting previously unselected package libpsm-infinipath1.
+Preparing to unpack .../07-libpsm-infinipath1_3.3+20.604758e7-6.1_amd64.deb ...
+Unpacking libpsm-infinipath1 (3.3+20.604758e7-6.1) ...
+Selecting previously unselected package libpsm2-2.
+Preparing to unpack .../08-libpsm2-2_11.2.185-1_amd64.deb ...
+Unpacking libpsm2-2 (11.2.185-1) ...
+Selecting previously unselected package librdmacm1:amd64.
+Preparing to unpack .../09-librdmacm1_39.0-1_amd64.deb ...
+Unpacking librdmacm1:amd64 (39.0-1) ...
+Selecting previously unselected package libfabric1:amd64.
+Preparing to unpack .../10-libfabric1_1.11.0-3_amd64.deb ...
+Unpacking libfabric1:amd64 (1.11.0-3) ...
+Selecting previously unselected package libhwloc15:amd64.
+Preparing to unpack .../11-libhwloc15_2.7.0-2ubuntu1_amd64.deb ...
+Unpacking libhwloc15:amd64 (2.7.0-2ubuntu1) ...
+Selecting previously unselected package libxnvctrl0:amd64.
+Preparing to unpack .../12-libxnvctrl0_510.47.03-0ubuntu1.22.04.1_amd64.deb ...
+Unpacking libxnvctrl0:amd64 (510.47.03-0ubuntu1.22.04.1) ...
+Selecting previously unselected package ocl-icd-libopencl1:amd64.
+Preparing to unpack .../13-ocl-icd-libopencl1_2.2.14-3_amd64.deb ...
+Unpacking ocl-icd-libopencl1:amd64 (2.2.14-3) ...
+Selecting previously unselected package libhwloc-plugins:amd64.
+Preparing to unpack .../14-libhwloc-plugins_2.7.0-2ubuntu1_amd64.deb ...
+Unpacking libhwloc-plugins:amd64 (2.7.0-2ubuntu1) ...
+Selecting previously unselected package libpmix2:amd64.
+Preparing to unpack .../15-libpmix2_4.1.2-2ubuntu1_amd64.deb ...
+Unpacking libpmix2:amd64 (4.1.2-2ubuntu1) ...
+Selecting previously unselected package libucx0:amd64.
+Preparing to unpack .../16-libucx0_1.12.1~rc2-1_amd64.deb ...
+Unpacking libucx0:amd64 (1.12.1~rc2-1) ...
+Selecting previously unselected package libopenmpi3:amd64.
+Preparing to unpack .../17-libopenmpi3_4.1.2-2ubuntu1_amd64.deb ...
+Unpacking libopenmpi3:amd64 (4.1.2-2ubuntu1) ...
+Selecting previously unselected package libcaf-openmpi-3:amd64.
+Preparing to unpack .../18-libcaf-openmpi-3_2.9.2-3_amd64.deb ...
+Unpacking libcaf-openmpi-3:amd64 (2.9.2-3) ...
+Selecting previously unselected package libcoarrays-dev:amd64.
+Preparing to unpack .../19-libcoarrays-dev_2.9.2-3_amd64.deb ...
+Unpacking libcoarrays-dev:amd64 (2.9.2-3) ...
+Selecting previously unselected package openmpi-common.
+Preparing to unpack .../20-openmpi-common_4.1.2-2ubuntu1_all.deb ...
+Unpacking openmpi-common (4.1.2-2ubuntu1) ...
+Selecting previously unselected package openmpi-bin.
+Preparing to unpack .../21-openmpi-bin_4.1.2-2ubuntu1_amd64.deb ...
+Unpacking openmpi-bin (4.1.2-2ubuntu1) ...
+Selecting previously unselected package libcoarrays-openmpi-dev:amd64.
+Preparing to unpack .../22-libcoarrays-openmpi-dev_2.9.2-3_amd64.deb ...
+Unpacking libcoarrays-openmpi-dev:amd64 (2.9.2-3) ...
+Selecting previously unselected package libevent-2.1-7:amd64.
+Preparing to unpack .../23-libevent-2.1-7_2.1.12-stable-1ubuntu0.1_amd64.deb ...
+Unpacking libevent-2.1-7:amd64 (2.1.12-stable-1ubuntu0.1) ...
+Selecting previously unselected package libevent-extra-2.1-7:amd64.
+Preparing to unpack .../24-libevent-extra-2.1-7_2.1.12-stable-1ubuntu0.1_amd64.deb ...
+Unpacking libevent-extra-2.1-7:amd64 (2.1.12-stable-1ubuntu0.1) ...
+Selecting previously unselected package libevent-openssl-2.1-7:amd64.
+Preparing to unpack .../25-libevent-openssl-2.1-7_2.1.12-stable-1ubuntu0.1_amd64.deb ...
+Unpacking libevent-openssl-2.1-7:amd64 (2.1.12-stable-1ubuntu0.1) ...
+Selecting previously unselected package libevent-dev.
+Preparing to unpack .../26-libevent-dev_2.1.12-stable-1ubuntu0.1_amd64.deb ...
+Unpacking libevent-dev (2.1.12-stable-1ubuntu0.1) ...
+Selecting previously unselected package libjs-jquery-ui.
+Preparing to unpack .../27-libjs-jquery-ui_1.13.1+dfsg-1_all.deb ...
+Unpacking libjs-jquery-ui (1.13.1+dfsg-1) ...
+Selecting previously unselected package libnl-3-dev:amd64.
+Preparing to unpack .../28-libnl-3-dev_3.5.0-0.1_amd64.deb ...
+Unpacking libnl-3-dev:amd64 (3.5.0-0.1) ...
+Selecting previously unselected package libnl-route-3-dev:amd64.
+Preparing to unpack .../29-libnl-route-3-dev_3.5.0-0.1_amd64.deb ...
+Unpacking libnl-route-3-dev:amd64 (3.5.0-0.1) ...
+Selecting previously unselected package libnuma-dev:amd64.
+Preparing to unpack .../30-libnuma-dev_2.0.14-3ubuntu2_amd64.deb ...
+Unpacking libnuma-dev:amd64 (2.0.14-3ubuntu2) ...
+Selecting previously unselected package libhwloc-dev:amd64.
+Preparing to unpack .../31-libhwloc-dev_2.7.0-2ubuntu1_amd64.deb ...
+Unpacking libhwloc-dev:amd64 (2.7.0-2ubuntu1) ...
+Selecting previously unselected package libpmix-dev:amd64.
+Preparing to unpack .../32-libpmix-dev_4.1.2-2ubuntu1_amd64.deb ...
+Unpacking libpmix-dev:amd64 (4.1.2-2ubuntu1) ...
+Selecting previously unselected package libibverbs-dev:amd64.
+Preparing to unpack .../33-libibverbs-dev_39.0-1_amd64.deb ...
+Unpacking libibverbs-dev:amd64 (39.0-1) ...
+Selecting previously unselected package libopenmpi-dev:amd64.
+Preparing to unpack .../34-libopenmpi-dev_4.1.2-2ubuntu1_amd64.deb ...
+Unpacking libopenmpi-dev:amd64 (4.1.2-2ubuntu1) ...
+Selecting previously unselected package libspooles2.2:amd64.
+Preparing to unpack .../35-libspooles2.2_2.2-14_amd64.deb ...
+Unpacking libspooles2.2:amd64 (2.2-14) ...
+Selecting previously unselected package mpi-default-dev.
+Preparing to unpack .../36-mpi-default-dev_1.14_amd64.deb ...
+Unpacking mpi-default-dev (1.14) ...
+Selecting previously unselected package libspooles-dev:amd64.
+Preparing to unpack .../37-libspooles-dev_2.2-14_amd64.deb ...
+Unpacking libspooles-dev:amd64 (2.2-14) ...
+Setting up libcoarrays-dev:amd64 (2.9.2-3) ...
+Setting up libarpack2:amd64 (3.8.0-1) ...
+Setting up libnuma-dev:amd64 (2.0.14-3ubuntu2) ...
+Setting up libnl-route-3-200:amd64 (3.5.0-0.1) ...
+Setting up libxnvctrl0:amd64 (510.47.03-0ubuntu1.22.04.1) ...
+Setting up libjs-jquery-ui (1.13.1+dfsg-1) ...
+Setting up libhwloc15:amd64 (2.7.0-2ubuntu1) ...
+Setting up libevent-core-2.1-7:amd64 (2.1.12-stable-1ubuntu0.1) ...
+Setting up libevent-2.1-7:amd64 (2.1.12-stable-1ubuntu0.1) ...
+Setting up libnl-3-dev:amd64 (3.5.0-0.1) ...
+Setting up ocl-icd-libopencl1:amd64 (2.2.14-3) ...
+Setting up libpsm2-2 (11.2.185-1) ...
+Setting up openmpi-common (4.1.2-2ubuntu1) ...
+Setting up libhwloc-dev:amd64 (2.7.0-2ubuntu1) ...
+Setting up libpsm-infinipath1 (3.3+20.604758e7-6.1) ...
+update-alternatives: using /usr/lib/libpsm1/libpsm_infinipath.so.1.16 to provide /usr/lib/x86_64-linux-gnu/libpsm_infinipath.so.1 (libpsm_infinipath.so.1) in auto mode
+Setting up libevent-pthreads-2.1-7:amd64 (2.1.12-stable-1ubuntu0.1) ...
+Setting up libibverbs1:amd64 (39.0-1) ...
+Setting up libevent-extra-2.1-7:amd64 (2.1.12-stable-1ubuntu0.1) ...
+Setting up libarpack2-dev:amd64 (3.8.0-1) ...
+Setting up ibverbs-providers:amd64 (39.0-1) ...
+Setting up libevent-openssl-2.1-7:amd64 (2.1.12-stable-1ubuntu0.1) ...
+Setting up libhwloc-plugins:amd64 (2.7.0-2ubuntu1) ...
+Setting up libnl-route-3-dev:amd64 (3.5.0-0.1) ...
+Setting up libevent-dev (2.1.12-stable-1ubuntu0.1) ...
+Setting up librdmacm1:amd64 (39.0-1) ...
+Setting up libucx0:amd64 (1.12.1~rc2-1) ...
+Setting up libpmix2:amd64 (4.1.2-2ubuntu1) ...
+Setting up libibverbs-dev:amd64 (39.0-1) ...
+Setting up libpmix-dev:amd64 (4.1.2-2ubuntu1) ...
+Setting up libfabric1:amd64 (1.11.0-3) ...
+Setting up libopenmpi3:amd64 (4.1.2-2ubuntu1) ...
+Setting up libspooles2.2:amd64 (2.2-14) ...
+Setting up libcaf-openmpi-3:amd64 (2.9.2-3) ...
+Setting up openmpi-bin (4.1.2-2ubuntu1) ...
+update-alternatives: using /usr/bin/mpirun.openmpi to provide /usr/bin/mpirun (mpirun) in auto mode
+update-alternatives: using /usr/bin/mpicc.openmpi to provide /usr/bin/mpicc (mpi) in auto mode
+Setting up libcoarrays-openmpi-dev:amd64 (2.9.2-3) ...
+update-alternatives: using /usr/lib/x86_64-linux-gnu/open-coarrays/openmpi/bin/caf to provide /usr/bin/caf.openmpi (caf-openmpi) in auto mode
+update-alternatives: using /usr/bin/caf.openmpi to provide /usr/bin/caf (caf) in auto mode
+Setting up libopenmpi-dev:amd64 (4.1.2-2ubuntu1) ...
+update-alternatives: using /usr/lib/x86_64-linux-gnu/openmpi/include to provide /usr/include/x86_64-linux-gnu/mpi (mpi-x86_64-linux-gnu) in auto mode
+Setting up mpi-default-dev (1.14) ...
+Setting up libspooles-dev:amd64 (2.2-14) ...
+Processing triggers for man-db (2.10.2-1) ...
+Not building database; man-db/auto-update is not 'true'.
+Processing triggers for libc-bin (2.35-0ubuntu3.14) ...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+gcc -O2 -fopenmp -DARCH="Linux" -DSPOOLES -DARPACK -DMATRIXSTORAGE -I/usr/include/spooles -c ccx_2.23.c -o ccx_2.23.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c absolute_relative.f -o absolute_relative.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c acctube.f -o acctube.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c acctube_one.f -o acctube_one.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c actideacti.f -o actideacti.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c actideactistr.f -o actideactistr.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c add_bo_st.f -o add_bo_st.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c addimd.f -o addimd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c addimdnodecload.f -o addimdnodecload.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c addimdnodedload.f -o addimdnodedload.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c addimdnodedof.f -o addimdnodedof.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c addizdofcload.f -o addizdofcload.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c addizdofdload.f -o addizdofdload.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c add_sm_ei.f -o add_sm_ei.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c add_sm_fl.f -o add_sm_fl.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c add_sm_st_as.f -o add_sm_st_as.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c add_sm_st_corio.f -o add_sm_st_corio.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c add_sm_st.f -o add_sm_st.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c adjacentbounodes.f -o adjacentbounodes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c adjustcontactnodes.f -o adjustcontactnodes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c addshell.f -o addshell.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c advecforc.f -o advecforc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c advecstiff.f -o advecstiff.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c air_valve.f -o air_valve.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c allocation.f -o allocation.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c allocation_rfn.f -o allocation_rfn.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c allocont.f -o allocont.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c amplitudes.f -o amplitudes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c angsum.f -o angsum.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c anisomaxwavspd.f -o anisomaxwavspd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c anisonl.f -o anisonl.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c anisotropic.f -o anisotropic.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c applybounfem.f -o applybounfem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c applybounp.f -o applybounp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c approxplane.f -o approxplane.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c assigndomtonodes.f -o assigndomtonodes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c attach_1d.f -o attach_1d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c attach_1d_cracklength.f -o attach_1d_cracklength.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c attach_2d.f -o attach_2d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c attach_3d.f -o attach_3d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c attachline.f -o attachline.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c autocovmatrix.f -o autocovmatrix.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c basemotions.f -o basemotions.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c basis.f -o basis.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c beamextscheme.f -o beamextscheme.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c beamgeneralsections.f -o beamgeneralsections.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c beamintscheme.f -o beamintscheme.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c beammpc.f -o beammpc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c beamsections.f -o beamsections.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c biotsavart.f -o biotsavart.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c bodyadd.f -o bodyadd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c bodyforce.f -o bodyforce.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c bounadd.f -o bounadd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c bounaddf.f -o bounaddf.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c boundaryfs.f -o boundaryfs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c boundarymesh.f -o boundarymesh.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c boundarys.f -o boundarys.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c bsort.f -o bsort.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c buckles.f -o buckles.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcdamage.f -o calcdamage.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcdatarget.f -o calcdatarget.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcdev.f -o calcdev.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcdhds.f -o calcdhds.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calceigenvalues.f -o calceigenvalues.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcenergy.f -o calcenergy.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcexternalwork.f -o calcexternalwork.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcfeasibledirection_gd.f -o calcfeasibledirection_gd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcfeasibledirection_gp.f -o calcfeasibledirection_gp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcgeomelemnet.f -o calcgeomelemnet.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calch0interface.f -o calch0interface.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcheatnet.f -o calcheatnet.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calc_ider_cross_split.f -o calc_ider_cross_split.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calc_ider_tee.f -o calc_ider_tee.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calc_ider_wye.f -o calc_ider_wye.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcmac.f -o calcmac.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcmach.f -o calcmach.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcmass.f -o calcmass.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcmechstrain.f -o calcmechstrain.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcnormal.f -o calcnormal.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calc_residual_cross_split.f -o calc_residual_cross_split.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calc_residual_tee.f -o calc_residual_tee.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calc_residual_wye.f -o calc_residual_wye.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcspringforc.f -o calcspringforc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcstabletimeinccont.f -o calcstabletimeinccont.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcstabletimeincvol.f -o calcstabletimeincvol.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcstress.f -o calcstress.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcstressheatfluxfem.f -o calcstressheatfluxfem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcsurf.f -o calcsurf.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calctotstrain.f -o calctotstrain.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calculated.f -o calculated.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calculateh.f -o calculateh.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calculatehmid.f -o calculatehmid.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcview.f -o calcview.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calcvol.f -o calcvol.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calinput.f -o calinput.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c calinput_rfn.f -o calinput_rfn.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c carbon_seal.f -o carbon_seal.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c catedges_crackprop.f -o catedges_crackprop.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c catedges_refine.f -o catedges_refine.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c catnodes.f -o catnodes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cattet.f -o cattet.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cattri.f -o cattri.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cavity_refine.f -o cavity_refine.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cavityext_refine.f -o cavityext_refine.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_bleedtapping.f -o cd_bleedtapping.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_bragg.f -o cd_bragg.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_chamfer.f -o cd_chamfer.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_lab_1spike.f -o cd_lab_1spike.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_lab_correction.f -o cd_lab_correction.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_lab_honeycomb.f -o cd_lab_honeycomb.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_lab_radius.f -o cd_lab_radius.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_lab_straight.f -o cd_lab_straight.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_lichtarowicz.f -o cd_lichtarowicz.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_Mcgreehan_Schotsch.f -o cd_Mcgreehan_Schotsch.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_ms_ms.f -o cd_ms_ms.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_own_albers.f -o cd_own_albers.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_pk_albers.f -o cd_pk_albers.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_pk_ms.f -o cd_pk_ms.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cd_preswirlnozzle.f -o cd_preswirlnozzle.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cfdconv.f -o cfdconv.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cfds.f -o cfds.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cflux.f -o cflux.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cfluxs.f -o cfluxs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c changecontacttypes.f -o changecontacttypes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c changedepterm.f -o changedepterm.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c changefrictions.f -o changefrictions.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c changekon.f -o changekon.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c changematerials.f -o changematerials.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c changeplastics.f -o changeplastics.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c changesolidsections.f -o changesolidsections.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c changesurfacebehaviors.f -o changesurfacebehaviors.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c channeljointback.f -o channeljointback.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c channeljointfront.f -o channeljointfront.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c characteristic.f -o characteristic.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c characteristiclength.f -o characteristiclength.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkconstraint.f -o checkconstraint.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkcrosssections.f -o checkcrosssections.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkdispoutonly.f -o checkdispoutonly.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkexiedge.f -o checkexiedge.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkforhomnet.f -o checkforhomnet.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkimpacts.f -o checkimpacts.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkinputvaluesnet.f -o checkinputvaluesnet.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkintegrity.f -o checkintegrity.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkjac.f -o checkjac.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkprojectgrad.f -o checkprojectgrad.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checksharp.f -o checksharp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checktemp.f -o checktemp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checktempload.f -o checktempload.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checktime.f -o checktime.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checktruecontact.f -o checktruecontact.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c checkvol.f -o checkvol.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c chksurf.f -o chksurf.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cident80.f -o cident80.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cident81.f -o cident81.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cident.f -o cident.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c clearances.f -o clearances.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cload.f -o cload.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cloaddistributing.f -o cloaddistributing.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cloads.f -o cloads.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c clonesensitivities.f -o clonesensitivities.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c closefile.f -o closefile.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c closefilefluid.f -o closefilefluid.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cmatrix.f -o cmatrix.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c combilcfhcf.f -o combilcfhcf.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c compdt.f -o compdt.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c complexfrequencys.f -o complexfrequencys.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c con2phys.f -o con2phys.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c condrandomfield.f -o condrandomfield.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c conductivitys.f -o conductivitys.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c constassembly.f -o constassembly.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c constraints.f -o constraints.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c contactdampings.f -o contactdampings.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c contactpairs.f -o contactpairs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c contactprints.f -o contactprints.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c contingentsurf.f -o contingentsurf.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c contraction.f -o contraction.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c controlss.f -o controlss.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c copysens.f -o copysens.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c coriolissolve.f -o coriolissolve.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c correctem.f -o correctem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c correlationlengths.f -o correlationlengths.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c couplings.f -o couplings.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c couptempdisps.f -o couptempdisps.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cp_corrected.f -o cp_corrected.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cracklength.f -o cracklength.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cracklength_smoothing.f -o cracklength_smoothing.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c crackprop.f -o crackprop.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c crackpropagations.f -o crackpropagations.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c crackrate.f -o crackrate.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c crackshape.f -o crackshape.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c create_contactdofs.f -o create_contactdofs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c create_t.f -o create_t.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c create_tinv.f -o create_tinv.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createbd.f -o createbd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createblock_struct.f -o createblock_struct.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createelemneigh.f -o createelemneigh.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createfint.f -o createfint.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createialnk.f -o createialnk.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createinterfacempcs.f -o createinterfacempcs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createinum.f -o createinum.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createlocalsys.f -o createlocalsys.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createmddof.f -o createmddof.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createmdelem.f -o createmdelem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createnodeneigh.f -o createnodeneigh.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createtet.f -o createtet.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c createtiedsurfs.f -o createtiedsurfs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c creep.f -o creep.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c creeps.f -o creeps.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cross_split.f -o cross_split.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cubic.f -o cubic.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cubtri.f -o cubtri.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cyclichardenings.f -o cyclichardenings.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c cyclicsymmetrymodels.f -o cyclicsymmetrymodels.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c damageinitiations.f -o damageinitiations.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dampings.f -o dampings.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dashdamp.f -o dashdamp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dashpots.f -o dashpots.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dattime.f -o dattime.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c ddeabm.f -o ddeabm.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c ddebdf.f -o ddebdf.o
+ddeabm.f:969:72:
+
+  969 |   215    YPOUT(L) = YP(L)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 215 at (1)
+ddeabm.f:981:72:
+
+  981 |   230   YY(L) = Y(L)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
+ddeabm.f:1015:72:
+
+ 1015 |   270   Y(L) = YY(L) + DT*YP(L)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 270 at (1)
+ddeabm.f:1029:72:
+
+ 1029 |   290   YPOUT(L) = YP(L)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 290 at (1)
+ddeabm.f:1053:72:
+
+ 1053 |   320   YPOUT(L) = YP(L)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 320 at (1)
+ddeabm.f:1081:72:
+
+ 1081 |   370   YPOUT(L) = YP(L)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 370 at (1)
+ddeabm.f:1103:72:
+
+ 1103 |   390   ATOL(L) = EPS*ATOL(L)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 390 at (1)
+ddeabm.f:1106:72:
+
+ 1106 |   410   YPOUT(L) = YP(L)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 410 at (1)
+ddeabm.f:1200:72:
+
+ 1200 |  10     W(IQ) = XIQ/TEMP1
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
+ddeabm.f:1214:72:
+
+ 1214 |  40     GDI = OW(KP2-I) - ALPHA(I)*GDI
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
+ddeabm.f:1230:72:
+
+ 1230 |  70       W(JQ) = GAMMA*W(JQ) - ALP*W(JQ+1)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 70 at (1)
+ddeabm.f:1232:72:
+
+ 1232 |  80     C(I+1) = GAMMA*C(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 80 at (1)
+ddeabm.f:1245:72:
+
+ 1245 |  100    YPOUT(L) = 0.0D0
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 100 at (1)
+ddeabm.f:1253:72:
+
+ 1253 |  110      YPOUT(L) = YPOUT(L) + TEMP3*PHI(L,I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
+ddeabm.f:1259:72:
+
+ 1259 |      1                (YPOUT(L) + (C(1) + RMU*OG(1))*PHI(L,1))
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 130 at (1)
+ddeabm.f:2792:72:
+
+ 2792 |  10     ROUND = ROUND + (Y(L)/WT(L))**2
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
+ddeabm.f:2809:72:
+
+ 2809 |    20   PHI(L,2) = 0.0D0
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
+ddeabm.f:2831:72:
+
+ 2831 |  25     PHI(L,15) = 0.0D0
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
+ddeabm.f:2870:72:
+
+ 2870 |  105    SIG(I+1) = REALI*ALPHA(I)*SIG(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 105 at (1)
+ddeabm.f:2881:72:
+
+ 2881 |  115    W(IQ) = V(IQ)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 115 at (1)
+ddeabm.f:2908:72:
+
+ 2908 |  125    W(I) = V(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 125 at (1)
+ddeabm.f:2919:72:
+
+ 2919 |  135    W(IQ) = V(IQ)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 135 at (1)
+ddeabm.f:2938:72:
+
+ 2938 |  145      W(IQ) = W(IQ) - TEMP6*W(IQ+1)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 145 at (1)
+ddeabm.f:2939:72:
+
+ 2939 |  150    G(I) = W(1)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 150 at (1)
+ddeabm.f:2959:72:
+
+ 2959 |  205      PHI(L,I) = TEMP1*PHI(L,I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 205 at (1)
+ddeabm.f:2967:72:
+
+ 2967 |  220    P(L) = 0.0D0
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
+ddeabm.f:2974:72:
+
+ 2974 |  225      PHI(L,I) = PHI(L,I) + PHI(L,IP1)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 225 at (1)
+ddeabm.f:2980:72:
+
+ 2980 |  235    PHI(L,16) = (P(L) - Y(L)) - TAU
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 235 at (1)
+ddeabm.f:2983:72:
+
+ 2983 |  245    P(L) = Y(L) + H*P(L)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 245 at (1)
+ddeabm.f:2997:72:
+
+ 2997 |         IF(KM2)265,260,255
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+ddeabm.f:3000:72:
+
+ 3000 |  265    ERK = ERK + (TEMP4*TEMP3)**2
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 265 at (1)
+ddeabm.f:3001:72:
+
+ 3001 |       IF(KM2)280,275,270
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+ddeabm.f:3011:72:
+
+ 3011 |       IF(KM2)299,290,285
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+ddeabm.f:3037:72:
+
+ 3037 |  305      PHI(L,I) = TEMP1*(PHI(L,I) - PHI(L,IP1))
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 305 at (1)
+ddeabm.f:3041:72:
+
+ 3041 |  315    PSI(I-1) = PSI(I) - H
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 315 at (1)
+ddeabm.f:3048:72:
+
+ 3048 |       IF(IFAIL - 3) 335,330,325
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+ddeabm.f:3079:72:
+
+ 3079 |  405    P(L) = TEMP3
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 405 at (1)
+ddeabm.f:3084:72:
+
+ 3084 |  415    P(L) = TEMP3
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 415 at (1)
+ddeabm.f:3091:72:
+
+ 3091 |  425    PHI(L,KP2) = PHI(L,KP1) - PHI(L,KP2)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 425 at (1)
+ddeabm.f:3094:72:
+
+ 3094 |  430      PHI(L,I) = PHI(L,I) + PHI(L,KP1)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 430 at (1)
+ddeabm.f:3108:72:
+
+ 3108 |  440    ERKP1 = ERKP1 + (PHI(L,KP2)/WT(L))**2
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c deformationplasticitys.f -o deformationplasticitys.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c defplas.f -o defplas.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c delaun.f -o delaun.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c deltri.f -o deltri.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c densitys.f -o densitys.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c depvars.f -o depvars.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c designresponses.f -o designresponses.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c designvariabless.f -o designvariabless.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c desiperelem.f -o desiperelem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c detectactivecont.f -o detectactivecont.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c determineextern.f -o determineextern.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dflux.f -o dflux.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dfluxs.f -o dfluxs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dgesv.f -o dgesv.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dgmres1.f -o dgmres1.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dgmres.f -o dgmres.o
+dgmres.f:644:72:
+
+  644 |    10 ASSIGN 30 TO NEXT
+      |                                                                        1
+Warning: Deleted feature: ASSIGN statement at (1)
+dgmres.f:651:20:
+
+  651 |    20    GO TO NEXT,(30, 50, 70, 110)
+      |                    1
+Warning: Deleted feature: Assigned GOTO statement at (1)
+dgmres.f:653:72:
+
+  653 |       ASSIGN 50 TO NEXT
+      |                                                                        1
+Warning: Deleted feature: ASSIGN statement at (1)
+dgmres.f:663:72:
+
+  663 |       ASSIGN 70 TO NEXT
+      |                                                                        1
+Warning: Deleted feature: ASSIGN statement at (1)
+dgmres.f:669:72:
+
+  669 |       ASSIGN 110 TO NEXT
+      |                                                                        1
+Warning: Deleted feature: ASSIGN statement at (1)
+dgmres.f:703:72:
+
+  703 |    95    SUM = SUM + DX(J)**2
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 95 at (1)
+dgmres.f:1325:72:
+
+ 1325 |       IF (INCX .EQ. INCY) IF (INCX-1) 5,20,60
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+dgmres.f:1416:72:
+
+ 1416 |       IF (INCX .EQ. INCY) IF (INCX-1) 5,20,60
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c discontinuousslope.f -o discontinuousslope.o
+dgmres.f:2499:72:
+
+ 2499 |       IF (INCX .EQ. INCY) IF (INCX-1) 5,20,60
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c disp_sen_dv.f -o disp_sen_dv.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c distattach_1d.f -o distattach_1d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c distattach_1d_cracklength.f -o distattach_1d_cracklength.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c distattach_2d.f -o distattach_2d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c distattach_3d.f -o distattach_3d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c distattachline.f -o distattachline.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c distributingcouplings.f -o distributingcouplings.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c distributions.f -o distributions.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dKdm.f -o dKdm.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dKdp.f -o dKdp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dKdt.f -o dKdt.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dKdX.f -o dKdX.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dload.f -o dload.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dloads.f -o dloads.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dlz.f -o dlz.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dmatrix.f -o dmatrix.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dqag.f -o dqag.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c drfftf.f -o drfftf.o
+drfftf.f:129:72:
+
+  129 |       IF (IDO-2) 107,105,102
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+drfftf.f:198:72:
+
+  198 |       IF (IDO-2) 107,105,102
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+drfftf.f:548:72:
+
+  548 |       IF (J-4) 102,102,103
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+drfftf.f:554:72:
+
+  554 |       IF (NR) 101,105,101
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
+drfftf.f:134:43:
+
+  132 |          DO 103 I=3,IDO,2
+      |                                                                        2
+  133 |             IC = IDP2-I
+  134 |             TR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
+      |                                           1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:135:41:
+
+  132 |          DO 103 I=3,IDO,2
+      |                                                                        2
+......
+  135 |             TI2 = WA1(I-2)*CC(I,K,2)-WA1(I-1)*CC(I-1,K,2)
+      |                                         1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:165:43:
+
+  163 |          DO 102 I=3,IDO,2
+      |                                                                        2
+  164 |             IC = IDP2-I
+  165 |             DR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
+      |                                           1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:166:41:
+
+  163 |          DO 102 I=3,IDO,2
+      |                                                                        2
+......
+  166 |             DI2 = WA1(I-2)*CC(I,K,2)-WA1(I-1)*CC(I-1,K,2)
+      |                                         1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:167:43:
+
+  163 |          DO 102 I=3,IDO,2
+      |                                                                        2
+......
+  167 |             DR3 = WA2(I-2)*CC(I-1,K,3)+WA2(I-1)*CC(I,K,3)
+      |                                           1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:168:41:
+
+  163 |          DO 102 I=3,IDO,2
+      |                                                                        2
+......
+  168 |             DI3 = WA2(I-2)*CC(I,K,3)-WA2(I-1)*CC(I-1,K,3)
+      |                                         1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:203:43:
+
+  201 |          DO 103 I=3,IDO,2
+      |                                                                        2
+  202 |             IC = IDP2-I
+  203 |             CR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
+      |                                           1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:204:41:
+
+  201 |          DO 103 I=3,IDO,2
+      |                                                                        2
+......
+  204 |             CI2 = WA1(I-2)*CC(I,K,2)-WA1(I-1)*CC(I-1,K,2)
+      |                                         1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:205:43:
+
+  201 |          DO 103 I=3,IDO,2
+      |                                                                        2
+......
+  205 |             CR3 = WA2(I-2)*CC(I-1,K,3)+WA2(I-1)*CC(I,K,3)
+      |                                           1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:206:41:
+
+  201 |          DO 103 I=3,IDO,2
+      |                                                                        2
+......
+  206 |             CI3 = WA2(I-2)*CC(I,K,3)-WA2(I-1)*CC(I-1,K,3)
+      |                                         1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:207:43:
+
+  201 |          DO 103 I=3,IDO,2
+      |                                                                        2
+......
+  207 |             CR4 = WA3(I-2)*CC(I-1,K,4)+WA3(I-1)*CC(I,K,4)
+      |                                           1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:208:41:
+
+  201 |          DO 103 I=3,IDO,2
+      |                                                                        2
+......
+  208 |             CI4 = WA3(I-2)*CC(I,K,4)-WA3(I-1)*CC(I-1,K,4)
+      |                                         1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:261:43:
+
+  259 |          DO 102 I=3,IDO,2
+      |                                                                        2
+  260 |             IC = IDP2-I
+  261 |             DR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
+      |                                           1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:262:41:
+
+  259 |          DO 102 I=3,IDO,2
+      |                                                                        2
+......
+  262 |             DI2 = WA1(I-2)*CC(I,K,2)-WA1(I-1)*CC(I-1,K,2)
+      |                                         1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:263:43:
+
+  259 |          DO 102 I=3,IDO,2
+      |                                                                        2
+......
+  263 |             DR3 = WA2(I-2)*CC(I-1,K,3)+WA2(I-1)*CC(I,K,3)
+      |                                           1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:264:41:
+
+  259 |          DO 102 I=3,IDO,2
+      |                                                                        2
+......
+  264 |             DI3 = WA2(I-2)*CC(I,K,3)-WA2(I-1)*CC(I-1,K,3)
+      |                                         1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:265:43:
+
+  259 |          DO 102 I=3,IDO,2
+      |                                                                        2
+......
+  265 |             DR4 = WA3(I-2)*CC(I-1,K,4)+WA3(I-1)*CC(I,K,4)
+      |                                           1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:266:41:
+
+  259 |          DO 102 I=3,IDO,2
+      |                                                                        2
+......
+  266 |             DI4 = WA3(I-2)*CC(I,K,4)-WA3(I-1)*CC(I-1,K,4)
+      |                                         1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:267:43:
+
+  259 |          DO 102 I=3,IDO,2
+      |                                                                        2
+......
+  267 |             DR5 = WA4(I-2)*CC(I-1,K,5)+WA4(I-1)*CC(I,K,5)
+      |                                           1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+drfftf.f:268:41:
+
+  259 |          DO 102 I=3,IDO,2
+      |                                                                        2
+......
+  268 |             DI5 = WA4(I-2)*CC(I,K,5)-WA4(I-1)*CC(I-1,K,5)
+      |                                         1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dsort.f -o dsort.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dsptrf.f -o dsptrf.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dsptri.f -o dsptri.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dualshape3tri.f -o dualshape3tri.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dualshape4q.f -o dualshape4q.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dualshape6tritilde.f -o dualshape6tritilde.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dualshape6tritilde_lin.f -o dualshape6tritilde_lin.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dualshape8qtilde.f -o dualshape8qtilde.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dualshape8qtilde_lin.f -o dualshape8qtilde_lin.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dynamics.f -o dynamics.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c dynresults.f -o dynresults.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_cs_se.f -o e_c3d_cs_se.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_duds.f -o e_c3d_duds.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_em.f -o e_c3d_em.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d.f -o e_c3d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_plhs.f -o e_c3d_plhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_prhs.f -o e_c3d_prhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_rhs.f -o e_c3d_rhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_rhs_th.f -o e_c3d_rhs_th.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_se.f -o e_c3d_se.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_th.f -o e_c3d_th.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_u1.f -o e_c3d_u1.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_us3.f -o e_c3d_us3.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_us45.f -o e_c3d_us45.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_u.f -o e_c3d_u.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_vlhs.f -o e_c3d_vlhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_v1rhs.f -o e_c3d_v1rhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_c3d_v2rhs.f -o e_c3d_v2rhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_corio.f -o e_corio.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c e_damp.f -o e_damp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c edgedivide.f -o edgedivide.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c edg.f -o edg.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c effectivemodalmass.f -o effectivemodalmass.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c elastics.f -o elastics.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c electricalconductivitys.f -o electricalconductivitys.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c electromagneticss.f -o electromagneticss.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c elementpernode.f -o elementpernode.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c elementpernodef.f -o elementpernodef.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c elements.f -o elements.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c elemperdesi.f -o elemperdesi.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c elemperorien.f -o elemperorien.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c elprints.f -o elprints.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c envtemp.f -o envtemp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c eplane.f -o eplane.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c eqspacednodes.f -o eqspacednodes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c equationcheck.f -o equationcheck.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c equations.f -o equations.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c errorestimator.f -o errorestimator.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c evalshapefunc.f -o evalshapefunc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c expand_auw.f -o expand_auw.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c expansions.f -o expansions.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extendmesh.f -o extendmesh.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extern_crackprop.f -o extern_crackprop.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extfacepernode.f -o extfacepernode.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extract_matrices.f -o extract_matrices.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapol2dto3d.f -o extrapol2dto3d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolatecontact.f -o extrapolatecontact.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolate.f -o extrapolate.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolatefem.f -o extrapolatefem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolateshell.f -o extrapolateshell.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolateshell_us3.f -o extrapolateshell_us3.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolateshell_us45.f -o extrapolateshell_us45.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolate_se.f -o extrapolate_se.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolate_u.f -o extrapolate_u.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolate_u1.f -o extrapolate_u1.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolate_us3.f -o extrapolate_us3.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extrapolate_us45.f -o extrapolate_us45.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c extsurface.f -o extsurface.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c faceinfo.f -o faceinfo.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fcrit.f -o fcrit.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c feasibledirections.f -o feasibledirections.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fillknotmpc.f -o fillknotmpc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c film.f -o film.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c films.f -o films.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c filterbackward_exp.f -o filterbackward_exp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c filterbackward_imp.f -o filterbackward_imp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c filterforward_exp.f -o filterforward_exp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c filterforward_imp.f -o filterforward_imp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c filters.f -o filters.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c findextsurface.f -o findextsurface.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c findslavcfd.f -o findslavcfd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c findsurface.f -o findsurface.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fixnode.f -o fixnode.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c flowbc.f -o flowbc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c flowoutput.f -o flowoutput.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fluidconstantss.f -o fluidconstantss.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fluidsections.f -o fluidsections.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c flux.f -o flux.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fminsirefine.f -o fminsirefine.o
+fminsirefine.f:244:72:
+
+  244 | 320   XST(J) = X(J)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 320 at (1)
+fminsirefine.f:278:72:
+
+  278 | 333     XAV(I)= X(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 333 at (1)
+fminsirefine.f:346:72:
+
+  346 | 340   XSTST(I) = XSTST(I) * HG
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 340 at (1)
+fminsirefine.f:366:72:
+
+  366 | 360   X(I) = X(I) + START * XSTST(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 360 at (1)
+fminsirefine.f:390:72:
+
+  390 | 380   X(I) = X(I) - START * XSTST(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
+fminsirefine.f:410:72:
+
+  410 | 25    SIM(J,I) = X(J)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
+fminsirefine.f:418:72:
+
+  418 |      &     ipoeled,ieled,iedgmid,iedtet )
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 30 at (1)
+fminsirefine.f:447:72:
+
+  447 | 34      X(I) = SIM(I,1)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 34 at (1)
+fminsirefine.f:476:72:
+
+  476 | 55      X(I) = SIM(I,ILO)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 55 at (1)
+fminsirefine.f:567:72:
+
+  567 | 72    X(I) = SIM(I,1)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 72 at (1)
+fminsirefine.f:584:72:
+
+  584 | 85      H = H + SIM(I,J)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 85 at (1)
+fminsirefine.f:595:72:
+
+  595 | 90    XST(I) = ( ONE + ALPHA ) * XAV(I) - ALPHA * SIM(I,NP)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 90 at (1)
+fminsirefine.f:612:72:
+
+  612 | 120   XSTST(I) = ( ONE - GAMMD ) * XAV(I) + GAMMD * XST(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
+fminsirefine.f:657:72:
+
+  657 | 150   SIM(I,NP) = XSTST(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 150 at (1)
+fminsirefine.f:688:72:
+
+  688 | 220   SIM(I,NP) = XST(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
+fminsirefine.f:708:72:
+
+  708 | 173     SIM(I,NP) = XST(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 173 at (1)
+fminsirefine.f:719:72:
+
+  719 | 180   XSTST(I) = BETA * SIM(I,NP) + ( ONE - BETA ) * XAV(I)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
+fminsirefine.f:756:72:
+
+  756 | 200   SIM(J,I) = HALF * ( SIM(J,I) + SIM(J,IMIN) )
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 200 at (1)
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c forcadd.f -o forcadd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c forcesolve.f -o forcesolve.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c frdfluidfem.f -o frdfluidfem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c frditeration.f -o frditeration.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c frdnet.f -o frdnet.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c free_convection.f -o free_convection.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c free_disc_pumping.f -o free_disc_pumping.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c frequencys.f -o frequencys.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fricheat.f -o fricheat.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c friction_coefficient.f -o friction_coefficient.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c frictionheating.f -o frictionheating.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c frictions.f -o frictions.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fsub.f -o fsub.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fsuper.f -o fsuper.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fumid.f -o fumid.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c fuvertex.f -o fuvertex.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gapconductances.f -o gapconductances.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gapcon.f -o gapcon.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gapheatgenerations.f -o gapheatgenerations.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gaps.f -o gaps.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gasmechbc.f -o gasmechbc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gaspipe_fanno.f -o gaspipe_fanno.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gaspipe_rot.f -o gaspipe_rot.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dboun.f -o gen3dboun.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dchanoutput.f -o gen3dchanoutput.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dconnect.f -o gen3dconnect.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3delem.f -o gen3delem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dforc.f -o gen3dforc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dfrom1d.f -o gen3dfrom1d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dfrom2d.f -o gen3dfrom2d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dmembrane.f -o gen3dmembrane.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dmpc.f -o gen3dmpc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dnor.f -o gen3dnor.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dsurf.f -o gen3dsurf.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dtemp.f -o gen3dtemp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gen3dtruss.f -o gen3dtruss.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c genadvecelem.f -o genadvecelem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gencontelem_f2f.f -o gencontelem_f2f.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gencontelem_n2f.f -o gencontelem_n2f.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gendualcoeffs.f -o gendualcoeffs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c generatecycmpcs.f -o generatecycmpcs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c generateeminterfaces.f -o generateeminterfaces.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c generatetet_refine2.f -o generatetet_refine2.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c generatetet_refine.f -o generatetet_refine.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c genfirstactif.f -o genfirstactif.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c genislavactdof.f -o genislavactdof.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c genislavquadel.f -o genislavquadel.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c genmidnodes.f -o genmidnodes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c genmodes.f -o genmodes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c genmpc.f -o genmpc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gennactdofinv.f -o gennactdofinv.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gennactdofinv3d.f -o gennactdofinv3d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c genratio.f -o genratio.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c gentiedmpc.f -o gentiedmpc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c geometricconstraints.f -o geometricconstraints.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c geometrictolerances.f -o geometrictolerances.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c geomview.f -o geomview.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getcontactparams.f -o getcontactparams.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getdesiinfo2d.f -o getdesiinfo2d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getdesiinfo3d.f -o getdesiinfo3d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getdesiinfo3d_robust.f -o getdesiinfo3d_robust.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getdesiinfobou.f -o getdesiinfobou.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getlocno.f -o getlocno.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getnewline.f -o getnewline.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getnodel.f -o getnodel.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getnodesinitetmesh.f -o getnodesinitetmesh.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getnumberofnodes.f -o getnumberofnodes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c getversion.f -o getversion.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c globalcrackresults.f -o globalcrackresults.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c greens.f -o greens.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c hcfs.f -o hcfs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c hcrit.f -o hcrit.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c headings.f -o headings.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c heattransfers.f -o heattransfers.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c henergy.f -o henergy.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c hgforce.f -o hgforce.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c hgstiffness.f -o hgstiffness.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c hnorm.f -o hnorm.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c hns.f -o hns.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c hybsvd.f -o hybsvd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c hyperelastics.f -o hyperelastics.o
+hybsvd.f:417:12:
+
+  412 |       DO 310 I=2,N
+      |                                                                        2
+......
+  417 |         U(I,I) = W(I)
+      |            1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+hybsvd.f:417:19:
+
+  412 |       DO 310 I=2,N
+      |                                                                        2
+......
+  417 |         U(I,I) = W(I)
+      |                   1
+Warning: Array reference at (1) out of bounds (2 > 1) in loop beginning at (2)
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c hyperfoams.f -o hyperfoams.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c ident2.f -o ident2.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c identamta.f -o identamta.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c ident.f -o ident.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c identdesifaces.f -o identdesifaces.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c identifytiedface.f -o identifytiedface.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c identifytransform.f -o identifytransform.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c includefilename.f -o includefilename.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c inclusion.f -o inclusion.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c incplas.f -o incplas.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c incplas_lin.f -o incplas_lin.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c init_submodel.f -o init_submodel.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c initialcfdfem.f -o initialcfdfem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c initialchannel.f -o initialchannel.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c initialconditionss.f -o initialconditionss.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c initialmeshs.f -o initialmeshs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c initialnet.f -o initialnet.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c initialstrainincreases.f -o initialstrainincreases.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c inputerror.f -o inputerror.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c inputinfo.f -o inputinfo.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c inputwarning.f -o inputwarning.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c insertsortd.f -o insertsortd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c insertsorti.f -o insertsorti.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c interpol_alfa2.f -o interpol_alfa2.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c interpolateinface.f -o interpolateinface.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c interpolatestate.f -o interpolatestate.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c interpolextnodes.f -o interpolextnodes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c interpolextnodesf.f -o interpolextnodesf.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c interpolsubmodel.f -o interpolsubmodel.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c interpoltet.f -o interpoltet.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c intersectionpoint.f -o intersectionpoint.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c inversewavspd.f -o inversewavspd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c inviscidpre.f -o inviscidpre.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c islavactive.f -o islavactive.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c isortic.f -o isortic.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c isortiddc.f -o isortiddc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c isortid.f -o isortid.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c isorti.f -o isorti.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c isortii.f -o isortii.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c isortiiddc.f -o isortiiddc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c isortiid.f -o isortiid.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c isortiii.f -o isortiii.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c jouleheating.f -o jouleheating.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c keystart.f -o keystart.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c knotmpc.f -o knotmpc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c lab_straight_ppkrit.f -o lab_straight_ppkrit.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c labyrinth.f -o labyrinth.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c limit_case_calc.f -o limit_case_calc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c linel.f -o linel.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c linkdissimilar.f -o linkdissimilar.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c linscal10.f -o linscal10.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c linscal.f -o linscal.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c lintemp.f -o lintemp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c lintemp_th0.f -o lintemp_th0.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c lintemp_th1.f -o lintemp_th1.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c lintemp_th.f -o lintemp_th.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c linvec10.f -o linvec10.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c linvec.f -o linvec.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c liquidpipe.f -o liquidpipe.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c liquidpump.f -o liquidpump.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c loadadd.f -o loadadd.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c loadaddp.f -o loadaddp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c loadaddt.f -o loadaddt.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c localaxescs.f -o localaxescs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c localaxes.f -o localaxes.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c lump.f -o lump.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c machpi.f -o machpi.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillcorio.f -o mafillcorio.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafilldm.f -o mafilldm.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafilldmss.f -o mafilldmss.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillem.f -o mafillem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillfilter.f -o mafillfilter.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillfreq_em.f -o mafillfreq_em.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillmm.f -o mafillmm.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillnet.f -o mafillnet.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillpbc.f -o mafillpbc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillplhs.f -o mafillplhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillprhs.f -o mafillprhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillsm.f -o mafillsm.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillsmas.f -o mafillsmas.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillsmcsas.f -o mafillsmcsas.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillsmcs.f -o mafillsmcs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillsmcsmatrix.f -o mafillsmcsmatrix.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillsmcsse.f -o mafillsmcsse.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillsmduds.f -o mafillsmduds.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillsmforc.f -o mafillsmforc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillsmmatrix.f -o mafillsmmatrix.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillsmse.f -o mafillsmse.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillv1rhs.f -o mafillv1rhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillv2rhs.f -o mafillv2rhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mafillvlhs.f -o mafillvlhs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c magneticpermeabilitys.f -o magneticpermeabilitys.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c map3dto1d2d.f -o map3dto1d2d.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c map3dto1d2d_v.f -o map3dto1d2d_v.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c map3dtolayer.f -o map3dtolayer.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c massflow_percent.f -o massflow_percent.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c massflows.f -o massflows.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c masss.f -o masss.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_cond.f -o materialdata_cond.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_cp.f -o materialdata_cp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_cp_sec.f -o materialdata_cp_sec.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_crack.f -o materialdata_crack.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_dvi.f -o materialdata_dvi.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_dvifem.f -o materialdata_dvifem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_em.f -o materialdata_em.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_me.f -o materialdata_me.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_rho.f -o materialdata_rho.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_sp.f -o materialdata_sp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_tg.f -o materialdata_tg.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materialdata_th.f -o materialdata_th.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c materials.f -o materials.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c matrix2userelem.f -o matrix2userelem.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c matrixassembles.f -o matrixassembles.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c matvec.f -o matvec.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c matvec_struct.f -o matvec_struct.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c maxdesvardisp.f -o maxdesvardisp.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mechmodel.f -o mechmodel.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c membranesections.f -o membranesections.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c merge_ikactmech1.f -o merge_ikactmech1.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c meshquality.f -o meshquality.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c meshqualitycavity.f -o meshqualitycavity.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c midexternaledges.f -o midexternaledges.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c midexternalfaces.f -o midexternalfaces.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c modaldampings.f -o modaldampings.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c modaldynamics.f -o modaldynamics.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c modelchanges.f -o modelchanges.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c modf.f -o modf.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c modifympc.f -o modifympc.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c modifystressstiff.f -o modifystressstiff.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c moehring.f -o moehring.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mohrcoulomb.f -o mohrcoulomb.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mohrcoulombhardenings.f -o mohrcoulombhardenings.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c mohrcoulombs.f -o mohrcoulombs.o
+gfortran -O2 -fopenmp -fallow-argument-mismatch -c move.f -o move.o
+move.f:40:2:
+
+   40 | #if defined(__INTEL_COMPILER)
+      |  1
+Warning: Illegal preprocessor directive
+move.f:42:2:
+
+   42 | #endif
+      |  1
+Warning: Illegal preprocessor directive
+move.f:49:2:
+
+   49 | #if defined(__GFORTRAN__) || defined(__INTEL_COMPILER)
+      |  1
+Warning: Illegal preprocessor directive
+move.f:52:2:
+
+   52 | #else
+      |  1
+Warning: Illegal preprocessor directive
+move.f:55:2:
+
+   55 | #endif
+      |  1
+Warning: Illegal preprocessor directive
+move.f:41:10:
+
+   41 |       use ifport, only: rename
+      |          1
+Fatal Error: Cannot open module file ‘ifport.mod’ for reading at (1): No such file or directory
+compilation terminated.
+make: *** [Makefile.joint:11: move.o] Error 1
+make: *** Waiting for unfinished jobs....

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/runner/work/model/model/catwalk-physical-20260906/solve_physical.py", line 22, in <module>
+    build()  # Keep native element, material, nonlinear and eigensolver routines unchanged.
+  File "/home/runner/work/model/model/catwalk-physical-20260906/build_joint_solver.py", line 52, in build
+    (src/'Makefile.joint').write_text(make);subprocess.run(['make','-f','Makefile.joint','-j4'],cwd=src,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=900)  # Build the actual native executable and retain compiler evidence.
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['make', '-f', 'Makefile.joint', '-j4']' returned non-zero exit status 2.

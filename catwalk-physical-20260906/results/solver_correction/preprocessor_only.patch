@@ -1,0 +1,42 @@
+--- upstream/gen3dnor.f
++++ joint-coordinate/gen3dnor.f
+@@ -36,6 +36,7 @@
+ !     
+       implicit none
+ !     
++      integer, allocatable :: requestedknots(:)
+       logical fixed,composite,beam
+ !     
+       character*1 type,typeboun(*)
+@@ -73,6 +74,22 @@
+ !     calculating the normals in nodes belonging to shells/beams
+ !     
+       nkold=nk
++      allocate(requestedknots(nkold))
++      requestedknots=0
++      do j=1,nmpc
++         index=ipompc(j)
++         do while(index.ne.0)
++            node=nodempc(1,index)
++            if((node.gt.0).and.(node.le.nkold)) then
++               if((nodempc(2,index).gt.3).or.
++     &              (labmpc(j)(1:5).eq.'RIGID')) then
++                  requestedknots(node)=1
++               endif
++            endif
++            index=nodempc(3,index)
++         enddo
++      enddo
++
+ !     
+       do i=1,nkold
+         ndepnodes=0
+@@ -827,6 +844,8 @@
+ !     
+ !     generate rigid MPC's if necessary
+ !     
++        if((requestedknots(i).eq.1).and.(nexp.eq.1).and.
++     &       (nnor.gt.0)) nexp=2
+         if(nexp.gt.1) then
+           irefnode=i
+ !     
