@@ -1,4 +1,4 @@
 Traceback (most recent call last):
-  File "/home/runner/work/model/model/catwalk-physical-20260906/solve_physical.py", line 31, in <module>
-    if failed:raise RuntimeError('Native connection implementation is still invalid in tests: '+','.join(failed))  # Do not knowingly carry a failed physical connection into the full-bridge model.
-RuntimeError: Native connection implementation is still invalid in tests: finite_offset
+  File "/home/runner/work/model/model/catwalk-physical-20260906/solve_physical.py", line 25, in <module>
+    diagnose();raise RuntimeError('Native physical connector representation still needs correction: '+','.join(failed))  # Do not knowingly run an invalid connector throughout the bridge.
+RuntimeError: Native physical connector representation still needs correction: finite_offset
