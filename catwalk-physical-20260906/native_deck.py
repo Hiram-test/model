@@ -120,5 +120,5 @@ class Deck:  # Hold physical nodes, native members, concentrated masses and real
         if prescribed:lines.append('*BOUNDARY')  # Use prescribed displacements only for explicitly labeled local connection tests.
         for n,d,v in prescribed or []:lines.append(f'{n},{d},{d},{number(v)}')  # Do not insert these diagnostic displacements into the full bridge baseline.
         lines.extend(['*NODE PRINT,NSET=OBS','U,RF','*NODE FILE,OUTPUT=2D','U','*END STEP'])  # Save physical centerline and shell-node responses at equilibrium.
-        if modes:lines.extend(['*STEP,PERTURBATION','*FREQUENCY',f'{modes},0.,2.','*NODE PRINT,NSET=OBS','U','*NODE FILE,OUTPUT=2D','U','*END STEP'])  # Extract native modes from the actual nonlinear equilibrium state, with initial-force stiffness retained.
+        if modes:lines.extend(['*STEP,PERTURBATION','*FREQUENCY',str(modes),'*NODE PRINT,NSET=OBS','U','*NODE FILE,OUTPUT=2D','U','*END STEP'])  # Keep every computed eigenvalue and displacement field, including unstable negative roots; numerical extraction order still requires separate verification.
         path.write_text('\n'.join(lines)+'\n')  # Save the complete executable native input.

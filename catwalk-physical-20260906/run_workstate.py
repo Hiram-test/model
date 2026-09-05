@@ -18,8 +18,8 @@ def frequency_rows(path):  # Read the original numerical order of the native eig
     for line in path.read_text(errors='replace').splitlines():  # Inspect actual native text output.
         if 'E I G E N V A L U E' in line:active=True  # Identify the genuine CalculiX eigenvalue heading.
         p=line.split()  # Read native table fields directly.
-        if active and len(p)>=4 and p[0].isdigit():  # Require the complete mode, eigenvalue and frequency row.
-            try:result.append({'mode':int(p[0]),'eigenvalue':float(p[1]),'omega':float(p[2]),'frequency_hz':float(p[3])})  # Retain every root, including unwanted low modes.
+        if active and len(p)==5 and p[0].isdigit():  # Require the complete symmetric native eigenvalue table, including its imaginary-frequency column.
+            try:result.append({'mode':int(p[0]),'eigenvalue':float(p[1]),'omega':float(p[2]),'frequency_hz':float(p[3]),'omega_imaginary':float(p[4]),'frequency_imaginary_hz':float(p[4])/(2*np.pi)})  # Retain negative eigenvalues and imaginary frequencies rather than relabeling them as zero-frequency rigid modes.
             except ValueError:pass  # Ignore textual headings, not numerical mismatches.
         elif active and result and not p:break  # End this native eigenvalue table.
     return result  # Never fill missing native eigenvalues with theory or older files.

@@ -1,0 +1,42 @@
+name: Catwalk loaded connection diagnostics # Locate real loaded-connection failures before another complete bridge invocation.
+on: # Use a dedicated diagnostic request without changing the full-bridge geometry.
+  push: # Run only the concrete diagnostic implementation changed in this continuation.
+    branches: [calc/catwalk-physical-joints-20260906] # Keep the work on the authorized reconstruction branch.
+    paths: [catwalk-physical-20260906/diagnose_loaded_connections.py, .github/workflows/catwalk-loaded-connection-diagnostics.yml] # Avoid rerunning unrelated calculations.
+permissions: # Use existing repository access for the audited executable and diagnostic evidence.
+  actions: read # Retrieve only the audited native solver artifact.
+  contents: write # Preserve actual small-fixture results on the same reconstruction branch.
+jobs: # Exercise actual load transfer with the same native implementation as the bridge.
+  diagnose: # Keep these fixtures separate from engineering support conditions.
+    runs-on: ubuntu-22.04 # Match the audited solver ABI.
+    timeout-minutes: 15 # Allow fixture diagnostics while retaining all completed outputs.
+    env: # Use the same numerical thread configuration and repository-scoped artifact credential.
+      GH_TOKEN: ${{ github.token }} # Access the audited runtime without printing the credential.
+      OMP_NUM_THREADS: 2 # Keep native fixture execution reproducible.
+      OPENBLAS_NUM_THREADS: 2 # Avoid nested numerical thread oversubscription.
+    steps: # Preserve exact fixture source and freshly generated native results.
+      - uses: actions/checkout@v4 # Retrieve the exact triggering diagnostic revision.
+        with: # Bind fixture execution to its immutable source commit.
+          ref: ${{ github.sha }} # Exclude later changes from this invocation.
+          fetch-depth: 1 # Avoid loading unrelated histories into the execution context.
+      - name: Install fixture dependencies # Install the same Python numerical support used by the complete reconstruction.
+        run: python3 -m pip install numpy scipy requests # Keep the diagnostic runtime small.
+      - name: Recover audited native solver # Reuse the same verified CCX joint-coordinate executable.
+        run: python3 -c 'import sys; sys.path.insert(0,"catwalk-physical-20260906"); from reuse_joint_solver import build; build()' # Recover software infrastructure without historical numerical models.
+      - name: Execute loaded fixtures # Record actual native load-driven responses and any failures.
+        run: python3 catwalk-physical-20260906/diagnose_loaded_connections.py # Do not infer loaded stiffness from prescribed-motion kinematics alone.
+      - name: Preserve diagnostic evidence # Keep successful and failed fixtures equally inspectable.
+        if: always() # Preserve partial results if one fixture fails.
+        run: | # Commit only the generated diagnostic subdirectory.
+          git config user.name github-actions[bot] # Attribute execution records to the runner.
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com # Use the standard runner identity.
+          if test -d catwalk-physical-20260906/results/loaded_connection_diagnostics; then git add -f catwalk-physical-20260906/results/loaded_connection_diagnostics; fi # Preserve native solver files independent of repository ignore rules.
+          git diff --cached --quiet || git commit -m "Record loaded connection diagnostics from run $GITHUB_RUN_ID" # Commit only actual new output.
+          git pull --rebase origin calc/catwalk-physical-joints-20260906 # Preserve concurrent scientific evidence without rewriting history.
+          git push origin HEAD:calc/catwalk-physical-joints-20260906 # Save diagnostics only to the authorized branch.
+      - uses: actions/upload-artifact@v4 # Archive complete native fixture inputs and logs.
+        if: always() # Preserve failures as well as successful calculations.
+        with: # Keep diagnostic artifacts separate from full-bridge results.
+          name: catwalk-loaded-diagnostics-${{ github.run_id }} # Bind the archive to the actual workflow invocation.
+          path: catwalk-physical-20260906/results/loaded_connection_diagnostics # Include only this fixture run's evidence.
+          retention-days: 30 # Retain the complete files for independent inspection.
