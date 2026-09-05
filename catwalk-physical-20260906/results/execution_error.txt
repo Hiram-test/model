@@ -1,4 +1,10 @@
 Traceback (most recent call last):
-  File "/home/runner/work/model/model/catwalk-physical-20260906/solve_physical.py", line 25, in <module>
-    diagnose();raise RuntimeError('Native physical connector representation still needs correction: '+','.join(failed))  # Do not knowingly run an invalid connector throughout the bridge.
-RuntimeError: Native physical connector representation still needs correction: finite_offset
+  File "/home/runner/work/model/model/catwalk-physical-20260906/solve_physical.py", line 27, in <module>
+    status=compute(source,state)  # Execute real nonlinear static equilibrium and the full native modal extraction.
+  File "/home/runner/work/model/model/catwalk-physical-20260906/full_native_run.py", line 52, in compute
+    inspect();folder=ROOT/'results/full_spatial_native';folder.mkdir(parents=True,exist_ok=True);model=Reconstruction(source,cells=4,pin_axis=0,fork_axis=1)  # Select physical connector axes and a declared discretization before loading any target spectrum.
+  File "/home/runner/work/model/model/catwalk-physical-20260906/spatial_native.py", line 17, in __init__
+    self.passage_ids=source_group(source,'横向通道节点');self.frame_ids=source_group(source,'钢架节点');self.gantry_pairs={r[2]:r[1] for r in source['posts']};self.passage_x={float(source['nodes'][n][0]):n for n in self.passage_ids};self.frame_x={float(source['nodes'][n][0]):n for n in self.frame_ids};self.gantry_x={float(source['nodes'][n][0]):(n,u) for n,u in self.gantry_pairs.items()}  # Preserve source-defined gantry and passage locations instead of periodic guesses.
+  File "/home/runner/work/model/model/catwalk-physical-20260906/spatial_native.py", line 10, in source_group
+    if len(parts)!=2:raise ValueError('Original MCT group missing: '+name)  # Do not silently invent a source group.
+ValueError: Original MCT group missing: 横向通道节点
