@@ -1,12 +1,12 @@
 from pathlib import Path  # Keep complete native inputs and outputs in the source-based reconstruction branch.
-import json, math, csv, hashlib, collections, numpy as np  # Preserve actual geometry, original state data and auditable mass accounting.
+import json, math, csv, hashlib, collections, re, numpy as np  # Preserve actual geometry, original state data and auditable mass accounting.
 from physical_connectors import Deck  # Use native finite-rotation section and clamp kinematics.
 from physical_members import BeamLine, ordinary_gantry, passage, BOX50, BOX100  # Build the actual flexible physical member families.
 from mct_workstate import expand  # Parse original MIDAS node and element groups without substituting historical model sets.
 from run_workstate import run_native, vector_blocks, frequency_rows  # Execute the native solver and read actual results.
 ROOT=Path(__file__).parent;CENTERS=(-21.45,21.45);FLOOR_Y=np.r_[np.linspace(-2.67,-.85,8),np.linspace(.85,2.67,8)];UPPER_Y=np.array([-2.45,-1.60,-.75,.75,1.60,2.45])  # Preserve sixteen floor-rope positions; the six upper transverse offsets are explicitly recorded as a drawing-detail interpretation.
 def source_group(source,name):  # Read a named group from its actual original multiline MCT definition.
-    text=' '.join(source['sections'].get('*GROUP',[])).replace('\\',' ');parts=text.split(name+',',1)  # Preserve wrapped lists and original group names.
+    text=' '.join(source['sections'].get('*GROUP',[])).replace('\\',' ');parts=re.split(re.escape(name)+r'\s*,',text,maxsplit=1)  # Preserve wrapped lists and accept the original padded group-name field before its comma.
     if len(parts)!=2:raise ValueError('Original MCT group missing: '+name)  # Do not silently invent a source group.
     return expand(parts[1].split(',')[0])  # Return only the named group's original node list.
 class Reconstruction:  # Preserve source topology, physical member geometry and independent mass ownership.
