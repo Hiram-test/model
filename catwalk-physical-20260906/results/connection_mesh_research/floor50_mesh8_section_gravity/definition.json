@@ -1,0 +1,379 @@
+{
+  "name": "floor50_mesh8_section_gravity",
+  "completed": false,
+  "test_definition": {
+    "source": {
+      "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+      "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+      "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+      "floor_node": 296,
+      "upper_node": 1168,
+      "floor_xyz_m": [
+        2637.0085,
+        -2.25478355929456e-15,
+        113.820474028094
+      ],
+      "upper_xyz_m": [
+        2637.0085,
+        0.0,
+        121.741342722274
+      ],
+      "floor_point_load_N": 3180.0,
+      "upper_point_load_N": 18123.0,
+      "gravity_m_s2": 9.806
+    },
+    "profile": [
+      "BOX",
+      [
+        0.05,
+        0.05,
+        0.004,
+        0.004,
+        0.004,
+        0.004
+      ]
+    ],
+    "length_m": 5.52,
+    "beam_center_above_rope_m": 0.05,
+    "clamp_x_offsets_m": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "connection": "production quadratic section interpolation on a refined uniform mesh",
+    "mesh_stations_y_m": [
+      -2.76,
+      -2.07,
+      -1.38,
+      -0.69,
+      0.0,
+      0.69,
+      1.38,
+      2.0700000000000003,
+      2.76
+    ],
+    "beam_cell_count": 8,
+    "clip_stations_are_native_vertices": false,
+    "mesh_comparison": "Refines the preceding four uniform production cells to 8 cells with the same section, physical clips, source support spans and loading; this is a discretization comparison, not an equivalent algebraic representation.",
+    "handrail_mass_kg": 0.0,
+    "handrail_tributary_m": 0.0,
+    "fixture_nodes": [
+      21,
+      22,
+      26,
+      27,
+      31,
+      32,
+      36,
+      37,
+      41,
+      42,
+      46,
+      47,
+      51,
+      52,
+      56,
+      57,
+      61,
+      62,
+      66,
+      67,
+      71,
+      72,
+      76,
+      77,
+      81,
+      82,
+      86,
+      87,
+      91,
+      92,
+      96,
+      97
+    ],
+    "fixed_rotation_count": 0,
+    "source_rope_spans": [
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 21,
+        "clip_node": 18,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 22,
+        "clip_node": 18,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 26,
+        "clip_node": 23,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 27,
+        "clip_node": 23,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 31,
+        "clip_node": 28,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 32,
+        "clip_node": 28,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 36,
+        "clip_node": 33,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 37,
+        "clip_node": 33,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 41,
+        "clip_node": 38,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 42,
+        "clip_node": 38,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 46,
+        "clip_node": 43,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 47,
+        "clip_node": 43,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 51,
+        "clip_node": 48,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 52,
+        "clip_node": 48,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 56,
+        "clip_node": 53,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 57,
+        "clip_node": 53,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 61,
+        "clip_node": 58,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 62,
+        "clip_node": 58,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 66,
+        "clip_node": 63,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 67,
+        "clip_node": 63,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 71,
+        "clip_node": 68,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 72,
+        "clip_node": 68,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 76,
+        "clip_node": 73,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 77,
+        "clip_node": 73,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 81,
+        "clip_node": 78,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 82,
+        "clip_node": 78,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 86,
+        "clip_node": 83,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 87,
+        "clip_node": 83,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 91,
+        "clip_node": 88,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 92,
+        "clip_node": 88,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 96,
+        "clip_node": 93,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 97,
+        "clip_node": 93,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      }
+    ],
+    "loading": "member selfweight only",
+    "support_mass_scope": "No support-span selfweight; original source initial tension remains active.",
+    "small_contact_limit": "Same single-point attachment as the preceding corrected fixture; no extra bearing, bonding, friction, spring or rotational restraint.",
+    "previous_reference_case": "floor50_corrected_gravity_direct in native run 34041763072",
+    "uniform_cell_count": 8
+  },
+  "input_sha256": "1c9374d7ff332c4a5356375ea09c1a974eab7f62f6716d2eb8582cfcd565664e",
+  "node_count": 100,
+  "beam_count": 8,
+  "shell_count": 0,
+  "body_count": 17,
+  "gravity_m_s2": 9.806,
+  "explicit_loads": []
+}

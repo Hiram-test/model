@@ -1,0 +1,584 @@
+{
+  "name": "floor50_mesh16_section_gravity",
+  "completed": true,
+  "test_definition": {
+    "source": {
+      "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+      "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+      "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+      "floor_node": 296,
+      "upper_node": 1168,
+      "floor_xyz_m": [
+        2637.0085,
+        -2.25478355929456e-15,
+        113.820474028094
+      ],
+      "upper_xyz_m": [
+        2637.0085,
+        0.0,
+        121.741342722274
+      ],
+      "floor_point_load_N": 3180.0,
+      "upper_point_load_N": 18123.0,
+      "gravity_m_s2": 9.806
+    },
+    "profile": [
+      "BOX",
+      [
+        0.05,
+        0.05,
+        0.004,
+        0.004,
+        0.004,
+        0.004
+      ]
+    ],
+    "length_m": 5.52,
+    "beam_center_above_rope_m": 0.05,
+    "clamp_x_offsets_m": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "connection": "production quadratic section interpolation on a refined uniform mesh",
+    "mesh_stations_y_m": [
+      -2.76,
+      -2.415,
+      -2.07,
+      -1.7249999999999999,
+      -1.38,
+      -1.035,
+      -0.69,
+      -0.34499999999999975,
+      0.0,
+      0.34499999999999975,
+      0.69,
+      1.0350000000000001,
+      1.38,
+      1.7249999999999996,
+      2.0700000000000003,
+      2.415,
+      2.76
+    ],
+    "beam_cell_count": 16,
+    "clip_stations_are_native_vertices": false,
+    "mesh_comparison": "Refines the preceding four uniform production cells to 16 cells with the same section, physical clips, source support spans and loading; this is a discretization comparison, not an equivalent algebraic representation.",
+    "handrail_mass_kg": 0.0,
+    "handrail_tributary_m": 0.0,
+    "fixture_nodes": [
+      37,
+      38,
+      42,
+      43,
+      47,
+      48,
+      52,
+      53,
+      57,
+      58,
+      62,
+      63,
+      67,
+      68,
+      72,
+      73,
+      77,
+      78,
+      82,
+      83,
+      87,
+      88,
+      92,
+      93,
+      97,
+      98,
+      102,
+      103,
+      107,
+      108,
+      112,
+      113
+    ],
+    "fixed_rotation_count": 0,
+    "source_rope_spans": [
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 37,
+        "clip_node": 34,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 38,
+        "clip_node": 34,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 42,
+        "clip_node": 39,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 43,
+        "clip_node": 39,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 47,
+        "clip_node": 44,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 48,
+        "clip_node": 44,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 52,
+        "clip_node": 49,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 53,
+        "clip_node": 49,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 57,
+        "clip_node": 54,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 58,
+        "clip_node": 54,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 62,
+        "clip_node": 59,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 63,
+        "clip_node": 59,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 67,
+        "clip_node": 64,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 68,
+        "clip_node": 64,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 72,
+        "clip_node": 69,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 73,
+        "clip_node": 69,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 77,
+        "clip_node": 74,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 78,
+        "clip_node": 74,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 82,
+        "clip_node": 79,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 83,
+        "clip_node": 79,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 87,
+        "clip_node": 84,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 88,
+        "clip_node": 84,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 92,
+        "clip_node": 89,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 93,
+        "clip_node": 89,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 97,
+        "clip_node": 94,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 98,
+        "clip_node": 94,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 102,
+        "clip_node": 99,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 103,
+        "clip_node": 99,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 107,
+        "clip_node": 104,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 108,
+        "clip_node": 104,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 112,
+        "clip_node": 109,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 113,
+        "clip_node": 109,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      }
+    ],
+    "loading": "member selfweight only",
+    "support_mass_scope": "No support-span selfweight; original source initial tension remains active.",
+    "small_contact_limit": "Same single-point attachment as the preceding corrected fixture; no extra bearing, bonding, friction, spring or rotational restraint.",
+    "previous_reference_case": "floor50_corrected_gravity_direct in native run 34041763072",
+    "uniform_cell_count": 16
+  },
+  "input_sha256": "bfd6d5d7a5162c83ab864697fdf8069bfaed548ab06b3dc9e3819d672e64245f",
+  "node_count": 116,
+  "beam_count": 16,
+  "shell_count": 0,
+  "body_count": 17,
+  "gravity_m_s2": 9.806,
+  "explicit_loads": [],
+  "native_exit": 0,
+  "displacement_block_count": 1,
+  "last_displacements_by_label": {
+    "middle_section": [
+      -0.000175511,
+      -1.68002e-18,
+      0.003158916
+    ],
+    "middle_rotation": [
+      9.364683e-16,
+      -0.004658827,
+      -8.843667e-17
+    ],
+    "load_point": [
+      -0.000175511,
+      -1.68002e-18,
+      0.003158916
+    ],
+    "clip_0": [
+      6.018126e-05,
+      -6.714383e-07,
+      0.003340112
+    ],
+    "clip_1": [
+      6.011008e-05,
+      -7.298637e-07,
+      0.003336182
+    ],
+    "clip_2": [
+      6.002444e-05,
+      -9.996641e-07,
+      0.003331453
+    ],
+    "clip_3": [
+      5.989993e-05,
+      -1.600749e-06,
+      0.003324601
+    ],
+    "clip_4": [
+      5.969916e-05,
+      -2.62026e-06,
+      0.003313551
+    ],
+    "clip_5": [
+      5.938037e-05,
+      -4.038559e-06,
+      0.003296093
+    ],
+    "clip_6": [
+      5.891093e-05,
+      -5.589191e-06,
+      0.003270688
+    ],
+    "clip_7": [
+      5.834424e-05,
+      -6.74844e-06,
+      0.003237906
+    ],
+    "clip_8": [
+      5.834424e-05,
+      6.74844e-06,
+      0.003237906
+    ],
+    "clip_9": [
+      5.891093e-05,
+      5.589191e-06,
+      0.003270688
+    ],
+    "clip_10": [
+      5.938037e-05,
+      4.038559e-06,
+      0.003296093
+    ],
+    "clip_11": [
+      5.969916e-05,
+      2.62026e-06,
+      0.003313551
+    ],
+    "clip_12": [
+      5.989993e-05,
+      1.600749e-06,
+      0.003324601
+    ],
+    "clip_13": [
+      6.002444e-05,
+      9.996641e-07,
+      0.003331453
+    ],
+    "clip_14": [
+      6.011008e-05,
+      7.298637e-07,
+      0.003336182
+    ],
+    "clip_15": [
+      6.018126e-05,
+      6.714383e-07,
+      0.003340112
+    ]
+  },
+  "last_forces_by_label": {
+    "middle_section": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "middle_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "load_point": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "clip_0": [
+      0.05378964,
+      -0.1936733,
+      -9.797557
+    ],
+    "clip_1": [
+      0.05197382,
+      -0.2105259,
+      -10.93144
+    ],
+    "clip_2": [
+      0.05156048,
+      -0.2883486,
+      -12.29611
+    ],
+    "clip_3": [
+      0.01765107,
+      -0.4617288,
+      -14.27253
+    ],
+    "clip_4": [
+      -0.03528968,
+      -0.755802,
+      -17.45991
+    ],
+    "clip_5": [
+      -0.2399954,
+      -1.164904,
+      -22.49346
+    ],
+    "clip_6": [
+      -0.95571,
+      -1.612177,
+      -29.811
+    ],
+    "clip_7": [
+      1.05602,
+      -1.946557,
+      -39.30618
+    ],
+    "clip_8": [
+      1.05602,
+      1.946557,
+      -39.30618
+    ],
+    "clip_9": [
+      -0.95571,
+      1.612177,
+      -29.811
+    ],
+    "clip_10": [
+      -0.2399954,
+      1.164904,
+      -22.49346
+    ],
+    "clip_11": [
+      -0.03528966,
+      0.755802,
+      -17.45991
+    ],
+    "clip_12": [
+      0.01765112,
+      0.4617288,
+      -14.27253
+    ],
+    "clip_13": [
+      0.05156048,
+      0.2883486,
+      -12.29611
+    ],
+    "clip_14": [
+      0.05197379,
+      0.2105259,
+      -10.93144
+    ],
+    "clip_15": [
+      0.05378957,
+      0.1936733,
+      -9.797557
+    ]
+  },
+  "max_printed_vector_norm": 0.004661278288006311
+}

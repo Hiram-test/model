@@ -1,0 +1,916 @@
+{
+  "case": "floor100_direct_gravity_modes",
+  "native_exit": 0,
+  "static_fields_present": true,
+  "completed": true,
+  "requested_native_modes": 20,
+  "numerical_eigenvalue_shift_rad2_s2": 1.0,
+  "extraction_scope": "Twenty native shift-invert roots near sigma=1 rad^2/s^2; this does not certify the globally lowest roots or the absence of unextracted negative roots.",
+  "support_scope": "Original floor_probe(direct=True, gravity=True) distant rope-end translation supports only; no additional supports, contact law, stiffness, mass or rotation locks added.",
+  "test_definition": {
+    "source": {
+      "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+      "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+      "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+      "floor_node": 296,
+      "upper_node": 1168,
+      "floor_xyz_m": [
+        2637.0085,
+        -2.25478355929456e-15,
+        113.820474028094
+      ],
+      "upper_xyz_m": [
+        2637.0085,
+        0.0,
+        121.741342722274
+      ],
+      "floor_point_load_N": 3180.0,
+      "upper_point_load_N": 18123.0,
+      "gravity_m_s2": 9.806
+    },
+    "profile": [
+      "BOX",
+      [
+        0.1,
+        0.1,
+        0.004,
+        0.004,
+        0.004,
+        0.004
+      ]
+    ],
+    "length_m": 5.772,
+    "beam_center_above_rope_m": 0.075,
+    "clamp_x_offsets_m": [
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075
+    ],
+    "connection": "direct native mesh knot and finite arm",
+    "mesh_stations_y_m": [
+      -2.886,
+      -2.67,
+      -2.41,
+      -2.15,
+      -1.8900000000000001,
+      -1.6300000000000001,
+      -1.37,
+      -1.1100000000000003,
+      -0.85,
+      0.85,
+      1.1099999999999999,
+      1.3699999999999999,
+      1.63,
+      1.8899999999999997,
+      2.15,
+      2.4099999999999997,
+      2.67,
+      2.886
+    ],
+    "discretization_caveat": "Direct clip-knot cases introduce extra physical beam mesh stations and cannot alone prove exact equivalence with the four-cell interpolation.",
+    "handrail_mass_kg": 88.08,
+    "handrail_tributary_m": 3.0,
+    "fixture_nodes": [
+      39,
+      40,
+      44,
+      45,
+      49,
+      50,
+      54,
+      55,
+      59,
+      60,
+      64,
+      65,
+      69,
+      70,
+      74,
+      75,
+      79,
+      80,
+      84,
+      85,
+      89,
+      90,
+      94,
+      95,
+      99,
+      100,
+      104,
+      105,
+      109,
+      110,
+      114,
+      115
+    ],
+    "fixed_rotation_count": 0,
+    "source_rope_spans": [
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 39,
+        "clip_node": 36,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 40,
+        "clip_node": 36,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 44,
+        "clip_node": 41,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 45,
+        "clip_node": 41,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 49,
+        "clip_node": 46,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 50,
+        "clip_node": 46,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 54,
+        "clip_node": 51,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 55,
+        "clip_node": 51,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 59,
+        "clip_node": 56,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 60,
+        "clip_node": 56,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 64,
+        "clip_node": 61,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 65,
+        "clip_node": 61,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 69,
+        "clip_node": 66,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 70,
+        "clip_node": 66,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 74,
+        "clip_node": 71,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 75,
+        "clip_node": 71,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 79,
+        "clip_node": 76,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 80,
+        "clip_node": 76,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 84,
+        "clip_node": 81,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 85,
+        "clip_node": 81,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 89,
+        "clip_node": 86,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 90,
+        "clip_node": 86,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 94,
+        "clip_node": 91,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 95,
+        "clip_node": 91,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 99,
+        "clip_node": 96,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 100,
+        "clip_node": 96,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 104,
+        "clip_node": 101,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 105,
+        "clip_node": 101,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 109,
+        "clip_node": 106,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 110,
+        "clip_node": 106,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 114,
+        "clip_node": 111,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 115,
+        "clip_node": 111,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      }
+    ],
+    "loading": "member and stated hardware gravity",
+    "support_mass_scope": "No support-span selfweight; original source initial tension remains active, as in the preceding legal local fixture.",
+    "small_contact_limit": "Single-point attachment retained to diagnose the saved model; no additional bearing, friction, bonding or rotational restraint is assumed."
+  },
+  "input_sha256": "122159c08e2e3d5f4d0d3d9d66eafa6687e85425222a6880e3130d35b1050f14",
+  "factory_source_sha256": "0c098e9ad1884124572918d81eea96eab752bf903dad679fded17de9730431bb",
+  "node_count": 126,
+  "native_beam_count": 17,
+  "native_shell_count": 0,
+  "native_axial_count": 32,
+  "body_count": 19,
+  "gravity_m_s2": 9.806,
+  "explicit_loads": [],
+  "fixed_rotation_count": 0,
+  "native_eigenvalue_count": 20,
+  "native_negative_eigenvalue_count": 2,
+  "native_zero_eigenvalue_count": 0,
+  "native_imaginary_frequency_count": 2,
+  "static_displacement_block_count": 1,
+  "static_force_block_count": 1,
+  "modal_displacement_block_count": 20,
+  "native_mode_table": [
+    {
+      "mode": 1,
+      "eigenvalue": -7.717738e-07,
+      "omega": 0.0,
+      "frequency_hz": 0.0,
+      "omega_imaginary": 0.0008785066,
+      "frequency_imaginary_hz": 0.00013981866792885447
+    },
+    {
+      "mode": 2,
+      "eigenvalue": -1.072008e-07,
+      "omega": 0.0,
+      "frequency_hz": 0.0,
+      "omega_imaginary": 0.0003274154,
+      "frequency_imaginary_hz": 5.210977935441015e-05
+    },
+    {
+      "mode": 3,
+      "eigenvalue": 5.074239e-06,
+      "omega": 0.002252607,
+      "frequency_hz": 0.0003585136,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 4,
+      "eigenvalue": 0.08334129,
+      "omega": 0.2886889,
+      "frequency_hz": 0.04594627,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 5,
+      "eigenvalue": 1.19854,
+      "omega": 1.094778,
+      "frequency_hz": 0.1742394,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 6,
+      "eigenvalue": 1.21124,
+      "omega": 1.100563,
+      "frequency_hz": 0.1751601,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 7,
+      "eigenvalue": 23771.8,
+      "omega": 154.1811,
+      "frequency_hz": 24.53868,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 8,
+      "eigenvalue": 23771.8,
+      "omega": 154.1811,
+      "frequency_hz": 24.53868,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 9,
+      "eigenvalue": 170908.6,
+      "omega": 413.411,
+      "frequency_hz": 65.7964,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 10,
+      "eigenvalue": 170908.6,
+      "omega": 413.411,
+      "frequency_hz": 65.7964,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 11,
+      "eigenvalue": 701498.2,
+      "omega": 837.5549,
+      "frequency_hz": 133.301,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 12,
+      "eigenvalue": 701498.3,
+      "omega": 837.5549,
+      "frequency_hz": 133.301,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 13,
+      "eigenvalue": 2063536.0,
+      "omega": 1436.501,
+      "frequency_hz": 228.6263,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 14,
+      "eigenvalue": 2063536.0,
+      "omega": 1436.501,
+      "frequency_hz": 228.6263,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 15,
+      "eigenvalue": 2968871.0,
+      "omega": 1723.041,
+      "frequency_hz": 274.2305,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 16,
+      "eigenvalue": 4917824.0,
+      "omega": 2217.617,
+      "frequency_hz": 352.9447,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 17,
+      "eigenvalue": 4917824.0,
+      "omega": 2217.617,
+      "frequency_hz": 352.9447,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 18,
+      "eigenvalue": 7778020.0,
+      "omega": 2788.91,
+      "frequency_hz": 443.8688,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 19,
+      "eigenvalue": 10518480.0,
+      "omega": 3243.22,
+      "frequency_hz": 516.1745,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    },
+    {
+      "mode": 20,
+      "eigenvalue": 10518480.0,
+      "omega": 3243.22,
+      "frequency_hz": 516.1745,
+      "omega_imaginary": 0.0,
+      "frequency_imaginary_hz": 0.0
+    }
+  ],
+  "mode_vector_pairing_verified_by_count": true,
+  "first_static_displacements_by_label": {
+    "middle_section": [
+      6.42732e-05,
+      -9.729612e-10,
+      0.003262416
+    ],
+    "middle_rotation": [
+      -4.470655e-08,
+      7.159129e-05,
+      -1.35554e-06
+    ],
+    "load_point": [
+      6.42732e-05,
+      -9.729612e-10,
+      0.003262416
+    ],
+    "clip_0": [
+      4.716621e-05,
+      4.116417e-05,
+      0.002614588
+    ],
+    "clip_1": [
+      4.947887e-05,
+      3.823766e-05,
+      0.002757103
+    ],
+    "clip_2": [
+      5.191865e-05,
+      3.302514e-05,
+      0.002878713
+    ],
+    "clip_3": [
+      5.374842e-05,
+      2.753775e-05,
+      0.002989339
+    ],
+    "clip_4": [
+      5.53361e-05,
+      2.148455e-05,
+      0.003069948
+    ],
+    "clip_5": [
+      5.655835e-05,
+      1.631207e-05,
+      0.003142225
+    ],
+    "clip_6": [
+      5.73803e-05,
+      1.127895e-05,
+      0.00318349
+    ],
+    "clip_7": [
+      5.8112e-05,
+      7.527324e-06,
+      0.003224162
+    ],
+    "clip_8": [
+      5.792272e-05,
+      -7.505641e-06,
+      0.003213341
+    ],
+    "clip_9": [
+      5.75094e-05,
+      -1.130635e-05,
+      0.003194094
+    ],
+    "clip_10": [
+      5.643189e-05,
+      -1.632383e-05,
+      0.003131363
+    ],
+    "clip_11": [
+      5.541378e-05,
+      -2.151269e-05,
+      0.003080408
+    ],
+    "clip_12": [
+      5.367557e-05,
+      -2.756542e-05,
+      0.002978346
+    ],
+    "clip_13": [
+      5.186758e-05,
+      -3.305302e-05,
+      0.00288898
+    ],
+    "clip_14": [
+      4.95498e-05,
+      -3.832898e-05,
+      0.002745825
+    ],
+    "clip_15": [
+      4.729149e-05,
+      -4.11037e-05,
+      0.002624641
+    ],
+    "rail_0": [
+      6.352373e-05,
+      -0.0007424949,
+      0.002542384
+    ],
+    "rail_1": [
+      5.457706e-05,
+      -0.000350353,
+      0.002542494
+    ],
+    "rail_2": [
+      0.0002293523,
+      0.0007433306,
+      0.002541574
+    ],
+    "rail_3": [
+      0.0001377902,
+      0.0003507459,
+      0.00254169
+    ]
+  },
+  "last_static_displacements_by_label": {
+    "middle_section": [
+      6.42732e-05,
+      -9.729612e-10,
+      0.003262416
+    ],
+    "middle_rotation": [
+      -4.470655e-08,
+      7.159129e-05,
+      -1.35554e-06
+    ],
+    "load_point": [
+      6.42732e-05,
+      -9.729612e-10,
+      0.003262416
+    ],
+    "clip_0": [
+      4.716621e-05,
+      4.116417e-05,
+      0.002614588
+    ],
+    "clip_1": [
+      4.947887e-05,
+      3.823766e-05,
+      0.002757103
+    ],
+    "clip_2": [
+      5.191865e-05,
+      3.302514e-05,
+      0.002878713
+    ],
+    "clip_3": [
+      5.374842e-05,
+      2.753775e-05,
+      0.002989339
+    ],
+    "clip_4": [
+      5.53361e-05,
+      2.148455e-05,
+      0.003069948
+    ],
+    "clip_5": [
+      5.655835e-05,
+      1.631207e-05,
+      0.003142225
+    ],
+    "clip_6": [
+      5.73803e-05,
+      1.127895e-05,
+      0.00318349
+    ],
+    "clip_7": [
+      5.8112e-05,
+      7.527324e-06,
+      0.003224162
+    ],
+    "clip_8": [
+      5.792272e-05,
+      -7.505641e-06,
+      0.003213341
+    ],
+    "clip_9": [
+      5.75094e-05,
+      -1.130635e-05,
+      0.003194094
+    ],
+    "clip_10": [
+      5.643189e-05,
+      -1.632383e-05,
+      0.003131363
+    ],
+    "clip_11": [
+      5.541378e-05,
+      -2.151269e-05,
+      0.003080408
+    ],
+    "clip_12": [
+      5.367557e-05,
+      -2.756542e-05,
+      0.002978346
+    ],
+    "clip_13": [
+      5.186758e-05,
+      -3.305302e-05,
+      0.00288898
+    ],
+    "clip_14": [
+      4.95498e-05,
+      -3.832898e-05,
+      0.002745825
+    ],
+    "clip_15": [
+      4.729149e-05,
+      -4.11037e-05,
+      0.002624641
+    ],
+    "rail_0": [
+      6.352373e-05,
+      -0.0007424949,
+      0.002542384
+    ],
+    "rail_1": [
+      5.457706e-05,
+      -0.000350353,
+      0.002542494
+    ],
+    "rail_2": [
+      0.0002293523,
+      0.0007433306,
+      0.002541574
+    ],
+    "rail_3": [
+      0.0001377902,
+      0.0003507459,
+      0.00254169
+    ]
+  },
+  "last_static_forces_by_label": {
+    "middle_section": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "middle_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "load_point": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "clip_0": [
+      10.9316,
+      11.9225,
+      -201.8716
+    ],
+    "clip_1": [
+      -14.82563,
+      10.9907,
+      -162.5964
+    ],
+    "clip_2": [
+      9.288573,
+      9.565156,
+      -125.3171
+    ],
+    "clip_3": [
+      -9.679156,
+      7.915195,
+      -95.91548
+    ],
+    "clip_4": [
+      6.13542,
+      6.222627,
+      -69.8541
+    ],
+    "clip_5": [
+      -6.446763,
+      4.688586,
+      -52.01528
+    ],
+    "clip_6": [
+      5.331362,
+      3.26675,
+      -36.94329
+    ],
+    "clip_7": [
+      -1.167022,
+      2.16358,
+      -28.55205
+    ],
+    "clip_8": [
+      5.486934,
+      -2.173878,
+      -28.29731
+    ],
+    "clip_9": [
+      -5.536678,
+      -3.249789,
+      -37.11821
+    ],
+    "clip_10": [
+      4.95762,
+      -4.727913,
+      -52.03916
+    ],
+    "clip_11": [
+      -8.376227,
+      -6.183405,
+      -69.7544
+    ],
+    "clip_12": [
+      5.884837,
+      -7.983847,
+      -96.38911
+    ],
+    "clip_13": [
+      -14.56638,
+      -9.500464,
+      -124.6828
+    ],
+    "clip_14": [
+      11.83315,
+      -11.10133,
+      -163.8647
+    ],
+    "clip_15": [
+      0.7483541,
+      -11.81447,
+      -200.9644
+    ],
+    "rail_0": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rail_1": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rail_2": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rail_3": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "static_modal_phase_heading_found": true,
+  "stability_interpretation": "At least one extracted tangent eigenvalue is negative; this indicates a locally unstable direction of this stated fixture equilibrium, subject to the preserved native completion status."
+}

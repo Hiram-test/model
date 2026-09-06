@@ -1,0 +1,3810 @@
+{
+  "scope": "Local floor mesh and connection study; no production supports, materials or source inputs changed.",
+  "cases": {
+    "floor50_mesh17_direct_gravity": {
+      "name": "floor50_mesh17_direct_gravity",
+      "completed": true,
+      "test_definition": {
+        "source": {
+          "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+          "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+          "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+          "floor_node": 296,
+          "upper_node": 1168,
+          "floor_xyz_m": [
+            2637.0085,
+            -2.25478355929456e-15,
+            113.820474028094
+          ],
+          "upper_xyz_m": [
+            2637.0085,
+            0.0,
+            121.741342722274
+          ],
+          "floor_point_load_N": 3180.0,
+          "upper_point_load_N": 18123.0,
+          "gravity_m_s2": 9.806
+        },
+        "profile": [
+          "BOX",
+          [
+            0.05,
+            0.05,
+            0.004,
+            0.004,
+            0.004,
+            0.004
+          ]
+        ],
+        "length_m": 5.52,
+        "beam_center_above_rope_m": 0.05,
+        "clamp_x_offsets_m": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "connection": "direct native clip mesh knot and finite arm",
+        "mesh_stations_y_m": [
+          -2.76,
+          -2.67,
+          -2.41,
+          -2.15,
+          -1.8900000000000001,
+          -1.6300000000000001,
+          -1.37,
+          -1.1100000000000003,
+          -0.85,
+          0.85,
+          1.1099999999999999,
+          1.3699999999999999,
+          1.63,
+          1.8899999999999997,
+          2.15,
+          2.4099999999999997,
+          2.67,
+          2.76
+        ],
+        "beam_cell_count": 17,
+        "clip_stations_are_native_vertices": true,
+        "mesh_comparison": "17-cell direct and section cases use identical native beam mesh, material, clip coordinates and support spans; 34-cell direct case bisects the same intervals without adding physical connections.",
+        "handrail_mass_kg": 0.0,
+        "handrail_tributary_m": 0.0,
+        "fixture_nodes": [
+          39,
+          40,
+          44,
+          45,
+          49,
+          50,
+          54,
+          55,
+          59,
+          60,
+          64,
+          65,
+          69,
+          70,
+          74,
+          75,
+          79,
+          80,
+          84,
+          85,
+          89,
+          90,
+          94,
+          95,
+          99,
+          100,
+          104,
+          105,
+          109,
+          110,
+          114,
+          115
+        ],
+        "fixed_rotation_count": 0,
+        "source_rope_spans": [
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 39,
+            "clip_node": 36,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 40,
+            "clip_node": 36,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 44,
+            "clip_node": 41,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 45,
+            "clip_node": 41,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 49,
+            "clip_node": 46,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 50,
+            "clip_node": 46,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 54,
+            "clip_node": 51,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 55,
+            "clip_node": 51,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 59,
+            "clip_node": 56,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 60,
+            "clip_node": 56,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 64,
+            "clip_node": 61,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 65,
+            "clip_node": 61,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 69,
+            "clip_node": 66,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 70,
+            "clip_node": 66,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 74,
+            "clip_node": 71,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 75,
+            "clip_node": 71,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 79,
+            "clip_node": 76,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 80,
+            "clip_node": 76,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 84,
+            "clip_node": 81,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 85,
+            "clip_node": 81,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 89,
+            "clip_node": 86,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 90,
+            "clip_node": 86,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 94,
+            "clip_node": 91,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 95,
+            "clip_node": 91,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 99,
+            "clip_node": 96,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 100,
+            "clip_node": 96,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 104,
+            "clip_node": 101,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 105,
+            "clip_node": 101,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 109,
+            "clip_node": 106,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 110,
+            "clip_node": 106,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 114,
+            "clip_node": 111,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 115,
+            "clip_node": 111,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          }
+        ],
+        "loading": "member selfweight only",
+        "support_mass_scope": "No support-span selfweight; original source initial tension remains active.",
+        "small_contact_limit": "Same single-point attachment as the preceding corrected fixture; no extra bearing, bonding, friction, spring or rotational restraint.",
+        "previous_reference_case": "floor50_corrected_gravity_direct in native run 34041763072"
+      },
+      "input_sha256": "a8f632acbef1194294191e634a2003964711faa775bddd431d999135abfac532",
+      "node_count": 118,
+      "beam_count": 17,
+      "shell_count": 0,
+      "body_count": 17,
+      "gravity_m_s2": 9.806,
+      "explicit_loads": [],
+      "native_exit": 0,
+      "displacement_block_count": 1,
+      "last_displacements_by_label": {
+        "middle_section": [
+          -0.0002059437,
+          -7.704304e-17,
+          0.003186656
+        ],
+        "middle_rotation": [
+          1.941891e-17,
+          -0.00527136,
+          -2.890334e-15
+        ],
+        "load_point": [
+          -0.0002059437,
+          -7.704304e-17,
+          0.003186656
+        ],
+        "clip_0": [
+          6.014485e-05,
+          -6.148225e-07,
+          0.003338111
+        ],
+        "clip_1": [
+          6.008046e-05,
+          -6.548569e-07,
+          0.003334544
+        ],
+        "clip_2": [
+          6.000375e-05,
+          -9.000943e-07,
+          0.003330319
+        ],
+        "clip_3": [
+          5.988817e-05,
+          -1.498326e-06,
+          0.003323956
+        ],
+        "clip_4": [
+          5.969659e-05,
+          -2.51606e-06,
+          0.003313407
+        ],
+        "clip_5": [
+          5.938921e-05,
+          -3.88947e-06,
+          0.003296588
+        ],
+        "clip_6": [
+          5.894045e-05,
+          -5.342669e-06,
+          0.003272259
+        ],
+        "clip_7": [
+          5.84069e-05,
+          -6.279373e-06,
+          0.003241402
+        ],
+        "clip_8": [
+          5.84069e-05,
+          6.279373e-06,
+          0.003241402
+        ],
+        "clip_9": [
+          5.894045e-05,
+          5.342669e-06,
+          0.003272259
+        ],
+        "clip_10": [
+          5.938921e-05,
+          3.88947e-06,
+          0.003296588
+        ],
+        "clip_11": [
+          5.969659e-05,
+          2.51606e-06,
+          0.003313407
+        ],
+        "clip_12": [
+          5.988817e-05,
+          1.498326e-06,
+          0.003323956
+        ],
+        "clip_13": [
+          6.000375e-05,
+          9.000943e-07,
+          0.003330319
+        ],
+        "clip_14": [
+          6.008046e-05,
+          6.548569e-07,
+          0.003334544
+        ],
+        "clip_15": [
+          6.014485e-05,
+          6.148225e-07,
+          0.003338111
+        ]
+      },
+      "last_forces_by_label": {
+        "middle_section": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "middle_rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "load_point": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "clip_0": [
+          0.04066682,
+          -0.1773427,
+          -10.37475
+        ],
+        "clip_1": [
+          0.05511046,
+          -0.1888905,
+          -11.40418
+        ],
+        "clip_2": [
+          0.03891613,
+          -0.2596281,
+          -12.62303
+        ],
+        "clip_3": [
+          0.01076922,
+          -0.4321853,
+          -14.45834
+        ],
+        "clip_4": [
+          -0.03256711,
+          -0.7257461,
+          -17.50147
+        ],
+        "clip_5": [
+          -0.2487691,
+          -1.1219,
+          -22.35062
+        ],
+        "clip_6": [
+          -0.8741744,
+          -1.541069,
+          -29.3591
+        ],
+        "clip_7": [
+          1.010047,
+          -1.811256,
+          -38.29672
+        ],
+        "clip_8": [
+          1.010047,
+          1.811256,
+          -38.29672
+        ],
+        "clip_9": [
+          -0.8741744,
+          1.541069,
+          -29.3591
+        ],
+        "clip_10": [
+          -0.2487691,
+          1.1219,
+          -22.35062
+        ],
+        "clip_11": [
+          -0.03256711,
+          0.7257461,
+          -17.50147
+        ],
+        "clip_12": [
+          0.01076917,
+          0.4321853,
+          -14.45834
+        ],
+        "clip_13": [
+          0.03891613,
+          0.2596281,
+          -12.62303
+        ],
+        "clip_14": [
+          0.05511045,
+          0.1888905,
+          -11.40418
+        ],
+        "clip_15": [
+          0.04066684,
+          0.1773427,
+          -10.37475
+        ]
+      },
+      "max_printed_vector_norm": 0.005272874272043099
+    },
+    "floor50_mesh17_section_gravity": {
+      "name": "floor50_mesh17_section_gravity",
+      "completed": true,
+      "test_definition": {
+        "source": {
+          "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+          "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+          "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+          "floor_node": 296,
+          "upper_node": 1168,
+          "floor_xyz_m": [
+            2637.0085,
+            -2.25478355929456e-15,
+            113.820474028094
+          ],
+          "upper_xyz_m": [
+            2637.0085,
+            0.0,
+            121.741342722274
+          ],
+          "floor_point_load_N": 3180.0,
+          "upper_point_load_N": 18123.0,
+          "gravity_m_s2": 9.806
+        },
+        "profile": [
+          "BOX",
+          [
+            0.05,
+            0.05,
+            0.004,
+            0.004,
+            0.004,
+            0.004
+          ]
+        ],
+        "length_m": 5.52,
+        "beam_center_above_rope_m": 0.05,
+        "clamp_x_offsets_m": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "connection": "section interpolation evaluated exactly at each native clip mesh node",
+        "mesh_stations_y_m": [
+          -2.76,
+          -2.67,
+          -2.41,
+          -2.15,
+          -1.8900000000000001,
+          -1.6300000000000001,
+          -1.37,
+          -1.1100000000000003,
+          -0.85,
+          0.85,
+          1.1099999999999999,
+          1.3699999999999999,
+          1.63,
+          1.8899999999999997,
+          2.15,
+          2.4099999999999997,
+          2.67,
+          2.76
+        ],
+        "beam_cell_count": 17,
+        "clip_stations_are_native_vertices": true,
+        "mesh_comparison": "17-cell direct and section cases use identical native beam mesh, material, clip coordinates and support spans; 34-cell direct case bisects the same intervals without adding physical connections.",
+        "handrail_mass_kg": 0.0,
+        "handrail_tributary_m": 0.0,
+        "fixture_nodes": [
+          39,
+          40,
+          44,
+          45,
+          49,
+          50,
+          54,
+          55,
+          59,
+          60,
+          64,
+          65,
+          69,
+          70,
+          74,
+          75,
+          79,
+          80,
+          84,
+          85,
+          89,
+          90,
+          94,
+          95,
+          99,
+          100,
+          104,
+          105,
+          109,
+          110,
+          114,
+          115
+        ],
+        "fixed_rotation_count": 0,
+        "source_rope_spans": [
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 39,
+            "clip_node": 36,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 40,
+            "clip_node": 36,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 44,
+            "clip_node": 41,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 45,
+            "clip_node": 41,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 49,
+            "clip_node": 46,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 50,
+            "clip_node": 46,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 54,
+            "clip_node": 51,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 55,
+            "clip_node": 51,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 59,
+            "clip_node": 56,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 60,
+            "clip_node": 56,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 64,
+            "clip_node": 61,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 65,
+            "clip_node": 61,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 69,
+            "clip_node": 66,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 70,
+            "clip_node": 66,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 74,
+            "clip_node": 71,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 75,
+            "clip_node": 71,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 79,
+            "clip_node": 76,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 80,
+            "clip_node": 76,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 84,
+            "clip_node": 81,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 85,
+            "clip_node": 81,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 89,
+            "clip_node": 86,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 90,
+            "clip_node": 86,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 94,
+            "clip_node": 91,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 95,
+            "clip_node": 91,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 99,
+            "clip_node": 96,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 100,
+            "clip_node": 96,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 104,
+            "clip_node": 101,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 105,
+            "clip_node": 101,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 109,
+            "clip_node": 106,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 110,
+            "clip_node": 106,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 114,
+            "clip_node": 111,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 115,
+            "clip_node": 111,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          }
+        ],
+        "loading": "member selfweight only",
+        "support_mass_scope": "No support-span selfweight; original source initial tension remains active.",
+        "small_contact_limit": "Same single-point attachment as the preceding corrected fixture; no extra bearing, bonding, friction, spring or rotational restraint.",
+        "previous_reference_case": "floor50_corrected_gravity_direct in native run 34041763072"
+      },
+      "input_sha256": "6fed212837159a6efde8bdcdf9c13d87d93f152bf43a6e5001b62920c07e360b",
+      "node_count": 118,
+      "beam_count": 17,
+      "shell_count": 0,
+      "body_count": 17,
+      "gravity_m_s2": 9.806,
+      "explicit_loads": [],
+      "native_exit": 0,
+      "displacement_block_count": 1,
+      "last_displacements_by_label": {
+        "middle_section": [
+          -0.0002059437,
+          -7.704304e-17,
+          0.003186656
+        ],
+        "middle_rotation": [
+          1.941891e-17,
+          -0.00527136,
+          -2.890334e-15
+        ],
+        "load_point": [
+          -0.0002059437,
+          -7.704304e-17,
+          0.003186656
+        ],
+        "clip_0": [
+          6.014485e-05,
+          -6.148225e-07,
+          0.003338111
+        ],
+        "clip_1": [
+          6.008046e-05,
+          -6.548569e-07,
+          0.003334544
+        ],
+        "clip_2": [
+          6.000375e-05,
+          -9.000943e-07,
+          0.003330319
+        ],
+        "clip_3": [
+          5.988817e-05,
+          -1.498326e-06,
+          0.003323956
+        ],
+        "clip_4": [
+          5.969659e-05,
+          -2.51606e-06,
+          0.003313407
+        ],
+        "clip_5": [
+          5.938921e-05,
+          -3.88947e-06,
+          0.003296588
+        ],
+        "clip_6": [
+          5.894045e-05,
+          -5.342669e-06,
+          0.003272259
+        ],
+        "clip_7": [
+          5.84069e-05,
+          -6.279373e-06,
+          0.003241402
+        ],
+        "clip_8": [
+          5.84069e-05,
+          6.279373e-06,
+          0.003241402
+        ],
+        "clip_9": [
+          5.894045e-05,
+          5.342669e-06,
+          0.003272259
+        ],
+        "clip_10": [
+          5.938921e-05,
+          3.88947e-06,
+          0.003296588
+        ],
+        "clip_11": [
+          5.969659e-05,
+          2.51606e-06,
+          0.003313407
+        ],
+        "clip_12": [
+          5.988817e-05,
+          1.498326e-06,
+          0.003323956
+        ],
+        "clip_13": [
+          6.000375e-05,
+          9.000943e-07,
+          0.003330319
+        ],
+        "clip_14": [
+          6.008046e-05,
+          6.548569e-07,
+          0.003334544
+        ],
+        "clip_15": [
+          6.014485e-05,
+          6.148225e-07,
+          0.003338111
+        ]
+      },
+      "last_forces_by_label": {
+        "middle_section": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "middle_rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "load_point": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "clip_0": [
+          0.04066682,
+          -0.1773427,
+          -10.37475
+        ],
+        "clip_1": [
+          0.05511046,
+          -0.1888905,
+          -11.40418
+        ],
+        "clip_2": [
+          0.03891613,
+          -0.2596281,
+          -12.62303
+        ],
+        "clip_3": [
+          0.01076922,
+          -0.4321853,
+          -14.45834
+        ],
+        "clip_4": [
+          -0.03256711,
+          -0.7257461,
+          -17.50147
+        ],
+        "clip_5": [
+          -0.2487691,
+          -1.1219,
+          -22.35062
+        ],
+        "clip_6": [
+          -0.8741744,
+          -1.541069,
+          -29.3591
+        ],
+        "clip_7": [
+          1.010047,
+          -1.811256,
+          -38.29672
+        ],
+        "clip_8": [
+          1.010047,
+          1.811256,
+          -38.29672
+        ],
+        "clip_9": [
+          -0.8741744,
+          1.541069,
+          -29.3591
+        ],
+        "clip_10": [
+          -0.2487691,
+          1.1219,
+          -22.35062
+        ],
+        "clip_11": [
+          -0.03256711,
+          0.7257461,
+          -17.50147
+        ],
+        "clip_12": [
+          0.01076917,
+          0.4321853,
+          -14.45834
+        ],
+        "clip_13": [
+          0.03891613,
+          0.2596281,
+          -12.62303
+        ],
+        "clip_14": [
+          0.05511045,
+          0.1888905,
+          -11.40418
+        ],
+        "clip_15": [
+          0.04066684,
+          0.1773427,
+          -10.37475
+        ]
+      },
+      "max_printed_vector_norm": 0.005272874272043099
+    },
+    "floor50_mesh34_direct_gravity": {
+      "name": "floor50_mesh34_direct_gravity",
+      "completed": true,
+      "test_definition": {
+        "source": {
+          "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+          "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+          "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+          "floor_node": 296,
+          "upper_node": 1168,
+          "floor_xyz_m": [
+            2637.0085,
+            -2.25478355929456e-15,
+            113.820474028094
+          ],
+          "upper_xyz_m": [
+            2637.0085,
+            0.0,
+            121.741342722274
+          ],
+          "floor_point_load_N": 3180.0,
+          "upper_point_load_N": 18123.0,
+          "gravity_m_s2": 9.806
+        },
+        "profile": [
+          "BOX",
+          [
+            0.05,
+            0.05,
+            0.004,
+            0.004,
+            0.004,
+            0.004
+          ]
+        ],
+        "length_m": 5.52,
+        "beam_center_above_rope_m": 0.05,
+        "clamp_x_offsets_m": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "connection": "direct native clip mesh knot and finite arm",
+        "mesh_stations_y_m": [
+          -2.76,
+          -2.715,
+          -2.67,
+          -2.54,
+          -2.41,
+          -2.2800000000000002,
+          -2.15,
+          -2.02,
+          -1.8900000000000001,
+          -1.7600000000000002,
+          -1.6300000000000001,
+          -1.5,
+          -1.37,
+          -1.2400000000000002,
+          -1.1100000000000003,
+          -0.9800000000000002,
+          -0.85,
+          0.0,
+          0.85,
+          0.98,
+          1.1099999999999999,
+          1.2399999999999998,
+          1.3699999999999999,
+          1.5,
+          1.63,
+          1.7599999999999998,
+          1.8899999999999997,
+          2.0199999999999996,
+          2.15,
+          2.28,
+          2.4099999999999997,
+          2.54,
+          2.67,
+          2.715,
+          2.76
+        ],
+        "beam_cell_count": 34,
+        "clip_stations_are_native_vertices": true,
+        "mesh_comparison": "17-cell direct and section cases use identical native beam mesh, material, clip coordinates and support spans; 34-cell direct case bisects the same intervals without adding physical connections.",
+        "handrail_mass_kg": 0.0,
+        "handrail_tributary_m": 0.0,
+        "fixture_nodes": [
+          73,
+          74,
+          78,
+          79,
+          83,
+          84,
+          88,
+          89,
+          93,
+          94,
+          98,
+          99,
+          103,
+          104,
+          108,
+          109,
+          113,
+          114,
+          118,
+          119,
+          123,
+          124,
+          128,
+          129,
+          133,
+          134,
+          138,
+          139,
+          143,
+          144,
+          148,
+          149
+        ],
+        "fixed_rotation_count": 0,
+        "source_rope_spans": [
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 73,
+            "clip_node": 70,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 74,
+            "clip_node": 70,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 78,
+            "clip_node": 75,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 79,
+            "clip_node": 75,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 83,
+            "clip_node": 80,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 84,
+            "clip_node": 80,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 88,
+            "clip_node": 85,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 89,
+            "clip_node": 85,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 93,
+            "clip_node": 90,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 94,
+            "clip_node": 90,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 98,
+            "clip_node": 95,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 99,
+            "clip_node": 95,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 103,
+            "clip_node": 100,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 104,
+            "clip_node": 100,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 108,
+            "clip_node": 105,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 109,
+            "clip_node": 105,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 113,
+            "clip_node": 110,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 114,
+            "clip_node": 110,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 118,
+            "clip_node": 115,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 119,
+            "clip_node": 115,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 123,
+            "clip_node": 120,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 124,
+            "clip_node": 120,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 128,
+            "clip_node": 125,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 129,
+            "clip_node": 125,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 133,
+            "clip_node": 130,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 134,
+            "clip_node": 130,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 138,
+            "clip_node": 135,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 139,
+            "clip_node": 135,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 143,
+            "clip_node": 140,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 144,
+            "clip_node": 140,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 148,
+            "clip_node": 145,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 149,
+            "clip_node": 145,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          }
+        ],
+        "loading": "member selfweight only",
+        "support_mass_scope": "No support-span selfweight; original source initial tension remains active.",
+        "small_contact_limit": "Same single-point attachment as the preceding corrected fixture; no extra bearing, bonding, friction, spring or rotational restraint.",
+        "previous_reference_case": "floor50_corrected_gravity_direct in native run 34041763072"
+      },
+      "input_sha256": "05cd99608a4cf0647953f1b6b757738fa3205eb23969d0c7295a66a220dceaef",
+      "node_count": 152,
+      "beam_count": 34,
+      "shell_count": 0,
+      "body_count": 17,
+      "gravity_m_s2": 9.806,
+      "explicit_loads": [],
+      "native_exit": 0,
+      "displacement_block_count": 1,
+      "last_displacements_by_label": {
+        "middle_section": [
+          -1.165622e-05,
+          -1.95573e-17,
+          0.003161474
+        ],
+        "middle_rotation": [
+          -3.974976e-16,
+          -0.001382637,
+          6.020164e-17
+        ],
+        "load_point": [
+          -1.165622e-05,
+          -1.95573e-17,
+          0.003161474
+        ],
+        "clip_0": [
+          6.013125e-05,
+          -4.764627e-07,
+          0.003337365
+        ],
+        "clip_1": [
+          6.008003e-05,
+          -5.118083e-07,
+          0.003334517
+        ],
+        "clip_2": [
+          6.00164e-05,
+          -7.631625e-07,
+          0.003331015
+        ],
+        "clip_3": [
+          5.991194e-05,
+          -1.401929e-06,
+          0.003325265
+        ],
+        "clip_4": [
+          5.972505e-05,
+          -2.520241e-06,
+          0.00331497
+        ],
+        "clip_5": [
+          5.940934e-05,
+          -4.072027e-06,
+          0.003297684
+        ],
+        "clip_6": [
+          5.893097e-05,
+          -5.772108e-06,
+          0.003271772
+        ],
+        "clip_7": [
+          5.834542e-05,
+          -6.95871e-06,
+          0.003237998
+        ],
+        "clip_8": [
+          5.834542e-05,
+          6.95871e-06,
+          0.003237998
+        ],
+        "clip_9": [
+          5.893097e-05,
+          5.772108e-06,
+          0.003271772
+        ],
+        "clip_10": [
+          5.940934e-05,
+          4.072027e-06,
+          0.003297684
+        ],
+        "clip_11": [
+          5.972505e-05,
+          2.520241e-06,
+          0.00331497
+        ],
+        "clip_12": [
+          5.991194e-05,
+          1.401929e-06,
+          0.003325265
+        ],
+        "clip_13": [
+          6.00164e-05,
+          7.631625e-07,
+          0.003331015
+        ],
+        "clip_14": [
+          6.008003e-05,
+          5.118083e-07,
+          0.003334517
+        ],
+        "clip_15": [
+          6.013125e-05,
+          4.764627e-07,
+          0.003337365
+        ]
+      },
+      "last_forces_by_label": {
+        "middle_section": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "middle_rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "load_point": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "clip_0": [
+          0.03299217,
+          -0.1374335,
+          -10.58982
+        ],
+        "clip_1": [
+          0.05911539,
+          -0.1476288,
+          -11.41202
+        ],
+        "clip_2": [
+          0.04283114,
+          -0.2201308,
+          -12.42219
+        ],
+        "clip_3": [
+          0.01659793,
+          -0.40438,
+          -14.08096
+        ],
+        "clip_4": [
+          -0.02064353,
+          -0.726952,
+          -17.05064
+        ],
+        "clip_5": [
+          -0.2278589,
+          -1.174558,
+          -22.03454
+        ],
+        "clip_6": [
+          -0.9238181,
+          -1.664939,
+          -29.4988
+        ],
+        "clip_7": [
+          1.020781,
+          -2.007208,
+          -39.27923
+        ],
+        "clip_8": [
+          1.020781,
+          2.007208,
+          -39.27923
+        ],
+        "clip_9": [
+          -0.9238181,
+          1.664939,
+          -29.4988
+        ],
+        "clip_10": [
+          -0.2278589,
+          1.174558,
+          -22.03454
+        ],
+        "clip_11": [
+          -0.02064358,
+          0.726952,
+          -17.05064
+        ],
+        "clip_12": [
+          0.01659795,
+          0.40438,
+          -14.08096
+        ],
+        "clip_13": [
+          0.04283114,
+          0.2201308,
+          -12.42219
+        ],
+        "clip_14": [
+          0.05911536,
+          0.1476288,
+          -11.41202
+        ],
+        "clip_15": [
+          0.03299219,
+          0.1374335,
+          -10.58982
+        ]
+      },
+      "max_printed_vector_norm": 0.0033382891137862547
+    },
+    "floor50_mesh17_direct_force_x": {
+      "name": "floor50_mesh17_direct_force_x",
+      "completed": false,
+      "test_definition": {
+        "source": {
+          "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+          "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+          "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+          "floor_node": 296,
+          "upper_node": 1168,
+          "floor_xyz_m": [
+            2637.0085,
+            -2.25478355929456e-15,
+            113.820474028094
+          ],
+          "upper_xyz_m": [
+            2637.0085,
+            0.0,
+            121.741342722274
+          ],
+          "floor_point_load_N": 3180.0,
+          "upper_point_load_N": 18123.0,
+          "gravity_m_s2": 9.806
+        },
+        "profile": [
+          "BOX",
+          [
+            0.05,
+            0.05,
+            0.004,
+            0.004,
+            0.004,
+            0.004
+          ]
+        ],
+        "length_m": 5.52,
+        "beam_center_above_rope_m": 0.05,
+        "clamp_x_offsets_m": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "connection": "direct native clip mesh knot and finite arm",
+        "mesh_stations_y_m": [
+          -2.76,
+          -2.67,
+          -2.41,
+          -2.15,
+          -1.8900000000000001,
+          -1.6300000000000001,
+          -1.37,
+          -1.1100000000000003,
+          -0.85,
+          0.85,
+          1.1099999999999999,
+          1.3699999999999999,
+          1.63,
+          1.8899999999999997,
+          2.15,
+          2.4099999999999997,
+          2.67,
+          2.76
+        ],
+        "beam_cell_count": 17,
+        "clip_stations_are_native_vertices": true,
+        "mesh_comparison": "17-cell direct and section cases use identical native beam mesh, material, clip coordinates and support spans; 34-cell direct case bisects the same intervals without adding physical connections.",
+        "handrail_mass_kg": 0.0,
+        "handrail_tributary_m": 0.0,
+        "fixture_nodes": [
+          39,
+          40,
+          44,
+          45,
+          49,
+          50,
+          54,
+          55,
+          59,
+          60,
+          64,
+          65,
+          69,
+          70,
+          74,
+          75,
+          79,
+          80,
+          84,
+          85,
+          89,
+          90,
+          94,
+          95,
+          99,
+          100,
+          104,
+          105,
+          109,
+          110,
+          114,
+          115
+        ],
+        "fixed_rotation_count": 0,
+        "source_rope_spans": [
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 39,
+            "clip_node": 36,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 40,
+            "clip_node": 36,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 44,
+            "clip_node": 41,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 45,
+            "clip_node": 41,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 49,
+            "clip_node": 46,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 50,
+            "clip_node": 46,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 54,
+            "clip_node": 51,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 55,
+            "clip_node": 51,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 59,
+            "clip_node": 56,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 60,
+            "clip_node": 56,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 64,
+            "clip_node": 61,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 65,
+            "clip_node": 61,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 69,
+            "clip_node": 66,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 70,
+            "clip_node": 66,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 74,
+            "clip_node": 71,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 75,
+            "clip_node": 71,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 79,
+            "clip_node": 76,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 80,
+            "clip_node": 76,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 84,
+            "clip_node": 81,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 85,
+            "clip_node": 81,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 89,
+            "clip_node": 86,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 90,
+            "clip_node": 86,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 94,
+            "clip_node": 91,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 95,
+            "clip_node": 91,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 99,
+            "clip_node": 96,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 100,
+            "clip_node": 96,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 104,
+            "clip_node": 101,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 105,
+            "clip_node": 101,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 109,
+            "clip_node": 106,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 110,
+            "clip_node": 106,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 114,
+            "clip_node": 111,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 115,
+            "clip_node": 111,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          }
+        ],
+        "loading": "100 N global X at the unchanged beam-center load port; component gravity disabled",
+        "support_mass_scope": "No support-span selfweight; original source initial tension remains active.",
+        "small_contact_limit": "Same single-point attachment as the preceding corrected fixture; no extra bearing, bonding, friction, spring or rotational restraint.",
+        "previous_reference_case": "floor50_corrected_gravity_direct in native run 34041763072"
+      },
+      "input_sha256": "b7554c6cdceba236e77317f66cfff1cf0b9fbc209b72734c317eb18f2694a1fa",
+      "node_count": 118,
+      "beam_count": 17,
+      "shell_count": 0,
+      "body_count": 17,
+      "gravity_m_s2": 0.0,
+      "explicit_loads": [
+        [
+          118,
+          1,
+          100.0
+        ]
+      ],
+      "native_exit": 201,
+      "displacement_block_count": 0,
+      "last_displacements_by_label": {
+        "middle_section": null,
+        "middle_rotation": null,
+        "load_point": null,
+        "clip_0": null,
+        "clip_1": null,
+        "clip_2": null,
+        "clip_3": null,
+        "clip_4": null,
+        "clip_5": null,
+        "clip_6": null,
+        "clip_7": null,
+        "clip_8": null,
+        "clip_9": null,
+        "clip_10": null,
+        "clip_11": null,
+        "clip_12": null,
+        "clip_13": null,
+        "clip_14": null,
+        "clip_15": null
+      },
+      "last_forces_by_label": {
+        "middle_section": null,
+        "middle_rotation": null,
+        "load_point": null,
+        "clip_0": null,
+        "clip_1": null,
+        "clip_2": null,
+        "clip_3": null,
+        "clip_4": null,
+        "clip_5": null,
+        "clip_6": null,
+        "clip_7": null,
+        "clip_8": null,
+        "clip_9": null,
+        "clip_10": null,
+        "clip_11": null,
+        "clip_12": null,
+        "clip_13": null,
+        "clip_14": null,
+        "clip_15": null
+      }
+    },
+    "floor50_mesh17_section_force_x": {
+      "name": "floor50_mesh17_section_force_x",
+      "completed": false,
+      "test_definition": {
+        "source": {
+          "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+          "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+          "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+          "floor_node": 296,
+          "upper_node": 1168,
+          "floor_xyz_m": [
+            2637.0085,
+            -2.25478355929456e-15,
+            113.820474028094
+          ],
+          "upper_xyz_m": [
+            2637.0085,
+            0.0,
+            121.741342722274
+          ],
+          "floor_point_load_N": 3180.0,
+          "upper_point_load_N": 18123.0,
+          "gravity_m_s2": 9.806
+        },
+        "profile": [
+          "BOX",
+          [
+            0.05,
+            0.05,
+            0.004,
+            0.004,
+            0.004,
+            0.004
+          ]
+        ],
+        "length_m": 5.52,
+        "beam_center_above_rope_m": 0.05,
+        "clamp_x_offsets_m": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "connection": "section interpolation evaluated exactly at each native clip mesh node",
+        "mesh_stations_y_m": [
+          -2.76,
+          -2.67,
+          -2.41,
+          -2.15,
+          -1.8900000000000001,
+          -1.6300000000000001,
+          -1.37,
+          -1.1100000000000003,
+          -0.85,
+          0.85,
+          1.1099999999999999,
+          1.3699999999999999,
+          1.63,
+          1.8899999999999997,
+          2.15,
+          2.4099999999999997,
+          2.67,
+          2.76
+        ],
+        "beam_cell_count": 17,
+        "clip_stations_are_native_vertices": true,
+        "mesh_comparison": "17-cell direct and section cases use identical native beam mesh, material, clip coordinates and support spans; 34-cell direct case bisects the same intervals without adding physical connections.",
+        "handrail_mass_kg": 0.0,
+        "handrail_tributary_m": 0.0,
+        "fixture_nodes": [
+          39,
+          40,
+          44,
+          45,
+          49,
+          50,
+          54,
+          55,
+          59,
+          60,
+          64,
+          65,
+          69,
+          70,
+          74,
+          75,
+          79,
+          80,
+          84,
+          85,
+          89,
+          90,
+          94,
+          95,
+          99,
+          100,
+          104,
+          105,
+          109,
+          110,
+          114,
+          115
+        ],
+        "fixed_rotation_count": 0,
+        "source_rope_spans": [
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 39,
+            "clip_node": 36,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 40,
+            "clip_node": 36,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 44,
+            "clip_node": 41,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 45,
+            "clip_node": 41,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 49,
+            "clip_node": 46,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 50,
+            "clip_node": 46,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 54,
+            "clip_node": 51,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 55,
+            "clip_node": 51,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 59,
+            "clip_node": 56,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 60,
+            "clip_node": 56,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 64,
+            "clip_node": 61,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 65,
+            "clip_node": 61,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 69,
+            "clip_node": 66,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 70,
+            "clip_node": 66,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 74,
+            "clip_node": 71,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 75,
+            "clip_node": 71,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 79,
+            "clip_node": 76,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 80,
+            "clip_node": 76,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 84,
+            "clip_node": 81,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 85,
+            "clip_node": 81,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 89,
+            "clip_node": 86,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 90,
+            "clip_node": 86,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 94,
+            "clip_node": 91,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 95,
+            "clip_node": 91,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 99,
+            "clip_node": 96,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 100,
+            "clip_node": 96,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 104,
+            "clip_node": 101,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 105,
+            "clip_node": 101,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 109,
+            "clip_node": 106,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 110,
+            "clip_node": 106,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 114,
+            "clip_node": 111,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 115,
+            "clip_node": 111,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          }
+        ],
+        "loading": "100 N global X at the unchanged beam-center load port; component gravity disabled",
+        "support_mass_scope": "No support-span selfweight; original source initial tension remains active.",
+        "small_contact_limit": "Same single-point attachment as the preceding corrected fixture; no extra bearing, bonding, friction, spring or rotational restraint.",
+        "previous_reference_case": "floor50_corrected_gravity_direct in native run 34041763072"
+      },
+      "input_sha256": "6a963cfc42b1cdae60cc8d4e8aeea989c8bd18e0250eaf530eeedf2358d1dca7",
+      "node_count": 118,
+      "beam_count": 17,
+      "shell_count": 0,
+      "body_count": 17,
+      "gravity_m_s2": 0.0,
+      "explicit_loads": [
+        [
+          118,
+          1,
+          100.0
+        ]
+      ],
+      "native_exit": 201,
+      "displacement_block_count": 0,
+      "last_displacements_by_label": {
+        "middle_section": null,
+        "middle_rotation": null,
+        "load_point": null,
+        "clip_0": null,
+        "clip_1": null,
+        "clip_2": null,
+        "clip_3": null,
+        "clip_4": null,
+        "clip_5": null,
+        "clip_6": null,
+        "clip_7": null,
+        "clip_8": null,
+        "clip_9": null,
+        "clip_10": null,
+        "clip_11": null,
+        "clip_12": null,
+        "clip_13": null,
+        "clip_14": null,
+        "clip_15": null
+      },
+      "last_forces_by_label": {
+        "middle_section": null,
+        "middle_rotation": null,
+        "load_point": null,
+        "clip_0": null,
+        "clip_1": null,
+        "clip_2": null,
+        "clip_3": null,
+        "clip_4": null,
+        "clip_5": null,
+        "clip_6": null,
+        "clip_7": null,
+        "clip_8": null,
+        "clip_9": null,
+        "clip_10": null,
+        "clip_11": null,
+        "clip_12": null,
+        "clip_13": null,
+        "clip_14": null,
+        "clip_15": null
+      }
+    },
+    "floor50_mesh8_section_gravity": {
+      "name": "floor50_mesh8_section_gravity",
+      "completed": true,
+      "test_definition": {
+        "source": {
+          "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+          "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+          "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+          "floor_node": 296,
+          "upper_node": 1168,
+          "floor_xyz_m": [
+            2637.0085,
+            -2.25478355929456e-15,
+            113.820474028094
+          ],
+          "upper_xyz_m": [
+            2637.0085,
+            0.0,
+            121.741342722274
+          ],
+          "floor_point_load_N": 3180.0,
+          "upper_point_load_N": 18123.0,
+          "gravity_m_s2": 9.806
+        },
+        "profile": [
+          "BOX",
+          [
+            0.05,
+            0.05,
+            0.004,
+            0.004,
+            0.004,
+            0.004
+          ]
+        ],
+        "length_m": 5.52,
+        "beam_center_above_rope_m": 0.05,
+        "clamp_x_offsets_m": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "connection": "production quadratic section interpolation on a refined uniform mesh",
+        "mesh_stations_y_m": [
+          -2.76,
+          -2.07,
+          -1.38,
+          -0.69,
+          0.0,
+          0.69,
+          1.38,
+          2.0700000000000003,
+          2.76
+        ],
+        "beam_cell_count": 8,
+        "clip_stations_are_native_vertices": false,
+        "mesh_comparison": "Refines the preceding four uniform production cells to 8 cells with the same section, physical clips, source support spans and loading; this is a discretization comparison, not an equivalent algebraic representation.",
+        "handrail_mass_kg": 0.0,
+        "handrail_tributary_m": 0.0,
+        "fixture_nodes": [
+          21,
+          22,
+          26,
+          27,
+          31,
+          32,
+          36,
+          37,
+          41,
+          42,
+          46,
+          47,
+          51,
+          52,
+          56,
+          57,
+          61,
+          62,
+          66,
+          67,
+          71,
+          72,
+          76,
+          77,
+          81,
+          82,
+          86,
+          87,
+          91,
+          92,
+          96,
+          97
+        ],
+        "fixed_rotation_count": 0,
+        "source_rope_spans": [
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 21,
+            "clip_node": 18,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 22,
+            "clip_node": 18,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 26,
+            "clip_node": 23,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 27,
+            "clip_node": 23,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 31,
+            "clip_node": 28,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 32,
+            "clip_node": 28,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 36,
+            "clip_node": 33,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 37,
+            "clip_node": 33,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 41,
+            "clip_node": 38,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 42,
+            "clip_node": 38,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 46,
+            "clip_node": 43,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 47,
+            "clip_node": 43,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 51,
+            "clip_node": 48,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 52,
+            "clip_node": 48,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 56,
+            "clip_node": 53,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 57,
+            "clip_node": 53,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 61,
+            "clip_node": 58,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 62,
+            "clip_node": 58,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 66,
+            "clip_node": 63,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 67,
+            "clip_node": 63,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 71,
+            "clip_node": 68,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 72,
+            "clip_node": 68,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 76,
+            "clip_node": 73,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 77,
+            "clip_node": 73,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 81,
+            "clip_node": 78,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 82,
+            "clip_node": 78,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 86,
+            "clip_node": 83,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 87,
+            "clip_node": 83,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 91,
+            "clip_node": 88,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 92,
+            "clip_node": 88,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 96,
+            "clip_node": 93,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 97,
+            "clip_node": 93,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          }
+        ],
+        "loading": "member selfweight only",
+        "support_mass_scope": "No support-span selfweight; original source initial tension remains active.",
+        "small_contact_limit": "Same single-point attachment as the preceding corrected fixture; no extra bearing, bonding, friction, spring or rotational restraint.",
+        "previous_reference_case": "floor50_corrected_gravity_direct in native run 34041763072",
+        "uniform_cell_count": 8
+      },
+      "input_sha256": "1c9374d7ff332c4a5356375ea09c1a974eab7f62f6716d2eb8582cfcd565664e",
+      "node_count": 100,
+      "beam_count": 8,
+      "shell_count": 0,
+      "body_count": 17,
+      "gravity_m_s2": 9.806,
+      "explicit_loads": [],
+      "native_exit": 0,
+      "displacement_block_count": 1,
+      "last_displacements_by_label": {
+        "middle_section": [
+          -0.0003943222,
+          4.558279e-17,
+          0.003163972
+        ],
+        "middle_rotation": [
+          5.244794e-15,
+          -0.009034648,
+          7.206639e-16
+        ],
+        "load_point": [
+          -0.0003943222,
+          4.558279e-17,
+          0.003163972
+        ],
+        "clip_0": [
+          6.017691e-05,
+          -6.746087e-07,
+          0.003339878
+        ],
+        "clip_1": [
+          6.010317e-05,
+          -7.519335e-07,
+          0.003335788
+        ],
+        "clip_2": [
+          6.001285e-05,
+          -1.01778e-06,
+          0.003330842
+        ],
+        "clip_3": [
+          5.989638e-05,
+          -1.588485e-06,
+          0.003324379
+        ],
+        "clip_4": [
+          5.96899e-05,
+          -2.564451e-06,
+          0.003312978
+        ],
+        "clip_5": [
+          5.938117e-05,
+          -3.940629e-06,
+          0.003296109
+        ],
+        "clip_6": [
+          5.890475e-05,
+          -5.52634e-06,
+          0.003270637
+        ],
+        "clip_7": [
+          5.838528e-05,
+          -6.358895e-06,
+          0.003239975
+        ],
+        "clip_8": [
+          5.838528e-05,
+          6.358895e-06,
+          0.003239975
+        ],
+        "clip_9": [
+          5.890475e-05,
+          5.52634e-06,
+          0.003270637
+        ],
+        "clip_10": [
+          5.938117e-05,
+          3.940629e-06,
+          0.003296109
+        ],
+        "clip_11": [
+          5.96899e-05,
+          2.564451e-06,
+          0.003312978
+        ],
+        "clip_12": [
+          5.989638e-05,
+          1.588485e-06,
+          0.003324379
+        ],
+        "clip_13": [
+          6.001285e-05,
+          1.01778e-06,
+          0.003330842
+        ],
+        "clip_14": [
+          6.010317e-05,
+          7.519335e-07,
+          0.003335788
+        ],
+        "clip_15": [
+          6.017691e-05,
+          6.746087e-07,
+          0.003339878
+        ]
+      },
+      "last_forces_by_label": {
+        "middle_section": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "middle_rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "load_point": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "clip_0": [
+          0.04546991,
+          -0.1945878,
+          -9.865042
+        ],
+        "clip_1": [
+          0.06858182,
+          -0.2168918,
+          -11.04546
+        ],
+        "clip_2": [
+          0.01182775,
+          -0.2935741,
+          -12.47166
+        ],
+        "clip_3": [
+          0.05239265,
+          -0.4581912,
+          -14.33707
+        ],
+        "clip_4": [
+          0.04804204,
+          -0.7397044,
+          -17.62665
+        ],
+        "clip_5": [
+          -0.2015401,
+          -1.136657,
+          -22.48961
+        ],
+        "clip_6": [
+          -1.351066,
+          -1.594048,
+          -29.81856
+        ],
+        "clip_7": [
+          1.326255,
+          -1.834194,
+          -38.71413
+        ],
+        "clip_8": [
+          1.326255,
+          1.834194,
+          -38.71413
+        ],
+        "clip_9": [
+          -1.351066,
+          1.594048,
+          -29.81856
+        ],
+        "clip_10": [
+          -0.2015401,
+          1.136657,
+          -22.48961
+        ],
+        "clip_11": [
+          0.04804206,
+          0.7397044,
+          -17.62665
+        ],
+        "clip_12": [
+          0.05239265,
+          0.4581912,
+          -14.33707
+        ],
+        "clip_13": [
+          0.01182775,
+          0.2935741,
+          -12.47166
+        ],
+        "clip_14": [
+          0.06858183,
+          0.2168918,
+          -11.04546
+        ],
+        "clip_15": [
+          0.04546991,
+          0.1945878,
+          -9.865042
+        ]
+      },
+      "max_printed_vector_norm": 0.009036864960365576
+    },
+    "floor50_mesh16_section_gravity": {
+      "name": "floor50_mesh16_section_gravity",
+      "completed": true,
+      "test_definition": {
+        "source": {
+          "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+          "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+          "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+          "floor_node": 296,
+          "upper_node": 1168,
+          "floor_xyz_m": [
+            2637.0085,
+            -2.25478355929456e-15,
+            113.820474028094
+          ],
+          "upper_xyz_m": [
+            2637.0085,
+            0.0,
+            121.741342722274
+          ],
+          "floor_point_load_N": 3180.0,
+          "upper_point_load_N": 18123.0,
+          "gravity_m_s2": 9.806
+        },
+        "profile": [
+          "BOX",
+          [
+            0.05,
+            0.05,
+            0.004,
+            0.004,
+            0.004,
+            0.004
+          ]
+        ],
+        "length_m": 5.52,
+        "beam_center_above_rope_m": 0.05,
+        "clamp_x_offsets_m": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "connection": "production quadratic section interpolation on a refined uniform mesh",
+        "mesh_stations_y_m": [
+          -2.76,
+          -2.415,
+          -2.07,
+          -1.7249999999999999,
+          -1.38,
+          -1.035,
+          -0.69,
+          -0.34499999999999975,
+          0.0,
+          0.34499999999999975,
+          0.69,
+          1.0350000000000001,
+          1.38,
+          1.7249999999999996,
+          2.0700000000000003,
+          2.415,
+          2.76
+        ],
+        "beam_cell_count": 16,
+        "clip_stations_are_native_vertices": false,
+        "mesh_comparison": "Refines the preceding four uniform production cells to 16 cells with the same section, physical clips, source support spans and loading; this is a discretization comparison, not an equivalent algebraic representation.",
+        "handrail_mass_kg": 0.0,
+        "handrail_tributary_m": 0.0,
+        "fixture_nodes": [
+          37,
+          38,
+          42,
+          43,
+          47,
+          48,
+          52,
+          53,
+          57,
+          58,
+          62,
+          63,
+          67,
+          68,
+          72,
+          73,
+          77,
+          78,
+          82,
+          83,
+          87,
+          88,
+          92,
+          93,
+          97,
+          98,
+          102,
+          103,
+          107,
+          108,
+          112,
+          113
+        ],
+        "fixed_rotation_count": 0,
+        "source_rope_spans": [
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 37,
+            "clip_node": 34,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 38,
+            "clip_node": 34,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 42,
+            "clip_node": 39,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 43,
+            "clip_node": 39,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 47,
+            "clip_node": 44,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 48,
+            "clip_node": 44,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 52,
+            "clip_node": 49,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 53,
+            "clip_node": 49,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 57,
+            "clip_node": 54,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 58,
+            "clip_node": 54,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 62,
+            "clip_node": 59,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 63,
+            "clip_node": 59,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 67,
+            "clip_node": 64,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 68,
+            "clip_node": 64,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 72,
+            "clip_node": 69,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 73,
+            "clip_node": 69,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 77,
+            "clip_node": 74,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 78,
+            "clip_node": 74,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 82,
+            "clip_node": 79,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 83,
+            "clip_node": 79,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 87,
+            "clip_node": 84,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 88,
+            "clip_node": 84,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 92,
+            "clip_node": 89,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 93,
+            "clip_node": 89,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 97,
+            "clip_node": 94,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 98,
+            "clip_node": 94,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 102,
+            "clip_node": 99,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 103,
+            "clip_node": 99,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 107,
+            "clip_node": 104,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 108,
+            "clip_node": 104,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          },
+          {
+            "source_element": 295,
+            "source_node": 295,
+            "anchor_node": 112,
+            "clip_node": 109,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640875.0
+          },
+          {
+            "source_element": 296,
+            "source_node": 297,
+            "anchor_node": 113,
+            "clip_node": 109,
+            "EA_N": 167240187.371255,
+            "initial_tension_N": 640856.25
+          }
+        ],
+        "loading": "member selfweight only",
+        "support_mass_scope": "No support-span selfweight; original source initial tension remains active.",
+        "small_contact_limit": "Same single-point attachment as the preceding corrected fixture; no extra bearing, bonding, friction, spring or rotational restraint.",
+        "previous_reference_case": "floor50_corrected_gravity_direct in native run 34041763072",
+        "uniform_cell_count": 16
+      },
+      "input_sha256": "bfd6d5d7a5162c83ab864697fdf8069bfaed548ab06b3dc9e3819d672e64245f",
+      "node_count": 116,
+      "beam_count": 16,
+      "shell_count": 0,
+      "body_count": 17,
+      "gravity_m_s2": 9.806,
+      "explicit_loads": [],
+      "native_exit": 0,
+      "displacement_block_count": 1,
+      "last_displacements_by_label": {
+        "middle_section": [
+          -0.000175511,
+          -1.68002e-18,
+          0.003158916
+        ],
+        "middle_rotation": [
+          9.364683e-16,
+          -0.004658827,
+          -8.843667e-17
+        ],
+        "load_point": [
+          -0.000175511,
+          -1.68002e-18,
+          0.003158916
+        ],
+        "clip_0": [
+          6.018126e-05,
+          -6.714383e-07,
+          0.003340112
+        ],
+        "clip_1": [
+          6.011008e-05,
+          -7.298637e-07,
+          0.003336182
+        ],
+        "clip_2": [
+          6.002444e-05,
+          -9.996641e-07,
+          0.003331453
+        ],
+        "clip_3": [
+          5.989993e-05,
+          -1.600749e-06,
+          0.003324601
+        ],
+        "clip_4": [
+          5.969916e-05,
+          -2.62026e-06,
+          0.003313551
+        ],
+        "clip_5": [
+          5.938037e-05,
+          -4.038559e-06,
+          0.003296093
+        ],
+        "clip_6": [
+          5.891093e-05,
+          -5.589191e-06,
+          0.003270688
+        ],
+        "clip_7": [
+          5.834424e-05,
+          -6.74844e-06,
+          0.003237906
+        ],
+        "clip_8": [
+          5.834424e-05,
+          6.74844e-06,
+          0.003237906
+        ],
+        "clip_9": [
+          5.891093e-05,
+          5.589191e-06,
+          0.003270688
+        ],
+        "clip_10": [
+          5.938037e-05,
+          4.038559e-06,
+          0.003296093
+        ],
+        "clip_11": [
+          5.969916e-05,
+          2.62026e-06,
+          0.003313551
+        ],
+        "clip_12": [
+          5.989993e-05,
+          1.600749e-06,
+          0.003324601
+        ],
+        "clip_13": [
+          6.002444e-05,
+          9.996641e-07,
+          0.003331453
+        ],
+        "clip_14": [
+          6.011008e-05,
+          7.298637e-07,
+          0.003336182
+        ],
+        "clip_15": [
+          6.018126e-05,
+          6.714383e-07,
+          0.003340112
+        ]
+      },
+      "last_forces_by_label": {
+        "middle_section": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "middle_rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "load_point": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "clip_0": [
+          0.05378964,
+          -0.1936733,
+          -9.797557
+        ],
+        "clip_1": [
+          0.05197382,
+          -0.2105259,
+          -10.93144
+        ],
+        "clip_2": [
+          0.05156048,
+          -0.2883486,
+          -12.29611
+        ],
+        "clip_3": [
+          0.01765107,
+          -0.4617288,
+          -14.27253
+        ],
+        "clip_4": [
+          -0.03528968,
+          -0.755802,
+          -17.45991
+        ],
+        "clip_5": [
+          -0.2399954,
+          -1.164904,
+          -22.49346
+        ],
+        "clip_6": [
+          -0.95571,
+          -1.612177,
+          -29.811
+        ],
+        "clip_7": [
+          1.05602,
+          -1.946557,
+          -39.30618
+        ],
+        "clip_8": [
+          1.05602,
+          1.946557,
+          -39.30618
+        ],
+        "clip_9": [
+          -0.95571,
+          1.612177,
+          -29.811
+        ],
+        "clip_10": [
+          -0.2399954,
+          1.164904,
+          -22.49346
+        ],
+        "clip_11": [
+          -0.03528966,
+          0.755802,
+          -17.45991
+        ],
+        "clip_12": [
+          0.01765112,
+          0.4617288,
+          -14.27253
+        ],
+        "clip_13": [
+          0.05156048,
+          0.2883486,
+          -12.29611
+        ],
+        "clip_14": [
+          0.05197379,
+          0.2105259,
+          -10.93144
+        ],
+        "clip_15": [
+          0.05378957,
+          0.1936733,
+          -9.797557
+        ]
+      },
+      "max_printed_vector_norm": 0.004661278288006311
+    }
+  },
+  "native_completed": 5,
+  "native_failed": 2
+}
