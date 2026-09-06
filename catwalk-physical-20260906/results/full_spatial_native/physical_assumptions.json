@@ -22,6 +22,20 @@
   "coincident_floor_members": "Ordinary HW gate beam replaces a coincident standalone floor crossbeam; original homogenized permanent mass is retained",
   "deformation_frames": "Finite-rotation, ungrounded rigid spreader at each original MCT deformation-frame station; all sixteen rope ports and four down-pull force ports remain separate. Local built-up plate flexibility is not resolved, so this is an explicit stiff-frame approximation, not a detailed frame-shell model.",
   "source_scope": "Original design-institute MCT and original engineering review/drawings; no previous calculated spectrum or matrices used",
+  "ordinary_floor_tube_lengths_m": {
+    "small": 5.52,
+    "large": 5.772
+  },
+  "ordinary_floor_vertical_offsets_m": {
+    "small_above_rope_center": 0.05,
+    "large_above_rope_center": 0.075
+  },
+  "ordinary_floor_elevation_interpretation": "MD1-01/03 place tubes above phi50 carrying ropes. Offsets use rope radius plus tube half-depth and explicitly neglect intervening mesh, weld and plate thickness. Large tube 5772 mm excludes closure plates; the depicted overall length is 5780 mm.",
+  "large_floor_rope_clamps": "MD1-02 note 4 and MD1-01 A-A: sixteen U-bolt connection plates alternate on the two longitudinal sides. Use x offsets +0.075/-0.075 m in rope order, with each point on its actual source polyline. The first side is an explicit orientation convention.",
+  "large_floor_clamp_dimension_uncertainty": "MD1-01 A-A depicts a 50 mm plate projection, giving a nominal 75 mm center offset from the 100 mm tube; MD1-02 material table instead lists a 45 mm plate dimension. The 75 mm offset is a declared interpretation pending resolution of this original drawing discrepancy.",
+  "small_floor_rope_contact": "MD1-03 depicts a 50 mm wide tube above the carrying rope, with no U-bolt, bonding, friction or preload specification. Its current single-point attachment is retained here; finite bearing contact remains unresolved.",
+  "railing_mass_distribution": "MD1-01/02 depict handrail posts on large beams; MD1-03 small beams have no posts. The unchanged railing line mass is assigned by original-source arc-length tributaries only to large, HW and source-frame stations. Frame rail attachment remains part of the stated source-frame idealization.",
+  "floor_rope_station_grid": "Every floor rope on both decks uses the union of original source stations and all inserted attachment x coordinates; observation mapping reads only existing cable nodes.",
   "passage_mass_distribution": "Symmetric over both actual upper chords; no artificial mass eccentricity.",
   "native_solver": "Official CCX 2.23 with a documented joint-coordinate preprocessing correction; native element, material and eigensolver formulas unchanged.",
   "auxiliary_witness_elimination": "Exactly eliminated massless, unloaded orientation witness points referenced only by their own rigid-body MPCs. All physical members, attachment offsets, masses, supports, reference translation and rotation coordinates, and external compatibility equations are retained. Empty rigid-body cards are omitted; real HW connection patches remain.",
