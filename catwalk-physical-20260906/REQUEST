@@ -1,6 +1,7 @@
-run_request: 2026-09-06-spatial-native-exact-auxiliary-elimination-and-swap
-scope: original MCT equilibrium; actual hollow beams, open HW shells, finite rigid offsets and relative single-axis pins
-implementation: official CCX 2.23 elements and solvers; explicitly activate their native finite-rotation knots where the input requests rotational compatibility
-physical_model_change: none; no artificial support, added elastic stiffness, frequency fitting or changed rope modulus
-connector_implementation: integrate the previously verified independent coincident translation reference into all native offset connectors
-requested_output: fresh full-bridge permanent-load equilibrium and native modes in original numerical order, including the first fourteen
+run_request: 2026-09-06-user-requested-drawing-corrected-full-native-rerun
+source_revision: 4b84bd1877aafc3e00129d91eaf46c1359a930e4
+scope: execute fresh full-bridge nonlinear permanent-load equilibrium followed by native modes if equilibrium succeeds
+geometry: source-drawing corrections to ordinary floor beam lengths, positive rope offsets, alternating large-beam clamp locations and handrail mass ownership
+limitations: small-beam bearing and tangential connection remains an explicitly unresolved idealization; this run tests the saved model without inventing new restraints
+solver: audited native CCX 2.23 joint-coordinate implementation; original cable EA and initial force retained
+output: preserve exact fresh input hash, native exit, convergence records and all extracted roots including negative eigenvalues; shifted root extraction does not certify lowest fourteen
