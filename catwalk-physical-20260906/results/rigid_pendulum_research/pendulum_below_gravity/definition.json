@@ -1,0 +1,46 @@
+{
+  "name": "pendulum_below_gravity",
+  "completed": false,
+  "test_definition": {
+    "fixture": "Isolated physical single-axis Y pin; its reference translations and ROTX/ROTZ are fixed, while ROTY is solved. These fixture restraints are never copied to the bridge.",
+    "native_elements": "One MASS element and one nonlinear RIGID BODY; no beam, shell, cable, rotational spring or preprocessor-created beam knot.",
+    "mass_kg": 100.0,
+    "mass_position_relative_to_hinge_m": [
+      0.0,
+      0.0,
+      -1.0
+    ],
+    "force_x_N": 1.0,
+    "gravity_m_s2": 9.806,
+    "fixed_fixture_translation_count": 3,
+    "fixed_fixture_rotation_components": [
+      "X",
+      "Z"
+    ],
+    "free_fixture_rotation_component": "Y",
+    "potential_energy_expression": "V(theta)=m*g*z*cos(theta)-Fx*z*sin(theta)",
+    "analytic_stationary_theta_y_rad": -0.0010197834523222647,
+    "analytic_stationary_mass_displacement_m": [
+      0.001019783275566898,
+      0.0,
+      5.199790997778564e-07
+    ],
+    "analytic_stationary_potential_curvature_Nm_per_rad": 980.6005098917702,
+    "analytic_branch_scope": "Nearest-initial stationary angle; below-hinge gravity has positive potential curvature and above-hinge gravity has negative curvature. Newton convergence to the above-hinge branch would not establish stability.",
+    "diagnostic_question": "Can a native nonlinear rigid MPC support a stable gravity-restored pendulum under a nonzero transverse force, without any material stiffness to mask its geometric tangent?",
+    "comparison_limit": "This fixture isolates nonlinear rigid-MPC behavior and cannot prove the full bridge or either corrected floor fixture stable or unstable."
+  },
+  "input_sha256": "1aa2663fae82a639a1236707d4866ffe51048a4cf5f0e546bc2acf51ec3e18e4",
+  "node_count": 3,
+  "beam_count": 0,
+  "shell_count": 0,
+  "body_count": 1,
+  "gravity_m_s2": 9.806,
+  "explicit_loads": [
+    [
+      3,
+      1,
+      1.0
+    ]
+  ]
+}
