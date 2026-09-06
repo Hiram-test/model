@@ -1,0 +1,36 @@
+{
+  "workflow_run": 34028799041,
+  "source_commit": "901f1b04ca4d1b25a92cbda35e6734f520cb1ff2",
+  "input_sha256": "b751d16c76ec370ebd0e8964b17db4ed2885bab5fec9bb755cde735aac95fcf7",
+  "elapsed_seconds": 926.2744364738464,
+  "native_status": {
+    "native_exit": 255,
+    "native_eigenvalue_count": 0,
+    "native_negative_eigenvalue_count": 0,
+    "native_displacement_blocks": 0,
+    "all_extracted_roots_have_vector_blocks": false,
+    "mode_order": "Native extraction order, with no sign or frequency filtering; a shifted extraction does not certify the globally lowest roots.",
+    "vector_matching": "Pending actual eigenvalue and displacement blocks.",
+    "mass": {
+      "source_one_deck_kg": 2054233.5225541848,
+      "source_two_decks_kg": 4108467.0451083696,
+      "native_steel_kg": 383836.73029013205,
+      "explicit_lumped_kg": 3724630.314757948,
+      "assembled_total_kg": 4108467.04504808,
+      "floor_residual_nonstructural_kg_per_m": 55.169248208220985,
+      "railing_two_decks_kg": 259290.0793701435,
+      "railing_source_two_decks_kg": 259290.07937014356,
+      "mass_relative_difference": -1.467448385028547e-11
+    }
+  },
+  "artifact_id": 9988150309,
+  "artifact_sha256": "b359667dfb69c49e7c70a01cfaeb7b10fc855a9fa48dbd434a4f778b2942bdca",
+  "result": "Nonlinear permanent-load equilibrium diverged; native SPOOLES factorization reported a singular matrix. No valid displacement fields or modal frequencies were produced.",
+  "first_large_correction": {
+    "internal_node": 1090193,
+    "dof": 2,
+    "value": 34938.17,
+    "interpretation": "Internal variable; no fresh 12d mapping performed, so no physical displacement unit or member location inferred."
+  },
+  "spooles_log_provenance": "The fixed-name log inherited one old singular record and appended one new record; the actual append is verified by the result-commit diff. Future invocations now remove this generated log before starting."
+}

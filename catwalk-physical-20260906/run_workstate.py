@@ -24,6 +24,8 @@ def frequency_rows(path):  # Read the original numerical order of the native eig
         elif active and result and not p:break  # End this native eigenvalue table.
     return result  # Never fill missing native eigenvalues with theory or older files.
 def run_native(folder,job,timeout=600):  # Execute real CCX after removing output files from earlier invocations.
+    spooles_log=folder/'spooles.out'  # SPOOLES appends to a fixed solver log name independently of the CalculiX job name.
+    if spooles_log.exists():spooles_log.unlink()  # Keep future factorization diagnostics fresh; earlier versions remain preserved by repository history and run artifacts.
     for suffix in ('.dat','.frd','.sta','.cvg','.eig','.12d','.rout','.out','.err'):  # Avoid stale output when preprocessing fails before opening a result file.
         p=folder/(job+suffix)  # Restrict deletion to generated output for this exact job name.
         if p.exists():p.unlink()  # Preserve the original INP while removing only superseded run output.
