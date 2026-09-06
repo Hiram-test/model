@@ -1,0 +1,58 @@
+{
+  "name": "torsion_section_fx100_z040",
+  "completed": false,
+  "test_definition": {
+    "fixture": "Isolated 2 m straight Y-directed cantilever; only physical root translations and rotations are fixed.",
+    "profile": [
+      "BOX",
+      [
+        0.16,
+        0.16,
+        0.004,
+        0.004,
+        0.004,
+        0.004
+      ]
+    ],
+    "beam_count": 8,
+    "force_x_N": 100.0,
+    "equivalent_tip_torque_y_Nm": 40.0,
+    "load_offset_m": [
+      0.0,
+      0.0,
+      0.4
+    ],
+    "reference_scope": "Thin-wall torsion and Euler-Bernoulli bending scales only; the principal check is native b/c/d equivalent-load response.",
+    "thin_wall_J_scale_m4": 1.5185664e-05,
+    "thin_wall_tip_theta_y_scale_rad": 6.700238647156553e-05,
+    "Euler_Bernoulli_tip_x_scale_m": 0.00012778313717292828,
+    "previous_probe_gap": "The earlier arm force in global Z generated Mx and did not test My torsion of a beam aligned with global Y.",
+    "native_moment_scope": "Direct native My is applied using beam degree of freedom 5; rotation readout nodes carry no mass, force, spring or support.",
+    "loading_path": "BeamLine.section(2) plus attach",
+    "applied_force_x_N": 100.0,
+    "torsional_motion": {
+      "reference": 18,
+      "rotation": 19,
+      "point": 20,
+      "offset_m": [
+        0.0,
+        0.0,
+        0.4
+      ]
+    },
+    "comparison_note": "Compare native tip response and theta_y with direct Fx plus My; relative point motion is checked against the full Rodrigues rotation, retaining any bending rotation."
+  },
+  "input_sha256": "c27cba35280de5b6e3bafc134c167ce2539565d6bf461c8b1edfdeb25b9b826a",
+  "node_count": 20,
+  "beam_count": 8,
+  "shell_count": 0,
+  "body_count": 1,
+  "gravity_m_s2": 0.0,
+  "explicit_loads": [
+    [
+      20,
+      1,
+      100.0
+    ]
+  ]
+}

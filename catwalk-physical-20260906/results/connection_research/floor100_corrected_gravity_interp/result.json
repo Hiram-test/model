@@ -1,0 +1,608 @@
+{
+  "name": "floor100_corrected_gravity_interp",
+  "completed": true,
+  "test_definition": {
+    "source": {
+      "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+      "commit": "cfbf39ef51a5bb86f13372553cee122d02df0f57",
+      "path": "catwalk-fem/mct-from-zero/source/01_\u8bbe\u8ba1\u8d44\u6599\u4e0e\u89c4\u8303/\u732b\u9053 - \u95e8\u67b6\u7d22\u5408\u5efa\u6a21\u578b2.mct",
+      "floor_node": 296,
+      "upper_node": 1168,
+      "floor_xyz_m": [
+        2637.0085,
+        -2.25478355929456e-15,
+        113.820474028094
+      ],
+      "upper_xyz_m": [
+        2637.0085,
+        0.0,
+        121.741342722274
+      ],
+      "floor_point_load_N": 3180.0,
+      "upper_point_load_N": 18123.0,
+      "gravity_m_s2": 9.806
+    },
+    "profile": [
+      "BOX",
+      [
+        0.1,
+        0.1,
+        0.004,
+        0.004,
+        0.004,
+        0.004
+      ]
+    ],
+    "length_m": 5.772,
+    "beam_center_above_rope_m": 0.075,
+    "clamp_x_offsets_m": [
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075,
+      0.075,
+      -0.075
+    ],
+    "connection": "production quadratic section interpolation and finite arm",
+    "mesh_stations_y_m": [
+      -2.886,
+      -1.443,
+      0.0,
+      1.4430000000000005,
+      2.886
+    ],
+    "discretization_caveat": "Direct clip-knot cases introduce extra physical beam mesh stations and cannot alone prove exact equivalence with the four-cell interpolation.",
+    "handrail_mass_kg": 88.08,
+    "handrail_tributary_m": 3.0,
+    "fixture_nodes": [
+      13,
+      14,
+      18,
+      19,
+      23,
+      24,
+      28,
+      29,
+      33,
+      34,
+      38,
+      39,
+      43,
+      44,
+      48,
+      49,
+      53,
+      54,
+      58,
+      59,
+      63,
+      64,
+      68,
+      69,
+      73,
+      74,
+      78,
+      79,
+      83,
+      84,
+      88,
+      89
+    ],
+    "fixed_rotation_count": 0,
+    "source_rope_spans": [
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 13,
+        "clip_node": 10,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 14,
+        "clip_node": 10,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 18,
+        "clip_node": 15,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 19,
+        "clip_node": 15,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 23,
+        "clip_node": 20,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 24,
+        "clip_node": 20,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 28,
+        "clip_node": 25,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 29,
+        "clip_node": 25,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 33,
+        "clip_node": 30,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 34,
+        "clip_node": 30,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 38,
+        "clip_node": 35,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 39,
+        "clip_node": 35,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 43,
+        "clip_node": 40,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 44,
+        "clip_node": 40,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 48,
+        "clip_node": 45,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 49,
+        "clip_node": 45,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 53,
+        "clip_node": 50,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 54,
+        "clip_node": 50,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 58,
+        "clip_node": 55,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 59,
+        "clip_node": 55,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 63,
+        "clip_node": 60,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 64,
+        "clip_node": 60,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 68,
+        "clip_node": 65,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 69,
+        "clip_node": 65,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 73,
+        "clip_node": 70,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 74,
+        "clip_node": 70,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 78,
+        "clip_node": 75,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 79,
+        "clip_node": 75,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 83,
+        "clip_node": 80,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 84,
+        "clip_node": 80,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      },
+      {
+        "source_element": 295,
+        "source_node": 295,
+        "anchor_node": 88,
+        "clip_node": 85,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640875.0
+      },
+      {
+        "source_element": 296,
+        "source_node": 297,
+        "anchor_node": 89,
+        "clip_node": 85,
+        "EA_N": 167240187.371255,
+        "initial_tension_N": 640856.25
+      }
+    ],
+    "loading": "member and stated hardware gravity",
+    "support_mass_scope": "No support-span selfweight; original source initial tension remains active, as in the preceding legal local fixture.",
+    "small_contact_limit": "Single-point attachment retained to diagnose the saved model; no additional bearing, friction, bonding or rotational restraint is assumed."
+  },
+  "input_sha256": "6417d1be8294eded46bba879389dd03bbff9024f0b98d4dfb7fdb3157f12ff98",
+  "node_count": 100,
+  "beam_count": 4,
+  "shell_count": 0,
+  "body_count": 19,
+  "gravity_m_s2": 9.806,
+  "explicit_loads": [],
+  "native_exit": 0,
+  "displacement_block_count": 1,
+  "last_displacements_by_label": {
+    "middle_section": [
+      6.427307e-05,
+      1.714721e-09,
+      0.003265245
+    ],
+    "middle_rotation": [
+      -4.793758e-08,
+      7.154867e-05,
+      -1.307837e-06
+    ],
+    "load_point": [
+      6.427307e-05,
+      1.714721e-09,
+      0.003265245
+    ],
+    "clip_0": [
+      4.750566e-05,
+      3.727328e-05,
+      0.002638069
+    ],
+    "clip_1": [
+      4.982579e-05,
+      3.485781e-05,
+      0.002767245
+    ],
+    "clip_2": [
+      5.178165e-05,
+      3.121013e-05,
+      0.002876161
+    ],
+    "clip_3": [
+      5.364807e-05,
+      2.714217e-05,
+      0.002979997
+    ],
+    "clip_4": [
+      5.509457e-05,
+      2.176177e-05,
+      0.003060504
+    ],
+    "clip_5": [
+      5.646688e-05,
+      1.655596e-05,
+      0.003136025
+    ],
+    "clip_6": [
+      5.726012e-05,
+      1.217739e-05,
+      0.003177875
+    ],
+    "clip_7": [
+      5.8117e-05,
+      8.769198e-06,
+      0.003223639
+    ],
+    "clip_8": [
+      5.789645e-05,
+      -8.760677e-06,
+      0.003212826
+    ],
+    "clip_9": [
+      5.744958e-05,
+      -1.220052e-05,
+      0.00318846
+    ],
+    "clip_10": [
+      5.630341e-05,
+      -1.655508e-05,
+      0.003125164
+    ],
+    "clip_11": [
+      5.527791e-05,
+      -2.178359e-05,
+      0.003070953
+    ],
+    "clip_12": [
+      5.340494e-05,
+      -2.717089e-05,
+      0.002969
+    ],
+    "clip_13": [
+      5.192799e-05,
+      -3.121615e-05,
+      0.002886452
+    ],
+    "clip_14": [
+      4.962583e-05,
+      -3.492461e-05,
+      0.002756018
+    ],
+    "clip_15": [
+      4.777779e-05,
+      -3.725121e-05,
+      0.002648179
+    ],
+    "rail_0": [
+      6.910512e-05,
+      -0.0006819707,
+      0.002571184
+    ],
+    "rail_1": [
+      5.770624e-05,
+      -0.0003218007,
+      0.002571277
+    ],
+    "rail_2": [
+      0.0002244334,
+      0.0006826343,
+      0.002570475
+    ],
+    "rail_3": [
+      0.0001354341,
+      0.0003221154,
+      0.002570574
+    ]
+  },
+  "last_forces_by_label": {
+    "middle_section": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "middle_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "load_point": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "clip_0": [
+      4.522504,
+      10.79558,
+      -194.9525
+    ],
+    "clip_1": [
+      -2.563834,
+      10.01921,
+      -159.9021
+    ],
+    "clip_2": [
+      2.424544,
+      9.039483,
+      -125.9326
+    ],
+    "clip_3": [
+      -4.528884,
+      7.801487,
+      -98.69466
+    ],
+    "clip_4": [
+      0.7971827,
+      6.302925,
+      -72.49372
+    ],
+    "clip_5": [
+      -4.889696,
+      4.758688,
+      -53.82629
+    ],
+    "clip_6": [
+      3.92862,
+      3.526969,
+      -38.54446
+    ],
+    "clip_7": [
+      -0.08217217,
+      2.520532,
+      -28.72215
+    ],
+    "clip_8": [
+      4.20635,
+      -2.537378,
+      -28.42337
+    ],
+    "clip_9": [
+      -2.374375,
+      -3.5068,
+      -38.79546
+    ],
+    "clip_10": [
+      3.726102,
+      -4.794892,
+      -53.81265
+    ],
+    "clip_11": [
+      -5.732617,
+      -6.261269,
+      -72.52096
+    ],
+    "clip_12": [
+      -1.790096,
+      -7.869591,
+      -98.95801
+    ],
+    "clip_13": [
+      -6.606169,
+      -8.97248,
+      -125.5537
+    ],
+    "clip_14": [
+      3.656978,
+      -10.11532,
+      -160.7638
+    ],
+    "clip_15": [
+      5.305555,
+      -10.70714,
+      -194.2791
+    ],
+    "rail_0": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rail_1": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rail_2": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rail_3": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "max_printed_vector_norm": 0.003265877514169073
+}

@@ -1,0 +1,101 @@
+{
+  "name": "torsion_native_fx100_my40",
+  "completed": true,
+  "test_definition": {
+    "fixture": "Isolated 2 m straight Y-directed cantilever; only physical root translations and rotations are fixed.",
+    "profile": [
+      "BOX",
+      [
+        0.16,
+        0.16,
+        0.004,
+        0.004,
+        0.004,
+        0.004
+      ]
+    ],
+    "beam_count": 8,
+    "force_x_N": 100.0,
+    "equivalent_tip_torque_y_Nm": 40.0,
+    "load_offset_m": [
+      0.0,
+      0.0,
+      0.4
+    ],
+    "reference_scope": "Thin-wall torsion and Euler-Bernoulli bending scales only; the principal check is native b/c/d equivalent-load response.",
+    "thin_wall_J_scale_m4": 1.5185664e-05,
+    "thin_wall_tip_theta_y_scale_rad": 6.700238647156553e-05,
+    "Euler_Bernoulli_tip_x_scale_m": 0.00012778313717292828,
+    "previous_probe_gap": "The earlier arm force in global Z generated Mx and did not test My torsion of a beam aligned with global Y.",
+    "native_moment_scope": "Direct native My is applied using beam degree of freedom 5; rotation readout nodes carry no mass, force, spring or support.",
+    "loading_path": "native tip Fx plus My",
+    "applied_force_x_N": 100.0,
+    "rotation_readout_node": 18,
+    "comparison_note": "The actual direct load point is the beam centerline; compare the tip vector and rotation with offset cases, then reconstruct the virtual offset response if required."
+  },
+  "input_sha256": "d42b20503262f2536db0570648486969c158e7afa34aa984f21aa787da6afd30",
+  "node_count": 18,
+  "beam_count": 8,
+  "shell_count": 0,
+  "body_count": 0,
+  "gravity_m_s2": 0.0,
+  "explicit_loads": [
+    [
+      16,
+      1,
+      100.0
+    ],
+    [
+      16,
+      5,
+      40.0
+    ]
+  ],
+  "native_exit": 0,
+  "displacement_block_count": 1,
+  "last_displacements_by_label": {
+    "base": [
+      1.009742e-28,
+      0.0,
+      0.0
+    ],
+    "tip": [
+      0.0001268468,
+      -4.846436e-09,
+      -1.053898e-14
+    ],
+    "section_rotation": [
+      1.815121e-09,
+      5.025179e-05,
+      -9.487687e-05
+    ],
+    "load_point": [
+      0.0001268468,
+      -4.846436e-09,
+      -1.053898e-14
+    ]
+  },
+  "last_forces_by_label": {
+    "base": [
+      -100.0,
+      3.213239e-12,
+      -1.00075e-12
+    ],
+    "tip": [
+      100.0,
+      3.70096e-08,
+      5.972162e-09
+    ],
+    "section_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "load_point": [
+      100.0,
+      3.70096e-08,
+      5.972162e-09
+    ]
+  },
+  "max_printed_vector_norm": 0.0001268468000925839
+}
