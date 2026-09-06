@@ -2,7 +2,7 @@ name: Catwalk connection causal research # Locate real loaded-connection failure
 on: # Use a dedicated diagnostic request without changing the full-bridge geometry.
   push: # Run only the concrete diagnostic implementation changed in this continuation.
     branches: [calc/catwalk-physical-joints-20260906] # Keep the work on the authorized reconstruction branch.
-    paths: [catwalk-physical-20260906/research_connections.py, catwalk-physical-20260906/research_floor_cases.py, catwalk-physical-20260906/torsion_probe_cases.py, .github/workflows/catwalk-connection-research.yml] # Avoid rerunning unrelated calculations.
+    paths: [catwalk-physical-20260906/research_mesh.py, catwalk-physical-20260906/research_floor_mesh_cases.py, catwalk-physical-20260906/research_floor_modes.py, .github/workflows/catwalk-connection-research.yml] # Run only the second-stage mesh and equilibrium-tangent study.
 permissions: # Use existing repository access for the audited executable and diagnostic evidence.
   actions: read # Retrieve only the audited native solver artifact.
   contents: write # Preserve actual small-fixture results on the same reconstruction branch.
@@ -24,13 +24,15 @@ jobs: # Exercise actual load transfer with the same native implementation as the
       - name: Recover audited native solver # Reuse the same verified CCX joint-coordinate executable.
         run: python3 -c 'import sys; sys.path.insert(0,"catwalk-physical-20260906"); from reuse_joint_solver import build; build()' # Recover software infrastructure without historical numerical models.
       - name: Execute loaded fixtures # Record actual native load-driven responses and any failures.
-        run: python3 catwalk-physical-20260906/research_connections.py # Do not infer loaded stiffness from prescribed-motion kinematics alone.
+        run: python3 catwalk-physical-20260906/research_mesh.py # Separate the observed mesh effect from connection implementation at identical clip stations.
+      - name: Examine converged fixture eigenvalues # Check local static success without assuming that it implies stability.
+        run: python3 catwalk-physical-20260906/research_floor_modes.py # Preserve negative eigenvalues and distinguish modal vectors from static displacements.
       - name: Preserve diagnostic evidence # Keep successful and failed fixtures equally inspectable.
         if: always() # Preserve partial results if one fixture fails.
         run: | # Commit only the generated diagnostic subdirectory.
           git config user.name github-actions[bot] # Attribute execution records to the runner.
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com # Use the standard runner identity.
-          if test -d catwalk-physical-20260906/results/connection_research; then git add -f catwalk-physical-20260906/results/connection_research; fi # Preserve native solver files independent of repository ignore rules.
+          for folder in connection_mesh_research connection_research_modes; do if test -d catwalk-physical-20260906/results/$folder; then git add -f catwalk-physical-20260906/results/$folder; fi; done # Preserve only newly executed second-stage native evidence.
           git diff --cached --quiet || git commit -m "Record actual connection causal research from run $GITHUB_RUN_ID" # Commit only actual new output.
           git pull --rebase origin calc/catwalk-physical-joints-20260906 # Preserve concurrent scientific evidence without rewriting history.
           git push origin HEAD:calc/catwalk-physical-joints-20260906 # Save diagnostics only to the authorized branch.
@@ -38,5 +40,7 @@ jobs: # Exercise actual load transfer with the same native implementation as the
         if: always() # Preserve failures as well as successful calculations.
         with: # Keep diagnostic artifacts separate from full-bridge results.
           name: catwalk-connection-research-${{ github.run_id }} # Bind the archive to the actual workflow invocation.
-          path: catwalk-physical-20260906/results/connection_research # Include only this fixture run's evidence.
+          path: | # Include both concrete second-stage native studies.
+            catwalk-physical-20260906/results/connection_mesh_research
+            catwalk-physical-20260906/results/connection_research_modes
           retention-days: 30 # Retain the complete files for independent inspection.

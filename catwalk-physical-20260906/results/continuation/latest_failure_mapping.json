@@ -1,0 +1,982 @@
+{
+  "workflow_run": 34028799041,
+  "artifact_id": 9988150309,
+  "artifact_sha256": "b359667dfb69c49e7c70a01cfaeb7b10fc855a9fa48dbd434a4f778b2942bdca",
+  "source_commit": "901f1b04ca4d1b25a92cbda35e6734f520cb1ff2",
+  "artifact_file_sha256": {
+    "bridge.inp": "b751d16c76ec370ebd0e8964b17db4ed2885bab5fec9bb755cde735aac95fcf7",
+    "bridge.12d": "75e958ed9679dc7421955f0fd254ef1a7ad991250906d6aa4b287e3a63853064",
+    "native_solver.txt": "feeeed4d192ed56d4a90e0a821504f7968ae0f991fc721f1fe4cd8dc3f5ef535",
+    "bridge.sta": "a9a7bdfb6642030a85a03391bb0e9fc385968dfa0144ab4cd3fec3456b90dfcb",
+    "bridge.cvg": "1781b17276fae6e9b1dd05cba28dff35e3f48fbbbe9dd5e7a03a7ea45fad2f9f",
+    "run_status.json": "39ecd59f85df3b9a4eec906ca3d460a1111519a131034a754e37170561a84ef2",
+    "invocation.json": "6cc9e731b0e6468a01576ac725ffe32fdbdd0f1f85040f25bff920e2b7cc75bd"
+  },
+  "archived_spatial_native_py_sha256": "a11cd11a692477f84c162eb7b1c2303a2031704b9987913398b420b62e6efd25",
+  "native_status": {
+    "native_exit": 255,
+    "native_eigenvalue_count": 0,
+    "native_negative_eigenvalue_count": 0,
+    "native_displacement_blocks": 0,
+    "all_extracted_roots_have_vector_blocks": false,
+    "mode_order": "Native extraction order, with no sign or frequency filtering; a shifted extraction does not certify the globally lowest roots.",
+    "vector_matching": "Pending actual eigenvalue and displacement blocks.",
+    "mass": {
+      "source_one_deck_kg": 2054233.5225541848,
+      "source_two_decks_kg": 4108467.0451083696,
+      "native_steel_kg": 383836.73029013205,
+      "explicit_lumped_kg": 3724630.314757948,
+      "assembled_total_kg": 4108467.04504808,
+      "floor_residual_nonstructural_kg_per_m": 55.169248208220985,
+      "railing_two_decks_kg": 259290.0793701435,
+      "railing_source_two_decks_kg": 259290.07937014356,
+      "mass_relative_difference": -1.467448385028547e-11
+    }
+  },
+  "mapping_method": "Read the current bridge.12d B32R-to-C3D20RBB element blocks, match every original element to the current bridge.inp, locate the end/mid/end section starts, verify the current source-node knot records, and apply the archived gen3dnor eight-section-nodes then ROT then EXPANSION allocation rule. No source-node or station mapping is reused from run 33984938968.",
+  "allocation_evidence": {
+    "artifact_path": "results/solver_correction/gen3dnor_patched.f",
+    "sha256": "c424e52a302226872057a1e22682b811c6d99d7ae277e86c6344fe1b104ed223",
+    "eight_section_node_allocation_lines": [
+      778,
+      790
+    ],
+    "rotation_then_expansion_allocation_lines": [
+      913,
+      927
+    ]
+  },
+  "mapped_native_variables": [
+    {
+      "native_node": 1053006,
+      "original_node": 127680,
+      "variable_type": "EXPANSION",
+      "coordinate_m": [
+        2581.0,
+        -20.07,
+        115.356038062
+      ],
+      "section_allocated_node_range": [
+        1052997,
+        1053004
+      ],
+      "knot_generated_12d_line": 52095,
+      "evidence_element_ids": [
+        15455,
+        15456
+      ]
+    },
+    {
+      "native_node": 1064939,
+      "original_node": 131895,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2692.0,
+        -23.52,
+        113.37813822
+      ],
+      "section_allocated_node_range": [
+        1064931,
+        1064938
+      ],
+      "knot_generated_12d_line": 53421,
+      "evidence_element_ids": [
+        15749
+      ]
+    },
+    {
+      "native_node": 1090175,
+      "original_node": 140785,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2923.0,
+        -24.21,
+        123.123359316
+      ],
+      "section_allocated_node_range": [
+        1090167,
+        1090174
+      ],
+      "knot_generated_12d_line": 56225,
+      "evidence_element_ids": [
+        16373
+      ]
+    },
+    {
+      "native_node": 1090193,
+      "original_node": 140786,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2923.0,
+        -22.83,
+        123.123359316
+      ],
+      "section_allocated_node_range": [
+        1090185,
+        1090192
+      ],
+      "knot_generated_12d_line": 56227,
+      "evidence_element_ids": [
+        16373,
+        16374
+      ]
+    },
+    {
+      "native_node": 1090211,
+      "original_node": 140787,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2923.0,
+        -23.52,
+        123.123359316
+      ],
+      "section_allocated_node_range": [
+        1090203,
+        1090210
+      ],
+      "knot_generated_12d_line": 56229,
+      "evidence_element_ids": [
+        16373
+      ]
+    },
+    {
+      "native_node": 1090247,
+      "original_node": 140789,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2923.0,
+        -22.14,
+        123.123359316
+      ],
+      "section_allocated_node_range": [
+        1090239,
+        1090246
+      ],
+      "knot_generated_12d_line": 56233,
+      "evidence_element_ids": [
+        16374
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "tag": "F0_2581.000000",
+      "tag_provenance": "Derived from the archived spatial_native.py floor-row naming rule and exact current input coordinates.",
+      "family": "ordinary small floor crossbeam",
+      "native_type": "B32R",
+      "section": {
+        "line": 295264,
+        "card": "*BEAM SECTION,ELSET=B351,MATERIAL=STEEL,SECTION=BOX",
+        "dimensions_m": [
+          0.05,
+          0.05,
+          0.004,
+          0.004,
+          0.004,
+          0.004
+        ],
+        "orientation": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      "beam_element_ids": [
+        15453,
+        15454,
+        15455,
+        15456
+      ],
+      "beam_source_topology": {
+        "15453": [
+          127675,
+          127677,
+          127676
+        ],
+        "15454": [
+          127676,
+          127679,
+          127678
+        ],
+        "15455": [
+          127678,
+          127681,
+          127680
+        ],
+        "15456": [
+          127680,
+          127683,
+          127682
+        ]
+      },
+      "beam_source_coordinates_m": {
+        "127675": [
+          2581.0,
+          -24.21,
+          115.356038062
+        ],
+        "127676": [
+          2581.0,
+          -22.83,
+          115.356038062
+        ],
+        "127677": [
+          2581.0,
+          -23.52,
+          115.356038062
+        ],
+        "127678": [
+          2581.0,
+          -21.45,
+          115.356038062
+        ],
+        "127679": [
+          2581.0,
+          -22.14,
+          115.356038062
+        ],
+        "127680": [
+          2581.0,
+          -20.07,
+          115.356038062
+        ],
+        "127681": [
+          2581.0,
+          -20.76,
+          115.356038062
+        ],
+        "127682": [
+          2581.0,
+          -18.69,
+          115.356038062
+        ],
+        "127683": [
+          2581.0,
+          -19.38,
+          115.356038062
+        ]
+      },
+      "native_failed_variables": [
+        1053006
+      ],
+      "floor_rope_nodes": [
+        127684,
+        127687,
+        127690,
+        127693,
+        127696,
+        127699,
+        127702,
+        127705,
+        127708,
+        127711,
+        127714,
+        127717,
+        127720,
+        127723,
+        127726,
+        127729
+      ],
+      "floor_rope_coordinates_m": [
+        [
+          2581.0,
+          -24.12,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -23.86,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -23.6,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -23.34,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -23.08,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -22.82,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -22.56,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -22.3,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -20.6,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -20.34,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -20.08,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -19.82,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -19.56,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -19.3,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -19.04,
+          115.306038062
+        ],
+        [
+          2581.0,
+          -18.78,
+          115.306038062
+        ]
+      ],
+      "floor_rope_x_range_m": [
+        2581.0,
+        2581.0
+      ],
+      "floor_rope_z_range_m": [
+        115.306038062,
+        115.306038062
+      ],
+      "floor_rope_points_collinear_in_initial_input": true
+    },
+    {
+      "tag": "F0_2692.000000",
+      "tag_provenance": "Derived from the archived spatial_native.py floor-row naming rule and exact current input coordinates.",
+      "family": "ordinary small floor crossbeam",
+      "native_type": "B32R",
+      "section": {
+        "line": 295264,
+        "card": "*BEAM SECTION,ELSET=B351,MATERIAL=STEEL,SECTION=BOX",
+        "dimensions_m": [
+          0.05,
+          0.05,
+          0.004,
+          0.004,
+          0.004,
+          0.004
+        ],
+        "orientation": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      "beam_element_ids": [
+        15749,
+        15750,
+        15751,
+        15752
+      ],
+      "beam_source_topology": {
+        "15749": [
+          131893,
+          131895,
+          131894
+        ],
+        "15750": [
+          131894,
+          131897,
+          131896
+        ],
+        "15751": [
+          131896,
+          131899,
+          131898
+        ],
+        "15752": [
+          131898,
+          131901,
+          131900
+        ]
+      },
+      "beam_source_coordinates_m": {
+        "131893": [
+          2692.0,
+          -24.21,
+          113.37813822
+        ],
+        "131894": [
+          2692.0,
+          -22.83,
+          113.37813822
+        ],
+        "131895": [
+          2692.0,
+          -23.52,
+          113.37813822
+        ],
+        "131896": [
+          2692.0,
+          -21.45,
+          113.37813822
+        ],
+        "131897": [
+          2692.0,
+          -22.14,
+          113.37813822
+        ],
+        "131898": [
+          2692.0,
+          -20.07,
+          113.37813822
+        ],
+        "131899": [
+          2692.0,
+          -20.76,
+          113.37813822
+        ],
+        "131900": [
+          2692.0,
+          -18.69,
+          113.37813822
+        ],
+        "131901": [
+          2692.0,
+          -19.38,
+          113.37813822
+        ]
+      },
+      "native_failed_variables": [
+        1064939
+      ],
+      "floor_rope_nodes": [
+        131902,
+        131905,
+        131908,
+        131911,
+        131914,
+        131917,
+        131920,
+        131923,
+        131926,
+        131929,
+        131932,
+        131935,
+        131938,
+        131941,
+        131944,
+        131947
+      ],
+      "floor_rope_coordinates_m": [
+        [
+          2692.0,
+          -24.12,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -23.86,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -23.6,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -23.34,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -23.08,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -22.82,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -22.56,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -22.3,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -20.6,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -20.34,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -20.08,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -19.82,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -19.56,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -19.3,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -19.04,
+          113.32813822
+        ],
+        [
+          2692.0,
+          -18.78,
+          113.32813822
+        ]
+      ],
+      "floor_rope_x_range_m": [
+        2692.0,
+        2692.0
+      ],
+      "floor_rope_z_range_m": [
+        113.32813822,
+        113.32813822
+      ],
+      "floor_rope_points_collinear_in_initial_input": true
+    },
+    {
+      "tag": "F0_2923.000000",
+      "tag_provenance": "Derived from the archived spatial_native.py floor-row naming rule and exact current input coordinates.",
+      "family": "ordinary small floor crossbeam",
+      "native_type": "B32R",
+      "section": {
+        "line": 295264,
+        "card": "*BEAM SECTION,ELSET=B351,MATERIAL=STEEL,SECTION=BOX",
+        "dimensions_m": [
+          0.05,
+          0.05,
+          0.004,
+          0.004,
+          0.004,
+          0.004
+        ],
+        "orientation": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      "beam_element_ids": [
+        16373,
+        16374,
+        16375,
+        16376
+      ],
+      "beam_source_topology": {
+        "16373": [
+          140785,
+          140787,
+          140786
+        ],
+        "16374": [
+          140786,
+          140789,
+          140788
+        ],
+        "16375": [
+          140788,
+          140791,
+          140790
+        ],
+        "16376": [
+          140790,
+          140793,
+          140792
+        ]
+      },
+      "beam_source_coordinates_m": {
+        "140785": [
+          2923.0,
+          -24.21,
+          123.123359316
+        ],
+        "140786": [
+          2923.0,
+          -22.83,
+          123.123359316
+        ],
+        "140787": [
+          2923.0,
+          -23.52,
+          123.123359316
+        ],
+        "140788": [
+          2923.0,
+          -21.45,
+          123.123359316
+        ],
+        "140789": [
+          2923.0,
+          -22.14,
+          123.123359316
+        ],
+        "140790": [
+          2923.0,
+          -20.07,
+          123.123359316
+        ],
+        "140791": [
+          2923.0,
+          -20.76,
+          123.123359316
+        ],
+        "140792": [
+          2923.0,
+          -18.69,
+          123.123359316
+        ],
+        "140793": [
+          2923.0,
+          -19.38,
+          123.123359316
+        ]
+      },
+      "native_failed_variables": [
+        1090175,
+        1090193,
+        1090211,
+        1090247
+      ],
+      "floor_rope_nodes": [
+        140794,
+        140797,
+        140800,
+        140803,
+        140806,
+        140809,
+        140812,
+        140815,
+        140818,
+        140821,
+        140824,
+        140827,
+        140830,
+        140833,
+        140836,
+        140839
+      ],
+      "floor_rope_coordinates_m": [
+        [
+          2923.0,
+          -24.12,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -23.86,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -23.6,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -23.34,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -23.08,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -22.82,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -22.56,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -22.3,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -20.6,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -20.34,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -20.08,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -19.82,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -19.56,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -19.3,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -19.04,
+          123.073359316
+        ],
+        [
+          2923.0,
+          -18.78,
+          123.073359316
+        ]
+      ],
+      "floor_rope_x_range_m": [
+        2923.0,
+        2923.0
+      ],
+      "floor_rope_z_range_m": [
+        123.073359316,
+        123.073359316
+      ],
+      "floor_rope_points_collinear_in_initial_input": true
+    }
+  ],
+  "history_events": [
+    {
+      "quantity": "largest residual force",
+      "value": 1.1950289945085511e+22,
+      "native_node": 1090247,
+      "dof": 2,
+      "increment": 1,
+      "attempt": 1,
+      "iteration": 1,
+      "increment_size": 1.0,
+      "native_solver_line": 14703,
+      "raw_line": "largest residual force= 11950289945085511467008.000000 in node 1090247 and dof 2",
+      "original_node": 140789,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2923.0,
+        -22.14,
+        123.123359316
+      ],
+      "interpretation": "Residual associated with the internal ROTY generalized coordinate; the raw solver label is retained."
+    },
+    {
+      "quantity": "largest correction to disp",
+      "value": 34938.17,
+      "native_node": 1090193,
+      "dof": 2,
+      "increment": 1,
+      "attempt": 1,
+      "iteration": 1,
+      "increment_size": 1.0,
+      "native_solver_line": 14705,
+      "raw_line": "largest correction to disp= 3.493817e+04 in node 1090193 and dof 2",
+      "original_node": 140786,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2923.0,
+        -22.83,
+        123.123359316
+      ],
+      "interpretation": "ROTY rotation correction, radians; not a physical nodal translation in metres."
+    },
+    {
+      "quantity": "largest residual force",
+      "value": 1.3143162342693895e+32,
+      "native_node": 1064939,
+      "dof": 2,
+      "increment": 1,
+      "attempt": 1,
+      "iteration": 2,
+      "increment_size": 1.0,
+      "native_solver_line": 14736,
+      "raw_line": "largest residual force= 131431623426938947175133801873408.000000 in node 1064939 and dof 2",
+      "original_node": 131895,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2692.0,
+        -23.52,
+        113.37813822
+      ],
+      "interpretation": "Residual associated with the internal ROTY generalized coordinate; the raw solver label is retained."
+    },
+    {
+      "quantity": "largest correction to disp",
+      "value": 87592620000000.0,
+      "native_node": 1053006,
+      "dof": 1,
+      "increment": 1,
+      "attempt": 1,
+      "iteration": 2,
+      "increment_size": 1.0,
+      "native_solver_line": 14738,
+      "raw_line": "largest correction to disp= 8.759262e+13 in node 1053006 and dof 1",
+      "original_node": 127680,
+      "variable_type": "EXPANSION",
+      "coordinate_m": [
+        2581.0,
+        -20.07,
+        115.356038062
+      ],
+      "interpretation": "Internal cross-section EXPANSION generalized coordinate; not a global Cartesian translation of the original node."
+    },
+    {
+      "quantity": "largest residual force",
+      "value": 1.8098364339256003e+28,
+      "native_node": 1090211,
+      "dof": 2,
+      "increment": 1,
+      "attempt": 2,
+      "iteration": 1,
+      "increment_size": 0.25,
+      "native_solver_line": 14776,
+      "raw_line": "largest residual force= 18098364339256003144227749888.000000 in node 1090211 and dof 2",
+      "original_node": 140787,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2923.0,
+        -23.52,
+        123.123359316
+      ],
+      "interpretation": "Residual associated with the internal ROTY generalized coordinate; the raw solver label is retained."
+    },
+    {
+      "quantity": "largest correction to disp",
+      "value": 4012242.0,
+      "native_node": 1090175,
+      "dof": 2,
+      "increment": 1,
+      "attempt": 2,
+      "iteration": 1,
+      "increment_size": 0.25,
+      "native_solver_line": 14778,
+      "raw_line": "largest correction to disp= 4.012242e+06 in node 1090175 and dof 2",
+      "original_node": 140785,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2923.0,
+        -24.21,
+        123.123359316
+      ],
+      "interpretation": "ROTY rotation correction, radians; not a physical nodal translation in metres."
+    },
+    {
+      "quantity": "largest residual force",
+      "value": 3.553337553569635e+28,
+      "native_node": 1090211,
+      "dof": 2,
+      "increment": 1,
+      "attempt": 3,
+      "iteration": 1,
+      "increment_size": 0.0625,
+      "native_solver_line": 14816,
+      "raw_line": "largest residual force= 35533375535696349988982358016.000000 in node 1090211 and dof 2",
+      "original_node": 140787,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2923.0,
+        -23.52,
+        123.123359316
+      ],
+      "interpretation": "Residual associated with the internal ROTY generalized coordinate; the raw solver label is retained."
+    },
+    {
+      "quantity": "largest correction to disp",
+      "value": 5024037.0,
+      "native_node": 1090175,
+      "dof": 2,
+      "increment": 1,
+      "attempt": 3,
+      "iteration": 1,
+      "increment_size": 0.0625,
+      "native_solver_line": 14818,
+      "raw_line": "largest correction to disp= 5.024037e+06 in node 1090175 and dof 2",
+      "original_node": 140785,
+      "variable_type": "ROT",
+      "coordinate_m": [
+        2923.0,
+        -24.21,
+        123.123359316
+      ],
+      "interpretation": "ROTY rotation correction, radians; not a physical nodal translation in metres."
+    }
+  ],
+  "actual_12d_blocks": {
+    "15455": {
+      "first_line": 173105,
+      "text": " ELEMENT        15455 with label \"B32R   B\" and with nodes:\n     127678     127681     127680\n  is expanded into a \"C3D20RBB\" element with topology:\n    1052961    1052997    1052998    1052962    1052964    1053000    1052999    1052963    1053015    1053001\n    1053016    1052965    1053018    1053003    1053017    1052967    1052968    1053004    1053002    1052966\n"
+    },
+    "15456": {
+      "first_line": 173111,
+      "text": " ELEMENT        15456 with label \"B32R   B\" and with nodes:\n     127680     127683     127682\n  is expanded into a \"C3D20RBB\" element with topology:\n    1052997    1053033    1053034    1052998    1053000    1053036    1053035    1052999    1053051    1053037\n    1053052    1053001    1053054    1053039    1053053    1053003    1053004    1053040    1053038    1053002\n"
+    },
+    "15749": {
+      "first_line": 174869,
+      "text": " ELEMENT        15749 with label \"B32R   B\" and with nodes:\n     131893     131895     131894\n  is expanded into a \"C3D20RBB\" element with topology:\n    1064895    1064913    1064914    1064896    1064898    1064916    1064915    1064897    1064931    1064917\n    1064932    1064899    1064934    1064919    1064933    1064901    1064902    1064920    1064918    1064900\n"
+    },
+    "16373": {
+      "first_line": 178613,
+      "text": " ELEMENT        16373 with label \"B32R   B\" and with nodes:\n     140785     140787     140786\n  is expanded into a \"C3D20RBB\" element with topology:\n    1090167    1090185    1090186    1090168    1090170    1090188    1090187    1090169    1090203    1090189\n    1090204    1090171    1090206    1090191    1090205    1090173    1090174    1090192    1090190    1090172\n"
+    },
+    "16374": {
+      "first_line": 178619,
+      "text": " ELEMENT        16374 with label \"B32R   B\" and with nodes:\n     140786     140789     140788\n  is expanded into a \"C3D20RBB\" element with topology:\n    1090185    1090221    1090222    1090186    1090188    1090224    1090223    1090187    1090239    1090225\n    1090240    1090189    1090242    1090227    1090241    1090191    1090192    1090228    1090226    1090190\n"
+    }
+  },
+  "finding": "The first failed Newton iteration is on the ordinary BOX50 small crossbeam F0_2923.000000: native ROTY node 1090193 (original 140786) has a correction of 34938.17 rad; residual maximum 1090247 is original 140789 ROTY on the same member. Later maxima map to ordinary BOX50 small beams at x=2692 m and x=2581 m; the latter maximum correction belongs to the internal EXPANSION coordinate.",
+  "causal_limit": "Localization and collinear initial attachment points identify where failure appears and which current connection family remains involved. They do not prove that this is the sole defect, that the final physical bridge is unstable, or that a converged equilibrium has been obtained. The recorded run produced zero converged displacement blocks and zero eigenvalues."
+}

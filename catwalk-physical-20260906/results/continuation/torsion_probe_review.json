@@ -1,0 +1,211 @@
+{
+  "workflow_run": "34041763072",
+  "source_commit": "7fc169f1be7571dccddb6f4668d44ecccaf10c06",
+  "scope": "Four isolated 2 m BOX160 cantilevers, eight B32R elements; no full-bridge equilibrium or modal result is established.",
+  "independent_method": "Read actual DAT displacement rows directly, compare exact input hashes, and evaluate Rodrigues rotation with elementary dot/cross products. Existing native_vectors.json is not used to calculate these checks.",
+  "cases": {
+    "torsion_native_my40": {
+      "native_exit": 0,
+      "input_sha256": "b5a188bc0ca2d111febfdf80bbf2352d8c9725ac398a59b73427c6c38069fdde",
+      "input_hash_matches_record": true,
+      "dat_displacement_row_count": 18,
+      "displacement_block_count": 1,
+      "full_step_time_recorded": true,
+      "job_finished_in_log": true,
+      "error_marker_in_log": false,
+      "singular_marker_in_log": false,
+      "convergence_iteration_count": 2,
+      "converged_log_count": 1,
+      "tip_displacement_m": [
+        1.677377e-20,
+        -2.697422e-12,
+        5.303818e-20
+      ],
+      "rotation_vector_rad": [
+        3.905306e-20,
+        5.025179e-05,
+        -1.405775e-20
+      ],
+      "theta_y_to_thin_wall_scale_ratio": 0.7500000021838901,
+      "native_effective_torsional_rigidity_Nm2": 1591983.0915475846,
+      "thin_wall_scale_rigidity_Nm2": 1193987.3221374047,
+      "warning": "CCX raised the minimum increment from 1e-8 to 1e-6; each case nevertheless converged at the first full-load increment in two Newton iterations.",
+      "mpc_info": "Linear and nonlinear MPCs depend on each other; this is INFO and is also present in the converged native torque-only reference."
+    },
+    "torsion_native_fx100_my40": {
+      "native_exit": 0,
+      "input_sha256": "d42b20503262f2536db0570648486969c158e7afa34aa984f21aa787da6afd30",
+      "input_hash_matches_record": true,
+      "dat_displacement_row_count": 18,
+      "displacement_block_count": 1,
+      "full_step_time_recorded": true,
+      "job_finished_in_log": true,
+      "error_marker_in_log": false,
+      "singular_marker_in_log": false,
+      "convergence_iteration_count": 2,
+      "converged_log_count": 1,
+      "tip_displacement_m": [
+        0.0001268468,
+        -4.846436e-09,
+        -1.053898e-14
+      ],
+      "rotation_vector_rad": [
+        1.815121e-09,
+        5.025179e-05,
+        -9.487687e-05
+      ],
+      "theta_y_to_thin_wall_scale_ratio": 0.7500000021838901,
+      "native_effective_torsional_rigidity_Nm2": 1591983.0915475846,
+      "thin_wall_scale_rigidity_Nm2": 1193987.3221374047,
+      "warning": "CCX raised the minimum increment from 1e-8 to 1e-6; each case nevertheless converged at the first full-load increment in two Newton iterations.",
+      "mpc_info": "Linear and nonlinear MPCs depend on each other; this is INFO and is also present in the converged native torque-only reference.",
+      "tip_x_to_Euler_Bernoulli_scale_ratio": 0.9926724512040964
+    },
+    "torsion_arm_fx100_z040": {
+      "native_exit": 0,
+      "input_sha256": "939ad06012115199683f3af9598411697856f36f8e363d8ea3e7b3938b3fc12b",
+      "input_hash_matches_record": true,
+      "dat_displacement_row_count": 20,
+      "displacement_block_count": 1,
+      "full_step_time_recorded": true,
+      "job_finished_in_log": true,
+      "error_marker_in_log": false,
+      "singular_marker_in_log": false,
+      "convergence_iteration_count": 2,
+      "converged_log_count": 1,
+      "tip_displacement_m": [
+        0.0001268468,
+        -4.846436e-09,
+        -1.800325e-09
+      ],
+      "rotation_vector_rad": [
+        1.816577e-11,
+        5.025179e-05,
+        -9.487687e-05
+      ],
+      "theta_y_to_thin_wall_scale_ratio": 0.7500000021838901,
+      "native_effective_torsional_rigidity_Nm2": 1591983.0915475846,
+      "thin_wall_scale_rigidity_Nm2": 1193987.3221374047,
+      "warning": "CCX raised the minimum increment from 1e-8 to 1e-6; each case nevertheless converged at the first full-load increment in two Newton iterations.",
+      "mpc_info": "Linear and nonlinear MPCs depend on each other; this is INFO and is also present in the converged native torque-only reference.",
+      "tip_x_to_Euler_Bernoulli_scale_ratio": 0.9926724512040964,
+      "Rodrigues_check": {
+        "native_relative_displacement_m": [
+          2.0100799999999975e-05,
+          -9.608130000000002e-10,
+          -5.05048e-10
+        ],
+        "rotation_predicted_relative_displacement_m": [
+          2.010071596103893e-05,
+          -9.608128123091934e-10,
+          -5.050484769416133e-10
+        ],
+        "residual_m": [
+          8.403896104540324e-11,
+          -1.8769080684564299e-16,
+          4.769416132859164e-16
+        ],
+        "max_abs_residual_m": 8.403896104540324e-11,
+        "precision_note": "DAT prints seven significant digits; subtracting the two printed X displacement values limits this residual to about 1e-10 m precision."
+      }
+    },
+    "torsion_section_fx100_z040": {
+      "native_exit": 0,
+      "input_sha256": "c27cba35280de5b6e3bafc134c167ce2539565d6bf461c8b1edfdeb25b9b826a",
+      "input_hash_matches_record": true,
+      "dat_displacement_row_count": 20,
+      "displacement_block_count": 1,
+      "full_step_time_recorded": true,
+      "job_finished_in_log": true,
+      "error_marker_in_log": false,
+      "singular_marker_in_log": false,
+      "convergence_iteration_count": 2,
+      "converged_log_count": 1,
+      "tip_displacement_m": [
+        0.0001268468,
+        -4.846436e-09,
+        -1.800325e-09
+      ],
+      "rotation_vector_rad": [
+        1.816577e-11,
+        5.025179e-05,
+        -9.487687e-05
+      ],
+      "theta_y_to_thin_wall_scale_ratio": 0.7500000021838901,
+      "native_effective_torsional_rigidity_Nm2": 1591983.0915475846,
+      "thin_wall_scale_rigidity_Nm2": 1193987.3221374047,
+      "warning": "CCX raised the minimum increment from 1e-8 to 1e-6; each case nevertheless converged at the first full-load increment in two Newton iterations.",
+      "mpc_info": "Linear and nonlinear MPCs depend on each other; this is INFO and is also present in the converged native torque-only reference.",
+      "tip_x_to_Euler_Bernoulli_scale_ratio": 0.9926724512040964,
+      "Rodrigues_check": {
+        "native_relative_displacement_m": [
+          2.0100799999999975e-05,
+          -9.608130000000002e-10,
+          -5.05048e-10
+        ],
+        "rotation_predicted_relative_displacement_m": [
+          2.010071596103893e-05,
+          -9.608128123091934e-10,
+          -5.050484769416133e-10
+        ],
+        "residual_m": [
+          8.403896104540324e-11,
+          -1.8769080684564299e-16,
+          4.769416132859164e-16
+        ],
+        "max_abs_residual_m": 8.403896104540324e-11,
+        "precision_note": "DAT prints seven significant digits; subtracting the two printed X displacement values limits this residual to about 1e-10 m precision."
+      }
+    }
+  },
+  "comparisons": {
+    "torsion_arm_fx100_z040_vs_native_fx100_my40": {
+      "tip_displacement_difference_m": [
+        0.0,
+        0.0,
+        -1.80031446102e-09
+      ],
+      "max_abs_tip_difference_m": 1.80031446102e-09,
+      "rotation_difference_rad": [
+        -1.79695523e-09,
+        0.0,
+        0.0
+      ],
+      "theta_y_difference_rad": 0.0,
+      "theta_z_difference_rad": 0.0,
+      "tip_x_difference_m": 0.0,
+      "finite_load_note": "Fx at a rotating offset and constant native Fx/My have the same undeformed force and moment; exact finite-deformation equivalence is not assumed."
+    },
+    "torsion_section_fx100_z040_vs_native_fx100_my40": {
+      "tip_displacement_difference_m": [
+        0.0,
+        0.0,
+        -1.80031446102e-09
+      ],
+      "max_abs_tip_difference_m": 1.80031446102e-09,
+      "rotation_difference_rad": [
+        -1.79695523e-09,
+        0.0,
+        0.0
+      ],
+      "theta_y_difference_rad": 0.0,
+      "theta_z_difference_rad": 0.0,
+      "tip_x_difference_m": 0.0,
+      "finite_load_note": "Fx at a rotating offset and constant native Fx/My have the same undeformed force and moment; exact finite-deformation equivalence is not assumed."
+    },
+    "arm_vs_section": {
+      "max_abs_tip_difference_m": 0.0,
+      "max_abs_rotation_difference_rad": 0.0,
+      "max_abs_load_point_difference_m": 0.0,
+      "interpretation": "Identical at native DAT printed precision."
+    }
+  },
+  "conclusions": [
+    "All four native computations exit 0, converge in two iterations at the first full-load increment, and print one complete displacement field.",
+    "ROTY is 5.025179e-5 rad in all four cases; the current arm and BeamLine free-tip section transfer My without a missing torsional load path.",
+    "The offset cases match native Fx plus My in the printed tip X displacement, theta_y and theta_z. Their maximum tip-vector difference is 1.80031446102e-9 m and maximum rotation-vector difference is about 1.797e-9 rad, confined to small finite-geometry components.",
+    "Arm and BeamLine offset displacements satisfy independently evaluated finite Rodrigues kinematics to the native DAT rounding scale.",
+    "The torsional rotation is only 75.0 percent of the thin-wall Saint-Venant scale, implying approximately 33.3 percent higher effective torsional rigidity for this native beam representation/fixture. This discrepancy already exists in the torque-only case and is therefore not introduced by either offset connector; it remains a separate element/section/warping issue requiring independent section or mesh evidence before claiming accurate physical torsion.",
+    "The present checks do not establish the correctness of arbitrary off-mesh section interpolation, the floor-beam rope topology, or full-bridge nonlinear equilibrium."
+  ]
+}
