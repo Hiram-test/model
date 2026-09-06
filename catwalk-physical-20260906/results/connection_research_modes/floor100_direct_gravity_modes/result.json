@@ -912,5 +912,9 @@
     ]
   },
   "static_modal_phase_heading_found": true,
-  "stability_interpretation": "At least one extracted tangent eigenvalue is negative; this indicates a locally unstable direction of this stated fixture equilibrium, subject to the preserved native completion status."
+  "stability_interpretation": "Independent review found rigid-connection modal compatibility violations in the actual DAT/FRD output. The static-to-frequency nested-MPC handling also has an identified assembly defect path. These printed eigenvalues and vectors cannot certify physical fixture stability or instability; native exit and numbers remain preserved.",
+  "original_execution_stability_interpretation": "At least one extracted tangent eigenvalue is negative; this indicates a locally unstable direction of this stated fixture equilibrium, subject to the preserved native completion status.",
+  "physical_mode_validation_passed": false,
+  "native_execution_completed": true,
+  "validation_evidence": "../continuation/local_mode_review.json; ../continuation/modal_mpc_source_audit.md"
 }

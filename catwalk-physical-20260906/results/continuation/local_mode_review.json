@@ -1,0 +1,909 @@
+{
+  "workflow_run": 34042320810,
+  "review_scope": "Independent reading and kinematic interpretation of the two already executed local floor modal fixtures; no model modification or native solve performed.",
+  "tangent_relation": "delta_u_point = delta_u_reference + d[R(theta_static)*r0]/dtheta * delta_theta; theta_static is the explicit rotation-reference field from the preceding converged static output.",
+  "main_finding": "Both native runs returned exit 0 and twenty eigenvalues, but all actual rope clips print exactly zero vectors in every selected modal field in both DAT and FRD while the physical beam and connector translation references move. The saved static fields satisfy their finite-body motion to subnanometre-to-nanometre output precision, whereas the modal fields violate its tangent relation at order-one relative amplitude. The current fields therefore cannot certify physical stability, instability, or fourteen full-bridge modes.",
+  "cases": [
+    {
+      "case": "floor100_direct_gravity_modes",
+      "workflow_run": "34042320810",
+      "source_commit": "5522e97252d8030f56f17676832169b7dfa9ec18",
+      "native_exit": 0,
+      "input_sha256": "122159c08e2e3d5f4d0d3d9d66eafa6687e85425222a6880e3130d35b1050f14",
+      "file_sha256": {
+        "test.inp": "122159c08e2e3d5f4d0d3d9d66eafa6687e85425222a6880e3130d35b1050f14",
+        "test.dat": "e78be6b013ac356bdcc5cba38ff8b807a5df7515332488d9f5db7d9317c83d19",
+        "test.frd": "c9affc519bcef71f24e65eb246bfc04bcfec9d721c5e9526d23e5b9f5517fee4",
+        "native_vectors.json": "f1cee0ca566b33cdb81c25050fbac8084734e5b19749c752271419560f2040e7"
+      },
+      "node_role_counts": {
+        "beam_centerline": 35,
+        "actual_clips": 16,
+        "rope_endpoints_including_clips": 48,
+        "physical_lumped_masses": 4,
+        "rotation_references": 19,
+        "translation_references": 19
+      },
+      "maximum_static_finite_body_compatibility_error_m": 8.719720557200947e-10,
+      "maximum_rotation_map_jacobian_change_between_steps_1e_minus6_and_1e_minus7": 1.3322676295501878e-09,
+      "mode_field_status": "not physically certified: reported dependent-point modal fields violate declared rigid-body tangent compatibility",
+      "interpretation": "The first three near-zero fields are approximately uniform physical beam translations, with every actual clip zero in DAT and FRD and every actual lumped handrail mass point zero in DAT; standalone MASS points are omitted from this FRD. These are not certified physical rigid modes of the declared rope-supported assembly.",
+      "causal_limit": "This review establishes an inconsistency in the reported field, not whether its cause lies in eigenmatrix assembly, constraint inheritance/linearization, dependent-coordinate recovery, or another native modal output path. It does not establish physical instability from the printed negative eigenvalues.",
+      "modes": [
+        {
+          "mode": 1,
+          "eigenvalue": -7.717738e-07,
+          "frequency_imaginary_hz": 0.00013981866792885447,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.11986888923201662,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 1.8962034847954775e-06,
+            "translation_references": 0.11986888920910517
+          },
+          "beam_rigid_motion_fit_relative_residual": 2.2390216665424473e-09,
+          "beam_uniform_translation_fit_relative_residual": 5.419258537591898e-07,
+          "fitted_translation": [
+            0.004872733428571428,
+            -0.11976739999999991,
+            0.000759514771428616
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            3.1928329138322157e-08,
+            -1.9305302871807692e-07,
+            8.87470422940803e-09
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.11986889295656346,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 3.999999999976245e-07,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0,
+          "clip_0_compatibility_example": {
+            "point_node": 36,
+            "reference_node": 38,
+            "rotation_node": 37,
+            "initial_offset_m": [
+              0.075,
+              0.0,
+              -0.07629994011202999
+            ],
+            "static_rotation_vector_rad": [
+              0.0005544658,
+              1.278308e-05,
+              -1.19376e-05
+            ],
+            "rotation_map_jacobian_m_per_rad": [
+              [
+                4.555938959427408e-07,
+                -0.07630089492172143,
+                -2.0257538702050937e-05
+              ],
+              [
+                0.07630040791052983,
+                2.1247709582045528e-05,
+                0.07499950864392761
+              ],
+              [
+                4.185822521929339e-05,
+                -0.07499902079932674,
+                2.079246497199705e-05
+              ]
+            ],
+            "modal_reference_vector": [
+              0.004872757,
+              -0.1197674,
+              0.0007594295
+            ],
+            "modal_rotation_reference_vector": [
+              3.191479e-08,
+              -1.895905e-06,
+              8.361741e-09
+            ],
+            "modal_predicted_point_vector": [
+              0.004872901659093339,
+              -0.11976739697804567,
+              0.0007595716925282862
+            ],
+            "modal_reported_point_vector": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "defect_norm_native_normalization": 0.11986889295656346,
+            "actual_FRD_record": {
+              "vector": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "line": 342,
+              "raw": " -1        36 0.00000E+00 0.00000E+00 0.00000E+00"
+            },
+            "actual_DAT_records": {
+              "36": {
+                "line": 401,
+                "raw": "        36  0.000000E+00  0.000000E+00  0.000000E+00"
+              },
+              "38": {
+                "line": 403,
+                "raw": "        38  4.872757E-03 -1.197674E-01  7.594295E-04"
+              },
+              "37": {
+                "line": 402,
+                "raw": "        37  3.191479E-08 -1.895905E-06  8.361741E-09"
+              }
+            }
+          }
+        },
+        {
+          "mode": 2,
+          "eigenvalue": -1.072008e-07,
+          "frequency_imaginary_hz": 5.210977935441015e-05,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.11986923027071388,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 0.00013182078195613368,
+            "translation_references": 0.11986923016023852
+          },
+          "beam_rigid_motion_fit_relative_residual": 2.4306037763715507e-07,
+          "beam_uniform_translation_fit_relative_residual": 2.268703989250683e-06,
+          "fitted_translation": [
+            -0.006621244571428572,
+            -0.0010283550000000385,
+            -0.11968144000000003
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            1.3673867290210954e-07,
+            3.935720536595641e-06,
+            -1.817030481563563e-08
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.11987900436209485,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 3.999999999976245e-07,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0,
+          "clip_0_compatibility_example": {
+            "point_node": 36,
+            "reference_node": 38,
+            "rotation_node": 37,
+            "initial_offset_m": [
+              0.075,
+              0.0,
+              -0.07629994011202999
+            ],
+            "static_rotation_vector_rad": [
+              0.0005544658,
+              1.278308e-05,
+              -1.19376e-05
+            ],
+            "rotation_map_jacobian_m_per_rad": [
+              [
+                4.555938959427408e-07,
+                -0.07630089492172143,
+                -2.0257538702050937e-05
+              ],
+              [
+                0.07630040791052983,
+                2.1247709582045528e-05,
+                0.07499950864392761
+              ],
+              [
+                4.185822521929339e-05,
+                -0.07499902079932674,
+                2.079246497199705e-05
+              ]
+            ],
+            "modal_reference_vector": [
+              -0.006621294,
+              -0.001028355,
+              -0.1196818
+            ],
+            "modal_rotation_reference_vector": [
+              1.35551e-07,
+              -0.0001318207,
+              -5.648343e-08
+            ],
+            "modal_predicted_point_vector": [
+              -0.00661123596141482,
+              -0.0010283516945208543,
+              -0.11967191357207943
+            ],
+            "modal_reported_point_vector": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "defect_norm_native_normalization": 0.11985880379074529,
+            "actual_FRD_record": {
+              "vector": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "line": 438,
+              "raw": " -1        36 0.00000E+00 0.00000E+00 0.00000E+00"
+            },
+            "actual_DAT_records": {
+              "36": {
+                "line": 533,
+                "raw": "        36  0.000000E+00  0.000000E+00  0.000000E+00"
+              },
+              "38": {
+                "line": 535,
+                "raw": "        38 -6.621294E-03 -1.028355E-03 -1.196818E-01"
+              },
+              "37": {
+                "line": 534,
+                "raw": "        37  1.355510E-07 -1.318207E-04 -5.648343E-08"
+              }
+            }
+          }
+        },
+        {
+          "mode": 3,
+          "eigenvalue": 5.074239e-06,
+          "frequency_imaginary_hz": 0.0,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.11986975051619186,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 2.218100913485252e-05,
+            "translation_references": 0.11986975018294876
+          },
+          "beam_rigid_motion_fit_relative_residual": 2.3607466104888888e-07,
+          "beam_uniform_translation_fit_relative_residual": 5.015694989105604e-06,
+          "fitted_translation": [
+            -0.1195866285714286,
+            -0.004823160999999998,
+            0.00665744128571429
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            -6.566852985888886e-08,
+            5.508724996372015e-06,
+            -2.9925276234973815e-07
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.11987126914275678,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 5.000000000005e-07,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0,
+          "clip_0_compatibility_example": {
+            "point_node": 36,
+            "reference_node": 38,
+            "rotation_node": 37,
+            "initial_offset_m": [
+              0.075,
+              0.0,
+              -0.07629994011202999
+            ],
+            "static_rotation_vector_rad": [
+              0.0005544658,
+              1.278308e-05,
+              -1.19376e-05
+            ],
+            "rotation_map_jacobian_m_per_rad": [
+              [
+                4.555938959427408e-07,
+                -0.07630089492172143,
+                -2.0257538702050937e-05
+              ],
+              [
+                0.07630040791052983,
+                2.1247709582045528e-05,
+                0.07499950864392761
+              ],
+              [
+                4.185822521929339e-05,
+                -0.07499902079932674,
+                2.079246497199705e-05
+              ]
+            ],
+            "modal_reference_vector": [
+              -0.1195874,
+              -0.004823161,
+              0.006657617
+            ],
+            "modal_rotation_reference_vector": [
+              -6.554799e-08,
+              2.217863e-05,
+              -2.924895e-07
+            ],
+            "modal_predicted_point_vector": [
+              -0.11958909224342187,
+              -0.00482318746666207,
+              0.00665595361564203
+            ],
+            "modal_reported_point_vector": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "defect_norm_native_normalization": 0.11987124692551508,
+            "actual_FRD_record": {
+              "vector": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "line": 534,
+              "raw": " -1        36 0.00000E+00 0.00000E+00 0.00000E+00"
+            },
+            "actual_DAT_records": {
+              "36": {
+                "line": 665,
+                "raw": "        36  0.000000E+00  0.000000E+00  0.000000E+00"
+              },
+              "38": {
+                "line": 667,
+                "raw": "        38 -1.195874E-01 -4.823161E-03  6.657617E-03"
+              },
+              "37": {
+                "line": 666,
+                "raw": "        37 -6.554799E-08  2.217863E-05 -2.924895E-07"
+              }
+            }
+          }
+        },
+        {
+          "mode": 4,
+          "eigenvalue": 0.08334129,
+          "frequency_imaginary_hz": 0.0,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.021296114080741634,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 2.151305742794818,
+            "translation_references": 0.0206616079666474
+          },
+          "beam_rigid_motion_fit_relative_residual": 0.00011533389903823756,
+          "beam_uniform_translation_fit_relative_residual": 0.9999997372627759,
+          "fitted_translation": [
+            -7.4601417142856825e-06,
+            8.090901404108133e-07,
+            7.318093457144015e-06
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            0.007375291865112461,
+            0.06266808185889118,
+            -0.00013588814508964358
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 2.850965955914312,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 5.000000000143778e-08,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0
+        },
+        {
+          "mode": 5,
+          "eigenvalue": 1.19854,
+          "frequency_imaginary_hz": 0.0,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.20756201775022892,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 0.07192434068761232,
+            "translation_references": 0.2013768584034706
+          },
+          "beam_rigid_motion_fit_relative_residual": 3.9368019861465904e-06,
+          "beam_uniform_translation_fit_relative_residual": 0.9999999999923889,
+          "fitted_translation": [
+            4.981726828585718e-07,
+            -1.8866061129996226e-08,
+            -2.3240244285700068e-07
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            -0.0015609109284537353,
+            1.5483515962552452e-05,
+            -0.07190320044919186
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.20241170203921,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 4.0000000001150227e-07,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0
+        },
+        {
+          "mode": 6,
+          "eigenvalue": 1.21124,
+          "frequency_imaginary_hz": 0.0,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.20646729215057816,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 0.23306474461914875,
+            "translation_references": 0.20031474565434618
+          },
+          "beam_rigid_motion_fit_relative_residual": 1.4527756688759724e-06,
+          "beam_uniform_translation_fit_relative_residual": 0.999999998834456,
+          "fitted_translation": [
+            9.144335428572633e-07,
+            6.6872240456579066e-06,
+            -5.363649171231943e-07
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            0.07152394612415856,
+            -0.008814715884112211,
+            -0.0015551749368573906
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.37154656618371684,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 5.000000000005e-07,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0
+        }
+      ],
+      "all_twenty_modes_check": {
+        "mode_count": 20,
+        "clip_DAT_vectors_all_exactly_zero": true,
+        "clip_FRD_vectors_all_exactly_zero": true,
+        "minimum_over_modes_of_maximum_relative_connector_defect": 1.0,
+        "maximum_DAT_FRD_physical_component_difference": 5.000000000143778e-07
+      },
+      "beam_motion_fit_limit": "The centerline-based rigid-motion fit describes the printed physical beam field only; it cannot certify whole-assembly admissibility and is weak for beam-axis twist because the centerline is nearly collinear."
+    },
+    {
+      "case": "floor50_direct_gravity_modes",
+      "workflow_run": "34042320810",
+      "source_commit": "5522e97252d8030f56f17676832169b7dfa9ec18",
+      "native_exit": 0,
+      "input_sha256": "1053bcd745251729ee4515598488a2e7e61346f68b1b9404dc076fd4d979ee94",
+      "file_sha256": {
+        "test.inp": "1053bcd745251729ee4515598488a2e7e61346f68b1b9404dc076fd4d979ee94",
+        "test.dat": "f15fa4b762171ef453a991516d10e4bfd0332fd5cb84b2440e3564d9eece4dac",
+        "test.frd": "01ed138f0a970a27c5bb7c7e6f923b249c6fc327f4bfa23ab5ee48b573e1921a",
+        "native_vectors.json": "d25230688ddcc21d6ba85f42985d1f1ea2c7398ddfaef7679b3ec2147832d7eb"
+      },
+      "node_role_counts": {
+        "beam_centerline": 35,
+        "actual_clips": 16,
+        "rope_endpoints_including_clips": 48,
+        "physical_lumped_masses": 0,
+        "rotation_references": 17,
+        "translation_references": 17
+      },
+      "maximum_static_finite_body_compatibility_error_m": 7.231521105699654e-10,
+      "maximum_rotation_map_jacobian_change_between_steps_1e_minus6_and_1e_minus7": 6.591949208711867e-11,
+      "mode_field_status": "not physically certified: reported dependent-point modal fields violate declared rigid-body tangent compatibility",
+      "interpretation": "The first two negative fields move the physical beam approximately as rotations about global X and Z; they are not dummy-only fields and are not the earlier single ROTY pitch diagnosis. The next three near-zero fields are approximately uniform physical beam translations. Every actual clip nevertheless remains zero in DAT and FRD, contradicting the declared finite-offset tangent relation.",
+      "causal_limit": "This review establishes an inconsistency in the reported field, not whether its cause lies in eigenmatrix assembly, constraint inheritance/linearization, dependent-coordinate recovery, or another native modal output path. It does not establish physical instability from the printed negative eigenvalues.",
+      "modes": [
+        {
+          "mode": 1,
+          "eigenvalue": -0.2016766,
+          "frequency_imaginary_hz": 0.07147397029446935,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.30667960520974585,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 0.11111826385383253,
+            "translation_references": 0.2966793655881449
+          },
+          "beam_rigid_motion_fit_relative_residual": 4.829255828513547e-06,
+          "beam_uniform_translation_fit_relative_residual": 0.9999999998490912,
+          "fitted_translation": [
+            -1.50381257145936e-07,
+            5.193330542864268e-07,
+            -3.7149966285714847e-06
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            0.009982778911340097,
+            2.3781580066051627e-05,
+            0.11066689468454721
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.29667981372154734,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 5.000000000143778e-07,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0,
+          "clip_0_compatibility_example": {
+            "point_node": 36,
+            "reference_node": 38,
+            "rotation_node": 37,
+            "initial_offset_m": [
+              0.0,
+              0.0,
+              -0.05
+            ],
+            "static_rotation_vector_rad": [
+              -1.351598e-05,
+              -0.005271251,
+              2.813871e-07
+            ],
+            "rotation_map_jacobian_m_per_rad": [
+              [
+                -5.847237841485886e-09,
+                -0.0499993053479017,
+                3.378740158748589e-07
+              ],
+              [
+                0.049999768445019896,
+                -8.22206067463142e-09,
+                0.00013178096992110943
+              ],
+              [
+                -6.757996939832367e-07,
+                -0.00026356132901139695,
+                0.0
+              ]
+            ],
+            "modal_reference_vector": [
+              0.2954793,
+              2.77872e-07,
+              -0.02665763
+            ],
+            "modal_rotation_reference_vector": [
+              0.01027442,
+              1.216067e-06,
+              0.110638
+            ],
+            "modal_predicted_point_vector": [
+              0.29547927651912315,
+              0.0005285764758470144,
+              -0.026657637263958128
+            ],
+            "modal_reported_point_vector": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "defect_norm_native_normalization": 0.29667981372154734,
+            "actual_FRD_record": {
+              "vector": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "line": 338,
+              "raw": " -1        36 0.00000E+00 0.00000E+00 0.00000E+00"
+            },
+            "actual_DAT_records": {
+              "36": {
+                "line": 385,
+                "raw": "        36  0.000000E+00  0.000000E+00  0.000000E+00"
+              },
+              "38": {
+                "line": 387,
+                "raw": "        38  2.954793E-01  2.778720E-07 -2.665763E-02"
+              },
+              "37": {
+                "line": 386,
+                "raw": "        37  1.027442E-02  1.216067E-06  1.106380E-01"
+              }
+            }
+          }
+        },
+        {
+          "mode": 2,
+          "eigenvalue": -0.2016076,
+          "frequency_imaginary_hz": 0.07146173127934558,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.3066927361103674,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 0.11111826388511353,
+            "translation_references": 0.2966924964877908
+          },
+          "beam_rigid_motion_fit_relative_residual": 4.803633784740097e-06,
+          "beam_uniform_translation_fit_relative_residual": 0.9999999979224,
+          "fitted_translation": [
+            9.000020542844375e-07,
+            -3.4681927599950153e-06,
+            -1.3460718000033638e-05
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            0.11066689384597996,
+            -1.0934640049761335e-06,
+            -0.009982778702455624
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.2967439670688834,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 5.000000000143778e-07,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0,
+          "clip_0_compatibility_example": {
+            "point_node": 36,
+            "reference_node": 38,
+            "rotation_node": 37,
+            "initial_offset_m": [
+              0.0,
+              0.0,
+              -0.05
+            ],
+            "static_rotation_vector_rad": [
+              -1.351598e-05,
+              -0.005271251,
+              2.813871e-07
+            ],
+            "rotation_map_jacobian_m_per_rad": [
+              [
+                -5.847237841485886e-09,
+                -0.0499993053479017,
+                3.378740158748589e-07
+              ],
+              [
+                0.049999768445019896,
+                -8.22206067463142e-09,
+                0.00013178096992110943
+              ],
+              [
+                -6.757996939832367e-07,
+                -0.00026356132901139695,
+                0.0
+              ]
+            ],
+            "modal_reference_vector": [
+              -0.02665302,
+              -6.828422e-06,
+              -0.2954929
+            ],
+            "modal_rotation_reference_vector": [
+              0.110638,
+              -3.904246e-06,
+              -0.01027442
+            ],
+            "modal_predicted_point_vector": [
+              -0.02665282890879834,
+              0.0055236919862192355,
+              -0.2954929737401183
+            ],
+            "modal_reported_point_vector": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "defect_norm_native_normalization": 0.2967439670688834,
+            "actual_FRD_record": {
+              "vector": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "line": 434,
+              "raw": " -1        36 0.00000E+00 0.00000E+00 0.00000E+00"
+            },
+            "actual_DAT_records": {
+              "36": {
+                "line": 509,
+                "raw": "        36  0.000000E+00  0.000000E+00  0.000000E+00"
+              },
+              "38": {
+                "line": 511,
+                "raw": "        38 -2.665302E-02 -6.828422E-06 -2.954929E-01"
+              },
+              "37": {
+                "line": 510,
+                "raw": "        37  1.106380E-01 -3.904246E-06 -1.027442E-02"
+              }
+            }
+          }
+        },
+        {
+          "mode": 3,
+          "eigenvalue": -3.546324e-06,
+          "frequency_imaginary_hz": 0.00029971565502742145,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.17709872548595176,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 9.01114343542777e-06,
+            "translation_references": 0.17709791816022852
+          },
+          "beam_rigid_motion_fit_relative_residual": 1.5691441591205662e-07,
+          "beam_uniform_translation_fit_relative_residual": 9.602622601389952e-05,
+          "fitted_translation": [
+            0.01733831857142857,
+            0.016550690000000003,
+            -0.17544496571428578
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            -8.599777449645332e-06,
+            -3.106126408976978e-05,
+            -1.5788600769493116e-06
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.1770978880471326,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 5.000000000143778e-07,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0,
+          "clip_0_compatibility_example": {
+            "point_node": 36,
+            "reference_node": 38,
+            "rotation_node": 37,
+            "initial_offset_m": [
+              0.0,
+              0.0,
+              -0.05
+            ],
+            "static_rotation_vector_rad": [
+              -1.351598e-05,
+              -0.005271251,
+              2.813871e-07
+            ],
+            "rotation_map_jacobian_m_per_rad": [
+              [
+                -5.847237841485886e-09,
+                -0.0499993053479017,
+                3.378740158748589e-07
+              ],
+              [
+                0.049999768445019896,
+                -8.22206067463142e-09,
+                0.00013178096992110943
+              ],
+              [
+                -6.757996939832367e-07,
+                -0.00026356132901139695,
+                0.0
+              ]
+            ],
+            "modal_reference_vector": [
+              0.0173341,
+              0.01655069,
+              -0.175422
+            ],
+            "modal_rotation_reference_vector": [
+              -8.60415e-06,
+              -2.179253e-06,
+              -1.555688e-06
+            ],
+            "modal_predicted_point_vector": [
+              0.017334208960660864,
+              0.01655025958950018,
+              -0.1754219994198185
+            ],
+            "modal_reported_point_vector": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "defect_norm_native_normalization": 0.17705158506271132,
+            "actual_FRD_record": {
+              "vector": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "line": 530,
+              "raw": " -1        36 0.00000E+00 0.00000E+00 0.00000E+00"
+            },
+            "actual_DAT_records": {
+              "36": {
+                "line": 633,
+                "raw": "        36  0.000000E+00  0.000000E+00  0.000000E+00"
+              },
+              "38": {
+                "line": 635,
+                "raw": "        38  1.733410E-02  1.655069E-02 -1.754220E-01"
+              },
+              "37": {
+                "line": 634,
+                "raw": "        37 -8.604150E-06 -2.179253E-06 -1.555688E-06"
+              }
+            }
+          }
+        },
+        {
+          "mode": 4,
+          "eigenvalue": 1.336223e-06,
+          "frequency_imaginary_hz": 0.0,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.1770749747175807,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 9.386734880935512e-07,
+            "translation_references": 0.17707496823528734
+          },
+          "beam_rigid_motion_fit_relative_residual": 1.6543961711208785e-08,
+          "beam_uniform_translation_fit_relative_residual": 1.03085405734122e-05,
+          "fitted_translation": [
+            0.00044355672571428555,
+            -0.17629560000000002,
+            -0.01658710742857143
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            -8.75996900829224e-07,
+            1.1546951450558396e-07,
+            3.3712054638366194e-07
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.17707501175162668,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 4.0000000001150227e-07,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0
+        },
+        {
+          "mode": 5,
+          "eigenvalue": 2.016955e-05,
+          "frequency_imaginary_hz": 0.0,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 0.1770755634092814,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 2.7029592132961197e-06,
+            "translation_references": 0.1770754726843239
+          },
+          "beam_rigid_motion_fit_relative_residual": 1.614405479509365e-07,
+          "beam_uniform_translation_fit_relative_residual": 4.632982491164243e-06,
+          "fitted_translation": [
+            -0.17622333999999995,
+            0.0011846560000000003,
+            -0.017303485428571425
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            -2.918112350917589e-07,
+            -0.00016679841615325195,
+            -3.0426537437609953e-07
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.17707533966245234,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 4.999999999866223e-07,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0
+        },
+        {
+          "mode": 6,
+          "eigenvalue": 15.15693,
+          "frequency_imaginary_hz": 0.0,
+          "group_max_vector_norm_native_normalization": {
+            "beam_centerline": 4.853800030622427e-05,
+            "rope_endpoints_including_clips": 0.0,
+            "clip_points": 0.0,
+            "physical_lumped_masses": 0.0,
+            "rotation_references": 6.667452,
+            "translation_references": 4.4957462945974216e-05
+          },
+          "beam_rigid_motion_fit_relative_residual": 0.3928641953321541,
+          "beam_uniform_translation_fit_relative_residual": 0.8662132822475664,
+          "fitted_translation": [
+            -1.3526555171142855e-05,
+            5.789000057099258e-09,
+            -7.566365280002531e-08
+          ],
+          "fitted_rotation_about_beam_centroid": [
+            6.273945330806867e-08,
+            -0.5836433445336574,
+            -5.7303366026327026e-08
+          ],
+          "maximum_rigid_body_tangent_defect_native_normalization": 0.3334170074710652,
+          "maximum_rigid_body_tangent_relative_defect": 1.0,
+          "all_actual_clip_DAT_vectors_exactly_zero": true,
+          "all_actual_clip_FRD_vectors_exactly_zero": true,
+          "maximum_DAT_FRD_physical_component_difference": 5.0000000000109636e-11,
+          "actual_lumped_mass_nodes_printed_in_FRD": 0
+        }
+      ],
+      "all_twenty_modes_check": {
+        "mode_count": 20,
+        "clip_DAT_vectors_all_exactly_zero": true,
+        "clip_FRD_vectors_all_exactly_zero": true,
+        "minimum_over_modes_of_maximum_relative_connector_defect": 1.0,
+        "maximum_DAT_FRD_physical_component_difference": 5.000000000143778e-07
+      },
+      "beam_motion_fit_limit": "The centerline-based rigid-motion fit describes the printed physical beam field only; it cannot certify whole-assembly admissibility and is weak for beam-axis twist because the centerline is nearly collinear."
+    }
+  ],
+  "recommendation": "Investigate the native frequency-step rigid-body constraint and dependent-coordinate recovery paths before interpreting or transferring these local eigenvalues. Preserve all negative and near-zero roots as actual numerical output; do not silently delete them or relabel them as valid physical rigid modes."
+}
