@@ -42,8 +42,11 @@ jobs:
           else
             gh release create "$TAG" --draft --target "$SOURCE_BRANCH" --title "2026-09-10 上午桥梁模型与工况云图" --notes-file "$ROOT/release_notes.md" --repo "$GITHUB_REPOSITORY"
           fi
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | while IFS= read -r old_asset; do
+            test -z "$old_asset" || gh release delete-asset "$TAG" "$old_asset" --yes --repo "$GITHUB_REPOSITORY"
+          done
           for asset in release/*; do
-            gh release upload "$TAG" "$asset" --clobber --repo "$GITHUB_REPOSITORY"
+            gh release upload "$TAG" "$asset" --repo "$GITHUB_REPOSITORY"
           done
           gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[] | [.name, .size] | @tsv' > remote-assets.tsv
           python3 - "$ROOT/manifest.tsv" remote-assets.tsv <<'PY'
