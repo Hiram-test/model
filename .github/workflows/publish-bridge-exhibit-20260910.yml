@@ -1,0 +1,63 @@
+name: Publish 2026-09-10 bridge exhibit release
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/publish-bridge-exhibit-20260910.yml"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      TAG: bridge-exhibit-20260910-morning
+      SOURCE_BRANCH: archive/bridge-exhibit-ccx-morning-20260910
+      ROOT: projects/bridge-exhibit/ccx/20260910-morning
+      MARKER: bridge-exhibit-20260910-morning
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: archive/bridge-exhibit-ccx-morning-20260910
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Reconstruct and verify assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          while IFS=$'\t' read -r asset_id expected_sha expected_size name_b64; do
+            name="$(printf '%s' "$name_b64" | base64 -d)"
+            cat "$ROOT/release_parts/$asset_id"/part*.bin > "release/$name"
+            test "$(stat -c %s "release/$name")" = "$expected_size"
+            test "$(sha256sum "release/$name" | cut -d' ' -f1)" = "$expected_sha"
+          done < "$ROOT/manifest.tsv"
+      - name: Publish verified release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json body --jq .body | grep -Fq "$MARKER"
+          else
+            gh release create "$TAG" --draft --target "$SOURCE_BRANCH" --title "2026-09-10 上午桥梁模型与工况云图" --notes-file "$ROOT/release_notes.md" --repo "$GITHUB_REPOSITORY"
+          fi
+          for asset in release/*; do
+            gh release upload "$TAG" "$asset" --clobber --repo "$GITHUB_REPOSITORY"
+          done
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[] | [.name, .size] | @tsv' > remote-assets.tsv
+          python3 - "$ROOT/manifest.tsv" remote-assets.tsv <<'PY'
+          import base64, pathlib, sys
+          expected = {}
+          for line in pathlib.Path(sys.argv[1]).read_text().splitlines():
+              _, _, size, name64 = line.split("\t")
+              expected[base64.b64decode(name64).decode()] = int(size)
+          actual = {}
+          for line in pathlib.Path(sys.argv[2]).read_text().splitlines():
+              name, size = line.split("\t")
+              actual[name] = int(size)
+          if actual != expected:
+              raise SystemExit(f"release asset mismatch: expected={expected} actual={actual}")
+          PY
+          gh release edit "$TAG" --draft=false --repo "$GITHUB_REPOSITORY"
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json url --jq .url
