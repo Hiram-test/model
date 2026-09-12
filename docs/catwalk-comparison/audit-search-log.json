@@ -1,0 +1,125 @@
+{
+  "documentId": "CATWALK-COMPARISON-AUDIT-20260825",
+  "auditor": "Experiment Setup & Results bot",
+  "workspaceHead": "920a94b9392811980470bc79703010748c283dfc",
+  "repo": "https://github.com/Hiram-test/model",
+  "auditTimeUtc": "2026-08-25T12:10:00Z",
+  "overall": "insufficient",
+  "searches": [
+    {
+      "id": "S01",
+      "what": "Catwalk CalculiX products *.inp *.frd *.dat *.sta *.cvg on workspace and main 920a94b",
+      "method": "find + git ls-tree -r --name-only 920a94b + GitHub search_code repo:Hiram-test/model extension:inp catwalk",
+      "found": "none",
+      "hash": null,
+      "note": "Re-verified. Matches the frozen fact."
+    },
+    {
+      "id": "S02",
+      "what": "catwalk-fem / TARGET-FREQ / attachment PDF on main 920a94b",
+      "method": "git ls-tree -r --name-only filtered for pdf|inp|frd|dat|sta|cvg|attachment23|catwalk-fem|TARGET-FREQ",
+      "found": "none",
+      "hash": null,
+      "note": "Ledger main does not contain attachment 2-3 PDF."
+    },
+    {
+      "id": "S03",
+      "what": "Workspace catwalk paths",
+      "method": "find -iname *catwalk*",
+      "found": "only bridge-fem-skill-suite/examples/catwalk_branch.example.yaml (example charter, not a solve)",
+      "sha256": "ecfe62281d13e1498d6652801b4b10c8b204e6ad7c6a56c8bce32a7e44d813f9"
+    },
+    {
+      "id": "S04",
+      "what": "Release catwalk-attachment23-v2.0-s10-20260716 assets",
+      "method": "GitHub get_release_by_tag",
+      "found": [
+        {
+          "name": "cw_S10_0716t050342_a4_centerline.step",
+          "bytes": 77600240,
+          "sha256": "d03d01e38b823df5af4c1ff9b0b175fdfb87b097b9cda9a03af5d14e9c763344",
+          "role": "geometry only; not a CalculiX product"
+        },
+        {
+          "name": "cw_S10_0716t050342_a4_eq.db",
+          "bytes": 700186624,
+          "sha256": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd",
+          "role": "S10 balance model; NOT read for properties; not .inp/.frd/.dat/.sta/.cvg"
+        }
+      ],
+      "calculixProducts": "none"
+    },
+    {
+      "id": "S05",
+      "what": "Attachment 2-3 PDF on audit/release-inventory-20260803",
+      "method": "get_file_contents + independent download + sha256sum",
+      "found": "attachment23_report.pdf, 32 pages, 3188161 bytes, Microsoft Word 2021, created 2026-02-02",
+      "sha256": "d17d4061c5726c10b88cc80f3f292b16f0dbf3408e032a30840b1bcaad9173d3",
+      "gitBlobSha": "c71a7dc31117184b17e470ef2b152b75a9fea54c",
+      "matchesAuditJsonOriginalPath": "01_设计资料与规范\\附件2-3：猫道结构抗风性能试验报告.pdf",
+      "plainTextSha256": "3f2a513a66d44f37a32963e4cea58feb4680d685e63f3b6f79e7e5ab05f007e0",
+      "pdfinfoSha256": "7db73a6cfa8bf507e229a72a0f442def27cbdb4ba8b64089d9c4aba6e810792c",
+      "pdfMatchesJsonSha256": "c358ec0241fec257bb586f3c21747c8f4cd8d059b83b04a098a7647b578cba75"
+    },
+    {
+      "id": "S06",
+      "what": "PR #18 cursor/catwalk-inp-coord-gate-bbc1 (draft, unmerged)",
+      "method": "pull_request_read get + get_files + list catwalk-fem/artifacts",
+      "headSha": "41677f35891110043416f3f2c0dfac73f86a3d8d",
+      "base": "feat/catwalk-thirteen-theory-models @ 33662f9831fb14f6ddb15665368a72efa81739aa",
+      "found": "pipeline code + tests + PLAN.md; artifacts/.gitkeep only; no .inp",
+      "artifactsGitkeep": {
+        "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+        "sha256Empty": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "prBodyQuote": "没有真实 .inp 不写成已过门",
+      "sagInCode": "h=227.300 m; forbidden_sag_m=255.56"
+    },
+    {
+      "id": "S07",
+      "what": "PR #18 isolated TARGET-FREQ.json",
+      "method": "get_file_contents",
+      "found": "14 numbers equal to PR #17 F_att, not 表4-1",
+      "gitBlobSha": "e320a5f7537a1f833edfd7327688762884c0c29d",
+      "selfDescribedSource": "附件2-3 猫道结构抗风性能试验报告 / 研究报告频率表",
+      "sourceLabelVsTable41": "CONFLICT — label claims attachment 2-3; values are F_att"
+    },
+    {
+      "id": "S08",
+      "what": "PR #17 η/ε/kc vs F_att",
+      "method": "pull_request_read + eta-eps-kc-candidates.md",
+      "headSha": "10eb1d0986d2a9ce0e3723ad5f6d44e7aee14b1f",
+      "found": "theory-only; uses F_M=255.56 m; F_att 14-set; explicitly not 表4-1 and not CalculiX",
+      "decisionForThisChapter": "out_of_scope_as_this_study"
+    },
+    {
+      "id": "S09",
+      "what": "PR #16 theory archive Table 4-1 transcription",
+      "method": "raw fetch of v1.2 txt; grep 表4-1",
+      "found": "v1.2 lines list 表4-1 as LS1 0.0365 … VS2 0.1744 and state it is after-freeze TARGET only",
+      "role": "confirms 表4-1 identity; still not a CalculiX solve"
+    },
+    {
+      "id": "S10",
+      "what": "ccx on this VM",
+      "method": "command -v ccx; find /usr -name ccx*",
+      "found": "not installed",
+      "hash": null
+    },
+    {
+      "id": "S11",
+      "what": "demo-rl-calculix",
+      "method": "charter exclusion",
+      "found": "not searched as evidence for this bridge",
+      "note": "out of scope"
+    },
+    {
+      "id": "S12",
+      "what": "Zhaqing CalculiX workflows on main",
+      "method": "grep workflows for calculix-ccx",
+      "found": "Ubuntu 22.04 package install of calculix-ccx for a different bridge",
+      "note": "not a catwalk solver pin; VM/CI success elsewhere is not this chapter"
+    }
+  ]
+}
