@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "classification": "forty-three GitHub-authorized new I08 CCX solves with independent exact-FOH numerical gates and absolute linear-ROM physical recovery",
+  "authority": {
+    "path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/AUTHORITY.json",
+    "sha256": "df10da1c759cea9e93c065d9456e583a1944b7b3eb1a730ea048f1821dddc5b7",
+    "repository": "Hiram-test/model",
+    "branch": "cursor/agentic-catwalk-fea-d416",
+    "commit": "c1dfa02e12d82b20a1d34c389c501ce782befb49",
+    "source_path": "catwalk-fem/true3d-extreme/artifacts/extreme_weather_library.json",
+    "source_blob_sha1": "9b708839baf8e6ccf76df292556c4d5387bf9da4"
+  },
+  "matrix": {
+    "csv_path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_GITHUB_43_CASE_MATRIX.csv",
+    "csv_sha256": "12673049d2cfae885fb5a35d855441e7385b644d1182a7cc020d5e49f5e28b7f",
+    "json_path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_GITHUB_43_CASE_MATRIX.json",
+    "json_sha256": "8f0ed5a30625b998b982caa32453518abd374f1c2c6312989b2548786e2a7b72"
+  },
+  "job_manifest": {
+    "path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_JOB_MANIFEST.json",
+    "sha256": "5b851a53daadd5a682b9dd118d7999ff23a223755bab53dff78e433445e0cec2"
+  },
+  "checks": {
+    "case_count": 43,
+    "per_case_acceptance_count": 43,
+    "all_case_qa_pass": true,
+    "complete_modal_covariance_shape": [
+      43,
+      150,
+      150
+    ],
+    "category_count": 11,
+    "knowledge_graph_emitted": true,
+    "solver_invocations_by_postprocessor": 0
+  },
+  "physical_boundaries": {
+    "reference_only_case_count": 8,
+    "reference_only_categories": [
+      "derecho",
+      "downburst",
+      "tornado"
+    ],
+    "slack_screen_case_count": 12,
+    "slack_screen_basis": "mean minus 3.5 sigma <= 0 from linear force recovery",
+    "linearity": "prestressed-tangent 150-mode ROM; no large-displacement or post-slack update",
+    "gantry_capacity": "not evaluated because breaking force is unavailable"
+  },
+  "original_github_result_boundary": {
+    "G-P4": {
+      "residual_zero_modes": 4,
+      "residual_zero_note": "4 near-zero eigenvalues (~2e-4 Hz) treated as residual-RB, dropped from modal_basis; not spin of expanded B31",
+      "last_newton_residual_N": 195.342234,
+      "weight_N": 40287616.921206586,
+      "resid_over_weight": 4.848691705494642e-06,
+      "rf_print": "omitted (ccx 2.21 *NODE PRINT,TOTALS segfault); residual used as proxy",
+      "pass_no_spin_in_structural": true,
+      "pass_force_1e-6": false,
+      "pass": false,
+      "verdict": "FAIL: 4 residual-zero modes in first 100; resid/W > 1e-06"
+    },
+    "conclusion_allowed": false,
+    "response_values_consumed": false
+  },
+  "outputs": {
+    "case_master": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_MASTER.csv",
+    "case_station_results": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_STATION_RESULTS.csv",
+    "case_rope_results": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_ROPE_RESULTS.csv",
+    "category_station_envelope": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_CATEGORY_STATION_ENVELOPE.csv",
+    "category_rope_envelope": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_CATEGORY_ROPE_ENVELOPE.csv",
+    "category_summary": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_CATEGORY_SUMMARY.csv",
+    "case_modal_covariance": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_MODAL_COVARIANCE.npz",
+    "knowledge_graph": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_KNOWLEDGE_GRAPH.jsonld",
+    "triples": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_TRIPLES.csv"
+  },
+  "scope": [
+    "All forty-three cases are new I08 CCX-backed results; no original GitHub response value is reused as truth.",
+    "Category summaries are descriptive event envelopes, not stochastic or return-period probability aggregation.",
+    "Reference-only nonstationary categories remain stationary surrogates.",
+    "Physical results remain inside the linear prestressed-tangent modal subspace unless explicitly flagged at the rope slack boundary."
+  ]
+}

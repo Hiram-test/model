@@ -1,0 +1,74 @@
+{
+  "status": "PASS",
+  "classification": "FULL_MCT_150_MODE_CCX_MODAL_COORDINATE_ROM_GATE_NOT_ELEMENT_LEVEL_NOT_NONLINEAR",
+  "source_basis_sha256": "2465489342b93033c86179b13fe9004a943fe639c3c487ececb9cd87a4f960a2",
+  "frequency": {
+    "max_abs": 4.891668436979302e-08,
+    "max_abs_reference": 0.579084428459635,
+    "max_abs_scaled": 8.4472456805498e-08,
+    "rms": 2.710569513225735e-08,
+    "l2_relative": 6.826115037216712e-08
+  },
+  "dynamic_q": {
+    "max_abs": 4.992914877277599e-05,
+    "max_abs_reference": 286.2728208595673,
+    "max_abs_scaled": 1.744110692131301e-07,
+    "rms": 3.760877664261138e-06,
+    "l2_relative": 1.4043886754649512e-07
+  },
+  "dynamic_v": {
+    "max_abs": 4.9301889305297664e-05,
+    "max_abs_reference": 188.7068029279002,
+    "max_abs_scaled": 2.6126185458260657e-07,
+    "rms": 2.6965305594279735e-06,
+    "l2_relative": 1.4930498643680285e-07
+  },
+  "mean_static_vs_actual_matrix": {
+    "max_abs": 0.002556354214902967,
+    "max_abs_reference": 51178.722556354216,
+    "max_abs_scaled": 4.9949551048057115e-08,
+    "rms": 0.00021253858182819531,
+    "l2_relative": 5.082255944204704e-08
+  },
+  "mean_static_vs_package_q_static": {
+    "max_abs": 0.0025563558156136423,
+    "max_abs_reference": 51178.72255635582,
+    "max_abs_scaled": 4.994958232493382e-08,
+    "rms": 0.00021253870893534567,
+    "l2_relative": 5.0822589836106853e-08
+  },
+  "mean_static_generalized_residual": {
+    "max_abs_N": 0.00023341790210906765,
+    "l2_N": 0.0002857950705963449,
+    "max_abs_relative_to_load": 8.543520540096639e-08,
+    "l2_relative_to_load": 8.569876915552135e-08
+  },
+  "timing": {
+    "dynamic_u_max_abs_s": 0.0,
+    "dynamic_v_max_abs_s": 0.0,
+    "static_time_s": 1.0
+  },
+  "output_shapes": {
+    "frequency_count": 150,
+    "dynamic_increment_count": 100,
+    "q_coordinate_count": 150
+  },
+  "run": {
+    "dynamic_reported_solver_pid_in_isolated_launcher": 7,
+    "dynamic_exit": 0,
+    "dynamic_job_finished": true,
+    "static_reported_solver_pid_in_isolated_launcher": 7,
+    "static_exit": 0,
+    "static_job_finished": true
+  },
+  "sha256": {
+    "dynamic_inp": "426cdb4f788e1b10241d19a83e2cbc3fe961739fd2e7f85a0408142b829ccd9a",
+    "dynamic_console": "5a36d24ec4621747009c34855d84954365980b0376a3119fb8a45820062d2f8d",
+    "dynamic_dat": "eea2d268faf2db66f3261a2b2db89b2aab75211443d368590a1805264c0ed89c",
+    "dynamic_eig": "f8862ea2de59568850a2cbaee35a37c29e85d54941a6d454edd4afae5e90cea0",
+    "static_inp": "2e679360a7aa005cc48512db38aefe0213b4f80c4100269038bed3ec0d23a6c3",
+    "static_console": "02aec62f28a34ace147b179b865998f7761f3bd015f98622b6c5b39cbe96f9ca",
+    "static_dat": "647ee4e1d485af39223b7939fcf08e55b6c6591fbe3c2ddd5f32485bd25f9de3",
+    "q_input": "d87ed045e73253c1f67a242a1877fa509aaf389fcfe4ab74e7c807ce93010cc0"
+  }
+}

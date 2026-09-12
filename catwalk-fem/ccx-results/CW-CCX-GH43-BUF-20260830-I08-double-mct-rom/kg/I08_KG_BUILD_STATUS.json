@@ -1,0 +1,65 @@
+{
+  "schema_version": "I08_KG_BUILD_STATUS_v2",
+  "status": "PASS_RESULTS_INGESTED",
+  "results_state": "COMPLETE_ACCEPTED_43",
+  "case_count": 43,
+  "node_count": 2520,
+  "edge_count": 2953,
+  "node_type_counts": {
+    "Agent": 4,
+    "AgentDecision": 172,
+    "AgentTrace": 43,
+    "EvidenceArtifact": 6,
+    "EvidenceSource": 1,
+    "GitHubEvent": 43,
+    "GitHubEventLibrary": 1,
+    "I08CCXCase": 43,
+    "I08CCXResult": 43,
+    "I08CCXRun": 1,
+    "LegacySpectralMethod": 1,
+    "LegacySpectralResult": 43,
+    "LegacySpectralResultSet": 1,
+    "Limitation": 3,
+    "MetricObservation": 2064,
+    "PhysicsBoundary": 1,
+    "ResultEvidenceBundle": 43,
+    "Rule": 5,
+    "ValidationGate": 1,
+    "WarningPolicy": 1
+  },
+  "physics_decision_counts": {
+    "STOP_AND_NONLINEAR_REVIEW": 12,
+    "REFERENCE_ONLY_NONSTATIONARY": 4,
+    "NUMERICAL_EVIDENCE_READY_HUMAN_REVIEW": 27,
+    "WAITING_FOR_SOLVER_EVIDENCE": 0
+  },
+  "warning_level_counts": {
+    "NOT_ARMED": 43
+  },
+  "dispatch_counts": {
+    "false": 43,
+    "true": 0
+  },
+  "reference_only_count": 8,
+  "ccx_invocations_by_this_builder": 0,
+  "numerical_i08_results_materialized": true,
+  "schema_limitations": [
+    "Frozen QA capacity_status identifies evidence scope rather than a signed capacity pass; KG derives only below/exceeds documented 2380-kN carrying-load comparisons.",
+    "Gantry breaking force is unavailable and remains NOT_EVALUATED for every case.",
+    "No-slack linear ROM rows do not establish a nonlinear validity gate; linearity remains NOT_EVALUATED unless the statistical tension boundary is crossed."
+  ],
+  "capacity_interpretation": {
+    "carrying": "BELOW_OR_EXCEEDS_DOCUMENTED_2380_KN_ONLY_NOT_SIGNED_PASS",
+    "gantry": "NOT_EVALUATED_BREAKING_FORCE_UNAVAILABLE"
+  },
+  "legacy_results_scope": "REFERENCE_ONLY_PHYSICAL_VALIDATION_BLOCKED_G_P4",
+  "publication_protocol": {
+    "staging": "RSYNC_EXCLUDED",
+    "file_close_and_fsync": true,
+    "atomic_replace": true,
+    "stability_window_seconds": 10.0,
+    "sha_manifest_emitted_only_after_dual_hash_match": true
+  },
+  "final_acceptance_path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_POSTPROCESS/I08_43CASE_ACCEPTANCE.json",
+  "final_acceptance_sha256": "fecb6b42b53d734ed6e6243f83b0edc28549aae8c74a18d2b7c9735289dc3381"
+}

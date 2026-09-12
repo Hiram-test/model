@@ -1,0 +1,86 @@
+{
+  "status": "PASS_PREPARATION_ONLY_NO_PAYLOAD_NO_CCX",
+  "solver_invocations": 0,
+  "payload_files_written": 0,
+  "classification": "HYBRID_MAPPING_GITHUB_EVENT_I06_SOURCE150_ROM_LOAD_CCX",
+  "case_count": 43,
+  "github_authority": {
+    "commit": "c1dfa02e12d82b20a1d34c389c501ce782befb49",
+    "blob_sha1": "9b708839baf8e6ccf76df292556c4d5387bf9da4",
+    "matrix_csv_sha256": "12673049d2cfae885fb5a35d855441e7385b644d1182a7cc020d5e49f5e28b7f",
+    "matrix_json_sha256": "8f0ed5a30625b998b982caa32453518abd374f1c2c6312989b2548786e2a7b72",
+    "authority_sha256": "df10da1c759cea9e93c065d9456e583a1944b7b3eb1a730ea048f1821dddc5b7"
+  },
+  "runtime_matrix_inputs": [
+    "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/AUTHORITY.json",
+    "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_GITHUB_43_CASE_MATRIX.json"
+  ],
+  "i07_runtime_dependency": false,
+  "source_hash_count": 21,
+  "rom": {
+    "modes_shape": [
+      6750,
+      150
+    ],
+    "first_frequency_hz": 0.036772576291419064,
+    "last_frequency_hz": 0.5790844284596351
+  },
+  "wind": {
+    "Kaimal_formula_pass": true,
+    "frequency_range_hz": [
+      0.0016666666666666668,
+      5.0
+    ],
+    "sigma_u": "Iu*U10",
+    "sigma_w": "0.5*sigma_u",
+    "Udeck_role": "mean wind, Kaimal convection, and Davenport coherence",
+    "Davenport_C_span_width": 8.0,
+    "gust3s_role": "metadata_only",
+    "spatial_distance_metric": "EUCLIDEAN_SQRT_DX2_DY2",
+    "formula_anchor_width": 0.5033849970313892,
+    "formula_anchor_dx100_width": 0.17534174712539685,
+    "per_station_sigma_rescaling": false,
+    "marginal_rescale_policy": "NONE_PRESERVE_KAIMAL_PSD_PARAMETER_AND_FINITE_BAND_ENSEMBLE_TARGET",
+    "joint_sampler": "exact_2row_block_toeplitz_circulant_embedding",
+    "fixed_embedding_size": 2048,
+    "all_43_fmin_embedding_minimum_eigenvalue": 0.00011657883987936657,
+    "common_random_numbers_preserved": true
+  },
+  "gate_only_audit_binding": {
+    "path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-MCT-BUF-20260829-I06/source_package/double_mct_catwalk_buffeting_final_package/inputs/gate_only/audit.json",
+    "sha256": "5629bcd041074640734dbb41a5fb9ff696ffa303a41a2b65d2bac548ced7aa6b",
+    "runtime_assignment_verified": true,
+    "station_count": 277
+  },
+  "q_closure_self_test": {
+    "unique_points": 200,
+    "closed_points": 201,
+    "endpoint_max_abs": 0.0,
+    "foh_integral_max_abs": 4.440892098500626e-16,
+    "foh_integral_relative": 4.4408920985006264e-17
+  },
+  "foh_self_test": {
+    "method": "exact augmented FOH fixed point",
+    "interval_count": 200,
+    "maximum_abs_state_closure": 5.684341886080802e-14,
+    "relative_state_closure": 2.7129124375930928e-15
+  },
+  "foh_initial_max_abs": {
+    "q0": 5.768650223629725,
+    "v0": 20.952913213535094
+  },
+  "job_manifest": {
+    "path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_JOB_MANIFEST.json",
+    "sha256": "cc7d46cc5b573bb5e70f5d0b86516f0b93b7b9f88f5248de739d935e33c350c6",
+    "case_count": 43
+  },
+  "result_manifest": {
+    "path": "<RUN_ROOT>/ccx_run/runs/CW-CCX-GH43-BUF-20260830-I08/I08_RESULT_MANIFEST.json",
+    "case_count": 43,
+    "parallel_update": "fcntl+fsync+atomic_replace"
+  },
+  "execution_gate": {
+    "materialized": false,
+    "ccx_launched": false
+  }
+}
