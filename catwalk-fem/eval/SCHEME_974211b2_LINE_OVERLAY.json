@@ -1,0 +1,286 @@
+{
+  "kind": "scheme_974211b2_line_overlay",
+  "status": "for_review_not_executed",
+  "not_a_scientific_claim": true,
+  "ccx_ran_this_turn": false,
+  "pushed_main": false,
+  "opened_new_pr": false,
+  "merged": false,
+  "twisted_to_demo_rl_calculix": false,
+  "invented_s10_cable_force": false,
+  "imported_target_freq_into_objective": false,
+  "rewrote_974211b2": false,
+  "rewrote_760c0ee4": false,
+  "prior_reread_on_same_branch": {
+    "path": "catwalk-fem/eval/plan_974211b2/PLAN.md",
+    "role": "already_scraped_MCT_line_and_reread_PK2",
+    "does_not_replace_this_scheme": true,
+    "pk2_max_rel": 4.758e-07,
+    "linear_step_balanced": false
+  },
+  "intent": "Lock the MCT-migrated host into N visual/semantic blocks, overlay the already-present formed line as a target configuration once, then calibrate block scale factors. Reduce remeshing. Do not replace the host.",
+  "backbone": "bridge-fem-skill-suite workflow.yaml N00-N18, node order unchanged",
+  "runId": "zjg-catwalk-974211b2-overlay",
+  "pr": "https://github.com/Hiram-test/model/pull/19",
+  "branch": "cursor/catwalk-main-deck-gate-f23d",
+  "given_paths": {
+    "host_main": {
+      "path": "catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp",
+      "sha256": "974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1",
+      "bytes": 930300,
+      "role": "scheme_host_do_not_replace"
+    },
+    "mct": {
+      "path": "catwalk-fem/mct-from-zero/source/01_设计资料与规范/猫道 - 门架索合建模型2.mct",
+      "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+      "bytes": 448673,
+      "role": "prestress_and_2d_equivalent_geometry"
+    },
+    "s10_db": {
+      "release": "catwalk-attachment23-v2.0-s10-20260716",
+      "name": "cw_S10_0716t050342_a4_eq.db",
+      "sha256": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd",
+      "bytes": 700186624,
+      "extracted_cable_force": false,
+      "role": "comparator_no_force_table"
+    },
+    "attachment_2_3": {
+      "isolated_path": "catwalk-fem/isolated/TARGET-FREQ.json",
+      "role": "frozen_spectrum_after_statics_only",
+      "import_into_solver_or_pso": false
+    },
+    "skills": {
+      "root": "bridge-fem-skill-suite",
+      "n_skills": 19,
+      "workflow": "bridge-fem-skill-suite/workflow.yaml"
+    }
+  },
+  "frozen_do_not_touch": [
+    {
+      "path": "catwalk-fem/artifacts/zjg_catwalk_cleared.inp",
+      "sha256": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+      "role": "homemade_step_cleared_site"
+    },
+    {
+      "path": "catwalk-fem/artifacts/zjg_catwalk_main.inp",
+      "sha256": "c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84"
+    },
+    {
+      "path": "catwalk-fem/artifacts/zjg_catwalk_ccx221.inp",
+      "sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a"
+    },
+    {
+      "path": "catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+      "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da"
+    }
+  ],
+  "improvements_over_literal_pso": [
+    "N comes from existing MCT *GROUP (8 = 4 spans x 2 cable families), not an image grid",
+    "influence matrix of 8 unit perturbations before PSO; PSO is residual-only or NOT_APPLICABLE",
+    "swap-once is a field overlay sidecar; 974211b2 bytes stay",
+    "line is already on the host at table 1-9 pins; lock it as target configuration, do not remesh to it",
+    "71 portal TRUSS stay out of kappa; they have no MCT INIFORCE",
+    "760c0ee4 is N17 independent mesh only",
+    "attachment 2-3 stays isolated from J"
+  ],
+  "literature": [
+    "Kim and Lee 2001 target configuration under dead load",
+    "ASCE J. Comput. Civ. Eng. 2014 IPSO suspension-bridge form finding",
+    "Appl. Sci. 2023 influence matrix + MOPSO cable-force optimization",
+    "Irvine / parabolic H=wL^2/(8h) with h=227.300 m from CALC-INPUT",
+    "NASA-STD-7009B and ASME V&V 10 via skill official_sources.md"
+  ],
+  "coordinate": {
+    "host_frame": "MCT millimetres, Y numerically 0",
+    "homemade_frame": "x = chainage - K16+876 metres",
+    "identity": "X_mct_mm = 1000 * (x_homemade + 876)",
+    "forbidden": "X - xmin"
+  },
+  "visual_lock": {
+    "N_primary": 8,
+    "ablation_N": [2, 4, 8],
+    "forbidden_N": 1123,
+    "blocks": [
+      {"id": "B1", "mct_group": "北边跨", "n_elems": 149, "family": "猫道承重索", "alias": "north_660"},
+      {"id": "B2", "mct_group": "主跨", "n_elems": 295, "family": "猫道承重索", "alias": "main_2300"},
+      {"id": "B3", "mct_group": "南边跨", "n_elems": 160, "family": "猫道承重索", "alias": "south_717"},
+      {"id": "B4", "mct_group": "南辅跨", "n_elems": 115, "family": "猫道承重索", "alias": "southmost_503"},
+      {"id": "B5", "mct_group": "门架索北边跨", "n_elems": 64, "family": "门架承重索", "alias": "north_660"},
+      {"id": "B6", "mct_group": "门架索主跨", "n_elems": 216, "family": "门架承重索", "alias": "main_2300"},
+      {"id": "B7", "mct_group": "门架索南边跨", "n_elems": 67, "family": "门架承重索", "alias": "south_717"},
+      {"id": "B8", "mct_group": "门架索南辅跨", "n_elems": 47, "family": "门架承重索", "alias": "southmost_503"}
+    ],
+    "locked_out_of_kappa": {"mct_group": "门架", "n_elems": 71, "reason": "TRUSS, no MCT INIFORCE"},
+    "pins": [
+      {"name": "portal_N", "nid": 1001, "X_mm": 831091.0, "Z_mm": 44310.0, "station": "K16+831.091"},
+      {"name": "floor_N", "nid": 1, "X_mm": 852105.0, "Z_mm": 28152.0, "station": "K16+852.105"},
+      {"name": "saddle_N", "nid": 157, "X_mm": 1542679.0, "Z_mm": 340600.0, "station": "K17+542.679"},
+      {"name": "drop_N", "nid": 160, "X_mm": 1553300.0, "Z_mm": 334645.0, "station": "K17+553.300", "default_support": false},
+      {"name": "midspan_H1", "nid": 302, "X_mm": 2686000.0, "Z_mm": 113300.0, "station": "K18+686.000"},
+      {"name": "drop_S", "nid": 444, "X_mm": 3818700.0, "Z_mm": 334537.0, "station": "K19+818.700", "default_support": false},
+      {"name": "saddle_S", "nid": 447, "X_mm": 3829321.0, "Z_mm": 340600.0, "station": "K19+829.321"},
+      {"name": "portal_S", "nid": 1395, "X_mm": 5101700.0, "Z_mm": 41317.0, "station": "K21+101.700"}
+    ],
+    "passage_nids": [42, 81, 120, 180, 201, 222, 243, 262, 283, 302, 321, 342, 361, 382, 403, 424, 488, 528, 568, 646, 685],
+    "sag_group_nids": [160, 302, 444],
+    "pin_table_1_9_already_on_host": true
+  },
+  "swap_once": {
+    "host_readonly": true,
+    "sidecar_name": "zjg_catwalk_migrate_overlay.inp",
+    "sidecar_not_written_this_turn": true,
+    "may_change": ["block_kappa", "IC_pk2_rows"],
+    "must_not_change": ["node_ids", "element_ids", "topology", "Y_equals_0", "section_cards", "974211b2_bytes"],
+    "second_topology_swap_forbidden": true
+  },
+  "calibration": {
+    "independent_control": "target_line_at_host_pins",
+    "calibrated": "kappa_b",
+    "result": "unstressed_length_and_balanced_force",
+    "kappa_bounds": [0.5, 1.5],
+    "regularization_lambda": {"low": 0.01, "nominal": 0.05, "high": 0.20, "basis": "ASSUMP"},
+    "Jz_tolerance_mm": {"low": 30.0, "nominal": 50.0, "high": 80.0, "source": "table_1_9_fit_RMS_order"},
+    "forbidden_sag_m": 255.56,
+    "formed_sag_m": 227.3,
+    "influence_matrix": {
+      "delta_kappa": 0.02,
+      "n_perturbations": 8,
+      "first": true
+    },
+    "pso": {
+      "when": "only_if_influence_least_squares_misses_Jz_nominal",
+      "otherwise": "NOT_APPLICABLE",
+      "dim": 8,
+      "swarm": 16,
+      "max_iter": 40,
+      "w": 0.72,
+      "c1": 1.49,
+      "c2": 1.49,
+      "seed": 2537213874,
+      "early_stop_stable_gens": 5
+    },
+    "prior_linear_ccx_evidence": {
+      "path": "catwalk-fem/eval/ccx_mct_from_zero/ccx_run.json",
+      "balanced": false,
+      "U_max_mm": 9264297389.105015,
+      "note": "proves need for NLGEOM target-config, not another mesh"
+    }
+  },
+  "steps": [
+    {
+      "id": "N00",
+      "skill": "bridge-fem-workflow-orchestrator",
+      "gate": "G-ORCH",
+      "adds": ["runId", "hash_closure", "activate_N10"],
+      "solver_retry_may_change_mesh": false
+    },
+    {
+      "id": "N01",
+      "skill": "bridge-analysis-charter",
+      "gate": "G0",
+      "adds": ["intended_use_statics_pins_only", "exclude_spectrum_dual_walkway_s10_solid"]
+    },
+    {
+      "id": "N02",
+      "skill": "engineering-source-ingestion",
+      "gate": "G1",
+      "adds": ["four_given_sources_only", "mct_chinese_path", "s10_extract_false"]
+    },
+    {
+      "id": "N03",
+      "skill": "engineering-drawing-data-extraction",
+      "gate": "G2",
+      "adds": ["INIFORCE_1123", "GROUP_8_blocks", "table_1_9_pins"]
+    },
+    {
+      "id": "N04",
+      "skill": "bridge-drawing-registration-reconciliation",
+      "gate": "G3",
+      "adds": ["two_frames_registered", "pin_deviation_0_mm", "span_name_alias"]
+    },
+    {
+      "id": "N05",
+      "skill": "bridge-structural-semantic-inventory",
+      "gate": "G4",
+      "adds": ["B1_to_B8", "no_mirror_second_deck"]
+    },
+    {
+      "id": "N06",
+      "skill": "bridge-cad-fem-abstraction",
+      "gate": "G5",
+      "adds": ["keep_TENSTR_B31_INIFORCE", "equiv_decking_in_mct_mass", "param_kappa"]
+    },
+    {
+      "id": "N07",
+      "skill": "bridge-fem-topology-geometry-generation",
+      "gate": "G6",
+      "adds": ["host_nodes_are_analysis_geometry", "overlay_map", "no_new_centerline"]
+    },
+    {
+      "id": "N08",
+      "skill": "bridge-material-section-mass-properties",
+      "gate": "G7",
+      "adds": ["mct_A_E_rho_as_migrated", "do_not_mix_phi50_16_rope_card"]
+    },
+    {
+      "id": "N09",
+      "skill": "bridge-connections-boundaries-supports",
+      "gate": "G8A",
+      "adds": ["copy_MCT_CONSTRAINT", "saddle_UX_free", "drop_points_not_default_supports"]
+    },
+    {
+      "id": "N10",
+      "skill": "bridge-cable-form-finding-initial-state",
+      "gate": "G8B",
+      "adds": ["target_line_independent", "influence_then_optional_pso", "selfweight_once"]
+    },
+    {
+      "id": "N11",
+      "skill": "bridge-load-cases-combinations-stages",
+      "gate": "G9",
+      "adds": ["LC-DEAD-PRESTRESS_only_this_run", "erqi_FZ_sum_kN_-4725.567874"]
+    },
+    {
+      "id": "N12",
+      "skill": "bridge-elements-mesh-numerical-controls",
+      "gate": "G10",
+      "adds": ["baseline_is_host", "NLGEOM", "ablation_N_as_mesh_surrogate"]
+    },
+    {
+      "id": "N13",
+      "skill": "bridge-pre-solve-model-verification",
+      "gate": "G11",
+      "adds": ["ic_covers_1123", "no_255.56", "no_isolated_freq_in_deck"]
+    },
+    {
+      "id": "N14",
+      "skill": "bridge-solver-deck-execution",
+      "gate": "G12",
+      "adds": ["ccx_2.21", "clean_SOLVE_ID", "host_topology_roundtrip"]
+    },
+    {
+      "id": "N15",
+      "skill": "bridge-solution-verification",
+      "gate": "G13",
+      "adds": ["Jz_and_positive_tension", "no_metric_shopping"]
+    },
+    {
+      "id": "N16",
+      "skill": "bridge-static-response-code-review",
+      "gate": "G14",
+      "adds": ["tension_only_check", "personnel_wind_NA_this_run"]
+    },
+    {
+      "id": "N17",
+      "skill": "bridge-independent-check-sensitivity-credibility",
+      "gate": "G15",
+      "adds": ["H_parabola_and_reread_INIFORCE", "760c0ee4_as_other_mesh_only", "s10_stays_null"]
+    },
+    {
+      "id": "N18",
+      "skill": "bridge-report-audit-change-control",
+      "gate": "G16",
+      "adds": ["permissible_use_statics_pins", "this_file_is_review_not_release"]
+    }
+  ]
+}

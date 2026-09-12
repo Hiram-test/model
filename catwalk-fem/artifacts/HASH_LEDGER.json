@@ -1,0 +1,63 @@
+{
+  "ledger": "catwalk-fem artifacts hash book on PR #19 / cursor/catwalk-main-deck-gate-f23d",
+  "rule": "a hash is not the new main until it is listed here and in checksums.sha256; independent reread is git show | sha256sum",
+  "pr": "https://github.com/Hiram-test/model/pull/19",
+  "branch": "cursor/catwalk-main-deck-gate-f23d",
+  "merged": false,
+  "current_main_path": "catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp",
+  "current_main_sha256": "974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1",
+  "ccx_ran_this_turn": false,
+  "plan": "catwalk-fem/eval/plan_974211b2/PLAN.md",
+  "scheme": "catwalk-fem/eval/SCHEME_974211b2_LINE_OVERLAY.md",
+  "entries": [
+    {
+      "role": "frozen_elset_uniaxial_fail_site",
+      "path": "catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+      "sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+      "bytes": 7702117,
+      "rewritten": false
+    },
+    {
+      "role": "frozen_ic_pass_first_increment_singular_site",
+      "path": "catwalk-fem/artifacts/zjg_catwalk_ccx221.inp",
+      "sha256": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+      "bytes": 26839981,
+      "rewritten": false
+    },
+    {
+      "role": "fail_site_four_unconstrained_b31",
+      "path": "catwalk-fem/artifacts/zjg_catwalk_main.inp",
+      "sha256": "c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84",
+      "bytes": 47948333,
+      "sidecar": "catwalk-fem/artifacts/zjg_catwalk_main.inp.sha256",
+      "in_checksums_sha256": true,
+      "on_pr19_branch": true,
+      "rewritten": false,
+      "note": "catwalk-check: after N_ORPHAN_UNCONSTRAINED 3596, still 4 unconstrained COMPONENTS / 12 B31 nodes at x≈656 and 2965–2968. 不过门. Not a calculation main."
+    },
+    {
+      "role": "frozen_cleared_site",
+      "path": "catwalk-fem/artifacts/zjg_catwalk_cleared.inp",
+      "sha256": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+      "bytes": 47948916,
+      "sidecar": "catwalk-fem/artifacts/zjg_catwalk_cleared.inp.sha256",
+      "in_checksums_sha256": true,
+      "on_pr19_branch": true,
+      "rewritten": false,
+      "note": "bytes untouched. No longer the calculation main. Overlay scheme does not rewrite this file. Independent reread still 760c0ee4."
+    },
+    {
+      "role": "current_main",
+      "path": "catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp",
+      "sha256": "974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1",
+      "bytes": 930300,
+      "sidecar": "catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp.sha256",
+      "in_checksums_sha256": true,
+      "on_pr19_branch": true,
+      "rewritten": false,
+      "plan": "catwalk-fem/eval/plan_974211b2/PLAN.md",
+      "scheme": "catwalk-fem/eval/SCHEME_974211b2_LINE_OVERLAY.md",
+      "note": "MCT-migrated host. Line already on this deck; do not replace. plan_974211b2 reread PK2. SCHEME_974211b2 is the 19-skill lock-N / influence / PSO review scheme. 760c0ee4 stays frozen."
+    }
+  ]
+}

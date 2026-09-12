@@ -1,0 +1,94 @@
+{
+  "FLOOR_N": {
+    "station": "K16+852.105",
+    "x": -23.895,
+    "id": "FLOOR_N",
+    "family": "floor",
+    "role": "floor_rope",
+    "end": "north",
+    "source": "DRW-B / theory v1.2 §4; not the portal-rope north anchor",
+    "n": 12,
+    "x_mean": 0.0,
+    "dx_to_target": 23.895,
+    "mode": "step_north_end_proxy",
+    "family_x_span": [
+      0.0,
+      4270.609
+    ],
+    "y_mean": 0.0,
+    "z_mean": 44.31,
+    "x_min": 0.0,
+    "x_max": 0.0
+  },
+  "FLOOR_S": {
+    "station": "K21+086.368",
+    "x": 4210.368,
+    "id": "FLOOR_S",
+    "family": "floor",
+    "role": "floor_rope",
+    "end": "south",
+    "source": "DRW-B / theory v1.2 §4; not the portal-rope south anchor",
+    "n": 300,
+    "x_mean": 4209.98473021472,
+    "dx_to_target": 0.38326978528039035,
+    "mode": "matched_x",
+    "family_x_span": [
+      0.0,
+      4270.609
+    ],
+    "y_mean": 4.7369515717340015e-17,
+    "z_mean": 47.47488933020854,
+    "x_min": 4202.909,
+    "x_max": 4218.064871128
+  },
+  "PORTAL_N": {
+    "station": "K16+831.091",
+    "x": -44.909,
+    "id": "PORTAL_N",
+    "family": "portal",
+    "role": "portal_rope",
+    "end": "north",
+    "source": "DRW-B / theory v1.2 §4; not the floor-rope north anchor",
+    "n": 12,
+    "x_mean": 46.357632882316665,
+    "dx_to_target": 91.26663288231666,
+    "mode": "step_north_end_proxy",
+    "family_x_span": [
+      43.871,
+      4221.093
+    ],
+    "y_mean": -2.9605947323337506e-16,
+    "z_mean": 57.562929987196675,
+    "x_min": 43.871,
+    "x_max": 48.84642222429
+  },
+  "PORTAL_S": {
+    "station": "K21+101.700",
+    "x": 4225.7,
+    "id": "PORTAL_S",
+    "family": "portal",
+    "role": "portal_rope",
+    "end": "south",
+    "source": "DRW-B / theory v1.2 §4; not the floor-rope south anchor",
+    "n": 4,
+    "x_mean": 4221.093,
+    "dx_to_target": 4.606999999999971,
+    "mode": "matched_x",
+    "family_x_span": [
+      43.871,
+      4221.093
+    ],
+    "y_mean": -8.881784197001252e-16,
+    "z_mean": 46.282000000000004,
+    "x_min": 4221.093,
+    "x_max": 4221.093
+  },
+  "_audit": {
+    "n_floor": 312,
+    "n_portal": 16,
+    "n_overlap": 0,
+    "overlap_idx": [],
+    "disjoint": true,
+    "rule": "floor and portal anchors must not share a node or NSET"
+  }
+}

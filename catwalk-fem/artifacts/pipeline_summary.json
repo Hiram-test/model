@@ -1,0 +1,54 @@
+{
+  "step": "/tmp/catwalk-assets/cw_S10_0716t050342_a4_centerline.step",
+  "sha256": "d03d01e38b823df5af4c1ff9b0b175fdfb87b097b9cda9a03af5d14e9c763344",
+  "n_segments": 139991,
+  "transform": {
+    "decision": "identity",
+    "x_shift_m": 0.0,
+    "tower_x_raw_m": [
+      699.9531176470589,
+      3023.364882352941
+    ],
+    "tower_x_after_m": [
+      699.9531176470589,
+      3023.364882352941
+    ],
+    "expected_saddle_x_m": [
+      666.679,
+      2953.321
+    ],
+    "saddle_residual_m": 103.3180000000001,
+    "saddle_z_evidence": {
+      "north_n": 1676,
+      "north_z_p90": 330.7812322184,
+      "north_expected_z": 340.6,
+      "south_n": 1296,
+      "south_z_p90": 324.8503477101,
+      "south_expected_z": 340.6,
+      "ok": true
+    },
+    "pass_saddle_align": true,
+    "histogram_residual_note": "high-Z histogram modes may sit on portal clusters, not saddles",
+    "rule": "do_not_subtract_xmin_unless_saddle_evidence_requires_it"
+  },
+  "audit_x": [
+    0.0,
+    4270.609
+  ],
+  "mesh": {
+    "n_nodes": 51896,
+    "n_elements": 30317
+  },
+  "inp": "/workspace/catwalk-fem/artifacts/zjg_catwalk_coarsened.inp",
+  "inp_sha256": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da",
+  "complete_write_inp": true,
+  "gate_status": "PASS",
+  "n_pass": 26,
+  "n_fail": 0,
+  "failed": [],
+  "passages": 21,
+  "portals": 142,
+  "inserted_passages": 0,
+  "inserted_portals": 0,
+  "anchors_disjoint": true
+}

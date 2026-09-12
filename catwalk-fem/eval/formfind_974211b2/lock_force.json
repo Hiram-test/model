@@ -1,0 +1,131 @@
+{
+  "kind": "initial_lock_force_from_mct",
+  "source": "MCT *INIFORCE / *INI-EFORCE",
+  "independent_control": "MCT formed geometry (974211b2 *NODE)",
+  "determined_quantity": "initial lock force = MCT *INIFORCE / *INI-EFORCE mean",
+  "not_table_5_4": true,
+  "forbidden_table_5_4_kN": [
+    9309.3,
+    581.8
+  ],
+  "n_iniforce": 1123,
+  "n_TENSTR_lock": 1123,
+  "n_portal_truss_without_iniforce": 71,
+  "n_portal_TRUSS_no_lock": 71,
+  "portal_stop": false,
+  "mean_kN": 7966.671006233303,
+  "max_kN": 15724.3,
+  "min_kN": 1482.74,
+  "eid1_sigma_equals_F_over_A": true,
+  "eid1_F_over_A_N_mm2": 703.4605548416231,
+  "stats_kN": {
+    "n": 1123,
+    "min": 1482.74,
+    "max": 15724.3,
+    "mean": 7966.671006233303,
+    "p50": 10261.5,
+    "p95": 11075.75
+  },
+  "by_block_kN": {
+    "北边跨": {
+      "n": 149,
+      "min": 9231.855,
+      "max": 11465.05,
+      "mean": 10901.862785234898,
+      "p50": 10875.55,
+      "p95": 11378.35
+    },
+    "主跨": {
+      "n": 295,
+      "min": 1482.74,
+      "max": 11000.8,
+      "mean": 10431.682050847458,
+      "p50": 10440.9,
+      "p95": 10938.4
+    },
+    "南边跨": {
+      "n": 160,
+      "min": 9164.24,
+      "max": 10927.65,
+      "mean": 10475.000812499999,
+      "p50": 10453.3,
+      "p95": 10856.8
+    },
+    "南辅跨": {
+      "n": 115,
+      "min": 10045.2,
+      "max": 10337.55,
+      "mean": 10163.288695652174,
+      "p50": 10151.599999999999,
+      "p95": 10306.5
+    },
+    "门架索北边跨": {
+      "n": 64,
+      "min": 3115.1,
+      "max": 3553.5,
+      "mean": 3394.1234375,
+      "p50": 3400.95,
+      "p95": 3544.0
+    },
+    "门架索主跨": {
+      "n": 216,
+      "min": 3115.1,
+      "max": 3347.95,
+      "mean": 3193.636574074074,
+      "p50": 3171.85,
+      "p95": 3335.15
+    },
+    "门架索南边跨": {
+      "n": 67,
+      "min": 3115.1,
+      "max": 3381.0,
+      "mean": 3257.6753731343283,
+      "p50": 3248.15,
+      "p95": 3375.6
+    },
+    "门架索南辅跨": {
+      "n": 47,
+      "min": 3124.7,
+      "max": 3232.9,
+      "mean": 3161.0712765957446,
+      "p50": 3155.5,
+      "p95": 3203.45
+    }
+  },
+  "named": {
+    "1": {
+      "eid": 1,
+      "block": "",
+      "F_lock_kN": 15686.25,
+      "A_mm2": 22298.69164950066,
+      "sigma_N_mm2": 703.4605548416231,
+      "from": "INI-EFORCE mean(i,j)"
+    },
+    "4": {
+      "eid": 4,
+      "block": "",
+      "F_lock_kN": 12209.3,
+      "A_mm2": 22298.69164950066,
+      "sigma_N_mm2": 547.5343662269713,
+      "from": "INI-EFORCE mean(i,j)"
+    },
+    "728": {
+      "eid": 728,
+      "block": "主跨",
+      "F_lock_kN": 1482.74,
+      "A_mm2": 22298.69164950066,
+      "sigma_N_mm2": 66.49448421935568,
+      "from": "INI-EFORCE mean(i,j)"
+    },
+    "729": {
+      "eid": 729,
+      "block": "主跨",
+      "F_lock_kN": 1570.17,
+      "A_mm2": 22298.69164950066,
+      "sigma_N_mm2": 70.41534206044601,
+      "from": "INI-EFORCE mean(i,j)"
+    }
+  },
+  "note": "INIFORCE is MCT geometric-stiffness lock force on the formed line. 工况1 运力增量按复核表应接近 0。表5-4 9309.3/581.8 是另一套 16×φ50 恒+静风，不用。",
+  "n_rows": 1123
+}

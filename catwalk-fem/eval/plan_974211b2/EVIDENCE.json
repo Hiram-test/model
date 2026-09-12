@@ -1,0 +1,559 @@
+{
+  "kind": "plan_974211b2_evidence",
+  "not_a_scientific_solved_claim": true,
+  "alignment": {
+    "kind": "mct_alignment_extract",
+    "drawing_absent": true,
+    "drawings": {
+      "searched_globs": [
+        "*图纸汇总*",
+        "*线形*",
+        "*成型线*",
+        "*猫道图纸*",
+        "*.dwg",
+        "*.dxf",
+        "*centerline*.pdf"
+      ],
+      "named_drawing_files_present": [],
+      "glob_hits": [
+        "source-inputs/zhaqing-suspension-bridge/drawings/01-扎青桥总体布置1.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/03-缆索布置.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/04-05-桥面板构造.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/06-11-横梁构造.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/12-纵梁构造.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/14-吊杆布置.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/19-索塔一般构造.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/26-锚碇一般构造.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/29-索鞍构造.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/32-风缆构造.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/33-风缆锚碇.dwg",
+        "source-inputs/zhaqing-suspension-bridge/drawings/桥跨横断面图.dwg"
+      ],
+      "n_glob_hits": 12,
+      "alignment_drawing_in_tree": false,
+      "source_used": "MCT *NODE / *ELEMENT / *GROUP",
+      "note": "No alignment drawing in this checkout. Overlay uses the MCT body."
+    },
+    "source": {
+      "path": "catwalk-fem/mct-from-zero/source/01_设计资料与规范/猫道 - 门架索合建模型2.mct",
+      "sha256": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+      "bytes": 448673,
+      "unit": "kN, mm",
+      "y_plane": "Y≈0 single-line 2-D equivalent"
+    },
+    "bbox_m": {
+      "x_min": 831.091,
+      "x_max": 5101.7,
+      "y_min": -2.3728976454735698e-15,
+      "y_max": 3.5402693941528196e-16,
+      "z_min": 22.51,
+      "z_max": 350.312000000003
+    },
+    "counts": {
+      "n_nodes": 1125,
+      "n_TENSTR": 1123,
+      "n_TRUSS": 71,
+      "n_cross_passage_nodes": 21,
+      "n_portal_frames": 71
+    },
+    "hang_points_垂点组": [
+      {
+        "nid": 160,
+        "x_m": 1553.3,
+        "z_m": 334.645
+      },
+      {
+        "nid": 302,
+        "x_m": 2686.0,
+        "z_m": 113.3
+      },
+      {
+        "nid": 444,
+        "x_m": 3818.7,
+        "z_m": 334.537
+      }
+    ],
+    "floor_spans": [
+      {
+        "group": "北边跨",
+        "n_nodes": 150,
+        "n_tenstr": 149,
+        "x0_mm": 879888.0,
+        "x1_mm": 1528000.0,
+        "L_m": 648.112,
+        "z_left_m": 59.283,
+        "z_right_m": 340.596402534349,
+        "z_min_m": 59.283,
+        "z_max_m": 340.6,
+        "z_mid_node_m": 179.953825997682,
+        "mid_nid": 80,
+        "sag_end_minus_zmin_m": 140.6567012671745,
+        "y_abs_max_mm": 4.3423745839085e-17,
+        "sample": [
+          {
+            "nid": 6,
+            "x_mm": 879888.0,
+            "y_mm": 0.0,
+            "z_mm": 59283.0
+          },
+          {
+            "nid": 80,
+            "x_mm": 1203000.0,
+            "y_mm": 0.0,
+            "z_mm": 179953.825997682
+          },
+          {
+            "nid": 155,
+            "x_mm": 1528000.0,
+            "y_mm": 4.3423745839085e-17,
+            "z_mm": 340596.402534349
+          }
+        ]
+      },
+      {
+        "group": "主跨",
+        "n_nodes": 296,
+        "n_tenstr": 295,
+        "x0_mm": 1528000.0,
+        "x1_mm": 3830000.0,
+        "L_m": 2302.0,
+        "z_left_m": 340.596402534349,
+        "z_right_m": 340.598391737771,
+        "z_min_m": 113.3,
+        "z_max_m": 340.6,
+        "z_mid_node_m": 113.343046628001,
+        "mid_nid": 301,
+        "sag_end_minus_zmin_m": 227.29739713606,
+        "y_abs_max_mm": 2.37289764547357e-12,
+        "sample": [
+          {
+            "nid": 155,
+            "x_mm": 1528000.0,
+            "y_mm": 4.3423745839085e-17,
+            "z_mm": 340596.402534349
+          },
+          {
+            "nid": 301,
+            "x_mm": 2677000.0,
+            "y_mm": -2.35122181762689e-12,
+            "z_mm": 113343.046628001
+          },
+          {
+            "nid": 448,
+            "x_mm": 3830000.0,
+            "y_mm": 2.80113564718581e-17,
+            "z_mm": 340598.391737771
+          }
+        ]
+      },
+      {
+        "group": "南边跨",
+        "n_nodes": 161,
+        "n_tenstr": 160,
+        "x0_mm": 3830000.0,
+        "x1_mm": 4555276.0,
+        "L_m": 725.276,
+        "z_left_m": 340.598391737771,
+        "z_right_m": 126.75,
+        "z_min_m": 126.75,
+        "z_max_m": 340.6,
+        "z_mid_node_m": 212.497108361869,
+        "mid_nid": 528,
+        "sag_end_minus_zmin_m": 106.92419586888549,
+        "y_abs_max_mm": 4.19590943250836e-16,
+        "sample": [
+          {
+            "nid": 448,
+            "x_mm": 3830000.0,
+            "y_mm": 2.80113564718581e-17,
+            "z_mm": 340598.391737771
+          },
+          {
+            "nid": 528,
+            "x_mm": 4194500.0,
+            "y_mm": -4.13271916679804e-16,
+            "z_mm": 212497.108361869
+          },
+          {
+            "nid": 608,
+            "x_mm": 4555276.0,
+            "y_mm": 0.0,
+            "z_mm": 126750.0
+          }
+        ]
+      },
+      {
+        "group": "南辅跨",
+        "n_nodes": 116,
+        "n_tenstr": 115,
+        "x0_mm": 4555276.0,
+        "x1_mm": 5052184.0,
+        "L_m": 496.908,
+        "z_left_m": 126.75,
+        "z_right_m": 46.282,
+        "z_min_m": 46.282,
+        "z_max_m": 126.75,
+        "z_mid_node_m": 75.6744637154886,
+        "mid_nid": 666,
+        "sag_end_minus_zmin_m": 40.234,
+        "y_abs_max_mm": 1.18818222362524e-16,
+        "sample": [
+          {
+            "nid": 608,
+            "x_mm": 4555276.0,
+            "y_mm": 0.0,
+            "z_mm": 126750.0
+          },
+          {
+            "nid": 666,
+            "x_mm": 4803000.0,
+            "y_mm": -9.81560703383327e-17,
+            "z_mm": 75674.4637154886
+          },
+          {
+            "nid": 723,
+            "x_mm": 5052184.0,
+            "y_mm": 0.0,
+            "z_mm": 46282.0
+          }
+        ]
+      }
+    ],
+    "portal_cable_spans": [
+      {
+        "group": "门架索北边跨",
+        "n_nodes": 65,
+        "n_tenstr": 64,
+        "x0_mm": 831091.0,
+        "x1_mm": 1535000.0,
+        "L_m": 703.909,
+        "z_left_m": 44.3100000000006,
+        "z_right_m": 350.31158565154004,
+        "z_min_m": 44.3100000000006,
+        "z_max_m": 350.312000000003,
+        "z_mid_node_m": 180.499745984782,
+        "mid_nid": 1031,
+        "sag_end_minus_zmin_m": 153.00079282576968,
+        "y_abs_max_mm": 0.0,
+        "sample": [
+          {
+            "nid": 1001,
+            "x_mm": 831091.0,
+            "y_mm": 0.0,
+            "z_mm": 44310.0000000006
+          },
+          {
+            "nid": 1031,
+            "x_mm": 1183009.3,
+            "y_mm": 0.0,
+            "z_mm": 180499.745984782
+          },
+          {
+            "nid": 1065,
+            "x_mm": 1535000.0,
+            "y_mm": 0.0,
+            "z_mm": 350311.58565154
+          }
+        ]
+      },
+      {
+        "group": "门架索主跨",
+        "n_nodes": 217,
+        "n_tenstr": 216,
+        "x0_mm": 1535000.0,
+        "x1_mm": 3837000.0,
+        "L_m": 2302.0,
+        "z_left_m": 350.31158565154004,
+        "z_right_m": 350.311585651514,
+        "z_min_m": 121.30000000001,
+        "z_max_m": 350.312,
+        "z_mid_node_m": 121.30000000001,
+        "mid_nid": 1173,
+        "sag_end_minus_zmin_m": 229.01158565151704,
+        "y_abs_max_mm": 0.0,
+        "sample": [
+          {
+            "nid": 1065,
+            "x_mm": 1535000.0,
+            "y_mm": 0.0,
+            "z_mm": 350311.58565154
+          },
+          {
+            "nid": 1173,
+            "x_mm": 2686008.5,
+            "y_mm": 0.0,
+            "z_mm": 121300.00000001
+          },
+          {
+            "nid": 1281,
+            "x_mm": 3837000.0,
+            "y_mm": 0.0,
+            "z_mm": 350311.585651514
+          }
+        ]
+      },
+      {
+        "group": "门架索南边跨",
+        "n_nodes": 68,
+        "n_tenstr": 67,
+        "x0_mm": 3837000.0,
+        "x1_mm": 4556000.0,
+        "L_m": 719.0,
+        "z_left_m": 350.311585651514,
+        "z_right_m": 134.065224616716,
+        "z_min_m": 134.065224616716,
+        "z_max_m": 350.312000000003,
+        "z_mid_node_m": 221.603525991369,
+        "mid_nid": 1315,
+        "sag_end_minus_zmin_m": 108.12318051739902,
+        "y_abs_max_mm": 0.0,
+        "sample": [
+          {
+            "nid": 1281,
+            "x_mm": 3837000.0,
+            "y_mm": 0.0,
+            "z_mm": 350311.585651514
+          },
+          {
+            "nid": 1315,
+            "x_mm": 4194509.3,
+            "y_mm": 0.0,
+            "z_mm": 221603.525991369
+          },
+          {
+            "nid": 1348,
+            "x_mm": 4556000.0,
+            "y_mm": 0.0,
+            "z_mm": 134065.224616716
+          }
+        ]
+      },
+      {
+        "group": "门架索南辅跨",
+        "n_nodes": 48,
+        "n_tenstr": 47,
+        "x0_mm": 4556000.0,
+        "x1_mm": 5101700.0,
+        "L_m": 545.7,
+        "z_left_m": 134.065224616716,
+        "z_right_m": 41.3170000000002,
+        "z_min_m": 41.3170000000002,
+        "z_max_m": 134.065224616716,
+        "z_mid_node_m": 79.6620635437873,
+        "mid_nid": 1373,
+        "sag_end_minus_zmin_m": 46.37411230835791,
+        "y_abs_max_mm": 0.0,
+        "sample": [
+          {
+            "nid": 1348,
+            "x_mm": 4556000.0,
+            "y_mm": 0.0,
+            "z_mm": 134065.224616716
+          },
+          {
+            "nid": 1373,
+            "x_mm": 4833009.3,
+            "y_mm": 0.0,
+            "z_mm": 79662.0635437873
+          },
+          {
+            "nid": 1395,
+            "x_mm": 5101700.0,
+            "y_mm": 0.0,
+            "z_mm": 41317.0000000002
+          }
+        ]
+      }
+    ]
+  },
+  "overlay": {
+    "kind": "mct_prestress_overlay_on_alignment",
+    "main": {
+      "path": "catwalk-fem/artifacts/zjg_catwalk_migrate_main.inp",
+      "sha256": "974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1",
+      "rewritten": false
+    },
+    "identical_to_mct_from_zero_static": true,
+    "n_overlay_tenstr": 1123,
+    "n_main_ic_eids": 1123,
+    "pk2_vs_main_ip1_abs_rel": {
+      "n": 1123,
+      "min": 5.778346159485921e-09,
+      "max": 4.7582889546416025e-07,
+      "mean": 2.0177352854116252e-07
+    },
+    "named": {
+      "1": {
+        "F_kN": 15686.25,
+        "A_mm2": 22298.69164950066,
+        "sigma_N_mm2": 703.4605548416231,
+        "overlay_pk2": [
+          285.37002384068614,
+          0.0,
+          418.0905310009367,
+          0.0,
+          345.4135272384428,
+          0.0
+        ],
+        "main_ip1_pk2": [
+          285.37,
+          0.0,
+          418.0905,
+          0.0,
+          345.4135,
+          0.0
+        ],
+        "max_abs_rel_pk2": 8.3543063910698e-08
+      },
+      "4": {
+        "F_kN": 12209.3,
+        "A_mm2": 22298.69164950066,
+        "sigma_N_mm2": 547.5343662269713,
+        "overlay_pk2": [
+          366.63743989268715,
+          0.0,
+          180.89692633428422,
+          0.0,
+          257.5336598498495,
+          0.0
+        ],
+        "main_ip1_pk2": [
+          366.6374,
+          0.0,
+          180.8969,
+          0.0,
+          257.5337,
+          0.0
+        ],
+        "max_abs_rel_pk2": 1.5590253524894857e-07
+      },
+      "728": {
+        "F_kN": 1482.74,
+        "A_mm2": 22298.69164950066,
+        "sigma_N_mm2": 66.49448421935568,
+        "overlay_pk2": [
+          31.492420081211826,
+          6.648648464394544e-32,
+          35.00206413814386,
+          1.4470039060521465e-15,
+          33.200899197882364,
+          1.525504572207863e-15
+        ],
+        "main_ip1_pk2": [
+          31.49242,
+          6.648648e-32,
+          35.00206,
+          1.447004e-15,
+          33.2009,
+          1.525505e-15
+        ],
+        "max_abs_rel_pk2": 2.8042665017252764e-07
+      },
+      "729": {
+        "F_kN": 1570.17,
+        "A_mm2": 22298.69164950066,
+        "sigma_N_mm2": 70.41534206044601,
+        "overlay_pk2": [
+          33.81084250019415,
+          4.18587918677018e-31,
+          36.60449956025185,
+          3.762022088036264e-15,
+          -35.17995124257709,
+          -3.914358349096266e-15
+        ],
+        "main_ip1_pk2": [
+          33.81084,
+          4.185879e-31,
+          36.6045,
+          3.762022e-15,
+          -35.17995,
+          -3.914358e-15
+        ],
+        "max_abs_rel_pk2": 8.918352249895704e-08
+      },
+      "1169": {
+        "F_kN": 3115.3,
+        "A_mm2": 8402.979737976504,
+        "sigma_N_mm2": 370.73753562925833,
+        "overlay_pk2": [
+          370.68971286108047,
+          0.0,
+          0.04782276817787387,
+          0.0,
+          -4.210392880014652,
+          -0.0
+        ],
+        "main_ip1_pk2": [
+          370.6897,
+          0.0,
+          0.04782277,
+          0.0,
+          -4.210393,
+          -0.0
+        ],
+        "max_abs_rel_pk2": 3.8101644885085504e-08
+      }
+    },
+    "source_sigma_eid1_not_locked": {
+      "eid": 1,
+      "INI_EFORCE_mean_kN": 15686.25,
+      "INIFORCE_kN": 15686.3,
+      "A_mm2": 22298.69164950066,
+      "sigma_from_INI_EFORCE_N_mm2": 703.4605548416231,
+      "sigma_from_INIFORCE_N_mm2": 703.4627971256451,
+      "lock_manuscript": false,
+      "note": "703.46 MPa is F/A on the MCT body. Not equilibrium. Do not lock the paper on it."
+    },
+    "760c0ee4_untouched": true,
+    "formula": "sigma = F_N / A_mm2; PK2 = sigma * n⊗n on MCT node-to-node vector",
+    "compare_target": "CalculiX own working prestress / cable force on this deck, not ANSYS POST1"
+  },
+  "geometry_overlay_report": {
+    "kind": "geometry_overlay_report",
+    "probe_outcome": "drawings_absent",
+    "source_hash": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+    "main_sha256": "974211b2ddfe2950548ee2455bc22e1e2e68d3e1f53df4c4e1eb71ece0267fd1",
+    "n_mct_nodes": 1125,
+    "n_main_nodes": 1125,
+    "n_compared": 1125,
+    "n_missing_in_main": 0,
+    "span_m": 4270.609,
+    "residual_abs_mm": {
+      "max": 0.03360482608011406,
+      "mean": 0.0024119508875557498
+    },
+    "print_roundtrip": {
+      "emit_format": ".8g as written by emit_ccx",
+      "reason": "MCT 2817675.96666667 prints as 2817676 in the locked inp",
+      "max_abs_mm_observed": 0.03360482608011406,
+      "n_nodes_not_equal_after_dot8g_reprint": 0
+    },
+    "pass_1125_same_source_print_precision": true,
+    "pass_1125_match": true,
+    "forbidden_overlays_used": false,
+    "note": "Same-source MCT scrape onto 974211b2. Residuals are .8g print roundtrip, not a second alignment. No 扎青 DWG, no homemade STEP, no 1:1 S10 map."
+  },
+  "acknowledged_linear_static": {
+    "source": "calculation group + #19 sidecar eval/ccx_mct_from_zero/ccx_run.json",
+    "mechanism": true,
+    "frd_DISP_node_count": 0,
+    "S_approx_IC_is_not_equilibrium": true,
+    "worst_rel": 0.19061214708677,
+    "worst_eid": 1169,
+    "worst_rel_as_percent": -19.061214708677,
+    "U_max_mm_from_NODE_PRINT": 9264297389.105015,
+    "balanced": false,
+    "lock_703_46": false,
+    "this_turn_ran_ccx": false,
+    "ccx_binary_on_this_vm": false,
+    "note": "机构型. FRD DISP 节点 0. S≈IC 不是平衡. 最差 −19.1%. 703.46 不锁稿."
+  },
+  "frozen": {
+    "760c0ee4": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+    "untouched": true
+  },
+  "pushed_main": false,
+  "opened_new_pr": false,
+  "merged": false,
+  "twisted_to_demo_rl_calculix": false
+}
