@@ -1,0 +1,80 @@
+name: C3 43KG Doubao Demo # 显示 C3 图谱智能体 Demo 名称。
+on: # 定义自动和手动触发方式。
+  workflow_dispatch: # 允许在 Actions 页面直接运行。
+    inputs: # 定义可选 Demo 工况。
+      case_id: # 接收工况 ID。
+        description: C3 43-case scenario id # 说明输入用途。
+        required: false # 允许使用默认工况。
+        default: site_gb50009_100yr # 默认演示江苏沿海百年工况。
+  push: # 在迁移分支更新时自动运行。
+    branches: [feat/c3-buffeting-43-kg, feat/c3-native-43-rms-kg] # 覆盖两个 C3 目标分支。
+    paths: [catwalk-fem/c3-buffeting-43-kg/**, .github/workflows/c3-43kg-doubao-demo.yml] # 仅响应本包变化。
+permissions: # 使用最小仓库权限。
+  contents: read # 仅需读取代码与数据。
+jobs: # 定义单个端到端 Demo 作业。
+  demo: # 执行构图、测试和问答。
+    runs-on: ubuntu-24.04 # 使用当前稳定 Linux Runner。
+    timeout-minutes: 15 # 限制外部 API 等待时间。
+    env: # 配置包路径与安全注入的候选 Secret。
+      PKG: catwalk-fem/c3-buffeting-43-kg # 固定工作目录。
+      DOUBAO_API_KEY: ${{ secrets.DOUBAO_API_KEY || vars.DOUBAO_API_KEY }} # 同时兼容仓库 Secret 与 Variable。
+      DOUBAO_API: ${{ secrets.DOUBAO_API || vars.DOUBAO_API }} # 同时兼容短名称 Secret 与 Variable。
+      DOUBAO_KEY: ${{ secrets.DOUBAO_KEY || vars.DOUBAO_KEY }} # 同时兼容 Key 短名称 Secret 与 Variable。
+      DOUBAO_TOKEN: ${{ secrets.DOUBAO_TOKEN || vars.DOUBAO_TOKEN }} # 同时兼容 Token 名称 Secret 与 Variable。
+      DOUBAO: ${{ secrets.DOUBAO || vars.DOUBAO }} # 同时兼容最短豆包名称 Secret 与 Variable。
+      DOUBAO_APIKEY: ${{ secrets.DOUBAO_APIKEY || vars.DOUBAO_APIKEY }} # 同时兼容无分隔符名称 Secret 与 Variable。
+      DOUBAO_API_SECRET: ${{ secrets.DOUBAO_API_SECRET || vars.DOUBAO_API_SECRET }} # 同时兼容 API Secret 名称的两类配置。
+      ARK_API_KEY: ${{ secrets.ARK_API_KEY || vars.ARK_API_KEY }} # 同时兼容方舟标准名称 Secret 与 Variable。
+      ARK_KEY: ${{ secrets.ARK_KEY || vars.ARK_KEY }} # 同时兼容方舟 Key 短名称 Secret 与 Variable。
+      ARK_TOKEN: ${{ secrets.ARK_TOKEN || vars.ARK_TOKEN }} # 同时兼容方舟 Token 名称 Secret 与 Variable。
+      VOLCENGINE_API_KEY: ${{ secrets.VOLCENGINE_API_KEY || vars.VOLCENGINE_API_KEY }} # 同时兼容火山引擎名称 Secret 与 Variable。
+      VOLCENGINE_KEY: ${{ secrets.VOLCENGINE_KEY || vars.VOLCENGINE_KEY }} # 同时兼容火山引擎 Key 短名称 Secret 与 Variable。
+      DOUBAO_MODEL: ${{ vars.DOUBAO_MODEL || 'doubao-seed-1-8-251228' }} # 允许仓库变量覆盖模型。
+    steps: # 顺序执行完整 Demo。
+      - name: Checkout C3 migration branch # 拉取当前提交。
+        uses: actions/checkout@v4 # 使用官方检出动作。
+      - name: Build C3 knowledge graph # 物化节点、边和追踪。
+        run: python c3_agent.py build # 构建确定性图谱。
+        working-directory: ${{ env.PKG }} # 在包目录运行。
+      - name: Validate 43 cases and boundaries # 校验结构与证据边界。
+        run: python c3_agent.py validate # 运行内置校验。
+        working-directory: ${{ env.PKG }} # 在包目录运行。
+      - name: Run unit tests # 覆盖计数、端点、哈希和离线问答。
+        run: python -m unittest -v test_c3_agent.py # 使用标准库测试。
+        working-directory: ${{ env.PKG }} # 在包目录运行。
+      - name: Verify committed model migration artifacts # 防止源码、权威数据与仓库生成物漂移。
+        run: git diff --exit-code -- generated/knowledge_graph_c3.json generated/knowledge_graph_c3_nodes.csv generated/knowledge_graph_c3_edges.csv generated/c3_agent_traces_43.csv generated/graph_summary.json generated/migration_acceptance.json generated/validation.json generated/SHA256SUMS.txt # 要求确定性重建与提交产物逐字节一致。
+        working-directory: ${{ env.PKG }} # 在包目录运行。
+      - name: Run deterministic demos # 生成两个无需凭据的可复查问答。
+        shell: bash # 使用 Bash 顺序执行。
+        working-directory: ${{ env.PKG }} # 在包目录运行。
+        run: | # 开始多行 Demo 命令。
+          python c3_agent.py ask --offline --case "${{ inputs.case_id || 'site_gb50009_100yr' }}" --question "这个工况在 C3 模型上已有何种证据，还缺什么？" --output generated/demo_selected_offline.json # 生成选定工况 Demo。
+          python c3_agent.py ask --offline --case piteraq_tasiilaq --question "说明非平稳工况在 C3 图谱中的处置。" --output generated/demo_nonstationary_offline.json # 生成非平稳 Demo。
+      - name: Run live Doubao demo when secret exists # 使用仓库中已有 API Key 调用豆包。
+        shell: bash # 使用 Bash 检测候选 Key。
+        working-directory: ${{ env.PKG }} # 在包目录运行。
+        run: | # 开始安全调用脚本。
+          if [ -n "${DOUBAO_API_KEY}" ] || [ -n "${DOUBAO_API}" ] || [ -n "${DOUBAO_KEY}" ] || [ -n "${DOUBAO_TOKEN}" ] || [ -n "${DOUBAO}" ] || [ -n "${DOUBAO_APIKEY}" ] || [ -n "${DOUBAO_API_SECRET}" ] || [ -n "${ARK_API_KEY}" ] || [ -n "${ARK_KEY}" ] || [ -n "${ARK_TOKEN}" ] || [ -n "${VOLCENGINE_API_KEY}" ] || [ -n "${VOLCENGINE_KEY}" ]; then # 检测任一支持的 Secret。
+            python c3_agent.py ask --require-llm --case "${{ inputs.case_id || 'site_gb50009_100yr' }}" --question "按四智能体证据链说明该工况，并明确 C3 当前能下什么结论。" --output generated/demo_selected_doubao.json # 执行真实 Doubao Demo。
+          else # 处理当前分支不可见任何候选 Secret 的情况。
+            cp generated/demo_selected_offline.json generated/demo_selected_doubao.json # 保留同名产物并明确其中 provider=deterministic。
+          fi # 结束 Secret 检测。
+      - name: Publish demo summary # 将结果摘要写入 Actions 页面。
+        shell: bash # 使用 Bash 组合 Markdown。
+        working-directory: ${{ env.PKG }} # 在包目录运行。
+        run: | # 开始生成作业摘要。
+          echo "## C3 × 43 工况图谱智能体" >> "${GITHUB_STEP_SUMMARY}" # 写入标题。
+          echo "" >> "${GITHUB_STEP_SUMMARY}" # 写入空行。
+          echo "- 43 个工况与 172 个智能体决策已重建。" >> "${GITHUB_STEP_SUMMARY}" # 写入图谱计数。
+          echo "- C3 43 工况响应状态：NOT_MATERIALIZED。" >> "${GITHUB_STEP_SUMMARY}" # 写入响应边界。
+          echo "- 最终状态：43/43 NOT_ARMED，dispatch=false。" >> "${GITHUB_STEP_SUMMARY}" # 写入终态。
+          echo "- Doubao 产物 provider：" >> "${GITHUB_STEP_SUMMARY}" # 写入模型状态提示。
+          python -c 'import json; print("  - " + json.load(open("generated/demo_selected_doubao.json", encoding="utf-8"))["response"]["provider"])' >> "${GITHUB_STEP_SUMMARY}" # 从产物读取 provider。
+      - name: Upload complete demo artifact # 上传图谱、追踪和问答 JSON。
+        uses: actions/upload-artifact@v4 # 使用官方产物动作。
+        with: # 配置产物范围。
+          name: C3-43KG-Doubao-Demo # 使用稳定产物名。
+          path: ${{ env.PKG }}/generated/ # 上传全部生成文件。
+          if-no-files-found: error # 缺失产物时明确失败。
+          retention-days: 90 # 保留九十天。

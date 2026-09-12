@@ -1,0 +1,47 @@
+{
+  "schema_version": "catwalk-c3-agent-policy/v1",
+  "policy_state": "MIGRATED_RULES_C3_EVIDENCE_ADAPTER",
+  "source_agent_count": 4,
+  "source_agent_decision_count": 172,
+  "agents": [
+    {
+      "name": "AuthorityAgent",
+      "migration_action": "RULE_PORT_WITH_FULL_AUTHORITY_MATRIX",
+      "required_inputs": ["authority/I08_AUTHORITY.json", "authority/I08_GITHUB_43_CASE_MATRIX.csv", "case_migration_matrix.csv"],
+      "decision_contract": "Confirm exact source scenario identity and retain both source order and C3 order.",
+      "prohibited_claims": ["C3 order is the source GitHub authority order", "C3 classification overwrites source stationarity"]
+    },
+    {
+      "name": "SolverEvidenceAgent",
+      "migration_action": "C3_NATIVE_EVIDENCE_ADAPTER",
+      "required_inputs": ["model_binding.json", "modes_c3_ft14.csv", "table41_c3_pairing.csv"],
+      "decision_contract": "Bind the released C3 deck, custom solver and fourteen-mode receipt while keeping every C3 wind-case response NOT_MATERIALIZED.",
+      "prohibited_claims": ["Double-MCT response is C3 response", "fourteen modal frequencies are a forty-three-case buffeting solve"]
+    },
+    {
+      "name": "PhysicsBoundaryAgent",
+      "migration_action": "RULE_PORT_WITH_C3_ELIGIBILITY_OVERLAY",
+      "required_inputs": ["case_migration_matrix.csv", "source_asset_inventory.json"],
+      "decision_contract": "Separate source stationarity from C3 eligibility and require a C3-native wind mapping and response solve before engineering conclusions.",
+      "prohibited_claims": ["wind-pressure index is structural response", "legacy ROM metrics validate C3", "C3 envelope-only means source nonstationary"]
+    },
+    {
+      "name": "WarningPolicyAgent",
+      "migration_action": "POLICY_PORT_WITH_OUTPUT_DISABLED",
+      "required_inputs": ["generated/validation.json", "generated/migration_acceptance.json"],
+      "decision_contract": "Keep warning status NOT_ARMED and dispatch false until C3-native response, thresholds and human review are materialized.",
+      "prohibited_claims": ["NOT_ARMED is a structural safety pass", "a demo answer authorizes dispatch"]
+    }
+  ],
+  "carried_source_limitations": [
+    "Frozen QA capacity_status identifies evidence scope rather than a signed capacity pass.",
+    "Gantry breaking force is unavailable and remains NOT_EVALUATED.",
+    "A no-slack linear ROM row does not establish a nonlinear validity gate."
+  ],
+  "global_output_contract": {
+    "warning_status": "NOT_ARMED",
+    "dispatch": false,
+    "c3_case_response": "NOT_MATERIALIZED",
+    "legacy_numeric_value_transfer": false
+  }
+}

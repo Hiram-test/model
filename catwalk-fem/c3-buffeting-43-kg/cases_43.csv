@@ -1,0 +1,44 @@
+n,id,group,name_cn,U10_mps,gust_mps,grade,stationary,c3_layer,c3_claim
+1,site_sutong_100yr_obs,G0_site,苏通同河段100年一遇观测外延,38.9,,A,true,L0,anchor_design
+2,site_gb50009_50yr,G0_site,GB50009江苏沿海50年一遇,26.8,,B,true,L0,code_envelope
+3,site_gb50009_100yr,G0_site,GB50009江苏沿海100年一遇,28.3,,B,true,L0,code_envelope
+4,hko_t10,G0_site,香港T10门槛,32.8,,B,true,L0,threshold
+5,asce7_risk4_fl,G0_site,ASCE7风险IV类佛罗里达,58.3,82.8,B,true,L3,offsite_reference
+6,infa_2021_zhoushan,G1_typhoon,2021烟花舟山登陆,35.8,,A,true,L2,same_sea
+7,doksuri_2023_jinjiang,G1_typhoon,2023杜苏芮晋江登陆,47.2,,A,true,L2,same_sea
+8,meranti_2016_peak,G1_typhoon,2016莫兰蒂峰值,61.1,70.0,A,true,L2,same_sea
+9,haiyan_2013_peak,G1_typhoon,2013海燕峰值,63.9,105.6,A,true,L3,offsite_envelope
+10,mangkhut_2018_peak,G1_typhoon,2018山竹峰值,69.5,,A,true,L3,offsite_envelope
+11,tip_1979_peak,G1_typhoon,1979台风泰培峰值,72.0,,C,true,L3,needs_recheck
+12,goni_2020_landfall,G1_typhoon,2020天鹅登陆,76.8,,A,true,L3,offsite_envelope
+13,lanyu_ryan_1995_gust,G1_typhoon,1995兰屿Ryan站,60.1,85.4,C,true,L3,needs_recheck
+14,ss_cat1,G2_hurricane,萨菲尔-辛普森1级下限,28.9,,B,true,L1,scale_anchor
+15,ss_cat2,G2_hurricane,萨菲尔-辛普森2级下限,37.7,,B,true,L1,scale_anchor
+16,ss_cat3,G2_hurricane,萨菲尔-辛普森3级下限,43.9,,B,true,L1,scale_anchor
+17,ss_cat4,G2_hurricane,萨菲尔-辛普森4级下限,50.9,,B,true,L3,offsite_envelope
+18,ss_cat5,G2_hurricane,萨菲尔-辛普森5级下限,61.4,,B,true,L3,offsite_envelope
+19,dorian_2019_landfall,G2_hurricane,2019多利安登陆,71.9,,C,true,L3,needs_recheck
+20,patricia_2015_peak,G2_hurricane,2015帕特里夏峰值,84.1,,A,true,L3,offsite_envelope
+21,gustav_2008_cuba_gust,G2_hurricane,2008古斯塔夫古巴阵风,66.5,94.4,C,true,L3,needs_recheck
+22,bhola_1970_peak,G3_bob,1970博拉气旋峰值,49.0,,A,true,L3,offsite_envelope
+23,nargis_2008_peak,G3_bob,2008纳尔吉斯峰值,52.4,,A,true,L3,offsite_envelope
+24,amphan_2020_peak,G3_bob,2020安攀峰值,63.5,,A,true,L3,offsite_envelope
+25,ef3_anchor,G4_tornado,EF3锚点,47.2,67.0,B,false,L4,envelope_only
+26,ef4_anchor,G4_tornado,EF4锚点,57.7,82.0,B,false,L4,envelope_only
+27,ef5_anchor,G4_tornado,EF5锚点,66.9,95.0,B,false,L4,envelope_only
+28,funing_2016_ef4,G4_tornado,2016阜宁6·23 EF4,51.8,73.5,A,false,L4,envelope_only
+29,bridge_creek_1999_ref,G4_tornado,1999 Bridge Creek雷达值,95.1,135.0,C,false,L4,envelope_only
+30,dongfangzhixing_2015_downburst,G5_downburst,2015东方之星下击暴流,30.6,43.5,A,false,L4,envelope_only
+31,andrews_afb_1983_microburst,G5_downburst,1983 Andrews微暴流,46.9,66.6,C,false,L4,envelope_only
+32,midwest_derecho_2020,G5_downburst,2020中西部derecho,44.1,62.6,C,false,L4,envelope_only
+33,great_storm_1987,G6_temperate,1987英吉利大风暴,35.2,50.0,C,true,L3,needs_recheck
+34,lothar_1999,G6_temperate,1999洛塔尔,33.0,58.9,C,true,L3,needs_recheck
+35,bora_adriatic,G6_temperate,亚得里亚布拉风,48.6,69.0,C,true,L3,needs_recheck
+36,mistral_strong,G6_temperate,密史脱拉强事件,28.0,40.0,C,true,L3,needs_recheck
+37,patagonia_westerlies,G6_temperate,巴塔哥尼亚西风带,28.0,42.0,C,true,L3,needs_recheck
+38,xinjiang_baili_fengqu,G6_temperate,新疆百里风区,30.0,60.0,A,true,L3,offsite_reference
+39,cape_denison_katabatic,G7_polar,联邦湾下降风年均,19.4,90.0,C,false,L4,envelope_only
+40,thule_1972_gust,G7_polar,1972图勒阵风,65.1,92.5,C,true,L3,needs_recheck
+41,piteraq_tasiilaq,G7_polar,皮特拉克,45.0,80.0,C,false,L4,envelope_only
+42,barrow_olivia_1996,G8_record,1996巴罗岛WMO阵风纪录,48.9,113.2,A,true,L3,record_only
+43,mt_washington_1934,G8_record,1934华盛顿山有人值守纪录,72.7,103.3,A,true,L3,record_only
