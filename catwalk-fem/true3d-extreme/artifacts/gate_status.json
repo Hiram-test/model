@@ -1,0 +1,40 @@
+{
+  "G-P1": {
+    "pass": true,
+    "lines": 44,
+    "mass21_t": 963.811381,
+    "F_over_g_t": 963.811381
+  },
+  "G-P2": {
+    "pass": true,
+    "total_t": 4108.465925778843,
+    "s10_t": 4108.46690758,
+    "rel": 2.3897019976928703e-07
+  },
+  "UY": {
+    "pass": true,
+    "uy_frac": 0.016739736946990835,
+    "uy_nodes": 84
+  },
+  "G-P3": {
+    "pass": true,
+    "static_iterations": 3,
+    "ccx_s": 151.82
+  },
+  "G-P4": {
+    "residual_zero_modes": 4,
+    "residual_zero_note": "4 near-zero eigenvalues (~2e-4 Hz) treated as residual-RB, dropped from modal_basis; not spin of expanded B31",
+    "last_newton_residual_N": 195.342234,
+    "weight_N": 40287616.921206586,
+    "resid_over_weight": 4.848691705494642e-06,
+    "rf_print": "omitted (ccx 2.21 *NODE PRINT,TOTALS segfault); residual used as proxy",
+    "pass_no_spin_in_structural": true,
+    "pass_force_1e-6": false,
+    "pass": false,
+    "verdict": "FAIL: 4 residual-zero modes in first 100; resid/W > 1e-06"
+  },
+  "conclusion_allowed": false,
+  "passages_note": "R5: 21 equivalent beams from 63 sec-63 x-stations clustered at 5000 mm",
+  "deck_sha256": "5ebc64fae00a5c2b73ef7317002cbfe5403f44dfd9f52f2cde616f8ca3c04715",
+  "coarsen": 4
+}

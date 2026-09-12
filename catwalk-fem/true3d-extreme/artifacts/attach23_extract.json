@@ -1,0 +1,52 @@
+{
+  "source_pdf": "01_设计资料与规范/附件2-3：猫道结构抗风性能试验报告.pdf",
+  "sha256_prefix": "d17d4061c5726c10b88cc80f3f292b16f0dbf3408e032a30840b1bcaad9173d3",
+  "extraction_note": "Text extracted with pdftotext -layout on 2026-08-28 from archive-0001.tar.zst. Numbers below are copied from the text layer, not invented.",
+  "usage": "comparison_and_site_fill_only; modeling/solver/deck scripts must not import this file. RMS stations belong only in A4. Aero/wind/break may be copied into config/site_wind.json with sources cited.",
+  "design_wind": {
+    "work_wind_ms": 13.8,
+    "work_wind_note": "附件2-3 §2.2 工作风速 V=13.8 m/s（六级）",
+    "V10_100yr_ms": 34.3,
+    "V10_construction_20yr_ms": 30.1,
+    "Vs10_design_ref_ms": 44.9,
+    "power_law_alpha": 0.134,
+    "Z_ref_m": 169.54,
+    "kf": 1.02,
+    "kt": 1.0
+  },
+  "section_model": {
+    "scale": "1:10",
+    "L_m": 2.1,
+    "B_m": 0.54,
+    "H_m": 0.15,
+    "B_proto_m": 5.4,
+    "H_proto_m": 1.5
+  },
+  "static_coefficients_wind_axes_alpha0": {
+    "CD": 0.526049,
+    "CL": -0.01023,
+    "CM": -0.00693,
+    "table": "表 3-1"
+  },
+  "Cd_H_proto_m": 0.7890735,
+  "Cd_H_per_band_m": 0.39453675,
+  "dCL_dalpha_per_rad_approx": 0.207,
+  "dCL_dalpha_method": "finite difference of 表3-1 CL from -3 deg to +3 deg, converted to /rad",
+  "Clprime_B_proto_m": 1.1178,
+  "Clprime_B_per_band_m": 0.5589,
+  "rope_break": {
+    "spec": "φ50 CFRC8×36WS+IWRC",
+    "break_kN_per_rope": 2380.0,
+    "break_kN_16_ropes": 38080.0,
+    "source": "附件2-3 正文（表5-4 附近）：单根φ50破断力2380kN"
+  },
+  "table_5_1_V10_30p1_ms": {
+    "note": "附件表5-1，设计基本风速 V10=30.1 m/s。竖向均值约 -55～-72 m，与成桥垂度同量级，RMS 列可能含静力偏置；A4 只作三点对照，不把竖向 RMS 当纯抖振幅值使用。",
+    "stations": [
+      {"x_frac_main": 0.25, "lat_mean_m": 0.21, "lat_rms_m": 2.29, "vert_mean_m": -55.41, "vert_rms_m": 57.20, "tors_mean_deg": 2.24, "tors_rms_deg": 2.32},
+      {"x_frac_main": 0.50, "lat_mean_m": 0.29, "lat_rms_m": 1.25, "vert_mean_m": -72.33, "vert_rms_m": 74.90, "tors_mean_deg": -0.08, "tors_rms_deg": 0.16},
+      {"x_frac_main": 0.75, "lat_mean_m": -0.85, "lat_rms_m": 2.48, "vert_mean_m": -56.32, "vert_rms_m": 58.14, "tors_mean_deg": 2.72, "tors_rms_deg": 2.81}
+    ]
+  },
+  "peak_factor_attach23": 3.5
+}

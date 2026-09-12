@@ -1,0 +1,13 @@
+{
+  "run_id": "AGENTIC_CATWALK_FEA_20260828",
+  "date": "2026-08-28",
+  "gate": "G8B",
+  "prestress": "MCT INIFORCE AXIAL 1123单元 -> σ=F/A 六分量全局PK2, 每单元8积分点, 双幅复制",
+  "ic_elements_per_width": 1123,
+  "static_equilibrium": {
+    "iterations": 3,
+    "final_residual_force_percent": 0.0657,
+    "largest_disp_increment_mm": 42.26
+  },
+  "note": "MCT成形线形+INIFORCE即平衡态, 全载荷单增量直接牛顿收敛; 渐变加载会造成满预应力/欠重力失衡发散(已实测)"
+}

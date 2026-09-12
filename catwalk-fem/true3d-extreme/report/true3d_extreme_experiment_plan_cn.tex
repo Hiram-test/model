@@ -1,0 +1,302 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\setCJKmainfont{Noto Sans CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
+\captionsetup{font=small}
+\renewcommand{\arraystretch}{1.13}
+\setlist[itemize]{leftmargin=1.4em,itemsep=0.15em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=1.5em,itemsep=0.15em,topsep=0.25em}
+
+\title{\bfseries 张靖皋南航道桥施工猫道：真实三维 CalculiX 抖振分析\\
+与全球极端风工况扫掠——实验方案与执行架构\\
+\large （方案文档：不含任何已完成的求解结果；计算交外部执行者）}
+\author{方案编制记录 · 分支 \texttt{cursor/agentic-catwalk-fea-d416} · 目录 \texttt{catwalk-fem/true3d-extreme/}}
+\date{2026 年 8 月 28 日}
+
+\begin{document}
+\maketitle
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep}{
+\textbf{性质声明}：本文是\textbf{实验方案与执行架构}，不是计算报告。凡涉及"预期/预计"
+的数字均为方案设定或既有工作的引用，均注明出处；本轮\textbf{未运行}任何新的求解。
+附件 2--3 的频率与 RMS 目标只允许在配对/对照节点读取，建模与求解节点禁读（与既有
+19-skill 流程的隔离规则一致）。}}
+
+\tableofcontents
+
+\section{目标与交付物}
+
+\subsection{任务定义}
+
+在既有工作（双 MCT 平面对模型 + 19-skill agentic FEA，见
+\texttt{catwalk-fem/agentic-fea/}）的基础上升级为\textbf{真实三维}模型：
+不再把每幅猫道当作单脊线，而是保留每幅\textbf{两条步道带}、门架与横通道的真实
+横向拓扑（全宽 $\pm 24.3$ m），以便扭转族频率与扭转 RMS 由真实几何直接产生。
+算完静力与模态后，输出附件 2--3 型的核心图件——\textbf{抖振 RMS 沿跨分布}——
+并把全球极端风工况全部加载扫掠，编成响应图谱。
+
+\subsection{三层交付}
+
+\begin{enumerate}
+  \item \textbf{工况库}（本轮已交付）：43 项全球极端风工况，
+        统一换算到 $U_{10}$（10 m 高 10 min 平均），A/B/C 三级置信标注，
+        机器可读 \texttt{artifacts/extreme\_weather\_library.json}。
+  \item \textbf{执行架构}（本轮已交付）：解析器、建模器、求解链 runbook、
+        模态后处理、抖振谱引擎、扫掠与图谱脚本、桥址参数配置——
+        全部落盘为可直接运行的代码与契约文件。
+  \item \textbf{计算与图谱}（交外部执行者）：按第 \ref{sec:runbook} 节 runbook
+        顺序执行并回填三个外部输入（附件 2--3 气动参数、承重索破断力、
+        C 级工况复核）。
+\end{enumerate}
+
+\section{权威源与证据链}
+
+\begin{itemize}
+  \item \textbf{S10 V2.0 平衡模型}（唯一几何/初应力权威源）：
+        release \texttt{catwalk-attachment23-v2.0-s10-20260716}，
+        资产 \texttt{cw\_S10\_0716t050342\_a4\_eq.db}（700 MB，
+        sha256 \texttt{17E0BAC8\ldots}）与中心线 STEP（77 MB）。
+        其 APDL 文本源完整封存于 main 分支
+        \texttt{ultra\_runs/S10\_SECTION\_SHEAR\_20260716T050342389124Z/solver/}，
+        共 11 个 include，U00 封板哈希闭合。
+  \item \textbf{S10 已核账本}（本方案直接引用）：109{,}086 节点 / 172{,}994 单元；
+        LINK180 索 73{,}692（全带 INISTATE 权威初轴力，非正轴力 0）；
+        BEAM188 横梁 48{,}620；BEAM188 门架/横通道 17{,}679（142 榀门架 + 21 品通道）；
+        MASS21 33{,}003 个共 963.811 t；索系分布质量 3{,}144.656 t；
+        总平动质量 4{,}108.467 t，质量—反力闭合误差 $1.6\times10^{-4}$ N；
+        80 阶模态 0.0368--0.4122 Hz（S10 自身 MAPDL 结果，仅作交叉参考）。
+  \item \textbf{附件 2--3 原文}：《猫道结构抗风性能试验报告》PDF（3.19 MB，
+        sha256 \texttt{d17d4061\ldots}），位于 release
+        \texttt{zhangjinggao-full-20260729} 分卷 \texttt{archive-0001.tar.zst} 内
+        路径 \texttt{01\_设计资料与规范/}。执行者从中提取三分力系数、设计风速、
+        RMS 目标图（数字化为 CSV）。
+  \item \textbf{桥址风锚点}：苏通大桥桥位风观测专题（2000--2003，80 m 梯度塔）
+        给出的百年一遇 10 min 设计基本风速 \textbf{38.9 m/s}（张靖皋桥位在同一
+        河段，距沪苏通桥 16 km）；作为全库归一化参考。
+  \item \textbf{既有 ccx 求解链验证}：2026-08-28 本会话早段（pod 崩溃前）已在
+        同环境完成解析器全量跑通并核账（44 索线、$\sum F/g \equiv \sum m_{21}
+        = 963.811381$ t 恒等），证据在提交 \texttt{f198460} 的脚本 docstring。
+\end{itemize}
+
+\section{模型架构：S10 事实与 R1--R7 简化契约}
+\label{sec:model}
+
+\subsection{S10 真实三维事实（解析器实测）}
+
+\begin{itemize}
+  \item 每幅猫道 = \textbf{两条步道带}：内带 $|y|\in[18.56,20.60]$ m、
+        外带 $|y|\in[22.30,24.34]$ m（带宽 $\approx 2.04$ m，带间空 1.7 m）。
+  \item 每带 8 根承重索（$A=1393.67$ mm$^2$/根，$\sigma\approx472.4$ MPa，
+        $T\approx655$ kN/根，网格 $\approx1.97$ m）+ 3 根门架索
+        （$A=1400.50$ mm$^2$，$T\approx533.8$ kN，网格 $\approx10.8$ m，
+        \textbf{高出承重索约 8.5 m}——即门架顶层高度）。
+        两幅合计 44 根实体索。
+  \item 横梁排 1{,}430 排、间距 2.948 m，$\Box$100$\times$4 与 $\Box$50$\times$4
+        交替，每排每幅 17 段；横梁质量在 MASS21 内（梁密度 0）。
+  \item 门架 142 榀：底梁 H175（ASEC $A{=}4997.5$，$I{=}2.82{\times}10^7$/
+        $9.83\times10^6$ mm$^4$）+ 立柱/顶梁 RHS160$\times$4；与索 CERIG UXYZ 铰接。
+  \item 横通道 21 品：竖平面桁架（顺桥向零厚度），横跨全宽 $y=\pm24.86$ m、
+        高 1.855 m，每品 639 杆（弦杆 $\phi$152$\times$6 等四类截面）。
+  \item 塔位 $x=714.5$ / $2995.3$ m（主跨 2280.8 m）；塔下拉索 4 根
+        （$A=22298.7$ mm$^2$）经 CP 环（每环 16 根承重索）锚地。
+  \item 恒载拆分：索系分布质量走材料密度（mat1 $1.2648\times10^{-8}$、
+        mat2 $8.599\times10^{-9}$ t/mm$^3$）；二期 963.811 t 静力走 23{,}028 个
+        F 集中力、动力走 33{,}003 个 MASS21，两者总量\textbf{严格相等}。
+\end{itemize}
+
+\subsection{R1--R7 简化契约（ccx 侧）}
+
+资源基线为 4 核 15 GB 的执行环境；全量 17.3 万单元的 B31 膨胀网格不可行，
+故按下列契约降阶，\textbf{每条都写进 manifest 且在报告中复述}：
+
+\begin{enumerate}
+  \item[\textbf{R1}] 每带 8 承重索并为 1 条等效线（$A,T\times8$），3 门架索并为
+        1 条（$\times3$，保留 $+8.5$ m 高程）——每幅 4 线、全桥 8 线 + 4 下拉。
+        \textbf{保留}带间距与幅间距（扭转的两级臂长），\textbf{放弃}带内 0.26 m
+        级差动（对表 4--1 低阶族影响可忽略，须在收敛性检查中验证）。
+  \item[\textbf{R2}] 顺桥向粗化：承重索每 4 节点保 1（$\approx7.9$ m），
+        强制保留门架站、通道站、约束节点、CP 环、鞍座峰、线端。
+  \item[\textbf{R3}] 门架 142 榀 → 参数化门式框架（底梁 H175 + 双柱 + 顶梁
+        RHS160），CERIG 铰接改共享节点（索转动惯量可忽略，近似焊接）。
+  \item[\textbf{R4}] 横梁排 → 保留站涂抹等效（截面按保留间距/2.948 缩放），
+        质量保持在折算密度内。
+  \item[\textbf{R5}] 横通道 → 双弦等效梁（竖弯 $I$ 由弦距 1.855 m 生成，
+        侧向仅弦杆自身 $I$——如实保留其侧向柔性），4 个承重线交点焊接。
+  \item[\textbf{R6}] MASS21 折入单元密度（对数分箱，KDTree 最近邻挂点）；
+        \textbf{弃用} 23{,}028 个 F 力（与折算质量重力严格等值，避免双计）。
+  \item[\textbf{R7}] ROTY 稳定文件不移植（B31 膨胀自带转动刚度）。
+\end{enumerate}
+
+预算：$\sim$570 保留站 $\times$ 8 线 $\approx 4.4$k 索单元 + 横梁排 $\approx1.1$k
++ 门架 $\approx1.1$k + 通道 $\approx0.4$k $\approx$ \textbf{7k B31}，
+膨胀后 $\sim10^5$ 节点、$3\times10^5$ 自由度；SPOOLES 静力分钟级、
+100 阶 Lanczos 十分钟级（同环境上一轮 2.2k 单元 22.8 s 的外推）。
+
+\subsection{继承的 ccx 2.21 陷阱规避（已二分定位）}
+
+(1) \texttt{TYPE=MASS}$\times$摄动频率致命错 $\Rightarrow$ R6 密度分箱；
+(2) T3D2 膨胀自旋伪模态 $\Rightarrow$ 索用 B31 等积方形；
+(3) SPC 反力迁移膨胀 knot $\Rightarrow$ 反力核验走全场合力；
+(4) BOX 截面仅限 B32R $\Rightarrow$ 全部 RECT 双向惯矩匹配
+（\texttt{rect\_match}：$h_1h_2^3/12=I_{\text{vert}}$、$h_2h_1^3/12=I_{\text{lat}}$，
+面积偏大记为已知偏置，仅影响无质量构件的轴向刚度）。
+
+\section{求解链 runbook 与门禁}
+\label{sec:runbook}
+
+\texttt{code/run\_solver.sh} 五段（S1 导源 $\to$ S2 解析 $\to$ S3 建模 $\to$
+S4 ccx $\to$ S5 模态后处理），四道 gate：
+
+\begin{itemize}
+  \item \textbf{G-P1}（解析）：44 索线成链；$\sum F/g \equiv \sum m_{21}$
+        （963.811381 t，容差 $10^{-3}$ t）。
+  \item \textbf{G-P2}（建模）：质量台账对 S10 参考 4{,}108.467 t 相对差 $<1\%$。
+  \item \textbf{G-P3}（静力）：NLGEOM 全载荷单增量收敛（MCT 线形+初应力即平衡态，
+        上一轮同源单增量 3 迭代收敛；若发散按 0.25 初增量重试并记录）。
+  \item \textbf{G-P4}（模态）：前 100 阶无自旋伪模态（检查每阶应变能分布），
+        全场合力量级 $\le 10^{-6}\times$总重。
+\end{itemize}
+
+\textbf{模态验收}：分类观测量为 $L$（侧弯）、$V$（竖弯）、
+$T_{\text{cw}}$（幅内扭：带间竖向差/带距）、$T_{\text{g}}$（全局扭：幅间竖向差/幅距）；
+表 4--1 配对沿用锁定规则（族内频率序、不做半波 MAC 升级、不改 TS2/TS3），
+参考 CSV 与配对脚本直接复用 \texttt{agentic-fea}。
+\textbf{预期核对点}（引用既有三栈括弧，非新结论）：T 族应落在
+焊接端 $-19\%\sim-15\%$ 括弧内；若真实三维拓扑使 T 族显著上移，
+即为"带内差动/门架顶层"贡献的新证据，需单独归档。
+
+\section{抖振谱方法（类比附件 2--3 的 RMS 沿跨分布）}
+\label{sec:buffeting}
+
+准定常多模态谱方法，全部公式已在 \texttt{code/buffeting.py} 落码：
+
+\begin{align}
+U(z) &= U_{10}\,\frac{\ln(z/z_0)}{\ln(10/z_0)},\qquad z_0=0.003\ \text{m},\ z=60\ \text{m}\\
+S_u(n) &= \frac{4\sigma_u^2 (L_u/U)}{(1+6 n L_u/U)^{5/3}},\qquad
+\mathrm{Coh}(\Delta x,n) = e^{-C n \Delta x / U},\ C=8\\
+S_{Q_k}(n) &= (\rho U)^2 \sum_{\text{lines}} (C_D D)^2
+  \sum_{i,j}\phi_{ki}\phi_{kj} w_i w_j\, S_u(n)\,\mathrm{Coh}(|x_i-x_j|,n)\\
+\sigma_{q_k}^2 &= \int_0^\infty S_{Q_k}(n)\,|H_k(n)|^2\,dn,\qquad
+\zeta_k = \zeta_s + \frac{\rho U \sum C_D D}{4\pi n_k \bar m_k},\ \zeta_s=0.5\%\\
+\sigma_{\text{resp}}(x) &= \Big[\sum_k \big(\phi_k(x)\,\sigma_{q_k}\big)^2\Big]^{1/2}
+ \quad\text{（SRSS；近重根标记，必要时执行者换 CQC）}
+\end{align}
+
+输出四通道沿跨曲线：$L$、$V$、$T_{\text{cw}}$、$T_{\text{g}}$，
+峰值因子 $g=\sqrt{2\ln(\nu T)}+0.5772/\sqrt{2\ln(\nu T)}$（$T=600$ s）。
+\textbf{待附件回填的参数}（\texttt{config/site\_wind.json} 有 TODO 清单）：
+每米阻力系数 $C_D D$（当前占位 0.9 m/带）、升力斜率（当前 0，纯阻力假设）、
+设计风速档位。附件 RMS 图数字化后走 A4 对照图。
+
+\section{全球极端风工况库（43 项）}
+
+工况全表见 \texttt{artifacts/extreme\_weather\_library.md}（人读）与
+\texttt{.json}（机器读，含每行原始口径与换算备注）。类别覆盖：
+台风 8、飓风 8（含 SS 1--5 锚点）、孟加拉湾气旋 3、龙卷 5（含阜宁 EF4）、
+下击暴流 2、derecho 1、温带风暴 3、焚风/布拉 2、下降风 3、
+地方纪录 3（含巴罗岛 113.2 m/s 世界阵风纪录）、规范锚点 5。
+
+\begin{table}[h]\centering\footnotesize
+\caption{工况库梯度骨架（完整 43 项见工况库文件；$U_{10}$：10 min 平均, m/s）}
+\begin{tabular}{lllrr}
+\toprule
+档位 & 代表工况 & 类别 & $U_{10}$ & 3s 阵风\\
+\midrule
+桥址规范 & GB50009 江苏 50/100 年 & design\_code & 26.8/28.3 & --\\
+桥址实测 & \textbf{苏通桥位百年（主锚点）} & design\_code & \textbf{38.9} & --\\
+本地台风 & 烟花 2021 舟山登陆（江苏滞留 37 h） & typhoon & 35.8 & --\\
+强登陆 & 杜苏芮 2023 晋江 & typhoon & 47.2 & --\\
+巅峰台风 & 海燕 2013（JMA 10-min） & typhoon & 63.9 & 105.6\\
+最强登陆 & 天鹅 2020 & typhoon & 76.8 & --\\
+风速纪录 & 帕特里夏 2015 & hurricane & 84.1 & --\\
+同省龙卷 & \textbf{阜宁 2016 EF4}（参考级） & tornado & 51.8$^{*}$ & 73.5\\
+世界阵风 & \textbf{巴罗岛 1996}（参考级） & local\_record & 48.9 & 113.2\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+$^{*}$ 非平稳小尺度事件的名义换算值，扫掠表中强制标注
+\texttt{stationarity=reference\_only}。
+
+\section{扫掠协议与图谱规格}
+
+\subsection{扫掠协议（\texttt{sweep\_extreme.py}）}
+
+每工况：(1) 对数律换算到猫道高程；(2) 按类别取 $I_u$；(3) 谱法求四通道沿跨
+RMS 与峰值；(4) 龙卷/下击暴流/derecho 三类附加\textbf{静阵风推覆界}
+$q=\tfrac12\rho[U(z)G]^2 C_D D$（$G$ 取库内阵风比或 1.42）并降级标注；
+(5) C 级置信工况出图带"未在线复核"角标。
+
+\subsection{图谱（\texttt{make\_atlas.py}，A1--A4）}
+
+\begin{itemize}
+  \item \textbf{A1 工况热图}：行=43 工况（类内按 $U_{10}$ 排序），
+        列=通道 RMS 跨最大/峰值，色值=对苏通锚点归一；非平稳行画斜纹。
+  \item \textbf{A2 沿跨曲线族}：锚点 + 烟花/杜苏芮/莫兰蒂/SS5/阜宁/巴罗岛，
+        四通道分板，塔位竖线。
+  \item \textbf{A3 生存边界}：跨最大响应与索承载率对 $U_{10}$ 散点，
+        平稳理论适用带 + 承载率 1.0 线（待破断力回填）。
+  \item \textbf{A4 附件对照}：锚点档 RMS 沿跨曲线叠附件 2--3 数字化目标线。
+\end{itemize}
+
+\section{执行清单与资源预算}
+
+\begin{enumerate}
+  \item \texttt{bash code/run\_solver.sh}（S10 导源→解析→建模→ccx→模态基；
+        预计静力分钟级、模态十分钟级、全链 $<1$ h）。
+  \item 回填三个外部输入（附件气动参数与 RMS 数字化、索破断力、C 级复核）。
+  \item \texttt{python3 code/buffeting.py --scenario site\_sutong\_100yr\_obs}
+        （单工况秒--分钟级）。
+  \item \texttt{python3 code/sweep\_extreme.py}（43 工况 $<1$ h）。
+  \item \texttt{python3 code/make\_atlas.py}；把 A1--A4 与配对表回填正式报告。
+  \item 收敛性附加档：\texttt{COARSEN=2} 重跑一次模态，报告 T 族频移
+        （R1/R2 简化误差的直接度量）。
+\end{enumerate}
+
+\section{风险登记}
+
+\begin{enumerate}
+  \item \textbf{执行环境不稳}：本 VM 于 2026-08-28 06:5x--08:1x 三次 pod 级
+        非自愿终止（其一发生在完全空闲时，与负载无关）。对策：每阶段产物即时
+        commit（本目录全部内容已按此执行）；执行者选用稳定算力。
+  \item \textbf{气动参数占位}：$C_D D=0.9$ m/带为格栅步道的量级估计；
+        附件提取前所有 RMS 绝对值只具相对意义（工况间比值不受影响，
+        因为全库同一气动模型）。
+  \item \textbf{简化误差未量化}：R1/R2 需 COARSEN=2 收敛性档回收；
+        R5 通道侧向柔性如实保留但剪切变形未建。
+  \item \textbf{非平稳事件}：龙卷/下击暴流的平稳谱数值只作包络参考，
+        不允许写"复现"。
+  \item \textbf{C 级工况}（15 项）：文献常识级数字未在线复核，出图带角标或先复核。
+
+  \item \textbf{T 族既有偏差}：三栈括弧显示附件 T 行在公开输入可达域外
+        （$-19\%\sim-15\%$ 焊接端）；真实三维如仍在括弧内，则 RMS 扭转通道
+        与附件的对照须按频移修正解读。
+\end{enumerate}
+
+\appendix
+\section{目录树与文件契约}
+
+\begin{itemize}
+  \item \texttt{code/parse\_s10.py} → \texttt{artifacts/s10\_model.npz}
+        （节点/单元/CERIG/CP/D/INISTATE/F/质量九类数组）
+  \item \texttt{code/build\_true3d\_ccx.py} → \texttt{solver/true3d\_ccx.inp} +
+        \texttt{artifacts/true3d\_model\_manifest.json}（R1--R7 与质量台账）
+  \item \texttt{code/postprocess\_modes.py} → \texttt{artifacts/modal\_basis.npz}
+        （频率、质量归一振型、支流长、线组掩码、$y_{eq}$）+
+        \texttt{true3d\_mode\_table.csv}
+  \item \texttt{code/buffeting.py} →
+        \texttt{artifacts/buffeting\_rms\_alongspan\_\{id\}.csv}
+  \item \texttt{code/sweep\_extreme.py} → \texttt{artifacts/extreme\_sweep\_responses.csv}
+  \item \texttt{code/make\_atlas.py} → \texttt{artifacts/atlas/A1..A4}
+  \item \texttt{config/site\_wind.json}：桥址/湍流/气动/阻尼/输出契约（含 TODO 清单）
+  \item \texttt{artifacts/extreme\_weather\_library.\{json,md\}}：43 工况库
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,18 @@
+{
+  "run_id": "AGENTIC_CATWALK_FEA_20260828",
+  "date": "2026-08-28",
+  "gate": "G9",
+  "cases": [
+    {
+      "id": "P1",
+      "type": "STATIC NLGEOM",
+      "loads": "GRAV 9806 mm/s^2 全单元(密度含二期折算)"
+    },
+    {
+      "id": "DYN",
+      "type": "PERTURBATION FREQUENCY",
+      "modes": 80,
+      "preload": "P1 应力刚度"
+    }
+  ]
+}

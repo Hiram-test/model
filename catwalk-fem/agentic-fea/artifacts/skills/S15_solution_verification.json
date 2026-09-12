@@ -1,0 +1,37 @@
+{
+  "run_id": "AGENTIC_CATWALK_FEA_20260828",
+  "date": "2026-08-28",
+  "gate": "G13",
+  "checks": [
+    {
+      "check": "全场合力(含等效重力+反力)",
+      "value_N": [
+        15.5,
+        -0.25,
+        -18.9
+      ],
+      "scale_N": 40300000.0,
+      "pass": true
+    },
+    {
+      "check": "静力收敛残差",
+      "value_percent": 0.0657,
+      "pass": true
+    },
+    {
+      "check": "80阶提取完整",
+      "value": 80,
+      "pass": true
+    },
+    {
+      "check": "0.01Hz以下伪根",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "check": "模态观测量映射",
+      "method": "频域振型驻留膨胀节点; KD树桶回原节点(10224/10392节点≤400mm)",
+      "pass": true
+    }
+  ]
+}

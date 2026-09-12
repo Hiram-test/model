@@ -1,0 +1,22 @@
+{
+  "workshop": "steep_galloping_陡振",
+  "catwalk_section": {
+    "Cd_alpha0": 0.526049,
+    "dCl_dalpha_per_rad": 0.207,
+    "H_den_hartog": 0.733049,
+    "criterion": "H = dCl/dα + Cd; onset if H < 0",
+    "verdict": "NO_ONSET_LINEAR",
+    "source": "artifacts/attach23_extract.json ← 附件2-3 表3-1, α=0; dCl from −3°…+3°",
+    "note": "section model is the full catwalk (mesh+handrail), 1:10. Linear criterion only; no hysteresis / iced-cable case."
+  },
+  "single_bearing_rope": {
+    "spec": "φ50 CFRC8×36WS+IWRC",
+    "D_m": 0.05,
+    "Cd_placeholder": 1.2,
+    "dCl_dalpha": null,
+    "verdict": "PENDING",
+    "note": "〔待填:单索升力斜率；附件截面模型不是单索。不可用猫道整体 Cl' 代替。〕"
+  },
+  "usage": "workshop diagnostic; does not drive the buffeting atlas",
+  "claim": "not_a_scientific_conclusion"
+}

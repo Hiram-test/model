@@ -1,0 +1,37 @@
+{
+  "run_id": "AGENTIC_CATWALK_FEA_20260828",
+  "date": "2026-08-28",
+  "gate": "G5",
+  "decisions": [
+    {
+      "id": "A1",
+      "decision": "每幅索束单中心线(束等效), 双幅±21450mm",
+      "basis": "锁定双MCT口径; 幅内滚转物理由ROM滚转升级与理论族覆盖"
+    },
+    {
+      "id": "A2",
+      "decision": "索单元用B31方形等积截面(非T3D2)",
+      "basis": "ccx膨胀T3D2产生截面自旋伪模态(前80阶全伪); B31实扭转刚度消除之; 弯曲参数ξ²≈8e-8全局可忽略"
+    },
+    {
+      "id": "A3",
+      "decision": "通道-索-门架共享节点(转动连续=焊接端)",
+      "basis": "与审计CERIG,ALL一致的刚性端理想化; 图纸柔性端由ROM变体覆盖"
+    },
+    {
+      "id": "A4",
+      "decision": "二期质量963.811t折算逐单元附加密度(295箱)",
+      "basis": "ccx 2.21 MASS单元与PERTURBATION FREQUENCY不兼容(二分定位add_bo_st); 密度法静/动口径一致"
+    },
+    {
+      "id": "A5",
+      "decision": "通道梁RECT 4.856x1700等积等高",
+      "basis": "BOX仅限B32R; 弦面积精确, 强轴I=1.99e9 vs 桁架5.30e9(-62%), 通道能量占比<0.4%, 记敏感性"
+    },
+    {
+      "id": "A6",
+      "decision": "门架B31 RECT 98.95(审计migrate deck约定), 密度~0",
+      "basis": "门架质量已在二期质量台账内, 避免重复计量"
+    }
+  ]
+}

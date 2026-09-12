@@ -1,0 +1,25 @@
+{
+  "projectId": "zjg-catwalk",
+  "runId": "catwalk-main-deck-gate-f23d",
+  "purpose": "STEP centerline to complete CalculiX inp with x=chainage-K16+876, disjoint floor/portal anchors, 21 passages and 142 portals reconciled",
+  "bridge_type": "suspension_bridge_construction_catwalk",
+  "coordinate": "x = chainage - K16+876.000, y upstream->downstream, z up, metres",
+  "geometry_source": {
+    "release": "catwalk-attachment23-v2.0-s10-20260716",
+    "file": "cw_S10_0716t050342_a4_centerline.step",
+    "sha256": "d03d01e38b823df5af4c1ff9b0b175fdfb87b097b9cda9a03af5d14e9c763344",
+    "role": "coordinates only"
+  },
+  "forbidden_sources": ["S10.db", "B00", "MCT", "TARGET-FREQ"],
+  "property_sources": ["DRW-A/B", "CALC-INPUT check report", "STD structural steel", "ASSUMP live/wind"],
+  "form_finding": "H=wL^2/(8h), h=227.300 m, not 255.56 m",
+  "load_cases": ["LC-DEAD-PRESTRESS", "LC-PERSONNEL-UNIFORM", "LC-WIND-Y", "LC-FREQ"],
+  "solver": "CalculiX 2.21: frozen 82548e6a ELSET+uniaxial still fails (exit 201, not rewritten); new main 41fb3222 is §7.76 PK2, parse ok, 879076 equations, singular tangent",
+  "acceptance": {
+    "coord_identity": true,
+    "anchors_disjoint": true,
+    "passages": 21,
+    "portals": 142,
+    "hashed_main_deck": true
+  }
+}

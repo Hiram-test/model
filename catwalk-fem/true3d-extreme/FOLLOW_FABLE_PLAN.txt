@@ -1,0 +1,7 @@
+锁：只执行 true3d_extreme_experiment_plan_cn.tex 执行清单，COARSEN=2 仅附加档。
+硬锁祖先：3a4250e9f01f41c198967eaa685e497134573049（见 WAVE4_REQUIRED_ANCESTOR）。
+开工第一步：git merge-base --is-ancestor 3a4250e9f01f41c198967eaa685e497134573049 HEAD 必须成功（exit 0）。该 SHA 仍是本分支 git 祖先；禁止把缺失对象或单提交压扁当成通过，禁止 rebase/checkout 退回旧树。
+开工第二步：python3 code/test_review_gates.py 必须 PASS。
+禁止从 078e76b / 仍写 STRUCTURAL_OK 的树另起炉灶。
+wave-4 已落地，禁止删：deck_id_from_s10 / cluster_x_stations / _align_by_station_k / FORCE_OVER_W_MAX=1e-6。
+禁止从 G-P4 FAIL 继续写结论章节。

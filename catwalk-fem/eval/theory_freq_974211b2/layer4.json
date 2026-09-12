@@ -1,0 +1,448 @@
+{
+  "layer": 4,
+  "title": "four-span taut / Irvine catalog vs locked CCX spectrum",
+  "assumptions": [
+    "Each span is an independent pinned taut string (or Irvine on the level main span).",
+    "South / north / aux spans are inclined: 'sag' in the overlay is mostly end-height drop, so taut with lock T is the first formula, not √(g/32d).",
+    "Tower saddles in the deck fix UZ and free UX; that couples spans axially. This layer does *not* solve the sliding-saddle continuity problem — it only lists the isolated-span roots.",
+    "CCX participation is read from migrate_DYN.dat after the fact. T3D2→C3D8I makes original-node participation a soft reading, not a second frequency."
+  ],
+  "formulas": {
+    "taut": "f_n = n/(2L) √(T/μ)  per span, T = that span's INIFORCE mean",
+    "Irvine_main": "in-plane only; UY is nailed on the 2-D deck"
+  },
+  "catalog": [
+    {
+      "floor": "北边跨",
+      "L_m": 648.112,
+      "inclined": true,
+      "T_floor_kN": 10901.862785234898,
+      "T_sum_kN": 14295.986222734899,
+      "c_floor_m_s": 196.6036079852808,
+      "c_inphase_m_s": 200.87288976091207,
+      "floor_taut_Hz": [
+        0.15167409952699595,
+        0.3033481990539919,
+        0.4550222985809879,
+        0.6066963981079838,
+        0.7583704976349798,
+        0.9100445971619758
+      ],
+      "inphase_taut_Hz": [
+        0.15496772915862697,
+        0.30993545831725394,
+        0.46490318747588094,
+        0.6198709166345079,
+        0.7748386457931349,
+        0.9298063749517619
+      ],
+      "portal_taut_Hz": [
+        0.1539505663873797,
+        0.3079011327747594,
+        0.4618516991621392,
+        0.6158022655495188,
+        0.7697528319368986,
+        0.9237033983242784
+      ]
+    },
+    {
+      "floor": "主跨",
+      "L_m": 2302.0,
+      "inclined": false,
+      "T_floor_kN": 10431.682050847458,
+      "T_sum_kN": 13625.31862492153,
+      "c_floor_m_s": 192.3172758369594,
+      "c_inphase_m_s": 196.1045184489807,
+      "floor_taut_Hz": [
+        0.04177178015572532,
+        0.08354356031145065,
+        0.125315340467176,
+        0.1670871206229013,
+        0.20885890077862665,
+        0.250630680934352
+      ],
+      "inphase_taut_Hz": [
+        0.04259437846415741,
+        0.08518875692831482,
+        0.12778313539247224,
+        0.17037751385662964,
+        0.21297189232078706,
+        0.2555662707849445
+      ],
+      "portal_taut_Hz": [
+        0.04566373383482601,
+        0.09132746766965202,
+        0.13699120150447805,
+        0.18265493533930405,
+        0.22831866917413007,
+        0.2739824030089561
+      ],
+      "irvine_floor": {
+        "c_m_s": 192.3172758369594,
+        "f_taut_Hz": 0.04177178015572532,
+        "lambda2": 148.4762275837703,
+        "Le_over_L": 1.0779970576713032,
+        "crossover_4pi2": 39.47841760435743,
+        "lambda2_above_crossover": true,
+        "symmetric": [
+          {
+            "index": 1,
+            "Omega": 8.560333315157472,
+            "f_Hz": 0.11382136410711749,
+            "f_over_ftaut": 2.7248387232430864
+          }
+        ],
+        "antisymmetric": [
+          {
+            "index": 1,
+            "Omega": 6.283185307179586,
+            "f_Hz": 0.08354356031145065,
+            "f_over_ftaut": 2.0
+          },
+          {
+            "index": 2,
+            "Omega": 12.566370614359172,
+            "f_Hz": 0.1670871206229013,
+            "f_over_ftaut": 4.0
+          },
+          {
+            "index": 3,
+            "Omega": 18.84955592153876,
+            "f_Hz": 0.250630680934352,
+            "f_over_ftaut": 6.0
+          }
+        ],
+        "first_inplane_Hz": 0.08354356031145065,
+        "formula_sym": "tan(Ω/2) = Ω/2 − 4/λ² (Ω/2)³,  Ω = ωL/√(H/μ)",
+        "formula_antisym": "f = n/L √(H/μ) = 2n f_taut,  n = 1,2,…"
+      },
+      "irvine_inphase": {
+        "c_m_s": 196.1045184489807,
+        "f_taut_Hz": 0.04259437846415741,
+        "lambda2": 156.51185321937837,
+        "Le_over_L": 1.0779970576713032,
+        "crossover_4pi2": 39.47841760435743,
+        "lambda2_above_crossover": true,
+        "symmetric": [
+          {
+            "index": 1,
+            "Omega": 8.594602501326854,
+            "f_Hz": 0.11652744071456894,
+            "f_over_ftaut": 2.7357469439922735
+          }
+        ],
+        "antisymmetric": [
+          {
+            "index": 1,
+            "Omega": 6.283185307179586,
+            "f_Hz": 0.08518875692831482,
+            "f_over_ftaut": 2.0
+          },
+          {
+            "index": 2,
+            "Omega": 12.566370614359172,
+            "f_Hz": 0.17037751385662964,
+            "f_over_ftaut": 4.0
+          },
+          {
+            "index": 3,
+            "Omega": 18.84955592153876,
+            "f_Hz": 0.2555662707849445,
+            "f_over_ftaut": 6.0
+          }
+        ],
+        "first_inplane_Hz": 0.08518875692831482,
+        "formula_sym": "tan(Ω/2) = Ω/2 − 4/λ² (Ω/2)³,  Ω = ωL/√(H/μ)",
+        "formula_antisym": "f = n/L √(H/μ) = 2n f_taut,  n = 1,2,…"
+      }
+    },
+    {
+      "floor": "南边跨",
+      "L_m": 725.276,
+      "inclined": true,
+      "T_floor_kN": 10475.000812499999,
+      "T_sum_kN": 13732.676185634326,
+      "c_floor_m_s": 192.7161719737787,
+      "c_inphase_m_s": 196.87558277202993,
+      "floor_taut_Hz": [
+        0.13285712747545675,
+        0.2657142549509135,
+        0.3985713824263702,
+        0.531428509901827,
+        0.6642856373772836,
+        0.7971427648527404
+      ],
+      "inphase_taut_Hz": [
+        0.1357245950314294,
+        0.2714491900628588,
+        0.40717378509428814,
+        0.5428983801257176,
+        0.6786229751571469,
+        0.8143475701885763
+      ],
+      "portal_taut_Hz": [
+        0.1476586878094467,
+        0.2953173756188934,
+        0.44297606342834006,
+        0.5906347512377867,
+        0.7382934390472334,
+        0.8859521268566801
+      ]
+    },
+    {
+      "floor": "南辅跨",
+      "L_m": 496.908,
+      "inclined": true,
+      "T_floor_kN": 10163.288695652174,
+      "T_sum_kN": 13324.35997224792,
+      "c_floor_m_s": 189.82712003795004,
+      "c_inphase_m_s": 193.9266277585878,
+      "floor_taut_Hz": [
+        0.19100831546075936,
+        0.3820166309215187,
+        0.5730249463822782,
+        0.7640332618430374,
+        0.9550415773037968,
+        1.1460498927645564
+      ],
+      "inphase_taut_Hz": [
+        0.19513333228544097,
+        0.39026666457088194,
+        0.5853999968563229,
+        0.7805333291417639,
+        0.9756666614272048,
+        1.1707999937126459
+      ],
+      "portal_taut_Hz": [
+        0.19164486326310934,
+        0.3832897265262187,
+        0.5749345897893281,
+        0.7665794530524374,
+        0.9582243163155467,
+        1.1498691795786562
+      ]
+    }
+  ],
+  "ccx_matches": [
+    {
+      "ccx_mode": 1,
+      "ccx_Hz": 0.1335403,
+      "nearest": "南边跨 floor taut n=1",
+      "theory_Hz": 0.13285712747545675,
+      "rel": -0.00511585285148567,
+      "abs": -0.0006831725245432518
+    },
+    {
+      "ccx_mode": 2,
+      "ccx_Hz": 0.1572925,
+      "nearest": "北边跨 in-phase taut n=1",
+      "theory_Hz": 0.15496772915862697,
+      "rel": -0.014779921746892131,
+      "abs": -0.0023247708413730306
+    },
+    {
+      "ccx_mode": 3,
+      "ccx_Hz": 0.2151652,
+      "nearest": "主跨 in-phase taut n=5",
+      "theory_Hz": 0.21297189232078706,
+      "rel": -0.01019359858942311,
+      "abs": -0.0021933076792129413
+    },
+    {
+      "ccx_mode": 4,
+      "ccx_Hz": 0.2353319,
+      "nearest": "主跨 portal taut n=5",
+      "theory_Hz": 0.22831866917413007,
+      "rel": -0.029801445642813135,
+      "abs": -0.007013230825869937
+    },
+    {
+      "ccx_mode": 5,
+      "ccx_Hz": 0.2608385,
+      "nearest": "南边跨 floor taut n=2",
+      "theory_Hz": 0.2657142549509135,
+      "rel": 0.018692619957995177,
+      "abs": 0.0048757549509135245
+    },
+    {
+      "ccx_mode": 6,
+      "ccx_Hz": 0.2744557,
+      "nearest": "主跨 portal taut n=6",
+      "theory_Hz": 0.2739824030089561,
+      "rel": -0.0017244932098110022,
+      "abs": -0.00047329699104392553
+    },
+    {
+      "ccx_mode": 7,
+      "ccx_Hz": 0.3367002,
+      "nearest": "北边跨 in-phase taut n=2",
+      "theory_Hz": 0.30993545831725394,
+      "rel": -0.07949131507122972,
+      "abs": -0.026764741682746063
+    },
+    {
+      "ccx_mode": 8,
+      "ccx_Hz": 0.3458761,
+      "nearest": "北边跨 in-phase taut n=2",
+      "theory_Hz": 0.30993545831725394,
+      "rel": -0.10391189701383263,
+      "abs": -0.03594064168274608
+    },
+    {
+      "ccx_mode": 9,
+      "ccx_Hz": 0.4133826,
+      "nearest": "南边跨 in-phase taut n=3",
+      "theory_Hz": 0.40717378509428814,
+      "rel": -0.015019536152977523,
+      "abs": -0.006208814905711846
+    },
+    {
+      "ccx_mode": 10,
+      "ccx_Hz": 0.4320113,
+      "nearest": "南边跨 portal taut n=3",
+      "theory_Hz": 0.44297606342834006,
+      "rel": 0.025380732930689716,
+      "abs": 0.010964763428340074
+    },
+    {
+      "ccx_mode": 11,
+      "ccx_Hz": 0.4585312,
+      "nearest": "北边跨 portal taut n=3",
+      "theory_Hz": 0.4618516991621392,
+      "rel": 0.0072415991804683465,
+      "abs": 0.0033204991621391677
+    },
+    {
+      "ccx_mode": 12,
+      "ccx_Hz": 0.483605,
+      "nearest": "北边跨 in-phase taut n=3",
+      "theory_Hz": 0.46490318747588094,
+      "rel": -0.038671669077282214,
+      "abs": -0.018701812524119066
+    },
+    {
+      "ccx_mode": 13,
+      "ccx_Hz": 0.5516513,
+      "nearest": "南边跨 in-phase taut n=4",
+      "theory_Hz": 0.5428983801257176,
+      "rel": -0.01586676198222028,
+      "abs": -0.008752919874282394
+    },
+    {
+      "ccx_mode": 14,
+      "ccx_Hz": 0.6216275,
+      "nearest": "北边跨 in-phase taut n=4",
+      "theory_Hz": 0.6198709166345079,
+      "rel": -0.002825781300685885,
+      "abs": -0.0017565833654921148
+    },
+    {
+      "ccx_mode": 15,
+      "ccx_Hz": 0.6344128,
+      "nearest": "北边跨 in-phase taut n=4",
+      "theory_Hz": 0.6198709166345079,
+      "rel": -0.022921800073220644,
+      "abs": -0.014541883365492114
+    },
+    {
+      "ccx_mode": 16,
+      "ccx_Hz": 0.649522,
+      "nearest": "南边跨 floor taut n=5",
+      "theory_Hz": 0.6642856373772836,
+      "rel": 0.022730003567675287,
+      "abs": 0.01476363737728359
+    },
+    {
+      "ccx_mode": 17,
+      "ccx_Hz": 0.6857693,
+      "nearest": "南边跨 in-phase taut n=5",
+      "theory_Hz": 0.6786229751571469,
+      "rel": -0.01042088767002716,
+      "abs": -0.007146324842853158
+    },
+    {
+      "ccx_mode": 18,
+      "ccx_Hz": 0.6897224,
+      "nearest": "南边跨 in-phase taut n=5",
+      "theory_Hz": 0.6786229751571469,
+      "rel": -0.01609259731575064,
+      "abs": -0.01109942484285309
+    },
+    {
+      "ccx_mode": 19,
+      "ccx_Hz": 0.705828,
+      "nearest": "南边跨 in-phase taut n=5",
+      "theory_Hz": 0.6786229751571469,
+      "rel": -0.038543419704025826,
+      "abs": -0.027205024842853143
+    },
+    {
+      "ccx_mode": 20,
+      "ccx_Hz": 0.7595147,
+      "nearest": "北边跨 floor taut n=5",
+      "theory_Hz": 0.7583704976349798,
+      "rel": -0.0015064914017071946,
+      "abs": -0.0011442023650202193
+    }
+  ],
+  "ccx_mode1_participation": {
+    "mode": 1,
+    "eigenvalue": 0.7040191,
+    "omega_rad": 0.8390585,
+    "f_Hz": 0.1335403,
+    "pf_X": -29.10909,
+    "pf_Y": -5.06788e-05,
+    "pf_Z": -9.896957e-05,
+    "pf_RX": 80.87767,
+    "pf_RY": -46659890.0,
+    "pf_RZ": 1900442.0,
+    "emm_X": 847.3389,
+    "emm_Y": 2.568341e-09,
+    "emm_Z": 9.794977e-09,
+    "emm_RX": 6541.197,
+    "emm_RY": 2177145000000000.0,
+    "emm_RZ": 3611681000000.0
+  },
+  "ccx_mode2_participation": {
+    "mode": 2,
+    "eigenvalue": 0.9767333,
+    "omega_rad": 0.9882982,
+    "f_Hz": 0.1572925,
+    "pf_X": 0.001220874,
+    "pf_Y": 2.775553,
+    "pf_Z": 64.68807,
+    "pf_RX": -374313.6,
+    "pf_RY": -173752000.0,
+    "pf_RZ": 7455137.0,
+    "emm_X": 1.490532e-06,
+    "emm_Y": 7.703693,
+    "emm_Z": 4184.546,
+    "emm_RX": 140110700000.0,
+    "emm_RY": 3.018975e+16,
+    "emm_RZ": 55579060000000.0
+  },
+  "highlights": {
+    "south_floor_n1_Hz": 0.13285712747545675,
+    "south_floor_n1_vs_ccx_f1": -0.00511585285148567,
+    "south_inphase_n1_Hz": 0.1357245950314294,
+    "north_floor_n1_Hz": 0.15167409952699595,
+    "north_floor_n1_vs_ccx_f2": -0.03571944290416929,
+    "main_taut_n1_Hz": 0.04177178015572532,
+    "main_taut_n1_in_ccx_first20": false,
+    "main_taut_n2_Hz": 0.08354356031145065,
+    "main_taut_n3_Hz": 0.125315340467176,
+    "att_0.0296_in_this_catalog": false
+  },
+  "self_judge": {
+    "approaches_attachment_pair": "no four-span taut / Irvine root sits on 0.0296/0.0301",
+    "approaches_ccx_f1": "南边跨 floor taut n=1 is the closest isolated-span number to 0.1335403; 北边跨 n=1 neighbours CCX f2",
+    "main_span_n1_n2_absent_from_ccx_head": true,
+    "does_not_claim_符合": true,
+    "participation_note": "CCX mode 1 has ~0 Z effective mass and large RY / some X. That is compatible with an even (cancelling-Z) in-plane shape *or* with a participation artefact on the expanded T3D2 mesh. The frequency match to 南边跨 is the harder fact."
+  },
+  "vs_att_0.0296_best": {
+    "src": "主跨 floor taut n=1",
+    "f_Hz": 0.04177178015572532,
+    "rel": 0.41120878904477437
+  }
+}

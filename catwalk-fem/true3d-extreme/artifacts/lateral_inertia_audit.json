@@ -1,0 +1,36 @@
+{
+  "claim": "comparison_only; does not decide attachment 2-3",
+  "lemma": "lam_T/lam_V = rms_y(T)^2 / rms_y(m)^2",
+  "source": "double_mct_torsion_discussion_cn.tex §5 + f99-chain-closure",
+  "locked_ansys_3d": {
+    "model": "S10 V2.0 MAPDL, 109086 nodes / 172994 elems (f99 S10/C20/D10/E10)",
+    "TA1_Hz": 0.07333,
+    "TA1_vs_attach": -0.264,
+    "note": "pinned to 2f* ~0.07344; 3-D ANSYS already in the repo"
+  },
+  "deck": {
+    "sha": "5ebc64fae00a5c2b",
+    "mass_total_t": 4109.049,
+    "rms_y_mass_m": 21.453,
+    "rms_y_tension_m": 21.526,
+    "predicted_TA1_over_VA1": 1.0034,
+    "solved_VA1_Hz": 0.07239382,
+    "solved_TA1_Hz": 0.1060377,
+    "solved_TA1_over_VA1": 1.4647
+  },
+  "source_s10_arrays": {
+    "mass21_t": 963.811,
+    "rope_mass_t": 3132.072,
+    "rms_y_mass_m": 21.24,
+    "predicted_TA1_over_VA1": 1.0134
+  },
+  "attachment_TA1_over_VA1": 1.4228571428571426,
+  "passage_I_scale_0.01": {
+    "VA1_Hz": 0.0723911,
+    "TA1_Hz": 0.1032239,
+    "TA1_over_VA1": 1.4259,
+    "dTA1_vs_C4": -0.0265,
+    "note": "topology kept, EI_pass /100; skip/hinge/I=1e-4 static-diverge"
+  },
+  "reading": "Mass and tension share the same lateral rms (~21.5 m), so Lemma A predicts TA1≈VA1. The reduced deck solves TA1/VA1≈1.46 (attach 1.42) while the 109k-node S10 ANSYS 3-D model stays at ≈1.00. Softening the 21 welded passage beams by 100× drops TA1 only 2.7%. The +6.5% vs attach is therefore not '3-D topology recovering a missing path'; it is a reduced-deck lift above the locked S10 floor, path not yet isolated. Comparison only."
+}

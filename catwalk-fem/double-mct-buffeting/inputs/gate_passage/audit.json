@@ -1,0 +1,222 @@
+{
+  "source": {
+    "apdl": "tmp/mct_pair_sources/apply_finite_gates_and_passages_v2.inp",
+    "apdl_sha256": "51dc4dabba9d4ad1464d033fa69aba80cbaea79bcbed163fadb81e3b63211b98",
+    "couplings": "tmp/mct_pair_sources/passage_gate_rope_couplings.csv",
+    "couplings_sha256": "a1c2f9c97710c4e79dfe51c434b3071171d738b527f60b83e38da8d3dfcb73c9",
+    "representative_station": "H10",
+    "gate_indices": [
+      32,
+      32
+    ],
+    "asec_shear_policy": "use explicit TSxz/TSxy when present; source has six SECDATA values so reproduce ASEC defaults TSxz=TSxy=1.0",
+    "section_shear_data": {
+      "61": {
+        "SECDATA_count": 6,
+        "TSxz": 1.0,
+        "TSxy": 1.0
+      },
+      "62": {
+        "SECDATA_count": 6,
+        "TSxz": 1.0,
+        "TSxy": 1.0
+      },
+      "63": {
+        "SECDATA_count": 6,
+        "TSxz": 1.0,
+        "TSxy": 1.0
+      },
+      "64": {
+        "SECDATA_count": 6,
+        "TSxz": 1.0,
+        "TSxy": 1.0
+      },
+      "65": {
+        "SECDATA_count": 6,
+        "TSxz": 1.0,
+        "TSxy": 1.0
+      },
+      "66": {
+        "SECDATA_count": 6,
+        "TSxz": 1.0,
+        "TSxy": 1.0
+      }
+    }
+  },
+  "topology": {
+    "beam188_elements": 699,
+    "physical_beam_nodes": 407,
+    "orientation_nodes": 699,
+    "internal_cerig_all": 74,
+    "external_cerig_uxyz": 44,
+    "root_nodes_after_all_elimination": 333,
+    "root_dofs": 1998,
+    "constraint_rows": 132,
+    "constraint_rank": 132,
+    "saddle_size": 2130,
+    "beam_length_mm_min": 65.0,
+    "beam_length_mm_max": 7827.000000009997
+  },
+  "interfaces": {
+    "order": [
+      "B_L",
+      "T_L",
+      "B_R",
+      "T_R"
+    ],
+    "dof_order_each_24": [
+      "UX",
+      "UY",
+      "UZ",
+      "RX",
+      "RY",
+      "RZ"
+    ],
+    "dof_order_each_12": [
+      "UX",
+      "UY",
+      "UZ"
+    ],
+    "rope_counts": {
+      "B_L": 16,
+      "T_L": 6,
+      "B_R": 16,
+      "T_R": 6
+    },
+    "coordinates_apdl_mm": {
+      "B_L": [
+        1854909.0,
+        21450.0,
+        113300.0
+      ],
+      "T_L": [
+        1854917.5,
+        21450.0,
+        121300.00000001
+      ],
+      "B_R": [
+        1854909.0,
+        -21450.0,
+        113300.0
+      ],
+      "T_R": [
+        1854917.5,
+        -21450.0,
+        121300.00000001
+      ]
+    },
+    "mapping": "actual rope translations = center translation + center rotation cross offset; rope rotations absent; four center rotations then statically condensed",
+    "unobservable_rotations": "each rope group is collinear along transverse Y, so its center RY drilling rotation does not enter any rope-point translation"
+  },
+  "mass_policy": {
+    "beam_material_densities_tonne_per_mm3": {
+      "61": 0.0,
+      "62": 0.0,
+      "63": 0.0,
+      "64": 0.0,
+      "65": 0.0,
+      "66": 0.0
+    },
+    "mass_matrix_generated": false,
+    "duplicate_mass_added": false
+  },
+  "stiffness_audit": {
+    "symmetry_error_K24": 0.0,
+    "rigid_body_residual_K24": 2.0444714660610066e-13,
+    "scaled_K24_eigenvalues": [
+      -2.2154579910226518e-07,
+      -2.2805207409581648e-08,
+      -4.965151240768709e-12,
+      -1.2735266042176592e-12,
+      0.0,
+      3.2953875313381233e-24,
+      7.228440209890084e-10,
+      1.0065987323357188e-08,
+      9.547342238521577e-08,
+      2.06438254869804e-07,
+      3.2432720478455996,
+      70.10761371079698,
+      154.835031234666,
+      377.73918029460606,
+      381.4310520972257,
+      23762.72398194022,
+      34295.86620005066,
+      49747.019474965084,
+      50269.93702641893,
+      57872.41587896633,
+      102755.22088119926,
+      106878.14340879174,
+      458234.02488038695,
+      498537.4096145908
+    ],
+    "K24_zero_eigenvalue_count_rel_1e_8": 10,
+    "K24_positive_eigenvalue_count_rel_1e_8": 14,
+    "K24_zero_mode_interpretation": "6 global rigid-body modes + 4 unobservable RY drilling rotations of collinear rope groups",
+    "rotation_condensation_method": "symmetric_pseudoinverse",
+    "Krr_eigenvalues_mixed_units": [
+      -3.0138840264340725e-06,
+      0.0,
+      4.223592792282611e-08,
+      2.66108419473381e-05,
+      377739321.6893103,
+      380589508.3399175,
+      31857734155.147705,
+      34303013850.72372,
+      56952980208.380424,
+      102655847602.2272,
+      455967225010.02167,
+      498472038520.5663
+    ],
+    "raw_K12_rigid_body_residual": 9.757173954718924e-11,
+    "raw_K12_eigenvalues_N_per_mm": [
+      -2.2178833470577148e-07,
+      -2.2844638133462658e-08,
+      7.214312735573733e-10,
+      1.0067817920022454e-08,
+      9.553313359262162e-08,
+      2.0656708040733608e-07,
+      3.2504501512285273,
+      70.11980084137812,
+      154.84161863161617,
+      50269.8225123767,
+      50449.151802603454,
+      79989.09890816153
+    ],
+    "K12_psd_cleanup_relative_correction": 2.824322273870063e-10,
+    "K12_strain_subspace_eigenvalues_before_clipping_N_per_mm": [
+      3.250450151226551,
+      70.1198008413784,
+      154.84161863160614,
+      50269.82251237667,
+      50449.15180260343,
+      79989.09890816157
+    ],
+    "symmetry_error_K12": 0.0,
+    "rigid_body_residual_K12": 3.8183977320832066e-17,
+    "K12_eigenvalues_N_per_mm": [
+      -1.6326283400558118e-11,
+      -7.116906982162974e-12,
+      -5.224045538163666e-12,
+      -1.422709893387732e-12,
+      -7.682293964837469e-13,
+      1.0566599703484193e-12,
+      3.250450151221223,
+      70.11980084137222,
+      154.84161863159534,
+      50269.822512376704,
+      50449.151802603534,
+      79989.09890816172
+    ],
+    "K12_zero_eigenvalue_count_rel_1e_8": 6,
+    "K12_positive_eigenvalue_count_rel_1e_8": 6,
+    "minimum_generalized_spring_N_per_mm": 3.250450151211462,
+    "maximum_generalized_spring_N_per_mm": 79989.09890816167,
+    "generalized_spring_reconstruction_relative_error": 1.0367239606530645e-15
+  },
+  "equivalent_models": {
+    "recommended": "K12_translation_ports.csv or H10_gate_passage_condensed.npz exact four-node generalized spring",
+    "generalized_springs": "six orthogonal strain springs delta_j=g_j^T q with k_j; exact up to numerical roundoff",
+    "six_axial_rods_fit_relative_error": 0.005759565607132471,
+    "six_axial_rods_warning": "four coplanar center nodes cannot reproduce out-of-plane frame stiffness while preserving all six rigid-body modes; use only for sensitivity checks"
+  }
+}

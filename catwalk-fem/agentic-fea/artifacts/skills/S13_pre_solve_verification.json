@@ -1,0 +1,29 @@
+{
+  "run_id": "AGENTIC_CATWALK_FEA_20260828",
+  "date": "2026-08-28",
+  "gate": "G11",
+  "checks": [
+    {
+      "check": "质量台账闭合",
+      "value_t": 4108.4682555817535,
+      "reference_t": 4108.467045,
+      "pass": true
+    },
+    {
+      "check": "单元体积(ccx EVOL vs A*L)",
+      "relative_diff": 1.6e-05,
+      "pass": true
+    },
+    {
+      "check": "IC应力元素数",
+      "value": 1123,
+      "expect": 1123,
+      "pass": true
+    },
+    {
+      "check": "支承DOF计数",
+      "value": "44节点 2x(13x3+9x2)",
+      "pass": true
+    }
+  ]
+}

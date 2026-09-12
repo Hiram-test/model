@@ -1,0 +1,33 @@
+{
+  "run_id": "AGENTIC_CATWALK_FEA_20260828",
+  "date": "2026-08-28",
+  "gate": "G12",
+  "runs": [
+    {
+      "job": "double_mct_ccx",
+      "exit": 0,
+      "wall_s": 22.8,
+      "steps": [
+        "P1 STATIC NLGEOM(3迭代)",
+        "FREQUENCY 80"
+      ],
+      "deck_sha256": "4b333533bd039110b47118abb32f844972ed32b68d614ae8e1aea4bc2ff93a8d"
+    },
+    {
+      "job": "vol_probe/rf2_probe",
+      "purpose": "体积与反力场审计(ccx打印崩溃为求解后写出问题, 不影响主解)"
+    },
+    {
+      "job": "migrate_DYN复跑(974211b2单幅遗留deck)",
+      "exit": 0,
+      "wall_s": 1.6,
+      "purpose": "求解链验证"
+    }
+  ],
+  "known_solver_quirks": [
+    "TYPE=MASS + PERTURBATION FREQUENCY -> add_bo_st错误(二分证实)",
+    "T3D2膨胀截面自旋伪模态",
+    "SPC反力迁移至膨胀knot节点(原节点RF=0)",
+    "BOX截面仅限B32R; B32R+摄动步add_bo_st"
+  ]
+}

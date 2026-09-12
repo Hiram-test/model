@@ -1,0 +1,34 @@
+{
+  "kind": "sidecar_s10_db_no_cable_force",
+  "in_ledger": true,
+  "not_a_scientific_claim": true,
+  "extracted_cable_force_from_db": false,
+  "invented_numbers": false,
+  "new_main": false,
+  "db": {
+    "name": "cw_S10_0716t050342_a4_eq.db",
+    "release_tag": "catwalk-attachment23-v2.0-s10-20260716",
+    "url": "https://github.com/Hiram-test/model/releases/download/catwalk-attachment23-v2.0-s10-20260716/cw_S10_0716t050342_a4_eq.db",
+    "bytes": 700186624,
+    "sha256": "17e0bac8717e7c32a407571d33e38dd777736b31b6656684e53449fa8c9d40fd",
+    "sha256_match": true
+  },
+  "extract": {
+    "mapdl_present": false,
+    "n_strings_ge6": 158568,
+    "key_counts": {
+      "INISTATE": 0,
+      "INIFORCE": 0,
+      "LINK180": 0,
+      "PRESTRESS": 0,
+      "ISTRESS": 0,
+      "SMISC": 0
+    },
+    "cable_force_table": null,
+    "reason": "S10 .db 没抽出索力. No MAPDL. ASCII probe found 0 prestress/LINK180 keys. Leave this trace. Do not invent a LINK180 table."
+  },
+  "frozen_760c0ee4": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+  "pushed_main": false,
+  "opened_new_pr": false,
+  "merged": false
+}
