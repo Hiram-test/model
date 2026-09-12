@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="420" viewBox="0 0 840 420">
+  <rect width="840" height="420" fill="#fafafa"/>
+  <text x="420" y="28" text-anchor="middle" font-family="sans-serif" font-size="16">974211b2 six-case Umax vs warehouse MCT review</text>
+  <text x="420" y="48" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#444">P1 form-find gate PASS @ nid 304. P2P6 CONTINUE (peak often nid 302, not portal 1176).</text>
+  <!-- axes -->
+  <line x1="70" y1="360" x2="800" y2="360" stroke="#222"/>
+  <line x1="70" y1="80" x2="70" y2="360" stroke="#222"/>
+  <text x="30" y="220" transform="rotate(-90 30 220)" font-family="sans-serif" font-size="12">Umax (mm)</text>
+  <!-- scale: 03600 mm ’ 280 px -->
+  <!-- P1 42.3 / 42.6, P2 1621/2685, P3 2414/1910, P4 1424/2871, P5 3059/1336, P6 3422/927 -->
+  <g font-family="sans-serif" font-size="11">
+    <text x="70" y="378" text-anchor="middle"> </text>
+    <text x="130" y="378" text-anchor="middle">P1</text>
+    <text x="250" y="378" text-anchor="middle">P2</text>
+    <text x="370" y="378" text-anchor="middle">P3</text>
+    <text x="490" y="378" text-anchor="middle">P4</text>
+    <text x="610" y="378" text-anchor="middle">P5</text>
+    <text x="730" y="378" text-anchor="middle">P6</text>
+    <text x="64" y="364" text-anchor="end">0</text>
+    <text x="64" y="294" text-anchor="end">900</text>
+    <text x="64" y="224" text-anchor="end">1800</text>
+    <text x="64" y="154" text-anchor="end">2700</text>
+    <text x="64" y="84" text-anchor="end">3600</text>
+  </g>
+  <g stroke="#888" stroke-dasharray="2 3" stroke-width="1">
+    <line x1="70" y1="290" x2="800" y2="290"/>
+    <line x1="70" y1="220" x2="800" y2="220"/>
+    <line x1="70" y1="150" x2="800" y2="150"/>
+    <line x1="70" y1="80" x2="800" y2="80"/>
+  </g>
+  <!-- review: blue circles. y = 360 - u/3600*280 -->
+  <!-- 42.6’356.7, 2684.8’151.2, 1910’211.4, 2871’136.7, 1335.8’256.1, 927.4’287.9 -->
+  <polyline fill="none" stroke="#1d4ed8" stroke-width="2"
+    points="130,356.7 250,151.2 370,211.4 490,136.7 610,256.1 730,287.9"/>
+  <g fill="#1d4ed8">
+    <circle cx="130" cy="356.7" r="5"/><circle cx="250" cy="151.2" r="5"/>
+    <circle cx="370" cy="211.4" r="5"/><circle cx="490" cy="136.7" r="5"/>
+    <circle cx="610" cy="256.1" r="5"/><circle cx="730" cy="287.9" r="5"/>
+  </g>
+  <!-- ccx: orange squares. 42.3’356.7, 1621’233.9, 2414’172.2, 1424’249.2, 3059’122.1, 3422’93.9 -->
+  <polyline fill="none" stroke="#c2410c" stroke-width="2"
+    points="130,356.7 250,233.9 370,172.2 490,249.2 610,122.1 730,93.9"/>
+  <g fill="#c2410c">
+    <rect x="126" y="352.7" width="8" height="8"/><rect x="246" y="229.9" width="8" height="8"/>
+    <rect x="366" y="168.2" width="8" height="8"/><rect x="486" y="245.2" width="8" height="8"/>
+    <rect x="606" y="118.1" width="8" height="8"/><rect x="726" y="89.9" width="8" height="8"/>
+  </g>
+  <rect x="560" y="64" width="12" height="12" fill="#1d4ed8"/>
+  <text x="578" y="75" font-family="sans-serif" font-size="12">warehouse review USUM</text>
+  <rect x="560" y="84" width="12" height="12" fill="#c2410c"/>
+  <text x="578" y="95" font-family="sans-serif" font-size="12">CCX daughter Umax</text>
+</svg>

@@ -1,0 +1,86 @@
+name: double-mct-ccx
+
+on:
+  push:
+    branches:
+      - cursor/double-mct-ccx-deck-bfc3
+      - feat/double-mct-catwalk-buffeting
+    paths:
+      - "catwalk-fem/double-mct-buffeting/ccx/**"
+      - ".github/workflows/double-mct-ccx.yml"
+  workflow_dispatch: {}
+
+jobs:
+  ccx-frequency:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: catwalk-fem/double-mct-buffeting/ccx
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CalculiX and scipy
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y calculix-ccx
+          pip install --quiet numpy scipy
+          ccx -v || true
+
+      - name: Regenerate deck and sag check from committed sources
+        run: python3 make_ccx_frequency_deck.py
+
+      - name: Run ccx *FREQUENCY
+        run: |
+          ccx -i double_mct_frequency | tee ci_run_log.txt
+          test -s double_mct_frequency.dat
+          test -s double_mct_frequency.frd
+          test -s double_mct_frequency.sta
+
+      - name: Assert >=20 modes and sag preserved
+        run: |
+          python3 - <<'EOF'
+          import json, re
+          modes = []
+          for l in open('double_mct_frequency.dat'):
+              m = re.match(r'\s+(\d+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*$', l)
+              if m and len(modes) < 60:
+                  try: modes.append(float(m.group(4)))
+                  except ValueError: pass
+          assert len(modes) >= 20, f"only {len(modes)} modes"
+          assert abs(modes[0] - 0.036531) / 0.036531 < 5e-3, f"first mode {modes[0]}"
+          audit = json.load(open('deck_audit.json'))
+          sag = audit['sag_check'][0]
+          assert sag['max_abs_coord_diff_vs_source_m'] == 0.0, sag
+          assert audit['uy_fixed_dofs'] == 44 and audit['no_global_uy_pinning']
+          print(f"OK: {len(modes)} modes, f1={modes[0]:.6f} Hz, sag diff 0, UY only at 44 support DOFs")
+          EOF
+
+      - name: Independent scipy cross-check
+        run: |
+          python3 independent_scipy_check.py | tee scipy_check.txt
+          grep -E "worst ccx-vs-scipy translation diff" scipy_check.txt
+          python3 - <<'EOF'
+          import re
+          txt = open('scipy_check.txt').read()
+          worst = float(re.search(r'diff over \d+ modes: ([0-9.]+)%', txt).group(1))
+          assert worst < 0.05, f"translation diff {worst}%"
+          EOF
+
+      - name: Upload evidence (.sta/.dat/.frd + logs)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: double-mct-ccx-evidence
+          path: |
+            catwalk-fem/double-mct-buffeting/ccx/double_mct_frequency.inp
+            catwalk-fem/double-mct-buffeting/ccx/double_mct_frequency.dat
+            catwalk-fem/double-mct-buffeting/ccx/double_mct_frequency.frd
+            catwalk-fem/double-mct-buffeting/ccx/double_mct_frequency.sta
+            catwalk-fem/double-mct-buffeting/ccx/double_mct_frequency.cvg
+            catwalk-fem/double-mct-buffeting/ccx/ci_run_log.txt
+            catwalk-fem/double-mct-buffeting/ccx/scipy_check.txt
+            catwalk-fem/double-mct-buffeting/ccx/mode_comparison.csv
+            catwalk-fem/double-mct-buffeting/ccx/SAG_CHECK.csv
+            catwalk-fem/double-mct-buffeting/ccx/SAG_CHECK.md
+            catwalk-fem/double-mct-buffeting/ccx/deck_audit.json
+          retention-days: 90

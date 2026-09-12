@@ -1,0 +1,47 @@
+{
+  "kind": "independent_ledger_reread_this_turn",
+  "evaluator": "Cursor Grok 4.6",
+  "asked_user": false,
+  "merged": false,
+  "rewrote_inp": false,
+  "pr": "https://github.com/Hiram-test/model/pull/19",
+  "branch": "cursor/catwalk-main-deck-gate-f23d",
+  "head": "ef59b52ba1cbba14fa325fcdcfee590b3e2db7c1",
+  "commands": [
+    "git fetch origin cursor/catwalk-main-deck-gate-f23d",
+    "git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_cleared.inp | sha256sum",
+    "git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_main.inp | sha256sum",
+    "git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/zjg_catwalk_ccx221.inp | sha256sum",
+    "git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/checksums.sha256 | grep zjg_catwalk",
+    "git show origin/cursor/catwalk-main-deck-gate-f23d:catwalk-fem/artifacts/HASH_LEDGER.json"
+  ],
+  "git_show_sha256": {
+    "zjg_catwalk_cleared.inp": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+    "zjg_catwalk_main.inp": "c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84",
+    "zjg_catwalk_ccx221.inp": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a"
+  },
+  "checksums_lines": {
+    "zjg_catwalk_cleared.inp": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+    "zjg_catwalk_main.inp": "c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84",
+    "zjg_catwalk_ccx221.inp": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a",
+    "zjg_catwalk_coarsened.inp": "82548e6a3bd2612b6b39a08c313402b32a1961af6eba018158267906276ab6da"
+  },
+  "ledger_roles": {
+    "new_main": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+    "fail_site_four_unconstrained_b31": "c635dad78661e6495bdf829b0c97f8610b5fedb8603307e806860032a70cda84",
+    "frozen_ic_pass_first_increment_singular_site": "41fb32225489b0c6f993d3a077ce9293d472e4ede5ff644ca170bebbbbca924a"
+  },
+  "github": {
+    "directory_has_cleared": true,
+    "cleared_bytes": 47948916,
+    "main_bytes": 47948333,
+    "ccx221_bytes": 26839981,
+    "sidecar": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9  zjg_catwalk_cleared.inp",
+    "HASH_LEDGER_new_main": "760c0ee44d7077ddfb84273cba916abb1fea1eb2a0ff6cfe57abaec9b0585de9",
+    "pr_merged": false,
+    "pr_draft": true
+  },
+  "match": true,
+  "c635dad7_untouched": true,
+  "site_41fb3222_untouched": true
+}

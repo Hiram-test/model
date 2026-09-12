@@ -1,0 +1,269 @@
+{
+  "stld_sums": {
+    "自重": {
+      "n": 0,
+      "fx_kN": 0,
+      "fy_kN": 0,
+      "fz_kN": 0,
+      "n_fy": 0,
+      "systemper_c": null
+    },
+    "二期": {
+      "n": 1123,
+      "fx_kN": 0.0,
+      "fy_kN": 0.0,
+      "fz_kN": -4725.567874,
+      "n_fy": 0,
+      "systemper_c": null
+    },
+    "整体降温15": {
+      "n": 0,
+      "fx_kN": 0,
+      "fy_kN": 0,
+      "fz_kN": 0,
+      "n_fy": 0,
+      "systemper_c": -15.0
+    },
+    "整体降温34": {
+      "n": 0,
+      "fx_kN": 0,
+      "fy_kN": 0,
+      "fz_kN": 0,
+      "n_fy": 0,
+      "systemper_c": -34.0
+    },
+    "施工风荷载": {
+      "n": 1123,
+      "fx_kN": 0.0,
+      "fy_kN": 2246.926048,
+      "fz_kN": -242.4709689,
+      "n_fy": 1123,
+      "systemper_c": null
+    },
+    "最大阵风": {
+      "n": 1123,
+      "fx_kN": 0.0,
+      "fy_kN": 15303.735373,
+      "fz_kN": -1651.461417,
+      "n_fy": 1123,
+      "systemper_c": null
+    },
+    "施工荷载": {
+      "n": 1123,
+      "fx_kN": 0.0,
+      "fy_kN": 0.0,
+      "fz_kN": -3344.260612,
+      "n_fy": 0,
+      "systemper_c": null
+    }
+  },
+  "cards": [
+    {
+      "id": "P1",
+      "mct_comb": "工况1恒载",
+      "review_id": 1,
+      "path": "catwalk-fem/eval/ccx_P1_nlgeom_974211b2/migrate_P1.inp",
+      "sha256": "be533c5f3228aacf19aea4913b503c2c6fac6d6246f6e6ab7b1eba4720e630ae",
+      "bytes": 930308,
+      "nlgeom": true,
+      "add": [],
+      "temp_c": null,
+      "has_wind": false,
+      "extra_load_sum": {
+        "n": 0,
+        "fx_kN": 0,
+        "fy_kN": 0,
+        "fz_kN": 0,
+        "n_fy": 0
+      },
+      "main_rewritten": false
+    },
+    {
+      "id": "P2",
+      "mct_comb": "工况2 恒+施工",
+      "review_id": 2,
+      "path": "catwalk-fem/eval/formfind_974211b2/daughters/migrate_P2.inp",
+      "sha256": "e364e0cdadbd9cf3fbeeda5501c2313b15b2fe327edf39eef2bfd62d6c502e9b",
+      "bytes": 949946,
+      "nlgeom": true,
+      "add": [
+        "施工荷载"
+      ],
+      "temp_c": null,
+      "has_wind": false,
+      "extra_load_sum": {
+        "n": 1123,
+        "fx_kN": 0.0,
+        "fy_kN": 0.0,
+        "fz_kN": -3344.260612,
+        "n_fy": 0
+      },
+      "main_rewritten": false,
+      "job_path": "catwalk-fem/eval/ccx_P2_nlgeom_974211b2/migrate_P2.inp"
+    },
+    {
+      "id": "P3",
+      "mct_comb": "工可3恒+施工+温度",
+      "review_id": 3,
+      "path": "catwalk-fem/eval/formfind_974211b2/daughters/migrate_P3.inp",
+      "sha256": "5477bf07f696f90b2be1e068d5fb93d1728c9d0f75ca57d623e0a65b60527770",
+      "bytes": 950167,
+      "nlgeom": true,
+      "add": [
+        "施工荷载"
+      ],
+      "temp_c": -15.0,
+      "has_wind": false,
+      "extra_load_sum": {
+        "n": 1123,
+        "fx_kN": 0.0,
+        "fy_kN": 0.0,
+        "fz_kN": -3344.260612,
+        "n_fy": 0
+      },
+      "main_rewritten": false,
+      "job_path": "catwalk-fem/eval/ccx_P3_nlgeom_974211b2/migrate_P3.inp"
+    },
+    {
+      "id": "P4",
+      "mct_comb": "工可4恒+施工+施工风",
+      "review_id": 4,
+      "path": "catwalk-fem/eval/formfind_974211b2/daughters/migrate_P4.inp",
+      "sha256": "f2547fa950f337fd0f170090211811de7ea86da4b7ff068bc68b1ee0d02d1b9e",
+      "bytes": 969282,
+      "nlgeom": true,
+      "add": [
+        "施工荷载",
+        "施工风荷载"
+      ],
+      "temp_c": null,
+      "has_wind": true,
+      "extra_load_sum": {
+        "n": 1123,
+        "fx_kN": 0.0,
+        "fy_kN": 2246.926048,
+        "fz_kN": -3586.7315809,
+        "n_fy": 1123
+      },
+      "main_rewritten": false,
+      "job_path": "catwalk-fem/eval/ccx_P4_nlgeom_974211b2/migrate_P4.inp"
+    },
+    {
+      "id": "P5",
+      "mct_comb": "工况5恒+最大阵风",
+      "review_id": 5,
+      "path": "catwalk-fem/eval/formfind_974211b2/daughters/migrate_P5.inp",
+      "sha256": "7942a912070c5022f6646ca62191b5c648bc2ca9f1c086439a7bc110fc889e50",
+      "bytes": 968034,
+      "nlgeom": true,
+      "add": [
+        "最大阵风"
+      ],
+      "temp_c": null,
+      "has_wind": true,
+      "extra_load_sum": {
+        "n": 1123,
+        "fx_kN": 0.0,
+        "fy_kN": 15303.735373,
+        "fz_kN": -1651.461417,
+        "n_fy": 1123
+      },
+      "main_rewritten": false,
+      "job_path": "catwalk-fem/eval/ccx_P5_nlgeom_974211b2/migrate_P5.inp"
+    },
+    {
+      "id": "P6",
+      "mct_comb": "工况6恒+施工+温34",
+      "review_id": 6,
+      "path": "catwalk-fem/eval/formfind_974211b2/daughters/migrate_P6.inp",
+      "sha256": "72622a0050c161daa372d3878f8f6da86fbd297f8668c1469c0d25d1e8f25d8f",
+      "bytes": 950165,
+      "nlgeom": true,
+      "add": [
+        "施工荷载"
+      ],
+      "temp_c": -34.0,
+      "has_wind": false,
+      "extra_load_sum": {
+        "n": 1123,
+        "fx_kN": 0.0,
+        "fy_kN": 0.0,
+        "fz_kN": -3344.260612,
+        "n_fy": 0
+      },
+      "main_rewritten": false,
+      "job_path": "catwalk-fem/eval/ccx_P6_nlgeom_974211b2/migrate_P6.inp"
+    }
+  ],
+  "dyn": {
+    "id": "DYN",
+    "path": "catwalk-fem/eval/formfind_974211b2/daughters/migrate_DYN.inp",
+    "job_path": "catwalk-fem/eval/ccx_DYN_freq_974211b2/migrate_DYN.inp",
+    "sha256": "0fea45d6891428167a433512133b8214f7246c3e9b12ba906c9dcb067b2b72c3",
+    "bytes": 930556,
+    "n_freq_requested": 20,
+    "imported_TARGET_FREQ": false,
+    "note": "Perturbation frequency after P1 NLGEOM. Modeling card only."
+  },
+  "cases": [
+    {
+      "id": 1,
+      "card_id": "P1",
+      "has_wind": false,
+      "n_conload": 0,
+      "add": [],
+      "temp_c": null
+    },
+    {
+      "id": 2,
+      "card_id": "P2",
+      "has_wind": false,
+      "n_conload": 1123,
+      "add": [
+        "施工荷载"
+      ],
+      "temp_c": null
+    },
+    {
+      "id": 3,
+      "card_id": "P3",
+      "has_wind": false,
+      "n_conload": 1123,
+      "add": [
+        "施工荷载"
+      ],
+      "temp_c": -15.0
+    },
+    {
+      "id": 4,
+      "card_id": "P4",
+      "has_wind": true,
+      "n_conload": 1123,
+      "add": [
+        "施工荷载",
+        "施工风荷载"
+      ],
+      "temp_c": null
+    },
+    {
+      "id": 5,
+      "card_id": "P5",
+      "has_wind": true,
+      "n_conload": 1123,
+      "add": [
+        "最大阵风"
+      ],
+      "temp_c": null
+    },
+    {
+      "id": 6,
+      "card_id": "P6",
+      "has_wind": false,
+      "n_conload": 1123,
+      "add": [
+        "施工荷载"
+      ],
+      "temp_c": -34.0
+    }
+  ]
+}

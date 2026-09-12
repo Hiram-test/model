@@ -1,0 +1,73 @@
+{
+  "status": "INDEPENDENT_GATE_CORRECTED_REACTION_RECOVERY_COMPLETE",
+  "formula": "R_c=K_cf*Phi*q-f_c; Sigma_R=A*Sigma_q*A^T with A=K_cf*Phi",
+  "reaction_sign": "support action on structure",
+  "dynamic_cross_terms": {
+    "M_cf": "zero because mass is diagonal lumped",
+    "C_cf": "not included because modal damping does not define a unique physical support-row damping block",
+    "f_c": "zero because the current wind mapping applies no direct constrained-node load"
+  },
+  "input_hashes": {
+    "structure_py": "e666793f6e9728f84bfcba4290cf736b71fa1f637b24e7884d080f9f35cfe1cc",
+    "reaction_recovery_py": "d6c5a8e97dcbf19761720c2831bd0b14f0451496d1bad174d57ce70a2a1c24a3",
+    "mct": "0d18e3f7b009e0306fb4b9f3051b4a16d05fa24d9e966774e809b8942a4f22e1",
+    "stations": "66ff8521860815a8d8665aabf5ff909f64d8dd8d17263f754bf594f5583ed3ca",
+    "passage_matrix": "28ed7b14afd260595e62bbf2e606daf4f3a325ec8f04134f8e102653cf618341",
+    "reduced_state": "2465489342b93033c86179b13fe9004a943fe639c3c487ececb9cd87a4f960a2"
+  },
+  "dimensions": {
+    "total_dofs": 6750,
+    "free_dofs": 6642,
+    "constrained_dofs": 108,
+    "retained_modes": 150,
+    "reaction_covariance_shape": [
+      108,
+      108
+    ]
+  },
+  "frequency_range_hz": [
+    0.036772576291419064,
+    0.5790844284596351
+  ],
+  "main_output_validation": {
+    "matched_rows": 108,
+    "maximum_absolute_static_difference_kN": 3.2818192607919627e-13,
+    "maximum_absolute_sigma_difference_kN": 2.842170943040401e-14
+  },
+  "attachment_comparison": {
+    "axes_included": [
+      "Y_transverse",
+      "Z_vertical"
+    ],
+    "X_excluded": "UX is free at six mapped sliding nodes; UX is constrained at N154/N450 but omitted to keep the requested Y/Z-only scope",
+    "model_speed_mps": 44.9,
+    "attachment_speed_mps": 30.1,
+    "same_speed": false,
+    "static_speed_rescaling": 0.4494074930183879,
+    "static_sign_convention_aligned": false,
+    "buffeting_ratio_reported": false,
+    "reason_no_buffeting_speed_scaling": "wind PSD, coherence, and modal filtering vary with U; a U=30.1 stochastic rerun is required for like-for-like RMS"
+  },
+  "load_path_findings": {
+    "mapped_YZ_rows": 32,
+    "near_zero_definition": "absolute RMS below 0.001 kN",
+    "near_zero_model_sigma_rows": 24,
+    "tower_main_span_reported_RMS_rows": 8,
+    "tower_main_span_model_sigma_range_kN_at_nominal_speed": [
+      116.95766101602376,
+      236.53405985369736
+    ],
+    "tower_main_span_attachment_RMS_range_kN_at_30p1": [
+      145.75,
+      312.38
+    ]
+  },
+  "interpretation_limits": [
+    "The static U=30.1 values are exact U-squared rescalings only within the adopted linear quasi-steady zero-angle coefficient kernel.",
+    "The Attachment signed reaction convention has not been proven identical to the model's support-on-structure convention; static differences are raw axis differences, not validated signed errors.",
+    "Buffeting U=44.9 and Attachment U=30.1 values are not a like-for-like validation; no RMS ratio is asserted.",
+    "Near-zero anchor and tower-edge reactions are a consequence of the present main-span loading and support segmentation, not a numerical recovery failure.",
+    "The tangent model does not contain the dead-load reaction baseline, so Table 5-3 total deadload-plus-wind reactions cannot be reconstructed from q_static.",
+    "A formal Attachment RMS reproduction requires rerunning the stochastic wind field at U=30.1 with the same declared spectral assumptions."
+  ]
+}
