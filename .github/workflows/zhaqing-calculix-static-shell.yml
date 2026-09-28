@@ -1,0 +1,44 @@
+name: Zhaqing L2 prestress calibration delegated solve # Reuse the proven PR9 delegated Actions execution path for the completed-state cable calibration.
+on: # Support the existing PR gate's workflow_dispatch call and direct repair-branch pushes.
+  push: # Re-run automatically whenever the temporary prestress solver or delegated workflow changes.
+    branches: # Restrict the temporary solver to the existing PR9 working branch.
+      - agent/zhaqing-freecad-cad003 # Keep all calibration work isolated from the repository main branch.
+    paths: # Trigger only for the delegated workflow or the prestress calibration implementation.
+      - '.github/workflows/zhaqing-calculix-static-shell.yml' # Re-run when this delegated solver definition changes.
+      - 'automation/zhaqing_calculix/prestress_l2_calibrate.py' # Re-run when the completed-state inverse solver changes.
+  workflow_dispatch: {} # Allow the existing PR9 gate to dispatch this exact branch workflow and capture its run id.
+permissions: # Grant only read access required to retrieve the validated PR9 L2 baseline artifact.
+  contents: read # Permit checkout of the exact calibration implementation commit.
+  actions: read # Permit same-repository download of the archived successful L2 static artifact.
+jobs: # Define one deterministic nonlinear calibration job.
+  calibrate-prestress: # Scan the main-cable free-length proxy on the unchanged validated L2 topology.
+    runs-on: ubuntu-22.04 # Match the operating-system family and CalculiX package used by the successful PR9 baseline.
+    timeout-minutes: 45 # Bound the repeated nonlinear solution scan while allowing automatic cutbacks.
+    steps: # Execute checkout, CalculiX installation, baseline recovery, nonlinear solve, and evidence upload.
+      - name: Checkout exact calibration implementation # Materialize the precise branch commit dispatched by the PR gate.
+        uses: actions/checkout@v4 # Use the standard GitHub checkout action.
+        with: # Keep solver execution read-only with respect to repository credentials.
+          fetch-depth: 1 # Fetch only the commit needed for this deterministic numerical run.
+          persist-credentials: false # Do not leave write credentials available to solver scripts.
+      - name: Install CalculiX solver # Install the same solver family that produced the validated PR9 L2 static results.
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends software-properties-common && sudo add-apt-repository -y universe && sudo apt-get update && sudo apt-get install -y --no-install-recommends calculix-ccx # Install ccx plus its sparse-solver dependencies from Ubuntu repositories.
+      - name: Download validated L2 mother model # Recover the previously solved LC01_G_DEAD input rather than regenerate bridge topology.
+        env: # Limit the Actions token exposure to the artifact download command.
+          GH_TOKEN: ${{ github.token }} # Authenticate GitHub CLI for same-repository artifact retrieval.
+        run: mkdir -p baseline && gh run download 30068283053 --repo "$GITHUB_REPOSITORY" --name "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23" --dir baseline # Download the validated S4/B31/T3D2 L2 package from PR9.
+      - name: Solve completed-state prestress calibration # Ramp cable contraction and the original permanent actions synchronously under NLGEOM.
+        id: calibration # Preserve the numerical process outcome while still allowing evidence upload after failure.
+        continue-on-error: true # Keep every failed candidate INP/STA/DAT/log for diagnosis instead of dropping the run.
+        run: BASE="$(find baseline -type f -name 'LC01_G_DEAD.inp' -print -quit)" && test -s "$BASE" && python3 automation/zhaqing_calculix/prestress_l2_calibrate.py "$BASE" build/zhaqing-prestress # Execute the inverse calibration only on the validated L2 mother model.
+      - name: Upload complete prestress evidence # Preserve all candidate decks, solver traces, result fields, and the calibration receipt.
+        if: always() # Upload evidence whether calibration passes or exposes another nonlinear defect.
+        uses: actions/upload-artifact@v4 # Store the numerical evidence as a downloadable immutable artifact.
+        with: # Configure a unique artifact identity tied to the exact branch commit.
+          name: zhaqing-l2-prestress-${{ github.sha }} # Bind the calibration evidence to the dispatched head SHA.
+          path: build/zhaqing-prestress # Upload every nonlinear candidate and selected result file.
+          if-no-files-found: error # Treat absence of numerical evidence as workflow failure.
+          retention-days: 30 # Retain the result long enough for subsequent AFEM mother-model integration.
+          compression-level: 6 # Apply normal compression to mixed text and FRD numerical outputs.
+      - name: Enforce calibrated completed state # Mark the delegated run successful only when the supplied bridge geometry is recovered within tolerance.
+        if: always() # Evaluate the final numerical gate after evidence preservation.
+        run: test -s build/zhaqing-prestress/calibration_summary.json && grep -q '"status": "PASS"' build/zhaqing-prestress/calibration_summary.json && test -s build/zhaqing-prestress/SELECTED_MODEL.inp && test -s build/zhaqing-prestress/SELECTED_MODEL.dat && test "${{ steps.calibration.outcome }}" = "success" # Require both numerical calibration and auditable selected-model evidence.

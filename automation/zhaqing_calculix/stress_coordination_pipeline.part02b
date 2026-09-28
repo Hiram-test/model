@@ -1,0 +1,218 @@
+    complete_element_ids = {element_id for group_name in ("MAIN_CABLES", "HANGERS") for element_id, _connectivity in groups[group_name]}  # Freeze the exact source suspension-element population for coverage checks.
+    tiny_planes = [solve_complete_cable_plane_legacy(nodes, groups, y_plane, basis, 1.0e-6) for y_plane in (2750.0, -2750.0)]  # Preserve former tiny-load behavior only inside the explicitly named legacy diagnostic.
+    tiny_forces = [float(value) for plane in tiny_planes for value in plane["elementForcesN"].values()]  # Collect the tiny-load tension state for independent sign checks.
+    stage_residual = max(float(item["maxFreeNodeResidualN"]) for item in stage_history)  # Recover the worst residual across actual staged solves.
+    nominal_residual = max(float(item["maxFreeNodeResidualN"]) for item in plane_states.values())  # Recover the worst residual in the accepted full-load state.
+    minimum_target_stress = min(target_axial_stress.values())  # Recover the minimum full-system tensile stress margin.
+    maximum_coordinate_correction = max(float(item["maxCoordinateCorrectionMm"]) for item in plane_states.values())  # Recover the largest full three-span form-finding correction.
+    isolation_matrix = {"A_zero_or_tiny_load": {"status": "PASS" if max(float(plane["maxFreeNodeResidualN"]) for plane in tiny_planes) <= FORM_RESIDUAL_TOL_N and min(tiny_forces) > 0.0 else "FAIL", "loadFraction": 1.0e-6, "solver": "complete three-span axial equilibrium solve"}, "B_initial_force_state": {"status": "PASS" if len(element_states) == len(complete_element_ids) and minimum_target_stress >= MIN_TENSION_MPA else "FAIL", "elementCount": len(element_states), "minimumSuspensionStressMPa": minimum_target_stress}, "C_staged_gravity": {"status": "PASS" if stage_residual <= FORM_RESIDUAL_TOL_N and all(float(item["minimumSuspensionForceN"]) > 0.0 for item in stage_history) else "FAIL", "stageCount": len(stage_history), "maximumResidualN": stage_residual}, "D_detailed_deck_restore": {"status": "PENDING_P3_SOLVE", "representation": "retained S4/B31 structure coupled to the exact suspension tangent condensed from this state"}}  # Publish four isolation cases from actual calculations while leaving the detailed restore for P3.
+    expected_node_ids = set(nodes)  # Freeze the exact detailed-model node population required by state transfer.
+    state_status = "PASS" if nominal_residual <= FORM_RESIDUAL_TOL_N and minimum_target_stress >= MIN_TENSION_MPA and set(target_axial_stress) == complete_element_ids and set(coordinated_nodes) == expected_node_ids and all(item["status"] == "PASS" for key, item in isolation_matrix.items() if key != "D_detailed_deck_restore") else "FAIL"  # Derive P1/P2 acceptance only from exact coverage and numerical Gates.
+    state = {"schema": "zhaqing-equilibrium-state-v2", "status": state_status, "sourceBaseline": str(base_path), "sourceBaselineSha256": sha256_path(base_path), "sourceArtifact": {"workflowRunId": 30068283053, "artifactName": "zhaqing-calculix-results-30068283053", "baselineSourceCommit": "9531999012bd4a94bd937e59f74443c12bcb4b23"}, "coordinateSystem": {"id": "CS-BRIDGE-001", "type": "right-handed Cartesian", "axes": {"x": "bridge longitudinal", "y": "bridge transverse", "z": "vertical positive upward"}}, "coordinateContract": {"mode": "baseline-plus-explicit-suspension-overrides", "baselineSha256": sha256_path(base_path)}, "units": {"length": "mm", "force": "N", "stress": "MPa", "mass": "tonne"}, "windCableFormalDesignIncluded": False, "windCableDisposition": "excluded from primary response until G3 and G5 evidence closes; retained only in source inventory", "formFindingRepresentation": "two complete three-span axial main cables with axial hangers, side-span self-weight, saddle continuity, anchor reactions, and exact full-span deck tributaries", "permanentLoadBasis": {**basis, "hangerTributaryLengthMm": sum(tributary_lengths([float(item["stationMm"]) for item in hanger_records(nodes, groups, 2750.0)]).values()), "hangerTributaryClosureStatus": "PASS"}, "planeStates": plane_states, "stageHistory": stage_history, "nodeCoordinatesMm": {str(node): list(coordinated_nodes[node]) for node in sorted(coordinated_nodes)}, "targetAxialStressMPa": {str(element): stress for element, stress in sorted(target_axial_stress.items())}, "elementStates": element_states, "massSensitivity": mass_sensitivity, "isolationMatrix": isolation_matrix, "gates": {"maxFormFindingResidualN": nominal_residual, "maxStageResidualN": stage_residual, "maxCoordinateCorrectionMm": maximum_coordinate_correction, "minimumTargetTensionStressMPa": minimum_target_stress, "formResidualLimitN": FORM_RESIDUAL_TOL_N, "minimumTensionLimitMPa": MIN_TENSION_MPA, "geometryResidualScreeningLimitMm": GEOMETRY_RESIDUAL_TOL_MM, "fullElementStateCoverage": set(target_axial_stress) == complete_element_ids, "fullNodeCoordinateCoverage": set(coordinated_nodes) == expected_node_ids, "deckTributaryClosure": abs(sum(tributary_lengths([float(item["stationMm"]) for item in hanger_records(nodes, groups, 2750.0)]).values()) - SPAN_MM) <= 1.0e-9}}  # Publish the unique, complete, digestible P3 state-transfer contract with no missing-node or missing-element synthesis.
+    return state, coordinated_nodes, target_axial_stress  # Return the accepted state contract and exact detailed-model transfer maps.
+
+
+def physical_stage_load_ledger(basis: dict[str, float], stage_spec: dict, deck_mass_factor: float, plane_states: dict[str, dict]) -> dict:  # Close active deck load between hanger transfer, direct end bearings, and suspension self-weight.
+    primary_weight_n = float(basis["primaryDeckWeightN"]) * float(stage_spec["primaryDeckFactor"]) * deck_mass_factor  # Activate and perturb only the requested primary deck component.
+    accessory_weight_n = float(basis["accessoryDeckWeightN"]) * float(stage_spec["accessoryDeckFactor"]) * deck_mass_factor  # Activate and perturb only the requested accessory component.
+    active_deck_weight_n = primary_weight_n + accessory_weight_n  # Recover total bridge-deck permanent weight active in this stage.
+    hanger_transferred_n = active_deck_weight_n * float(basis["hangerLoadPathFraction"])  # Route only the verified 77 m influence region through hangers.
+    direct_support_n = active_deck_weight_n * float(basis["directDeckSupportFraction"])  # Route the remaining two 2.5 m end regions directly to deck bearings.
+    audited_hanger_transfer_n = sum(float(plane["equilibriumAudit"]["loadLedger"]["hangerTransferredDeckWeightN"]) for plane in plane_states.values())  # Recover actual hanger-interface load from both solved cable planes.
+    cable_self_weight_n = sum(float(plane["equilibriumAudit"]["loadLedger"]["mainCableSelfWeightN"]) for plane in plane_states.values())  # Sum current self-weight of both complete main cables.
+    hanger_self_weight_n = sum(float(plane["equilibriumAudit"]["loadLedger"]["activeHangerSelfWeightN"]) for plane in plane_states.values())  # Sum current self-weight of all active hangers.
+    return {"activePrimaryDeckWeightN": primary_weight_n, "activeAccessoryDeckWeightN": accessory_weight_n, "activeDeckSystemWeightN": active_deck_weight_n, "hangerInfluenceLengthMm": HANGER_TRIBUTARY_REFERENCE_MM, "directDeckSupportInfluenceLengthMm": SPAN_MM - HANGER_TRIBUTARY_REFERENCE_MM, "hangerTransferredDeckWeightN": hanger_transferred_n, "auditedHangerTransferredDeckWeightN": audited_hanger_transfer_n, "directDeckSupportWeightN": direct_support_n, "directDeckSupportDisposition": "excluded from isolated suspension equilibrium and retained by x=0/82m deck bearings", "deckLoadPathClosureResidualN": active_deck_weight_n - hanger_transferred_n - direct_support_n, "hangerInterfaceClosureResidualN": audited_hanger_transfer_n - hanger_transferred_n, "mainCableSelfWeightN": cable_self_weight_n, "activeHangerSelfWeightN": hanger_self_weight_n, "isolatedSuspensionExternalWeightN": hanger_transferred_n + cable_self_weight_n + hanger_self_weight_n}  # Publish an auditable nonoverlapping permanent-load ledger.
+
+
+def public_topology_record(topology: dict) -> dict:  # Remove solver-only geometry copies while preserving every source identifier and load-path role.
+    spans = {span_id: {"id": span_id, "nodeIds": list(span["nodeIds"]), "elementIds": list(span["elementIds"]), "planStationsMm": list(span["planStationsMm"])} for span_id, span in topology["spans"].items()}  # Publish exact span partitions and projected stationing.
+    hangers = [{"elementId": int(item["elementId"]), "topNode": int(item["topNode"]), "bottomNode": int(item["bottomNode"]), "stationMm": float(item["stationMm"]), "mainNodeIndex": int(item["mainNodeIndex"]), "tributaryLengthMm": float(item["tributaryLengthMm"])} for item in topology["hangers"]]  # Publish every physical deck-interface mapping.
+    return {"planeId": str(topology["planeId"]), "yPlaneMm": float(topology["yPlaneMm"]), "chainNodeIds": list(topology["chainNodeIds"]), "chainElementIds": list(topology["chainElementIds"]), "supports": dict(topology["supports"]), "spans": spans, "hangers": hangers, "maximumPlanCanonicalizationMm": float(topology["maximumPlanCanonicalizationMm"])}  # Return the machine-auditable graph topology used by every solve.
+
+
+def build_equilibrium_state(base_path: Path, text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]]) -> tuple[dict, dict[int, tuple[float, float, float]], dict[int, float]]:  # Execute completed-state inverse design and true fixed-fabrication F0-F3 plus/minus-five-percent replay.
+    basis = suspended_permanent_basis()  # Freeze component masses and the verified 77 m hanger plus 5 m direct-support load split.
+    topology_by_plane = {"POSITIVE_Y": extract_suspension_plane_topology(nodes, groups, 2750.0), "NEGATIVE_Y": extract_suspension_plane_topology(nodes, groups, -2750.0)}  # Parse both complete three-dimensional cable planes independently.
+    inverse_by_plane = {plane_id: solve_completed_inverse_plane(topology, basis) for plane_id, topology in topology_by_plane.items()}  # Derive nominal cable and hanger fabrication lengths only once from the F3 target.
+    fabrication_by_plane: dict[str, dict] = {}  # Publish the frozen material contract shared by all forward stages and sensitivities.
+    for plane_id, inverse in inverse_by_plane.items():  # Visit each independently inverted cable plane.
+        fabrication_by_plane[plane_id] = {"saddleContract": SADDLE_CONTRACT_MODE, "cableUnstressedLengthMm": float(inverse["cableUnstressedLengthMm"]), "hangerUnstressedLengthsMm": dict(inverse["hangerUnstressedLengthsMm"]), "nominalInverseProjectedForcesN": dict(inverse["projectedForcesN"])}  # Freeze one continuous cable length and all individual hanger lengths.
+    stage_history: list[dict] = []  # Preserve four physical activation states with complete node, support, and solver evidence.
+    previous_projected_forces = {plane_id: dict(inverse["projectedForcesN"]) for plane_id, inverse in inverse_by_plane.items()}  # Seed F0 from the completed inverse without constraining its response.
+    for stage_spec in STAGE_SPECS:  # Advance through cable-only, hanger installation, primary deck, and completed deck states.
+        plane_states: dict[str, dict] = {}  # Store independently solved positive- and negative-plane states for this construction phase.
+        for plane_id, topology in topology_by_plane.items():  # Solve both physical suspension planes without symmetry copying.
+            fabrication = fabrication_by_plane[plane_id]  # Recover this plane's immutable material-length contract.
+            hanger_lengths = {int(element_id): float(length) for element_id, length in fabrication["hangerUnstressedLengthsMm"].items()}  # Normalize JSON-style hanger ids for the numerical solver.
+            solved = solve_fixed_length_plane(topology, basis, float(fabrication["cableUnstressedLengthMm"]), hanger_lengths, stage_spec, 1.0, previous_projected_forces[plane_id])  # Solve actual current geometry and force with no sag recalibration.
+            plane_states[plane_id] = complete_plane_stage(topology, solved)  # Attach every free-node residual, support reaction, interface action, and global closure.
+            previous_projected_forces[plane_id] = dict(solved["projectedForcesN"])  # Continue the next physical activation from this accepted state.
+        ledger = physical_stage_load_ledger(basis, stage_spec, 1.0, plane_states)  # Close bridge-deck and suspension self-weight load paths for this stage.
+        maximum_residual_n = max(float(plane["maximumFreeNodeResidualN"]) for plane in plane_states.values())  # Recover the worst physical free-node residual across both planes.
+        maximum_global_relative = max(float(plane["globalEquilibriumRelative"]) for plane in plane_states.values())  # Recover the worst support/load closure across both planes.
+        minimum_active_force_n = min(float(plane["minimumActiveSuspensionForceN"]) for plane in plane_states.values())  # Recover the minimum tension among elements physically active in this stage.
+        stage_history.append({"id": str(stage_spec["id"]), "description": str(stage_spec["description"]), "hangersActive": bool(stage_spec["hangersActive"]), "fabricationLengthsFrozenFromNominalF3": True, "planes": plane_states, "loadLedger": ledger, "gates": {"maximumFreeNodeResidualN": maximum_residual_n, "maximumGlobalEquilibriumRelative": maximum_global_relative, "minimumActiveSuspensionForceN": minimum_active_force_n, "freeNodeResidualPass": maximum_residual_n <= FORM_RESIDUAL_TOL_N, "globalEquilibriumPass": maximum_global_relative <= 1.0e-10, "positiveActiveTensionPass": minimum_active_force_n > 0.0, "deckLoadPathClosurePass": abs(float(ledger["deckLoadPathClosureResidualN"])) <= 1.0e-8 and abs(float(ledger["hangerInterfaceClosureResidualN"])) <= 1.0e-6}})  # Publish the complete actual stage response and decisive physical Gates.
+    nominal_stage = next(stage for stage in stage_history if stage["id"] == "F3")  # Select the completed forward replay as the unique P3 transfer state.
+    nominal_midspan = {plane_id: float(plane["midspanZMm"]) for plane_id, plane in nominal_stage["planes"].items()}  # Freeze nominal completed midpoint elevations for replay and sensitivity checks.
+    sensitivity: list[dict] = []  # Preserve fixed-fabrication deck-mass perturbation responses without target-sag recalibration.
+    completed_spec = next(spec for spec in STAGE_SPECS if spec["id"] == "F3")  # Reuse the exact completed component activation contract.
+    for deck_mass_factor in (0.95, 1.05):  # Re-solve both required deck-permanent-mass bounds while self-weight remains physical and unchanged.
+        plane_states = {}  # Store both independently solved sensitivity planes.
+        for plane_id, topology in topology_by_plane.items():  # Apply the same frozen material contract to each cable plane.
+            fabrication = fabrication_by_plane[plane_id]  # Recover nominal cable and hanger unstressed lengths.
+            hanger_lengths = {int(element_id): float(length) for element_id, length in fabrication["hangerUnstressedLengthsMm"].items()}  # Normalize hanger ids for the forward solver.
+            nominal_forces = dict(nominal_stage["planes"][plane_id]["projectedForcesN"])  # Seed sensitivity from the accepted nominal F3 force state.
+            solved = solve_fixed_length_plane(topology, basis, float(fabrication["cableUnstressedLengthMm"]), hanger_lengths, completed_spec, deck_mass_factor, nominal_forces)  # Solve the perturbed deck mass with cable and hanger self-weight unscaled.
+            plane_states[plane_id] = complete_plane_stage(topology, solved)  # Attach complete node residual and support reaction evidence.
+        ledger = physical_stage_load_ledger(basis, completed_spec, deck_mass_factor, plane_states)  # Close perturbed deck load between hanger and direct-bearing paths.
+        midspan_delta = {plane_id: float(plane["midspanZMm"]) - nominal_midspan[plane_id] for plane_id, plane in plane_states.items()}  # Measure physical sag response instead of resetting the target.
+        sensitivity.append({"id": "DECK_MASS_MINUS_5_PERCENT" if deck_mass_factor < 1.0 else "DECK_MASS_PLUS_5_PERCENT", "deckPermanentMassFactor": deck_mass_factor, "scope": "primary and accessory bridge-deck mass only; cable and hanger density unchanged", "fabricationLengthsFrozenFromNominalF3": True, "planes": plane_states, "midspanDeltaFromNominalMm": midspan_delta, "loadLedger": ledger, "gates": {"maximumFreeNodeResidualN": max(float(plane["maximumFreeNodeResidualN"]) for plane in plane_states.values()), "maximumGlobalEquilibriumRelative": max(float(plane["globalEquilibriumRelative"]) for plane in plane_states.values()), "nonzeroShapeResponse": all(abs(value) > 1.0e-6 for value in midspan_delta.values()), "deckLoadPathClosurePass": abs(float(ledger["deckLoadPathClosureResidualN"])) <= 1.0e-8 and abs(float(ledger["hangerInterfaceClosureResidualN"])) <= 1.0e-6}})  # Publish physical bounded response and its independent equilibrium Gates.
+    coordinated_nodes = dict(nodes)  # Start the P3 coordinate contract from every immutable detailed-model source node.
+    target_axial_stress: dict[int, float] = {}  # Store unique nominal F3 axial stress for every main cable and hanger.
+    nominal_element_forces: dict[int, float] = {}  # Store unique nominal F3 axial force for element-state construction.
+    nominal_element_unstressed_lengths: dict[int, float] = {}  # Store nominal material lengths mapped to source element ids.
+    for plane_id, topology in topology_by_plane.items():  # Transfer independently solved nominal F3 cable geometry and element forces.
+        plane = nominal_stage["planes"][plane_id]  # Recover the audited nominal completed plane.
+        audit = plane["equilibriumAudit"]  # Recover source-keyed coordinates, forces, and element material lengths.
+        cable_element_ids = {int(item) for item in topology["chainElementIds"]}  # Cache this plane's complete main-cable element membership.
+        for node_id in topology["chainNodeIds"]:  # Transfer all side-span and main-span cable coordinates including saddles and anchors.
+            coordinated_nodes[int(node_id)] = tuple(float(value) for value in audit["coordinatesMm"][str(node_id)])  # Preserve exact nominal three-dimensional cable geometry.
+        for element_id_text, force_n in audit["elementForcesN"].items():  # Recover every nominal active cable and hanger force.
+            element_id = int(element_id_text)  # Normalize source element id for P3 stress transfer.
+            nominal_element_forces[element_id] = float(force_n)  # Preserve the physical nominal axial force.
+            area_mm2 = MAIN_CABLE_AREA_MM2 if element_id in cable_element_ids else HANGER_AREA_MM2  # Select verified main-cable or hanger area.
+            target_axial_stress[element_id] = float(force_n) / area_mm2  # Convert nominal force to the unique P3 target axial stress.
+        for element_id_text, length_mm in audit["elementUnstressedLengthsMm"].items():  # Recover every source-keyed nominal material length.
+            nominal_element_unstressed_lengths[int(element_id_text)] = float(length_mm)  # Preserve it for constitutive and P3 tangent evidence.
+    complete_element_ids = {int(element_id) for group_name in ("MAIN_CABLES", "HANGERS") for element_id, _connectivity in groups[group_name]}  # Freeze exact full suspension element coverage required by P3.
+    if set(target_axial_stress) != complete_element_ids or set(nominal_element_unstressed_lengths) != complete_element_ids:  # Require all 196 cable and 50 hanger states without synthesis.
+        raise RuntimeError("nominal F3 replay did not cover every main cable and hanger")  # Stop before transferring an incomplete prestress field.
+    element_states: dict[str, dict] = {}  # Publish force, stress, strain, tangent, and fixed material length per suspension element.
+    maximum_constitutive_relative_error = 0.0  # Check that mapped material length reproduces the nominal force through linear elasticity.
+    for group_name in ("MAIN_CABLES", "HANGERS"):  # Build complete nominal element state for both suspension families.
+        modulus_mpa = MAIN_CABLE_E_MPA if group_name == "MAIN_CABLES" else HANGER_E_MPA  # Select the verified family elastic modulus.
+        area_mm2 = MAIN_CABLE_AREA_MM2 if group_name == "MAIN_CABLES" else HANGER_AREA_MM2  # Select the verified family axial area.
+        for element_id, connectivity in groups[group_name]:  # Visit every suspension element exactly once.
+            current_length_mm = vector_length(coordinated_nodes[connectivity[0]], coordinated_nodes[connectivity[1]])  # Resolve nominal F3 chord length from transferred coordinates.
+            axial_force_n = float(nominal_element_forces[element_id])  # Recover physical nominal axial tension.
+            axial_stress_mpa = axial_force_n / area_mm2  # Convert nominal force to axial stress.
+            unstressed_length_mm = current_length_mm / (1.0 + axial_stress_mpa / modulus_mpa)  # Freeze element material length from the exact coordinated F3 chord and force.
+            nominal_element_unstressed_lengths[element_id] = unstressed_length_mm  # Align element-level P3 state with the exact continuous-chain nominal fabrication contract.
+            strain_from_length = current_length_mm / unstressed_length_mm - 1.0  # Recover engineering strain from current and fabrication lengths.
+            strain_from_stress = axial_stress_mpa / modulus_mpa  # Recover constitutive strain from nominal axial stress.
+            constitutive_relative_error = abs(strain_from_length - strain_from_stress) / max(abs(strain_from_stress), 1.0e-15)  # Check the linear-elastic material contract independently.
+            maximum_constitutive_relative_error = max(maximum_constitutive_relative_error, constitutive_relative_error)  # Preserve the worst mapped element mismatch.
+            element_states[str(element_id)] = {"group": group_name, "nodeIds": connectivity[:2], "equilibriumLengthMm": current_length_mm, "unstressedLengthMm": unstressed_length_mm, "initialStrain": strain_from_stress, "axialStressMPa": axial_stress_mpa, "axialForceN": axial_force_n, "materialTangentNPerMm": modulus_mpa * area_mm2 / current_length_mm, "geometricTangentNPerMm": axial_force_n / current_length_mm, "constitutiveRelativeError": constitutive_relative_error}  # Publish all data required for exact P3 suspension tangent transfer.
+    maximum_stage_residual_n = max(float(stage["gates"]["maximumFreeNodeResidualN"]) for stage in stage_history)  # Recover the worst F0-F3 active free-node residual.
+    maximum_stage_global_relative = max(float(stage["gates"]["maximumGlobalEquilibriumRelative"]) for stage in stage_history)  # Recover the worst F0-F3 global support/load closure.
+    nominal_residual_n = float(nominal_stage["gates"]["maximumFreeNodeResidualN"])  # Recover the decisive nominal F3 local equilibrium residual.
+    minimum_target_stress_mpa = min(float(value) for value in target_axial_stress.values())  # Recover nominal minimum tension margin across all 246 suspension elements.
+    maximum_coordinate_correction_mm = max(vector_length(nodes[node_id], coordinated_nodes[node_id]) for topology in topology_by_plane.values() for node_id in topology["chainNodeIds"])  # Measure maximum nominal source-to-equilibrium cable correction.
+    f3_replay_error_mm = max(abs(float(nominal_stage["planes"][plane_id]["midspanZMm"]) - MIDSPAN_Z_TARGET_MM) for plane_id in topology_by_plane)  # Require fixed-length forward F3 replay to reproduce the inverse design target.
+    sensitivity_monotonic = all(float(sensitivity[0]["midspanDeltaFromNominalMm"][plane_id]) > 0.0 and float(sensitivity[1]["midspanDeltaFromNominalMm"][plane_id]) < 0.0 for plane_id in topology_by_plane)  # Require reduced deck mass to lift and increased mass to lower both main cables.
+    load_path_pass = all(bool(stage["gates"]["deckLoadPathClosurePass"]) for stage in stage_history) and all(bool(item["gates"]["deckLoadPathClosurePass"]) for item in sensitivity)  # Require 77 m hanger plus 5 m direct-bearing closure in every case.
+    stage_gate_pass = all(bool(value) for stage in stage_history for value in (stage["gates"]["freeNodeResidualPass"], stage["gates"]["globalEquilibriumPass"], stage["gates"]["positiveActiveTensionPass"], stage["gates"]["deckLoadPathClosurePass"]))  # Require all actual F0-F3 local and global Gates.
+    state_status = "PASS" if nominal_residual_n <= FORM_RESIDUAL_TOL_N and maximum_stage_residual_n <= FORM_RESIDUAL_TOL_N and maximum_stage_global_relative <= 1.0e-10 and minimum_target_stress_mpa >= MIN_TENSION_MPA and f3_replay_error_mm <= 1.0e-6 and maximum_constitutive_relative_error <= 1.0e-8 and sensitivity_monotonic and load_path_pass and stage_gate_pass else "FAIL"  # Accept P1/P2 only when equilibrium, material, stage, and sensitivity evidence all close.
+    isolation_matrix = {"A_F0_cable_only": {"status": "PASS" if stage_history[0]["gates"]["freeNodeResidualPass"] and not stage_history[0]["hangersActive"] else "FAIL", "activeFreeNodeCount": sum(int(plane["equilibriumAudit"]["activeFreeNodeCount"]) for plane in stage_history[0]["planes"].values())}, "B_F3_initial_force_state": {"status": "PASS" if len(element_states) == len(complete_element_ids) and minimum_target_stress_mpa >= MIN_TENSION_MPA else "FAIL", "elementCount": len(element_states), "minimumSuspensionStressMPa": minimum_target_stress_mpa}, "C_true_F0_F3_history": {"status": "PASS" if stage_gate_pass and f3_replay_error_mm <= 1.0e-6 else "FAIL", "stageIds": [stage["id"] for stage in stage_history], "maximumResidualN": maximum_stage_residual_n, "F3ReplayErrorMm": f3_replay_error_mm}, "D_detailed_deck_restore": {"status": "PENDING_P3_SOLVE", "representation": "retained S4/B31 structure coupled to exact nominal F3 suspension geometry, force, and tangent state"}}  # Publish four physically distinct isolation cases without scalar-load surrogates.
+    topology_record = {plane_id: public_topology_record(topology) for plane_id, topology in topology_by_plane.items()}  # Publish the exact complete graph used by inverse, stages, and sensitivity.
+    state = {"schema": "zhaqing-equilibrium-state-v3", "status": state_status, "sourceBaseline": str(base_path), "sourceBaselineSha256": sha256_path(base_path), "sourceArtifact": {"workflowRunId": 30068283053, "artifactName": "zhaqing-calculix-results-30068283053", "baselineSourceCommit": "9531999012bd4a94bd937e59f74443c12bcb4b23"}, "coordinateSystem": {"id": "CS-BRIDGE-001", "type": "right-handed Cartesian", "axes": {"x": "bridge longitudinal", "y": "bridge transverse", "z": "vertical positive upward"}}, "coordinateContract": {"mode": "baseline plus nominal-F3 complete-main-cable overrides", "baselineSha256": sha256_path(base_path)}, "units": {"length": "mm", "force": "N", "stress": "MPa", "mass": "tonne"}, "windCableFormalDesignIncluded": False, "windCableDisposition": "excluded from primary response until G3 and G5 evidence closes; retained only in source inventory", "formFindingRepresentation": "prescribed straight span plans with exact three-dimensional vector audit; nonlinear vertical funicular equilibrium; fixed elastic fabrication lengths", "saddleContract": {"mode": SADDLE_CONTRACT_MODE, "status": "ASSUMPTION", "equations": ["equal tension magnitude across each saddle", "one fixed total anchor-to-anchor cable unstressed length"], "releaseDisposition": "formal engineering release remains blocked until saddle friction or cable-fixing evidence is sourced"}, "permanentLoadBasis": {**basis, "hangerTributaryLengthMm": HANGER_TRIBUTARY_REFERENCE_MM, "directDeckSupportInfluenceLengthMm": SPAN_MM - HANGER_TRIBUTARY_REFERENCE_MM, "hangerTributaryStatus": "PASS"}, "topology": topology_record, "completedInverseDesign": inverse_by_plane, "fabricationContract": fabrication_by_plane, "planeStates": nominal_stage["planes"], "stageHistory": stage_history, "nodeCoordinatesMm": {str(node_id): list(coordinated_nodes[node_id]) for node_id in sorted(coordinated_nodes)}, "targetAxialStressMPa": {str(element_id): stress for element_id, stress in sorted(target_axial_stress.items())}, "elementStates": element_states, "massSensitivity": sensitivity, "isolationMatrix": isolation_matrix, "gates": {"maxFormFindingResidualN": nominal_residual_n, "maxStageResidualN": maximum_stage_residual_n, "maxStageGlobalEquilibriumRelative": maximum_stage_global_relative, "maxCoordinateCorrectionMm": maximum_coordinate_correction_mm, "maximumPlanCanonicalizationMm": max(float(topology["maximumPlanCanonicalizationMm"]) for topology in topology_by_plane.values()), "minimumTargetTensionStressMPa": minimum_target_stress_mpa, "maximumConstitutiveRelativeError": maximum_constitutive_relative_error, "F3ReplayMidspanErrorMm": f3_replay_error_mm, "sensitivityMonotonic": sensitivity_monotonic, "loadPathClosure": load_path_pass, "formResidualLimitN": FORM_RESIDUAL_TOL_N, "minimumTensionLimitMPa": MIN_TENSION_MPA, "geometryResidualScreeningLimitMm": GEOMETRY_RESIDUAL_TOL_MM, "fullElementStateCoverage": set(target_axial_stress) == complete_element_ids, "fullNodeCoordinateCoverage": set(coordinated_nodes) == set(nodes), "hangerTributaryClosure": abs(HANGER_TRIBUTARY_REFERENCE_MM - sum(float(item["tributaryLengthMm"]) for item in topology_by_plane["POSITIVE_Y"]["hangers"])) <= 1.0e-9, "directDeckSupportLoadExplicit": abs(float(nominal_stage["loadLedger"]["directDeckSupportWeightN"]) - float(basis["directDeckSupportWeightN"])) <= 1.0e-8}}  # Publish the unique digestible P3 state contract with full node, support, staged-history, and sensitivity evidence.
+    state["sourceArtifact"]["artifactName"] = "verified-zhaqing-s4-static-shell-9531999012bd4a94bd937e59f74443c12bcb4b23"  # Correct the v3 state provenance to the exact immutable baseline artifact selected by the canonical workflow.
+    return state, coordinated_nodes, target_axial_stress  # Return accepted nominal F3 geometry and prestress maps for the existing P3 interface.
+
+
+def replace_node_coordinates(text: str, coordinated_nodes: dict[int, tuple[float, float, float]], changed_nodes: set[int]) -> str:  # Transfer P2 equilibrium cable coordinates into the detailed P3 deck.
+    output: list[str] = []  # Accumulate the rewritten input deck in original source order.
+    in_nodes = False  # Track whether the source scan is inside the model node block.
+    for raw in text.splitlines():  # Visit every source input row exactly once.
+        line = raw.strip()  # Normalize the row only for parser decisions.
+        if re.match(r"^\*NODE(?:,|\s|$)", line, re.I) and not re.match(r"^\*NODE\s+(PRINT|FILE)", line, re.I):  # Detect the model node keyword.
+            in_nodes = True  # Enter node rewrite mode.
+            output.append(raw)  # Preserve the original node keyword exactly.
+            continue  # Advance to node records.
+        if line.startswith("*"):  # Detect the keyword that terminates node records.
+            in_nodes = False  # Leave node rewrite mode.
+            output.append(raw)  # Preserve the unrelated source keyword exactly.
+            continue  # Advance to data under the new keyword.
+        if in_nodes and line and not line.startswith("**"):  # Rewrite only explicit node data rows inside the source node block.
+            fields = [field.strip() for field in line.split(",")]  # Parse the source node id defensively.
+            if fields and fields[0].isdigit() and int(fields[0]) in changed_nodes:  # Select only main-span cable nodes transferred from equilibrium_state.json.
+                node_id = int(fields[0])  # Recover the source node label.
+                x, y, z = coordinated_nodes[node_id]  # Read the unique P2 equilibrium coordinate for this node.
+                output.append(f"{node_id}, {x:.12g}, {y:.12g}, {z:.12g}")  # Emit the transferred coordinate with deterministic precision.
+                continue  # Skip the original frozen coordinate row after replacement.
+        output.append(raw)  # Preserve every untouched source line exactly.
+    return "\n".join(output) + "\n"  # Restore deterministic newline-terminated input text.
+
+
+def build_fine_deck(text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], coordinated_nodes: dict[int, tuple[float, float, float]], target_axial_stress: dict[int, float]) -> str:  # Build the P3 detailed perturbation model only from the published equilibrium state.
+    changed_nodes = {node for _element_id, connectivity in groups["MAIN_CABLES"] for node in connectivity[:2]}  # Transfer every nominal F3 main-cable node including side spans, saddles, and anchors.
+    patched = replace_node_coordinates(text, coordinated_nodes, changed_nodes)  # Transfer the complete P2 equilibrium cable geometry while preserving deck, tower, and wind-system coordinates.
+    patched = patched.replace("Zhaqing suspension bridge global screening model - LC01_G_DEAD DEAD_LOAD", "Zhaqing suspension bridge P3 coordinated prestress-reference response model", 1)  # Relabel the detailed response model for unambiguous provenance.
+    patched = patched.replace("** No calibrated fabrication-state cable prestress is included.", "** P3 detailed response model consumes equilibrium_state.json and evaluates permanent-load response as a perturbation about that prestressed reference state.", 1)  # Record the two-model state transfer in the input header.
+    patched = patched.replace("*ELEMENT, TYPE=B31, ELSET=MAIN_CABLES", "*ELEMENT, TYPE=T3D2, ELSET=MAIN_CABLES", 1)  # Keep the P3 main cable axial while removing the old bending surrogate.
+    old_section = "*BEAM SECTION, ELSET=MAIN_CABLES, MATERIAL=MAIN_CABLE_WIRE_SCREEN, SECTION=RECT\n74.5432224, 74.5432224\n0., 1., 0.\n"  # Match the old bending-capable cable surrogate exactly.
+    new_section = f"*SOLID SECTION, ELSET=MAIN_CABLES, MATERIAL=MAIN_CABLE_WIRE_SCREEN\n{MAIN_CABLE_AREA_MM2:.12g}\n"  # Preserve identical axial area after the B31-to-T3D2 correction.
+    if old_section not in patched:  # Require the exact verified source section before changing cable representation.
+        raise RuntimeError("verified main-cable B31 section not found in P3 source model")  # Stop rather than silently altering an unknown section card.
+    patched = patched.replace(old_section, new_section, 1)  # Replace only the main-cable section card with the axial T3D2 section.
+    transferred_nodes, transferred_groups, _ownership = parse_model(patched)  # Reparse the coordinate-transferred detailed topology for stress directions and physical support sets.
+    nsets = parse_nsets(patched)  # Recover the frozen physical-support node memberships before constructing the reference-state balance.
+    support_dof_ranges = {"TOWER_BASES": range(1, 4), "MAIN_CABLE_ANCHORS": range(1, 4), "WIND_ANCHORS": range(1, 4), "DECK_LEFT_PIN": range(1, 4), "DECK_RIGHT_ROLLER": range(2, 4)}  # Freeze only the translational support degrees used by the suspension-force balance.
+    constrained_dofs = {(node_id, dof) for set_name, dofs in support_dof_ranges.items() for node_id in nsets.get(set_name, set()) for dof in dofs}  # Expand the physical support contract into exact constrained node-degree pairs.
+    stress_lines = ["*INITIAL CONDITIONS, TYPE=STRESS"]  # Start the unique transferred cable-and-hanger initial-stress field.
+    balance: dict[tuple[int, int], float] = {}  # Accumulate exact opposite initial-stress forces at every physically free suspension-system degree.
+    for group_name, area in (("MAIN_CABLES", MAIN_CABLE_AREA_MM2), ("HANGERS", HANGER_AREA_MM2)):  # Transfer the complete vertical suspension-system P2 stress state.
+        for element_id, connectivity in transferred_groups[group_name]:  # Visit every axial main-cable and hanger element once.
+            if element_id not in target_axial_stress:  # Require a P2 state value for every transferred suspension element.
+                raise RuntimeError(f"equilibrium state missing target stress for element {element_id}")  # Stop before re-guessing prestress in the detailed model.
+            stress = float(target_axial_stress[element_id])  # Read the unique axial stress published by equilibrium_state.json.
+            tensor = axial_tensor(stress, transferred_nodes[connectivity[0]], transferred_nodes[connectivity[1]])  # Convert the P2 axial state to a global Cartesian initial-stress tensor.
+            for integration_point in range(1, 9):  # Match the eight line-element integration points used by the verified CalculiX output.
+                stress_lines.append(f"{element_id}, {integration_point}, " + ", ".join(f"{value:.12g}" for value in tensor))  # Assign the physical axial reference stress at every line-element integration point.
+            point_a = transferred_nodes[connectivity[0]]  # Recover the first transferred endpoint for the reference-state force vector.
+            point_b = transferred_nodes[connectivity[1]]  # Recover the second transferred endpoint for the reference-state force vector.
+            length = vector_length(point_a, point_b)  # Compute the transferred element chord length.
+            unit = tuple((point_b[index] - point_a[index]) / length for index in range(3))  # Normalize the transferred element axis.
+            force = stress * area  # Convert the P2 target tensile stress back to element axial force.
+            end_force = tuple(force * value for value in unit)  # Compute the tensile force pulling node one toward node two.
+            for node_id, sign in ((connectivity[0], 1.0), (connectivity[1], -1.0)):  # Visit both element endpoints with equal-and-opposite internal nodal-force signs.
+                for dof, component in enumerate(end_force, 1):  # Balance each free endpoint translational force component independently.
+                    if (node_id, dof) in constrained_dofs:  # Let the unchanged physical support carry the initial-stress reaction on constrained degrees.
+                        continue  # Avoid applying an artificial reference load to a physically restrained degree of freedom.
+                    balance[(node_id, dof)] = balance.get((node_id, dof), 0.0) - sign * component  # Apply the exact opposite reference CLOAD so every free degree remains at the P2 equilibrium coordinates.
+    if "*STEP\n" not in patched:  # Require the single verified L2 static step boundary.
+        raise RuntimeError("verified detailed-model STEP marker not found")  # Stop rather than rewriting an incompatible load history.
+    model_prefix, verified_step = patched.split("*STEP\n", 1)  # Separate model definitions from the immutable verified permanent-load step.
+    if "*NODE PRINT, NSET=MONITOR, FREQUENCY=1\n" not in verified_step:  # Require the verified result-request anchor before replacing output requests.
+        raise RuntimeError("verified detailed-model result-request anchor not found")  # Stop rather than generating an unauditable response deck.
+    verified_load_body = verified_step.split("*NODE PRINT, NSET=MONITOR, FREQUENCY=1\n", 1)[0]  # Preserve the exact verified DLOAD and CLOAD data before its original result requests.
+    if "*DLOAD\n" not in verified_load_body:  # Require the immutable permanent gravity block.
+        raise RuntimeError("verified detailed-model DLOAD block not found")  # Stop before constructing an incomplete P3 perturbation load.
+    permanent_loads = "*DLOAD\n" + verified_load_body.split("*DLOAD\n", 1)[1]  # Preserve every verified permanent gravity and CLOAD record exactly.
+    reference_cload_lines = [f"{node}, {dof}, {value:.12g}" for (node, dof), value in sorted(balance.items()) if abs(value) > 1.0e-9]  # Serialize deterministic balancing loads at every physically free suspension-system degree.
+    physical_boundaries = "*BOUNDARY\nTOWER_BASES, 1, 6, 0.\nMAIN_CABLE_ANCHORS, 1, 3, 0.\nWIND_ANCHORS, 1, 3, 0.\nDECK_LEFT_PIN, 1, 3, 0.\nDECK_RIGHT_ROLLER, 2, 3, 0.\n"  # Apply the frozen physical support contract once and keep it unchanged across both P3 steps.
+    reference_step = "*STEP\n*STATIC\n" + physical_boundaries + ("*CLOAD\n" + "\n".join(reference_cload_lines) + "\n" if reference_cload_lines else "") + "*END STEP\n"  # Establish the prestressed reference state with exact free-degree balance and the same physical supports used by the response step.
+    output_requests = "*NODE PRINT, NSET=NALL, FREQUENCY=1\nU, RF\n*EL PRINT, ELSET=E_STRUCTURAL, FREQUENCY=1\nS, E\n*NODE FILE, FREQUENCY=1\nU, RF\n*EL FILE, FREQUENCY=1\nS, E\n*END STEP\n"  # Request complete perturbation response for P4 and VTK generation.
+    perturbation_step = "*STEP, PERTURBATION\n*STATIC\n" + permanent_loads + output_requests  # Evaluate permanent-load response about the prestressed reference while inheriting unchanged physical supports and avoiding a second MPC cascade.
+    return model_prefix + "\n".join(stress_lines) + "\n" + reference_step + perturbation_step  # Assemble the reference-plus-perturbation deck with one stable physical boundary topology across both steps.
+
+def parse_dat_nodes(dat_path: Path) -> tuple[dict[int, tuple[float, float, float]], dict[int, tuple[float, float, float]]]:  # Parse the final NALL perturbation displacement and nodal-force blocks from CalculiX DAT output.
+    text = dat_path.read_text(encoding="utf-8", errors="replace") if dat_path.exists() else ""  # Read the solver DAT output defensively.
+    displacements: dict[int, tuple[float, float, float]] = {}  # Store final perturbation U1,U2,U3 by source node id.
+    reactions: dict[int, tuple[float, float, float]] = {}  # Store final printed RF1,RF2,RF3 by source node id.
+    active: str | None = None  # Track whether the parser is inside displacement or force output.
+    seen_numeric = False  # Distinguish the standard blank line after a CalculiX table header from the end of populated data.
+    for raw in text.splitlines():  # Scan the complete result text in source order.
+        line = raw.strip()  # Normalize whitespace for header and numeric-row detection.
+        lower = line.lower()  # Cache lowercase text for robust CalculiX header matching.
+        if "displacements (vx,vy,vz)" in lower and "set nall" in lower:  # Detect the complete NALL displacement table.
+            active = "U"  # Enter displacement-row parsing mode.
+            seen_numeric = False  # Reset row-state at the start of this result table.
+            continue  # Advance through the optional blank line after the header.
+        if "forces (fx,fy,fz)" in lower and "set nall" in lower:  # Detect the complete NALL nodal-force table.
+            active = "RF"  # Enter nodal-force-row parsing mode.
+            seen_numeric = False  # Reset row-state at the start of this result table.
+            continue  # Advance through the optional blank line after the header.
+        if active:  # Parse numeric node result rows while a NALL table is active.
+            match = re.match(r"^\s*(\d+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$", raw)  # Match node id and three result components.
+            if match:  # Store only well-formed numeric rows.

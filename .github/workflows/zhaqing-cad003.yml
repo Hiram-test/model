@@ -1,0 +1,287 @@
+name: Zhaqing CAD-003 Ubuntu VM FreeCAD build
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/zhaqing-cad003.yml'
+      - 'automation/zhaqing_cad003/**'
+      - 'source-inputs/zhaqing-suspension-bridge/**'
+      - 'bridge-fem-skill-suite/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# 不设置跨提交 concurrency。每个 run 固定 checkout 自己的提交快照；后续提交
+# 不会杀掉正在进行的建模，成功和失败过程均可完整保留。
+jobs:
+  build-cad003:
+    name: N02-N07 source-bound FreeCAD and STEP build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      PYTHONHASHSEED: '0'
+      MPLBACKEND: Agg
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+      LIBREDWG_VERSION: '0.13.4'
+      LIBREDWG_COMMIT: 'e3774bd4020fcfebb68150361db74b8b34d170fe'
+
+    steps:
+      - name: Checkout immutable source snapshot
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Initialize append-only evidence directories
+        run: |
+          set -euxo pipefail
+          mkdir -p \
+            build/zhaqing-cad003/scan/provenance \
+            build/zhaqing-cad003/freecad/logs
+          git rev-parse HEAD > build/zhaqing-cad003/scan/provenance/source-commit.txt
+          printf '%s\n' "${{ github.event_name }}" > build/zhaqing-cad003/scan/provenance/event-name.txt
+          printf '%s\n' "${{ github.sha }}" > build/zhaqing-cad003/scan/provenance/event-sha.txt
+
+      - name: Install Ubuntu, FreeCAD, Xvfb, and converter build dependencies
+        id: dependencies
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          {
+            set -eux
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends software-properties-common
+            sudo add-apt-repository -y universe
+            sudo apt-get update
+            apt-cache policy freecad freecad-python3
+            sudo apt-get install -y --no-install-recommends \
+              build-essential autoconf automake libtool pkg-config \
+              bison flex gettext git ca-certificates zip \
+              libpcre2-dev libxml2-dev fonts-noto-cjk fontconfig \
+              freecad xvfb xauth libgl1-mesa-dri libglu1-mesa
+            fc-cache -f
+            command -v FreeCADCmd || command -v freecadcmd
+            command -v FreeCAD || command -v freecad
+            command -v xvfb-run
+          } 2>&1 | tee build/zhaqing-cad003/scan/provenance/apt-and-freecad-install.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Restore pinned LibreDWG build cache
+        id: libredwg-cache
+        if: steps.dependencies.outcome == 'success'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/zhaqing/libredwg/${{ env.LIBREDWG_COMMIT }}
+          key: libredwg-${{ runner.os }}-${{ runner.arch }}-${{ env.LIBREDWG_COMMIT }}
+
+      - name: Build pinned LibreDWG converter from official source
+        id: converter
+        if: steps.dependencies.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          {
+            set -eux
+            prefix="$HOME/.cache/zhaqing/libredwg/${LIBREDWG_COMMIT}"
+            mkdir -p "$prefix"
+            if [[ ! -x "$prefix/bin/dwg2dxf" || ! -x "$prefix/bin/dwgread" ]]; then
+              rm -rf /tmp/libredwg
+              git init /tmp/libredwg
+              git -C /tmp/libredwg remote add origin https://github.com/LibreDWG/libredwg.git
+              git -C /tmp/libredwg fetch --depth 1 origin "$LIBREDWG_COMMIT"
+              git -C /tmp/libredwg checkout --detach FETCH_HEAD
+              test "$(git -C /tmp/libredwg rev-parse HEAD)" = "$LIBREDWG_COMMIT"
+              (
+                cd /tmp/libredwg
+                sh ./autogen.sh
+                ./configure --disable-bindings --disable-docs --prefix="$prefix"
+                make -j2
+                make install
+              )
+            else
+              printf 'restored from Actions cache\n'
+            fi
+            printf '%s\n' "$LIBREDWG_COMMIT" > build/zhaqing-cad003/scan/provenance/libredwg-commit.txt
+            echo "$prefix/bin" >> "$GITHUB_PATH"
+            echo "LD_LIBRARY_PATH=$prefix/lib:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
+            "$prefix/bin/dwg2dxf" --version
+            "$prefix/bin/dwgread" --version
+          } 2>&1 | tee build/zhaqing-cad003/scan/provenance/libredwg-build.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Set up Python used by deterministic adapters
+        id: python
+        if: steps.dependencies.outcome == 'success' && steps.converter.outcome == 'success'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: automation/zhaqing_cad003/requirements-scan.txt
+
+      - name: Install pinned Python dependencies
+        id: python-dependencies
+        if: steps.python.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          {
+            set -eux
+            python -m pip install --upgrade pip
+            python -m pip install -r automation/zhaqing_cad003/requirements-scan.txt
+            python -m pip freeze | sort > build/zhaqing-cad003/scan/provenance/scan-python-freeze.txt
+          } 2>&1 | tee build/zhaqing-cad003/scan/provenance/python-install.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Compile and lint every adapter before execution
+        id: compile
+        if: steps.python-dependencies.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          {
+            set -eux
+            python -m py_compile \
+              automation/zhaqing_cad003/scan_drawings.py \
+              automation/zhaqing_cad003/render_and_export_dxf.py \
+              automation/zhaqing_cad003/manual_render_geometry.py \
+              automation/zhaqing_cad003/freecad_model/freeze_model_contract.py \
+              automation/zhaqing_cad003/freecad_model/build_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/repair_assembly_interfaces.py \
+              automation/zhaqing_cad003/freecad_model/validate_freecad_model.py \
+              automation/zhaqing_cad003/freecad_model/audit_forbidden_penetrations.py \
+              automation/zhaqing_cad003/freecad_model/render_freecad_model.py
+            bash -n automation/zhaqing_cad003/freecad_model/run_freecad_pipeline.sh
+            python -m json.tool automation/zhaqing_cad003/freecad_model/source_facts.json >/dev/null
+          } 2>&1 | tee build/zhaqing-cad003/scan/provenance/script-compile.log
+          exit ${PIPESTATUS[0]}
+
+      - name: N02-N03 scan and convert every source DWG
+        id: scan
+        if: steps.compile.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set +e
+          set -o pipefail
+          python automation/zhaqing_cad003/scan_drawings.py \
+            --source-dir source-inputs/zhaqing-suspension-bridge/drawings \
+            --output-dir build/zhaqing-cad003/scan \
+            2>&1 | tee build/zhaqing-cad003/scan/runner.log
+          status=${PIPESTATUS[0]}
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: N03 export source-located geometry and record legacy render health
+        id: geometry
+        if: steps.scan.outputs.exit_code != '' && steps.scan.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          set -o pipefail
+          python automation/zhaqing_cad003/render_and_export_dxf.py \
+            --scan-report build/zhaqing-cad003/scan/scan_report.json \
+            --converted-dir build/zhaqing-cad003/scan/converted_dxf \
+            --output-dir build/zhaqing-cad003/scan/n03_geometry \
+            2>&1 | tee build/zhaqing-cad003/scan/n03-geometry-runner.log
+          status=${PIPESTATUS[0]}
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: N03 render all twelve model spaces from serialized geometry
+        id: manual-render
+        if: steps.scan.outputs.exit_code != '' && steps.scan.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          set -o pipefail
+          python automation/zhaqing_cad003/manual_render_geometry.py \
+            --geometry-jsonl-gz build/zhaqing-cad003/scan/n03_geometry/geometry_entities.jsonl.gz \
+            --output-dir build/zhaqing-cad003/scan/n03_manual_render \
+            2>&1 | tee build/zhaqing-cad003/scan/n03-manual-render.log
+          status=${PIPESTATUS[0]}
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: N04-N07 build FCStd, repair interfaces, export and reimport STEP, and render four views
+        id: freecad-pipeline
+        if: steps.manual-render.outputs.exit_code != '' && steps.manual-render.outputs.exit_code == '0'
+        continue-on-error: true
+        run: |
+          set +e
+          set -o pipefail
+          FREECAD_CMD="$(command -v FreeCADCmd || command -v freecadcmd)"
+          FREECAD_GUI="$(command -v FreeCAD || command -v freecad)"
+          export FREECAD_CMD FREECAD_GUI
+          export ZHAQING_SCAN_DIR="$GITHUB_WORKSPACE/build/zhaqing-cad003/scan"
+          export ZHAQING_OUT="$GITHUB_WORKSPACE/build/zhaqing-cad003/freecad"
+          bash automation/zhaqing_cad003/freecad_model/run_freecad_pipeline.sh \
+            2>&1 | tee build/zhaqing-cad003/freecad/logs/00-pipeline-console.log
+          status=${PIPESTATUS[0]}
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Preserve final provenance even after an earlier failure
+        if: always()
+        run: |
+          set +e
+          mkdir -p build/zhaqing-cad003/scan/provenance build/zhaqing-cad003/freecad/logs
+          git status --short > build/zhaqing-cad003/scan/provenance/git-status.txt
+          git log -1 --format=fuller > build/zhaqing-cad003/scan/provenance/checkout-commit.txt
+          {
+            uname -a
+            cat /etc/os-release
+            python --version 2>&1
+            command -v FreeCADCmd || command -v freecadcmd || true
+            FreeCADCmd --version 2>&1 || freecadcmd --version 2>&1 || true
+            command -v FreeCAD || command -v freecad || true
+            dpkg-query -W freecad freecad-python3 2>&1 || true
+            command -v dwg2dxf || true
+            command -v dwgread || true
+          } > build/zhaqing-cad003/scan/provenance/final-environment.txt 2>&1
+          {
+            printf 'dependencies_outcome=%s\n' "${{ steps.dependencies.outcome }}"
+            printf 'converter_outcome=%s\n' "${{ steps.converter.outcome }}"
+            printf 'python_dependencies_outcome=%s\n' "${{ steps.python-dependencies.outcome }}"
+            printf 'compile_outcome=%s\n' "${{ steps.compile.outcome }}"
+            printf 'scan_exit_code=%s\n' "${{ steps.scan.outputs.exit_code }}"
+            printf 'geometry_exit_code=%s\n' "${{ steps.geometry.outputs.exit_code }}"
+            printf 'manual_render_exit_code=%s\n' "${{ steps.manual-render.outputs.exit_code }}"
+            printf 'freecad_pipeline_exit_code=%s\n' "${{ steps.freecad-pipeline.outputs.exit_code }}"
+          } > build/zhaqing-cad003/scan/provenance/step-outcomes.txt
+          true
+
+      - name: Upload complete immutable VM build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zhaqing-cad003-freecad-step-${{ github.sha }}
+          path: build/zhaqing-cad003
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
+
+      - name: Enforce all deterministic stages after evidence upload
+        if: always()
+        run: |
+          test "${{ steps.dependencies.outcome }}" = "success"
+          test "${{ steps.converter.outcome }}" = "success"
+          test "${{ steps.python-dependencies.outcome }}" = "success"
+          test "${{ steps.compile.outcome }}" = "success"
+          test -n "${{ steps.scan.outputs.exit_code }}" && test "${{ steps.scan.outputs.exit_code }}" = "0"
+          test -n "${{ steps.geometry.outputs.exit_code }}"
+          test -s build/zhaqing-cad003/scan/n03_geometry/geometry_entities.jsonl.gz
+          test "$(gzip -cd build/zhaqing-cad003/scan/n03_geometry/geometry_entities.jsonl.gz | wc -l)" -gt 0
+          test -n "${{ steps.manual-render.outputs.exit_code }}" && test "${{ steps.manual-render.outputs.exit_code }}" = "0"
+          python - <<'PY'
+          import json
+          geometry = json.load(open('build/zhaqing-cad003/scan/n03_geometry/geometry_export_report.json', encoding='utf-8'))
+          manual = json.load(open('build/zhaqing-cad003/scan/n03_manual_render/manual_render_report.json', encoding='utf-8'))
+          assert geometry['dxfCount'] == 12, geometry['dxfCount']
+          assert manual['sourceDrawingCount'] == 12, manual['sourceDrawingCount']
+          assert manual['successfulRenderCount'] == 12, manual['successfulRenderCount']
+          assert not manual['failures'], manual['failures']
+          PY
+          test -n "${{ steps.freecad-pipeline.outputs.exit_code }}" && test "${{ steps.freecad-pipeline.outputs.exit_code }}" = "0"

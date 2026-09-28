@@ -1,0 +1,260 @@
+
+
+def suspension_element_tangent(element_id: int, element_states: dict[int, dict], coordinated_nodes: dict[int, tuple[float, float, float]]) -> tuple[list[list[float]], tuple[float, float, float]]:  # Build one physical three-dimensional initial-stress axial tangent at the P2 equilibrium state.
+    record = element_states[element_id]  # Recover the unique persisted constitutive state for this suspension element.
+    node_a, node_b = (int(value) for value in record["nodeIds"])  # Recover its ordered source endpoints.
+    point_a = coordinated_nodes[node_a]  # Read the digest-verified equilibrium coordinate at endpoint A.
+    point_b = coordinated_nodes[node_b]  # Read the digest-verified equilibrium coordinate at endpoint B.
+    length = vector_length(point_a, point_b)  # Recompute the physical equilibrium chord length.
+    unit = tuple((point_b[axis] - point_a[axis]) / length for axis in range(3))  # Normalize the global element direction.
+    material_tangent = float(record["materialTangentNPerMm"])  # Recover EA/L from the v3 constitutive contract.
+    geometric_tangent = float(record["geometricTangentNPerMm"])  # Recover N0/L from the positive P2 initial-force state.
+    tangent = zero_matrix(3, 3)  # Allocate the global translational tangent block in N/mm.
+    for row in range(3):  # Assemble each global tangent row.
+        for column in range(3):  # Assemble material and prestress-geometric contributions in each direction pair.
+            axial_projection = unit[row] * unit[column]  # Compute the dyadic axial projector n times n-transpose.
+            transverse_projection = (1.0 if row == column else 0.0) - axial_projection  # Compute the orthogonal projector carrying stress stiffness.
+            tangent[row][column] = material_tangent * axial_projection + geometric_tangent * transverse_projection  # Form EA/L nn-transpose plus N0/L times the transverse projector.
+    return tangent, unit  # Return the positive axial tangent block and equilibrium direction.
+
+
+def add_vector(target: dict[int, list[float]], node: int, vector: tuple[float, float, float]) -> None:  # Accumulate one physical nodal action vector without synthesizing absent components.
+    destination = target.setdefault(node, [0.0, 0.0, 0.0])  # Initialize this exact source node on first contribution.
+    for axis in range(3):  # Resolve all three Cartesian components independently.
+        destination[axis] += vector[axis]  # Add the requested physical action component.
+
+
+def vector_norm(vector: list[float] | tuple[float, ...]) -> float:  # Evaluate one Euclidean residual or response magnitude.
+    return math.sqrt(sum(value * value for value in vector))  # Return the square root of the Cartesian sum of squares.
+
+
+def published_plane_for_sign(state: dict, sign: int) -> dict:  # Recover the unique persisted plane state matching one transverse sign.
+    plane_id = "POSITIVE_Y" if sign > 0 else "NEGATIVE_Y"  # Map the physical transverse sign to the explicit v3 construction-stage plane identity.
+    record = state.get("planeStates", {}).get(plane_id)  # Recover the accepted nominal-F3 plane without relying on numeric JSON-key formatting.
+    if not isinstance(record, dict) or not isinstance(record.get("equilibriumAudit"), dict):  # Require one complete v3 equilibrium audit on the requested side.
+        raise RuntimeError(f"equilibrium-state v3 is missing audited plane {plane_id}")  # Stop before joining, copying, or omitting a physical plane.
+    audit = record["equilibriumAudit"]  # Recover source-keyed interface and support actions from the nominal-F3 vector audit.
+    interface_actions = {str(node): [float(value) for value in vector] for node, vector in audit["deckInterfaceActionsOnDeckN"].items()}  # Start with net suspension actions, including the bottom half-weight convention, at every deck interface.
+    anchor_actions: dict[str, list[float]] = {}  # Separate fixed cable-anchor actions from retained tower-saddle interfaces.
+    for role, support in audit["supportReactions"].items():  # Visit both anchors and both saddle interfaces published for this plane.
+        node_key = str(int(support["nodeId"]))  # Normalize the physical source node identity.
+        action = [float(value) for value in support["suspensionActionOnSupportN"]]  # Recover the suspension-system action including local half self-weight.
+        if "anchor" in role.lower():  # Route fixed cable endpoints to analytic support-reaction recovery.
+            anchor_actions[node_key] = action  # Preserve the physical suspension action on this anchor.
+        else:  # Route both tower saddles to the retained CalculiX interface.
+            interface_actions[node_key] = action  # Preserve the physical suspension action on the retained tower support.
+    return {"interfaceActionsN": interface_actions, "anchorActionsN": anchor_actions}  # Return the normalized v3 boundary-action contract consumed by independent P3 reconstruction.
+
+
+def compare_published_actions(published: dict, reconstructed: dict[int, list[float]], label: str) -> float:  # Prove that independent P3 element-action assembly matches the persisted P2 interface or anchor contract.
+    converted = {int(node): [float(value) for value in vector] for node, vector in published.items()}  # Convert JSON node keys and vector scalars without defaults.
+    if set(converted) != set(reconstructed):  # Require exact node coverage on the compared physical boundary.
+        raise RuntimeError(f"{label} node coverage differs between P2 publication and P3 reconstruction")  # Stop before silently dropping an interface or anchor action.
+    maximum = 0.0  # Initialize the largest Cartesian action mismatch in newtons.
+    for node in sorted(converted):  # Compare every published physical boundary node deterministically.
+        difference = [converted[node][axis] - reconstructed[node][axis] for axis in range(3)]  # Form the independent three-component difference vector.
+        maximum = max(maximum, vector_norm(difference))  # Preserve the worst nodal mismatch magnitude.
+    if maximum > ACTION_ABS_TOL_N:  # Enforce a tight serialization-scale action identity before condensation.
+        raise RuntimeError(f"{label} action mismatch exceeds {ACTION_ABS_TOL_N} N: {maximum}")  # Stop before transferring an unverified base load.
+    return maximum  # Return the accepted maximum action mismatch for the P3 receipt.
+
+
+def validate_damage_selection(groups: dict[str, list[tuple[int, list[int]]]], active_suspension_element_ids: set[int] | None, removed_suspension_element_ids: set[int] | None, damage_contract: dict | None) -> tuple[set[int], set[int], dict | None]:  # Normalize one optional source-ID damage selection while preserving the exact nominal topology when omitted.
+    source_index = {element_id: (group_name, [int(value) for value in connectivity[:2]]) for group_name in SUSPENSION_GROUPS for element_id, connectivity in groups[group_name]}  # Index the complete immutable suspension population by original element label, group, and ordered endpoints.
+    source_ids = set(source_index)  # Freeze the exact nominal cable-and-hanger element-id population before interpreting a caller selection.
+    if active_suspension_element_ids is None and removed_suspension_element_ids is None:  # Preserve the established nominal API semantics when no topology selection is supplied.
+        if damage_contract is not None:  # Refuse an inactive damage receipt that does not correspond to an actual topology change.
+            raise RuntimeError("damage contract requires an explicit active or removed suspension-element selection")  # Stop before publishing damage metadata on an intact tangent.
+        return source_ids, set(), None  # Return the complete nominal source population without changing any downstream result structure.
+    if active_suspension_element_ids is not None and not isinstance(active_suspension_element_ids, set):  # Require an explicit mutable set so string, list, and scalar coercions cannot silently change topology.
+        raise RuntimeError("active suspension-element selection must be a set of original integer source IDs")  # Stop before interpreting an ambiguous active topology.
+    if removed_suspension_element_ids is not None and not isinstance(removed_suspension_element_ids, set):  # Apply the same strict source-ID container contract to direct removal selections.
+        raise RuntimeError("removed suspension-element selection must be a set of original integer source IDs")  # Stop before interpreting an ambiguous removal topology.
+    active_ids = set(active_suspension_element_ids) if active_suspension_element_ids is not None else source_ids - set(removed_suspension_element_ids or set())  # Derive the active topology from exactly one caller representation without renumbering source elements.
+    removed_ids = set(removed_suspension_element_ids) if removed_suspension_element_ids is not None else source_ids - active_ids  # Derive the complementary removal population when only active IDs were supplied.
+    if any(not isinstance(element_id, int) or isinstance(element_id, bool) for element_id in active_ids | removed_ids):  # Reject booleans and noninteger labels even though Python booleans compare as integers.
+        raise RuntimeError("damage selection contains a noninteger suspension source element ID")  # Stop before set arithmetic can mask an invalid identity.
+    if active_ids & removed_ids or active_ids | removed_ids != source_ids:  # Require an exact disjoint partition of the immutable nominal suspension population.
+        raise RuntimeError("active and removed suspension selections do not partition the nominal source IDs exactly")  # Stop before dropping, duplicating, or inventing a physical member.
+    if not isinstance(damage_contract, dict):  # Require an explicit reviewed receipt before any published-action equality is bypassed.
+        raise RuntimeError("a source-ID suspension topology change requires an explicit damage contract")  # Stop before treating a modeling edit as an ordinary nominal condensation.
+    expected_schema = "zhaqing-static-alternate-path-damage-v1"  # Freeze the only damage schema accepted by this linear release operator.
+    if damage_contract.get("schema") != expected_schema or damage_contract.get("caseId") != "LC08":  # Bind this narrowly scoped implementation to the reviewed LC08 static alternate-path event.
+        raise RuntimeError(f"damage contract must be {expected_schema} for LC08")  # Stop before reusing the member-loss exception for another case or analysis class.
+    removed_records = damage_contract.get("removedElements")  # Recover the stable source-keyed member-loss declaration independently from the caller set.
+    if not isinstance(removed_records, list) or len(removed_records) != 1 or not isinstance(removed_records[0], dict):  # Require one and only one explicit removed-member record.
+        raise RuntimeError("LC08 damage contract must contain exactly one removedElements record")  # Stop before accepting an underspecified or multi-member event.
+    removed_record = removed_records[0]  # Recover the unique reviewed member-loss record for strict field validation.
+    contract_element_id = removed_record.get("elementId")  # Read the original source label without numeric coercion.
+    contract_group = removed_record.get("group")  # Read the immutable source component group without case folding.
+    contract_nodes = removed_record.get("nodeIds")  # Read the ordered original endpoint labels without retargeting.
+    if contract_element_id != 1033 or contract_group != "HANGERS" or contract_nodes != [294, 638]:  # Require the stable LC08 hanger identity and ordered connectivity exactly as reviewed.
+        raise RuntimeError("LC08 damage contract must remove source HANGERS e1033 with ordered nodes [294, 638]")  # Stop before deleting, renumbering, or retargeting another member.
+    if removed_ids != {1033} or source_index.get(1033) != ("HANGERS", [294, 638]):  # Cross-check the caller partition and immutable source topology against the explicit contract.
+        raise RuntimeError("LC08 active/removed selection does not match stable source hanger e1033=(294,638)")  # Stop before assembling a topology that differs from the reviewed event.
+    normalized_contract = {"schema": expected_schema, "caseId": "LC08", "analysisClass": "STATIC_ALTERNATE_PATH", "removedElements": [{"elementId": 1033, "group": "HANGERS", "nodeIds": [294, 638]}]}  # Publish only the validated stable damage identity and analysis class, excluding unaudited caller extras.
+    return active_ids, removed_ids, normalized_contract  # Return the exact survivor IDs, removed source ID, and normalized explicit exception receipt.
+
+
+def assemble_plane_condensation(sign: int, plane_nodes: set[int], plane_elements: list[int], interface_nodes: set[int], internal_nodes: set[int], anchor_nodes: set[int], coordinated_nodes: dict[int, tuple[float, float, float]], element_states: dict[int, dict], state: dict, removed_element_ids: set[int] | None = None, damage_contract: dict | None = None) -> dict:  # Assemble one signed plane, optionally applying the reviewed LC08 affine member-loss release before Schur condensation.
+    normalized_removed_ids = set(removed_element_ids or set())  # Freeze the plane-local removed source identities without mutating the validated caller set.
+    damage_active = bool(normalized_removed_ids)  # Distinguish the exceptional affine release path from byte-compatible nominal condensation.
+    if damage_active and damage_contract is None:  # Require the validated explicit contract at the exact point where nominal action identity becomes inapplicable.
+        raise RuntimeError(f"signed plane {sign} member loss requires an explicit validated damage contract")  # Stop before bypassing nominal equilibrium evidence without a reviewed event.
+    if normalized_removed_ids & set(plane_elements):  # Require the active tangent population to exclude every declared removed source member.
+        raise RuntimeError(f"signed plane {sign} active element list still contains a removed source member")  # Stop before publishing a damage receipt while retaining its stiffness or self-weight.
+    interface_dofs = [(node, dof) for node in sorted(interface_nodes) for dof in range(3)]  # Freeze the retained shared-node translation ordering used by Schur condensation and deck equations.
+    internal_dofs = [(node, dof) for node in sorted(internal_nodes) for dof in range(3)]  # Freeze the eliminated suspension-only translation ordering used by displacement recovery.
+    free_dofs = interface_dofs + internal_dofs  # Assemble only non-anchor suspension degrees while retaining anchor stiffness contributions on free diagonals.
+    free_index = {degree: index for index, degree in enumerate(free_dofs)}  # Map each physical node-direction pair to one dense tangent index.
+    stiffness = zero_matrix(len(free_dofs), len(free_dofs))  # Allocate the complete free suspension-plane tangent before partitioning.
+    base_actions: dict[int, list[float]] = {}  # Reconstruct P2 element actions plus half-element self-weight at every plane node.
+    self_weight_actions: dict[int, list[float]] = {}  # Preserve the interface self-weight contribution independently for the load-transfer receipt.
+    element_tangents: dict[int, list[list[float]]] = {}  # Preserve each 3-by-3 tangent block for response and anchor-reaction recovery.
+    for element_id in sorted(plane_elements):  # Visit every cable and hanger element in this signed plane exactly once.
+        record = element_states[element_id]  # Recover its complete v3 constitutive state.
+        node_a, node_b = (int(value) for value in record["nodeIds"])  # Recover ordered physical endpoints.
+        if node_a not in plane_nodes or node_b not in plane_nodes:  # Require a plane-local noncrossing suspension topology.
+            raise RuntimeError(f"suspension element {element_id} crosses condensed plane boundaries")  # Stop before introducing false transverse coupling.
+        tangent, unit = suspension_element_tangent(element_id, element_states, coordinated_nodes)  # Build its material-plus-geometric global tangent.
+        element_tangents[element_id] = tangent  # Preserve the exact block for post-solve physical recovery.
+        for row_node, row_sign in ((node_a, 1.0), (node_b, -1.0)):  # Assemble both standard truss tangent row blocks.
+            for column_node, column_sign in ((node_a, 1.0), (node_b, -1.0)):  # Assemble both standard truss tangent column blocks.
+                for row_dof in range(3):  # Resolve every global row direction.
+                    row_index = free_index.get((row_node, row_dof))  # Skip only fixed physical anchor rows.
+                    if row_index is None:  # Leave fixed-anchor degrees outside the solved free system.
+                        continue  # Preserve their effects through free diagonal and later reaction recovery.
+                    for column_dof in range(3):  # Resolve every global column direction.
+                        column_index = free_index.get((column_node, column_dof))  # Skip only fixed physical anchor columns.
+                        if column_index is not None:  # Add contributions only between active free degrees.
+                            stiffness[row_index][column_index] += row_sign * column_sign * tangent[row_dof][column_dof]  # Assemble the symmetric positive standard tangent block.
+        axial_force = float(record["axialForceN"])  # Recover the positive equilibrium tensile force.
+        element_action_a = tuple(axial_force * component for component in unit)  # Compute the element force exerted on endpoint A in the P2 equilibrium state.
+        add_vector(base_actions, node_a, element_action_a)  # Add the tensile action pulling endpoint A toward endpoint B.
+        add_vector(base_actions, node_b, tuple(-value for value in element_action_a))  # Add the equal-and-opposite tensile action at endpoint B.
+        area = MAIN_CABLE_AREA_MM2 if record["group"] == "MAIN_CABLES" else HANGER_AREA_MM2  # Select the frozen physical area for suspension self-weight.
+        weight = area * STEEL_DENSITY_T_MM3 * GRAVITY_MM_S2 * float(record["equilibriumLengthMm"])  # Reconstruct the complete element dead weight in newtons.
+        half_weight = (0.0, 0.0, -0.5 * weight)  # Form the same two-node lumped body-load vector used by the v3 equilibrium solver.
+        add_vector(base_actions, node_a, half_weight)  # Include endpoint A self-weight in the base interface, internal, or anchor action.
+        add_vector(base_actions, node_b, half_weight)  # Include endpoint B self-weight in the base interface, internal, or anchor action.
+        add_vector(self_weight_actions, node_a, half_weight)  # Preserve endpoint A self-weight independently for interface-load provenance.
+        add_vector(self_weight_actions, node_b, half_weight)  # Preserve endpoint B self-weight independently for interface-load provenance.
+    interface_actions = {node: base_actions[node] for node in sorted(interface_nodes)}  # Extract total cable traction plus suspension self-weight applied at every retained interface node.
+    anchor_actions = {node: base_actions[node] for node in sorted(anchor_nodes)}  # Extract total element action plus suspension self-weight applied at every physical cable anchor.
+    internal_residual = max((vector_norm(base_actions.get(node, [0.0, 0.0, 0.0])) for node in internal_nodes), default=float("inf"))  # Verify free eliminated-node equilibrium before static condensation.
+    if not damage_active and internal_residual > FORM_RESIDUAL_TOL_N:  # Require nominal v3 equilibrium while allowing only the explicit deleted-member residual to drive an affine release.
+        raise RuntimeError(f"signed plane {sign} internal P2 residual exceeds {FORM_RESIDUAL_TOL_N} N: {internal_residual}")  # Stop before condensing a nonequilibrated subsystem.
+    published_plane = published_plane_for_sign(state, sign)  # Recover the authoritative complete-plane v3 action publication for nominal identity or explicit damage provenance.
+    if damage_active:  # Recognize that removing e1033 traction and self-weight makes intact published boundary actions intentionally inapplicable on this plane.
+        interface_action_error = None  # Publish no fabricated numeric equality error when the active topology differs under the explicit LC08 contract.
+        anchor_action_error = None  # Publish no fabricated anchor equality error before the deleted-member residual is released through active stiffness.
+    else:  # Retain the complete strict nominal identity checks for every unaffected or ordinary plane.
+        interface_action_error = compare_published_actions(published_plane["interfaceActionsN"], interface_actions, f"signed plane {sign} interface")  # Prove interface load identity including self-weight.
+        anchor_action_error = compare_published_actions(published_plane["anchorActionsN"], anchor_actions, f"signed plane {sign} anchor")  # Prove anchor action identity for later reaction recovery.
+    interface_count = len(interface_dofs)  # Freeze the Schur interface matrix order.
+    internal_count = len(internal_dofs)  # Freeze the eliminated internal matrix order.
+    matrix_ii = [row[:interface_count] for row in stiffness[:interface_count]]  # Extract the direct interface tangent block.
+    matrix_ij = [row[interface_count:] for row in stiffness[:interface_count]]  # Extract interface-to-internal coupling.
+    matrix_jj = [row[interface_count:] for row in stiffness[interface_count:]]  # Extract the internal free-node tangent block.
+    factor_jj, internal_factor_receipt = cholesky(matrix_jj, f"signed plane {sign} K_JJ")  # Prove internal stability and factor without regularization.
+    if damage_active:  # Solve the nonhomogeneous post-deletion equilibrium only for the explicitly contracted damaged plane.
+        internal_base_vector = [base_actions.get(node, [0.0, 0.0, 0.0])[dof] for node, dof in internal_dofs]  # Flatten active-member base actions rJ in the exact eliminated-degree ordering.
+        recovery_offset = solve_cholesky(factor_jj, internal_base_vector)  # Solve the physical affine release uJ0=KJJ-inverse*rJ caused by deleting e1033 at fixed interfaces.
+        released_internal_vector = [internal_base_vector[row] - sum(matrix_jj[row][column] * recovery_offset[column] for column in range(internal_count)) for row in range(internal_count)]  # Reconstruct rJ-KJJ*uJ0 under the physical action-change convention minus K times u.
+        released_internal_residual = max((vector_norm(released_internal_vector[offset:offset + 3]) for offset in range(0, internal_count, 3)), default=float("inf"))  # Measure the worst three-component eliminated-node residual after affine release.
+        if released_internal_residual > FORM_RESIDUAL_TOL_N:  # Require the released active topology to close to the same sub-newton form-finding tolerance.
+            raise RuntimeError(f"signed plane {sign} affine damage release residual exceeds {FORM_RESIDUAL_TOL_N} N: {released_internal_residual}")  # Stop before transferring an unbalanced damaged-state interface action.
+        effective_interface_vector = [interface_actions[node][dof] - sum(matrix_ij[row][column] * recovery_offset[column] for column in range(internal_count)) for row, (node, dof) in enumerate(interface_dofs)]  # Form bI-effective=bI-KIJ*KJJ-inverse*rJ after the internal loss release.
+        effective_interface_actions = {node: [0.0, 0.0, 0.0] for node in sorted(interface_nodes)}  # Allocate the released physical interface-action map without reintroducing the removed hanger endpoint.
+        for row, (node, dof) in enumerate(interface_dofs):  # Map every released interface component back to its stable retained node and Cartesian direction.
+            effective_interface_actions[node][dof] = effective_interface_vector[row]  # Preserve the affine effective base load consumed by the retained damaged-state solver.
+        maximum_release_displacement = max((vector_norm(recovery_offset[offset:offset + 3]) for offset in range(0, internal_count, 3)), default=float("inf"))  # Publish the largest internal three-dimensional first-order release translation in millimetres.
+    solved = zero_matrix(internal_count, interface_count)  # Allocate K_JJ inverse times K_JI for Schur construction and recovery.
+    for interface_column in range(interface_count):  # Solve one exact internal response to each unit interface direction.
+        right_hand_side = [matrix_ij[interface_column][internal_row] for internal_row in range(internal_count)]  # Form the corresponding K_JI column by symmetry.
+        column_solution = solve_cholesky(factor_jj, right_hand_side)  # Solve the accepted SPD internal subsystem.
+        for internal_row in range(internal_count):  # Store the solved column in row-major recovery order.
+            solved[internal_row][interface_column] = column_solution[internal_row]  # Preserve K_JJ inverse K_JI without sign reversal.
+    condensed = zero_matrix(interface_count, interface_count)  # Allocate the exact interface Schur complement Kc.
+    for row in range(interface_count):  # Assemble every condensed interface row.
+        for column in range(interface_count):  # Assemble every condensed interface column.
+            reduction = 0.0  # Initialize the K_IJ K_JJ-inverse K_JI contribution.
+            for internal_index in range(internal_count):  # Contract across all eliminated internal degrees.
+                reduction += matrix_ij[row][internal_index] * solved[internal_index][column]  # Accumulate one exact static-condensation term.
+            condensed[row][column] = matrix_ii[row][column] - reduction  # Form the physical Schur complement with no diagonal penalty.
+    symmetry_numerator = math.sqrt(sum((condensed[row][column] - condensed[column][row]) ** 2 for row in range(interface_count) for column in range(interface_count)))  # Measure floating-point Schur asymmetry.
+    symmetry_denominator = max(math.sqrt(sum(value * value for row in condensed for value in row)), 1.0)  # Normalize by the physical condensed stiffness magnitude.
+    symmetry_relative = symmetry_numerator / symmetry_denominator  # Form a dimensionless symmetry error receipt.
+    if symmetry_relative > MATRIX_REL_TOL:  # Reject a numerically inconsistent Schur complement.
+        raise RuntimeError(f"signed plane {sign} condensed tangent symmetry error is {symmetry_relative}")  # Stop before serializing a nonsymmetric spring surrogate.
+    for row in range(interface_count):  # Remove only antisymmetric roundoff before positive factorization.
+        for column in range(row):  # Visit each strict lower-upper pair once.
+            average = 0.5 * (condensed[row][column] + condensed[column][row])  # Compute the energy-consistent symmetric value.
+            condensed[row][column] = average  # Store the accepted lower entry.
+            condensed[column][row] = average  # Store the identical upper entry.
+    factor_condensed, condensed_factor_receipt = cholesky(condensed, f"signed plane {sign} K_condensed")  # Prove the anchored interface stiffness is positive definite without stabilization.
+    reconstruction_numerator = 0.0  # Initialize the squared Cholesky reconstruction error.
+    reconstruction_denominator = 0.0  # Initialize the squared physical condensed stiffness magnitude.
+    for row in range(interface_count):  # Reconstruct each condensed tangent row from L times L-transpose.
+        for column in range(interface_count):  # Reconstruct each condensed tangent entry.
+            reconstructed = sum(factor_condensed[row][index] * factor_condensed[column][index] for index in range(min(row, column) + 1))  # Evaluate the exact lower-factor contraction.
+            reconstruction_numerator += (reconstructed - condensed[row][column]) ** 2  # Accumulate the squared serialization-source error.
+            reconstruction_denominator += condensed[row][column] ** 2  # Accumulate the squared physical reference magnitude.
+    reconstruction_relative = math.sqrt(reconstruction_numerator / max(reconstruction_denominator, 1.0))  # Form the dimensionless factor reconstruction error.
+    if reconstruction_relative > MATRIX_REL_TOL:  # Reject an inaccurate rank-one spring representation source.
+        raise RuntimeError(f"signed plane {sign} Cholesky reconstruction error is {reconstruction_relative}")  # Stop before emitting a stiffness-changing deck.
+    recovery = [[-solved[row][column] for column in range(interface_count)] for row in range(internal_count)]  # Form u_J equals minus K_JJ-inverse K_JI u_I for homogeneous incremental suspension equilibrium.
+    modes: list[dict] = []  # Build one exact normalized rank-one spring mode per Cholesky column.
+    for mode_index in range(interface_count):  # Visit every positive condensed Cholesky column once.
+        column = [factor_condensed[row][mode_index] for row in range(interface_count)]  # Recover one lower-factor column whose outer product contributes to Kc.
+        scale = max(abs(value) for value in column)  # Normalize the MPC coefficients so the dependent coefficient remains at least as large as every independent coefficient.
+        if scale <= 0.0 or not math.isfinite(scale):  # Reject an impossible zero or nonfinite positive-definite factor column.
+            raise RuntimeError(f"signed plane {sign} has an invalid condensed spring mode {mode_index}")  # Stop before a zero-stiffness auxiliary degree is created.
+        modes.append({"vector": [value / scale for value in column], "stiffnessNPerMm": scale * scale})  # Preserve an energy-exact dimensionless equation vector and positive spring stiffness.
+    receipt = {"sign": sign, "interfaceNodeCount": len(interface_nodes), "interfaceDofCount": interface_count, "internalNodeCount": len(internal_nodes), "internalDofCount": internal_count, "anchorNodeCount": len(anchor_nodes), "internalBaseResidualN": internal_residual, "interfaceActionReconstructionErrorN": interface_action_error, "anchorActionReconstructionErrorN": anchor_action_error, "interfaceSelfWeightResultantN": [sum(self_weight_actions[node][axis] for node in interface_nodes) for axis in range(3)], "internalFactor": internal_factor_receipt, "condensedFactor": condensed_factor_receipt, "schurSymmetryRelative": symmetry_relative, "factorReconstructionRelative": reconstruction_relative, "regularizationAddedNPerMm": 0.0}  # Publish complete numerical and physical condensation evidence.
+    result = {"sign": sign, "nodes": set(plane_nodes), "elements": list(plane_elements), "interfaceNodes": set(interface_nodes), "internalNodes": set(internal_nodes), "anchorNodes": set(anchor_nodes), "interfaceDofs": interface_dofs, "internalDofs": internal_dofs, "condensed": condensed, "recovery": recovery, "modes": modes, "baseActions": base_actions, "selfWeightActions": self_weight_actions, "elementTangents": element_tangents, "receipt": receipt}  # Preserve the exact nominal return structure and insertion ordering when no damage selection is active.
+    if damage_active:  # Extend only the explicit LC08 damaged-plane result with affine recovery and released-load evidence.
+        receipt.update({"damageContract": damage_contract, "activeElementCount": len(plane_elements), "removedElementCount": len(normalized_removed_ids), "removedElementIds": sorted(normalized_removed_ids), "publishedActionComparisonStatus": "SKIPPED_EXPLICIT_LC08_DAMAGE_CONTRACT", "preReleaseInternalBaseResidualN": internal_residual, "postReleaseInternalResidualN": released_internal_residual, "maximumAffineReleaseDisplacementMm": maximum_release_displacement, "affineRecoveryEquation": "uJ=KJJ^-1*rJ-KJJ^-1*KJI*uI", "physicalActionChangeConvention": "deltaAction=-K*u", "effectiveInterfaceBaseActionEquation": "bI_effective=bI-KIJ*KJJ^-1*rJ", "effectiveInterfaceBaseActionResultantN": [sum(effective_interface_actions[node][axis] for node in interface_nodes) for axis in range(3)], "removedMemberSelfWeightIncluded": False, "removedMemberStiffnessIncluded": False, "survivorSourceIdsPreserved": True, "survivorUnstressedLengthsRetargeted": False})  # Publish the complete nonhomogeneous release receipt without claiming equality to the intact P2 boundary actions.
+        result.update({"recoveryOffset": recovery_offset, "effectiveInterfaceActions": effective_interface_actions, "removedElementIds": set(normalized_removed_ids), "damageContract": damage_contract})  # Return the affine term and effective released interface load alongside unchanged homogeneous Schur operators.
+    return result  # Return either the byte-compatible nominal operator or the explicit affine LC08 damaged-plane extension.
+
+
+def build_suspension_condensation(text: str, nodes: dict[int, tuple[float, float, float]], groups: dict[str, list[tuple[int, list[int]]]], coordinated_nodes: dict[int, tuple[float, float, float]], element_states: dict[int, dict], state: dict, active_suspension_element_ids: set[int] | None = None, removed_suspension_element_ids: set[int] | None = None, damage_contract: dict | None = None) -> dict:  # Build nominal or explicitly contracted LC08 active-topology signed Schur complements from the verified v3 source state.
+    active_element_ids, removed_element_ids, normalized_damage_contract = validate_damage_selection(groups, active_suspension_element_ids, removed_suspension_element_ids, damage_contract)  # Normalize an optional source-ID topology selection before any node partition or stiffness assembly.
+    damage_active = bool(removed_element_ids)  # Keep the ordinary complete topology on the established byte-compatible path when no removal was requested.
+    nsets = parse_nsets(text)  # Recover physical anchor nodes from the immutable source support contract.
+    retained_nodes = {node for group_name in PRIMARY_RETAINED_GROUPS for _element_id, connectivity in groups.get(group_name, []) for node in connectivity}  # Freeze every node participating in the primary retained deck or tower topology.
+    source_element_index = {element_id: connectivity[:2] for group_name in SUSPENSION_GROUPS for element_id, connectivity in groups[group_name]}  # Index the immutable nominal suspension topology by stable source element label.
+    element_index = {element_id: connectivity for element_id, connectivity in source_element_index.items() if element_id in active_element_ids}  # Filter only by the explicit survivor-ID partition without renumbering or retargeting endpoints.
+    suspension_nodes = {node for connectivity in element_index.values() for node in connectivity}  # Derive the active suspension-node population so the deleted hanger-only deck endpoint contributes no false interface modes.
+    anchor_nodes = set(nsets.get("MAIN_CABLE_ANCHORS", set())) & suspension_nodes  # Restrict physical anchor supports to actual condensed suspension nodes.
+    interface_nodes = (retained_nodes & suspension_nodes) - anchor_nodes  # Define shared deck-hanger and tower-saddle nodes as the exact retained interface.
+    internal_nodes = suspension_nodes - interface_nodes - anchor_nodes  # Define every remaining cable-only node as an eliminated internal degree set.
+    if not anchor_nodes or not interface_nodes or not internal_nodes:  # Require all three physical substructure partitions to be nonempty.
+        raise RuntimeError("suspension partition requires physical anchors, retained interfaces, and internal nodes")  # Stop before an undefined or grounded-at-the-wrong-place condensation.
+    planes: list[dict] = []  # Accumulate one independent condensed operator for each signed cable plane.
+    for sign in (1, -1):  # Preserve deterministic positive-then-negative transverse plane order.
+        plane_nodes = {node for node in suspension_nodes if (coordinated_nodes[node][1] > 0.0) == (sign > 0)}  # Select every suspension node by its nonzero signed transverse coordinate.
+        if any(abs(coordinated_nodes[node][1]) <= 1.0e-12 for node in suspension_nodes):  # Reject a node that cannot be assigned uniquely to one physical plane.
+            raise RuntimeError("suspension node lies on the plane-selection boundary y=0")  # Stop before arbitrarily duplicating or omitting a node.
+        plane_elements = [element_id for element_id, connectivity in element_index.items() if connectivity[0] in plane_nodes and connectivity[1] in plane_nodes]  # Select all and only within-plane cable and hanger elements.
+        plane_removed_elements = {element_id for element_id in removed_element_ids if all((coordinated_nodes[node][1] > 0.0) == (sign > 0) for node in source_element_index[element_id])}  # Assign every removed member to its original signed plane from unchanged source endpoints.
+        plane_contract = normalized_damage_contract if plane_removed_elements else None  # Expose the intact-action comparison exception only on the plane that actually lost e1033.
+        plane = assemble_plane_condensation(sign, plane_nodes, plane_elements, interface_nodes & plane_nodes, internal_nodes & plane_nodes, anchor_nodes & plane_nodes, coordinated_nodes, element_states, state, removed_element_ids=plane_removed_elements, damage_contract=plane_contract)  # Build the homogeneous nominal or affine released physical tangent and recovery operators for this plane.
+        planes.append(plane)  # Preserve the accepted signed-plane condensation.
+    if set().union(*(plane["nodes"] for plane in planes)) != suspension_nodes or sum(len(plane["elements"]) for plane in planes) != len(element_index):  # Require exact nonoverlapping coverage of the complete suspension topology.
+        raise RuntimeError("signed-plane condensation did not cover the complete suspension subsystem exactly once")  # Stop before partial stiffness or response recovery.
+    interface_loads: dict[tuple[int, int], float] = {}  # Assemble the total P2 interface load including suspension self-weight from both planes.
+    for plane in planes:  # Visit both accepted signed-plane base states.
+        for node in plane["interfaceNodes"]:  # Visit every physical deck or tower interface node once.
+            for dof in range(3):  # Transfer all Cartesian base-action components.
+                interface_loads[(node, dof + 1)] = plane.get("effectiveInterfaceActions", plane["baseActions"])[node][dof]  # Apply nominal actions or the affine post-loss released action, including only active-member self-weight.
+    receipt = {"representation": "two independent anchored axial suspension tangents statically condensed to retained shared nodes", "interfaceNodeCount": len(interface_nodes), "internalNodeCount": len(internal_nodes), "anchorNodeCount": len(anchor_nodes), "suspensionNodeCount": len(suspension_nodes), "suspensionElementCount": len(element_index), "windPrimaryIncluded": False, "interfaceLoadIncludesSuspensionSelfWeight": True, "planes": [plane["receipt"] for plane in planes]}  # Publish the canonical physical condensation contract without dense matrices.
+    result = {"planes": planes, "retainedNodes": retained_nodes, "suspensionNodes": suspension_nodes, "interfaceNodes": interface_nodes, "internalNodes": internal_nodes, "anchorNodes": anchor_nodes, "interfaceLoads": interface_loads, "receipt": receipt}  # Preserve the exact nominal return key sequence while preparing optional damage-only evidence.
+    if damage_active:  # Publish active-topology and stable-source receipts only for the explicit LC08 alternate-path state.
+        total_mode_count = sum(len(plane["modes"]) for plane in planes)  # Count the exact active-interface Schur modes presented to the downstream renderer.
+        receipt.update({"damageContract": normalized_damage_contract, "analysisClass": "STATIC_ALTERNATE_PATH", "nominalSuspensionElementCount": len(source_element_index), "activeSuspensionElementCount": len(element_index), "removedSuspensionElementCount": len(removed_element_ids), "removedSuspensionElementIds": sorted(removed_element_ids), "activeSuspensionNodeCount": len(suspension_nodes), "activeInterfaceNodeCount": len(interface_nodes), "activeInterfaceDofCount": sum(len(plane["interfaceDofs"]) for plane in planes), "activeCondensedModeCount": total_mode_count, "expectedActiveCondensedModeCount": 159, "survivorSourceIdsPreserved": True, "survivorConnectivityRetargeted": False, "survivorUnstressedLengthsRetargeted": False, "removedMemberSelfWeightIncluded": False, "publishedNominalActionEqualityException": "AFFECTED_PLANE_ONLY_EXPLICIT_LC08_DAMAGE_CONTRACT"})  # Bind the damaged tangent to 245 stable survivor IDs, released residual evidence, and a renderer-compatible 159-mode population.
+        if len(source_element_index) != 246 or len(element_index) != 245 or len(suspension_nodes) != 247 or len(interface_nodes) != 53 or total_mode_count != 159:  # Freeze the reviewed LC08 active topology instead of allowing a superficially valid but different loss state.
+            raise RuntimeError(f"LC08 active topology mismatch nominal={len(source_element_index)} active={len(element_index)} nodes={len(suspension_nodes)} interface={len(interface_nodes)} modes={total_mode_count}")  # Stop before rendering or recovering an unreviewed damage topology.
+        result.update({"activeSuspensionElementIds": set(active_element_ids), "removedSuspensionElementIds": set(removed_element_ids), "damageContract": normalized_damage_contract})  # Expose stable active and removed identities to response recovery without mutating source groups or element states.
+    return result  # Return complete nominal or explicitly damaged in-memory operators and compact audit evidence.

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "purpose": "Machine-readable review summary for the CAD-003 main anchorage and wind-cable correction. These values are derived from frozen N03 source+handle evidence; unresolved conflicts remain BLOCKED.",
+  "mainAnchorage": {
+    "drawing": "26-锚碇一般构造.dwg",
+    "longitudinalMm": 10500.0,
+    "transverseMm": 7200.0,
+    "totalHeightMm": 7000.0,
+    "longitudinalChainMm": [1200.0, 3100.0, 3100.0, 3100.0],
+    "bottomDropsBelowTopMmFromBridge": [5000.0, 6000.0, 7000.0],
+    "transverseChainMm": [950.0, 600.0, 950.0, 2200.0, 950.0, 600.0, 950.0],
+    "anchorCableSpacingMm": 4700.0,
+    "topElevationM": 4130.05,
+    "lowCableControlElevationM": 4125.52,
+    "correctedMisread": "310 cm is a horizontal step segment, not total anchorage height"
+  },
+  "windCable": {
+    "drawing": "32-风缆构造.dwg",
+    "selectedDirectViewNumbers": [8, 18],
+    "conflictingGeneralNoteNumbers": [13, 27],
+    "attachmentStationsMm": [26000.0, 56000.0],
+    "longitudinalOffsetMm": 18000.0,
+    "transverseOffsetMm": 12500.0,
+    "derivedPlanLengthMm": 21914.607454,
+    "listedPlanOrMaterialLengthMm": 21910.0,
+    "attachmentElevationRelativeDeckMm": -420.0,
+    "anchorEyeElevationRelativeDeckMm": -3534.0,
+    "derivedStraightChordMm": 22134.745991,
+    "derivedPlanAngleDeg": 34.777831,
+    "drawingHorizontalMinimumDeg": 35.0,
+    "derivedVerticalAngleDeg": 8.087416,
+    "drawingVerticalMinimumDeg": 8.0,
+    "blockingConflictIds": [
+      "C-WIND-ATTACH-NUMBER-001",
+      "C-WIND-HORIZONTAL-ANGLE-001",
+      "U-WIND-001"
+    ]
+  },
+  "windAnchorage": {
+    "drawing": "33-风缆锚碇.dwg",
+    "baseDimensionsMm": [2200.0, 2000.0, 1500.0],
+    "pedestalDimensionsMm": [1200.0, 1000.0, 1500.0],
+    "totalHeightMm": 3000.0,
+    "baseElevationM": 4122.506,
+    "topAndEyeElevationM": 4125.506,
+    "correctedMisread": "The anchorage is a base plus pedestal, not one 220x120x200 cm box"
+  },
+  "engineeringReleaseStatus": "BLOCKED"
+}
