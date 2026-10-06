@@ -1,0 +1,71 @@
+{
+  "project": "/workspace/catwalk-cfd",
+  "scope": "Prototype drawing geometry; prioritize 2-D, hold 3-D, save all code",
+  "container": "catwalk-cfd-run",
+  "image": "catwalk-cfd:bookworm",
+  "phase": "All flow computation stopped; native fields saved; preparing authorized GitHub publication",
+  "code_saved": "Local Git history; final code, results, diagnostics and source-evidence archives",
+  "canonical_model": "geometry/model.json",
+  "main_mesh": "geometry/proto2d_f170",
+  "verified": [
+    "8 INP/drawing dimension checks",
+    "Native checkMesh of 2-D mesh",
+    "Native porousBafflePressure plus forceCoeffs analytic duct test",
+    "Known moment-arm shift in native forceCoeffs"
+  ],
+  "not_yet_verified": [
+    "Catwalk coefficient statistical convergence",
+    "Grid/time-step independence",
+    "Agreement with either source table",
+    "New drawing scale and omitted fine details from original caption"
+  ],
+  "three_d_status": "HELD_BY_USER; geometry and scripts retained, no 3-D flow solved",
+  "skill_status": "NOT_CREATED_BECAUSE_REPRODUCTION_NOT_VALIDATED",
+  "current_sessions": {},
+  "notes": [
+    "Run model_assumptions.md documents modeling choices, no unknown tunnel data blocker",
+    "Old scale1:10 cases superseded",
+    "SIMPLE iteration averages are diagnostic only",
+    "Rod-model coarse steady run diverged; not a warm-start source",
+    "Prototype URANS short pilot is insufficient for physical statistics",
+    "Primary 2-D circle model per catwalk literature; normal-only porous model retained as a diagnostic, not fitted or accepted."
+  ],
+  "active_cases": [],
+  "checkpoint_package": "dist/packages-v0.1.0-20261006.json",
+  "github_target": "Hiram-test/model",
+  "github_publish_authorized": true,
+  "new_model": "geometry/user_drawing_model.json",
+  "new_run": {
+    "angles": [
+      -12,
+      -6,
+      0,
+      6,
+      12
+    ],
+    "end_s": 1.5,
+    "average_start_s": 0.75,
+    "timber_sensitivity": 0,
+    "scope_update": "Comparable short pilot: 2.70 B/U sampling versus 2.46 B/U for first model. All six cases retain original launch and live update records.",
+    "actual_end_s": {
+      "minus12": 1.5,
+      "minus6": 1.5,
+      "zero": 1.5,
+      "plus6": 1.31696698,
+      "plus12": 1.27239497,
+      "timber_zero": 1.5
+    },
+    "user_stop": "User requested upload now; +6 and +12 stopped with native stopAt writeNow. No further CFD authorized for this stage."
+  },
+  "first_results": "results/zhangjinggao",
+  "second_results": "results/user_drawing",
+  "publish_checkout": "/workspace/model-publish",
+  "publish_path": "projects/catwalk/cfd",
+  "publish_branch": "exp/catwalk-openfoam-2d-pilot-20261006",
+  "publish_tag": "catwalk-openfoam-2d-pilot-v0.1.0-20261006",
+  "latest_mesh_checks": {
+    "proto2d_f170": true,
+    "user2d_f170": true,
+    "user2d_timber_f170_v2": true
+  }
+}

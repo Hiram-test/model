@@ -1,0 +1,41 @@
+{
+  "status": "DRAWING_GROSS_GEOMETRY_REVIEWED_ENGINEERING_CFD_ALLOWED",
+  "production_ready": false,
+  "engineering_runs_allowed": true,
+  "drawing_model_runs_allowed": true,
+  "drawing_dimension_review_passed": true,
+  "scope_update": "User requires prototype drawing geometry, gross dimensions, 2-D first; 3-D held.",
+  "tunnel_issues_outside_current_scope": [
+    "G01",
+    "G02",
+    "G05",
+    "G06",
+    "G07",
+    "G08"
+  ],
+  "engineering_assumptions_documented": [
+    "G03",
+    "G04"
+  ],
+  "prototype_dimension_checks": {
+    "sixteen_carrier_lines": true,
+    "matches_MD0_03_and_MD1_03": true,
+    "transverse_symmetry": true,
+    "carrier_diameter_50": true,
+    "big_tube_area_100x100x4": true,
+    "small_tube_area_50x50x4": true,
+    "big_tube_I": true,
+    "small_tube_I": true
+  },
+  "open_critical_issues": [],
+  "source_sha256": {
+    "sources/full_line_beam4_crossbeam_mesh_xlong.inp": "be556489f10b90389c786c70e0455d29bc186c16ebbad61cd29c5b90a4c79957",
+    "sources/catwalk_drawings_1225.pdf": "8df26c6b04f652b952e6cdf9575f34e76c8d014cbb61edf0b846c1c75d8bc113",
+    "sources/catwalk_structural_review.pdf": "8b2f0eb267216cd7d1e9746adb28f8973b4614d27fa1e2290eb12c2a6a45ca90",
+    "sources/table_3_1.csv": "4314faaa351f06121b19c2d69ade0c1c22e048ffc64956980f88e01dcfe8a811",
+    "sources/github_segment_reference/build_catwalk_segment_6x500_explicit_mesh.py": "0dd96b0a0d88ec5cea8b776f6c4755c389f3c3b91a92465be825011c0b975239",
+    "sources/yuan_catwalk_static_wind.pdf": "21d4f6d21bc9a60ce73158de4d6f07ecec9cf80e4ddd6a272d8bc4df6fd694a8"
+  },
+  "case_policy": "Drawing-scale engineering CFD allowed. production_ready denotes validated reproduction, not permission to compute.",
+  "skill_status": "NOT_CREATED_BECAUSE_REPRODUCTION_NOT_VALIDATED"
+}

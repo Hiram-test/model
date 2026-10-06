@@ -13,6 +13,7 @@
 
 | 方向 | 唯一推荐入口 | 状态 | 使用边界 |
 |---|---|---|---|
+| 猫道二维 CFD 试算 | [Gmsh / OpenFOAM 工作包](projects/catwalk/cfd/) | `BOUNDED_REFERENCE` | 张靖皋原图与新增8索图分别建模；短时试算，尚非风洞曲线复现；三维暂停 |
 | 猫道 ANSYS 动力重建 | [`feat/catwalk-ansys-clean-dynamics`](https://github.com/Hiram-test/model/tree/feat/catwalk-ansys-clean-dynamics) / [PR #26](https://github.com/Hiram-test/model/pull/26) | `ACTIVE_INPUT_ONLY` | 已写输入，尚未以求解结果证明静力、模态或自由衰减通过 |
 | 猫道 ANSYS 历史计算链 | [`f99-chain-closure`](https://github.com/Hiram-test/model/tree/f99-chain-closure) | `FROZEN_EVIDENCE` | 保存 S10→C20→D10→E10→E20 计算与消融，不作为新的干净动力基态 |
 | 猫道 CalculiX 三维线 | [`cursor/agentic-catwalk-fea-d416`](https://github.com/Hiram-test/model/tree/cursor/agentic-catwalk-fea-d416) / [PR #23](https://github.com/Hiram-test/model/pull/23) | `ACTIVE_BLOCKED` | 仍在门禁和求解器兼容性复核中，不构成工程结论 |
@@ -36,4 +37,4 @@
 - 猫道 CCX 大型结果包见 Release [`catwalk-ccx-frd-20260826`](https://github.com/Hiram-test/model/releases/tag/catwalk-ccx-frd-20260826)。
 - 扎青吊桥原始 DWG 子集见 [`source-inputs/zhaqing-suspension-bridge/`](source-inputs/zhaqing-suspension-bridge/)。
 
-索引更新时间：2026-08-29。
+既有索引更新时间：2026-08-29；二维CFD条目补充于2026-10-06，其他入口状态沿用原索引。

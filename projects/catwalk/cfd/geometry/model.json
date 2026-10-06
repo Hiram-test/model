@@ -1,0 +1,78 @@
+{
+  "description": "Drawing-scale prototype in metres; primary 2-D equal-open-area cylinder model",
+  "scale": 1,
+  "B_geometry": 5.6000000000000005,
+  "B_reference": 5.6,
+  "H_reference": 1.477,
+  "rho": 1.225,
+  "nu": 1.5e-05,
+  "screen_height": 0.96,
+  "screen_height_evidence": "Report photo Fig 3-2 and drawing MD0-03: screen reaches middle rail; full-height screen is a sensitivity case",
+  "side_open_area": 0.855,
+  "coarse_floor_open_area": 0.8357142857142857,
+  "fine_floor_open_area": 0.8464,
+  "equivalent_pitch": 0.1,
+  "floor_coarse_y": 0.04,
+  "floor_fine_y": 0.047,
+  "floor_combined_y": 0.043,
+  "floor_layer_gap_status": "Primary circle model combines coarse/fine open areas in one row. The normal-only porous comparison instead adds screen pressure losses.",
+  "handrails": [
+    [
+      0.5,
+      0.02
+    ],
+    [
+      0.96,
+      0.02
+    ],
+    [
+      1.42,
+      0.036
+    ]
+  ],
+  "carrier_diameter": 0.05,
+  "domain": [
+    -28.0,
+    56.0,
+    -28.0,
+    28.0
+  ],
+  "span_2d": 0.1,
+  "moment_origin": [
+    0,
+    0.7135,
+    0
+  ],
+  "moment_origin_status": "Assumed nominal section-envelope centre: carrier bottom -0.025 + drawing height 1.477/2. No fit to tunnel CM.",
+  "moment_positive": "clockwise, minus OpenFOAM z moment",
+  "mesh_pitch_interpretation": "50/70/100/25 mm treated as wire centre spacing; clear opening interpretation remains a sensitivity",
+  "source_commit": "9b62c3e2c882bf2dd0001cb3b81943df7d4f5fea",
+  "model_status": "ENGINEERING_SIMPLIFICATION",
+  "scope": "User requests prototype drawing geometry, 2-D first, 3-D held.",
+  "fine_strip_inner_x": 0.76,
+  "fine_strip_outer_x": 2.7600000000000002,
+  "inlet_length_scale": 0.1,
+  "carrier_x": [
+    -2.67,
+    -2.41,
+    -2.15,
+    -1.89,
+    -1.63,
+    -1.37,
+    -1.11,
+    -0.85,
+    0.85,
+    1.11,
+    1.37,
+    1.63,
+    1.89,
+    2.15,
+    2.41,
+    2.67
+  ],
+  "porous_side_inset": 0.02,
+  "screen_wire_diameters": {
+    "coarse": 0.005,
+    "fine": 0.002
+  }
+}

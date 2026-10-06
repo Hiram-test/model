@@ -67,6 +67,8 @@
 
 完整关系见 [`CATWALK_INDEX.md`](../CATWALK_INDEX.md)。
 
+2026-10-06新增二维CFD比较线：[`exp/catwalk-openfoam-2d-pilot-20261006`](https://github.com/Hiram-test/model/tree/exp/catwalk-openfoam-2d-pilot-20261006)，代码与图表见[`projects/catwalk/cfd`](../projects/catwalk/cfd/)。状态`BOUNDED_REFERENCE`；分别计算张靖皋原图和用户新增的未命名8索图，来源与尺寸分开。Gmsh4.8.4/OpenFOAM1912实际求解，未宣称统计收敛或风洞曲线复现，三维流场未计算。这不变更既有ANSYS/CCX工作线的状态。
+
 ### 4.2 扎青吊桥
 
 扎青吊桥与猫道是两个项目。其 CAD 主审阅入口为 [PR #9](https://github.com/Hiram-test/model/pull/9)，预应力研究分散在 PR #13、#14 和 #15。整理前不把这些分支合入猫道目录，也不以猫道索引替代扎青项目状态表。
@@ -82,10 +84,11 @@ Skill Suite 的稳定入口仍为：
 
 ## 5. Release 登记
 
-目前发布的三个 Release 用途完全不同，不能互相替代。
+下列 Release 用途不同，不能互相替代。
 
 | Release | 目标分支 | 主要资产 | 分类 | 使用边界 |
 |---|---|---|---|---|
+| [`catwalk-openfoam-2d-pilot-v0.1.0-20261006`](https://github.com/Hiram-test/model/releases/tag/catwalk-openfoam-2d-pilot-v0.1.0-20261006) | `exp/catwalk-openfoam-2d-pilot-20261006` | 源码与Git历史、原生二维算例、图表、暂停的CAD、历史试算归档；大小与SHA-256见Release及包清单 | `BOUNDED_REFERENCE` | 两组几何独立；短时试算不作设计系数，不是已验证风洞复现；历史失败结果单独标识 |
 | [`zhangjinggao-full-20260729`](https://github.com/Hiram-test/model/releases/tag/zhangjinggao-full-20260729) | `agent/archive-zhangjinggao-20260729` | 51 个 `archive-*.tar.zst`、大型文件分片、总清单和恢复脚本 | `ARCHIVE` | 张靖皋原始资料的完整恢复入口；先读 manifest，再下载分卷 |
 | [`catwalk-attachment23-v2.0-s10-20260716`](https://github.com/Hiram-test/model/releases/tag/catwalk-attachment23-v2.0-s10-20260716) | `main` | `cw_S10_0716t050342_a4_eq.db`、中心线 STEP | `FROZEN_EVIDENCE` / 历史参考 | S10 历史平衡模型与几何参考；不是新的干净动力初始状态 |
 | [`catwalk-ccx-frd-20260826`](https://github.com/Hiram-test/model/releases/tag/catwalk-ccx-frd-20260826) | `feat/catwalk-ccx-20260826` | `catwalk-ccx-20260826.zip` | `BOUNDED_REFERENCE` | 974211b2 平面迁移模型的大型 CCX 文件；发布说明已限定为非科学结论 |

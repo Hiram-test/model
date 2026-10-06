@@ -1,0 +1,115 @@
+{
+  "model_id": "user_drawing_8rope_midspan",
+  "description": "Second user-supplied A-A/B-B/C-C drawing; independent prototype-scale 2-D trial",
+  "section_name": "between transverse members",
+  "scale": 1,
+  "drawing_to_prototype_scale": 8,
+  "drawing_unit": "assumed mm",
+  "scale_status": "INFERRED from three standard member sizes; source caption absent",
+  "B_geometry": 4.0,
+  "B_reference": 4.17,
+  "H_reference": 1.5,
+  "reference_dimensions_status": "Outer A-A width 521.25*8 mm and nominal midspan height 187.5*8 mm; table reference dimensions unconfirmed",
+  "rho": 1.225,
+  "nu": 1.5e-05,
+  "carrier_x": [
+    -1.9100000000000001,
+    -1.49,
+    -1.07,
+    -0.65,
+    0.65,
+    1.07,
+    1.49,
+    1.9100000000000001
+  ],
+  "carrier_diameter": 0.05,
+  "carrier_diameter_status": "ASSUMED 50 mm; supplied image does not label rope diameter; phi6x0.375 labels a transverse tube",
+  "handrails": [
+    [
+      0.5,
+      0.02
+    ],
+    [
+      1.0,
+      0.02
+    ],
+    [
+      1.5,
+      0.02
+    ]
+  ],
+  "handrails_status": "ASSUMED three 20 mm ropes per side at 0.5/1.0/1.5 m; gross railing envelope only",
+  "screen_height": 1.5,
+  "side_open_area": 0.85,
+  "coarse_floor_open_area": 0.75,
+  "fine_floor_open_area": 1.0,
+  "screen_status": "ASSUMED 85% side and 75% total floor open area, supported as trial values by Yuan 2026, not identified as the same bridge",
+  "equivalent_pitch": 0.1,
+  "floor_combined_y": 0.043,
+  "fine_strip_inner_x": 0.6,
+  "fine_strip_outer_x": 1.96,
+  "floor_layer_gap_status": "One equivalent row for total floor open area; no artificial second physical layer",
+  "domain": [
+    -20.0,
+    40.0,
+    -20.0,
+    20.0
+  ],
+  "span_2d": 0.1,
+  "moment_origin": [
+    0,
+    0.7375,
+    0
+  ],
+  "moment_origin_status": "ASSUMED nominal midspan envelope centre, (-0.025+1.5)/2; table moment axis absent",
+  "moment_positive": "clockwise, minus OpenFOAM z moment; adopted convention, new table diagram is cropped",
+  "inlet_length_scale": 0.1,
+  "speed_assumption": 15.0,
+  "speed_status": "Trial value 15 m/s from comparable literature, not a measured speed from user image",
+  "geometry_audit": "geometry/user_drawing_audit.json",
+  "model_status": "ENGINEERING_SIMPLIFICATION",
+  "scope": "2-D only; 3-D held. Ordinary slice between discrete transverse timber, tubes, square beams and posts.",
+  "omitted_discrete_members": {
+    "square_crossbeam": {
+      "section_mm": [
+        80,
+        80,
+        4
+      ],
+      "pitch_m": 6.0
+    },
+    "tube_crossbeam": {
+      "section_mm": [
+        48,
+        3
+      ],
+      "pitch_m": 6.0,
+      "relative_axial_offset": "unknown"
+    },
+    "timber": {
+      "section_mm": [
+        60,
+        40
+      ],
+      "pitch_m": 0.5,
+      "transverse_intervals_m": [
+        [
+          -1.96,
+          -0.6
+        ],
+        [
+          0.6,
+          1.96
+        ]
+      ]
+    },
+    "post": {
+      "section_mm": [
+        75,
+        75,
+        6
+      ],
+      "pitch_m": "unknown"
+    }
+  }
+}

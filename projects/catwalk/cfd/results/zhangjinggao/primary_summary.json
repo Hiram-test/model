@@ -1,0 +1,355 @@
+{
+  "scope": "Drawing-scale prototype, 2-D pilot; 3-D held",
+  "source_commit": "eab467116ca9d248775a867f7e6d49c859be46b2",
+  "cases": [
+    {
+      "case": "rod_urans_m012_0",
+      "model_status": "ENGINEERING_SIMPLIFICATION",
+      "alpha_deg": -12.0,
+      "speed": 13.8,
+      "dimension": 2,
+      "iteration": 2.0,
+      "CD": 1.079538044740189,
+      "CL": 0.05006291704591789,
+      "CM": -0.022745265949825243,
+      "last_CD": 1.073172731,
+      "last_CL": 0.05962317827,
+      "last_CM": -0.02867839835,
+      "ended": true,
+      "stopped_early": false,
+      "solver_converged": false,
+      "coefficients_stable": false,
+      "drift": [
+        0.01721223704301167,
+        0.0029085060701294144,
+        0.0016755601804294834
+      ],
+      "spread": [
+        0.09263347499999997,
+        0.06099503148,
+        0.024144572
+      ],
+      "residual": {
+        "Ux": 3.62752948e-07,
+        "Uy": 3.19406479e-06,
+        "p": 0.00302205707,
+        "omega": 1.08372461e-06,
+        "k": 4.35204469e-06
+      },
+      "transient": true,
+      "sampling_reached": true,
+      "sample_start": 1.0,
+      "sample_duration_s": 1.0,
+      "sample_duration_BU": 2.4642857142857144,
+      "block_means": [
+        [
+          1.0943274460215942,
+          0.05211997328767082,
+          -0.021988029249429622
+        ],
+        [
+          1.0844938773123096,
+          0.05001026729177971,
+          -0.022632043984130278
+        ],
+        [
+          1.0840723964684875,
+          0.0494098883800858,
+          -0.021474124760191265
+        ],
+        [
+          1.0896829332443942,
+          0.054528551364394356,
+          -0.02153574544469085
+        ],
+        [
+          1.0796276564845273,
+          0.05034745305837463,
+          -0.022346750104872172
+        ],
+        [
+          1.0794109715167182,
+          0.04954636171247255,
+          -0.023800090804441624
+        ],
+        [
+          1.0626688028557918,
+          0.045219266807482485,
+          -0.023670310859874553
+        ],
+        [
+          1.0620202740177038,
+          0.049321574465083076,
+          -0.024515032390971463
+        ]
+      ],
+      "max_recorded_Co": 10.5910646,
+      "final_linear_residual": {
+        "Ux": 1.60582995e-08,
+        "Uy": 2.25350124e-08,
+        "p": 7.12177745e-07,
+        "omega": 3.8423795e-08,
+        "k": 9.78652847e-08
+      },
+      "statistics_warning": "Time-step/grid sensitivity and correlated-sample uncertainty remain separate checks.",
+      "interpretation": "Physical-time-weighted mean; see sampling, mesh and time-step checks"
+    },
+    {
+      "case": "rod_urans_p000_0",
+      "model_status": "ENGINEERING_SIMPLIFICATION",
+      "alpha_deg": 0.0,
+      "speed": 13.8,
+      "dimension": 2,
+      "iteration": 2.0,
+      "CD": 0.5561092630769681,
+      "CL": -0.02920103233746134,
+      "CM": -0.007767480493850678,
+      "last_CD": 0.5664761083,
+      "last_CL": -0.03408551772,
+      "last_CM": -0.01362206033,
+      "ended": true,
+      "stopped_early": false,
+      "solver_converged": false,
+      "coefficients_stable": false,
+      "drift": [
+        0.003980224527591392,
+        0.001254802344726854,
+        0.0010866421338062253
+      ],
+      "spread": [
+        0.17903442629999994,
+        0.054409958435,
+        0.023864713014999997
+      ],
+      "residual": {
+        "Ux": 6.04885186e-07,
+        "Uy": 1.09975261e-05,
+        "p": 0.0080679967,
+        "omega": 4.10071543e-06,
+        "k": 9.58731281e-06
+      },
+      "transient": true,
+      "sampling_reached": true,
+      "sample_start": 1.0,
+      "sample_duration_s": 1.0,
+      "sample_duration_BU": 2.4642857142857144,
+      "block_means": [
+        [
+          0.5787523962773548,
+          -0.03103523186475697,
+          -0.008062238781858898
+        ],
+        [
+          0.5573513171267723,
+          -0.034002550098303864,
+          -0.007579287890071521
+        ],
+        [
+          0.5585899186179928,
+          -0.03264086726720217,
+          -0.004716473589871011
+        ],
+        [
+          0.5377038693409327,
+          -0.021635084809035938,
+          -0.008538637445988834
+        ],
+        [
+          0.5236638556054066,
+          -0.0319155854158432,
+          -0.0059642897547699985
+        ],
+        [
+          0.5527642987722474,
+          -0.02748444679475311,
+          -0.00856891701740663
+        ],
+        [
+          0.5964428535980837,
+          -0.03161693000526423,
+          -0.010026130784208184
+        ],
+        [
+          0.5436055952769516,
+          -0.023277562444531007,
+          -0.008683868686630356
+        ]
+      ],
+      "max_recorded_Co": 10.9726681,
+      "final_linear_residual": {
+        "Ux": 2.81678244e-08,
+        "Uy": 6.5172594e-08,
+        "p": 6.34519425e-07,
+        "omega": 1.32441969e-08,
+        "k": 2.68648838e-08
+      },
+      "statistics_warning": "Time-step/grid sensitivity and correlated-sample uncertainty remain separate checks.",
+      "interpretation": "Physical-time-weighted mean; see sampling, mesh and time-step checks"
+    },
+    {
+      "case": "rod_urans_p012_0",
+      "model_status": "ENGINEERING_SIMPLIFICATION",
+      "alpha_deg": 12.0,
+      "speed": 13.8,
+      "dimension": 2,
+      "iteration": 2.00001764,
+      "CD": 0.9041087519443861,
+      "CL": -0.05727537358148366,
+      "CM": -0.021921293761582278,
+      "last_CD": 0.8944968807,
+      "last_CL": -0.03242570391,
+      "last_CM": -0.02364821015,
+      "ended": true,
+      "stopped_early": false,
+      "solver_converged": true,
+      "coefficients_stable": false,
+      "drift": [
+        0.001144334944961134,
+        0.0014967602530087457,
+        0.0014634494752331743
+      ],
+      "spread": [
+        0.11330908760000002,
+        0.105753348355,
+        0.029639134886000004
+      ],
+      "residual": {
+        "Ux": 4.04397883e-07,
+        "Uy": 2.70360223e-06,
+        "p": 0.0031044076,
+        "omega": 1.7310649e-06,
+        "k": 4.93669167e-06
+      },
+      "transient": true,
+      "sampling_reached": true,
+      "sample_start": 1.0,
+      "sample_duration_s": 1.0000176399999998,
+      "sample_duration_BU": 2.464329184285714,
+      "block_means": [
+        [
+          0.8983199524009262,
+          -0.0534918352235134,
+          -0.020129051745129745
+        ],
+        [
+          0.9089638626964571,
+          -0.05943431137021939,
+          -0.01901032868914943
+        ],
+        [
+          0.9155648928615577,
+          -0.06851725943724916,
+          -0.025014584438046113
+        ],
+        [
+          0.8912976299286755,
+          -0.044664567788935565,
+          -0.020604311223537418
+        ],
+        [
+          0.9094369642323004,
+          -0.06167826102729427,
+          -0.024153545941454583
+        ],
+        [
+          0.9030346710172228,
+          -0.054535712407785486,
+          -0.02147132771644859
+        ],
+        [
+          0.9071036945441224,
+          -0.05944283559227108,
+          -0.024140052528127374
+        ],
+        [
+          0.8991483478738274,
+          -0.05643820580460107,
+          -0.020847147810764927
+        ]
+      ],
+      "max_recorded_Co": 10.3369328,
+      "final_linear_residual": {
+        "Ux": 1.37514206e-08,
+        "Uy": 8.95213548e-08,
+        "p": 7.07083477e-07,
+        "omega": 5.45334098e-08,
+        "k": 1.40335964e-08
+      },
+      "statistics_warning": "Time-step/grid sensitivity and correlated-sample uncertainty remain separate checks.",
+      "interpretation": "Physical-time-weighted mean; see sampling, mesh and time-step checks"
+    }
+  ],
+  "comparisons": [
+    {
+      "case": "rod_urans_m012_0",
+      "alpha_deg": -12.0,
+      "values": {
+        "CD": 1.079538044740189,
+        "CL": 0.05006291704591789,
+        "CM": -0.022745265949825243
+      },
+      "reference": {
+        "CD": 0.817683,
+        "CL": -0.03739,
+        "CM": -0.01421
+      },
+      "errors": {
+        "CD": 0.26185504474018895,
+        "CL": 0.0874529170459179,
+        "CM": -0.008535265949825243
+      },
+      "within_comparison_limits": false
+    },
+    {
+      "case": "rod_urans_p000_0",
+      "alpha_deg": 0.0,
+      "values": {
+        "CD": 0.5561092630769681,
+        "CL": -0.02920103233746134,
+        "CM": -0.007767480493850678
+      },
+      "reference": {
+        "CD": 0.526049,
+        "CL": -0.01023,
+        "CM": -0.00693
+      },
+      "errors": {
+        "CD": 0.030060263076968075,
+        "CL": -0.01897103233746134,
+        "CM": -0.0008374804938506772
+      },
+      "within_comparison_limits": false
+    },
+    {
+      "case": "rod_urans_p012_0",
+      "alpha_deg": 12.0,
+      "values": {
+        "CD": 0.9041087519443861,
+        "CL": -0.05727537358148366,
+        "CM": -0.021921293761582278
+      },
+      "reference": {
+        "CD": 0.766251,
+        "CL": 0.032234,
+        "CM": -0.01637
+      },
+      "errors": {
+        "CD": 0.1378577519443861,
+        "CL": -0.08950937358148366,
+        "CM": -0.005551293761582279
+      },
+      "within_comparison_limits": false
+    }
+  ],
+  "comparison_limits": {
+    "CD": 0.08,
+    "CL": 0.01,
+    "CM": 0.003
+  },
+  "numerical_checks_passed": false,
+  "mesh_independence_demonstrated": false,
+  "time_step_independence_demonstrated": false,
+  "reproduction_validated": false,
+  "skill_created": false,
+  "reason": "Short pilot only; full numerical and physical-model validation not completed"
+}
