@@ -6,7 +6,9 @@
 
 ## 1. 当前结论先看这里
 
-当前猫道研究不是一条已经封板的“最终模型”，而是七类彼此有边界的成果：原始资料、附件参考、理论模型、ANSYS、CalculiX、降阶抖振和独立审计。
+当前猫道研究不是一条已经封板的“最终模型”，而是八类彼此有边界的成果：原始资料、附件参考、理论模型、ANSYS、CalculiX、降阶抖振、独立审计和二维CFD试算。
+
+2026-10-06另增[二维CFD试算工作包](projects/catwalk/cfd/)，状态为`BOUNDED_REFERENCE`。张靖皋5.6m净宽、16索原图与用户新增4m净宽、8索图是两个独立模型；新增图未确认桥名，不能并入张靖皋几何。Gmsh划分网格、OpenFOAM求解，三维仅保留既有建模代码和CAD。短时结果尚未验证为风洞曲线复现，数值记录见各自报告。
 
 当前推荐执行顺序为：
 
@@ -20,6 +22,8 @@
 
 | 编号 | 成果 | 位置 | 状态 | 正确用途 |
 |---|---|---|---|---|
+| `CW-CFD-01` | 张靖皋原图二维网片与索试算 | [报告](projects/catwalk/cfd/results/zhangjinggao/stage_report.md) | `BOUNDED_REFERENCE` | 三个攻角原生计算、模型及数值误差追溯；不作已收敛设计系数 |
+| `CW-CFD-02` | 用户新增8索图二维比较 | [报告](projects/catwalk/cfd/results/user_drawing/stage_report.md) | `BOUNDED_REFERENCE` | 五个攻角及0°木条局部截面；不是同一座桥的第二版本 |
 | `CW-SRC-01` | 张靖皋完整原始资料归档 | Release [`zhangjinggao-full-20260729`](https://github.com/Hiram-test/model/releases/tag/zhangjinggao-full-20260729) | `ARCHIVE` | 恢复图纸、附件、报告、原始工程文件 |
 | `CW-REF-01` | 附件 2-3 参考模型资产 | Release [`catwalk-attachment23-v2.0-s10-20260716`](https://github.com/Hiram-test/model/releases/tag/catwalk-attachment23-v2.0-s10-20260716) | `FROZEN_EVIDENCE` | 查阅 S10 历史 DB 和中心线 STEP；不能直接当新的动力基态 |
 | `CW-TH-01` | 十三个纯力学理论模型原始归档 | [`feat/catwalk-thirteen-theory-models`](https://github.com/Hiram-test/model/tree/feat/catwalk-thirteen-theory-models), [PR #16](https://github.com/Hiram-test/model/pull/16) | `FROZEN_ARCHIVE` | 保存 PDF、TeX、TXT 和可复现包，不改写原文 |

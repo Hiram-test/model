@@ -1,0 +1,158 @@
+{
+  "status": "VERIFIED_PROTOTYPE_DIMENSIONS_ONLY_NOT_A_TUNNEL_ASSEMBLY",
+  "units": "mm",
+  "coordinate_convention": "x transverse; y vertical; z along bridge; component local origins only",
+  "source_commit": "9b62c3e2c882bf2dd0001cb3b81943df7d4f5fea",
+  "carrier": {
+    "count": 16,
+    "diameter": 50,
+    "x": [
+      -2670.0,
+      -2410.0,
+      -2150.0,
+      -1890.0,
+      -1630.0,
+      -1370.0,
+      -1110.0,
+      -850.0,
+      850.0,
+      1110.0,
+      1370.0,
+      1630.0,
+      1890.0,
+      2150.0,
+      2410.0,
+      2670.0
+    ],
+    "inp_single_catwalk_center_y": 21450.0,
+    "source": "INP ET1/R1 + MD0-03 + MD1-03"
+  },
+  "nominal_width": {
+    "value": 5600,
+    "meaning": "clear width between post inner faces; not total envelope",
+    "source": "MD1-01; report Fig2-2 also labels 5600"
+  },
+  "big_beam": {
+    "outer": 100,
+    "thickness": 4,
+    "tube_length": 5772,
+    "end_cap": 4,
+    "overall_length": 5780,
+    "source": "MD1-01/MD1-02"
+  },
+  "small_beam": {
+    "outer": 50,
+    "thickness": 4,
+    "tube_length": 5520,
+    "end_cap": 2,
+    "overall_length": 5524,
+    "source": "MD1-03"
+  },
+  "timber": {
+    "transverse_length": 2000,
+    "vertical_height": 30,
+    "axial_width": 50,
+    "axial_pitch": 500,
+    "x_ranges": [
+      [
+        -2760,
+        -760
+      ],
+      [
+        760,
+        2760
+      ]
+    ],
+    "vertical_datum": null,
+    "axial_phase": null,
+    "source": "MD1-03"
+  },
+  "post": {
+    "leg": 75,
+    "thickness": 6,
+    "component_length": 1340,
+    "connector_length": 270,
+    "assembly_foot_to_top": 1450,
+    "source": "MD1-01/MD1-02; 1340 is a component length, 1450 is an assembly dimension"
+  },
+  "rails": {
+    "top_diameter": 36,
+    "middle_lower_diameter": 20,
+    "drawing_vertical_dimension_chain": [
+      500,
+      460,
+      460
+    ],
+    "absolute_centers_relative_to_carrier": null,
+    "source": "MD0-03, MD1-01; drawing diameter preferred over conflicting review load table"
+  },
+  "screens": {
+    "coarse_floor": {
+      "diameter": 5,
+      "quoted_opening": [
+        50,
+        70
+      ],
+      "sheet_width": 5600
+    },
+    "fine_floor": {
+      "diameter": 2,
+      "quoted_opening": [
+        25,
+        25
+      ],
+      "sheet_width": 2000
+    },
+    "side": {
+      "diameter": 5,
+      "quoted_opening": [
+        50,
+        100
+      ],
+      "stock_sheet_width": 1500
+    },
+    "source": "MD1-02 notes 5,6",
+    "clear_opening_or_center_pitch": null,
+    "wire_orientation": null,
+    "woven_layer_positions": null,
+    "fine_strip_installed_x_ranges": null,
+    "installed_side_height": null,
+    "note": "Photo and elevation support mesh terminating at middle rail. Stock width is not installed height."
+  },
+  "main_span_pattern": {
+    "repeat_length": 9000,
+    "big_beam_at": [
+      0,
+      9000
+    ],
+    "small_beam_at": [
+      3000,
+      6000
+    ],
+    "source": "MD0-03 note2"
+  },
+  "side_span_pattern": {
+    "repeat_length": 6000,
+    "big_beam_at": [
+      0,
+      6000
+    ],
+    "small_beam_at": [
+      3000
+    ],
+    "source": "MD0-03 note2"
+  },
+  "tunnel_report": {
+    "scale": 0.1,
+    "B": 540,
+    "H": 150,
+    "L": 2100,
+    "actual_speed_m_per_s": null,
+    "actual_turbulence": null,
+    "measured_screen_geometry": null,
+    "moment_axis_height": null,
+    "represented_span_and_member_phase": null,
+    "end_plate_geometry": null,
+    "source": "Report section3.1/3.2; these B,H are reported reference values, not reconciled geometry"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "description": "1:10 drawing geometry; 2-D equal-open-area circular-rod approximation, not the as-built tunnel screen",
+  "scale": 0.1,
+  "B_geometry": 0.56,
+  "B_reference": 0.54,
+  "H_reference": 0.15,
+  "L_tunnel": 2.1,
+  "rho": 1.225,
+  "nu": 1.5e-05,
+  "screen_height": 0.096,
+  "screen_height_evidence": "Report photo Fig 3-2 and drawing MD0-03: screen reaches middle rail; full-height screen is a sensitivity case",
+  "side_open_area": 0.855,
+  "coarse_floor_open_area": 0.8357142857142857,
+  "fine_floor_open_area": 0.8464,
+  "equivalent_pitch": 0.01,
+  "floor_coarse_y": 0.004,
+  "floor_fine_y": 0.0047,
+  "floor_combined_y": 0.0043,
+  "floor_layer_gap_status": "3-D centre separation 0.7 mm model-scale is an assumed woven-layer idealization, not a dimension from the tunnel model. 2-D collapses layers using multiplied open area.",
+  "handrails": [
+    [
+      0.05,
+      0.002
+    ],
+    [
+      0.096,
+      0.002
+    ],
+    [
+      0.142,
+      0.0036
+    ]
+  ],
+  "carrier_diameter": 0.005,
+  "domain": [
+    -2.8,
+    5.6,
+    -2.8,
+    2.8
+  ],
+  "span_2d": 0.01,
+  "moment_origin": [
+    0,
+    0,
+    0
+  ],
+  "moment_origin_status": "Computational reference only. Report Fig 3-4 puts O above floor without a dimension; experimental moment axis is unconfirmed.",
+  "moment_positive": "clockwise, minus OpenFOAM z moment",
+  "mesh_pitch_interpretation": "50/70/100/25 mm treated as wire centre spacing; clear opening interpretation remains a sensitivity",
+  "source_commit": "9b62c3e2c882bf2dd0001cb3b81943df7d4f5fea",
+  "model_status": "ENGINEERING_SIMPLIFICATION",
+  "scope": "Gross dimensions and permeability retained; no fine fasteners or individual weaving. User-authorized engineering simplification.",
+  "fine_strip_inner_x": 0.076,
+  "fine_strip_outer_x": 0.276
+}

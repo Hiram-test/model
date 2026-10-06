@@ -19,6 +19,7 @@
 
 | 分支 | 短 SHA | 状态 | 关联 | 当前用途 | 建议处置 |
 |---|---|---|---|---|---|
+| `exp/catwalk-openfoam-2d-pilot-20261006` | 见Release目标提交及运行清单 | `BOUNDED_REFERENCE` | `catwalk-openfoam-2d-pilot-v0.1.0-20261006` | 两组独立几何的二维Gmsh/OpenFOAM试算，保留差异与未通过项；三维暂停 | `KEEP_REVIEW` |
 | `feat/catwalk-ansys-clean-dynamics` | `2f924fb` | `ACTIVE_INPUT_ONLY` | PR #26 | 当前 ANSYS 干净静力、摄动模态、零载瞬态和自由衰减输入 | `KEEP_ACTIVE` |
 | `f99-chain-closure` | `2c7e7cd` | `FROZEN_EVIDENCE` | — | S10→C20→D10→E10→E20 完整 ANSYS 历史消融链；也是 PR #26 的审阅基线 | `KEEP_FROZEN` |
 | `cursor/agentic-catwalk-fea-d416` | `f9476d1` | `ACTIVE_BLOCKED` | PR #23 | 当前真实三维 CCX 与极端风开发线 | `KEEP_ACTIVE` |

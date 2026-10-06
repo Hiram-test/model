@@ -1,0 +1,18 @@
+{
+  "archive": "dist/catwalk-cfd-code-checkpoint.zip",
+  "original_source_files_needed": false,
+  "native_mesh_passed": true,
+  "native_solver_returncode": 0,
+  "purpose": "Portable workflow smoke test only; two iterations do not validate physics",
+  "second_model_check": {
+    "source_commit": "18c7c56",
+    "archive": "dist/catwalk-cfd-code-second-model-checkpoint.zip",
+    "archive_sha256": "b2969658ac90fcbc5b9df213182cc82d274964f09119d351aa3b55d19b02c68d",
+    "case": "dist/portability_second/catwalk-cfd/geometry/smoke",
+    "original_source_files_needed": false,
+    "native_mesh_passed": true,
+    "native_solver_returncode": 0,
+    "iterations": 2,
+    "scope": "Isolated source archive with mature tools already installed; workflow check only, no physical validation"
+  }
+}

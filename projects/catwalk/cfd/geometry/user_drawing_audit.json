@@ -1,0 +1,27 @@
+{
+  "model_id": "user_drawing_8rope_midspan",
+  "production_ready": false,
+  "engineering_runs_allowed": true,
+  "authorization": "User allows gross drawing geometry, 2-D trial, 3-D held; push all work to GitHub",
+  "source": "Two user-supplied images: A-A/B-B/C-C drawing and Table 5.8",
+  "scale_is_inferred": true,
+  "checks": {
+    "eight_carriers": true,
+    "drawing_chain_closes_500": true,
+    "outer_width_521_25": true,
+    "carrier_middle_gap_1_3m": true,
+    "carrier_group_pitch_0_42m": true,
+    "timber_span_chain_490": true,
+    "square_beam_80x80x4": true,
+    "post_L75x75x6": true,
+    "tube_48x3_is_crossbeam_not_carrier": true,
+    "timber_60x40_pitch500": true
+  },
+  "limitations": [
+    "No original drawing caption/scale available",
+    "Unlabelled rope/rail/net details are explicit assumptions",
+    "Table reference width, height and moment axis not identified",
+    "No 3-D or axial station averaging claimed"
+  ],
+  "excluded_source_match": "Yuan2026 uses 340 mm carrier spacing and 4200 mm width, different from supplied 420 mm spacing and 4170 mm outer width"
+}
