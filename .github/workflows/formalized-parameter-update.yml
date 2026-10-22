@@ -33,5 +33,5 @@ jobs:  # Declare verification jobs.
         uses: actions/upload-artifact@v4  # Use the maintained artifact action.
         with:  # Configure evidence upload.
           name: formalized-parameter-update-${{ github.sha }}  # Bind the artifact name to the exact commit.
-          path: research/formalized_parameter_update/results/ci  # Upload only generated evidence.
+          path: research/formalized_parameter_update/results/ci
           if-no-files-found: error  # Fail if the demo produced no receipt.
