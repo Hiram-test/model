@@ -3,8 +3,17 @@ import csv  # Rewrite one sensor table for a rejection test.
 import json  # Rewrite one drawing contract for a fail-closed test.
 from pathlib import Path  # Represent fixture and temporary paths portably.
 import pytest  # Assert expected failures and numerical conditions.
-from formal_update import formalize_and_update, load_drawing_ir  # Exercise the public prototype API.
+from formal_update import compile_svg_drawing, formalize_and_update, load_drawing_ir  # Exercise the public prototype API.
 ROOT = Path(__file__).resolve().parents[1]  # Locate the prototype root independently of the working directory.
+def test_raw_svg_drawing_compiles_to_verified_semantics(tmp_path: Path) -> None:  # Verify that the end-to-end demo starts from the source drawing rather than a hand-entered model.
+    output_path = tmp_path / "drawing_semantics.generated.json"  # Reserve an isolated semantic intermediate representation.
+    semantics = compile_svg_drawing(ROOT / "examples/beam_static_drawing.svg", output_path)  # Compile visible symbols, labels, and measurement markers.
+    assert semantics["extraction_status"] == "VERIFIED"  # Require a complete source-grounded drawing interpretation.
+    assert semantics["beam"]["span_m"] == 10.0  # Require extraction of the physical span label.
+    assert semantics["supports"] == [{"id": "SUP-L", "type": "pin", "x_m": 0.0}, {"id": "SUP-R", "type": "roller", "x_m": 10.0}]  # Require symbol-level support recognition.
+    assert semantics["loads"][0]["q_n_per_m"] == 20000.0  # Require extraction and SI conversion of the load label.
+    assert semantics["sensor_layout_m"] == [float(value) for value in range(11)]  # Require visual recovery of all beam-axis sensor positions.
+    assert output_path.exists()  # Require the auditable semantic IR to be persisted.
 def test_point_cloud_geometry_precedes_modulus_update() -> None:  # Verify that actual geometry prevents material misattribution.
     receipt = formalize_and_update(ROOT / "examples/drawing_semantics.json", ROOT / "examples/pointcloud.csv", ROOT / "examples/sensors_static.csv")  # Run the complete evidence pipeline.
     assert receipt["status"] == "UPDATED"  # Require the global modulus error form to be accepted.
