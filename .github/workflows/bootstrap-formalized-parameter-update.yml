@@ -29,7 +29,7 @@ jobs:  # Declare the one-time materialization job.
         run: |  # Execute a fail-loud source-materialization script.
           set -euxo pipefail  # Stop on every command, variable, or pipeline failure.
           cat .bootstrap/formalized-parameter-update/archive.part* | base64 --decode > /tmp/formalized-parameter-update.tar.xz  # Reassemble and decode the deterministic archive.
-          test "$(sha256sum /tmp/formalized-parameter-update.tar.xz | awk '{print $1}')" = "2bf83e50689fab1ae850a0f2f00d1cb8f6e22930285e5c8af4a810939a4b29a4"  # Verify the archive against the local package digest.
+          test "$(sha256sum /tmp/formalized-parameter-update.tar.xz | awk '{print $1}')" = "f62c21170b5c7639aa5225c479a435ad84f517260061293096a7f2c272969ae1"  # Verify the archive against the local package digest.
           tar -xJf /tmp/formalized-parameter-update.tar.xz -C .  # Extract the repository-relative source tree.
           python -m pip install --upgrade pip  # Update the package installer before dependency resolution.
           python -m pip install -r research/formalized_parameter_update/requirements.txt  # Install the small deterministic numerical stack.
