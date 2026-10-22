@@ -37,4 +37,4 @@
   → 力学编译
 ```
 
-当前示例直接提供已复核的 `examples/drawing_semantics.json`，从而把视觉推理算力与参数更新数值核心解耦。
+当前示例通过 `drawing_adapter.py` 从 `examples/beam_static_drawing.svg` 的可见几何、符号和文字端到端生成 `results/demo/drawing_semantics.generated.json`。`examples/drawing_semantics.json` 保留为固定回归夹具。扫描图、PDF 和照片可由视觉模型生成同一 IR，但参数数值仍由力学演算给出。

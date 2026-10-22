@@ -30,6 +30,7 @@ python -m pytest -q
 
 输出位于：
 
+- `results/demo/drawing_semantics.generated.json`：从原始 SVG 编译得到的结构语义 IR；
 - `results/demo/formal_update_receipt.json`：完整机器判定凭证；
 - `results/demo/REPORT.md`：简洁工程报告。
 
@@ -37,7 +38,7 @@ python -m pytest -q
 
 ### 图纸视觉语义
 
-`examples/beam_static_drawing.svg` 是示例图纸。视觉模型或人工复核后输出 `examples/drawing_semantics.json`。数值程序不读取自然语言解释，只读取经过验证的结构 IR；状态必须为 `VERIFIED`，并包含构件、支承、荷载和截面的图像证据框。
+`examples/beam_static_drawing.svg` 是示例原始图纸。默认运行时，`drawing_adapter.py` 直接从 SVG 的可见线条、支承符号、滚轮、荷载线、尺寸文字与测点圆标中编译 `results/demo/drawing_semantics.generated.json`，并保留每个关键实体的证据框。对于扫描图、PDF 或现场照片，视觉模型必须输出同一结构 IR；数值程序只接受状态为 `VERIFIED` 的 IR，不读取自然语言解释。
 
 ### 点云
 
@@ -61,19 +62,20 @@ sensor_id,x_m,displacement_mm,bound_mm
 
 ## 代码结构
 
+- `drawing_adapter.py`：从源 SVG 图纸识别梁、支承、荷载、截面标注和测点，生成带证据框的结构 IR；
 - `contracts.py`：图纸、点云、传感器三类输入合同及 fail-closed 校验；
 - `mechanics.py`：简支梁静力求解、误差形式检查和参数可行区间演算；
 - `pipeline.py`：多源形式化顺序、更新凭证与工程报告生成；
 - `formal_update.py`：稳定的公共 API 门面；
 - `run_demo.py`：命令行入口；
-- `tests/test_formal_update.py`：几何优先、拒绝不相容误差、视觉语义 fail-closed、逐行注释检查；
+- `tests/test_formal_update.py`：原始 SVG 编译、几何优先、拒绝不相容误差、视觉语义 fail-closed、逐行注释检查；
 - `THEORY.md`：简洁理论推导；
 - `VISION_SEMANTIC_CONTRACT.md`：视觉语义输出规范；
 - `schema/drawing_semantics.schema.json`：结构 IR 的 JSON Schema。
 
 ## 当前边界
 
-当前版本限定为线弹性 Euler–Bernoulli 简支梁、全跨均布荷载、矩形截面和全局均匀弹性模量。点云需预先进入统一工程坐标系。视觉模型推理本身不在运行时调用，避免大模型算力进入数值闭环；仓库只接收其经过复核的结构化输出。
+当前版本限定为线弹性 Euler–Bernoulli 简支梁、全跨均布荷载、矩形截面和全局均匀弹性模量。点云需预先进入统一工程坐标系。示例 SVG 使用轻量、确定性的源文件语义编译器端到端运行；扫描图、PDF 和现场照片仍通过同一 IR 合同接入视觉模型，从而避免大模型进入连续数值闭环。
 
 扩展到猫道时，图纸 IR 可直接接入现有构件台账，点云负责索线形、门架和锚固几何，GNSS/倾角/索力等观测形成确定性响应区间，CalculiX 生成参数响应签名。更新规则仍保持“前置条件—参数可行集—后置条件”的结构。
 
