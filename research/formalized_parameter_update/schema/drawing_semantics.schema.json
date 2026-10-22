@@ -16,24 +16,55 @@
     "visual_evidence"
   ],
   "properties": {
-    "schema_version": {"const": "0.1"},
-    "extraction_status": {"enum": ["VERIFIED", "CONFLICT", "BLOCKED"]},
+    "schema_version": {
+      "const": "0.1"
+    },
+    "extraction_status": {
+      "enum": [
+        "VERIFIED",
+        "COMPILED_FROM_SVG",
+        "CONFLICT",
+        "BLOCKED"
+      ]
+    },
     "source": {
       "type": "object",
-      "required": ["type", "name", "sha256"],
+      "required": [
+        "type",
+        "name",
+        "sha256"
+      ],
       "properties": {
-        "type": {"type": "string"},
-        "name": {"type": "string"},
-        "sha256": {"type": "string"},
-        "page": {"type": "integer", "minimum": 1}
+        "type": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1
+        }
       }
     },
     "units": {
-      "const": {"length": "m", "force": "N", "modulus": "Pa"}
+      "const": {
+        "length": "m",
+        "force": "N",
+        "modulus": "Pa"
+      }
     },
     "beam": {
       "type": "object",
-      "required": ["id", "type", "span_m", "section"]
+      "required": [
+        "id",
+        "type",
+        "span_m",
+        "section"
+      ]
     },
     "supports": {
       "type": "array",
@@ -48,15 +79,27 @@
     "sensor_layout_m": {
       "type": "array",
       "minItems": 3,
-      "items": {"type": "number"}
+      "items": {
+        "type": "number"
+      }
     },
     "parameter_update": {
       "type": "object",
-      "required": ["candidate", "initial_value_pa", "reference_value_pa"]
+      "required": [
+        "candidate",
+        "initial_value_pa",
+        "reference_value_pa"
+      ]
     },
     "visual_evidence": {
       "type": "array",
       "minItems": 4
+    },
+    "drawing_human_reviewed": {
+      "type": "boolean"
+    },
+    "compiler": {
+      "type": "string"
     }
   },
   "additionalProperties": true

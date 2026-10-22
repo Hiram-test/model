@@ -8,7 +8,8 @@ ROOT = Path(__file__).resolve().parents[1]  # Locate the prototype root independ
 def test_raw_svg_drawing_compiles_to_verified_semantics(tmp_path: Path) -> None:  # Verify that the end-to-end demo starts from the source drawing rather than a hand-entered model.
     output_path = tmp_path / "drawing_semantics.generated.json"  # Reserve an isolated semantic intermediate representation.
     semantics = compile_svg_drawing(ROOT / "examples/beam_static_drawing.svg", output_path)  # Compile visible symbols, labels, and measurement markers.
-    assert semantics["extraction_status"] == "VERIFIED"  # Require a complete source-grounded drawing interpretation.
+    assert semantics["extraction_status"] == "COMPILED_FROM_SVG"  # Require the adapter to label compiler output instead of a human drawing audit.
+    assert semantics["drawing_human_reviewed"] is False  # Require the compiler not to impersonate a reviewed drawing.
     assert semantics["beam"]["span_m"] == 10.0  # Require extraction of the physical span label.
     assert semantics["supports"] == [{"id": "SUP-L", "type": "pin", "x_m": 0.0}, {"id": "SUP-R", "type": "roller", "x_m": 10.0}]  # Require symbol-level support recognition.
     assert semantics["loads"][0]["q_n_per_m"] == 20000.0  # Require extraction and SI conversion of the load label.

@@ -48,7 +48,9 @@ def _require(condition: bool, message: str) -> None:  # Enforce fail-closed sour
 def load_drawing_ir(path: Path) -> DrawingIR:  # Parse and validate the visual-semantic drawing contract.
     data = json.loads(path.read_text(encoding="utf-8"))  # Load the structured output produced by the drawing parser.
     _require(data.get("schema_version") == "0.1", "unsupported drawing semantic schema")  # Freeze the prototype schema.
-    _require(data.get("extraction_status") == "VERIFIED", "drawing semantics are not verified")  # Reject draft visual output.
+    status = data.get("extraction_status")  # Read the drawing-contract status before any mechanics compile.
+    _require(status in {"VERIFIED", "COMPILED_FROM_SVG"}, "drawing semantics are not verified")  # Accept a human/VLM-reviewed fixture or a labeled SVG compiler IR; reject DRAFT.
+    _require(status != "VERIFIED" or data.get("drawing_human_reviewed", True) is not False, "VERIFIED drawing marked unreviewed")  # Keep VERIFIED from meaning an automatic compiler stamp.
     _require(data.get("units") == {"length": "m", "force": "N", "modulus": "Pa"}, "drawing units are not explicit SI")  # Reject implicit units.
     beam = data.get("beam", {})  # Read the beam entity from the semantic graph.
     section = beam.get("section", {})  # Read the cross-section entity linked to the beam.
