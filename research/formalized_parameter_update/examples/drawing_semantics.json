@@ -1,0 +1,135 @@
+{
+  "schema_version": "0.1",
+  "extraction_status": "VERIFIED",
+  "source": {
+    "type": "engineering_drawing",
+    "name": "beam_static_drawing.svg",
+    "sha256": "19641c3017a89b95ff700f2f194d9f911073ec7298ea1be6d179648e42434acb",
+    "page": 1
+  },
+  "units": {
+    "length": "m",
+    "force": "N",
+    "modulus": "Pa"
+  },
+  "beam": {
+    "id": "B1",
+    "type": "euler_bernoulli_beam",
+    "span_m": 10.0,
+    "section": {
+      "id": "SEC1",
+      "shape": "rectangle",
+      "width_m": 0.3,
+      "depth_m": 0.5
+    }
+  },
+  "supports": [
+    {
+      "id": "SUP-L",
+      "type": "pin",
+      "x_m": 0.0
+    },
+    {
+      "id": "SUP-R",
+      "type": "roller",
+      "x_m": 10.0
+    }
+  ],
+  "loads": [
+    {
+      "id": "LOAD-1",
+      "type": "full_span_udl",
+      "start_x_m": 0.0,
+      "end_x_m": 10.0,
+      "q_n_per_m": 20000.0
+    }
+  ],
+  "sensor_layout_m": [
+    0.0,
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    7.0,
+    8.0,
+    9.0,
+    10.0
+  ],
+  "expected_symmetry": "mirror_about_midspan",
+  "parameter_update": {
+    "candidate": "uniform_youngs_modulus",
+    "initial_value_pa": 230000000000.0,
+    "reference_value_pa": 200000000000.0
+  },
+  "relations": [
+    {
+      "subject": "SUP-L",
+      "predicate": "supports",
+      "object": "B1"
+    },
+    {
+      "subject": "SUP-R",
+      "predicate": "supports",
+      "object": "B1"
+    },
+    {
+      "subject": "LOAD-1",
+      "predicate": "acts_on",
+      "object": "B1"
+    },
+    {
+      "subject": "SEC1",
+      "predicate": "section_of",
+      "object": "B1"
+    }
+  ],
+  "visual_evidence": [
+    {
+      "entity_id": "B1",
+      "bbox_norm": [
+        0.1,
+        0.43,
+        0.82,
+        0.49
+      ]
+    },
+    {
+      "entity_id": "SUP-L",
+      "bbox_norm": [
+        0.07,
+        0.48,
+        0.14,
+        0.6
+      ]
+    },
+    {
+      "entity_id": "SUP-R",
+      "bbox_norm": [
+        0.79,
+        0.48,
+        0.86,
+        0.63
+      ]
+    },
+    {
+      "entity_id": "LOAD-1",
+      "bbox_norm": [
+        0.1,
+        0.2,
+        0.82,
+        0.42
+      ]
+    },
+    {
+      "entity_id": "SEC1",
+      "bbox_norm": [
+        0.84,
+        0.34,
+        0.96,
+        0.68
+      ]
+    }
+  ]
+}

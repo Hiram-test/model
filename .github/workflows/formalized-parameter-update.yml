@@ -1,0 +1,37 @@
+name: Formalized parameter update  # Name the isolated verification workflow.
+on:  # Declare the workflow triggers.
+  pull_request:  # Verify changes before merge.
+    paths:  # Limit execution to this prototype and its workflow.
+      - "research/formalized_parameter_update/**"  # Watch the prototype source and evidence.
+      - ".github/workflows/formalized-parameter-update.yml"  # Watch the workflow definition itself.
+  workflow_dispatch:  # Permit explicit reproducible execution.
+permissions:  # Apply least-privilege repository permissions.
+  contents: read  # Read source files without write access.
+jobs:  # Declare verification jobs.
+  verify:  # Run the deterministic mechanics and contract checks.
+    runs-on: ubuntu-24.04  # Match the repository's preferred Linux runner.
+    timeout-minutes: 10  # Prevent a stalled prototype from consuming CI indefinitely.
+    defaults:  # Set a stable working directory for all shell commands.
+      run:  # Configure shell-step defaults.
+        working-directory: research/formalized_parameter_update  # Execute inside the isolated prototype.
+    steps:  # Declare ordered verification steps.
+      - name: Checkout repository  # Retrieve the exact pull-request commit.
+        uses: actions/checkout@v4  # Use the maintained checkout action.
+      - name: Set up Python 3.12  # Install the repository's preferred Python runtime.
+        uses: actions/setup-python@v5  # Use the maintained Python setup action.
+        with:  # Configure the runtime action.
+          python-version: "3.12"  # Pin the major and minor runtime.
+          cache: pip  # Cache declared Python dependencies.
+          cache-dependency-path: research/formalized_parameter_update/requirements.txt  # Bind the cache to the prototype requirements.
+      - name: Install dependencies  # Install only the small deterministic numerical stack.
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt  # Install NumPy and pytest from the declared ranges.
+      - name: Run formal update demo  # Generate the parameter update evidence receipt.
+        run: python run_demo.py --output results/ci  # Execute the same entry point used locally.
+      - name: Run regression tests  # Verify acceptance, rejection, fail-closed behavior, and comments.
+        run: python -m pytest -q  # Execute all prototype tests.
+      - name: Upload update evidence  # Preserve the machine and human receipts for review.
+        uses: actions/upload-artifact@v4  # Use the maintained artifact action.
+        with:  # Configure evidence upload.
+          name: formalized-parameter-update-${{ github.sha }}  # Bind the artifact name to the exact commit.
+          path: research/formalized_parameter_update/results/ci  # Upload only generated evidence.
+          if-no-files-found: error  # Fail if the demo produced no receipt.
