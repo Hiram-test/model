@@ -6,6 +6,12 @@ on:  # Declare the one-time branch trigger.
     paths:  # Run only while temporary bootstrap inputs change.
       - ".bootstrap/formalized-parameter-update/**"  # Watch the split source archive.
       - ".github/workflows/bootstrap-formalized-parameter-update.yml"  # Watch this temporary workflow.
+  pull_request:  # Also materialize when the isolated branch is opened for review.
+    branches:  # Limit review-triggered execution to the default branch.
+      - main  # Materialize only for a pull request targeting main.
+    paths:  # Run only while the temporary bootstrap inputs are present.
+      - ".bootstrap/formalized-parameter-update/**"  # Watch the split source archive in the pull request.
+      - ".github/workflows/bootstrap-formalized-parameter-update.yml"  # Watch this temporary workflow in the pull request.
 permissions:  # Grant only the permission needed to materialize the verified source.
   contents: write  # Permit the workflow to commit the unpacked prototype to its own branch.
 jobs:  # Declare the one-time materialization job.
@@ -17,6 +23,7 @@ jobs:  # Declare the one-time materialization job.
         uses: actions/checkout@v4  # Use the maintained checkout action.
         with:  # Configure checkout for a subsequent branch commit.
           fetch-depth: 0  # Retain branch history for a normal fast-forward commit.
+          ref: agent/formalized-parameter-update  # Check out the writable head branch instead of the pull-request merge ref.
       - name: Reassemble and verify source  # Materialize the exact locally tested source package.
         shell: bash  # Use strict Bash semantics for the bootstrap commands.
         run: |  # Execute a fail-loud source-materialization script.
