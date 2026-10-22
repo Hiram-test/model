@@ -29,12 +29,12 @@ jobs:  # Declare the one-time materialization job.
         run: |  # Execute a fail-loud source-materialization script.
           set -euxo pipefail  # Stop on every command, variable, or pipeline failure.
           cat .bootstrap/formalized-parameter-update/archive.part* | base64 --decode > /tmp/formalized-parameter-update.tar.xz  # Reassemble and decode the deterministic archive.
-          test "$(sha256sum /tmp/formalized-parameter-update.tar.xz | awk '{print $1}')" = "21e9c0deeebe489a5caa35860fc611acd2c46ee4b3a4b2f1b4d49a6bc7c20e3c"  # Verify the archive against the local package digest.
+          test "$(sha256sum /tmp/formalized-parameter-update.tar.xz | awk '{print $1}')" = "2bf83e50689fab1ae850a0f2f00d1cb8f6e22930285e5c8af4a810939a4b29a4"  # Verify the archive against the local package digest.
           tar -xJf /tmp/formalized-parameter-update.tar.xz -C .  # Extract the repository-relative source tree.
           python -m pip install --upgrade pip  # Update the package installer before dependency resolution.
           python -m pip install -r research/formalized_parameter_update/requirements.txt  # Install the small deterministic numerical stack.
-          python research/formalized_parameter_update/run_demo.py --output research/formalized_parameter_update/results/bootstrap  # Reproduce the accepted update receipt on GitHub infrastructure.
-          python -m pytest -q research/formalized_parameter_update/tests  # Run acceptance, rejection, and fail-closed regression tests.
+          (cd research/formalized_parameter_update && python run_demo.py --output results/bootstrap)  # Run from the package directory so defaults and pytest imports resolve.
+          (cd research/formalized_parameter_update && python -m pytest -q)  # Run acceptance, rejection, and fail-closed regression tests.
           rm -rf research/formalized_parameter_update/results  # Keep generated runtime evidence out of the source commit.
           rm -rf .bootstrap/formalized-parameter-update  # Remove temporary archive parts after successful verification.
           rm -f .github/workflows/bootstrap-formalized-parameter-update.yml  # Remove this one-time workflow from the final branch.
