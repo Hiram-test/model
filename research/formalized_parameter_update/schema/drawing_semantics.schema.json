@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/formalized-parameter-update/drawing-semantics-0.1.schema.json",
+  "title": "Drawing Semantic Intermediate Representation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "extraction_status",
+    "source",
+    "units",
+    "beam",
+    "supports",
+    "loads",
+    "sensor_layout_m",
+    "parameter_update",
+    "visual_evidence"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.1"},
+    "extraction_status": {"enum": ["VERIFIED", "CONFLICT", "BLOCKED"]},
+    "source": {
+      "type": "object",
+      "required": ["type", "name", "sha256"],
+      "properties": {
+        "type": {"type": "string"},
+        "name": {"type": "string"},
+        "sha256": {"type": "string"},
+        "page": {"type": "integer", "minimum": 1}
+      }
+    },
+    "units": {
+      "const": {"length": "m", "force": "N", "modulus": "Pa"}
+    },
+    "beam": {
+      "type": "object",
+      "required": ["id", "type", "span_m", "section"]
+    },
+    "supports": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "loads": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "sensor_layout_m": {
+      "type": "array",
+      "minItems": 3,
+      "items": {"type": "number"}
+    },
+    "parameter_update": {
+      "type": "object",
+      "required": ["candidate", "initial_value_pa", "reference_value_pa"]
+    },
+    "visual_evidence": {
+      "type": "array",
+      "minItems": 4
+    }
+  },
+  "additionalProperties": true
+}
