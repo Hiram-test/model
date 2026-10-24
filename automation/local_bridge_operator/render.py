@@ -1,0 +1,42 @@
+import os,sys,json,warnings,hashlib # Preserve source identity, reader warnings and deterministic scene configuration.
+from pathlib import Path # Resolve exact native solver outputs.
+ROOT=Path(__file__).resolve().parents[3]; sys.path.insert(0,str(ROOT/'render-runtime')); os.environ['VTK_DEFAULT_OPENGL_WINDOW']='vtkEGLRenderWindow' # Select pinned isolated EGL backend.
+import numpy as np # Compute only exact norms and invariants of solver-produced fields.
+import pyvista as pv, vtk # Read native ASCII FRD and render actual finite-element topology.
+from PIL import Image # Assemble already rendered source-data panels without altering scientific geometry.
+from fem import RUN,FAMILIES,write_json,sha # Reuse immutable model and numerical qualification identities.
+assert pv.__version__=='0.48.4' and vtk.vtkVersion.GetVTKVersion()=='9.5.2' # Refuse silently changed scientific visualization backend.
+post=RUN/'post' # Keep post-processing separate from original solver files.
+for sub in ['data','figures','receipts','state','scripts']: (post/sub).mkdir(parents=True,exist_ok=True) # Create complete rendering evidence layout.
+probe=pv.Plotter(off_screen=True,window_size=[300,200]); probe.add_mesh(pv.Sphere()); pixels=probe.screenshot(); backend=probe.ren_win.GetClassName(); probe.close(); assert pixels.std()>3 # Require a functioning nonblank offscreen backend before any engineering render.
+titles={'girder':'Steel I-girder segment','splice':'Bonded bolt splice coupon','crossframe':'Flat-member crossframe','diaphragm':'Diaphragm with access opening','stiffener':'Girder with transverse stiffener','deck':'Closed-rib steel deck segment','concrete':'Uncracked concrete I-segment','bearing':'Bonded laminated bearing'} # Identify actual research model fidelity in each image.
+inventory=[]; panels=[]; receipts=[] # Collect all field and image evidence.
+for family in FAMILIES: # Render every actual solved structural family.
+    case=f'{family}_reference_replayed' if (RUN/'cases'/f'{family}_reference_replayed/receipt.json').exists() else f'{family}_reference'; source=RUN/'cases'/case/'model.frd'; qualification=json.loads((source.parent/'receipt.json').read_text()); raw=np.load(source.parent/'fields.npz') # Bind source mesh to its independently checked solve or explicitly documented unchanged-input replay.
+    assert qualification['status']=='VALID_CONVERGED' and qualification['ccx']['frd_sha256']==sha(source) # Reject stale or unqualified solver fields.
+    with warnings.catch_warnings(record=True) as caught: # Capture every native-reader diagnostic.
+        warnings.simplefilter('always'); reader=pv.get_reader(source); assert reader.time_values==[1.]; reader.set_active_time_value(1.); mesh=reader.read() # Select unambiguous final static frame explicitly.
+    assert not caught, [str(w.message) for w in caught] # Refuse skipped, partial or ambiguous result records.
+    assert mesh.n_points==len(raw['xyz']) and mesh.n_cells==len(raw['tet']) # Prove source-to-render mesh count parity.
+    order=np.asarray(mesh['original_node_ids'],dtype=int)-1; assert np.array_equal(np.sort(order),np.arange(len(order))) # Require complete unique solver-node identity.
+    assert np.allclose(mesh.points,raw['xyz'][order],rtol=2e-5,atol=.002) # Check actual FRD coordinate semantics against original undeformed input.
+    native=np.load(source.parent/'ccx_displacement.npy'); assert np.allclose(mesh['DISP'],native[order],rtol=2e-5,atol=1e-7) # Reconcile native FRD vector with independently parsed DAT output.
+    arrays={} # Inventory every existing point field before styling.
+    for key in mesh.point_data.keys(): # Inspect complete solver result coverage.
+        value=np.asarray(mesh[key],dtype=int if key=='original_node_ids' else float); assert np.isfinite(value).all(); arrays[key]={'shape':list(value.shape),'finite':int(np.isfinite(value).sum()),'minimum':float(value.min()),'maximum':float(value.max()),'coverage':len(value)} # Parse native string node identifiers explicitly before auditing numeric field coverage.
+    mesh['displacement_norm_mm']=np.linalg.norm(mesh['DISP'],axis=1); record={'family':family,'source':str(source),'sha256':sha(source),'points':mesh.n_points,'cells':mesh.n_cells,'cell_types':np.unique(mesh.celltypes).tolist(),'bounds':list(mesh.bounds),'times':[1.],'arrays':arrays,'pyvista':pv.__version__,'vtk':vtk.vtkVersion.GetVTKVersion(),'coordinate_units':'mm','displacement_units':'mm','stress_units':'MPa','stress_position':'FRD nodal extrapolated/averaged; not raw integration points'} # Persist source field semantics and exact topology.
+    inventory.append(record); write_json(post/'data/inventory.json',inventory) # Save data gate before producing publication images.
+    for field,units,title in [('displacement_norm_mm','mm','Nodal displacement magnitude'),('STRESS_Mises','MPa','Nodal extrapolated von Mises')]: # Produce default displacement and stress pair from actual solver fields.
+        limits=[float(mesh[field].min()),float(mesh[field].max())]; plot=pv.Plotter(off_screen=True,window_size=[2400,1600]); plot.set_background('white') # Use full finite range and readable white engineering scene.
+        bar={'title':title+' ('+units+')','vertical':True,'position_x':.86,'position_y':.18,'height':.6,'width':.055,'n_labels':6,'fmt':'%.3g','title_font_size':18,'label_font_size':18,'color':'#202630'} # Explicitly identify stress association, units and range.
+        plot.add_mesh(mesh,scalars=field,preference='point',cmap='viridis',clim=limits,show_edges=True,edge_color='#525961',line_width=.4,scalar_bar_args=bar) # Display the native undeformed result grid without synthetic field interpolation.
+        plot.add_text(titles[family],position='upper_left',font_size=24,color='#172a3a'); plot.add_text('CalculiX C3D10 | final static frame | undeformed geometry | full range',position='lower_left',font_size=16,color='#354657') # Disclose source and geometry-display convention.
+        plot.view_isometric(); plot.enable_parallel_projection(); plot.reset_camera(); plot.camera.zoom(.82); plot.enable_anti_aliasing('msaa',multi_samples=4) # Fit entire physical mesh with room for legend and annotations.
+        camera={'position':list(plot.camera.position),'focal_point':list(plot.camera.focal_point),'up':list(plot.camera.up),'parallel_scale':plot.camera.parallel_scale}; output=post/'figures'/f'{family}_{field}.png'; pixels=plot.screenshot(output); plot.close(); assert pixels.std()>3 # Reject blank rendered output and preserve scene parameters.
+        if field=='displacement_norm_mm': panels.append(Image.fromarray(pixels).resize((1200,800))) # Retain each authentic displacement panel for eight-model overview.
+        receipt={'family':family,'source_sha256':sha(source),'dat_sha256':sha(source.parent/'model.dat'),'image_sha256':sha(output),'reader':'PyVista 0.48.4 FRDReader','vtk':'9.5.2','backend':backend,'field':field,'association':'points','frame':1.,'units':units,'derivation':'norm(DISP)' if field=='displacement_norm_mm' else 'native FRD reader von-Mises invariant from extrapolated nodal tensor','averaging':'FRD nodal stress extrapolation/averaging' if field=='STRESS_Mises' else 'none','range_policy':'FULL_PER_MODEL','limits':limits,'palette':'viridis','deformation_scale':0.,'representation':'actual undeformed quadratic tetrahedral result mesh','camera':camera,'dimensions':[2400,1600],'scene_sha256':sha(__file__),'numerical_status':qualification['status'],'engineering_release':'HOLD','status':'RENDERED_PENDING_VISUAL_QA'} # Keep render correctness separate from physical modeling applicability.
+        receipts.append(receipt); write_json(post/'receipts/render_receipts.json',receipts) # Persist reproducible result and image lineage.
+overview=Image.new('RGB',(2400,3200),'white') # Arrange actual source-data images in a compact model gallery.
+for i,panel in enumerate(panels): overview.paste(panel,((i%2)*1200,(i//2)*800)) # Assemble unmodified scaled panels without inventing geometry or contours.
+overview.save(post/'figures/eight_local_models.png'); write_json(post/'state/gallery.json',{'panels':FAMILIES,'layout':[2,4],'source':'eight native CalculiX FRD displacement images','individual_full_resolution':[2400,1600],'gallery':[2400,3200],'sha256':sha(post/'figures/eight_local_models.png')}) # Save overview and exact layout recipe.
+print('RENDERED',len(receipts),str(post/'figures/eight_local_models.png'),flush=True) # Report only completed scientific images.
