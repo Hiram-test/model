@@ -1,0 +1,38 @@
+{
+  "schema": "bridge.v2.nn_fem_native_point_plots.root_visual_review.v1",
+  "status": "PASS_ROOT_FOUR_FIXED_FIGURES_VISUAL_REVIEW_ONLY",
+  "reviewer_agent": "/root",
+  "recorded_utc": "2026-10-24T20:37:56.672349+00:00",
+  "review_method": "Root reported individual view_image inspection of all four corrected PNGs after the author visual QA.",
+  "observed_findings": "All six colorbars, main titles, explanations, bottom HOLD labels and full-history error lines are visible; native/NN point values share their declared scales; reference quantities and error quantities are clearly separated.",
+  "parent_instruction": "Do not change the four images further. Preserve camera occlusion/coincident-point disclosure; do not call these continuous interpolated contours.",
+  "inspected_images": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_test_00_active_last_native_points.png",
+      "bytes": 536330,
+      "sha256": "d0e7d80605769e7748b1082e65f51a996a3eca9fa9c9ae86f46f6969f4224562"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_ood_00_active_last_native_points.png",
+      "bytes": 556708,
+      "sha256": "06b69c48476f576f087b9eaa261ad84131033245fa769cffa405f92e99cd7247"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_test_00_active_last_native_points.png",
+      "bytes": 697996,
+      "sha256": "25b5e3ee65cea165a8e12219e77c123033f0a5b54522b85d8e8509e17e164d5a"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_ood_00_active_last_native_points.png",
+      "bytes": 702321,
+      "sha256": "f84bb0dd8526ee041f3660c396be20794d0df2a635c58317d30aeb4b95d0fd7b"
+    }
+  ],
+  "author_visual_qa": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/final_visual_qa.json",
+    "bytes": 6532,
+    "sha256": "4e6ccb5fc0d01cc64115409c94ae5e57c9e3031f94fa75ee892c43243cf26423"
+  },
+  "scientific_accuracy_pass_claimed": false,
+  "engineering_release": "NOT_CERTIFIED"
+}

@@ -1,0 +1,102 @@
+{
+  "assertions_enabled": true,
+  "bootstrap_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_locked_module_bootstrap.py",
+    "sha256": "07eba3efcdc8e38bb5e7ae43da2972bf9337e0a1b57ae009e6cf27cfa66374d4"
+  },
+  "numerical_guards_or_functions_modified": false,
+  "original_script_executed": false,
+  "original_target_args": [
+    "--trainer",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+    "--checkpoint",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_2/seed_17/model.pt",
+    "--family",
+    "rebar",
+    "--output",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/active",
+    "--config",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+    "--release",
+    "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+    "--released-index",
+    "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/released_index.json",
+    "--case-id",
+    "v2_rebar_test_00",
+    "--expected-prediction",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_test_00.npz"
+  ],
+  "parent_pid": 5,
+  "pid": 42,
+  "preflight_only": false,
+  "preflight_wall_seconds": 0.8985581829983857,
+  "process_argv": [
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_locked_module_bootstrap.py",
+    "--root",
+    "/dev/shm/bridge_complex_v2_20261025",
+    "--target",
+    "invariants",
+    "--startup-receipt",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/active/bootstrap_startup.json",
+    "--execution-receipt",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/active/bootstrap_execution.json",
+    "--",
+    "--trainer",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+    "--checkpoint",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_2/seed_17/model.pt",
+    "--family",
+    "rebar",
+    "--output",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/active",
+    "--config",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+    "--release",
+    "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+    "--released-index",
+    "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/released_index.json",
+    "--case-id",
+    "v2_rebar_test_00",
+    "--expected-prediction",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_test_00.npz"
+  ],
+  "resolved_modules": {
+    "v2_controller": {
+      "name": "v2_controller",
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller.py",
+      "sha256": "95c1209149c04b90297047b9874049e806dd471f26235e8ad02afb373eb9c477",
+      "spec_origin": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller.py"
+    },
+    "v2_controller_finalize": {
+      "name": "v2_controller_finalize",
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_finalize.py",
+      "sha256": "2e7103a6958d43628168e62deaff6f6448bd518bab644cfb4f9a64b0064295da",
+      "spec_origin": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_finalize.py"
+    }
+  },
+  "schema": "bridge.v2.locked.module.bootstrap.v1",
+  "source_contracts": {
+    "execution_lock": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+      "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+    },
+    "locked_imports": {
+      "v2_controller": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller.py",
+        "sha256": "95c1209149c04b90297047b9874049e806dd471f26235e8ad02afb373eb9c477"
+      },
+      "v2_controller_finalize": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_finalize.py",
+        "sha256": "2e7103a6958d43628168e62deaff6f6448bd518bab644cfb4f9a64b0064295da"
+      }
+    },
+    "target": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_invariants.py",
+      "sha256": "734332d2bc8e6642a79aef2ef5f879680540acef517b92b5dd301ba70e9de225"
+    }
+  },
+  "started_utc_epoch": 1792874349.3276956,
+  "status": "CANONICAL_MODULE_IDENTITIES_VERIFIED",
+  "target": "invariants",
+  "verified_utc_epoch": 1792874350.226246
+}

@@ -3,6 +3,10 @@ from pathlib import Path # Preserve original receipt expectations instead of rep
 import numpy as np # Check exact native full-field support and original node/integration-point identities.
 sys.dont_write_bytecode=True;sys.path.insert(0,str(Path(__file__).parent));import v2_experiment_contract as design # Reuse immutable evidence references and require explicit post-training source manifests.
 OUT=Path(__file__).parent;ROOT=OUT.parent # Keep native integrity auditing separate from accuracy and reference-fidelity conclusions.
+def export_path(family,row,folder,name): # Resolve the two actual immutable callback schemas without inventing filenames from logical keys.
+    if family=='rebar': assert name in ('npz','metadata');path=Path(row[name]) # The rebar callback binds logical field names to explicit original paths.
+    else: assert family=='friction' and Path(name).name==name;path=folder/name # Friction records original export basenames in its callback receipt.
+    assert path.parent.resolve()==folder.resolve();return path # Both callback styles must point to the same selected native case directory.
 def stream_sha(stream): return hashlib.file_digest(stream,'sha256').hexdigest() # Stream large native members without retaining duplicate data beside complete-graph training.
 def actual_file(folder,name,archives): # Resolve a native file from its original raw path or a byte-preserving recorded archive member.
     raw=folder/name # Prefer current visible original bytes so a changed raw file cannot hide behind a valid archived copy.
@@ -31,7 +35,7 @@ def audit(completion_path,index_path): # Audit only completed actual acquisition
         if family=='friction': assert receipt['returncode']==0 and receipt['job_finished'] and not receipt['error_marker'] and design.digest(receipt['solver'])==receipt['solver_wrapper_sha256'] # Original normal completion and actual solver-wrapper identity support the selected label's provenance.
         else: assert receipt['native_returncode']==0 and receipt['native_complete'] and receipt['printed_times']==list(range(1,25)) and len(receipt['checks'])==24 and all(record['complete'] for record in receipt['checks']) # Keep all actual macro-endpoint reference frames, regardless of separate iteration-log formatting limits.
         if row.get('export_sha256'): # Friction adapter separately freezes its full derived fields and qualification report.
-            for name,expected in row['export_sha256'].items(): assert design.digest(folder/name)==expected # A valid native text archive cannot excuse a changed parsed reference array.
+            for name,expected in row['export_sha256'].items(): assert design.digest(export_path(family,row,folder,name))==expected # Check the exact original expected SHA using the callback's actual basename or logical-path schema.
         metadata=design.read(row['metadata']);expected_shape=(33,697,15) if family=='friction' else (25,5232,24) # No compressed response basis, missing state channel or spatial subsampling can meet this identity.
         with np.load(row['npz'],allow_pickle=False) as arrays: # Read actual complete native fields only after independent test release and producer completion.
             states=arrays['states'];support=arrays['state_mask'].astype(bool);assert states.shape==expected_shape and np.isfinite(states).all() and support.shape==expected_shape[1:];assert len(metadata['fields'])==expected_shape[-1] # Preserve all original states and physical field semantics.

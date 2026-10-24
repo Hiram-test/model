@@ -1,0 +1,148 @@
+{
+  "actual_integration_points_per_element": 8,
+  "actual_native_integration_points": 6912,
+  "all_native_output_frames": 23,
+  "field_support_counts": [
+    4701,
+    4701,
+    4701,
+    4701,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912,
+    6912
+  ],
+  "full_field_shape": [
+    23,
+    11613,
+    27
+  ],
+  "full_fields": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1/fields.npz",
+    "sha256": "e6d694175ded2f464a21c5259b01e66d61429d9706b5d517d07c34f97275e3b6"
+  },
+  "metadata": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1/metadata.json",
+    "sha256": "833a9bad7a0c115c6430ae009e11e5a963ab3ffa41ac4b2de05b00ccd3382cd5"
+  },
+  "native_archive": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1/native_outputs.zip",
+    "sha256": "f07819f8faa017e436cd858e9b406d92696f48313d86608b5a195cd3edcee9b4"
+  },
+  "native_geometry_checks": {
+    "heat": {
+      "maximum_expected_native_float32_six_significant_print_difference_mm": 0.0,
+      "maximum_source_coordinate_difference_mm": 0.00036886015534776107
+    },
+    "mechanical": {
+      "maximum_expected_native_float32_six_significant_print_difference_mm": 0.0,
+      "maximum_source_coordinate_difference_mm": 0.00036886015534776107
+    }
+  },
+  "native_members": [
+    {
+      "bytes": 0,
+      "name": "heat.12d",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 14706,
+      "name": "heat.cvg",
+      "sha256": "56c0b5d23b806e852b4c106d12e73741a4619a325bca10479a976c5b01dd588b"
+    },
+    {
+      "bytes": 17158328,
+      "name": "heat.dat",
+      "sha256": "7e1ad93cf02222eb43d350e3d71162832f0a61ed2ce42401c6015783bbcc7e4f"
+    },
+    {
+      "bytes": 8312474,
+      "name": "heat.frd",
+      "sha256": "8f657172f8917c45badc4ce66ba9a35b3aaed626792e0d2ba62ce4efb4a664bb"
+    },
+    {
+      "bytes": 2278026,
+      "name": "heat.inp",
+      "sha256": "3f1712f097e42715e944426eb871bee88b858d897802bed57e4426838ecab922"
+    },
+    {
+      "bytes": 116164,
+      "name": "heat.log",
+      "sha256": "2ae9ebbf03ede05f7465cf2bf3710fb194463d1425d82a162da1a9936e1c7065"
+    },
+    {
+      "bytes": 6434,
+      "name": "heat.sta",
+      "sha256": "bddd932be28c22fbffde69b86c077066d6a2313889491429a77fccecf33c9b55"
+    },
+    {
+      "bytes": 0,
+      "name": "mechanical.12d",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 54886,
+      "name": "mechanical.cvg",
+      "sha256": "9baedf5240cc409d9fdc66dba2eaf28b59223e4b64b795b7f18ae03226bb7cf9"
+    },
+    {
+      "bytes": 100011120,
+      "name": "mechanical.dat",
+      "sha256": "70b8737875fa1d35c2aab2459fb5ccc8e74563b2ac26e7d5588ab1008ed08a31"
+    },
+    {
+      "bytes": 45577922,
+      "name": "mechanical.frd",
+      "sha256": "5e35fa1bdc597f23a38756acd93b54fe5040308f94da7b2b8bef0a353536d9a0"
+    },
+    {
+      "bytes": 2581831,
+      "name": "mechanical.inp",
+      "sha256": "7b43188f976aef0c50c623cafc24b4e3880e3f884c3efaa1708fd0a61f1cf782"
+    },
+    {
+      "bytes": 405773,
+      "name": "mechanical.log",
+      "sha256": "0c28d34ffc01aa4f5c054da98b8dbd84cb4f0612226f4e9ae9208fb7b4b87233"
+    },
+    {
+      "bytes": 10826,
+      "name": "mechanical.sta",
+      "sha256": "0b838abef45417dd35f1710268ae02b7d25099d3e1c46eaeb985c76a67ba7b9a"
+    }
+  ],
+  "native_nodes": 4701,
+  "native_solver_calls_by_auditor": 0,
+  "neural_learning_status": "NOT_IN_FORMAL_V2_TRAINING_CONTRACT",
+  "neural_test_or_training_fields_read": false,
+  "receipt": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1/receipt.json",
+    "sha256": "af4905b4ef50d333f9a70cf6cd2119b13c73fb6c5429a7c76201dad2dea8245c"
+  },
+  "scope": "Integrity and original native support only. This audit does not recompute nonlinear physics, infer 27-IP stress, establish continuum convergence, or certify learned accuracy.",
+  "source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_thermal_fine_identity_audit.py",
+    "sha256": "4654af41de758ffb89f5e955aa01a4c0e5b8b7469db8b84f2af6878c88516266"
+  },
+  "spatial_fidelity_status": "SEPARATE_REFINEMENT_COMPARISON_REQUIRED",
+  "status": "PASS_NATIVE_BYTES_COMPLETE_ENTITY_FIELD_SUPPORT_AND_GEOMETRY"
+}

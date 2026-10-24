@@ -1,0 +1,55 @@
+{
+  "blocking_findings": [],
+  "candidate": {
+    "bytes": 2337,
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/postrender_layout_v2_source_candidate.json",
+    "sha256": "715befdf5314aa35b8c11ecaad68c9a2d7741d01a51d516c1103df299fb1f1f5"
+  },
+  "exact_two_placement_substitutions": [
+    {
+      "after": "ax=fig.add_axes([.02+.32*((number-1)%3),.55 if number<=3 else .17,.24,.30],projection='3d')",
+      "before": "ax=fig.add_subplot(2,3,number,projection='3d')"
+    },
+    {
+      "after": "bar=fig.colorbar(scatter,cax=fig.add_axes([.285+.32*((number-1)%3),.59 if number<=3 else .21,.008,.22]))",
+      "before": "bar=fig.colorbar(scatter,ax=ax,shrink=.70,pad=.04,fraction=.035)"
+    }
+  ],
+  "full_arrays_or_point_arrays_read": false,
+  "independent_review_method": "Standard-library AST and exact source/JSON hash review; no image rendering and no array/NPZ read. The whole render function matches the prior source after reversing only the two documented axes/colorbar placement calls. The new wrapper requires each original point payload SHA and every array dtype/shape/byte digest, and reuses the original family scales and fixed plan.",
+  "independently_reversed_render_ast_equals_original": true,
+  "new_output_directory_preserves_original_images": true,
+  "numerical_or_plotting_libraries_imported": false,
+  "original_render_index": {
+    "bytes": 125163,
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/render_index.json",
+    "sha256": "314b58614ba11eef5d96ea7afca988a6bef2b49c56120fd9179efbd502efaecb"
+  },
+  "original_scalar_vector_tensor_formulas_and_camera_and_ranges_unchanged_ast": true,
+  "original_visual_review": {
+    "bytes": 2222,
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/initial_render_visual_qa.json",
+    "sha256": "fe5ab89c2e9b9a13c71a0b1af43d1990950b1aa233874c8c9191b903b5e2481d"
+  },
+  "plan": {
+    "bytes": 5158,
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/point_plot_plan.json",
+    "sha256": "c64186a60dee4e8dd32987f8adcd4641beeba04789c0b70aa3627f7eb9791a6c"
+  },
+  "prior_renderer": {
+    "bytes": 37563,
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_posttest_audit_adapter.py",
+    "sha256": "6748123a5568f6a5fe5d19ea0e3a3b30eb98b5cd4967f10efd05d98a8bcef6b6"
+  },
+  "renderer": {
+    "bytes": 13332,
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_postrender_layout_v2.py",
+    "sha256": "ae75ca7eff8d7c49fb1fa1ff8ec0a03de5f8c8eeaf465807a0f019163e56561a"
+  },
+  "rendering_executed": false,
+  "same_four_registered_cases": true,
+  "schema": "bridge.v2.nn_fem_native_point_plots.postrender_layout.static_review.v1",
+  "scientific_accuracy_pass_claimed": false,
+  "status": "PASS_STATIC_POSTRENDER_LAYOUT_ONLY_REVIEW",
+  "wrapper_requires_original_point_arrays_exact_dtype_shape_numeric_sha": true
+}

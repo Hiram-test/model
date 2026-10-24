@@ -1,0 +1,11 @@
+{
+  "status": "AUDITOR_INTERFACE_ERROR_NO_NATIVE_RESULT_MUTATION",
+  "source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_selected_native_identity_before_export_key_correction_66d5632a4abc.py",
+    "sha256": "66d5632a4abc0a85b77e0e56debdfb51b1ceabc0e403feb01d32865fcd6aac67"
+  },
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.py\", line 46, in <module>\n    parser=argparse.ArgumentParser();parser.add_argument('--completion',required=True);parser.add_argument('--released-index',required=True);args=parser.parse_args();print(json.dumps(audit(args.completion,args.released_index),indent=2)) # No solver, training or premature test generation is available through this interface.\n                                                                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.py\", line 34, in audit\n    for name,expected in row['export_sha256'].items(): assert design.digest(folder/name)==expected # A valid native text archive cannot excuse a changed parsed reference array.\n                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/dev/shm/bridge_complex_v2_20261025/audit/v2_experiment_contract.py\", line 9, in digest\n    with Path(path).open('rb') as stream: return hashlib.file_digest(stream,'sha256').hexdigest() # Bind every source or receipt to actual complete content.\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_candidate_05/metadata'\n",
+  "native_data_changed": false
+}

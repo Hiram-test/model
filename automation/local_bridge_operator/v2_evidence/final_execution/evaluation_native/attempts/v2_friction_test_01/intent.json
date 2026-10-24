@@ -1,0 +1,93 @@
+{
+  "attempt_id": "13c84b1f6695468b95dcf98d73ffb80b",
+  "callback_entrypoint": "friction.solve_evaluation",
+  "descriptor": {
+    "amplitude": 0.19453696955461056,
+    "canonical_input_sha256": "a894e9f0ae8c6d2b80e209c17ace45f43e4ae0c52f2127dd2e048e689a0cfacf",
+    "controls_sha256": "936c9e2a426acc70224c83a70c736abd1669548ff4cc3a960f729cf7ce145dda",
+    "dt": 0.05,
+    "dtmax": 0.1,
+    "family": "friction",
+    "future_native_fields_present": false,
+    "group_id": "v2_friction_a894e9f0ae8c6d2b80e2",
+    "id": "v2_friction_test_01",
+    "kn": 1000000.0,
+    "kt": 10000.0,
+    "mesh": [
+      8,
+      4,
+      2
+    ],
+    "mu": 0.475187698751688,
+    "normal_mode": 0,
+    "observed_frames": 33,
+    "opening": 0.02,
+    "params": [
+      0.475187698751688,
+      22.4181716889143,
+      0.19453696955461056,
+      0.9816259987652303,
+      0.9786089815199376,
+      0.9103755734860898,
+      0.0,
+      1.0
+    ],
+    "pressure": 22.4181716889143,
+    "protocol": 1,
+    "scale": [
+      0.9816259987652303,
+      0.9786089815199376,
+      0.9103755734860898
+    ],
+    "split": "test"
+  },
+  "execution": {
+    "automatic_retries": 0,
+    "config": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+      "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+    },
+    "design_contract": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+      "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+    },
+    "execution_lock": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+      "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+    },
+    "maximum_simultaneous_callbacks": 1,
+    "maximum_simultaneous_native_jobs": 1,
+    "mode": "FORMAL_RELEASED_EVALUATION",
+    "native_adapters": {
+      "friction": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_native.py",
+        "sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736"
+      },
+      "rebar": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v4.py",
+        "sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d"
+      }
+    },
+    "ordering": "friction then rebar, registered public ID order",
+    "release": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+      "sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+    },
+    "released_descriptors": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_released_evaluation_descriptors.json",
+      "sha256": "cc8129df5a4904640c0a591d9550c5d80e6cb660605fb461f535a4c48aee9e43"
+    },
+    "runner": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_evaluation_native_runner.py",
+      "sha256": "7fc184b60eeed66297595cc7dbb696d6c39f3057ab31a4aec9365b86659ba9df"
+    },
+    "schema": "bridge.v2.evaluation.native.execution.v1",
+    "source_addendum": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_evaluation_native_runner_freeze.json",
+      "sha256": "da2acf3bdf5d2b58b259237145a62adb20009a22e4803c7ac0104ec5b1fc5698"
+    }
+  },
+  "id": "v2_friction_test_01",
+  "schema": "bridge.v2.evaluation.native.intent.v1",
+  "started_utc_epoch": 1792872822.6646752
+}

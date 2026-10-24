@@ -1,0 +1,35 @@
+{
+  "exit_code_evidence": "Actual unified exec terminal65613 completion returned exit_code1",
+  "first_exposure_exists": false,
+  "frozen_guard_not_modified": true,
+  "native_or_neural_failure": false,
+  "observation_utc": 1792874035.0991557,
+  "observed_exit_code": 1,
+  "original_log": {
+    "bytes": 5222,
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/historical_friction.log",
+    "sha256": "93b4808c6a99c0674ab3e54f3a372d729daee439c346d71af20ea3498ff6e0d3"
+  },
+  "original_pid_not_recorded": true,
+  "preserved_log": "/dev/shm/bridge_complex_v2_20261025/operator/execution_recovery/v1_module_path_failure/original_stderr.log",
+  "sources": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_historical_baseline_eval.py",
+      "sha256": "08b3d92417c874c3556571222efac0d660adb4818c3a25770439989928f0438c"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller.py",
+      "sha256": "95c1209149c04b90297047b9874049e806dd471f26235e8ad02afb373eb9c477"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_finalize.py",
+      "sha256": "2e7103a6958d43628168e62deaff6f6448bd518bab644cfb4f9a64b0064295da"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_controller_finalize.py",
+      "sha256": "2e7103a6958d43628168e62deaff6f6448bd518bab644cfb4f9a64b0064295da"
+    }
+  ],
+  "status": "FAILED_IMPORT_PATH_GUARD_BEFORE_V1_FIELD_EXPOSURE",
+  "v1_result_directory_exists": false
+}

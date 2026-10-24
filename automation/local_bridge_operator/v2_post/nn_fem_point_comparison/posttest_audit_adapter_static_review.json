@@ -1,0 +1,282 @@
+{
+  "schema": "bridge.v2.nn_fem_native_point_plots.posttest_adapter_independent_review.v1",
+  "status": "PASS_SOURCE_ONLY_POSTTEST_AUDIT_METADATA_ADAPTER_REVIEW",
+  "blocking_findings": [],
+  "reviewer": "/root/v2_more_native_drawings/posttest_adapter_static_review",
+  "renderer": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_posttest_audit_adapter.py",
+    "bytes": 37563,
+    "sha256": "6748123a5568f6a5fe5d19ea0e3a3b30eb98b5cd4967f10efd05d98a8bcef6b6"
+  },
+  "pretest_renderer": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison.py",
+    "bytes": 30740,
+    "sha256": "c67776efcd2a35db72c9fb2a2efd4426ea3d44682631908b630ab363b44a2e10"
+  },
+  "pretest_source_freeze": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/pretest_source_freeze.json",
+    "bytes": 3254,
+    "sha256": "c0434827190887419e1063c4d59ea6a3abe6e7be397778b9a7ebf47f8659400e"
+  },
+  "plan": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/point_plot_plan.json",
+    "bytes": 5158,
+    "sha256": "c64186a60dee4e8dd32987f8adcd4641beeba04789c0b70aa3627f7eb9791a6c"
+  },
+  "source_diff": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter.diff",
+    "bytes": 13412,
+    "sha256": "4b4e7a60b699730643d0bc9d130de8ec17b51413f1519b5abeb53dd77bf5f5dd"
+  },
+  "review_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/review_posttest_audit_adapter.py",
+    "bytes": 15007,
+    "sha256": "7f5014032a401cc88f186ef8647a3c19245497eaf973bdae8a5d0b5888416a15"
+  },
+  "function_AST_comparison": [
+    {
+      "name": "read",
+      "ast_identical": true
+    },
+    {
+      "name": "digest",
+      "ast_identical": true
+    },
+    {
+      "name": "reference",
+      "ast_identical": true
+    },
+    {
+      "name": "checked",
+      "ast_identical": true
+    },
+    {
+      "name": "write",
+      "ast_identical": true
+    },
+    {
+      "name": "source_check",
+      "ast_identical": true
+    },
+    {
+      "name": "peak_guard",
+      "ast_identical": true
+    },
+    {
+      "name": "guard",
+      "ast_identical": false
+    },
+    {
+      "name": "array_digest",
+      "ast_identical": true
+    },
+    {
+      "name": "members",
+      "ast_identical": true
+    },
+    {
+      "name": "last_array",
+      "ast_identical": true
+    },
+    {
+      "name": "collect",
+      "ast_identical": true
+    },
+    {
+      "name": "ranges",
+      "ast_identical": true
+    },
+    {
+      "name": "render",
+      "ast_identical": true
+    },
+    {
+      "name": "main",
+      "ast_identical": true
+    }
+  ],
+  "all_non_guard_module_AST_identical": true,
+  "original_guard_release_models_index_and_case_selection_tail_AST_identical": true,
+  "original_context_and_audit_bindings_preserved": true,
+  "unchanged_pretest_dependencies": [
+    "finalizer",
+    "field_auditor",
+    "controller_config",
+    "public_contract",
+    "friction_native_schema_source",
+    "rebar_native_schema_source"
+  ],
+  "pinned_compatibility_evidence": {
+    "original_native_auditor": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_selected_native_identity_before_export_key_correction_66d5632a4abc.py",
+      "bytes": 10257,
+      "sha256": "66d5632a4abc0a85b77e0e56debdfb51b1ceabc0e403feb01d32865fcd6aac67"
+    },
+    "corrected_native_auditor": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.py",
+      "bytes": 10888,
+      "sha256": "5f161176d6aed32d5d87f95cdecdc281c2de684278815fbb759e7a466241e31d"
+    },
+    "original_failure": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_original_failure.json",
+      "bytes": 2170,
+      "sha256": "8ed5a6feb226ef11f2cf1597f268f3cbed1d2ecdb75c2ea0f658e500d7aaa597"
+    },
+    "correction": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_correction.json",
+      "bytes": 6414,
+      "sha256": "8e844ad5395576b819cadceb61c54ab8062810c9e8db45c79c85f6622db5bba7"
+    },
+    "correction_verification_source": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_verification.py",
+      "bytes": 5937,
+      "sha256": "151bc85eceb185a2f089f8b64aa7146cd7b03fabb41b5693d7f790f1a8c5d5da"
+    },
+    "independent_native_correction_review": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_independent_review.json",
+      "bytes": 29948,
+      "sha256": "811a85e1f141748ede9714e35eeb5d241c995a5ac983de9fcc1118962ec59b63"
+    }
+  },
+  "selected_native_audit": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.json",
+    "bytes": 138150,
+    "sha256": "6892ba41f230cad9405cbc760549e54e1f057d906a0cbae85d21e2d650a57b6c"
+  },
+  "native_auditor_scientific_gate_AST_unchanged_except_declared_path_resolution": true,
+  "published_diff_matches_observed_files": true,
+  "all_nonblank_python_lines_have_COMMENT_tokens": true,
+  "metadata_gate_review": [
+    "New version explicitly labelled posttest; historical pretest renderer, plan and source freeze retain exact bytes.",
+    "Six hard-coded source/evidence path-and-SHA pins permit only the independently reviewed logical-key mapping correction.",
+    "Archived original auditor and its failed FileNotFoundError attempt remain verified evidence.",
+    "All other source dependencies and original final full-field audit, selected-native audit, release, frozen models, released index and case-selection checks remain required.",
+    "Guard requires this exact reviewed renderer identity and empty blocking findings, then propagates both pretest and posttest provenance into subsequent figure receipts.",
+    "Full-field numerical reading, all points and field order, last-frame selection, vector/tensor norm formulas, shared ranges, camera, native/NN HOLD rules, output isolation and peak-RSS monitor remain AST-identical."
+  ],
+  "limitations": [
+    "This is source-only posttest compatibility review, not a new pretest freeze.",
+    "The candidate addendum final byte identity is to be checked after this receipt is linked; this receipt does not circularly bind its own parent addendum.",
+    "Renderer guard, array integration, native physics, neural inference, plotting, actual peak RSS and visual layout were not executed or revalidated by this reviewer.",
+    "No assumption is made that pending final full-field audit or owner resource window has completed; runtime gates remain mandatory."
+  ],
+  "reads_restricted_to_small_text_source_and_JSON": true,
+  "renderer_imported_or_executed": false,
+  "numpy_matplotlib_torch_or_vtk_imported": false,
+  "native_arrays_archives_or_models_opened": false,
+  "scientific_computations_or_solver_training_calls": 0,
+  "images_rendered": 0,
+  "pretest_claimed": false,
+  "source_evidence": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison.py",
+      "bytes": 30740,
+      "sha256": "c67776efcd2a35db72c9fb2a2efd4426ea3d44682631908b630ab363b44a2e10"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_posttest_audit_adapter.py",
+      "bytes": 37563,
+      "sha256": "6748123a5568f6a5fe5d19ea0e3a3b30eb98b5cd4967f10efd05d98a8bcef6b6"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/pretest_source_freeze.json",
+      "bytes": 3254,
+      "sha256": "c0434827190887419e1063c4d59ea6a3abe6e7be397778b9a7ebf47f8659400e"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/point_plot_plan.json",
+      "bytes": 5158,
+      "sha256": "c64186a60dee4e8dd32987f8adcd4641beeba04789c0b70aa3627f7eb9791a6c"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_selected_native_identity_before_export_key_correction_66d5632a4abc.py",
+      "bytes": 10257,
+      "sha256": "66d5632a4abc0a85b77e0e56debdfb51b1ceabc0e403feb01d32865fcd6aac67"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.py",
+      "bytes": 10888,
+      "sha256": "5f161176d6aed32d5d87f95cdecdc281c2de684278815fbb759e7a466241e31d"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_original_failure.json",
+      "bytes": 2170,
+      "sha256": "8ed5a6feb226ef11f2cf1597f268f3cbed1d2ecdb75c2ea0f658e500d7aaa597"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_correction.json",
+      "bytes": 6414,
+      "sha256": "8e844ad5395576b819cadceb61c54ab8062810c9e8db45c79c85f6622db5bba7"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_verification.py",
+      "bytes": 5937,
+      "sha256": "151bc85eceb185a2f089f8b64aa7146cd7b03fabb41b5693d7f790f1a8c5d5da"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_independent_review.json",
+      "bytes": 29948,
+      "sha256": "811a85e1f141748ede9714e35eeb5d241c995a5ac983de9fcc1118962ec59b63"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.json",
+      "bytes": 138150,
+      "sha256": "6892ba41f230cad9405cbc760549e54e1f057d906a0cbae85d21e2d650a57b6c"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_finalize.py",
+      "bytes": 18931,
+      "sha256": "2e7103a6958d43628168e62deaff6f6448bd518bab644cfb4f9a64b0064295da"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.py",
+      "bytes": 17093,
+      "sha256": "27764e270af732fadfa315f944a4b3d7de7d10fe4c7ac8d98bf4ef19f399b7d8"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+      "bytes": 3791,
+      "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+      "bytes": 37737,
+      "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_friction.py",
+      "bytes": 31423,
+      "sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar_quadratic.py",
+      "bytes": 37374,
+      "sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter.diff",
+      "bytes": 13412,
+      "sha256": "4b4e7a60b699730643d0bc9d130de8ec17b51413f1519b5abeb53dd77bf5f5dd"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter_addendum_candidate.json",
+      "bytes": 6133,
+      "sha256": "5104a57c7f1e3b27360c16b3d892bdf9d2d5a557e0cdab870c638a8007c0d4ec"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter_static_checks.json",
+      "bytes": 3001,
+      "sha256": "5cbc213aeda8cad274b28b74dca04359c4a9295638a712adad45fe953c92b49f"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/POSTTEST_AUDIT_ADAPTER.md",
+      "bytes": 1854,
+      "sha256": "26a619881d9f23e1de5fda8e548dea88f216fd939f98eb70b5f5a5033d6d0c4f"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/review_posttest_audit_adapter.py",
+      "bytes": 15007,
+      "sha256": "7f5014032a401cc88f186ef8647a3c19245497eaf973bdae8a5d0b5888416a15"
+    }
+  ]
+}

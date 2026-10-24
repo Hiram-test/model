@@ -1,0 +1,128 @@
+{
+  "all_original_locked_sources_unchanged": true,
+  "bootstrap": {
+    "bytes": 11626,
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_locked_module_bootstrap.py",
+    "sha256": "07eba3efcdc8e38bb5e7ae43da2972bf9337e0a1b57ae009e6cf27cfa66374d4"
+  },
+  "independent_preflights": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/dev/shm/bridge_complex_v2_20261025/operator/v2_locked_module_bootstrap.py",
+        "--root",
+        "/dev/shm/bridge_complex_v2_20261025",
+        "--target",
+        "historical",
+        "--startup-receipt",
+        "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/historical/startup.json",
+        "--execution-receipt",
+        "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/historical/execution.json",
+        "--preflight"
+      ],
+      "execution": {
+        "bytes": 2457,
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/historical/execution.json",
+        "sha256": "d4dbefbbb3b9584120fb06d5ee3bd18b85fe3f85823994f087000868434143db"
+      },
+      "observed_child_pid": 5,
+      "observed_end_utc": 1792874167.9662352,
+      "observed_start_utc": 1792874166.6873877,
+      "returncode": 0,
+      "startup": {
+        "bytes": 2942,
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/historical/startup.json",
+        "sha256": "a915126f44937c94ed0a9a98be77e66bc64584d49eb4563a09d9d943da4689d2"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/historical/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 834,
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/historical/stdout.log",
+        "sha256": "535a7b292ebb4cfa1998061e097a6ab426f3a210d9568cf3d1ea50b84572d8f2"
+      },
+      "target": "historical"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/dev/shm/bridge_complex_v2_20261025/operator/v2_locked_module_bootstrap.py",
+        "--root",
+        "/dev/shm/bridge_complex_v2_20261025",
+        "--target",
+        "invariants",
+        "--startup-receipt",
+        "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/invariants/startup.json",
+        "--execution-receipt",
+        "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/invariants/execution.json",
+        "--preflight"
+      ],
+      "execution": {
+        "bytes": 2222,
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/invariants/execution.json",
+        "sha256": "e8bb2f8025e002153e3a9b39e3a149083459350621fe1eb5916e083ffa9e1b92"
+      },
+      "observed_child_pid": 6,
+      "observed_end_utc": 1792874169.3102813,
+      "observed_start_utc": 1792874167.96719,
+      "returncode": 0,
+      "startup": {
+        "bytes": 2709,
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/invariants/startup.json",
+        "sha256": "998069896a31d65cd56cd46d40efbdcee2274ef45c48672b0e79c9f691e5fe01"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/invariants/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 831,
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/locked_module_independent_preflight/invariants/stdout.log",
+        "sha256": "f989fd9ae1cd8bc12bcef9c79a906762185ebd6209f1c6ae2350d5339aea192f"
+      },
+      "target": "invariants"
+    }
+  ],
+  "launcher": {
+    "bytes": 7493,
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_final_replay_launcher_v2.py",
+    "sha256": "5702ae8db6eaf8001febd3cecb69df613d9c9c9bc131dbbd15429cfec06f8c13"
+  },
+  "new_neural_or_native_calls": 0,
+  "original_failure_observation": {
+    "bytes": 1532,
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/execution_recovery/v1_module_path_failure/failure_observation.json",
+    "sha256": "82f886b91f9a25f54c4ac817e3b7129c2c1025e93c049f0ba89dd66c184298d7"
+  },
+  "original_launcher": {
+    "bytes": 6146,
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_final_replay_launcher.py",
+    "sha256": "b99473d92680d7373ede0dcee541e78324b8d04e67514a3b0f186496678e9238"
+  },
+  "preserved_original_stderr": {
+    "bytes": 5222,
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/execution_recovery/v1_module_path_failure/original_stderr.log",
+    "sha256": "93b4808c6a99c0674ab3e54f3a372d729daee439c346d71af20ea3498ff6e0d3"
+  },
+  "producer_preflight": {
+    "bytes": 2434,
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/locked_module_preflight/verification.json",
+    "sha256": "b5cdc153a7831fb811809b0818733487ec111241263bf66c6a66c40e4e63dacc"
+  },
+  "response_arrays_read": 0,
+  "schema": "bridge.v2.locked.module.independent.recovery.review.v1",
+  "scientific_code_or_guards_modified": false,
+  "scope": "Post-test infrastructure recovery only: load actual canonical frozen modules before running the unchanged allowed historical or invariant script. No path guard weakening, __file__ substitution, model reselection, training or output correction.",
+  "selected_models_and_completed_V2_outputs_unchanged": true,
+  "source": {
+    "bytes": 8138,
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_locked_module_recovery_review.py",
+    "sha256": "f06a6d246c15e80d609bacbe1441c3eb8a347500900a04cb3cd21dca0017665d"
+  },
+  "status": "PASS_CANONICAL_SOURCE_IMPORT_RECOVERY_WITH_UNCHANGED_NUMERICAL_GUARDS",
+  "unchanged_numerical_argv_ast": true
+}

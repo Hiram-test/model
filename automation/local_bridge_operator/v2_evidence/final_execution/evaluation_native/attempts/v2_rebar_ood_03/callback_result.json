@@ -1,0 +1,82 @@
+{
+  "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+  "callback_wall_seconds": 108.80425596500208,
+  "canonical_input_sha256": "318702d748473f2b96eeb23fb6add189e46c0b7fff0f8083ccd30bb07f58c3a0",
+  "controls_sha256": "ddc6ff785496569b8f43bdeff160d64b55b5cd433eab6e4ad496f9ed8ab38378",
+  "cost_evidence": {
+    "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/model.inp",
+    "input_deck_sha256": "f927ba7e007ab62ae5017e0903065269e885bb735dbc11ba33c95aee29a25a2d",
+    "measured_seconds": 106.3959609079975,
+    "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/receipt.json",
+    "qualification_receipt_sha256": "045bd517e398d7e2299a8ea7f42a34ea4b3f4f6640078de92b08127c4aa965a0",
+    "qualified_native_reference": true,
+    "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/receipt.json",
+    "receipt_sha256": "045bd517e398d7e2299a8ea7f42a34ea4b3f4f6640078de92b08127c4aa965a0",
+    "timing_basis": "native_process_wall_seconds"
+  },
+  "cross_refinement": 1,
+  "element_type": "C3D20",
+  "endpoint_output": true,
+  "export_sha256": {
+    "metadata": "0068dea7c17051c66f6ea2e9180703022db192b9cb15757de00c64f27b0aa216",
+    "npz": "b17cf93ef3f2b7814efb9a5ff1ecf0e4408ddea936f9793ad4fc7cb25c38c693"
+  },
+  "family": "rebar",
+  "free_axial_cells": 4,
+  "fresh_native_solve": true,
+  "future_native_fields_present": false,
+  "group_id": "v2_rebar_318702d748473f2b96ee",
+  "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+  "id": "v2_rebar_ood_03",
+  "input_identity": {
+    "canonical_input_sha256": "318702d748473f2b96eeb23fb6add189e46c0b7fff0f8083ccd30bb07f58c3a0",
+    "controls_sha256": "ddc6ff785496569b8f43bdeff160d64b55b5cd433eab6e4ad496f9ed8ab38378",
+    "group_id": "v2_rebar_318702d748473f2b96ee",
+    "id": "v2_rebar_ood_03",
+    "mesh": {
+      "cross_refinement": 1,
+      "element_type": "C3D20",
+      "free_axial_cells": 4,
+      "nx": 12,
+      "solid_points_per_element": 27
+    },
+    "native_input_sha256": "f927ba7e007ab62ae5017e0903065269e885bb735dbc11ba33c95aee29a25a2d",
+    "params": [
+      1.16049217954278,
+      441.79742792621255,
+      19.937532879412174,
+      1.6564371531829238,
+      1.063220665603876,
+      0.08038071964867413
+    ],
+    "physical_history_sha256": "49343c596f133c8810266ca423ac2096ec0920593c9a6472886adf9ddc58b554",
+    "protocol_id": 0,
+    "schema": "bridge.v2.rebar.input_identity.v1"
+  },
+  "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/metadata.json",
+  "native_bond_traction": true,
+  "native_reported_seconds": 106.390195,
+  "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+  "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/fields.npz",
+  "nx": 12,
+  "observed_frames": 25,
+  "ood_axes": [
+    "loading_amplitude",
+    "reversal_ratio"
+  ],
+  "params": [
+    1.16049217954278,
+    441.79742792621255,
+    19.937532879412174,
+    1.6564371531829238,
+    1.063220665603876,
+    0.08038071964867413
+  ],
+  "physical_history_sha256": "49343c596f133c8810266ca423ac2096ec0920593c9a6472886adf9ddc58b554",
+  "protocol_id": 0,
+  "quality": "VALID_CONVERGED",
+  "seconds": 106.3959609079975,
+  "split": "ood",
+  "timeout": 600,
+  "verified_cache_reuse": false
+}

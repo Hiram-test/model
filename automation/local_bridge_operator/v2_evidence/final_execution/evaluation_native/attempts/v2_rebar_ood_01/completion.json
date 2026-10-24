@@ -1,0 +1,198 @@
+{
+  "callback_result": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_ood_01/callback_result.json",
+    "sha256": "8f5ffc224525f4569747bd8bd133a97de82916ccd6947f376ec5f530913be37e"
+  },
+  "descriptor": {
+    "canonical_input_sha256": "70a8aa91b812a32e46b7f6f6f15e28084241203c853512b4a12ba39722a06745",
+    "controls_sha256": "4f0c0e20c6f8d2e4b4bff299f6047d127e1485c20f7879e4d22ec897d55efa37",
+    "cross_refinement": 1,
+    "element_type": "C3D20",
+    "endpoint_output": true,
+    "family": "rebar",
+    "free_axial_cells": 4,
+    "future_native_fields_present": false,
+    "group_id": "v2_rebar_70a8aa91b812a32e46b7",
+    "id": "v2_rebar_ood_01",
+    "native_bond_traction": true,
+    "nx": 12,
+    "observed_frames": 25,
+    "ood_axes": [
+      "reversal_ratio"
+    ],
+    "params": [
+      0.8754122626036406,
+      391.53726641088724,
+      17.47148159146309,
+      0.6474393755197525,
+      1.0540839917957783,
+      0.03552180200815201
+    ],
+    "protocol_id": 1,
+    "split": "ood"
+  },
+  "evidence": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/receipt.json",
+      "sha256": "2bc0126700a3e6607338d4a9aafef2078b64015b59ab7ebc64dc8041e81b77b0"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/model.inp",
+      "sha256": "444fe694d5660ca21e02a3ff25b7d7d6398c4457872b63f3cb9dd8451c0139c6"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/receipt.json",
+      "sha256": "2bc0126700a3e6607338d4a9aafef2078b64015b59ab7ebc64dc8041e81b77b0"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/fields.npz",
+      "sha256": "789e366967c811a72fc69bbdf626c3f1e2a9aa25e0d92d8435bd2ab97fca69ce"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/metadata.json",
+      "sha256": "d943a482b753cc97974c60ffadf7a79aeacac7dd9541557d9378db83c63ca366"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_ood_01/callback_observation.json",
+      "sha256": "6a7077a7a209b4841a446423612231b751c0d65c2514b603630081265315a609"
+    }
+  ],
+  "execution": {
+    "automatic_retries": 0,
+    "config": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+      "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+    },
+    "design_contract": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+      "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+    },
+    "execution_lock": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+      "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+    },
+    "maximum_simultaneous_callbacks": 1,
+    "maximum_simultaneous_native_jobs": 1,
+    "mode": "FORMAL_RELEASED_EVALUATION",
+    "native_adapters": {
+      "friction": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_native.py",
+        "sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736"
+      },
+      "rebar": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v4.py",
+        "sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d"
+      }
+    },
+    "ordering": "friction then rebar, registered public ID order",
+    "release": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+      "sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+    },
+    "released_descriptors": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_released_evaluation_descriptors.json",
+      "sha256": "cc8129df5a4904640c0a591d9550c5d80e6cb660605fb461f535a4c48aee9e43"
+    },
+    "runner": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_evaluation_native_runner.py",
+      "sha256": "7fc184b60eeed66297595cc7dbb696d6c39f3057ab31a4aec9365b86659ba9df"
+    },
+    "schema": "bridge.v2.evaluation.native.execution.v1",
+    "source_addendum": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_evaluation_native_runner_freeze.json",
+      "sha256": "da2acf3bdf5d2b58b259237145a62adb20009a22e4803c7ac0104ec5b1fc5698"
+    }
+  },
+  "intent": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_ood_01/intent.json",
+    "sha256": "eb7540e53d8405043e8fc6f6d61139145d8001886fc97082b45279dda1e3b8d3"
+  },
+  "row": {
+    "actual_native_case_id": "v2_rebar_ood_01",
+    "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+    "callback_wall_seconds": 106.86071421299857,
+    "canonical_input_sha256": "70a8aa91b812a32e46b7f6f6f15e28084241203c853512b4a12ba39722a06745",
+    "controls_sha256": "4f0c0e20c6f8d2e4b4bff299f6047d127e1485c20f7879e4d22ec897d55efa37",
+    "cost_evidence": {
+      "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/model.inp",
+      "input_deck_sha256": "444fe694d5660ca21e02a3ff25b7d7d6398c4457872b63f3cb9dd8451c0139c6",
+      "measured_seconds": 104.15561922100096,
+      "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/receipt.json",
+      "qualification_receipt_sha256": "2bc0126700a3e6607338d4a9aafef2078b64015b59ab7ebc64dc8041e81b77b0",
+      "qualified_native_reference": true,
+      "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/receipt.json",
+      "receipt_sha256": "2bc0126700a3e6607338d4a9aafef2078b64015b59ab7ebc64dc8041e81b77b0",
+      "timing_basis": "native_process_wall_seconds"
+    },
+    "cross_refinement": 1,
+    "element_type": "C3D20",
+    "endpoint_output": true,
+    "export_sha256": {
+      "metadata": "d943a482b753cc97974c60ffadf7a79aeacac7dd9541557d9378db83c63ca366",
+      "npz": "789e366967c811a72fc69bbdf626c3f1e2a9aa25e0d92d8435bd2ab97fca69ce"
+    },
+    "family": "rebar",
+    "free_axial_cells": 4,
+    "fresh_native_solve": true,
+    "future_native_fields_present": false,
+    "group_id": "v2_rebar_70a8aa91b812a32e46b7",
+    "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+    "id": "v2_rebar_ood_01",
+    "input_identity": {
+      "canonical_input_sha256": "70a8aa91b812a32e46b7f6f6f15e28084241203c853512b4a12ba39722a06745",
+      "controls_sha256": "4f0c0e20c6f8d2e4b4bff299f6047d127e1485c20f7879e4d22ec897d55efa37",
+      "group_id": "v2_rebar_70a8aa91b812a32e46b7",
+      "id": "v2_rebar_ood_01",
+      "mesh": {
+        "cross_refinement": 1,
+        "element_type": "C3D20",
+        "free_axial_cells": 4,
+        "nx": 12,
+        "solid_points_per_element": 27
+      },
+      "native_input_sha256": "444fe694d5660ca21e02a3ff25b7d7d6398c4457872b63f3cb9dd8451c0139c6",
+      "params": [
+        0.8754122626036406,
+        391.53726641088724,
+        17.47148159146309,
+        0.6474393755197525,
+        1.0540839917957783,
+        0.03552180200815201
+      ],
+      "physical_history_sha256": "d98c5d3ece7f5fdadf32062a394f9db982ae8493ae5d3f65e408f8209a6f9e01",
+      "protocol_id": 1,
+      "schema": "bridge.v2.rebar.input_identity.v1"
+    },
+    "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/metadata.json",
+    "native_bond_traction": true,
+    "native_execution_state": "CLOSED",
+    "native_replay_used": false,
+    "native_reported_seconds": 104.1492,
+    "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+    "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/fields.npz",
+    "nx": 12,
+    "observed_frames": 25,
+    "ood_axes": [
+      "reversal_ratio"
+    ],
+    "params": [
+      0.8754122626036406,
+      391.53726641088724,
+      17.47148159146309,
+      0.6474393755197525,
+      1.0540839917957783,
+      0.03552180200815201
+    ],
+    "physical_history_sha256": "d98c5d3ece7f5fdadf32062a394f9db982ae8493ae5d3f65e408f8209a6f9e01",
+    "protocol_id": 1,
+    "quality": "VALID_CONVERGED",
+    "reference_qualified": true,
+    "registered_input_sha256": "70a8aa91b812a32e46b7f6f6f15e28084241203c853512b4a12ba39722a06745",
+    "seconds": 104.15561922100096,
+    "split": "ood",
+    "timeout": 600,
+    "verified_cache_reuse": false
+  },
+  "schema": "bridge.v2.evaluation.native.completion.v1",
+  "status": "CLOSED_NATIVE_SLOT"
+}

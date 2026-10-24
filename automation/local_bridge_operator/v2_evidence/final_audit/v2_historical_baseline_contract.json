@@ -1,0 +1,503 @@
+{
+  "V2_execution_lock": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+    "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+  },
+  "comparison_scope": "Historical V1 active versus independently frozen V2 active on the same new registered histories. This is a version comparison, not an isolated physical-loss ablation or a claim of matched training/native compute budgets.",
+  "evaluation_requires_separate_test_release": true,
+  "excluded_claims": [
+    "No new V1 fitting or test-based model selection.",
+    "No comparison of disjoint old-test and new-test percentages as paired improvement.",
+    "No inference that V2 constraints caused a version difference by themselves."
+  ],
+  "families": {
+    "friction": {
+      "architecture_variant": "absolute_normalized_state",
+      "checkpoint": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/active/round_2/seed_17/model.pt",
+        "sha256": "54d21ea880cf07a65341c89cbf3d9d8fc31b8d0d8fd43e63458c900a7c271e45"
+      },
+      "emission": "One originally validation-selected V1 active seed; exact original absolute normalized state head, input-prescribed boundary handling and per-entity recurrent rollout. No ensemble mean and no V2 parameterization.",
+      "new_registered_evaluation_ids": [
+        "v2_friction_test_00",
+        "v2_friction_test_01",
+        "v2_friction_test_02",
+        "v2_friction_test_03",
+        "v2_friction_ood_00",
+        "v2_friction_ood_01",
+        "v2_friction_ood_02",
+        "v2_friction_ood_03"
+      ],
+      "no_new_selection": true,
+      "normalization": {
+        "control_mean": [
+          4.0,
+          0.24242424964904785,
+          1.7041475075529888e-05,
+          0.0010203379206359386,
+          8.75634765625,
+          -2.1871969513309608e-10,
+          -6.501127245428506e-06,
+          0.3029877543449402
+        ],
+        "control_scale": [
+          2.3804759979248047,
+          0.042855020612478256,
+          0.06140217185020447,
+          0.003924484830349684,
+          9.773573875427246,
+          0.039880067110061646,
+          0.0017788424156606197,
+          1.9432953596115112
+        ],
+        "feature_mean": [
+          49.92176818847656,
+          24.804704666137695,
+          4.2809224128723145,
+          0.2195121943950653,
+          0.7804877758026123,
+          0.07173600792884827,
+          0.06456241011619568,
+          0.06456241011619568,
+          199997.609375,
+          0.3000136613845825,
+          0.3504123389720917,
+          999948.375,
+          10000.0,
+          99.8456802368164,
+          49.61069107055664,
+          9.996298789978027,
+          0.5
+        ],
+        "feature_scale": [
+          30.667953491210938,
+          15.881219863891602,
+          4.172116756439209,
+          0.413899689912796,
+          0.413899689912796,
+          0.2580554783344269,
+          0.24575448036193848,
+          0.2457548975944519,
+          2.390580415725708,
+          1.3649903849000111e-05,
+          0.11124234646558762,
+          51.62415313720703,
+          9.999999974752427e-07,
+          6.025038242340088,
+          2.7999656200408936,
+          1.0403841733932495,
+          0.5
+        ],
+        "field_groups": [
+          "displacement",
+          "displacement",
+          "displacement",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "contact_gap",
+          "interface_slip",
+          "interface_slip",
+          "contact_pressure",
+          "interface_shear_traction",
+          "interface_shear_traction"
+        ],
+        "fields": [
+          "ux_mm",
+          "uy_mm",
+          "uz_mm",
+          "IP_sxx_MPa",
+          "IP_syy_MPa",
+          "IP_szz_MPa",
+          "IP_sxy_MPa",
+          "IP_sxz_MPa",
+          "IP_syz_MPa",
+          "nodal_COPEN_mm",
+          "nodal_CSLIP1_mm",
+          "nodal_CSLIP2_mm",
+          "nodal_CPRESS_MPa",
+          "nodal_CSHEAR1_MPa",
+          "nodal_CSHEAR2_MPa"
+        ],
+        "fit_ids": [
+          "friction_000_replay1",
+          "friction_001",
+          "friction_002",
+          "friction_003",
+          "friction_004",
+          "friction_005",
+          "friction_006",
+          "friction_007"
+        ],
+        "floor_fraction": 0.01,
+        "group_scales": {
+          "cauchy_stress": 14.563368653875385,
+          "contact_gap": 1.4924684090662464e-05,
+          "contact_pressure": 14.92468399944482,
+          "displacement": 0.05761575806656381,
+          "interface_shear_traction": 4.899401348690626,
+          "interface_slip": 0.05847948257989112
+        },
+        "primary_negative_gate": "commensurate physical vector/tensor groups, unknown entries only",
+        "state_offset": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "state_scale": [
+          0.05761575806656381,
+          0.05761575806656381,
+          0.05761575806656381,
+          14.563368653875385,
+          14.563368653875385,
+          14.563368653875385,
+          14.563368653875385,
+          14.563368653875385,
+          14.563368653875385,
+          1.4924684090662464e-05,
+          0.05847948257989112,
+          0.05847948257989112,
+          14.92468399944482,
+          4.899401348690626,
+          4.899401348690626
+        ],
+        "temperature_reference": "initial native temperature subtracted before thermal-response normalization",
+        "xyz_mean": [
+          49.92176818847656,
+          24.804704666137695,
+          4.2809224128723145
+        ],
+        "xyz_scale": [
+          130.59405517578125,
+          75.29417419433594,
+          23.145105361938477
+        ]
+      },
+      "original_experiment_contract": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/experiment_contract.json",
+        "sha256": "eb739e669c0e226279e9f1b9b8e9c535b0371d417af3d04c6abf4467a6bfad57"
+      },
+      "original_frozen_models": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/frozen_models_before_test.json",
+        "sha256": "cf77922edb89890291d825e85db49a89249cd4947430f704e4431dd85f59bc69"
+      },
+      "original_selection_before_test": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/architecture_selection_before_test.json",
+        "sha256": "22739343d0dce0914326b424e172f96edc4604907998d93822a3d000d2a56049"
+      },
+      "seed": 17,
+      "strategy": "historical_V1_published_active"
+    },
+    "rebar": {
+      "architecture_variant": "absolute_normalized_state",
+      "checkpoint": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/active/round_2/seed_17/model.pt",
+        "sha256": "cd6d9d9845ddf4eb9b808163e76e76fefe4eeab0595eac35ac53698f7415f916"
+      },
+      "emission": "One originally validation-selected V1 active seed; exact original absolute normalized state head, input-prescribed boundary handling and per-entity recurrent rollout. No ensemble mean and no V2 parameterization.",
+      "new_registered_evaluation_ids": [
+        "v2_rebar_test_00",
+        "v2_rebar_test_01",
+        "v2_rebar_test_02",
+        "v2_rebar_test_03",
+        "v2_rebar_ood_00",
+        "v2_rebar_ood_01",
+        "v2_rebar_ood_02",
+        "v2_rebar_ood_03"
+      ],
+      "no_new_selection": true,
+      "normalization": {
+        "control_mean": [
+          0.5,
+          0.21010206639766693,
+          0.02767013944685459
+        ],
+        "control_scale": [
+          0.30046260356903076,
+          0.4141570031642914,
+          0.24702009558677673
+        ],
+        "feature_mean": [
+          0.3902451992034912,
+          2.194802561916731e-09,
+          -1.266328153448626e-09,
+          0.17431192100048065,
+          0.4954128563404083,
+          0.08256880939006805,
+          0.08256880939006805,
+          0.1651376187801361,
+          1.000311017036438,
+          375.10931396484375,
+          15.991718292236328,
+          0.8940340876579285,
+          0.580354630947113,
+          0.05741353705525398,
+          0.00917431153357029,
+          0.17431192100048065,
+          0.17431192100048065
+        ],
+        "feature_scale": [
+          0.23777858912944794,
+          0.23536613583564758,
+          0.23536616563796997,
+          0.37927213311195374,
+          0.49998044967651367,
+          0.2752559185028076,
+          0.27525559067726135,
+          0.3713493049144745,
+          0.1112392246723175,
+          43.49885177612305,
+          2.312227964401245,
+          0.24100543558597565,
+          0.140011727809906,
+          0.01690610498189926,
+          0.09537065774202347,
+          0.37927499413490295,
+          0.37927499413490295
+        ],
+        "field_groups": [
+          "displacement",
+          "displacement",
+          "displacement",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "equivalent_plastic_strain",
+          "plastic_metric",
+          "plastic_metric",
+          "plastic_metric",
+          "plastic_metric",
+          "plastic_metric",
+          "plastic_metric",
+          "backstress",
+          "backstress",
+          "backstress",
+          "backstress",
+          "backstress",
+          "backstress",
+          "interface_slip",
+          "interface_shear_traction"
+        ],
+        "fields": [
+          "ux",
+          "uy",
+          "uz",
+          "sxx",
+          "syy",
+          "szz",
+          "sxy",
+          "sxz",
+          "syz",
+          "peeq",
+          "plastic_metric_xx",
+          "plastic_metric_yy",
+          "plastic_metric_zz",
+          "plastic_metric_xy",
+          "plastic_metric_xz",
+          "plastic_metric_yz",
+          "backstress_xx",
+          "backstress_yy",
+          "backstress_zz",
+          "backstress_xy",
+          "backstress_xz",
+          "backstress_yz",
+          "bond_slip",
+          "bond_traction"
+        ],
+        "fit_ids": [
+          "full27_all_axial12_free4",
+          "rebar_train_01",
+          "rebar_train_02",
+          "rebar_train_03",
+          "rebar_train_04",
+          "rebar_train_05",
+          "rebar_train_06",
+          "rebar_train_07"
+        ],
+        "floor_fraction": 0.01,
+        "group_scales": {
+          "backstress": 4.530428465238783,
+          "cauchy_stress": 82.08172140059631,
+          "displacement": 0.06380498557948724,
+          "equivalent_plastic_strain": 0.032656659685147735,
+          "interface_shear_traction": 7.795360701398806,
+          "interface_slip": 0.031286095299014764,
+          "plastic_metric": 0.007104641771425653
+        },
+        "primary_negative_gate": "commensurate physical vector/tensor groups, unknown entries only",
+        "state_offset": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "state_scale": [
+          0.06380498557948724,
+          0.06380498557948724,
+          0.06380498557948724,
+          82.08172140059631,
+          82.08172140059631,
+          82.08172140059631,
+          82.08172140059631,
+          82.08172140059631,
+          82.08172140059631,
+          0.032656659685147735,
+          0.007104641771425653,
+          0.007104641771425653,
+          0.007104641771425653,
+          0.007104641771425653,
+          0.007104641771425653,
+          0.007104641771425653,
+          4.530428465238783,
+          4.530428465238783,
+          4.530428465238783,
+          4.530428465238783,
+          4.530428465238783,
+          4.530428465238783,
+          0.031286095299014764,
+          7.795360701398806
+        ],
+        "temperature_reference": "initial native temperature subtracted before thermal-response normalization",
+        "xyz_mean": [
+          62.442623138427734,
+          -4.556930111032642e-10,
+          -9.113860360843162e-11
+        ],
+        "xyz_scale": [
+          181.128662109375,
+          60.0,
+          60.0
+        ]
+      },
+      "original_experiment_contract": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/experiment_contract.json",
+        "sha256": "8c776c687b834e087adf336cf1592a6f5a408b17525ae1988452b754558b5837"
+      },
+      "original_frozen_models": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/frozen_models_before_test.json",
+        "sha256": "cd243121c537a64dfd839b6da21d3b539c32fed1ebad63ac5c7e79893024ec7c"
+      },
+      "original_selection_before_test": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/architecture_selection_before_test.json",
+        "sha256": "b57040f0bd6ce4f866c810c4ae02e0d2261aa5bac9cc4ec3929ac8b7e63e1fa9"
+      },
+      "seed": 17,
+      "strategy": "historical_V1_published_active"
+    }
+  },
+  "freeze_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_historical_baseline_freeze.py",
+    "sha256": "68c33e64f13e85a45f691be9ba1bcfa8d57713cb29123e7085a3d4480b55d5f6"
+  },
+  "metric_policy": "Same frozen initial-training normalization, unknown-entry masks, group Frobenius/vector norms and thresholds as V2; report four test and four OOD separately.",
+  "new_test_or_ood_references_generated_or_read": false,
+  "original_training_replay_checks": [
+    {
+      "V2_physical_head_applied": false,
+      "actual_loader": "complex_operator_validation.load_absolute",
+      "actual_rollout": "complex_operator.rollout",
+      "case_id": "friction_000_replay1",
+      "complete_saved_prediction_comparison_available": true,
+      "family": "friction",
+      "future_states_and_reference_poison_difference": 0.0,
+      "maximum_saved_prediction_difference": 0.0,
+      "native_training_reference": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/cases/friction_000_replay1/fields.npz",
+        "sha256": "9976b20487707129f9d57b7045c43800fa19b78fe5e1cc4ce0513e2e3055c64f"
+      },
+      "saved_original_development_prediction": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/active/round_2/development/friction_000_replay1.npz",
+        "sha256": "da495c6c77c9dc6cda4cbf53b9939d6a866568deefe40be2445398f29e2d66f3"
+      },
+      "scope": "Fixed original training history replay only",
+      "shape": [
+        33,
+        697,
+        15
+      ]
+    },
+    {
+      "V2_physical_head_applied": false,
+      "actual_loader": "complex_operator_validation.load_absolute",
+      "actual_rollout": "complex_operator.rollout",
+      "all_original_channel_group_and_local_metrics_exact": true,
+      "case_id": "full27_all_axial12_free4",
+      "complete_saved_prediction_comparison_available": false,
+      "family": "rebar",
+      "future_states_and_reference_poison_difference": 0.0,
+      "native_training_reference": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/full27_all_axial12_free4/fields.npz",
+        "sha256": "2550ff3e0049c807c391a3d19b1a44331f80ff629ff138d062dabc309c84b929"
+      },
+      "original_independent_complete_test_prediction_replay_evidence": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/fresh_process_replay.json",
+        "sha256": "a3d8177054d1f9292218ef222c6b2dfae5a17aab4a9304b04d2c435853826a2d"
+      },
+      "reason": "Original material intermediate full-field duplicates were intentionally omitted under its frozen storage policy.",
+      "saved_original_development_metrics": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/active/round_2/development/metrics.json",
+        "sha256": "036a05da445b322d4c4eb2a6bda8e22b105b94fc810556f103a2acc231f23798"
+      },
+      "scope": "Fixed original training history replay only",
+      "shape": [
+        25,
+        5232,
+        24
+      ]
+    }
+  ],
+  "physics_policy": "Evaluate the unchanged V1 raw emission through the same supported V2 raw-field callback and gates after native baseline checks; never alter V1 predictions.",
+  "public_design": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+    "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+  },
+  "schema": "bridge.v2.historical.baseline.comparison.v1",
+  "source_files": [
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_operator.py",
+      "sha256": "c6e285f103dfb4ea13a50e3e884ebc91027857db7763b78ea5fa2a8413a0ffd4"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_operator_validation.py",
+      "sha256": "45f30cfcec0187d8d9e5fcea39535e15b27dc6deca00ea328ee448a97a308023"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "fixed_case": "v2_{family}_test_00",
+  "fixed_families": [
+    "friction",
+    "rebar"
+  ],
+  "fixed_strategies": [
+    "initial",
+    "active",
+    "random"
+  ],
+  "frozen_source_or_guard_edits": 0,
+  "native_solver_calls": 0,
+  "neural_inference_calls": 0,
+  "original_historical_failure_log": {
+    "bytes": 5222,
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/historical_friction.log",
+    "sha256": "93b4808c6a99c0674ab3e54f3a372d729daee439c346d71af20ea3498ff6e0d3"
+  },
+  "original_launcher": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_final_replay_launcher.py",
+    "sha256": "b99473d92680d7373ede0dcee541e78324b8d04e67514a3b0f186496678e9238"
+  },
+  "original_numerical_argv_ast_equal": true,
+  "preflight_processes": [
+    {
+      "execution": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/locked_module_preflight/historical/process.json",
+        "sha256": "19fc12a43ceffd00108d2005d91f30548267de9bc3fd3206651e18523425b774"
+      },
+      "pid": 2,
+      "preflight_wall_seconds": 0.9362515680004435,
+      "startup": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/locked_module_preflight/historical/startup.json",
+        "sha256": "47f2ff401cea359165174792628fac9de0c409ff2249ec85227b9636f4506059"
+      },
+      "target": "historical"
+    },
+    {
+      "execution": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/locked_module_preflight/invariants/process.json",
+        "sha256": "bce14932e0343317bb7a3db68c58f196e6126245d6bcd2db091605edf47e75a8"
+      },
+      "pid": 2,
+      "preflight_wall_seconds": 0.9565301580005325,
+      "startup": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/locked_module_preflight/invariants/startup.json",
+        "sha256": "93bb1319e6930f26836158f2abd334cd55fbbfdbe018536c089a206c4490ff15"
+      },
+      "target": "invariants"
+    }
+  ],
+  "schema": "bridge.v2.locked.module.preflight.v1",
+  "sources": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_locked_module_bootstrap.py",
+      "sha256": "07eba3efcdc8e38bb5e7ae43da2972bf9337e0a1b57ae009e6cf27cfa66374d4"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_final_replay_launcher_v2.py",
+      "sha256": "5702ae8db6eaf8001febd3cecb69df613d9c9c9bc131dbbd15429cfec06f8c13"
+    }
+  ],
+  "status": "PASS_MODULE_IDENTITY_ONLY_NO_NEURAL_EXECUTION",
+  "test_response_array_reads": 0
+}

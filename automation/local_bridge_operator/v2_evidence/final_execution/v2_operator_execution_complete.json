@@ -1,0 +1,59 @@
+{
+  "FEM_prediction_correction_applied": false,
+  "V1_accuracy_negative_records": 16,
+  "V1_additional_same_history_prediction_records": 16,
+  "V1_physics_hold_records": 16,
+  "V2_accuracy_negative_records": 48,
+  "V2_physics_hold_records": 48,
+  "V2_prediction_records": 48,
+  "accuracy_and_supported_force_constitutive_physics": "HOLD",
+  "acquisition_rounds": 8,
+  "actual_complete_cold_histories": 3840,
+  "actual_formal_loss_time_steps": 107520,
+  "actual_formal_optimizer_updates": 26880,
+  "additional_independent_histories_from_invariants": 0,
+  "engineering_release": "NOT_ESTABLISHED",
+  "formal_seed_stages": 20,
+  "fresh_process_invariant_invocations": 6,
+  "frozen_primary_models": 6,
+  "honest_outcome": "V2 hard kinematic/plastic admissibility constraints passed, but all 48 V2 case-model emissions exceed registered accuracy and supported equilibrium/constitutive gates. V2 active mean field error is worse than the frozen V1 active baseline on both families. Full implementation, execution and audit completion does not establish model accuracy or engineering qualification.",
+  "independent_audits": {
+    "v2_final_fields_independent_audit.json": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.json",
+      "sha256": "5b628f6182721f4b6607fb0cb099cf3a06ede9bb46ae0c71c31660a154e4970f"
+    },
+    "v2_final_replay_independent_audit.json": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_replay_independent_audit.json",
+      "sha256": "db91cacd188776a881ae3549a2aabefcf490ce6de6d1a443cb857a1a3831528b"
+    },
+    "v2_historical_baseline_independent_audit.json": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_historical_baseline_independent_audit.json",
+      "sha256": "95888ea8784cfe29370881ace580426478d4612e298817fc995789b0d73b6874"
+    },
+    "v2_selected_native_identity_audit.json": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.json",
+      "sha256": "6892ba41f230cad9405cbc760549e54e1f057d906a0cbae85d21e2d650a57b6c"
+    }
+  },
+  "models_or_training_changed_after_test_exposure": false,
+  "new_independent_evaluation_history_denominator": 16,
+  "observed_utc": 1792874422.171699,
+  "qualified_new_acquired_native_histories": 15,
+  "qualified_new_evaluation_native_histories": 16,
+  "schema": "bridge.v2.operator.execution.complete.v1",
+  "source_and_completion": {
+    "completion": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/completion_manifest.json",
+      "sha256": "caffaf8af5adba2b8d1f3c7fb64bb1873d02cf7ac8616c0c9bb2a7122058d11c"
+    },
+    "frozen_models": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/frozen_models.json",
+      "sha256": "e999163a51b0999804a9de1dae699f4200ae3a4664bbd6d7d059ab169b2a628f"
+    },
+    "released_index": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/released_index.json",
+      "sha256": "8ebce54c70ece0f8393e3f4c7ce88cd71319d118e8205bd3a06d8ef76efd90c9"
+    }
+  },
+  "status": "AUTHORIZED_EXECUTION_AND_INDEPENDENT_VERIFICATION_COMPLETE"
+}

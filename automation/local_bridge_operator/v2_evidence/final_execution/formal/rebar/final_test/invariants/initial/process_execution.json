@@ -1,0 +1,97 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_locked_module_bootstrap.py",
+    "--root",
+    "/dev/shm/bridge_complex_v2_20261025",
+    "--target",
+    "invariants",
+    "--startup-receipt",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/initial/bootstrap_startup.json",
+    "--execution-receipt",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/initial/bootstrap_execution.json",
+    "--",
+    "--trainer",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+    "--checkpoint",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_41/model.pt",
+    "--family",
+    "rebar",
+    "--output",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/initial",
+    "--config",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+    "--release",
+    "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+    "--released-index",
+    "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/released_index.json",
+    "--case-id",
+    "v2_rebar_test_00",
+    "--expected-prediction",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/initial/v2_rebar_test_00.npz"
+  ],
+  "bootstrap_execution.json": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/initial/bootstrap_execution.json",
+    "sha256": "ac7dc0b711b3066067d3eed6afc542db3412d1de1087621b20b3f0dfdb16d6c0"
+  },
+  "bootstrap_snapshot": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/initial/bootstrap_source.py",
+    "sha256": "07eba3efcdc8e38bb5e7ae43da2972bf9337e0a1b57ae009e6cf27cfa66374d4"
+  },
+  "bootstrap_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_locked_module_bootstrap.py",
+    "sha256": "07eba3efcdc8e38bb5e7ae43da2972bf9337e0a1b57ae009e6cf27cfa66374d4"
+  },
+  "bootstrap_startup.json": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/initial/bootstrap_startup.json",
+    "sha256": "b30fea6b8de2f9012ef395f02f740ec3828e144637b46fee7e0eae95fd526760"
+  },
+  "case_id": "v2_rebar_test_00",
+  "checkpoint_sha256": "2a3c40e2dc6a5b1b128b02fbe8ba156ec6028748923213b9fbe8fb6c20f1aad8",
+  "derived_from_original_launcher_sha256": "b99473d92680d7373ede0dcee541e78324b8d04e67514a3b0f186496678e9238",
+  "ended_utc": 1792874349.2844765,
+  "family": "rebar",
+  "intent_utc": 1792874335.2047796,
+  "invariant_receipt_sha256": "e81340d2303507a99823d217ad8de4c6cce9f8860d5d9f1df375c5134f48c670",
+  "launcher_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/initial/launcher_source.py",
+    "sha256": "5702ae8db6eaf8001febd3cecb69df613d9c9c9bc131dbbd15429cfec06f8c13"
+  },
+  "official_prediction_sha256": "3d19ca74ac36a839c51c52630e9a41c47e107f23c321cd739dd8b2b8e05bff36",
+  "original_numerical_argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_invariants.py",
+    "--trainer",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+    "--checkpoint",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_41/model.pt",
+    "--family",
+    "rebar",
+    "--output",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/invariants/initial",
+    "--config",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+    "--release",
+    "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+    "--released-index",
+    "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/released_index.json",
+    "--case-id",
+    "v2_rebar_test_00",
+    "--expected-prediction",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/initial/v2_rebar_test_00.npz"
+  ],
+  "pid": 33,
+  "returncode": 0,
+  "schema": "bridge.v2.final_replay.process.v1",
+  "started_utc": 1792874335.2055416,
+  "status": "EXITED_ZERO",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "570fb263fb5b23ad6ba2216adbebb7e0ac56c242b2569309db755e24d4f0923a",
+  "strategy": "initial",
+  "thread_environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "wall_seconds": 14.079385521999939
+}

@@ -1,0 +1,118 @@
+{
+  "actions_in_this_persistence_step": {
+    "NPZ_opened_or_decoded": false,
+    "frozen_sources_or_receipts_modified": false,
+    "large_ZIP_reverified": false,
+    "new_interface_created": false,
+    "numpy_or_torch_imported": false,
+    "restore_or_index_generator_executed": false,
+    "solver_or_training_invoked": false,
+    "training_or_native_response_data_read": false
+  },
+  "archive_identity_from_bound_receipts": {
+    "bytes": 3970999,
+    "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/closed_acquisition_inputs_snapshot.zip",
+    "sha256": "73020bad52b73fa708a1b2749de41f076a37c9b1dc2a2f0e6397271f15bbf21b"
+  },
+  "blocking_findings": [],
+  "coverage_boundary": {
+    "allowed_index_use": "List the saved archive as an additional input/reproduction dependency and link its unchanged original snapshot manifest and both integrity receipts.",
+    "direct_original_snapshot_manifest_inventory_result": {},
+    "direct_original_snapshot_manifest_original_sources_count": 0,
+    "forbidden_inference": "Do not count this empty map as formal training/test archive-set coverage, and do not claim the frozen index independently enumerated all 186 original paths. The 32 prepared-record paths under operator/formal are input-only preparation metadata, not formal weights, stage traces or test outputs.",
+    "frozen_index_function": "inventory(document)",
+    "meaning": "The archive payload and original per-file reconstruction manifest remain preserved, but the frozen index does not enumerate the original snapshot files key. An empty original_sources map is a schema limitation, not proof that the 186 sources are absent.",
+    "optional_future_projection": "If an indexed per-source map is required, create a separate explicitly labeled projection from the original manifest files into a supported source_files schema, preserving each original absolute source path and SHA and binding the original manifest SHA. Never rewrite the original manifest, substitute payload/ archive-member paths for original paths, or invent formal stage coverage.",
+    "original_snapshot_top_level_source_key": "files",
+    "original_source_bytes": 22322439,
+    "original_source_file_count": 186,
+    "supported_top_level_inventory_keys": [
+      "sources",
+      "sources_before",
+      "source_files",
+      "members"
+    ]
+  },
+  "frozen_download_index_source": {
+    "bytes": 42104,
+    "path": "/dev/shm/bridge_complex_v2_20261025/delivery/download_index/v2_download_index.py",
+    "sha256": "f085d34b6fe6800c6e4ca30aaebb1aa153150c58b4a633bca9f2c81f5cafa120"
+  },
+  "original_independent_package_review": {
+    "bytes": 69748,
+    "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/acquisition_inputs/independent_package_review.json",
+    "sha256": "04ad1b85addb5a549c1719dd5c2cd26d6111619db82f982c36f8618ec85f175f"
+  },
+  "original_independent_package_review_status": "PASS_ALL_190_MEMBERS_CRC_SHA_LENGTH_AND_FROZEN_SOURCE_MANIFEST",
+  "original_snapshot_manifest": {
+    "bytes": 243331,
+    "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/acquisition_inputs/snapshot_manifest.json",
+    "sha256": "0676ca059fc6d6eae55b6c2a466631a39de29234f546fdcd7c99b278c6071b5e"
+  },
+  "original_snapshot_receipt": {
+    "bytes": 45414,
+    "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/acquisition_inputs/snapshot_receipt.json",
+    "sha256": "43090bfad71c789e35f7243583f0fb92fd2f489d7a486d5c1bec0a2662eda96f"
+  },
+  "original_snapshot_receipt_status": "PASS_CLOSED_INPUT_ONLY_SNAPSHOT_FULL_CRC_SHA_AND_STABLE_SOURCES",
+  "recorded_utc": "2026-10-24T20:18:42.249385+00:00",
+  "reported_additive_verifier_buffer_bytes": 1048576,
+  "reported_additive_verifier_peak_rss_bytes": 13189120,
+  "reviewed_additive_receipt": {
+    "bytes": 51432,
+    "path": "/dev/shm/bridge_complex_v2_20261025/delivery/final_assembly/acquisition_input_archive_compatibility_receipt.json",
+    "sha256": "632d8df3a12d251125ceb5cb65d132125cc731274cb879eb0b385dbd2389ada4"
+  },
+  "reviewed_verifier": {
+    "bytes": 8614,
+    "path": "/dev/shm/bridge_complex_v2_20261025/delivery/final_assembly/verify_input_snapshot_archive.py",
+    "sha256": "7e0e46b26cd491f5d71f6a845f866a49be09f6d76c50a447cb0078e4adb03c04"
+  },
+  "schema": "bridge_v2_input_archive_compatibility_static_review_v1",
+  "scientific_accuracy_pass_implied": false,
+  "stability_scope": "The additive verifier checks the ZIP and its three companion proof files before and after its stream pass. The original 186 input-source pre/post stability claim belongs to the separately bound original packaging receipt and is not newly reasserted as an original-file rehash by this static review.",
+  "static_checks": [
+    {
+      "finding": "The frozen index ARCHIVE_PASS set includes PASS_COMPLETE_ZIP_VERIFICATION, and archive_identity accepts an archive object containing exact path, bytes and SHA256. The additive receipt supplies this supported shape after its own complete stream verification.",
+      "id": "recognized_additive_status",
+      "pass": true
+    },
+    {
+      "finding": "The original specialized receipt, source manifest and independent package review are retained unchanged and referenced by exact path/length/SHA. The original specialized status remains explicitly recorded; it was not renamed or replaced.",
+      "id": "original_proofs_preserved",
+      "pass": true
+    },
+    {
+      "finding": "Static source shows a fixed external whole-ZIP SHA anchor, all 190 unique members consumed to EOF, SHA256/CRC32/length checks against the original expected table, and pre/post stability of the ZIP plus the three proof files. The receipt records the performed verification and measured peak RSS.",
+      "id": "actual_verification_not_label_only",
+      "pass": true
+    },
+    {
+      "finding": "The already completed independent small-JSON check found all 190 additive verified_members exactly equal to the original snapshot_receipt table and to the corresponding member/SHA/CRC/bytes projection of independent_package_review.",
+      "id": "member_tables_preserved",
+      "pass": true
+    },
+    {
+      "finding": "The already completed static check recomputed path/length/SHA identities for original_receipt, original_independent_review, manifest and package_source; all matched the additive receipt.",
+      "id": "small_source_references",
+      "pass": true
+    },
+    {
+      "finding": "The new verifier AST parsed successfully, and every nonblank Python source line had an actual COMMENT token. The verifier imports only standard-library modules and uses explicit require checks.",
+      "id": "syntax_and_comment_tokens",
+      "pass": true
+    },
+    {
+      "finding": "The proof remains an archive-integrity assertion for 32 prepared candidate records/graphs and their original input dependencies. It does not claim FEM labels, formal model weights, test results, learned accuracy, engineering release or numeric zero-state revalidation. All nine never-persisted friction input decks remain disclosed.",
+      "id": "input_only_scope_preserved",
+      "pass": true
+    },
+    {
+      "finding": "Compatibility is supplied by an additive receipt under delivery/final_assembly. The frozen download-index implementation and original specialized receipts were not edited by this adaptation or this review.",
+      "id": "frozen_index_unmodified",
+      "pass": true
+    }
+  ],
+  "status": "PASS_STATIC_NARROW_ADDITIVE_INTEGRITY_COMPATIBILITY_WITH_COVERAGE_BOUNDARY",
+  "verification_method": "Persisted result of the already completed independent source/AST/comment-token and small-receipt comparison review. This write did not rerun the ZIP verifier, restore utility, index generator or any numerical software."
+}

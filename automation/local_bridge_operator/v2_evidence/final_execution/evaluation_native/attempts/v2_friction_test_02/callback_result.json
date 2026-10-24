@@ -1,0 +1,134 @@
+{
+  "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+  "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_test_02/attempt_1792872828863321676/callback_receipt.json",
+  "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+  "callback_wall_seconds": 5.064482786001463,
+  "canonical_cold_seconds": 3.5019242279995524,
+  "cost_evidence": {
+    "actual_fresh_native_receipts": [
+      {
+        "id": "v2_friction_test_02",
+        "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/contact.inp",
+        "input_deck_sha256": "83c2ab68a58b7a1ace831c923a46b052202a950b1bd3878749cc3e0695f8c9d2",
+        "job_finished": true,
+        "measured_seconds": 3.5019242279995524,
+        "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/receipt.json",
+        "receipt_sha256": "81453387e25d1329f2686bc547ef8c19c90f2d8d40bc7824946cf49bf219d64a",
+        "returncode": 0,
+        "seconds": 3.5019242279995524,
+        "timing_basis": "native_invocation_wall_including_log_write"
+      }
+    ],
+    "actual_fresh_native_seconds": 3.5019242279995524,
+    "canonical_cold_reference": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/83c2ab68a58b7a1ace831c923a46b052202a950b1bd3878749cc3e0695f8c9d2.json",
+      "sha256": "2e75ccd06c0d0657a9f13d8ee160775c0ee7135b58c7077b55cdd50573665fcf"
+    },
+    "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/contact.inp",
+    "input_deck_sha256": "83c2ab68a58b7a1ace831c923a46b052202a950b1bd3878749cc3e0695f8c9d2",
+    "measured_seconds": 3.5019242279995524,
+    "native_receipts": [
+      {
+        "id": "v2_friction_test_02",
+        "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/contact.inp",
+        "input_deck_sha256": "83c2ab68a58b7a1ace831c923a46b052202a950b1bd3878749cc3e0695f8c9d2",
+        "job_finished": true,
+        "measured_seconds": 3.5019242279995524,
+        "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/receipt.json",
+        "receipt_sha256": "81453387e25d1329f2686bc547ef8c19c90f2d8d40bc7824946cf49bf219d64a",
+        "returncode": 0,
+        "seconds": 3.5019242279995524,
+        "timing_basis": "native_invocation_wall_including_log_write"
+      }
+    ],
+    "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/audit.json",
+    "qualification_receipt_sha256": "192497512d8590db6aa9cb8d7a468691c23db9c1a634d016e5640e115cb6e203",
+    "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_test_02/attempt_1792872828863321676/cost_accounting.json",
+    "receipt_sha256": "b8abeb9fe8d0887d5d2858c31e33b5ef41b587db2b6acc1103474c4c4bf65dc8",
+    "timing_basis": "native_invocation_wall_including_log_write"
+  },
+  "cost_status": "MEASURED_COMPLETE",
+  "descriptor": {
+    "amplitude": 0.10828190867323428,
+    "canonical_input_sha256": "f215add9653373b90ce8fb82f04e5ff8d48db83cbc06e21e833fc86af012b166",
+    "controls_sha256": "c41d68d27fd7f2124cbbd6096c6d03363c46fe679e101c1a3ae3f0019aaa7758",
+    "dt": 0.05,
+    "dtmax": 0.1,
+    "family": "friction",
+    "future_native_fields_present": false,
+    "group_id": "v2_friction_f215add9653373b90ce8",
+    "id": "v2_friction_test_02",
+    "kn": 1000000.0,
+    "kt": 10000.0,
+    "mesh": [
+      8,
+      4,
+      2
+    ],
+    "mu": 0.37587307877838616,
+    "normal_mode": 1,
+    "observed_frames": 33,
+    "opening": 0.02,
+    "params": [
+      0.37587307877838616,
+      10.882521476596594,
+      0.10828190867323428,
+      1.0144769314676523,
+      0.9282702742144465,
+      0.813658956438303,
+      1.0,
+      0.0
+    ],
+    "pressure": 10.882521476596594,
+    "protocol": 0,
+    "scale": [
+      1.0144769314676523,
+      0.9282702742144465,
+      0.813658956438303
+    ],
+    "split": "test"
+  },
+  "export_sha256": {
+    "audit.json": "192497512d8590db6aa9cb8d7a468691c23db9c1a634d016e5640e115cb6e203",
+    "fields.npz": "bbe1c6d259d34ff9b8a040b93fdbc61664c5006a94ee2b89f2b7462d6733315b",
+    "metadata.json": "35f8fda27500aaa9407b7fe65f9b41fcd2d7135514318fe307c16a4cc24ae50d",
+    "native_tables.npz": "b4ea0bc42e9707aa37b8242cf298d7a1dd3c2d5ed009b4423bfad69216d11f9e"
+  },
+  "fresh_native_execution_count": 1,
+  "fresh_native_seconds_total": 3.5019242279995524,
+  "fresh_native_solve": true,
+  "group_id": "v2_friction_f215add9653373b90ce8",
+  "heldout_release": {
+    "guard_source_sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76",
+    "release_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+    "release_sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+  },
+  "id": "v2_friction_test_02",
+  "input_identity": {
+    "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+    "controls_sha256": "ec8b6f6def6689dcbed14a2773f04a8b610d42563fa8dfdaf21219dc4451ce10",
+    "geometry_sha256": "53f20576afc839f4183776cbadd58f8b251ecf4e25440d1751c3eb84ddf4c961",
+    "native_input_sha256": "83c2ab68a58b7a1ace831c923a46b052202a950b1bd3878749cc3e0695f8c9d2",
+    "schema": "bridge.v2.friction.input_identity.v1",
+    "signature_sha256": "e9f030560d9cae1137330d2db8afb78357f94d2d59dbd0abe39e3730f824d0e4"
+  },
+  "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/metadata.json",
+  "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+  "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/fields.npz",
+  "params": [
+    0.37587307877838616,
+    10.882521476596594,
+    0.10828190867323428,
+    1.0144769314676523,
+    0.9282702742144465,
+    0.813658956438303,
+    1.0,
+    0.0
+  ],
+  "quality": "VALID_CONVERGED",
+  "reference_final_invocation_seconds": 3.5019242279995524,
+  "seconds": 3.5019242279995524,
+  "split": "test",
+  "verified_cache_reuse": false,
+  "worker_process_wall_seconds": 4.993986337998649
+}

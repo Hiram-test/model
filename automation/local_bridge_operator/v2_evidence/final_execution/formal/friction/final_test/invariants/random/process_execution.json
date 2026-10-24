@@ -1,0 +1,97 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_locked_module_bootstrap.py",
+    "--root",
+    "/dev/shm/bridge_complex_v2_20261025",
+    "--target",
+    "invariants",
+    "--startup-receipt",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/invariants/random/bootstrap_startup.json",
+    "--execution-receipt",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/invariants/random/bootstrap_execution.json",
+    "--",
+    "--trainer",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+    "--checkpoint",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_41/model.pt",
+    "--family",
+    "friction",
+    "--output",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/invariants/random",
+    "--config",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+    "--release",
+    "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+    "--released-index",
+    "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/released_index.json",
+    "--case-id",
+    "v2_friction_test_00",
+    "--expected-prediction",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/random/v2_friction_test_00.npz"
+  ],
+  "bootstrap_execution.json": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/invariants/random/bootstrap_execution.json",
+    "sha256": "71328ada7275c69091b47cd0164784a9f1a9f55b043c9861e0878f04fdce571f"
+  },
+  "bootstrap_snapshot": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/invariants/random/bootstrap_source.py",
+    "sha256": "07eba3efcdc8e38bb5e7ae43da2972bf9337e0a1b57ae009e6cf27cfa66374d4"
+  },
+  "bootstrap_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_locked_module_bootstrap.py",
+    "sha256": "07eba3efcdc8e38bb5e7ae43da2972bf9337e0a1b57ae009e6cf27cfa66374d4"
+  },
+  "bootstrap_startup.json": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/invariants/random/bootstrap_startup.json",
+    "sha256": "4159e65d158e3eea33b1f8ee38d4c8e72d332a0abff80a622c5b53e8345d055f"
+  },
+  "case_id": "v2_friction_test_00",
+  "checkpoint_sha256": "64ca1d02c53be8a2a286b88afe03bfb2e7830936dc58a85b3ff16005a21d77eb",
+  "derived_from_original_launcher_sha256": "b99473d92680d7373ede0dcee541e78324b8d04e67514a3b0f186496678e9238",
+  "ended_utc": 1792874335.1666763,
+  "family": "friction",
+  "intent_utc": 1792874331.7351956,
+  "invariant_receipt_sha256": "28175698a567bebdc210d8aa02af0b99a13619294d9bd2ce303234322ab5d2df",
+  "launcher_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/invariants/random/launcher_source.py",
+    "sha256": "5702ae8db6eaf8001febd3cecb69df613d9c9c9bc131dbbd15429cfec06f8c13"
+  },
+  "official_prediction_sha256": "b8929554d98fde97104173d874fbbbafe27aabc987e90a3d0b67ed4b85d6adc0",
+  "original_numerical_argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_invariants.py",
+    "--trainer",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+    "--checkpoint",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_41/model.pt",
+    "--family",
+    "friction",
+    "--output",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/invariants/random",
+    "--config",
+    "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+    "--release",
+    "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+    "--released-index",
+    "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/released_index.json",
+    "--case-id",
+    "v2_friction_test_00",
+    "--expected-prediction",
+    "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/random/v2_friction_test_00.npz"
+  ],
+  "pid": 24,
+  "returncode": 0,
+  "schema": "bridge.v2.final_replay.process.v1",
+  "started_utc": 1792874331.7358687,
+  "status": "EXITED_ZERO",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "d48f6ccbd72b586b24a3aa25346e0a736548777ef8418d66132a398d01f8155b",
+  "strategy": "random",
+  "thread_environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "wall_seconds": 3.431296933998965
+}

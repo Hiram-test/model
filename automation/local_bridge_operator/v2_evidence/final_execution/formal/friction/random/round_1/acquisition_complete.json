@@ -1,0 +1,516 @@
+{
+  "accepted_label_identities": [
+    {
+      "group_id": "v2_friction_559f50c657a01e3ad00a",
+      "id": "v2_friction_candidate_11",
+      "metadata": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/metadata.json",
+        "sha256": "283fed5f7f1e3e3e4896eeab71586d5f647c345d3c1abd93a00d3431cfc6cd2e"
+      },
+      "npz": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/fields.npz",
+        "sha256": "3442c0cebbf141b99ee575cc270a4e90fe2c5b34754ee743568eedf35f561a0f"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "v2_friction_01cde1181ffc2256a00a",
+      "id": "v2_friction_candidate_12",
+      "metadata": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/metadata.json",
+        "sha256": "fd329a18b0e3881581760ea33c34711de541d58d0c7f9c6b9f933894e9b33c2b"
+      },
+      "npz": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/fields.npz",
+        "sha256": "ac8653c946e997c057c670c7582f4f7ab4b3993f68430e1fe330d0a760802318"
+      },
+      "quality": "VALID_CONVERGED"
+    }
+  ],
+  "accepted_rows": [
+    {
+      "acquisition_original_split": "candidate",
+      "acquisition_requested_id": "v2_friction_candidate_11",
+      "actual_native_case_id": "v2_friction_candidate_11",
+      "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+      "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_candidate_11/attempt_1792865789110786138/callback_receipt.json",
+      "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+      "callback_wall_seconds": 5.016568231003475,
+      "canonical_cold_seconds": 3.490387969999574,
+      "cost_evidence": {
+        "actual_fresh_native_receipts": [
+          {
+            "id": "v2_friction_candidate_11",
+            "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/contact.inp",
+            "input_deck_sha256": "3847c9a0acd9fb1e3acfd40fa0f738ee9f719b82163c907f687c6128e94e8d05",
+            "job_finished": true,
+            "measured_seconds": 3.490387969999574,
+            "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/receipt.json",
+            "receipt_sha256": "8b5dad6e2a18b571faf4812e97a5401fe8b86a33efe567153a2c39ebe0dc6247",
+            "returncode": 0,
+            "seconds": 3.490387969999574,
+            "timing_basis": "native_invocation_wall_including_log_write"
+          }
+        ],
+        "actual_fresh_native_seconds": 3.490387969999574,
+        "canonical_cold_reference": {
+          "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/3847c9a0acd9fb1e3acfd40fa0f738ee9f719b82163c907f687c6128e94e8d05.json",
+          "sha256": "65141fa9a47dbfc5753c2589e67a3299a8bb1839690a69568c88ae6fb130a7c7"
+        },
+        "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/contact.inp",
+        "input_deck_sha256": "3847c9a0acd9fb1e3acfd40fa0f738ee9f719b82163c907f687c6128e94e8d05",
+        "measured_seconds": 3.490387969999574,
+        "native_receipts": [
+          {
+            "id": "v2_friction_candidate_11",
+            "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/contact.inp",
+            "input_deck_sha256": "3847c9a0acd9fb1e3acfd40fa0f738ee9f719b82163c907f687c6128e94e8d05",
+            "job_finished": true,
+            "measured_seconds": 3.490387969999574,
+            "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/receipt.json",
+            "receipt_sha256": "8b5dad6e2a18b571faf4812e97a5401fe8b86a33efe567153a2c39ebe0dc6247",
+            "returncode": 0,
+            "seconds": 3.490387969999574,
+            "timing_basis": "native_invocation_wall_including_log_write"
+          }
+        ],
+        "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/audit.json",
+        "qualification_receipt_sha256": "77e90ee2fb53803dc66ec375dba781a80e551936357b67953feab429dc5411fb",
+        "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_candidate_11/attempt_1792865789110786138/cost_accounting.json",
+        "receipt_sha256": "74443c829946485b08a3a863b7085e6a3b9e09c9bf071294323cd995d6a32b07",
+        "timing_basis": "native_invocation_wall_including_log_write"
+      },
+      "cost_status": "MEASURED_COMPLETE",
+      "descriptor": {
+        "amplitude": 0.10170412780717017,
+        "canonical_input_sha256": "559f50c657a01e3ad00a5190996cb64fd89aa4e8e23ec51032732040f4a60717",
+        "controls_sha256": "581cc439012d54ecc5d05a3069ae6dcb613feea369d848ee9f4fe4c4e6d6dd9e",
+        "dt": 0.05,
+        "dtmax": 0.1,
+        "family": "friction",
+        "future_native_fields_present": false,
+        "group_id": "v2_friction_559f50c657a01e3ad00a",
+        "id": "v2_friction_candidate_11",
+        "kn": 1000000.0,
+        "kt": 10000.0,
+        "mesh": [
+          8,
+          4,
+          2
+        ],
+        "mu": 0.15232960805296897,
+        "normal_mode": 1,
+        "observed_frames": 33,
+        "opening": 0.02,
+        "params": [
+          0.15232960805296897,
+          18.19376477971673,
+          0.10170412780717017,
+          1.0759456338360907,
+          0.9994969937950373,
+          0.8981696967035533,
+          1.0,
+          1.0
+        ],
+        "pressure": 18.19376477971673,
+        "protocol": 1,
+        "scale": [
+          1.0759456338360907,
+          0.9994969937950373,
+          0.8981696967035533
+        ],
+        "split": "candidate"
+      },
+      "export_sha256": {
+        "audit.json": "77e90ee2fb53803dc66ec375dba781a80e551936357b67953feab429dc5411fb",
+        "fields.npz": "3442c0cebbf141b99ee575cc270a4e90fe2c5b34754ee743568eedf35f561a0f",
+        "metadata.json": "283fed5f7f1e3e3e4896eeab71586d5f647c345d3c1abd93a00d3431cfc6cd2e",
+        "native_tables.npz": "18d01f0643075de9921b85fe0846df74046449bf99eb142bace8c0a292d8d0cf"
+      },
+      "fresh_native_execution_count": 1,
+      "fresh_native_seconds_total": 3.490387969999574,
+      "fresh_native_solve": true,
+      "group_id": "v2_friction_559f50c657a01e3ad00a",
+      "heldout_release": null,
+      "id": "v2_friction_candidate_11",
+      "input_identity": {
+        "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+        "controls_sha256": "0f052381eab1710add19690806de5536dd3971cbb85a7b25bea7bfffe44fdfac",
+        "geometry_sha256": "61029a34392474ec1b8a981a162d66d4b320d3f7b35caf109c2175c812ef6b4c",
+        "native_input_sha256": "3847c9a0acd9fb1e3acfd40fa0f738ee9f719b82163c907f687c6128e94e8d05",
+        "schema": "bridge.v2.friction.input_identity.v1",
+        "signature_sha256": "0afdabc7291a69b8664332c930d8503cdffc47f641edf8bc3066a24304566272"
+      },
+      "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/metadata.json",
+      "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+      "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/fields.npz",
+      "params": [
+        0.15232960805296897,
+        18.19376477971673,
+        0.10170412780717017,
+        1.0759456338360907,
+        0.9994969937950373,
+        0.8981696967035533,
+        1.0,
+        1.0
+      ],
+      "quality": "VALID_CONVERGED",
+      "reference_final_invocation_seconds": 3.490387969999574,
+      "seconds": 3.490387969999574,
+      "split": "train",
+      "verified_cache_reuse": false,
+      "worker_process_wall_seconds": 4.97757100400122
+    },
+    {
+      "acquisition_original_split": "candidate",
+      "acquisition_requested_id": "v2_friction_candidate_12",
+      "actual_native_case_id": "v2_friction_candidate_12",
+      "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+      "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_candidate_12/attempt_1792865794130499514/callback_receipt.json",
+      "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+      "callback_wall_seconds": 5.915092946001096,
+      "canonical_cold_seconds": 4.362387098000909,
+      "cost_evidence": {
+        "actual_fresh_native_receipts": [
+          {
+            "id": "v2_friction_candidate_12",
+            "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/contact.inp",
+            "input_deck_sha256": "35cc915ff81ecd3ea4f92c58200daf29d83b562532ac9de1ac708e0dbc75923c",
+            "job_finished": true,
+            "measured_seconds": 4.362387098000909,
+            "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/receipt.json",
+            "receipt_sha256": "fdfa524d4490a39dcadc1896e6da475e2c9c126c64c235092346d35aa365d0fd",
+            "returncode": 0,
+            "seconds": 4.362387098000909,
+            "timing_basis": "native_invocation_wall_including_log_write"
+          }
+        ],
+        "actual_fresh_native_seconds": 4.362387098000909,
+        "canonical_cold_reference": {
+          "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/35cc915ff81ecd3ea4f92c58200daf29d83b562532ac9de1ac708e0dbc75923c.json",
+          "sha256": "5f3f2dc56bb8dfe542279bf300d8864381795dc7d41134c8fe63857100564cb6"
+        },
+        "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/contact.inp",
+        "input_deck_sha256": "35cc915ff81ecd3ea4f92c58200daf29d83b562532ac9de1ac708e0dbc75923c",
+        "measured_seconds": 4.362387098000909,
+        "native_receipts": [
+          {
+            "id": "v2_friction_candidate_12",
+            "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/contact.inp",
+            "input_deck_sha256": "35cc915ff81ecd3ea4f92c58200daf29d83b562532ac9de1ac708e0dbc75923c",
+            "job_finished": true,
+            "measured_seconds": 4.362387098000909,
+            "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/receipt.json",
+            "receipt_sha256": "fdfa524d4490a39dcadc1896e6da475e2c9c126c64c235092346d35aa365d0fd",
+            "returncode": 0,
+            "seconds": 4.362387098000909,
+            "timing_basis": "native_invocation_wall_including_log_write"
+          }
+        ],
+        "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/audit.json",
+        "qualification_receipt_sha256": "459b88c8c65e358bd7325357830b5d0e9334a3acf0d3836a1a4bc244abeaf0d3",
+        "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_candidate_12/attempt_1792865794130499514/cost_accounting.json",
+        "receipt_sha256": "9fbfc6eeda4ea9952db9f1f6f782156566a80ea13ed9de29c84304e7131fa0cd",
+        "timing_basis": "native_invocation_wall_including_log_write"
+      },
+      "cost_status": "MEASURED_COMPLETE",
+      "descriptor": {
+        "amplitude": 0.05932936414610595,
+        "canonical_input_sha256": "01cde1181ffc2256a00ae4088d0d3807e58152575d9ae3f86e06170ace013084",
+        "controls_sha256": "6cc43b4f528d9d16c3034d936883db896a13cc2d4de611f60a77f4381efab931",
+        "dt": 0.05,
+        "dtmax": 0.1,
+        "family": "friction",
+        "future_native_fields_present": false,
+        "group_id": "v2_friction_01cde1181ffc2256a00a",
+        "id": "v2_friction_candidate_12",
+        "kn": 1000000.0,
+        "kt": 10000.0,
+        "mesh": [
+          8,
+          4,
+          2
+        ],
+        "mu": 0.24822360835969448,
+        "normal_mode": 0,
+        "observed_frames": 33,
+        "opening": 0.02,
+        "params": [
+          0.24822360835969448,
+          10.617853663861752,
+          0.05932936414610595,
+          1.0576521562412382,
+          0.9651309596374631,
+          0.922949704900384,
+          0.0,
+          0.0
+        ],
+        "pressure": 10.617853663861752,
+        "protocol": 0,
+        "scale": [
+          1.0576521562412382,
+          0.9651309596374631,
+          0.922949704900384
+        ],
+        "split": "candidate"
+      },
+      "export_sha256": {
+        "audit.json": "459b88c8c65e358bd7325357830b5d0e9334a3acf0d3836a1a4bc244abeaf0d3",
+        "fields.npz": "ac8653c946e997c057c670c7582f4f7ab4b3993f68430e1fe330d0a760802318",
+        "metadata.json": "fd329a18b0e3881581760ea33c34711de541d58d0c7f9c6b9f933894e9b33c2b",
+        "native_tables.npz": "54d49d7e42c42c6c7e7526085b6591068fe50f91f70da82c28fa193f6fc78877"
+      },
+      "fresh_native_execution_count": 1,
+      "fresh_native_seconds_total": 4.362387098000909,
+      "fresh_native_solve": true,
+      "group_id": "v2_friction_01cde1181ffc2256a00a",
+      "heldout_release": null,
+      "id": "v2_friction_candidate_12",
+      "input_identity": {
+        "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+        "controls_sha256": "5a383a0047966242078cac604921e48d0de0ad0d31d0ffffa3dbcdb7df26221f",
+        "geometry_sha256": "e43b6677426c3ba6ad6a63bdf3d38834751493407e39dd629f4f98dad7ef8288",
+        "native_input_sha256": "35cc915ff81ecd3ea4f92c58200daf29d83b562532ac9de1ac708e0dbc75923c",
+        "schema": "bridge.v2.friction.input_identity.v1",
+        "signature_sha256": "246c6573159a0c2831f6e2393b297ea6fd95f4f461c7ab86637d353caac4f435"
+      },
+      "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/metadata.json",
+      "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+      "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/fields.npz",
+      "params": [
+        0.24822360835969448,
+        10.617853663861752,
+        0.05932936414610595,
+        1.0576521562412382,
+        0.9651309596374631,
+        0.922949704900384,
+        0.0,
+        0.0
+      ],
+      "quality": "VALID_CONVERGED",
+      "reference_final_invocation_seconds": 4.362387098000909,
+      "seconds": 4.362387098000909,
+      "split": "train",
+      "verified_cache_reuse": false,
+      "worker_process_wall_seconds": 5.87475369099775
+    }
+  ],
+  "actual_callback_wall_seconds": 10.931661177004571,
+  "budget_path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/native_budget.json",
+  "cached_requests": 0,
+  "candidate_order_sha256": "1b70a2b251bd8901284c330b1517a6e9894201828ff446457396e06d9a954c10",
+  "charged_cold_seconds": 7.852775068000483,
+  "failed_native_is_neural_negative": false,
+  "family": "friction",
+  "fresh_requests": 2,
+  "native_attempts": 2,
+  "qualified_histories": 2,
+  "remaining": {
+    "available_seconds": 10.636279289997038,
+    "global_seconds": 29.12533364799456,
+    "round_seconds": 10.636279289997038
+  },
+  "requested_ids": [
+    "v2_friction_candidate_11",
+    "v2_friction_candidate_12"
+  ],
+  "round": 1,
+  "round_attempts": [
+    {
+      "actual_callback_wall_seconds": 5.016568231003475,
+      "actual_fresh_native_seconds": 3.490387969999574,
+      "admission": {
+        "admitted": true,
+        "available_seconds": 18.48905435799752,
+        "global_seconds": 36.97810871599504,
+        "reasons": [],
+        "reservation_seconds": 4.026647938178529,
+        "round_seconds": 18.48905435799752
+      },
+      "charged_seconds": 3.490387969999574,
+      "completed_utc": 1792865794.1186807,
+      "cost_estimate": {
+        "candidate_native_result_used": false,
+        "estimated_cold_seconds": 3.8298056718490443,
+        "id": "v2_friction_candidate_11",
+        "neighbor_ids": [
+          "friction_003",
+          "friction_007",
+          "friction_001",
+          "friction_005"
+        ],
+        "neighbor_weights": [
+          0.2764740274133456,
+          0.2742020340556473,
+          0.2392566235717726,
+          0.21006731495923442
+        ],
+        "reservation_seconds": 4.026647938178529,
+        "timing_basis": "native_invocation_wall_including_log_write"
+      },
+      "cost_evidence": {
+        "actual_fresh_native_receipts": [
+          {
+            "id": "v2_friction_candidate_11",
+            "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/contact.inp",
+            "input_deck_sha256": "3847c9a0acd9fb1e3acfd40fa0f738ee9f719b82163c907f687c6128e94e8d05",
+            "job_finished": true,
+            "measured_seconds": 3.490387969999574,
+            "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/receipt.json",
+            "receipt_sha256": "8b5dad6e2a18b571faf4812e97a5401fe8b86a33efe567153a2c39ebe0dc6247",
+            "returncode": 0,
+            "seconds": 3.490387969999574,
+            "timing_basis": "native_invocation_wall_including_log_write"
+          }
+        ],
+        "actual_fresh_native_seconds": 3.490387969999574,
+        "canonical_cold_reference": {
+          "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/3847c9a0acd9fb1e3acfd40fa0f738ee9f719b82163c907f687c6128e94e8d05.json",
+          "sha256": "65141fa9a47dbfc5753c2589e67a3299a8bb1839690a69568c88ae6fb130a7c7"
+        },
+        "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/contact.inp",
+        "input_deck_sha256": "3847c9a0acd9fb1e3acfd40fa0f738ee9f719b82163c907f687c6128e94e8d05",
+        "measured_seconds": 3.490387969999574,
+        "native_receipts": [
+          {
+            "id": "v2_friction_candidate_11",
+            "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/contact.inp",
+            "input_deck_sha256": "3847c9a0acd9fb1e3acfd40fa0f738ee9f719b82163c907f687c6128e94e8d05",
+            "job_finished": true,
+            "measured_seconds": 3.490387969999574,
+            "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/receipt.json",
+            "receipt_sha256": "8b5dad6e2a18b571faf4812e97a5401fe8b86a33efe567153a2c39ebe0dc6247",
+            "returncode": 0,
+            "seconds": 3.490387969999574,
+            "timing_basis": "native_invocation_wall_including_log_write"
+          }
+        ],
+        "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_11/audit.json",
+        "qualification_receipt_sha256": "77e90ee2fb53803dc66ec375dba781a80e551936357b67953feab429dc5411fb",
+        "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_candidate_11/attempt_1792865789110786138/cost_accounting.json",
+        "receipt_sha256": "74443c829946485b08a3a863b7085e6a3b9e09c9bf071294323cd995d6a32b07",
+        "timing_basis": "native_invocation_wall_including_log_write"
+      },
+      "id": "v2_friction_candidate_11",
+      "input_identity": {
+        "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+        "controls_sha256": "0f052381eab1710add19690806de5536dd3971cbb85a7b25bea7bfffe44fdfac",
+        "geometry_sha256": "61029a34392474ec1b8a981a162d66d4b320d3f7b35caf109c2175c812ef6b4c",
+        "native_input_sha256": "3847c9a0acd9fb1e3acfd40fa0f738ee9f719b82163c907f687c6128e94e8d05",
+        "schema": "bridge.v2.friction.input_identity.v1",
+        "signature_sha256": "0afdabc7291a69b8664332c930d8503cdffc47f641edf8bc3066a24304566272"
+      },
+      "neural_negative_label": null,
+      "remaining_after": {
+        "available_seconds": 14.998666387997947,
+        "global_seconds": 33.48772074599547,
+        "round_seconds": 14.998666387997947
+      },
+      "reservation_overshoot_seconds": 0.0,
+      "round": 1,
+      "status": "QUALIFIED_REFERENCE",
+      "time_started_utc": 1792865789.1003168,
+      "verified_cache_reuse": false
+    },
+    {
+      "actual_callback_wall_seconds": 5.915092946001096,
+      "actual_fresh_native_seconds": 4.362387098000909,
+      "admission": {
+        "admitted": true,
+        "available_seconds": 14.998666387997947,
+        "global_seconds": 33.48772074599547,
+        "reasons": [],
+        "reservation_seconds": 4.808176506149979,
+        "round_seconds": 14.998666387997947
+      },
+      "charged_seconds": 4.362387098000909,
+      "completed_utc": 1792865800.0360878,
+      "cost_estimate": {
+        "candidate_native_result_used": false,
+        "estimated_cold_seconds": 4.573129296929379,
+        "id": "v2_friction_candidate_12",
+        "neighbor_ids": [
+          "friction_004",
+          "friction_000_replay1",
+          "friction_002",
+          "friction_006"
+        ],
+        "neighbor_weights": [
+          0.3230527344433469,
+          0.24993134396905867,
+          0.2169031343395029,
+          0.21011278724809151
+        ],
+        "reservation_seconds": 4.808176506149979,
+        "timing_basis": "native_invocation_wall_including_log_write"
+      },
+      "cost_evidence": {
+        "actual_fresh_native_receipts": [
+          {
+            "id": "v2_friction_candidate_12",
+            "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/contact.inp",
+            "input_deck_sha256": "35cc915ff81ecd3ea4f92c58200daf29d83b562532ac9de1ac708e0dbc75923c",
+            "job_finished": true,
+            "measured_seconds": 4.362387098000909,
+            "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/receipt.json",
+            "receipt_sha256": "fdfa524d4490a39dcadc1896e6da475e2c9c126c64c235092346d35aa365d0fd",
+            "returncode": 0,
+            "seconds": 4.362387098000909,
+            "timing_basis": "native_invocation_wall_including_log_write"
+          }
+        ],
+        "actual_fresh_native_seconds": 4.362387098000909,
+        "canonical_cold_reference": {
+          "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/35cc915ff81ecd3ea4f92c58200daf29d83b562532ac9de1ac708e0dbc75923c.json",
+          "sha256": "5f3f2dc56bb8dfe542279bf300d8864381795dc7d41134c8fe63857100564cb6"
+        },
+        "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/contact.inp",
+        "input_deck_sha256": "35cc915ff81ecd3ea4f92c58200daf29d83b562532ac9de1ac708e0dbc75923c",
+        "measured_seconds": 4.362387098000909,
+        "native_receipts": [
+          {
+            "id": "v2_friction_candidate_12",
+            "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/contact.inp",
+            "input_deck_sha256": "35cc915ff81ecd3ea4f92c58200daf29d83b562532ac9de1ac708e0dbc75923c",
+            "job_finished": true,
+            "measured_seconds": 4.362387098000909,
+            "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/receipt.json",
+            "receipt_sha256": "fdfa524d4490a39dcadc1896e6da475e2c9c126c64c235092346d35aa365d0fd",
+            "returncode": 0,
+            "seconds": 4.362387098000909,
+            "timing_basis": "native_invocation_wall_including_log_write"
+          }
+        ],
+        "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_candidate_12/audit.json",
+        "qualification_receipt_sha256": "459b88c8c65e358bd7325357830b5d0e9334a3acf0d3836a1a4bc244abeaf0d3",
+        "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_candidate_12/attempt_1792865794130499514/cost_accounting.json",
+        "receipt_sha256": "9fbfc6eeda4ea9952db9f1f6f782156566a80ea13ed9de29c84304e7131fa0cd",
+        "timing_basis": "native_invocation_wall_including_log_write"
+      },
+      "id": "v2_friction_candidate_12",
+      "input_identity": {
+        "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+        "controls_sha256": "5a383a0047966242078cac604921e48d0de0ad0d31d0ffffa3dbcdb7df26221f",
+        "geometry_sha256": "e43b6677426c3ba6ad6a63bdf3d38834751493407e39dd629f4f98dad7ef8288",
+        "native_input_sha256": "35cc915ff81ecd3ea4f92c58200daf29d83b562532ac9de1ac708e0dbc75923c",
+        "schema": "bridge.v2.friction.input_identity.v1",
+        "signature_sha256": "246c6573159a0c2831f6e2393b297ea6fd95f4f461c7ab86637d353caac4f435"
+      },
+      "neural_negative_label": null,
+      "remaining_after": {
+        "available_seconds": 10.636279289997038,
+        "global_seconds": 29.12533364799456,
+        "round_seconds": 10.636279289997038
+      },
+      "reservation_overshoot_seconds": 0.0,
+      "round": 1,
+      "status": "QUALIFIED_REFERENCE",
+      "time_started_utc": 1792865794.1192844,
+      "verified_cache_reuse": false
+    }
+  ],
+  "schema": "bridge.v2.acquisition.completion.v1",
+  "status": "COMPLETE_FINITE_ROUND",
+  "stop_reason": "MAXIMUM_QUALIFIED_HISTORIES",
+  "strategy": "random"
+}

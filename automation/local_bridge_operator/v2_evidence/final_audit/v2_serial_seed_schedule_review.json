@@ -1,0 +1,31 @@
+{
+  "actual_attempts_and_process_wall_preserved": true,
+  "config": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+    "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+  },
+  "controller": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller.py",
+    "sha256": "95c1209149c04b90297047b9874049e806dd471f26235e8ad02afb373eb9c477"
+  },
+  "execution_lock": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+    "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+  },
+  "formal_stage_count_unchanged": 20,
+  "maximum_two_workers_does_not_require_two": true,
+  "native_thermal_peak_memory_coordination_required": true,
+  "new_test_release_authorized": false,
+  "permitted_sequence": [
+    "guard(config_path,formal=True)",
+    "development_rows(public,rebar)",
+    "stage_spec(config,public,rebar,initial,0,17,original8train,original3validation,config.initial_checkpoints17)",
+    "run_workers(config,[exact_seed17_spec])",
+    "normal frozen CLI run rebar verifies and reuses completed17 before running remaining stages"
+  ],
+  "same_sources_optimizer_and_updates_required": true,
+  "same_stage_spec_required": true,
+  "science_protocol_or_formal_sources_modified": false,
+  "status": "PASS_RESOURCE_ONLY_SERIAL_INITIAL_SEED_DISPATCH",
+  "unclosed_old_writer_remains_fail_closed": true
+}

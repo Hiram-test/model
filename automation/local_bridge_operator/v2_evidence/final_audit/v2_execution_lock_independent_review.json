@@ -1,0 +1,169 @@
+{
+  "controller_config": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+    "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+  },
+  "controller_fault_test_evidence": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/controller_verification/verification.json",
+    "sha256": "c3bcd1e6912bd7134dadf6543e3c5ee7bb8d9b571d998d0f8245a8b0e95506df"
+  },
+  "development_evidence_checked": 8,
+  "execution_lock": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+    "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+  },
+  "heldout_generation_authorized": false,
+  "independent_actual_worker_event_checks": [
+    {
+      "commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/friction_worker_verification/seed_17/stage_commit.json",
+        "sha256": "4f6b267c52cbeef070d8d9bb09e2ef59b3c5e4db84df645562304e03de2f3d9f"
+      },
+      "event_count": 339,
+      "files": [
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/friction_worker_verification/seed_17/model.pt",
+          "sha256": "7bcf35c0e08eb13fad23c94fc479204d106086d15062fa8998f65a15594150fe"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/friction_worker_verification/seed_17/stage_contract.json",
+          "sha256": "498b9569f3642660877ad8685b196bac5559ff64343ba996e9762e2707a948fb"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/friction_worker_verification/seed_17/actual_work.json",
+          "sha256": "4984255b5484335ad842746ca00c8a1b0f4de4f3440beeca4fabbdb8a763a34c"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/friction_worker_verification/seed_17/actual_work_events.jsonl",
+          "sha256": "8060b8e7012f39a0238d6c3f2e22d4e9830cdffbe2e1e578164a50a82ec72fb9"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/friction_worker_verification/seed_17/history.json",
+          "sha256": "42f5e1cc51593c3e70928c29f1fdeefedd7573bf28eb913fe315c2a9a05cd653"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/friction_worker_verification/seed_17/selected_validation.json",
+          "sha256": "809858c1bf8add3fd2735b83379e41b7a969f7aee7c0bd23ccc9a68842c4b6bf"
+        }
+      ],
+      "last_event_sha256": "bc7070e9b74dad20534a362abf49dc81ec917b0a788a4759efa1427337920d62",
+      "observed_complete_cold_histories": 8,
+      "observed_loss_calls": 256,
+      "observed_optimizer_steps": 64,
+      "original_observed_trace_complete": true,
+      "stage_identity": [
+        "friction",
+        "development",
+        0,
+        17
+      ],
+      "training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007"
+      ],
+      "training_source_sha256": "e4123dcf73637e48e32961419a714e42a4f7b761b96c7d385c33950787ae2839",
+      "validation_ids": [
+        "friction_008",
+        "friction_009",
+        "friction_010"
+      ]
+    },
+    {
+      "commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/rebar_worker_verification/seed_17/stage_commit.json",
+        "sha256": "fc528ff8236794655d48fb0a25063af3c977cec2f9e85bf685cd0897854c5ef9"
+      },
+      "event_count": 259,
+      "files": [
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/rebar_worker_verification/seed_17/model.pt",
+          "sha256": "dc75c6fd576bc12e579c2611e873bf6f58f286a5b73e6a998978a19ceea3324e"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/rebar_worker_verification/seed_17/stage_contract.json",
+          "sha256": "ea03a395cf169db9afe31f27e3347a22083675c8c75220eb6353b50227643e55"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/rebar_worker_verification/seed_17/actual_work.json",
+          "sha256": "697e7ddf3116719fcec739afd83fc881382eff7e0d666ff89dede9b51f90a935"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/rebar_worker_verification/seed_17/actual_work_events.jsonl",
+          "sha256": "c3d59aa54aa517946ff0f5a85afdd6b4248cf36777c3bfde00e142fb3d0140a0"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/rebar_worker_verification/seed_17/history.json",
+          "sha256": "0366a8a1a1d22e7d393eba9c68a430733c356684f87a2e89bdb9880cbcc6ad64"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/rebar_worker_verification/seed_17/selected_validation.json",
+          "sha256": "a9b7561a61db00e1fa97f357bc520899691d6947b1f911e346250fbd37db5a47"
+        }
+      ],
+      "last_event_sha256": "dc521ceaa438c0b7eca5973b69674b1ed032ba0a7eb90e0b418d8705b1a611dc",
+      "observed_complete_cold_histories": 8,
+      "observed_loss_calls": 192,
+      "observed_optimizer_steps": 48,
+      "original_observed_trace_complete": true,
+      "stage_identity": [
+        "rebar",
+        "development",
+        0,
+        17
+      ],
+      "training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07"
+      ],
+      "training_source_sha256": "c53e62a3d097b56c5db255dd4c9ceb26ea8b3f0b447d4add44ac5a1a45fc7ecb",
+      "validation_ids": [
+        "rebar_validation_08",
+        "rebar_validation_09",
+        "rebar_validation_10"
+      ]
+    }
+  ],
+  "independent_cost_evidence": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_cost_independent_audit.json",
+    "sha256": "4b4aeef214430462b8e76661cde1e2597ee078f014e60b9478c5ac9f6b114a46"
+  },
+  "limits": [
+    "No new learned accuracy or physical PASS is asserted before actual frozen tests.",
+    "Rebar endpoint constitutive and friction bulk constraints do not establish full adaptive J2 evolution or full contact equilibrium.",
+    "All final test reference generation requires the separate audit release after twenty complete observed stage traces and eight acquisition outcomes."
+  ],
+  "native_gate_baseline_evidence": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/controller_verification/all_development_native_gate_integration.json",
+    "sha256": "40312419fb901cdcfc89564ecd4559abefc0f44460ae7d9b99c4f50d257c27af"
+  },
+  "native_gate_baseline_histories": 22,
+  "native_gate_baseline_scope": "Old eight training plus three validation histories per family only.",
+  "new_heldout_response_arrays_generated_or_read": false,
+  "new_native_solver_calls_by_this_review": 0,
+  "new_training_updates_by_this_review": 0,
+  "physics_evidence_checked": 3,
+  "proposal": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_execution_proposal.json",
+    "sha256": "eed2ba62e308370c98c5ad36f9975d0c556e7c90b27ab26965e0b492932449cd"
+  },
+  "registered_formal_stages": 20,
+  "release_cross_link_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_release_completion_audit.py",
+    "sha256": "bd3b8762904589da46bc40f1535f6768c4bec86af7a352ad9216ffcd9978dfb2"
+  },
+  "source_files_checked": 28,
+  "status": "PASS_TO_RUN_FORMAL_TRAINING_AND_ACQUISITION_ONLY",
+  "worker_failure_source_review": "Persistent attempt schedule; terminate and reap only owned workers on exception; unresolved earlier launch intent fails closed before duplicate spawn."
+}

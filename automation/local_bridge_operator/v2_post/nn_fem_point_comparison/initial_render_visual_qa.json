@@ -1,0 +1,45 @@
+{
+  "schema": "bridge.v2.nn_fem_native_point_plots.visual_qa.v1",
+  "status": "FAIL_VISUAL_LAYOUT_KEEP_ORIGINAL_ARTIFACTS",
+  "inspected_images": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_friction_test_00_active_last_native_points.png",
+      "bytes": 808848,
+      "sha256": "9148edccf5fd588972ee4885472315f7e4f3a4236d8e1140a901fcd5b36580d0"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_friction_ood_00_active_last_native_points.png",
+      "bytes": 812595,
+      "sha256": "83e28cc182195a1579acf11d6e393207a9c73e4f98e2a9194239bac7b84489f4"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_rebar_test_00_active_last_native_points.png",
+      "bytes": 1143892,
+      "sha256": "e1e918e382d91ea9bada8e5db16c37ac5f342751c9b8fdacfb4bf13c3339f78e"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_rebar_ood_00_active_last_native_points.png",
+      "bytes": 1180069,
+      "sha256": "759ee0d599a5c191f346935d08f06b0b0492e803f0547fc966aabde08360f5f1"
+    }
+  ],
+  "source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_posttest_audit_adapter.py",
+    "bytes": 37563,
+    "sha256": "6748123a5568f6a5fe5d19ea0e3a3b30eb98b5cd4967f10efd05d98a8bcef6b6"
+  },
+  "render_index": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/render_index.json",
+    "bytes": 125163,
+    "sha256": "314b58614ba11eef5d96ea7afca988a6bef2b49c56120fd9179efbd502efaecb"
+  },
+  "findings": [
+    "Rightmost colorbar tick labels and units extend outside the 2400x1600 canvas.",
+    "Top-row panel titles sit too close to the second explanatory line.",
+    "Three-dimensional z-axis labels collide with automatic colorbar lanes."
+  ],
+  "scientific_array_identity_checks_passed": true,
+  "original_peak_rss_bytes": 116039680,
+  "scientific_or_selection_changes_authorized": false,
+  "remedy": "Two exact layout-call substitutions only: fixed figure-coordinate 3-D axes rectangles and independent colorbar rectangles."
+}

@@ -1,0 +1,704 @@
+{
+  "schema": "bridge.v2.nn_fem_native_point_plots.bundle_manifest.v1",
+  "status": "INPUTS_HASH_VERIFIED_BEFORE_ZIP",
+  "created_utc": "2026-10-24T20:37:57.227724+00:00",
+  "scientific_accuracy_pass_claimed": false,
+  "engineering_release": "NOT_CERTIFIED",
+  "contents_scope": "Four fixed terminal-frame native-location point plots, exact thin plotted arrays, all source/review/receipt lineage and preserved initial layout failures. Full historical arrays and checkpoints remain externally SHA-bound in source receipts.",
+  "root_visual_review": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/root_visual_review.json",
+    "bytes": 2186,
+    "sha256": "42d16d53e145bc146af66254c40499e73cb48b7953e672cc2fddebdec6634932"
+  },
+  "final_visual_qa": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/final_visual_qa.json",
+    "bytes": 6532,
+    "sha256": "4e6ccb5fc0d01cc64115409c94ae5e57c9e3031f94fa75ee892c43243cf26423"
+  },
+  "final_images": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_test_00_active_last_native_points.png",
+      "bytes": 536330,
+      "sha256": "d0e7d80605769e7748b1082e65f51a996a3eca9fa9c9ae86f46f6969f4224562"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_ood_00_active_last_native_points.png",
+      "bytes": 556708,
+      "sha256": "06b69c48476f576f087b9eaa261ad84131033245fa769cffa405f92e99cd7247"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_test_00_active_last_native_points.png",
+      "bytes": 697996,
+      "sha256": "25b5e3ee65cea165a8e12219e77c123033f0a5b54522b85d8e8509e17e164d5a"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_ood_00_active_last_native_points.png",
+      "bytes": 702321,
+      "sha256": "f84bb0dd8526ee041f3660c396be20794d0df2a635c58317d30aeb4b95d0fd7b"
+    }
+  ],
+  "original_point_values": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_friction_test_00.point_values.npz",
+      "bytes": 92169,
+      "sha256": "f7ab42f1200b7ba3e792d5c421deb4cd8f37e18d0f2eaff52b1e1a7b6bf49967"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_friction_ood_00.point_values.npz",
+      "bytes": 92217,
+      "sha256": "6d32a3c73c2ba9497ea7dc2bf6b9459d0bb99baa661300034ae7ef466f94bbba"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_rebar_test_00.point_values.npz",
+      "bytes": 503616,
+      "sha256": "20ae00764374531c273d5f8e57f188f7392fc798d2e42350fc14284026bf39fa"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_rebar_ood_00.point_values.npz",
+      "bytes": 502960,
+      "sha256": "66bda6f39ce0bdfc531e9ea5ba1444f3497f2ae2a41845f82523671c24055823"
+    }
+  ],
+  "members": [
+    {
+      "member": "evidence/audit_adapter/v2_native_export_key_correction.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_correction.json",
+        "bytes": 6414,
+        "sha256": "8e844ad5395576b819cadceb61c54ab8062810c9e8db45c79c85f6622db5bba7"
+      }
+    },
+    {
+      "member": "evidence/audit_adapter/v2_native_export_key_independent_review.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_independent_review.json",
+        "bytes": 29948,
+        "sha256": "811a85e1f141748ede9714e35eeb5d241c995a5ac983de9fcc1118962ec59b63"
+      }
+    },
+    {
+      "member": "evidence/audit_adapter/v2_native_export_key_original_failure.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_original_failure.json",
+        "bytes": 2170,
+        "sha256": "8ed5a6feb226ef11f2cf1597f268f3cbed1d2ecdb75c2ea0f658e500d7aaa597"
+      }
+    },
+    {
+      "member": "evidence/audit_adapter/v2_native_export_key_verification.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_verification.py",
+        "bytes": 5937,
+        "sha256": "151bc85eceb185a2f089f8b64aa7146cd7b03fabb41b5693d7f790f1a8c5d5da"
+      }
+    },
+    {
+      "member": "evidence/audit_adapter/v2_selected_native_identity_audit.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.py",
+        "bytes": 10888,
+        "sha256": "5f161176d6aed32d5d87f95cdecdc281c2de684278815fbb759e7a466241e31d"
+      }
+    },
+    {
+      "member": "evidence/audit_adapter/v2_selected_native_identity_before_export_key_correction_66d5632a4abc.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_selected_native_identity_before_export_key_correction_66d5632a4abc.py",
+        "bytes": 10257,
+        "sha256": "66d5632a4abc0a85b77e0e56debdfb51b1ceabc0e403feb01d32865fcd6aac67"
+      }
+    },
+    {
+      "member": "evidence/frozen_dependencies/complex_friction.py",
+      "source": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_friction.py",
+        "bytes": 31423,
+        "sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551"
+      }
+    },
+    {
+      "member": "evidence/frozen_dependencies/complex_rebar_quadratic.py",
+      "source": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar_quadratic.py",
+        "bytes": 37374,
+        "sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae"
+      }
+    },
+    {
+      "member": "evidence/frozen_dependencies/v2_controller_config.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+        "bytes": 3791,
+        "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+      }
+    },
+    {
+      "member": "evidence/frozen_dependencies/v2_controller_finalize.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_finalize.py",
+        "bytes": 18931,
+        "sha256": "2e7103a6958d43628168e62deaff6f6448bd518bab644cfb4f9a64b0064295da"
+      }
+    },
+    {
+      "member": "evidence/frozen_dependencies/v2_final_fields_independent_audit.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.py",
+        "bytes": 17093,
+        "sha256": "27764e270af732fadfa315f944a4b3d7de7d10fe4c7ac8d98bf4ef19f399b7d8"
+      }
+    },
+    {
+      "member": "evidence/frozen_dependencies/v2_public_contract.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+        "bytes": 37737,
+        "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+      }
+    },
+    {
+      "member": "evidence/fullfield_audit.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.json",
+        "bytes": 171557,
+        "sha256": "5b628f6182721f4b6607fb0cb099cf3a06ede9bb46ae0c71c31660a154e4970f"
+      }
+    },
+    {
+      "member": "evidence/selected_native_audit.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.json",
+        "bytes": 138150,
+        "sha256": "6892ba41f230cad9405cbc760549e54e1f057d906a0cbae85d21e2d650a57b6c"
+      }
+    },
+    {
+      "member": "evidence/v2_friction_ood_00/export_receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_ood_00.receipt.json",
+        "bytes": 1793,
+        "sha256": "de0d5edf6a89c44194bfe74014ddef43708fc84573cdfd1e3f95774f501e5d15"
+      }
+    },
+    {
+      "member": "evidence/v2_friction_ood_00/metadata.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/metadata.json",
+        "bytes": 3060,
+        "sha256": "4e7180eeb1993fe1478272e146d8c526bcca6748ca17657a31444f50029cb719"
+      }
+    },
+    {
+      "member": "evidence/v2_friction_ood_00/native_source_receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/receipt.json",
+        "bytes": 1117,
+        "sha256": "f6963586ac853337371d6c1aeaf28eee4b515316df231bcb7a1f44454374a98d"
+      }
+    },
+    {
+      "member": "evidence/v2_friction_ood_00/official_metrics.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_ood_00.json",
+        "bytes": 95084,
+        "sha256": "f5751cb3604bf931e9eda9378434c6c0e750d9f13c14d48b2cdb60a3bf65ba59"
+      }
+    },
+    {
+      "member": "evidence/v2_friction_test_00/export_receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_test_00.receipt.json",
+        "bytes": 1796,
+        "sha256": "dbb5112e763f0ec061fa8b87f1bf1440bf8b662e0746d71df5b7a11dea8f7640"
+      }
+    },
+    {
+      "member": "evidence/v2_friction_test_00/metadata.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/metadata.json",
+        "bytes": 3008,
+        "sha256": "392a3812f9e0bfc3d4b9477e44870903f4bea1b9a14dfe071739c81e28d98930"
+      }
+    },
+    {
+      "member": "evidence/v2_friction_test_00/native_source_receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/receipt.json",
+        "bytes": 1118,
+        "sha256": "a00797df5e8258572881e0663b1d02be97f40e8d0606d9df9136b51adb8ffc34"
+      }
+    },
+    {
+      "member": "evidence/v2_friction_test_00/official_metrics.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_test_00.json",
+        "bytes": 95396,
+        "sha256": "09dc2a6b3b848e1bd774a1c3d479580b26f6d412b82cf209f381b1414c6a36cc"
+      }
+    },
+    {
+      "member": "evidence/v2_rebar_ood_00/export_receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_ood_00.receipt.json",
+        "bytes": 1779,
+        "sha256": "540755318e44a00a92e07b0deab26af30cec82cd9dcb3af7cb9eaa747f096207"
+      }
+    },
+    {
+      "member": "evidence/v2_rebar_ood_00/metadata.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_00/metadata.json",
+        "bytes": 371799,
+        "sha256": "f2f51c786c341c3dbd475f3c64d750554b5180a7419b03ac5c2b5936bc6ec6ff"
+      }
+    },
+    {
+      "member": "evidence/v2_rebar_ood_00/native_source_receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_00/receipt.json",
+        "bytes": 33848,
+        "sha256": "c1a18af88c9a8846f236db7d478874f0edfdcfeab7caff8290892d011c76e348"
+      }
+    },
+    {
+      "member": "evidence/v2_rebar_ood_00/official_metrics.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_ood_00.json",
+        "bytes": 135453,
+        "sha256": "602794efa1e095aa655ca3389f92ac7df4e34a19a02f7fd65a480579c47318f8"
+      }
+    },
+    {
+      "member": "evidence/v2_rebar_test_00/export_receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_test_00.receipt.json",
+        "bytes": 1782,
+        "sha256": "ec6299979ceb0b81b2e994cabacc057323cd46ba089d6ad747dd453a0dcc8013"
+      }
+    },
+    {
+      "member": "evidence/v2_rebar_test_00/metadata.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/metadata.json",
+        "bytes": 371853,
+        "sha256": "444c68de4d7b33a1c9346aad3024b4630790c82eae1ed96059dccc64a4551f46"
+      }
+    },
+    {
+      "member": "evidence/v2_rebar_test_00/native_source_receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/receipt.json",
+        "bytes": 33605,
+        "sha256": "7c514094aaf35f0eab1be90884d0d9735a5c38c45d2a5c23db0a250837898751"
+      }
+    },
+    {
+      "member": "evidence/v2_rebar_test_00/official_metrics.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_test_00.json",
+        "bytes": 135387,
+        "sha256": "5df1b6bf1b33a6f7ab1a9b62903e896fa3f27e89a16d79bef35fa4fd05d56462"
+      }
+    },
+    {
+      "member": "rendered/backend_probe.png",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/backend_probe.png",
+        "bytes": 10146,
+        "sha256": "18c18ca13f078ae345469529a4df0e5758d9d5c3996d9f9f4dc339193e23bc63"
+      }
+    },
+    {
+      "member": "rendered/data_inventory.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/data_inventory.json",
+        "bytes": 93823,
+        "sha256": "a4695d484fba7d67ab028d08462f31b91b83704e47ef2c22a37b6434a6faacfe"
+      }
+    },
+    {
+      "member": "rendered/render_index.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/render_index.json",
+        "bytes": 125163,
+        "sha256": "314b58614ba11eef5d96ea7afca988a6bef2b49c56120fd9179efbd502efaecb"
+      }
+    },
+    {
+      "member": "rendered/v2_friction_ood_00.point_values.npz",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_friction_ood_00.point_values.npz",
+        "bytes": 92217,
+        "sha256": "6d32a3c73c2ba9497ea7dc2bf6b9459d0bb99baa661300034ae7ef466f94bbba"
+      }
+    },
+    {
+      "member": "rendered/v2_friction_ood_00.receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_friction_ood_00.receipt.json",
+        "bytes": 25472,
+        "sha256": "15003994faa067bf2fa48a43df7f2f0cc257a120ae3a3520fa08e0cf3fd3ad3c"
+      }
+    },
+    {
+      "member": "rendered/v2_friction_ood_00_active_last_native_points.png",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_friction_ood_00_active_last_native_points.png",
+        "bytes": 812595,
+        "sha256": "83e28cc182195a1579acf11d6e393207a9c73e4f98e2a9194239bac7b84489f4"
+      }
+    },
+    {
+      "member": "rendered/v2_friction_test_00.point_values.npz",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_friction_test_00.point_values.npz",
+        "bytes": 92169,
+        "sha256": "f7ab42f1200b7ba3e792d5c421deb4cd8f37e18d0f2eaff52b1e1a7b6bf49967"
+      }
+    },
+    {
+      "member": "rendered/v2_friction_test_00.receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_friction_test_00.receipt.json",
+        "bytes": 25497,
+        "sha256": "e658fc6af58d7cb369cb6aa588f44292450e212d250d0843b9ba5b991ce87015"
+      }
+    },
+    {
+      "member": "rendered/v2_friction_test_00_active_last_native_points.png",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_friction_test_00_active_last_native_points.png",
+        "bytes": 808848,
+        "sha256": "9148edccf5fd588972ee4885472315f7e4f3a4236d8e1140a901fcd5b36580d0"
+      }
+    },
+    {
+      "member": "rendered/v2_rebar_ood_00.point_values.npz",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_rebar_ood_00.point_values.npz",
+        "bytes": 502960,
+        "sha256": "66bda6f39ce0bdfc531e9ea5ba1444f3497f2ae2a41845f82523671c24055823"
+      }
+    },
+    {
+      "member": "rendered/v2_rebar_ood_00.receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_rebar_ood_00.receipt.json",
+        "bytes": 26309,
+        "sha256": "2678ba8b05170c4875662f7a37414862394d8602c0103d9322fa13639e66c82c"
+      }
+    },
+    {
+      "member": "rendered/v2_rebar_ood_00_active_last_native_points.png",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_rebar_ood_00_active_last_native_points.png",
+        "bytes": 1180069,
+        "sha256": "759ee0d599a5c191f346935d08f06b0b0492e803f0547fc966aabde08360f5f1"
+      }
+    },
+    {
+      "member": "rendered/v2_rebar_test_00.point_values.npz",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_rebar_test_00.point_values.npz",
+        "bytes": 503616,
+        "sha256": "20ae00764374531c273d5f8e57f188f7392fc798d2e42350fc14284026bf39fa"
+      }
+    },
+    {
+      "member": "rendered/v2_rebar_test_00.receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_rebar_test_00.receipt.json",
+        "bytes": 26338,
+        "sha256": "af9c645aff71a62845b5b274128a65e514b5b25b65a5998db5492f7c1719b137"
+      }
+    },
+    {
+      "member": "rendered/v2_rebar_test_00_active_last_native_points.png",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/v2_rebar_test_00_active_last_native_points.png",
+        "bytes": 1143892,
+        "sha256": "e1e918e382d91ea9bada8e5db16c37ac5f342751c9b8fdacfb4bf13c3339f78e"
+      }
+    },
+    {
+      "member": "rendered_layout_v2/render_index.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/render_index.json",
+        "bytes": 132515,
+        "sha256": "1f5ed9e51d1c325add509bdcf00ab562bf2c6b78f1fe0f3dde87e4733f065aff"
+      }
+    },
+    {
+      "member": "rendered_layout_v2/v2_friction_ood_00.receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_ood_00.receipt.json",
+        "bytes": 27225,
+        "sha256": "b6efe37e100c47f994ef525362520d7efcfdf0e1b75144d513d615d251663596"
+      }
+    },
+    {
+      "member": "rendered_layout_v2/v2_friction_ood_00_active_last_native_points.png",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_ood_00_active_last_native_points.png",
+        "bytes": 556708,
+        "sha256": "06b69c48476f576f087b9eaa261ad84131033245fa769cffa405f92e99cd7247"
+      }
+    },
+    {
+      "member": "rendered_layout_v2/v2_friction_test_00.receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_test_00.receipt.json",
+        "bytes": 27252,
+        "sha256": "dab3ceac7c5e8f84001802eb35b7a4238b6bcadfe3904ecc7b01e1c90d66efb5"
+      }
+    },
+    {
+      "member": "rendered_layout_v2/v2_friction_test_00_active_last_native_points.png",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_test_00_active_last_native_points.png",
+        "bytes": 536330,
+        "sha256": "d0e7d80605769e7748b1082e65f51a996a3eca9fa9c9ae86f46f6969f4224562"
+      }
+    },
+    {
+      "member": "rendered_layout_v2/v2_rebar_ood_00.receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_ood_00.receipt.json",
+        "bytes": 28056,
+        "sha256": "6321c38c083cca5034c8d71f64882e71ab50211a60c76dcc4cd6ad9f3d226f00"
+      }
+    },
+    {
+      "member": "rendered_layout_v2/v2_rebar_ood_00_active_last_native_points.png",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_ood_00_active_last_native_points.png",
+        "bytes": 702321,
+        "sha256": "f84bb0dd8526ee041f3660c396be20794d0df2a635c58317d30aeb4b95d0fd7b"
+      }
+    },
+    {
+      "member": "rendered_layout_v2/v2_rebar_test_00.receipt.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_test_00.receipt.json",
+        "bytes": 28087,
+        "sha256": "14c7669b339044eb8660944ea06d47de28f95c43e1e4970e589488792f93588c"
+      }
+    },
+    {
+      "member": "rendered_layout_v2/v2_rebar_test_00_active_last_native_points.png",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_test_00_active_last_native_points.png",
+        "bytes": 697996,
+        "sha256": "25b5e3ee65cea165a8e12219e77c123033f0a5b54522b85d8e8509e17e164d5a"
+      }
+    },
+    {
+      "member": "sources/POSTRENDER_LAYOUT_V2.md",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/POSTRENDER_LAYOUT_V2.md",
+        "bytes": 1497,
+        "sha256": "4df902089650ddff7ab0a07f48b7a842aa5fb1e662c46f159ba59d00d244f8de"
+      }
+    },
+    {
+      "member": "sources/POSTTEST_AUDIT_ADAPTER.md",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/POSTTEST_AUDIT_ADAPTER.md",
+        "bytes": 1854,
+        "sha256": "26a619881d9f23e1de5fda8e548dea88f216fd939f98eb70b5f5a5033d6d0c4f"
+      }
+    },
+    {
+      "member": "sources/README.md",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/README.md",
+        "bytes": 5065,
+        "sha256": "d2da9e7123eaf1a1c6fb122963962874d13fa759407e02502a8c65e22581f8b1"
+      }
+    },
+    {
+      "member": "sources/final_visual_qa.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/final_visual_qa.json",
+        "bytes": 6532,
+        "sha256": "4e6ccb5fc0d01cc64115409c94ae5e57c9e3031f94fa75ee892c43243cf26423"
+      }
+    },
+    {
+      "member": "sources/initial_render_visual_qa.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/initial_render_visual_qa.json",
+        "bytes": 2222,
+        "sha256": "fe5ab89c2e9b9a13c71a0b1af43d1990950b1aa233874c8c9191b903b5e2481d"
+      }
+    },
+    {
+      "member": "sources/package_verified_nn_fem_point_comparisons.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/package_verified_nn_fem_point_comparisons.py",
+        "bytes": 8684,
+        "sha256": "bc121e28edc79119dfbf50c7815cd0b7d4ae822a88f8a74ad5821ed1aba6ad6b"
+      }
+    },
+    {
+      "member": "sources/package_verified_nn_fem_point_comparisons_root_reviewed.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/package_verified_nn_fem_point_comparisons_root_reviewed.py",
+        "bytes": 9335,
+        "sha256": "1a6316780942f84354098f98340f896574e3c0942716abe1b845ed37c71d5178"
+      }
+    },
+    {
+      "member": "sources/point_plot_plan.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/point_plot_plan.json",
+        "bytes": 5158,
+        "sha256": "c64186a60dee4e8dd32987f8adcd4641beeba04789c0b70aa3627f7eb9791a6c"
+      }
+    },
+    {
+      "member": "sources/postrender_layout_v2_render.diff",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/postrender_layout_v2_render.diff",
+        "bytes": 6678,
+        "sha256": "7fe679f75a792483d96aeb95e4c86a8d4a4997d84d0d832980764800c749abff"
+      }
+    },
+    {
+      "member": "sources/postrender_layout_v2_source_candidate.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/postrender_layout_v2_source_candidate.json",
+        "bytes": 2337,
+        "sha256": "715befdf5314aa35b8c11ecaad68c9a2d7741d01a51d516c1103df299fb1f1f5"
+      }
+    },
+    {
+      "member": "sources/postrender_layout_v2_source_freeze.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/postrender_layout_v2_source_freeze.json",
+        "bytes": 2648,
+        "sha256": "b598550549b5506fd3ca228f1f0d5024f104c7ce017b8d2090fbba6b9582f351"
+      }
+    },
+    {
+      "member": "sources/postrender_layout_v2_static_review.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/postrender_layout_v2_static_review.json",
+        "bytes": 3007,
+        "sha256": "e0bc62b5a0d92f225598d590bab262e16b9b5241906746a782be25fe8957dc50"
+      }
+    },
+    {
+      "member": "sources/posttest_audit_adapter.diff",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter.diff",
+        "bytes": 13412,
+        "sha256": "4b4e7a60b699730643d0bc9d130de8ec17b51413f1519b5abeb53dd77bf5f5dd"
+      }
+    },
+    {
+      "member": "sources/posttest_audit_adapter_addendum.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter_addendum.json",
+        "bytes": 6665,
+        "sha256": "d295d3275dc7760fa6eafa8218e3f70b45dedea6e6bebf6a63f70078f7013eb0"
+      }
+    },
+    {
+      "member": "sources/posttest_audit_adapter_addendum_candidate.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter_addendum_candidate.json",
+        "bytes": 6133,
+        "sha256": "5104a57c7f1e3b27360c16b3d892bdf9d2d5a557e0cdab870c638a8007c0d4ec"
+      }
+    },
+    {
+      "member": "sources/posttest_audit_adapter_source_freeze.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter_source_freeze.json",
+        "bytes": 2839,
+        "sha256": "e5c52403ec5f9788d9c71267d1628ce359b453ddd5d91039f26d7b79e9bb8a1c"
+      }
+    },
+    {
+      "member": "sources/posttest_audit_adapter_static_checks.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter_static_checks.json",
+        "bytes": 3001,
+        "sha256": "5cbc213aeda8cad274b28b74dca04359c4a9295638a712adad45fe953c92b49f"
+      }
+    },
+    {
+      "member": "sources/posttest_audit_adapter_static_review.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter_static_review.json",
+        "bytes": 11947,
+        "sha256": "92f979fe483da019412255848f01ef4610888dc127011bd19baf0f13aa4716d2"
+      }
+    },
+    {
+      "member": "sources/pretest_source_freeze.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/pretest_source_freeze.json",
+        "bytes": 3254,
+        "sha256": "c0434827190887419e1063c4d59ea6a3abe6e7be397778b9a7ebf47f8659400e"
+      }
+    },
+    {
+      "member": "sources/render_native_nn_point_comparison.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison.py",
+        "bytes": 30740,
+        "sha256": "c67776efcd2a35db72c9fb2a2efd4426ea3d44682631908b630ab363b44a2e10"
+      }
+    },
+    {
+      "member": "sources/render_native_nn_point_comparison_postrender_layout_v2.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_postrender_layout_v2.py",
+        "bytes": 13332,
+        "sha256": "ae75ca7eff8d7c49fb1fa1ff8ec0a03de5f8c8eeaf465807a0f019163e56561a"
+      }
+    },
+    {
+      "member": "sources/render_native_nn_point_comparison_posttest_audit_adapter.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_posttest_audit_adapter.py",
+        "bytes": 37563,
+        "sha256": "6748123a5568f6a5fe5d19ea0e3a3b30eb98b5cd4967f10efd05d98a8bcef6b6"
+      }
+    },
+    {
+      "member": "sources/review_posttest_audit_adapter.py",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/review_posttest_audit_adapter.py",
+        "bytes": 15007,
+        "sha256": "7f5014032a401cc88f186ef8647a3c19245497eaf973bdae8a5d0b5888416a15"
+      }
+    },
+    {
+      "member": "sources/root_visual_review.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/root_visual_review.json",
+        "bytes": 2186,
+        "sha256": "42d16d53e145bc146af66254c40499e73cb48b7953e672cc2fddebdec6634932"
+      }
+    },
+    {
+      "member": "sources/static_review.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/static_review.json",
+        "bytes": 15532,
+        "sha256": "2b0784bee8e523126fe97e850390718bee9fc1fcf12946483a3e310e8144c3d5"
+      }
+    },
+    {
+      "member": "sources/static_source_checks.json",
+      "source": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/static_source_checks.json",
+        "bytes": 2452,
+        "sha256": "9f4c78686460806b369a52532f3339d911961d355417c7c6ad439a539d20bbd0"
+      }
+    }
+  ]
+}

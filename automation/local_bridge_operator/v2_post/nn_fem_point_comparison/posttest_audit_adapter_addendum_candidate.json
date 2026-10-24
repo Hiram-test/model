@@ -1,0 +1,131 @@
+{
+  "schema": "bridge.v2.nn_fem_native_point_plots.posttest_audit_adapter.v1",
+  "status": "POSTTEST_AUDIT_METADATA_ADAPTER_PENDING_STATIC_REVIEW",
+  "created_utc": "2026-10-24T20:32:50.256927+00:00",
+  "pretest_claimed": false,
+  "scope": "Posttest audit metadata compatibility only: preserve original pretest renderer/plan/freeze; recognize exactly the independently reviewed rebar logical-export-key to original-native-filename mapping repair. No scientific gate, case choice, numerical formula, point support, camera or scale rule changes.",
+  "renderer": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_posttest_audit_adapter.py",
+    "bytes": 37563,
+    "sha256": "6748123a5568f6a5fe5d19ea0e3a3b30eb98b5cd4967f10efd05d98a8bcef6b6"
+  },
+  "pretest_renderer": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison.py",
+    "bytes": 30740,
+    "sha256": "c67776efcd2a35db72c9fb2a2efd4426ea3d44682631908b630ab363b44a2e10"
+  },
+  "pretest_source_freeze": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/pretest_source_freeze.json",
+    "bytes": 3254,
+    "sha256": "c0434827190887419e1063c4d59ea6a3abe6e7be397778b9a7ebf47f8659400e"
+  },
+  "plan": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/point_plot_plan.json",
+    "bytes": 5158,
+    "sha256": "c64186a60dee4e8dd32987f8adcd4641beeba04789c0b70aa3627f7eb9791a6c"
+  },
+  "original_native_auditor": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_selected_native_identity_before_export_key_correction_66d5632a4abc.py",
+    "bytes": 10257,
+    "sha256": "66d5632a4abc0a85b77e0e56debdfb51b1ceabc0e403feb01d32865fcd6aac67"
+  },
+  "corrected_native_auditor": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.py",
+    "bytes": 10888,
+    "sha256": "5f161176d6aed32d5d87f95cdecdc281c2de684278815fbb759e7a466241e31d"
+  },
+  "original_failure": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_original_failure.json",
+    "bytes": 2170,
+    "sha256": "8ed5a6feb226ef11f2cf1597f268f3cbed1d2ecdb75c2ea0f658e500d7aaa597"
+  },
+  "correction": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_correction.json",
+    "bytes": 6414,
+    "sha256": "8e844ad5395576b819cadceb61c54ab8062810c9e8db45c79c85f6622db5bba7"
+  },
+  "correction_verification_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_verification.py",
+    "bytes": 5937,
+    "sha256": "151bc85eceb185a2f089f8b64aa7146cd7b03fabb41b5693d7f790f1a8c5d5da"
+  },
+  "independent_native_correction_review": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_independent_review.json",
+    "bytes": 29948,
+    "sha256": "811a85e1f141748ede9714e35eeb5d241c995a5ac983de9fcc1118962ec59b63"
+  },
+  "static_checks": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter_static_checks.json",
+    "bytes": 3001,
+    "sha256": "5cbc213aeda8cad274b28b74dca04359c4a9295638a712adad45fe953c92b49f"
+  },
+  "diff": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/posttest_audit_adapter.diff",
+    "bytes": 13412,
+    "sha256": "4b4e7a60b699730643d0bc9d130de8ec17b51413f1519b5abeb53dd77bf5f5dd"
+  },
+  "independent_adapter_static_review": null,
+  "selection_unchanged": [
+    {
+      "family": "friction",
+      "split": "test",
+      "id": "v2_friction_test_00",
+      "group_id": "v2_friction_b645650e5449f4dfbcd5",
+      "strategy": "active",
+      "frame_selection": "last registered noninitial output frame",
+      "expected_frame_index": 32
+    },
+    {
+      "family": "friction",
+      "split": "ood",
+      "id": "v2_friction_ood_00",
+      "group_id": "v2_friction_98a463a7ab3e5d8575dd",
+      "strategy": "active",
+      "frame_selection": "last registered noninitial output frame",
+      "expected_frame_index": 32
+    },
+    {
+      "family": "rebar",
+      "split": "test",
+      "id": "v2_rebar_test_00",
+      "group_id": "v2_rebar_de6148ec7d045e158190",
+      "strategy": "active",
+      "frame_selection": "last registered noninitial output frame",
+      "expected_frame_index": 24
+    },
+    {
+      "family": "rebar",
+      "split": "ood",
+      "id": "v2_rebar_ood_00",
+      "group_id": "v2_rebar_d78fccce15e082e2b1ec",
+      "strategy": "active",
+      "frame_selection": "last registered noninitial output frame",
+      "expected_frame_index": 24
+    }
+  ],
+  "preserved_function_AST": {
+    "read": "35f165406295a99316fb71907f9f963fba5a786081742244dd86845e0a53f86b",
+    "digest": "52233595ef999bad82a3dce633d94dbe5747b8e5bbe9f2c1844557a18fe9a66b",
+    "reference": "f1700dfbe35cdbd43030fd31fc789ca0e7af45b188add82e13e6ab08eb7b3ed0",
+    "checked": "9c5e6b765a17ce514b55f90940809a908be8311a6aab1fd79ea0f232d88760cb",
+    "write": "fc01635e51055afcc613bf914932ea02a03c591bd4c699181e1fb7780089aa71",
+    "source_check": "3a006288b733f7ba50ad108ad795f94876c42974a4db7fdb79dc4cddc6414f0f",
+    "peak_guard": "75a996fe4d0d4a1099d24c15915c7216e0613656a90d624790f02b7205594d53",
+    "array_digest": "b860ff84ef20c21d9e778085431679706db1ed433bcf6e9445f0a225146976fa",
+    "members": "4e47040a7dd62e0b68e90ede2b72865caaff5395a9038b36ef467fadf46c1994",
+    "last_array": "b8aca78bcf0a2d456ef2530b1ab0d8e63f8354ba5c37b14b6e99beed2094dcd9",
+    "collect": "4744f6a9b356c82fa1726bae4669771533418c3c56e8caf40dbc880728196aed",
+    "ranges": "19052532f559f7e52f0547dc4ef059c10e8a5a8517667560a500edff58718f1e",
+    "render": "e7716b053c85d76be060f3fa5facb5f2e9470de557bed6df6ece08a2c248e2c5",
+    "main": "e4dcca9d1634844d1d1ec3eee2970e971be9178fa49d1e5880354ec283378b87"
+  },
+  "changed_functions": [
+    "guard"
+  ],
+  "all_other_dependencies_and_gates_preserved": true,
+  "new_heldout_fields_read": false,
+  "numerical_or_renderer_imports": false,
+  "images_rendered": 0,
+  "scientific_results_or_model_bytes_modified": false,
+  "actual_rendering_authorized_by_this_addendum": false
+}

@@ -1,0 +1,33 @@
+{
+  "status": "COMPLETE_COMMITTED_STAGE",
+  "family": "friction",
+  "strategy": "random",
+  "round": 2,
+  "seed": 17,
+  "checkpoint_path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_17/model.pt",
+  "checkpoint_sha256": "1feec1d2a6dc490b1c79e7d74f12472fecca135712a0c49b17b3443a904c8fb3",
+  "events_path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_17/actual_work_events.jsonl",
+  "events_sha256": "cd6744fa3e4de5ad75b4dd5d52257dc43884787e5013d1de6b46716ba2bc4057",
+  "card_path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_17/actual_work.json",
+  "card_sha256": "48538fd8167320ad9c2f0c9ea32180653377ab9a140cd3c48d67d108c9a3924c",
+  "source_sha256": "109afa21a1428c673ead73d094ec5aca4f1ffa3a4d6fc0fbd8268ee3fb6b3d47",
+  "physics_provenance": {
+    "original_path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_physics.py",
+    "source_sha256": "b091a5663bd6b51e6604549f203c7352563834d2e0dd38ec9be381b9a57cbf5a",
+    "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_17/physics_friction_b091a5663bd6.py",
+    "dependencies": {}
+  },
+  "files": {
+    "model.pt": "1feec1d2a6dc490b1c79e7d74f12472fecca135712a0c49b17b3443a904c8fb3",
+    "stage_contract.json": "851e54319be3acfd3cab13f416a1be7cb5c14a37f8425a26ae82a7874fc30bb7",
+    "actual_work.json": "48538fd8167320ad9c2f0c9ea32180653377ab9a140cd3c48d67d108c9a3924c",
+    "actual_work_events.jsonl": "cd6744fa3e4de5ad75b4dd5d52257dc43884787e5013d1de6b46716ba2bc4057",
+    "history.json": "8450a8b2f3456776d1a43535bf06e1a291f4ad0941c3373f065e128565870ef8",
+    "selected_validation.json": "45fabe5cf0e9ae59e00ce5d957f160d3d9f09f1c91a04f6089a5da40355bb455"
+  },
+  "actual_optimizer_steps": 1536,
+  "actual_loss_calls": 6144,
+  "actual_complete_cold_histories": 192,
+  "selected_epoch": 14,
+  "test_or_ood_fields_opened": false
+}

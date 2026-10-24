@@ -1,0 +1,143 @@
+{
+  "schema": "bridge.v2.nn_fem_native_point_plots.final_visual_qa.v1",
+  "status": "PASS_FOUR_FIXED_FIGURES_VISUAL_QA_ONLY",
+  "reviewed_utc": "2026-10-24T20:37:24.425551+00:00",
+  "review_method": "All four complete 2400x1600 PNGs inspected individually with original-resolution view_image after execution.",
+  "render_index": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/render_index.json",
+    "bytes": 132515,
+    "sha256": "1f5ed9e51d1c325add509bdcf00ab562bf2c6b78f1fe0f3dde87e4733f065aff"
+  },
+  "renderer": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_postrender_layout_v2.py",
+    "bytes": 13332,
+    "sha256": "ae75ca7eff8d7c49fb1fa1ff8ec0a03de5f8c8eeaf465807a0f019163e56561a"
+  },
+  "layout_source_freeze": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/postrender_layout_v2_source_freeze.json",
+    "bytes": 2648,
+    "sha256": "b598550549b5506fd3ca228f1f0d5024f104c7ce017b8d2090fbba6b9582f351"
+  },
+  "initial_failed_visual_review": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/initial_render_visual_qa.json",
+    "bytes": 2222,
+    "sha256": "fe5ab89c2e9b9a13c71a0b1af43d1990950b1aa233874c8c9191b903b5e2481d"
+  },
+  "inspected_images": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_test_00_active_last_native_points.png",
+      "bytes": 536330,
+      "sha256": "d0e7d80605769e7748b1082e65f51a996a3eca9fa9c9ae86f46f6969f4224562"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_ood_00_active_last_native_points.png",
+      "bytes": 556708,
+      "sha256": "06b69c48476f576f087b9eaa261ad84131033245fa769cffa405f92e99cd7247"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_test_00_active_last_native_points.png",
+      "bytes": 697996,
+      "sha256": "25b5e3ee65cea165a8e12219e77c123033f0a5b54522b85d8e8509e17e164d5a"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_ood_00_active_last_native_points.png",
+      "bytes": 702321,
+      "sha256": "f84bb0dd8526ee041f3660c396be20794d0df2a635c58317d30aeb4b95d0fd7b"
+    }
+  ],
+  "cases": [
+    {
+      "id": "v2_friction_test_00",
+      "status": "PASS_VISUAL_QA_ONLY",
+      "image": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_test_00_active_last_native_points.png",
+        "bytes": 536330,
+        "sha256": "d0e7d80605769e7748b1082e65f51a996a3eca9fa9c9ae86f46f6969f4224562"
+      },
+      "pixels": [
+        2400,
+        1600
+      ],
+      "all_six_panels_and_colorbars_visible": true,
+      "title_description_panel_titles_and_footer_separated": true,
+      "axis_labels_and_colorbar_units_readable": true,
+      "all_scientific_point_arrays_identical_to_initial_verified_payload": true,
+      "native_physics_status": "PASS_REGISTERED_RESEARCH_GATES",
+      "neural_physics_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "whole_history_metrics_retained": true
+    },
+    {
+      "id": "v2_friction_ood_00",
+      "status": "PASS_VISUAL_QA_ONLY",
+      "image": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_friction_ood_00_active_last_native_points.png",
+        "bytes": 556708,
+        "sha256": "06b69c48476f576f087b9eaa261ad84131033245fa769cffa405f92e99cd7247"
+      },
+      "pixels": [
+        2400,
+        1600
+      ],
+      "all_six_panels_and_colorbars_visible": true,
+      "title_description_panel_titles_and_footer_separated": true,
+      "axis_labels_and_colorbar_units_readable": true,
+      "all_scientific_point_arrays_identical_to_initial_verified_payload": true,
+      "native_physics_status": "PASS_REGISTERED_RESEARCH_GATES",
+      "neural_physics_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "whole_history_metrics_retained": true
+    },
+    {
+      "id": "v2_rebar_test_00",
+      "status": "PASS_VISUAL_QA_ONLY",
+      "image": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_test_00_active_last_native_points.png",
+        "bytes": 697996,
+        "sha256": "25b5e3ee65cea165a8e12219e77c123033f0a5b54522b85d8e8509e17e164d5a"
+      },
+      "pixels": [
+        2400,
+        1600
+      ],
+      "all_six_panels_and_colorbars_visible": true,
+      "title_description_panel_titles_and_footer_separated": true,
+      "axis_labels_and_colorbar_units_readable": true,
+      "all_scientific_point_arrays_identical_to_initial_verified_payload": true,
+      "native_physics_status": "PASS_REGISTERED_RESEARCH_GATES",
+      "neural_physics_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "whole_history_metrics_retained": true
+    },
+    {
+      "id": "v2_rebar_ood_00",
+      "status": "PASS_VISUAL_QA_ONLY",
+      "image": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered_layout_v2/v2_rebar_ood_00_active_last_native_points.png",
+        "bytes": 702321,
+        "sha256": "f84bb0dd8526ee041f3660c396be20794d0df2a635c58317d30aeb4b95d0fd7b"
+      },
+      "pixels": [
+        2400,
+        1600
+      ],
+      "all_six_panels_and_colorbars_visible": true,
+      "title_description_panel_titles_and_footer_separated": true,
+      "axis_labels_and_colorbar_units_readable": true,
+      "all_scientific_point_arrays_identical_to_initial_verified_payload": true,
+      "native_physics_status": "PASS_REGISTERED_RESEARCH_GATES",
+      "neural_physics_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "whole_history_metrics_retained": true
+    }
+  ],
+  "actual_peak_rss_bytes": 115490816,
+  "actual_peak_rss_MiB": 110.140625,
+  "observed_RSS_monitor_limit_bytes": 262144000,
+  "observed_monitor_is_preventive_OS_cap": false,
+  "point_arrays_camera_ranges_cases_frames_and_scientific_verdicts_unchanged": true,
+  "original_pretest_and_posttest_sources_preserved": true,
+  "all_native_points_submitted": true,
+  "occlusion_and_coincident_native_points_disclosed": true,
+  "scientific_accuracy_pass_claimed": false,
+  "neural_physics_HOLD_retained_for_all_four": true,
+  "continuum_mesh_accuracy_HOLD_retained": true,
+  "engineering_release": "NOT_CERTIFIED",
+  "original_render_indexes_are_historical_pre_QA_records": true
+}

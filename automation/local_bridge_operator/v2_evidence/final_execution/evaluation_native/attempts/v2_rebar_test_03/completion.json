@@ -1,0 +1,192 @@
+{
+  "callback_result": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_test_03/callback_result.json",
+    "sha256": "0f9c7c691b759d0d2166e05d08511a6be5d8f5afe35f17e0e001c118076f4553"
+  },
+  "descriptor": {
+    "canonical_input_sha256": "7bd3bf4d6735c96af14aad3adadfcc598c7a7b054b2c5b1dec5291123e1992cb",
+    "controls_sha256": "5dfbe7d57b359711ad00244ab7644aab53af073c5b4dbeac1d3f8350d62ec365",
+    "cross_refinement": 1,
+    "element_type": "C3D20",
+    "endpoint_output": true,
+    "family": "rebar",
+    "free_axial_cells": 4,
+    "future_native_fields_present": false,
+    "group_id": "v2_rebar_7bd3bf4d6735c96af14a",
+    "id": "v2_rebar_test_03",
+    "native_bond_traction": true,
+    "nx": 12,
+    "observed_frames": 25,
+    "params": [
+      1.0029336951673031,
+      403.1719417311251,
+      13.782882027328014,
+      0.9251841127872467,
+      0.567662310693413,
+      0.08464573794510216
+    ],
+    "protocol_id": 0,
+    "split": "test"
+  },
+  "evidence": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/receipt.json",
+      "sha256": "368168f883f6ff86534745e5469418342deab75e7eee49b426b9d11601a6a4eb"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/model.inp",
+      "sha256": "a82bceeb4b04946f3f73cd4a2cf2eb8b9b78b0b4446e808148466a4ddee5a7e6"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/receipt.json",
+      "sha256": "368168f883f6ff86534745e5469418342deab75e7eee49b426b9d11601a6a4eb"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/fields.npz",
+      "sha256": "2314bd57d55ca10f9a3008e4d10fc2e00d7bae01fc205649c3e5899b800d4826"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/metadata.json",
+      "sha256": "7c838bec13890c1ff10e2cba68732d804425be5ed4b8e4b186ebc9374de54c99"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_test_03/callback_observation.json",
+      "sha256": "61a349b20a69120ec136b6b04c6fda4353e6b4c58e95e96c15db9b4a63debd6d"
+    }
+  ],
+  "execution": {
+    "automatic_retries": 0,
+    "config": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+      "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+    },
+    "design_contract": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+      "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+    },
+    "execution_lock": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+      "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+    },
+    "maximum_simultaneous_callbacks": 1,
+    "maximum_simultaneous_native_jobs": 1,
+    "mode": "FORMAL_RELEASED_EVALUATION",
+    "native_adapters": {
+      "friction": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_native.py",
+        "sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736"
+      },
+      "rebar": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v4.py",
+        "sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d"
+      }
+    },
+    "ordering": "friction then rebar, registered public ID order",
+    "release": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+      "sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+    },
+    "released_descriptors": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_released_evaluation_descriptors.json",
+      "sha256": "cc8129df5a4904640c0a591d9550c5d80e6cb660605fb461f535a4c48aee9e43"
+    },
+    "runner": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_evaluation_native_runner.py",
+      "sha256": "7fc184b60eeed66297595cc7dbb696d6c39f3057ab31a4aec9365b86659ba9df"
+    },
+    "schema": "bridge.v2.evaluation.native.execution.v1",
+    "source_addendum": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_evaluation_native_runner_freeze.json",
+      "sha256": "da2acf3bdf5d2b58b259237145a62adb20009a22e4803c7ac0104ec5b1fc5698"
+    }
+  },
+  "intent": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_test_03/intent.json",
+    "sha256": "69d38ae5bb1b0e31c40f5cc9d40832b2731a0479ed60c7322cb32b32b684caff"
+  },
+  "row": {
+    "actual_native_case_id": "v2_rebar_test_03",
+    "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+    "callback_wall_seconds": 62.35495316500237,
+    "canonical_input_sha256": "7bd3bf4d6735c96af14aad3adadfcc598c7a7b054b2c5b1dec5291123e1992cb",
+    "controls_sha256": "5dfbe7d57b359711ad00244ab7644aab53af073c5b4dbeac1d3f8350d62ec365",
+    "cost_evidence": {
+      "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/model.inp",
+      "input_deck_sha256": "a82bceeb4b04946f3f73cd4a2cf2eb8b9b78b0b4446e808148466a4ddee5a7e6",
+      "measured_seconds": 59.77540013900216,
+      "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/receipt.json",
+      "qualification_receipt_sha256": "368168f883f6ff86534745e5469418342deab75e7eee49b426b9d11601a6a4eb",
+      "qualified_native_reference": true,
+      "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/receipt.json",
+      "receipt_sha256": "368168f883f6ff86534745e5469418342deab75e7eee49b426b9d11601a6a4eb",
+      "timing_basis": "native_process_wall_seconds"
+    },
+    "cross_refinement": 1,
+    "element_type": "C3D20",
+    "endpoint_output": true,
+    "export_sha256": {
+      "metadata": "7c838bec13890c1ff10e2cba68732d804425be5ed4b8e4b186ebc9374de54c99",
+      "npz": "2314bd57d55ca10f9a3008e4d10fc2e00d7bae01fc205649c3e5899b800d4826"
+    },
+    "family": "rebar",
+    "free_axial_cells": 4,
+    "fresh_native_solve": true,
+    "future_native_fields_present": false,
+    "group_id": "v2_rebar_7bd3bf4d6735c96af14a",
+    "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+    "id": "v2_rebar_test_03",
+    "input_identity": {
+      "canonical_input_sha256": "7bd3bf4d6735c96af14aad3adadfcc598c7a7b054b2c5b1dec5291123e1992cb",
+      "controls_sha256": "5dfbe7d57b359711ad00244ab7644aab53af073c5b4dbeac1d3f8350d62ec365",
+      "group_id": "v2_rebar_7bd3bf4d6735c96af14a",
+      "id": "v2_rebar_test_03",
+      "mesh": {
+        "cross_refinement": 1,
+        "element_type": "C3D20",
+        "free_axial_cells": 4,
+        "nx": 12,
+        "solid_points_per_element": 27
+      },
+      "native_input_sha256": "a82bceeb4b04946f3f73cd4a2cf2eb8b9b78b0b4446e808148466a4ddee5a7e6",
+      "params": [
+        1.0029336951673031,
+        403.1719417311251,
+        13.782882027328014,
+        0.9251841127872467,
+        0.567662310693413,
+        0.08464573794510216
+      ],
+      "physical_history_sha256": "f76388a932ff463e6b9c7251141e73fc491e7f9cebe6fb94535cdff09d3d9f0d",
+      "protocol_id": 0,
+      "schema": "bridge.v2.rebar.input_identity.v1"
+    },
+    "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/metadata.json",
+    "native_bond_traction": true,
+    "native_execution_state": "CLOSED",
+    "native_replay_used": false,
+    "native_reported_seconds": 59.769484,
+    "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+    "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/fields.npz",
+    "nx": 12,
+    "observed_frames": 25,
+    "params": [
+      1.0029336951673031,
+      403.1719417311251,
+      13.782882027328014,
+      0.9251841127872467,
+      0.567662310693413,
+      0.08464573794510216
+    ],
+    "physical_history_sha256": "f76388a932ff463e6b9c7251141e73fc491e7f9cebe6fb94535cdff09d3d9f0d",
+    "protocol_id": 0,
+    "quality": "VALID_CONVERGED",
+    "reference_qualified": true,
+    "registered_input_sha256": "7bd3bf4d6735c96af14aad3adadfcc598c7a7b054b2c5b1dec5291123e1992cb",
+    "seconds": 59.77540013900216,
+    "split": "test",
+    "timeout": 600,
+    "verified_cache_reuse": false
+  },
+  "schema": "bridge.v2.evaluation.native.completion.v1",
+  "status": "CLOSED_NATIVE_SLOT"
+}

@@ -1,0 +1,33 @@
+{
+  "FEM_correction_applied": false,
+  "all_future_states_poisoned": true,
+  "case_id": "v2_friction_test_00",
+  "checkpoint": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_41/model.pt",
+    "sha256": "64ca1d02c53be8a2a286b88afe03bfb2e7830936dc58a85b3ff16005a21d77eb"
+  },
+  "family": "friction",
+  "full_entity_count": 697,
+  "full_frames": 33,
+  "future_reference_removed": true,
+  "invariant_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_invariants.py",
+    "sha256": "734332d2bc8e6642a79aef2ef5f879680540acef517b92b5dd301ba70e9de225"
+  },
+  "known_T0_and_input_controls_preserved": true,
+  "maximum_normalized_full_entity_permutation_difference": 5.960464477707732e-07,
+  "maximum_normalized_future_poison_difference": 0.0,
+  "maximum_normalized_reload_difference": 0.0,
+  "maximum_normalized_saved_field_difference": 0.0,
+  "native_reference": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/fields.npz",
+    "sha256": "f852100b5cd28931bcfedb09ed127317ddd9fa0deaf9e4a5d618881e73cebf94"
+  },
+  "permutation_tolerance": 0.001,
+  "physical_head_indexing": "Native head inverse-permutation then exact original physical operation then forward-permutation; steel point selection remapped explicitly",
+  "status": "PASS_COLD_REPLAY_FUTURE_POISON_AND_FULL_ENTITY_PERMUTATION",
+  "trainer_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+    "sha256": "109afa21a1428c673ead73d094ec5aca4f1ffa3a4d6fc0fbd8268ee3fb6b3d47"
+  }
+}

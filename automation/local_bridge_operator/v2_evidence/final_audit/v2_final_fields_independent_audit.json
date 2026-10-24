@@ -1,0 +1,5968 @@
+{
+  "frozen_models": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/frozen_models.json",
+    "sha256": "e999163a51b0999804a9de1dae699f4200ae3a4664bbd6d7d059ab169b2a628f"
+  },
+  "new_native_solves": 0,
+  "new_training_updates": 0,
+  "prediction_correction_applied": false,
+  "qualified_prediction_records": 48,
+  "records": [
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/initial/v2_friction_test_00.npz",
+        "sha256": "caf6ef6bd535cf177cbdf7ab2cc39e3db24bd75a773be7460f24bc7bf126ef87"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 952.6541701677911,
+          "relative_L2": 0.4964090457041326,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.00023572179966977787,
+          "relative_L2": 0.45196800874585685,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 235.72179909253936,
+          "relative_L2": 0.4506873142447594,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 1.0917178878264422,
+          "relative_L2": 0.1615070981393992,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 72.26819426106684,
+          "relative_L2": 0.6006687092624042,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 0.7713496307811735,
+          "relative_L2": 0.18135146203835042,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_00",
+      "mean_group_error": 0.39043193968915046,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/fields.npz",
+        "sha256": "f852100b5cd28931bcfedb09ed127317ddd9fa0deaf9e4a5d618881e73cebf94"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "initial"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/initial/v2_friction_test_01.npz",
+        "sha256": "4c58503309201c657c2301a56e67039ee429626e2652e63fb0d1a98be0709942"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 3385.002518783978,
+          "relative_L2": 0.26060268127055564,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.000821880683032111,
+          "relative_L2": 0.3514057989862983,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 821.8806806654463,
+          "relative_L2": 0.35153785949589333,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 4.266523444517654,
+          "relative_L2": 0.1726235474114495,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 354.57168857912524,
+          "relative_L2": 0.41446907624913243,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 3.013702435653774,
+          "relative_L2": 0.20185013901802268,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_01",
+      "mean_group_error": 0.292081517071892,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/fields.npz",
+        "sha256": "082570a6c3a141b0ca4a81991cbad95344e52a4be732f4beeb35e197016d73fd"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "initial"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/initial/v2_friction_test_02.npz",
+        "sha256": "f3512d1a0d02bd87317d460f4acb32409afe0f6c7ed6bf2c2c874f87cb41444a"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 1587.979632338445,
+          "relative_L2": 0.34794091202160865,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.00038216491557198194,
+          "relative_L2": 0.27123423226251847,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 382.164915935729,
+          "relative_L2": 0.2717498377502727,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 2.3989046428534753,
+          "relative_L2": 0.5729964670036304,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 120.04388357156644,
+          "relative_L2": 0.4718092056302711,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 1.5332052328113481,
+          "relative_L2": 0.6584606545747691,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_02",
+      "mean_group_error": 0.43236521820717844,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/fields.npz",
+        "sha256": "bbe1c6d259d34ff9b8a040b93fdbc61664c5006a94ee2b89f2b7462d6733315b"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "initial"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/initial/v2_friction_test_03.npz",
+        "sha256": "de9071daaf8b6814a22935147d1a5da192d44aa8f472f8fd9f4440f5419446ed"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 2141.4340395684835,
+          "relative_L2": 0.5800799460878036,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.0005366391395202015,
+          "relative_L2": 0.5798764216573544,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 536.6391342683104,
+          "relative_L2": 0.580167334486552,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 3.07515020624448,
+          "relative_L2": 0.0752686538584716,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 109.91188505265583,
+          "relative_L2": 0.7292835425802914,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 1.9719556867728287,
+          "relative_L2": 0.24935593373615497,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_03",
+      "mean_group_error": 0.4656719720677714,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/fields.npz",
+        "sha256": "f32e59f8dec15377219109680a946ace8d5f782d14f1722dabb5422ec6410bc9"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "initial"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/initial/v2_friction_ood_00.npz",
+        "sha256": "ab9da8ed50a11a8b90645bcbf988278a341f12defeac675bc82304297e7fa918"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 2518.913916393811,
+          "relative_L2": 0.8185870279218848,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.000672986555442498,
+          "relative_L2": 1.0772143674291554,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 672.9865551226574,
+          "relative_L2": 1.078139277402802,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 5.222838303421384,
+          "relative_L2": 0.30107785161362144,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 462.2403208150096,
+          "relative_L2": 0.7352524871089188,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 3.690106516799638,
+          "relative_L2": 0.29080479599212267,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_00",
+      "mean_group_error": 0.7168459679114174,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/fields.npz",
+        "sha256": "8c2f256920f3a65811d36451a626ed5b0d65c04abf590d930dd62e5996576848"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "initial"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/initial/v2_friction_ood_01.npz",
+        "sha256": "d0e8b620c563f0c06f53cf9d3391506dcb0b194221dc4dbd42fc505237b93e01"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 2608.9901085923607,
+          "relative_L2": 0.3680918127795578,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.0006388367311042526,
+          "relative_L2": 0.48754050531491006,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 638.8367382617727,
+          "relative_L2": 0.4885270281372516,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 9.189764426904295,
+          "relative_L2": 0.39194059565554007,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 245.21755312697556,
+          "relative_L2": 0.5391332716444612,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 6.495696599714209,
+          "relative_L2": 0.40270228712636935,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_01",
+      "mean_group_error": 0.44632258344301506,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/fields.npz",
+        "sha256": "fb3c41d4e9f4710eac703cce9bb85f58ecd2f3a40b6b0343c6d491b18c6805d8"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "initial"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/initial/v2_friction_ood_02.npz",
+        "sha256": "36bcbbdef02fd4f64e6fbaac4668899705cd7e0d354ac1d7a237907968fd2644"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 1378.2847809974785,
+          "relative_L2": 0.8641094033411447,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.00031062005611115354,
+          "relative_L2": 1.052060645982769,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 310.6200587432766,
+          "relative_L2": 1.0531958257998768,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 3.5627766699122065,
+          "relative_L2": 0.40277076381518256,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 154.97040708559302,
+          "relative_L2": 0.6630724808866909,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 2.0941192147664003,
+          "relative_L2": 0.7846525216286628,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_02",
+      "mean_group_error": 0.8033102735757213,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/fields.npz",
+        "sha256": "45369d55315575af07613d6eef3e39e22a4991a6b0f5ac4b2e7a728fa7be0368"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "initial"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/initial/v2_friction_ood_03.npz",
+        "sha256": "ee56dbc45519a9a3252f6e3f4bc3fbb01a07d0a6bad76af1424d1e90ce50b276"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 4674.697097598149,
+          "relative_L2": 0.5364446666998047,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.0009695771430114518,
+          "relative_L2": 0.5563552402740578,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 969.5771648682901,
+          "relative_L2": 0.5565595653436543,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 10.66944417814461,
+          "relative_L2": 0.5103227673738236,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 771.6104839755776,
+          "relative_L2": 0.671719433861437,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 6.286930524587386,
+          "relative_L2": 0.6545604926590507,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_03",
+      "mean_group_error": 0.580993694368638,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/fields.npz",
+        "sha256": "66f8b9076526dcba7979b10fa67f0e8008797479b04d626c42d1d201d7a094cc"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "initial"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_test_00.npz",
+        "sha256": "a0360f547bd6db9bcd425139b93a83d97e52cc4306bcbd89b6987a00cff09b61"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 952.6541701677911,
+          "relative_L2": 0.6102637488849235,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.00023572179966977787,
+          "relative_L2": 0.6314824682156717,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 235.72179909253936,
+          "relative_L2": 0.6290534628294808,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 1.0917178878264422,
+          "relative_L2": 0.1928469080811867,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 72.26819426106684,
+          "relative_L2": 0.6479867291844639,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 0.7713496307811735,
+          "relative_L2": 0.1988832018678796,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_00",
+      "mean_group_error": 0.48508608651060103,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/fields.npz",
+        "sha256": "f852100b5cd28931bcfedb09ed127317ddd9fa0deaf9e4a5d618881e73cebf94"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_test_01.npz",
+        "sha256": "3dade1bd3b0e28c645c8d238f09c6811edd9f4e7661eff5183c573f1be3b3609"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 3385.002518783978,
+          "relative_L2": 0.23910935435930472,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.000821880683032111,
+          "relative_L2": 0.3377540352768383,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 821.8806806654463,
+          "relative_L2": 0.3376999338637673,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 4.266523444517654,
+          "relative_L2": 0.12832701478825992,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 354.57168857912524,
+          "relative_L2": 0.3994057822895735,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 3.013702435653774,
+          "relative_L2": 0.16991876962917424,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_01",
+      "mean_group_error": 0.268702481701153,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/fields.npz",
+        "sha256": "082570a6c3a141b0ca4a81991cbad95344e52a4be732f4beeb35e197016d73fd"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_test_02.npz",
+        "sha256": "76343d63b4d502dc307fbdacd5c3a211ea159cf97718ed90289c8de63f9dcb4c"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 1587.979632338445,
+          "relative_L2": 0.3358453561022629,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.00038216491557198194,
+          "relative_L2": 0.2694601999002643,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 382.164915935729,
+          "relative_L2": 0.2697063917816738,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 2.3989046428534753,
+          "relative_L2": 0.6346274634430479,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 120.04388357156644,
+          "relative_L2": 0.4839939958547881,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 1.5332052328113481,
+          "relative_L2": 0.692934475098341,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_02",
+      "mean_group_error": 0.4477613136967297,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/fields.npz",
+        "sha256": "bbe1c6d259d34ff9b8a040b93fdbc61664c5006a94ee2b89f2b7462d6733315b"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_test_03.npz",
+        "sha256": "0f7ab32cf75bf2442769fc6ce45f7bdc5d40766f80153d8b5a60618650c24de7"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 2141.4340395684835,
+          "relative_L2": 0.5677999455960426,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.0005366391395202015,
+          "relative_L2": 0.5578510124536963,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 536.6391342683104,
+          "relative_L2": 0.5584231428483067,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 3.07515020624448,
+          "relative_L2": 0.07927811652811563,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 109.91188505265583,
+          "relative_L2": 0.6877370152492642,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 1.9719556867728287,
+          "relative_L2": 0.2447512427923713,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_03",
+      "mean_group_error": 0.44930674591129954,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/fields.npz",
+        "sha256": "f32e59f8dec15377219109680a946ace8d5f782d14f1722dabb5422ec6410bc9"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_ood_00.npz",
+        "sha256": "cca22584e76d04230aae20362726630f18b0578bbc8bbfc05e920635a9f31b97"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 2518.913916393811,
+          "relative_L2": 0.6874162203277416,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.000672986555442498,
+          "relative_L2": 0.9353794505943548,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 672.9865551226574,
+          "relative_L2": 0.9348581395049803,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 5.222838303421384,
+          "relative_L2": 0.24509719101840083,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 462.2403208150096,
+          "relative_L2": 0.7292776300138403,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 3.690106516799638,
+          "relative_L2": 0.24994596506533043,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_00",
+      "mean_group_error": 0.6303290994207748,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/fields.npz",
+        "sha256": "8c2f256920f3a65811d36451a626ed5b0d65c04abf590d930dd62e5996576848"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_ood_01.npz",
+        "sha256": "b6291f3b814d0c830b0eff5b32e4a4ced0aa67e079ec34324c3526879cb0b812"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 2608.9901085923607,
+          "relative_L2": 0.3212529618028387,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.0006388367311042526,
+          "relative_L2": 0.4497042279805561,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 638.8367382617727,
+          "relative_L2": 0.4494703343638578,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 9.189764426904295,
+          "relative_L2": 0.36705024581220946,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 245.21755312697556,
+          "relative_L2": 0.5333171151043296,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 6.495696599714209,
+          "relative_L2": 0.3807336848479374,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_01",
+      "mean_group_error": 0.4169214283186215,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/fields.npz",
+        "sha256": "fb3c41d4e9f4710eac703cce9bb85f58ecd2f3a40b6b0343c6d491b18c6805d8"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_ood_02.npz",
+        "sha256": "0e8eb3d75301ee3d6eb2ff3da3d3e4c7ee5ac9d0cb2f45f35d0b6bcf4cec4de1"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 1378.2847809974785,
+          "relative_L2": 0.7564115025501984,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.00031062005611115354,
+          "relative_L2": 0.9401427629280188,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 310.6200587432766,
+          "relative_L2": 0.9393703193130923,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 3.5627766699122065,
+          "relative_L2": 0.4522192974469879,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 154.97040708559302,
+          "relative_L2": 0.645956821493814,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 2.0941192147664003,
+          "relative_L2": 0.8003083512680356,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_02",
+      "mean_group_error": 0.7557348425000244,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/fields.npz",
+        "sha256": "45369d55315575af07613d6eef3e39e22a4991a6b0f5ac4b2e7a728fa7be0368"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/active/v2_friction_ood_03.npz",
+        "sha256": "f4873ed28a37201eb925bc7d0b8a67d41908ec7a6f28c2db34d56d463c65b589"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 4674.697097598149,
+          "relative_L2": 0.5543526134690245,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.0009695771430114518,
+          "relative_L2": 0.5581964940645752,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 969.5771648682901,
+          "relative_L2": 0.5583373812628436,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 10.66944417814461,
+          "relative_L2": 0.479023404774753,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 771.6104839755776,
+          "relative_L2": 0.6700984659496595,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 6.286930524587386,
+          "relative_L2": 0.6359436404606869,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_03",
+      "mean_group_error": 0.5759919999969239,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/fields.npz",
+        "sha256": "66f8b9076526dcba7979b10fa67f0e8008797479b04d626c42d1d201d7a094cc"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/random/v2_friction_test_00.npz",
+        "sha256": "b8929554d98fde97104173d874fbbbafe27aabc987e90a3d0b67ed4b85d6adc0"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 952.6541701677911,
+          "relative_L2": 0.7720254036669175,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.00023572179966977787,
+          "relative_L2": 0.8816898301006492,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 235.72179909253936,
+          "relative_L2": 0.8799695633207143,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 1.0917178878264422,
+          "relative_L2": 0.20690920272894253,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 72.26819426106684,
+          "relative_L2": 0.5495080190524401,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 0.7713496307811735,
+          "relative_L2": 0.23865616788791194,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_00",
+      "mean_group_error": 0.5881263644595959,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/fields.npz",
+        "sha256": "f852100b5cd28931bcfedb09ed127317ddd9fa0deaf9e4a5d618881e73cebf94"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "random"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/random/v2_friction_test_01.npz",
+        "sha256": "58f607cfa60a88cff45e5713d1181455f7d8f4abe65596a654d5f71f63e7a3e0"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 3385.002518783978,
+          "relative_L2": 0.265384180821873,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.000821880683032111,
+          "relative_L2": 0.3622576090898461,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 821.8806806654463,
+          "relative_L2": 0.36243672567990853,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 4.266523444517654,
+          "relative_L2": 0.16995213221618088,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 354.57168857912524,
+          "relative_L2": 0.4130574324678843,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 3.013702435653774,
+          "relative_L2": 0.19888518806561709,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_01",
+      "mean_group_error": 0.295328878056885,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/fields.npz",
+        "sha256": "082570a6c3a141b0ca4a81991cbad95344e52a4be732f4beeb35e197016d73fd"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "random"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/random/v2_friction_test_02.npz",
+        "sha256": "c07fd56e120b35d49583c2ed12b7f6dd8ab2112ad16934ae30acd62a877f5968"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 1587.979632338445,
+          "relative_L2": 0.3277751940590487,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.00038216491557198194,
+          "relative_L2": 0.2575305623246837,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 382.164915935729,
+          "relative_L2": 0.2577599156213857,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 2.3989046428534753,
+          "relative_L2": 0.40875511114892404,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 120.04388357156644,
+          "relative_L2": 0.44784792384462757,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 1.5332052328113481,
+          "relative_L2": 0.5583195147986973,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_02",
+      "mean_group_error": 0.3763313702995612,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/fields.npz",
+        "sha256": "bbe1c6d259d34ff9b8a040b93fdbc61664c5006a94ee2b89f2b7462d6733315b"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "random"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/random/v2_friction_test_03.npz",
+        "sha256": "96fc36a8010eff7ef165717883fe8e1fdbaf65ae09a4ae91a4e90984f5ebd678"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 2141.4340395684835,
+          "relative_L2": 0.45197099250324174,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.0005366391395202015,
+          "relative_L2": 0.3671973302162025,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 536.6391342683104,
+          "relative_L2": 0.3672761095587143,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 3.07515020624448,
+          "relative_L2": 0.1003132121723038,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 109.91188505265583,
+          "relative_L2": 0.6273658660127178,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 1.9719556867728287,
+          "relative_L2": 0.2541804842123631,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_test_03",
+      "mean_group_error": 0.3613839991125905,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/fields.npz",
+        "sha256": "f32e59f8dec15377219109680a946ace8d5f782d14f1722dabb5422ec6410bc9"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "test",
+      "strategy": "random"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/random/v2_friction_ood_00.npz",
+        "sha256": "ff0df04811956374f0075103b6846f97eda648fbd893eca1f7b48259bc4e5f42"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 2518.913916393811,
+          "relative_L2": 0.8287452591763164,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.000672986555442498,
+          "relative_L2": 1.1410327019722977,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 672.9865551226574,
+          "relative_L2": 1.142038670657294,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 5.222838303421384,
+          "relative_L2": 0.3123353761156359,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 462.2403208150096,
+          "relative_L2": 0.7478968575188015,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 3.690106516799638,
+          "relative_L2": 0.290826411993735,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_00",
+      "mean_group_error": 0.7438125462390134,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/fields.npz",
+        "sha256": "8c2f256920f3a65811d36451a626ed5b0d65c04abf590d930dd62e5996576848"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "random"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/random/v2_friction_ood_01.npz",
+        "sha256": "b8bcd4d970fe435ca1b0b2157f778f2c6a94592e610ffa12aabd30f6d4b77232"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 2608.9901085923607,
+          "relative_L2": 0.36218765644376233,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.0006388367311042526,
+          "relative_L2": 0.5097639731512685,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 638.8367382617727,
+          "relative_L2": 0.5106739162425152,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.05784576200730259,
+          "pass": false,
+          "reference_norm": 9.189764426904295,
+          "relative_L2": 0.3848787649593953,
+          "threshold": 0.05,
+          "weighted_unknown_values": 10080.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 245.21755312697556,
+          "relative_L2": 0.5516064720375606,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 6.495696599714209,
+          "relative_L2": 0.3913015975785504,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_01",
+      "mean_group_error": 0.45173539673550883,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/fields.npz",
+        "sha256": "fb3c41d4e9f4710eac703cce9bb85f58ecd2f3a40b6b0343c6d491b18c6805d8"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "random"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/random/v2_friction_ood_02.npz",
+        "sha256": "98beb53736c5aafeec5aef6d8ba95438b6119359c66b5b701e81556f284e41db"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 1378.2847809974785,
+          "relative_L2": 0.8359244018803742,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.00031062005611115354,
+          "relative_L2": 1.068011084949813,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 310.6200587432766,
+          "relative_L2": 1.0690928093807963,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 3.5627766699122065,
+          "relative_L2": 0.36717176531231616,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 154.97040708559302,
+          "relative_L2": 0.6667172817689399,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 2.0941192147664003,
+          "relative_L2": 0.7527391601677298,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_02",
+      "mean_group_error": 0.7932760839099949,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/fields.npz",
+        "sha256": "45369d55315575af07613d6eef3e39e22a4991a6b0f5ac4b2e7a728fa7be0368"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "random"
+    },
+    {
+      "family": "friction",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/final_test/random/v2_friction_ood_03.npz",
+        "sha256": "9482fafa75aaa3fe23a1d940de083f5238a051f656cf6f93e8c25831cf0f5a66"
+      },
+      "groups": [
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 57.644454935747994,
+          "pass": false,
+          "reference_norm": 4674.697097598149,
+          "relative_L2": 0.5307788972379575,
+          "threshold": 0.1,
+          "weighted_unknown_values": 156672.0
+        },
+        {
+          "group": "contact_gap",
+          "normalization_floor": 5.66351941019668e-06,
+          "pass": false,
+          "reference_norm": 0.0009695771430114518,
+          "relative_L2": 0.5491002764542197,
+          "threshold": 0.15,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "contact_pressure",
+          "normalization_floor": 5.663519375582018,
+          "pass": false,
+          "reference_norm": 969.5771648682901,
+          "relative_L2": 0.5493246574696622,
+          "threshold": 0.1,
+          "weighted_unknown_values": 1440.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.053554769153020154,
+          "pass": false,
+          "reference_norm": 10.66944417814461,
+          "relative_L2": 0.51798231248321,
+          "threshold": 0.05,
+          "weighted_unknown_values": 8640.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 2.6292946715343337,
+          "pass": false,
+          "reference_norm": 771.6104839755776,
+          "relative_L2": 0.667696291650081,
+          "threshold": 0.1,
+          "weighted_unknown_values": 2880.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03138338360103632,
+          "pass": false,
+          "reference_norm": 6.286930524587386,
+          "relative_L2": 0.6618928953134695,
+          "threshold": 0.15,
+          "weighted_unknown_values": 2880.0
+        }
+      ],
+      "id": "v2_friction_ood_03",
+      "mean_group_error": 0.5794625551014333,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/fields.npz",
+        "sha256": "66f8b9076526dcba7979b10fa67f0e8008797479b04d626c42d1d201d7a094cc"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        33,
+        697,
+        15
+      ],
+      "split": "ood",
+      "strategy": "random"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/initial/v2_rebar_test_00.npz",
+        "sha256": "3d19ca74ac36a839c51c52630e9a41c47e107f23c321cd739dd8b2b8e05bff36"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 522.9636039631272,
+          "relative_L2": 0.8466412565045255,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 21541.214483375443,
+          "relative_L2": 0.9853059942829477,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 11.072645418204006,
+          "relative_L2": 0.37449015057941043,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 2.6683935678424335,
+          "relative_L2": 0.4071014855265911,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 702.8106217973941,
+          "relative_L2": 0.24017972868660997,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.5392870228761746,
+          "relative_L2": 0.5398734489935928,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.7170789239084194,
+          "relative_L2": 0.7851466642057291,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_00",
+      "mean_group_error": 0.5969626755399151,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/fields.npz",
+        "sha256": "5fc3fcb512b62739ef28a7d2a4d466d3e01474701e25f38c4bf34f9ddf33a827"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "initial"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/initial/v2_rebar_test_01.npz",
+        "sha256": "6425b5fb5ef146c21ed3ce0c83187bbf083ebe9256e4c4375bf005738b4020d9"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 577.2677275702478,
+          "relative_L2": 1.1948124784470844,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 28287.11104448767,
+          "relative_L2": 0.986150731288691,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 14.509458733967467,
+          "relative_L2": 0.38490236006965245,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 5.7815951156288,
+          "relative_L2": 0.4621834531151586,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 1012.1976406916516,
+          "relative_L2": 0.3023810636488217,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.854995807485382,
+          "relative_L2": 0.3929320626044959,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 1.0704495916495418,
+          "relative_L2": 0.88697449693498,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_01",
+      "mean_group_error": 0.6586195208726978,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_01/fields.npz",
+        "sha256": "afc0d3d17630504a6b8a44e0f8a77d9fd0dc187fea948192959f278e233e1312"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "initial"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/initial/v2_rebar_test_02.npz",
+        "sha256": "8913cb5672b68c7457568e23bba1febea65cc33bd1f41689d34df2354c999c55"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 433.4615842922456,
+          "relative_L2": 0.8003178227391007,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 19978.055379596088,
+          "relative_L2": 0.9821430404601783,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 7.7008488600936,
+          "relative_L2": 0.31912523182877717,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 2.1030519299746167,
+          "relative_L2": 0.510992637552709,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 838.6105530030788,
+          "relative_L2": 0.2226485522195859,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.5607139713150797,
+          "relative_L2": 0.32759051191189303,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.45415024609746807,
+          "relative_L2": 0.9332908588779157,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_02",
+      "mean_group_error": 0.5851583793700229,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_02/fields.npz",
+        "sha256": "25bef5accb436cbd93afc63558bd0611d2a0791f0a740d63a9eb73fbb4b3905f"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "initial"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/initial/v2_rebar_test_03.npz",
+        "sha256": "b0e4337f8a63c6b32a8cca3bcf21cbc34e41bed0c5f3f27f0bad3051cc61427a"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 544.2926125029961,
+          "relative_L2": 0.8704782028473367,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 24058.623356976965,
+          "relative_L2": 0.9847380719693649,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 13.314387762154668,
+          "relative_L2": 0.3808500326683418,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 2.9339825359963614,
+          "relative_L2": 0.40510386526670095,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 773.7638325762398,
+          "relative_L2": 0.2269357598896439,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 4.899639306763424,
+          "relative_L2": 0.41480581122217824,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.7568426027595682,
+          "relative_L2": 0.797756354388832,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_03",
+      "mean_group_error": 0.5829525854646284,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/fields.npz",
+        "sha256": "2314bd57d55ca10f9a3008e4d10fc2e00d7bae01fc205649c3e5899b800d4826"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "initial"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/initial/v2_rebar_ood_00.npz",
+        "sha256": "d30396044d9d6e02102a61f3e744dd959f41436918d5a7ebf50cfc36ed622a86"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 1636.3902878701308,
+          "relative_L2": 0.8747736106136758,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 22596.39334102604,
+          "relative_L2": 0.9818641544798692,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 20.676936907323633,
+          "relative_L2": 0.5451749169306134,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 5.982164516209014,
+          "relative_L2": 0.4907846818325679,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 692.3402038613305,
+          "relative_L2": 0.31451291688539273,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 3.4512716141717377,
+          "relative_L2": 0.45554051111455685,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 2.3474835440817445,
+          "relative_L2": 0.9741128873372262,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_00",
+      "mean_group_error": 0.6623948113134146,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_00/fields.npz",
+        "sha256": "4166d1c960e1694fed8f8411adc813ddc129bf7a235085ae94f6de752bd9fa3c"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "initial"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/initial/v2_rebar_ood_01.npz",
+        "sha256": "3783083f47c33f1144d16dee1055be49b79cc573182cf69aeafc5afaf28e679b"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 403.5625842402811,
+          "relative_L2": 1.1770400528534992,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 24413.042535346794,
+          "relative_L2": 0.9840500733470814,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 9.589803970066244,
+          "relative_L2": 0.385014694701597,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 3.1374336436054517,
+          "relative_L2": 0.5069469920503025,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 978.7737100907771,
+          "relative_L2": 0.3711570080092822,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.249076876558851,
+          "relative_L2": 0.3363062095477993,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.7219736065838378,
+          "relative_L2": 0.9205119535514866,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_01",
+      "mean_group_error": 0.6687181405801497,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/fields.npz",
+        "sha256": "789e366967c811a72fc69bbdf626c3f1e2a9aa25e0d92d8435bd2ab97fca69ce"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "initial"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/initial/v2_rebar_ood_02.npz",
+        "sha256": "742aca04f5f22cbbacd6d72c920aa998210f519d819c3470c84533320bea70fc"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 2243.182046183093,
+          "relative_L2": 0.9294170671846902,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 26935.268597887505,
+          "relative_L2": 0.9804627726520999,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 21.08238394549409,
+          "relative_L2": 0.8468573782749715,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 10.974480033324014,
+          "relative_L2": 0.7098289276888767,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 855.8706351513179,
+          "relative_L2": 0.3139186151305215,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 3.8774284784662263,
+          "relative_L2": 0.4489623436700401,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 3.670694884637781,
+          "relative_L2": 0.9944669568063724,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_02",
+      "mean_group_error": 0.746273437343939,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_02/fields.npz",
+        "sha256": "e9e66ea8522962dd9c73e6a2d700f79118b356192373a86b2a29e9554e05050c"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "initial"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/initial/v2_rebar_ood_03.npz",
+        "sha256": "d581bd6d2d6dc1d04235c021f53cf5f332ce1dba98f5c474bad22741081b6bf8"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 1916.8964584405082,
+          "relative_L2": 0.8986852564104155,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 29983.250527600543,
+          "relative_L2": 0.9851232599054702,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 22.120063015876266,
+          "relative_L2": 0.8532392313999956,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 8.140381410563577,
+          "relative_L2": 0.5999910914106377,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 899.028992368627,
+          "relative_L2": 0.37621869117265344,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 3.7041974900294843,
+          "relative_L2": 0.3426688578140628,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 3.9129548287934965,
+          "relative_L2": 0.9940888546831547,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_03",
+      "mean_group_error": 0.7214307489709129,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/fields.npz",
+        "sha256": "b17cf93ef3f2b7814efb9a5ff1ecf0e4408ddea936f9793ad4fc7cb25c38c693"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "initial"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_test_00.npz",
+        "sha256": "a7d9349a3f5f441557f2b3982c6c2ab033b8bcd514155ad888fbda8076739fbe"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 522.9636039631272,
+          "relative_L2": 0.7453984931871714,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 21541.214483375443,
+          "relative_L2": 0.9824742049208538,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 11.072645418204006,
+          "relative_L2": 0.36728373089582117,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 2.6683935678424335,
+          "relative_L2": 0.39738504750910364,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 702.8106217973941,
+          "relative_L2": 0.18516011358260545,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.5392870228761746,
+          "relative_L2": 0.2930090799079213,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.7170789239084194,
+          "relative_L2": 0.7413024762781675,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_00",
+      "mean_group_error": 0.5302875923259492,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/fields.npz",
+        "sha256": "5fc3fcb512b62739ef28a7d2a4d466d3e01474701e25f38c4bf34f9ddf33a827"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_test_01.npz",
+        "sha256": "532634ee85e897ef7013cd342affa8aa8fa0966f1cbddcc74523ce16e93b01f1"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 577.2677275702478,
+          "relative_L2": 1.2250484755463789,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 28287.11104448767,
+          "relative_L2": 0.9866433057776903,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 14.509458733967467,
+          "relative_L2": 0.38776164676584485,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 5.7815951156288,
+          "relative_L2": 0.501324751210239,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 1012.1976406916516,
+          "relative_L2": 0.28991351487588407,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.854995807485382,
+          "relative_L2": 0.36077024618531883,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 1.0704495916495418,
+          "relative_L2": 0.7600117388913197,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_01",
+      "mean_group_error": 0.6444962398932393,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_01/fields.npz",
+        "sha256": "afc0d3d17630504a6b8a44e0f8a77d9fd0dc187fea948192959f278e233e1312"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_test_02.npz",
+        "sha256": "ceab50b7433f2bad9f99ad25c873c3ef6eece3e170b0c2dd0f27dff8c1e5d0f1"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 433.4615842922456,
+          "relative_L2": 0.732555186637567,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 19978.055379596088,
+          "relative_L2": 0.9872222688873467,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 7.7008488600936,
+          "relative_L2": 0.34629997162954,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 2.1030519299746167,
+          "relative_L2": 0.6180041928656012,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 838.6105530030788,
+          "relative_L2": 0.1850530211206503,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.5607139713150797,
+          "relative_L2": 0.2565980566394483,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.45415024609746807,
+          "relative_L2": 0.9044241295854253,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_02",
+      "mean_group_error": 0.5757366896236541,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_02/fields.npz",
+        "sha256": "25bef5accb436cbd93afc63558bd0611d2a0791f0a740d63a9eb73fbb4b3905f"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_test_03.npz",
+        "sha256": "be9602843771298936d52599009a6d08fc064a6480909d17b8fc3bd3a5cc1679"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 544.2926125029961,
+          "relative_L2": 0.7761437597576207,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 24058.623356976965,
+          "relative_L2": 0.9832815199974783,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 13.314387762154668,
+          "relative_L2": 0.3335801584471349,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 2.9339825359963614,
+          "relative_L2": 0.419095941483424,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 773.7638325762398,
+          "relative_L2": 0.2056147167572199,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 4.899639306763424,
+          "relative_L2": 0.27305442503633715,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.7568426027595682,
+          "relative_L2": 0.7636599029631085,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_03",
+      "mean_group_error": 0.5363472034917605,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/fields.npz",
+        "sha256": "2314bd57d55ca10f9a3008e4d10fc2e00d7bae01fc205649c3e5899b800d4826"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_ood_00.npz",
+        "sha256": "288a791ba938ed849c89d4d58011c5ac8ca9542173cee1c9abd5c3a01c8de4a8"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 1636.3902878701308,
+          "relative_L2": 0.8304451344087275,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 22596.39334102604,
+          "relative_L2": 0.984309737714009,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 20.676936907323633,
+          "relative_L2": 0.5575753652535379,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 5.982164516209014,
+          "relative_L2": 0.5418252776443767,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 692.3402038613305,
+          "relative_L2": 0.22606987266906445,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 3.4512716141717377,
+          "relative_L2": 0.34475842857892447,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 2.3474835440817445,
+          "relative_L2": 0.9526332721460511,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_00",
+      "mean_group_error": 0.6339452983449558,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_00/fields.npz",
+        "sha256": "4166d1c960e1694fed8f8411adc813ddc129bf7a235085ae94f6de752bd9fa3c"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_ood_01.npz",
+        "sha256": "a31304b7c82f77e2aee116b906bff5a2b7fb2ea50f7f8a656f27dcddc086154b"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 403.5625842402811,
+          "relative_L2": 1.0960973823972207,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 24413.042535346794,
+          "relative_L2": 0.9879298064675236,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 9.589803970066244,
+          "relative_L2": 0.4072102833417839,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 3.1374336436054517,
+          "relative_L2": 0.7601292405708255,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 978.7737100907771,
+          "relative_L2": 0.31078421856971195,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.249076876558851,
+          "relative_L2": 0.3428069106083049,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.7219736065838378,
+          "relative_L2": 0.8750686666932934,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_01",
+      "mean_group_error": 0.682860929806952,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/fields.npz",
+        "sha256": "789e366967c811a72fc69bbdf626c3f1e2a9aa25e0d92d8435bd2ab97fca69ce"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_ood_02.npz",
+        "sha256": "bbdbfe68ea7ff0821c3493a8c7b758e91eb86d665d76beb1f0a4d8b9e2e9239f"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 2243.182046183093,
+          "relative_L2": 0.9339356505144428,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 26935.268597887505,
+          "relative_L2": 0.9835886442400101,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 21.08238394549409,
+          "relative_L2": 0.7719995191289127,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 10.974480033324014,
+          "relative_L2": 0.6852516833401093,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 855.8706351513179,
+          "relative_L2": 0.42140767680330155,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 3.8774284784662263,
+          "relative_L2": 0.5404657004769452,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 3.670694884637781,
+          "relative_L2": 0.979578008741964,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_02",
+      "mean_group_error": 0.7594609833208122,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_02/fields.npz",
+        "sha256": "e9e66ea8522962dd9c73e6a2d700f79118b356192373a86b2a29e9554e05050c"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/active/v2_rebar_ood_03.npz",
+        "sha256": "79e668b2365bc25e3cd6bf50d8e06256dd2cef2facbce528254c7d3334791dc0"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 1916.8964584405082,
+          "relative_L2": 0.8889310958133535,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 29983.250527600543,
+          "relative_L2": 0.9875614782085484,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 22.120063015876266,
+          "relative_L2": 0.8788492312414133,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 8.140381410563577,
+          "relative_L2": 0.631018672096073,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 899.028992368627,
+          "relative_L2": 0.40719609269325624,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 3.7041974900294843,
+          "relative_L2": 0.5347765155648233,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 3.9129548287934965,
+          "relative_L2": 0.9797407652894523,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_03",
+      "mean_group_error": 0.7582962644152743,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/fields.npz",
+        "sha256": "b17cf93ef3f2b7814efb9a5ff1ecf0e4408ddea936f9793ad4fc7cb25c38c693"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/random/v2_rebar_test_00.npz",
+        "sha256": "d6c4bfb90088542342b39d777b237288da68ebcfebc450ba961b176cbcce3b99"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 522.9636039631272,
+          "relative_L2": 0.7595180449083948,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 21541.214483375443,
+          "relative_L2": 0.9814542792949028,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 11.072645418204006,
+          "relative_L2": 0.3832030441969652,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 2.6683935678424335,
+          "relative_L2": 0.39740558034404855,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 702.8106217973941,
+          "relative_L2": 0.16527832691430386,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.5392870228761746,
+          "relative_L2": 0.26792816247876283,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.7170789239084194,
+          "relative_L2": 0.749189937707488,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_00",
+      "mean_group_error": 0.5291396251206951,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/fields.npz",
+        "sha256": "5fc3fcb512b62739ef28a7d2a4d466d3e01474701e25f38c4bf34f9ddf33a827"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "random"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/random/v2_rebar_test_01.npz",
+        "sha256": "7d8a421555c2e9dcca6051b46e8b6efb36609d07be19328e19a5a54db940e1cb"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 577.2677275702478,
+          "relative_L2": 1.1436624036307201,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 28287.11104448767,
+          "relative_L2": 0.9867264486682875,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 14.509458733967467,
+          "relative_L2": 0.4005754754988053,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 5.7815951156288,
+          "relative_L2": 0.47633960734148645,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 1012.1976406916516,
+          "relative_L2": 0.31732448605715274,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.854995807485382,
+          "relative_L2": 0.3249510534292303,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 1.0704495916495418,
+          "relative_L2": 0.7508588658803151,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_01",
+      "mean_group_error": 0.628634048643714,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_01/fields.npz",
+        "sha256": "afc0d3d17630504a6b8a44e0f8a77d9fd0dc187fea948192959f278e233e1312"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "random"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/random/v2_rebar_test_02.npz",
+        "sha256": "c3f56aebf02bf185a3b2c38ef3366de9b8e806c9f9ec24ea5330f1c1679a2d84"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 433.4615842922456,
+          "relative_L2": 0.7659973634592472,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 19978.055379596088,
+          "relative_L2": 0.986971338956698,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 7.7008488600936,
+          "relative_L2": 0.3624310975582049,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 2.1030519299746167,
+          "relative_L2": 0.6192174714452623,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 838.6105530030788,
+          "relative_L2": 0.2122895120528548,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.5607139713150797,
+          "relative_L2": 0.27824397673564016,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.45415024609746807,
+          "relative_L2": 0.9020985230809582,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_02",
+      "mean_group_error": 0.5896070404698379,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_02/fields.npz",
+        "sha256": "25bef5accb436cbd93afc63558bd0611d2a0791f0a740d63a9eb73fbb4b3905f"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "random"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/random/v2_rebar_test_03.npz",
+        "sha256": "598c013a7f23c6f17df32122443a0b0bf4ae2799321e9327e16d7c7a9fbc0d75"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 544.2926125029961,
+          "relative_L2": 0.7902600773386895,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 24058.623356976965,
+          "relative_L2": 0.9833008894546382,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 13.314387762154668,
+          "relative_L2": 0.3644272180090113,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 2.9339825359963614,
+          "relative_L2": 0.4082810238655448,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 773.7638325762398,
+          "relative_L2": 0.21394963018219126,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 4.899639306763424,
+          "relative_L2": 0.34690263453983383,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.7568426027595682,
+          "relative_L2": 0.7586517662846637,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_test_03",
+      "mean_group_error": 0.5522533199535103,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/fields.npz",
+        "sha256": "2314bd57d55ca10f9a3008e4d10fc2e00d7bae01fc205649c3e5899b800d4826"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "test",
+      "strategy": "random"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/random/v2_rebar_ood_00.npz",
+        "sha256": "af771870ea0727681dbae7339e893e906632038150500af526b85cc5aa3ccef0"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 1636.3902878701308,
+          "relative_L2": 0.8731407308569721,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 22596.39334102604,
+          "relative_L2": 0.9842046301951008,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 20.676936907323633,
+          "relative_L2": 0.5461899040117651,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 5.982164516209014,
+          "relative_L2": 0.5275705659407681,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 692.3402038613305,
+          "relative_L2": 0.2399279171039407,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 3.4512716141717377,
+          "relative_L2": 0.35475401511348,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 2.3474835440817445,
+          "relative_L2": 0.9495771335974224,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_00",
+      "mean_group_error": 0.6393378424027784,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_00/fields.npz",
+        "sha256": "4166d1c960e1694fed8f8411adc813ddc129bf7a235085ae94f6de752bd9fa3c"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "random"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/random/v2_rebar_ood_01.npz",
+        "sha256": "20c531d3e06ed4bcab754bcb1b497dac22f99a0b0cf8873e4ed95065ec7ec14b"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 403.5625842402811,
+          "relative_L2": 1.0434248870149219,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 24413.042535346794,
+          "relative_L2": 0.9883395516747305,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 9.589803970066244,
+          "relative_L2": 0.43482934694238834,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 3.1374336436054517,
+          "relative_L2": 0.7479967901926688,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 978.7737100907771,
+          "relative_L2": 0.3556370746405066,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 2.249076876558851,
+          "relative_L2": 0.3609324766017762,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 0.7219736065838378,
+          "relative_L2": 0.8623183022675428,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_01",
+      "mean_group_error": 0.6847826327620765,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/fields.npz",
+        "sha256": "789e366967c811a72fc69bbdf626c3f1e2a9aa25e0d92d8435bd2ab97fca69ce"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "random"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/random/v2_rebar_ood_02.npz",
+        "sha256": "3b0f39831c5e30dd7855628a07ee99d00b1b9147461930c33c97f78734d967a8"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 2243.182046183093,
+          "relative_L2": 0.9648589134797184,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 26935.268597887505,
+          "relative_L2": 0.9841971688662035,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 21.08238394549409,
+          "relative_L2": 0.7955194084461255,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 10.974480033324014,
+          "relative_L2": 0.6823620458938309,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 855.8706351513179,
+          "relative_L2": 0.48729386375278977,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 3.8774284784662263,
+          "relative_L2": 0.6195869080549201,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 3.670694884637781,
+          "relative_L2": 0.9801163509678454,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_02",
+      "mean_group_error": 0.7877049513516334,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_02/fields.npz",
+        "sha256": "e9e66ea8522962dd9c73e6a2d700f79118b356192373a86b2a29e9554e05050c"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "random"
+    },
+    {
+      "family": "rebar",
+      "full_fields": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/final_test/random/v2_rebar_ood_03.npz",
+        "sha256": "0e0bbce480dd92ec5828a7f04e943ce0c7bb44cdf6ec07412c3ee10e5eae86a3"
+      },
+      "groups": [
+        {
+          "group": "backstress",
+          "normalization_floor": 13.839105698427918,
+          "pass": false,
+          "reference_norm": 1916.8964584405082,
+          "relative_L2": 0.9288657899731053,
+          "threshold": 0.1,
+          "weighted_unknown_values": 93312.0
+        },
+        {
+          "group": "cauchy_stress",
+          "normalization_floor": 663.3828270669497,
+          "pass": false,
+          "reference_norm": 29983.250527600543,
+          "relative_L2": 0.9876526728091712,
+          "threshold": 0.1,
+          "weighted_unknown_values": 653184.0
+        },
+        {
+          "group": "displacement",
+          "normalization_floor": 0.18375835846892327,
+          "pass": false,
+          "reference_norm": 22.120063015876266,
+          "relative_L2": 0.9313096565252257,
+          "threshold": 0.05,
+          "weighted_unknown_values": 82944.0
+        },
+        {
+          "group": "equivalent_plastic_strain",
+          "normalization_floor": 0.0332521135405478,
+          "pass": false,
+          "reference_norm": 8.140381410563577,
+          "relative_L2": 0.6575784694755865,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_shear_traction",
+          "normalization_floor": 7.9374994758060735,
+          "pass": false,
+          "reference_norm": 899.028992368627,
+          "relative_L2": 0.4788882559749711,
+          "threshold": 0.1,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "interface_slip",
+          "normalization_floor": 0.03185655860560595,
+          "pass": false,
+          "reference_norm": 3.7041974900294843,
+          "relative_L2": 0.6617168190364371,
+          "threshold": 0.15,
+          "weighted_unknown_values": 10368.0
+        },
+        {
+          "group": "plastic_metric",
+          "normalization_floor": 0.021702558417737553,
+          "pass": false,
+          "reference_norm": 3.9129548287934965,
+          "relative_L2": 0.9828030241291883,
+          "threshold": 0.15,
+          "weighted_unknown_values": 93312.0
+        }
+      ],
+      "id": "v2_rebar_ood_03",
+      "mean_group_error": 0.8041163839890978,
+      "native": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/fields.npz",
+        "sha256": "b17cf93ef3f2b7814efb9a5ff1ecf0e4408ddea936f9793ad4fc7cb25c38c693"
+      },
+      "native_reference_physics": {
+        "failed_time_indices": [],
+        "status": "PASS_REGISTERED_RESEARCH_GATES"
+      },
+      "neural_negative": true,
+      "neural_physics_negative": true,
+      "physics": {
+        "failed_time_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "status": "HOLD_REGISTERED_RESEARCH_GATES"
+      },
+      "physics_certification_status": "HOLD_REGISTERED_RESEARCH_GATES",
+      "reference_hold": false,
+      "shape": [
+        25,
+        5232,
+        24
+      ],
+      "split": "ood",
+      "strategy": "random"
+    }
+  ],
+  "release": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+    "sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+  },
+  "released_index": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/released_index.json",
+    "sha256": "8ebce54c70ece0f8393e3f4c7ce88cd71319d118e8205bd3a06d8ef76efd90c9"
+  },
+  "scope": "Independent saved-field identity, full native coverage, registered group metric and diagnostic gate recomputation. Numerical fresh-process model replay is separate evidence; this PASS does not mean learned accuracy or engineering release passes.",
+  "source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.py",
+    "sha256": "27764e270af732fadfa315f944a4b3d7de7d10fe4c7ac8d98bf4ef19f399b7d8"
+  },
+  "status": "PASS_SAVED_FULL_FIELD_IDENTITY_AND_INDEPENDENT_REGISTERED_METRICS",
+  "summary": [
+    {
+      "family": "friction",
+      "mean_group_error": 0.39513766175899806,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "test",
+      "strategy": "initial"
+    },
+    {
+      "family": "friction",
+      "mean_group_error": 0.636868129824698,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "ood",
+      "strategy": "initial"
+    },
+    {
+      "family": "friction",
+      "mean_group_error": 0.41271415695494584,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "family": "friction",
+      "mean_group_error": 0.5947443425590861,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "family": "friction",
+      "mean_group_error": 0.4052926529821581,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "test",
+      "strategy": "random"
+    },
+    {
+      "family": "friction",
+      "mean_group_error": 0.6420716454964875,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "ood",
+      "strategy": "random"
+    },
+    {
+      "family": "rebar",
+      "mean_group_error": 0.605923290311816,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "test",
+      "strategy": "initial"
+    },
+    {
+      "family": "rebar",
+      "mean_group_error": 0.699704284552104,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "ood",
+      "strategy": "initial"
+    },
+    {
+      "family": "rebar",
+      "mean_group_error": 0.5717169313336508,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "family": "rebar",
+      "mean_group_error": 0.7086408689719985,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "family": "rebar",
+      "mean_group_error": 0.5749085085469393,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "test",
+      "strategy": "random"
+    },
+    {
+      "family": "rebar",
+      "mean_group_error": 0.7289854526263966,
+      "negative_count": 4,
+      "qualified": 4,
+      "registered": 4,
+      "split": "ood",
+      "strategy": "random"
+    }
+  ]
+}

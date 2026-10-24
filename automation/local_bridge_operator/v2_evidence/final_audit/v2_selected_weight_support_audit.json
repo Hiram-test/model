@@ -1,0 +1,1485 @@
+{
+  "complete_campaign": true,
+  "execution_lock": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+    "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+  },
+  "native_solves": 0,
+  "neural_forward_calls": 0,
+  "new_heldout_fields_read": false,
+  "primary_emissions": [
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 11,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_09",
+        "v2_friction_candidate_01",
+        "v2_friction_candidate_05"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_2/seed_41/model.pt",
+        "sha256": "ced28c264d0a8773ea3c54e5734a335509994ba21bb90aeb4e45915a7640eba1"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "family": "friction",
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_1/seed_41/model.pt",
+        "sha256": "5ebfc0ac7c8d6a1cf5708333850d2ce439bc0dfcea2b334fda406f4abfbe3b2c"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 7,
+      "selected_seed": 41,
+      "selected_weight_training_support_count": 11,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_09",
+        "v2_friction_candidate_01",
+        "v2_friction_candidate_05"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_2/seed_41/stage_commit.json",
+        "sha256": "407f0821d8a264c242cf1fe04dc59249ec57442c772ec3750825e09f0666d2dd"
+      },
+      "stage_identity": [
+        "friction",
+        "active",
+        2,
+        41
+      ],
+      "strategy": "active",
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 8,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/initial/seed_41/model.pt",
+        "sha256": "fef40c3bc4a55267d9e68dbc39cb69646d7c8962b8e553b065a601b23e47b309"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "family": "friction",
+      "incoming_architecture_variant": "absolute_normalized_state",
+      "incoming_checkpoint": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/initial/seed_41/model.pt",
+        "sha256": "c311ec4528de3fb4c72bbf2ba1bc306f5919e3257ef5cc3c8ca686628d73f91d"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": false,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": true,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 23,
+      "selected_seed": 41,
+      "selected_weight_training_support_count": 8,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/initial/seed_41/stage_commit.json",
+        "sha256": "f94804173c804d899b33aa39d9adfe05c8f3fd1e1ea7c9bce16f06a28d6b22d6"
+      },
+      "stage_identity": [
+        "friction",
+        "initial",
+        0,
+        41
+      ],
+      "strategy": "initial",
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 12,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_11",
+        "v2_friction_candidate_12",
+        "v2_friction_candidate_10",
+        "v2_friction_candidate_08"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_41/model.pt",
+        "sha256": "64ca1d02c53be8a2a286b88afe03bfb2e7830936dc58a85b3ff16005a21d77eb"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "family": "friction",
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_1/seed_41/model.pt",
+        "sha256": "bef4a8f70aeacf3ef6a90a9802b9187deef68b2a53a6d38f310d3db7992ab778"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 5,
+      "selected_seed": 41,
+      "selected_weight_training_support_count": 12,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_11",
+        "v2_friction_candidate_12",
+        "v2_friction_candidate_10",
+        "v2_friction_candidate_08"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_41/stage_commit.json",
+        "sha256": "a4ef3e91e437496c50370d521211d9e7ce536a0a69e96017e5d342c6d5fb83a0"
+      },
+      "stage_identity": [
+        "friction",
+        "random",
+        2,
+        41
+      ],
+      "strategy": "random",
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 12,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00",
+        "v2_rebar_candidate_02",
+        "v2_rebar_candidate_01"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_2/seed_17/model.pt",
+        "sha256": "6733d14bc180dc2c7364b8f13997eb24317ea8aae5365871f7e041ef2227acd2"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "family": "rebar",
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/model.pt",
+        "sha256": "2dc094b8dc56599f537d623bfd66fd9cc0ef5fc28ec3a1d4ffc2db47165e6bb0"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 15,
+      "selected_seed": 17,
+      "selected_weight_training_support_count": 12,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00",
+        "v2_rebar_candidate_02",
+        "v2_rebar_candidate_01"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_2/seed_17/stage_commit.json",
+        "sha256": "ffd4505d84078fa2c6ab7c0a80c417c8d12c7c02d03a4e32a50a7396fbad826c"
+      },
+      "stage_identity": [
+        "rebar",
+        "active",
+        2,
+        17
+      ],
+      "strategy": "active",
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 8,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_41/model.pt",
+        "sha256": "2a3c40e2dc6a5b1b128b02fbe8ba156ec6028748923213b9fbe8fb6c20f1aad8"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "family": "rebar",
+      "incoming_architecture_variant": "absolute_normalized_state",
+      "incoming_checkpoint": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/initial/seed_41/model.pt",
+        "sha256": "e668eb0adb8aec93dc5adffafe866f17dded0937804eb186ba3fbb766dfd0c4d"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": false,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": true,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 31,
+      "selected_seed": 41,
+      "selected_weight_training_support_count": 8,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_41/stage_commit.json",
+        "sha256": "9a5585d56b69137eaf20fc5cda572a623f821d127f86aa39cd27d0dd2bf94731"
+      },
+      "stage_identity": [
+        "rebar",
+        "initial",
+        0,
+        41
+      ],
+      "strategy": "initial",
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 12,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_06",
+        "v2_rebar_candidate_08",
+        "v2_rebar_candidate_10",
+        "v2_rebar_candidate_04"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_2/seed_17/model.pt",
+        "sha256": "533fad8c34c5ead7ef865d38a539184ad7c7e2424654ea38cd64dda017b8635a"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "family": "rebar",
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_17/model.pt",
+        "sha256": "cda631aa0b079bdcc7c6d4c693dcc8fb77c46f0519cef945d39e8f7ac8cebe1a"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 15,
+      "selected_seed": 17,
+      "selected_weight_training_support_count": 12,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_06",
+        "v2_rebar_candidate_08",
+        "v2_rebar_candidate_10",
+        "v2_rebar_candidate_04"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_2/seed_17/stage_commit.json",
+        "sha256": "50f83d38c89631c16db86b36268b6c9675b765e0c328816dfe5d185d1c1705da"
+      },
+      "stage_identity": [
+        "rebar",
+        "random",
+        2,
+        17
+      ],
+      "strategy": "random",
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    }
+  ],
+  "source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_weight_support_audit.py",
+    "sha256": "4189e63f2b938709f5da3319812676275e778ae9c5c54cd89ba08473e057d99a"
+  },
+  "stage_count": 20,
+  "stages": [
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 9,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_09"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_1/seed_17/model.pt",
+        "sha256": "14e9519918da4242d79dd8638f6cb80640424dc60682173cf145166693df5ae3"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/initial/seed_17/model.pt",
+        "sha256": "a5d461901dfbda2093aa6840e521fa784a2097e08703d4d9dde526408fa1056a"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 15,
+      "selected_weight_training_support_count": 9,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_09"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_1/seed_17/stage_commit.json",
+        "sha256": "69edac65a93bf52225e3b03cd053e869a2e0b637d7bbf135350cbd16772afd82"
+      },
+      "stage_identity": [
+        "friction",
+        "active",
+        1,
+        17
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [
+        "v2_friction_candidate_09"
+      ],
+      "available_training_history_count": 9,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_09"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_1/seed_41/model.pt",
+        "sha256": "5ebfc0ac7c8d6a1cf5708333850d2ce439bc0dfcea2b334fda406f4abfbe3b2c"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": true,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/initial/seed_41/model.pt",
+        "sha256": "fef40c3bc4a55267d9e68dbc39cb69646d7c8962b8e553b065a601b23e47b309"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": -1,
+      "selected_weight_training_support_count": 8,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_1/seed_41/stage_commit.json",
+        "sha256": "1a3d2b4db9097108daa9cc7c00b4189987747f1a06783627e7fe5772362b9e1d"
+      },
+      "stage_identity": [
+        "friction",
+        "active",
+        1,
+        41
+      ],
+      "weight_origin": "INCOMING_TENSORS_RETAINED_NO_SELECTED_UPDATES_FROM_THIS_STAGE"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 11,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_09",
+        "v2_friction_candidate_01",
+        "v2_friction_candidate_05"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_2/seed_17/model.pt",
+        "sha256": "309ca7ef66a671570a4a0ce5f9c0768d649aa8bcb8befe4ae3da922e69593f0b"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_1/seed_17/model.pt",
+        "sha256": "14e9519918da4242d79dd8638f6cb80640424dc60682173cf145166693df5ae3"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 9,
+      "selected_weight_training_support_count": 11,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_09",
+        "v2_friction_candidate_01",
+        "v2_friction_candidate_05"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_2/seed_17/stage_commit.json",
+        "sha256": "bc98f757a3e650486ec5d27b1070217145ab459a78af9b61f86d9acacbf87ff5"
+      },
+      "stage_identity": [
+        "friction",
+        "active",
+        2,
+        17
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 11,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_09",
+        "v2_friction_candidate_01",
+        "v2_friction_candidate_05"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_2/seed_41/model.pt",
+        "sha256": "ced28c264d0a8773ea3c54e5734a335509994ba21bb90aeb4e45915a7640eba1"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_1/seed_41/model.pt",
+        "sha256": "5ebfc0ac7c8d6a1cf5708333850d2ce439bc0dfcea2b334fda406f4abfbe3b2c"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 7,
+      "selected_weight_training_support_count": 11,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_09",
+        "v2_friction_candidate_01",
+        "v2_friction_candidate_05"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/active/round_2/seed_41/stage_commit.json",
+        "sha256": "407f0821d8a264c242cf1fe04dc59249ec57442c772ec3750825e09f0666d2dd"
+      },
+      "stage_identity": [
+        "friction",
+        "active",
+        2,
+        41
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 8,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/initial/seed_17/model.pt",
+        "sha256": "a5d461901dfbda2093aa6840e521fa784a2097e08703d4d9dde526408fa1056a"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "absolute_normalized_state",
+      "incoming_checkpoint": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/initial/seed_17/model.pt",
+        "sha256": "6893da0e6e2462a41f2801d593a15892a5144adb6ba6781d58fb69f5426f7ea1"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": false,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": true,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 25,
+      "selected_weight_training_support_count": 8,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/initial/seed_17/stage_commit.json",
+        "sha256": "2035258652bb6eac13ef8bf33d5118e160d890d89ba909737130115661ba02d9"
+      },
+      "stage_identity": [
+        "friction",
+        "initial",
+        0,
+        17
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 8,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/initial/seed_41/model.pt",
+        "sha256": "fef40c3bc4a55267d9e68dbc39cb69646d7c8962b8e553b065a601b23e47b309"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "absolute_normalized_state",
+      "incoming_checkpoint": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/initial/seed_41/model.pt",
+        "sha256": "c311ec4528de3fb4c72bbf2ba1bc306f5919e3257ef5cc3c8ca686628d73f91d"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": false,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": true,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 23,
+      "selected_weight_training_support_count": 8,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/initial/seed_41/stage_commit.json",
+        "sha256": "f94804173c804d899b33aa39d9adfe05c8f3fd1e1ea7c9bce16f06a28d6b22d6"
+      },
+      "stage_identity": [
+        "friction",
+        "initial",
+        0,
+        41
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 10,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_11",
+        "v2_friction_candidate_12"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_1/seed_17/model.pt",
+        "sha256": "c3b7a93178bd2085fdee1ac40fa51847ffcb1f1f92b675ec6676937be39bbd5d"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/initial/seed_17/model.pt",
+        "sha256": "a5d461901dfbda2093aa6840e521fa784a2097e08703d4d9dde526408fa1056a"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 11,
+      "selected_weight_training_support_count": 10,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_11",
+        "v2_friction_candidate_12"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_1/seed_17/stage_commit.json",
+        "sha256": "f7d13f8a3835e91e27fe95bcdcea5ef956c68172923b04912bc009e49161828a"
+      },
+      "stage_identity": [
+        "friction",
+        "random",
+        1,
+        17
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [
+        "v2_friction_candidate_11",
+        "v2_friction_candidate_12"
+      ],
+      "available_training_history_count": 10,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_11",
+        "v2_friction_candidate_12"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_1/seed_41/model.pt",
+        "sha256": "bef4a8f70aeacf3ef6a90a9802b9187deef68b2a53a6d38f310d3db7992ab778"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": true,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/initial/seed_41/model.pt",
+        "sha256": "fef40c3bc4a55267d9e68dbc39cb69646d7c8962b8e553b065a601b23e47b309"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": -1,
+      "selected_weight_training_support_count": 8,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_1/seed_41/stage_commit.json",
+        "sha256": "ea08d3ccd33ff90e5784574763492e352318029d0d8ec1884194d34a478d5902"
+      },
+      "stage_identity": [
+        "friction",
+        "random",
+        1,
+        41
+      ],
+      "weight_origin": "INCOMING_TENSORS_RETAINED_NO_SELECTED_UPDATES_FROM_THIS_STAGE"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 12,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_11",
+        "v2_friction_candidate_12",
+        "v2_friction_candidate_10",
+        "v2_friction_candidate_08"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_17/model.pt",
+        "sha256": "1feec1d2a6dc490b1c79e7d74f12472fecca135712a0c49b17b3443a904c8fb3"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_1/seed_17/model.pt",
+        "sha256": "c3b7a93178bd2085fdee1ac40fa51847ffcb1f1f92b675ec6676937be39bbd5d"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 14,
+      "selected_weight_training_support_count": 12,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_11",
+        "v2_friction_candidate_12",
+        "v2_friction_candidate_10",
+        "v2_friction_candidate_08"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_17/stage_commit.json",
+        "sha256": "8a396bcece53f2fe33290a0995468127d124ebf5f3f24e9ba55ec9fc71c1dbcc"
+      },
+      "stage_identity": [
+        "friction",
+        "random",
+        2,
+        17
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 12,
+      "available_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_11",
+        "v2_friction_candidate_12",
+        "v2_friction_candidate_10",
+        "v2_friction_candidate_08"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_41/model.pt",
+        "sha256": "64ca1d02c53be8a2a286b88afe03bfb2e7830936dc58a85b3ff16005a21d77eb"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_1/seed_41/model.pt",
+        "sha256": "bef4a8f70aeacf3ef6a90a9802b9187deef68b2a53a6d38f310d3db7992ab778"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 5,
+      "selected_weight_training_support_count": 12,
+      "selected_weight_training_support_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007",
+        "v2_friction_candidate_11",
+        "v2_friction_candidate_12",
+        "v2_friction_candidate_10",
+        "v2_friction_candidate_08"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/friction/random/round_2/seed_41/stage_commit.json",
+        "sha256": "a4ef3e91e437496c50370d521211d9e7ce536a0a69e96017e5d342c6d5fb83a0"
+      },
+      "stage_identity": [
+        "friction",
+        "random",
+        2,
+        41
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 10,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/model.pt",
+        "sha256": "2dc094b8dc56599f537d623bfd66fd9cc0ef5fc28ec3a1d4ffc2db47165e6bb0"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_17/model.pt",
+        "sha256": "0847d7a72171f53a0c8700ff92ac6b00951d1e748e4059857d9279a2d783876f"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 15,
+      "selected_weight_training_support_count": 10,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/stage_commit.json",
+        "sha256": "faf919df89156c63d00e84a4044517148978f085a59f907c25151084ee9082b3"
+      },
+      "stage_identity": [
+        "rebar",
+        "active",
+        1,
+        17
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 10,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_41/model.pt",
+        "sha256": "e85e60353bee9f542e941f805ffed1e264609e8d2c8a4c982f6d96a7d762905a"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_41/model.pt",
+        "sha256": "2a3c40e2dc6a5b1b128b02fbe8ba156ec6028748923213b9fbe8fb6c20f1aad8"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 15,
+      "selected_weight_training_support_count": 10,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_41/stage_commit.json",
+        "sha256": "2faba33b7e8b211bdd384fed189c29e62b47f1e342479fe05811ee7aeecd1154"
+      },
+      "stage_identity": [
+        "rebar",
+        "active",
+        1,
+        41
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 12,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00",
+        "v2_rebar_candidate_02",
+        "v2_rebar_candidate_01"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_2/seed_17/model.pt",
+        "sha256": "6733d14bc180dc2c7364b8f13997eb24317ea8aae5365871f7e041ef2227acd2"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/model.pt",
+        "sha256": "2dc094b8dc56599f537d623bfd66fd9cc0ef5fc28ec3a1d4ffc2db47165e6bb0"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 15,
+      "selected_weight_training_support_count": 12,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00",
+        "v2_rebar_candidate_02",
+        "v2_rebar_candidate_01"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_2/seed_17/stage_commit.json",
+        "sha256": "ffd4505d84078fa2c6ab7c0a80c417c8d12c7c02d03a4e32a50a7396fbad826c"
+      },
+      "stage_identity": [
+        "rebar",
+        "active",
+        2,
+        17
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 12,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00",
+        "v2_rebar_candidate_02",
+        "v2_rebar_candidate_01"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_2/seed_41/model.pt",
+        "sha256": "b6f66123e6baa80ff535b026356ec4575b7b35e324ac7712fb8748f0b94fe687"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_41/model.pt",
+        "sha256": "e85e60353bee9f542e941f805ffed1e264609e8d2c8a4c982f6d96a7d762905a"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 14,
+      "selected_weight_training_support_count": 12,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00",
+        "v2_rebar_candidate_02",
+        "v2_rebar_candidate_01"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_2/seed_41/stage_commit.json",
+        "sha256": "eb5eef2bc1e997651bc23bf9e1b0429b4fb4967589ef603695f022cd4ba29dc5"
+      },
+      "stage_identity": [
+        "rebar",
+        "active",
+        2,
+        41
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 8,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_17/model.pt",
+        "sha256": "0847d7a72171f53a0c8700ff92ac6b00951d1e748e4059857d9279a2d783876f"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "absolute_normalized_state",
+      "incoming_checkpoint": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/initial/seed_17/model.pt",
+        "sha256": "ba9f5ed7f36b47505612ab9c4e27878248d29e3f823c2c40286e72aba13e3c0e"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": false,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": true,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 31,
+      "selected_weight_training_support_count": 8,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_17/stage_commit.json",
+        "sha256": "a85531b57903fbe30467abcafaa04b6923381a3fef39d75443f364d771ee8b0e"
+      },
+      "stage_identity": [
+        "rebar",
+        "initial",
+        0,
+        17
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 8,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_41/model.pt",
+        "sha256": "2a3c40e2dc6a5b1b128b02fbe8ba156ec6028748923213b9fbe8fb6c20f1aad8"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "absolute_normalized_state",
+      "incoming_checkpoint": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/initial/seed_41/model.pt",
+        "sha256": "e668eb0adb8aec93dc5adffafe866f17dded0937804eb186ba3fbb766dfd0c4d"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": false,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": true,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 31,
+      "selected_weight_training_support_count": 8,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_41/stage_commit.json",
+        "sha256": "9a5585d56b69137eaf20fc5cda572a623f821d127f86aa39cd27d0dd2bf94731"
+      },
+      "stage_identity": [
+        "rebar",
+        "initial",
+        0,
+        41
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 10,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_06",
+        "v2_rebar_candidate_08"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_17/model.pt",
+        "sha256": "cda631aa0b079bdcc7c6d4c693dcc8fb77c46f0519cef945d39e8f7ac8cebe1a"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_17/model.pt",
+        "sha256": "0847d7a72171f53a0c8700ff92ac6b00951d1e748e4059857d9279a2d783876f"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 15,
+      "selected_weight_training_support_count": 10,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_06",
+        "v2_rebar_candidate_08"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_17/stage_commit.json",
+        "sha256": "ea3a32878d952bd3dfbc4e6d5384bc72b31930e2172a06074005d97bfed99171"
+      },
+      "stage_identity": [
+        "rebar",
+        "random",
+        1,
+        17
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 10,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_06",
+        "v2_rebar_candidate_08"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_41/model.pt",
+        "sha256": "609e6429c726b0ff46ce14d2e2b35ea6a973f60a33f5d6af4dc82cd529f0d3cc"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_41/model.pt",
+        "sha256": "2a3c40e2dc6a5b1b128b02fbe8ba156ec6028748923213b9fbe8fb6c20f1aad8"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 15,
+      "selected_weight_training_support_count": 10,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_06",
+        "v2_rebar_candidate_08"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_41/stage_commit.json",
+        "sha256": "8f2fac59889baa09293351483fd68a82b2b8f72f4aecff306d813ee4e16dd325"
+      },
+      "stage_identity": [
+        "rebar",
+        "random",
+        1,
+        41
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 12,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_06",
+        "v2_rebar_candidate_08",
+        "v2_rebar_candidate_10",
+        "v2_rebar_candidate_04"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_2/seed_17/model.pt",
+        "sha256": "533fad8c34c5ead7ef865d38a539184ad7c7e2424654ea38cd64dda017b8635a"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_17/model.pt",
+        "sha256": "cda631aa0b079bdcc7c6d4c693dcc8fb77c46f0519cef945d39e8f7ac8cebe1a"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 15,
+      "selected_weight_training_support_count": 12,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_06",
+        "v2_rebar_candidate_08",
+        "v2_rebar_candidate_10",
+        "v2_rebar_candidate_04"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_2/seed_17/stage_commit.json",
+        "sha256": "50f83d38c89631c16db86b36268b6c9675b765e0c328816dfe5d185d1c1705da"
+      },
+      "stage_identity": [
+        "rebar",
+        "random",
+        2,
+        17
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    },
+    {
+      "available_but_not_in_selected_weight_support": [],
+      "available_training_history_count": 12,
+      "available_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_06",
+        "v2_rebar_candidate_08",
+        "v2_rebar_candidate_10",
+        "v2_rebar_candidate_04"
+      ],
+      "checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_2/seed_41/model.pt",
+        "sha256": "1f6b66c4dcd158c74195211a7fd9c7507f7adac68c4e72a5f2db2ef183440b2a"
+      },
+      "emitted_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "exact_incoming_tensor_equality": false,
+      "incoming_architecture_variant": "v2_complete_graph_physical_head_v1",
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_41/model.pt",
+        "sha256": "609e6429c726b0ff46ce14d2e2b35ea6a973f60a33f5d6af4dc82cd529f0d3cc"
+      },
+      "incoming_prediction_function_equivalent_from_architecture": true,
+      "initial_V1_to_V2_head_migration_changes_prediction_function": false,
+      "scope": "Support means histories used in the selected training trajectory, not a causal claim that every individual sample changed every learned parameter.",
+      "selected_epoch": 12,
+      "selected_weight_training_support_count": 12,
+      "selected_weight_training_support_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_06",
+        "v2_rebar_candidate_08",
+        "v2_rebar_candidate_10",
+        "v2_rebar_candidate_04"
+      ],
+      "stage_commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_2/seed_41/stage_commit.json",
+        "sha256": "919e455ec6a61694dcfa2cbab897e3fc13c111b6b8f6edad0c677e58dac8d9ce"
+      },
+      "stage_identity": [
+        "rebar",
+        "random",
+        2,
+        41
+      ],
+      "weight_origin": "SELECTED_EXECUTED_EPOCH_AFTER_COMPLETE_AVAILABLE_HISTORY_VISITS"
+    }
+  ],
+  "status": "PASS_FINAL_SELECTED_WEIGHT_SUPPORT_AND_INCOMING_TENSOR_IDENTITY",
+  "training_updates": 0
+}

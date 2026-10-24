@@ -1,0 +1,89 @@
+{
+  "actual_complete_audit": {
+    "bytes": 138150,
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.json",
+    "sha256": "6892ba41f230cad9405cbc760549e54e1f057d906a0cbae85d21e2d650a57b6c"
+  },
+  "checks": [
+    {
+      "name": "friction_audit.json_actual_path_and_original_expected_sha",
+      "pass": true
+    },
+    {
+      "name": "friction_fields.npz_actual_path_and_original_expected_sha",
+      "pass": true
+    },
+    {
+      "name": "friction_metadata.json_actual_path_and_original_expected_sha",
+      "pass": true
+    },
+    {
+      "name": "friction_native_tables.npz_actual_path_and_original_expected_sha",
+      "pass": true
+    },
+    {
+      "name": "friction_wrong_expected_sha_remains_rejected",
+      "pass": true
+    },
+    {
+      "name": "rebar_metadata_actual_path_and_original_expected_sha",
+      "pass": true
+    },
+    {
+      "name": "rebar_npz_actual_path_and_original_expected_sha",
+      "pass": true
+    },
+    {
+      "name": "rebar_wrong_expected_sha_remains_rejected",
+      "pass": true
+    },
+    {
+      "name": "synthetic_rejected_friction_../escape",
+      "pass": true
+    },
+    {
+      "name": "synthetic_rejected_rebar_unknown",
+      "pass": true
+    },
+    {
+      "name": "synthetic_rejected_rebar_npz",
+      "pass": true
+    },
+    {
+      "name": "all_native_content_qualification_numeric_and_id_gates_unchanged_ast",
+      "pass": true
+    },
+    {
+      "name": "actual_complete_native_audit_executed_pass",
+      "pass": true
+    }
+  ],
+  "diff": "--- v2_selected_native_identity_before_export_key_correction_66d5632a4abc.py\n+++ v2_selected_native_identity_audit.py\n@@ -3,6 +3,10 @@\n import numpy as np # Check exact native full-field support and original node/integration-point identities.\n sys.dont_write_bytecode=True;sys.path.insert(0,str(Path(__file__).parent));import v2_experiment_contract as design # Reuse immutable evidence references and require explicit post-training source manifests.\n OUT=Path(__file__).parent;ROOT=OUT.parent # Keep native integrity auditing separate from accuracy and reference-fidelity conclusions.\n+def export_path(family,row,folder,name): # Resolve the two actual immutable callback schemas without inventing filenames from logical keys.\n+    if family=='rebar': assert name in ('npz','metadata');path=Path(row[name]) # The rebar callback binds logical field names to explicit original paths.\n+    else: assert family=='friction' and Path(name).name==name;path=folder/name # Friction records original export basenames in its callback receipt.\n+    assert path.parent.resolve()==folder.resolve();return path # Both callback styles must point to the same selected native case directory.\n def stream_sha(stream): return hashlib.file_digest(stream,'sha256').hexdigest() # Stream large native members without retaining duplicate data beside complete-graph training.\n def actual_file(folder,name,archives): # Resolve a native file from its original raw path or a byte-preserving recorded archive member.\n     raw=folder/name # Prefer current visible original bytes so a changed raw file cannot hide behind a valid archived copy.\n@@ -31,7 +35,7 @@\n         if family=='friction': assert receipt['returncode']==0 and receipt['job_finished'] and not receipt['error_marker'] and design.digest(receipt['solver'])==receipt['solver_wrapper_sha256'] # Original normal completion and actual solver-wrapper identity support the selected label's provenance.\n         else: assert receipt['native_returncode']==0 and receipt['native_complete'] and receipt['printed_times']==list(range(1,25)) and len(receipt['checks'])==24 and all(record['complete'] for record in receipt['checks']) # Keep all actual macro-endpoint reference frames, regardless of separate iteration-log formatting limits.\n         if row.get('export_sha256'): # Friction adapter separately freezes its full derived fields and qualification report.\n-            for name,expected in row['export_sha256'].items(): assert design.digest(folder/name)==expected # A valid native text archive cannot excuse a changed parsed reference array.\n+            for name,expected in row['export_sha256'].items(): assert design.digest(export_path(family,row,folder,name))==expected # Check the exact original expected SHA using the callback's actual basename or logical-path schema.\n         metadata=design.read(row['metadata']);expected_shape=(33,697,15) if family=='friction' else (25,5232,24) # No compressed response basis, missing state channel or spatial subsampling can meet this identity.\n         with np.load(row['npz'],allow_pickle=False) as arrays: # Read actual complete native fields only after independent test release and producer completion.\n             states=arrays['states'];support=arrays['state_mask'].astype(bool);assert states.shape==expected_shape and np.isfinite(states).all() and support.shape==expected_shape[1:];assert len(metadata['fields'])==expected_shape[-1] # Preserve all original states and physical field semantics.\n",
+  "expected_native_hashes_modified": false,
+  "failure_classification": "Auditor callback-schema mismatch, not a neural negative or reference physics failure.",
+  "native_reference_bytes_modified": false,
+  "neural_model_or_prediction_modified": false,
+  "old_source": {
+    "bytes": 10257,
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_selected_native_identity_before_export_key_correction_66d5632a4abc.py",
+    "sha256": "66d5632a4abc0a85b77e0e56debdfb51b1ceabc0e403feb01d32865fcd6aac67"
+  },
+  "original_failure": {
+    "bytes": 2170,
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_original_failure.json",
+    "sha256": "8ed5a6feb226ef11f2cf1597f268f3cbed1d2ecdb75c2ea0f658e500d7aaa597"
+  },
+  "schema": "bridge.v2.native.export.key.correction.v1",
+  "solver_or_training_calls": 0,
+  "source": {
+    "bytes": 10888,
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.py",
+    "sha256": "5f161176d6aed32d5d87f95cdecdc281c2de684278815fbb759e7a466241e31d"
+  },
+  "status": "PASS_INTERFACE_ONLY_EXPORT_PATH_CORRECTION_WITH_ORIGINAL_SCIENTIFIC_GATES",
+  "verification_source": {
+    "bytes": 5937,
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_native_export_key_verification.py",
+    "sha256": "151bc85eceb185a2f089f8b64aa7146cd7b03fabb41b5693d7f790f1a8c5d5da"
+  }
+}

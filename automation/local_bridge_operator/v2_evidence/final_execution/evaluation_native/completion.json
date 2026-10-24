@@ -1,0 +1,121 @@
+{
+  "closed_reference_failures": 0,
+  "execution": {
+    "automatic_retries": 0,
+    "config": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+      "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+    },
+    "design_contract": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+      "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+    },
+    "execution_lock": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+      "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+    },
+    "maximum_simultaneous_callbacks": 1,
+    "maximum_simultaneous_native_jobs": 1,
+    "mode": "FORMAL_RELEASED_EVALUATION",
+    "native_adapters": {
+      "friction": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_native.py",
+        "sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736"
+      },
+      "rebar": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v4.py",
+        "sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d"
+      }
+    },
+    "ordering": "friction then rebar, registered public ID order",
+    "release": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+      "sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+    },
+    "released_descriptors": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_released_evaluation_descriptors.json",
+      "sha256": "cc8129df5a4904640c0a591d9550c5d80e6cb660605fb461f535a4c48aee9e43"
+    },
+    "runner": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_evaluation_native_runner.py",
+      "sha256": "7fc184b60eeed66297595cc7dbb696d6c39f3057ab31a4aec9365b86659ba9df"
+    },
+    "schema": "bridge.v2.evaluation.native.execution.v1",
+    "source_addendum": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_evaluation_native_runner_freeze.json",
+      "sha256": "da2acf3bdf5d2b58b259237145a62adb20009a22e4803c7ac0104ec5b1fc5698"
+    }
+  },
+  "qualified_reference_histories": 16,
+  "released_index": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/released_index.json",
+    "sha256": "8ebce54c70ece0f8393e3f4c7ce88cd71319d118e8205bd3a06d8ef76efd90c9"
+  },
+  "slot_completions": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_friction_test_00/completion.json",
+      "sha256": "622f126371b94e2baa3d0edc61ed56441566e84b8111cc2d99146c8f29ed6beb"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_friction_test_01/completion.json",
+      "sha256": "1d94c0c035e457ad56df364c80378e19245156260382926e69a34c2d5966ab86"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_friction_test_02/completion.json",
+      "sha256": "3391c948c97e3d76ee8eba2d8b150e644d90d8317fe4e1f269efb4e6fa4f2880"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_friction_test_03/completion.json",
+      "sha256": "85a2d763de9c9d63d70ac6b94b4231e82d41dd2c2da91b48919538bf77f083e4"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_friction_ood_00/completion.json",
+      "sha256": "69ff9cff61a7eaf8288a6eb644220108d946a111e780cb104836e26420a7ccb9"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_friction_ood_01/completion.json",
+      "sha256": "7ee2ad3221700690d111061e1f61c2641a736f9a43d8138b9b47da33adc05660"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_friction_ood_02/completion.json",
+      "sha256": "b31cf78cc82f12ac10f90996e07667b1f3bcbbe964f3754627617b4dc796e880"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_friction_ood_03/completion.json",
+      "sha256": "079dd57426b5a5997ea7becee9260446cc740127e1bf12048047a3dd5fc017ef"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_test_00/completion.json",
+      "sha256": "153524090d6527810d855e43b389dfad01819526db8edfe1cdb032ba81671df9"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_test_01/completion.json",
+      "sha256": "fc3c43848f06a35e1e975c15f4210bd8b6d40c485e69235364c7489372ac553a"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_test_02/completion.json",
+      "sha256": "450c5c3339d0d18d64094d5150fa5865c990395da35686b1282c77ea36d06104"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_test_03/completion.json",
+      "sha256": "01f4eb31fe464cf9a54020fa6eea1e7c271e19fad2a70349c4acbc8cbee0577d"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_ood_00/completion.json",
+      "sha256": "906be72827967828bb30db8a1fb03da3260c6a3d844def67fd3bf9970388e968"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_ood_01/completion.json",
+      "sha256": "0d77f523373da5ae53451134f0d2a1d5e28ad30535558bfebeaf0afe34f76c7b"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_ood_02/completion.json",
+      "sha256": "256e57cfa70af4b06953e44a8253e7c542a7164e4672d729e3403d98889dd9ae"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native/attempts/v2_rebar_ood_03/completion.json",
+      "sha256": "bf176b3dfcfa7b4d36fbc3f2f39d44e70033803eb9d30b61a433c5af5237a0d4"
+    }
+  ],
+  "status": "ALL_16_REGISTERED_NATIVE_SLOTS_CLOSED"
+}

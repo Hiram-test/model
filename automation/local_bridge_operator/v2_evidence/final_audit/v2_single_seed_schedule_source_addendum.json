@@ -1,0 +1,26 @@
+{
+  "cli_equivalence_evidence": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/external_scheduling/single_seed_spec_equivalence.json",
+    "sha256": "1dfd92438fc0be083548b5c974c7f0167cf8ffac44917a7033d4ac0ece79e76c"
+  },
+  "formal_stage_identity": [
+    "rebar",
+    "initial",
+    0,
+    17
+  ],
+  "native_or_training_execution_by_auditor": false,
+  "new_test_release_authorized": false,
+  "observed_spec_sha256": "90b558ad6d8d9bd1c6f3d97e4b701360d3d9468d08ad95105d22303fac3a64a6",
+  "prior_resource_schedule_review": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_serial_seed_schedule_review.json",
+    "sha256": "ff0bfd03048637e0a8ab109fdd876be119970976d1d2b464f255e20d833a2f51"
+  },
+  "remaining_runtime_requirement": "Start thermal first, account for its planned peak, preserve the wrapper attempt and frozen scheduler events; do not run seed41 while the reserved thermal peak remains active.",
+  "scientific_source_config_budget_changed": false,
+  "source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_single_seed_schedule.py",
+    "sha256": "c2af918a6be214dccc4d9c5e257b335a964925c52be3829ca733b7f1195c2c4f"
+  },
+  "status": "PASS_EXTERNAL_SERIAL_DISPATCH_SOURCE_AND_IDENTITY"
+}

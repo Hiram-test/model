@@ -1,0 +1,1881 @@
+{
+  "closed_reference_failures": 0,
+  "execution": {
+    "automatic_retries": 0,
+    "config": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+      "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+    },
+    "design_contract": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+      "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+    },
+    "execution_lock": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+      "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+    },
+    "maximum_simultaneous_callbacks": 1,
+    "maximum_simultaneous_native_jobs": 1,
+    "mode": "FORMAL_RELEASED_EVALUATION",
+    "native_adapters": {
+      "friction": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_native.py",
+        "sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736"
+      },
+      "rebar": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v4.py",
+        "sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d"
+      }
+    },
+    "ordering": "friction then rebar, registered public ID order",
+    "release": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+      "sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+    },
+    "released_descriptors": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_released_evaluation_descriptors.json",
+      "sha256": "cc8129df5a4904640c0a591d9550c5d80e6cb660605fb461f535a4c48aee9e43"
+    },
+    "runner": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_evaluation_native_runner.py",
+      "sha256": "7fc184b60eeed66297595cc7dbb696d6c39f3057ab31a4aec9365b86659ba9df"
+    },
+    "schema": "bridge.v2.evaluation.native.execution.v1",
+    "source_addendum": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_evaluation_native_runner_freeze.json",
+      "sha256": "da2acf3bdf5d2b58b259237145a62adb20009a22e4803c7ac0104ec5b1fc5698"
+    }
+  },
+  "families": {
+    "friction": [
+      {
+        "actual_native_case_id": "v2_friction_test_00",
+        "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+        "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_test_00/attempt_1792872816883007052/callback_receipt.json",
+        "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+        "callback_wall_seconds": 5.789416204999725,
+        "canonical_cold_seconds": 4.208170223999332,
+        "controls_sha256": "ffb03745663800c846086244398256a9a8e713210425085d08ed6aab46906f25",
+        "cost_evidence": {
+          "actual_fresh_native_receipts": [
+            {
+              "id": "v2_friction_test_00",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/contact.inp",
+              "input_deck_sha256": "b6112e02a805101ac793028fb389550417ea25e0da113246718f16f62daa7cd0",
+              "job_finished": true,
+              "measured_seconds": 4.208170223999332,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/receipt.json",
+              "receipt_sha256": "a00797df5e8258572881e0663b1d02be97f40e8d0606d9df9136b51adb8ffc34",
+              "returncode": 0,
+              "seconds": 4.208170223999332,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "actual_fresh_native_seconds": 4.208170223999332,
+          "canonical_cold_reference": {
+            "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/b6112e02a805101ac793028fb389550417ea25e0da113246718f16f62daa7cd0.json",
+            "sha256": "ed9784c3c5477e74b4a7e5f69a2600c29923aaff1f9861b0d0c36dcfdafc4d64"
+          },
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/contact.inp",
+          "input_deck_sha256": "b6112e02a805101ac793028fb389550417ea25e0da113246718f16f62daa7cd0",
+          "measured_seconds": 4.208170223999332,
+          "native_receipts": [
+            {
+              "id": "v2_friction_test_00",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/contact.inp",
+              "input_deck_sha256": "b6112e02a805101ac793028fb389550417ea25e0da113246718f16f62daa7cd0",
+              "job_finished": true,
+              "measured_seconds": 4.208170223999332,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/receipt.json",
+              "receipt_sha256": "a00797df5e8258572881e0663b1d02be97f40e8d0606d9df9136b51adb8ffc34",
+              "returncode": 0,
+              "seconds": 4.208170223999332,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/audit.json",
+          "qualification_receipt_sha256": "6c75910e1149c397e129467545d7d78bdbeada2a80e94223806e47b30cf591b7",
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_test_00/attempt_1792872816883007052/cost_accounting.json",
+          "receipt_sha256": "05af6cceafbef6dbb043f16312b2a2a759021911537f7328bf012cdf6b497076",
+          "timing_basis": "native_invocation_wall_including_log_write"
+        },
+        "cost_status": "MEASURED_COMPLETE",
+        "descriptor": {
+          "amplitude": 0.049732133629731834,
+          "canonical_input_sha256": "b645650e5449f4dfbcd55422e5747e6bcdac3f8c739e3b6a7ccf375280d07d7b",
+          "controls_sha256": "ffb03745663800c846086244398256a9a8e713210425085d08ed6aab46906f25",
+          "dt": 0.05,
+          "dtmax": 0.1,
+          "family": "friction",
+          "future_native_fields_present": false,
+          "group_id": "v2_friction_b645650e5449f4dfbcd5",
+          "id": "v2_friction_test_00",
+          "kn": 1000000.0,
+          "kt": 10000.0,
+          "mesh": [
+            8,
+            4,
+            2
+          ],
+          "mu": 0.33694703280925753,
+          "normal_mode": 0,
+          "observed_frames": 33,
+          "opening": 0.02,
+          "params": [
+            0.33694703280925753,
+            6.623579803854227,
+            0.049732133629731834,
+            1.0976942639797926,
+            1.0413881469517947,
+            1.101859398931265,
+            0.0,
+            0.0
+          ],
+          "pressure": 6.623579803854227,
+          "protocol": 0,
+          "scale": [
+            1.0976942639797926,
+            1.0413881469517947,
+            1.101859398931265
+          ],
+          "split": "test"
+        },
+        "export_sha256": {
+          "audit.json": "6c75910e1149c397e129467545d7d78bdbeada2a80e94223806e47b30cf591b7",
+          "fields.npz": "f852100b5cd28931bcfedb09ed127317ddd9fa0deaf9e4a5d618881e73cebf94",
+          "metadata.json": "392a3812f9e0bfc3d4b9477e44870903f4bea1b9a14dfe071739c81e28d98930",
+          "native_tables.npz": "dbd2e002a3698ccfa25cf18d127452cc18080168e6849c89428ba80d8310c1ba"
+        },
+        "family": "friction",
+        "fresh_native_execution_count": 1,
+        "fresh_native_seconds_total": 4.208170223999332,
+        "fresh_native_solve": true,
+        "group_id": "v2_friction_b645650e5449f4dfbcd5",
+        "heldout_release": {
+          "guard_source_sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76",
+          "release_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+          "release_sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+        },
+        "id": "v2_friction_test_00",
+        "input_identity": {
+          "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+          "controls_sha256": "6708e1eaa2e886b75303bc2b177442654bc8ee51cab5efed3c13aa27ac17c037",
+          "geometry_sha256": "4845165832754f1373f5f733b21054d08fc5d5384f973f40a27daedbf0b258f7",
+          "native_input_sha256": "b6112e02a805101ac793028fb389550417ea25e0da113246718f16f62daa7cd0",
+          "schema": "bridge.v2.friction.input_identity.v1",
+          "signature_sha256": "031ce24fa1d0b97edef3200562c1ac1fd95ebdc2170dd56b8ce49245c9005c37"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/metadata.json",
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_00/fields.npz",
+        "params": [
+          0.33694703280925753,
+          6.623579803854227,
+          0.049732133629731834,
+          1.0976942639797926,
+          1.0413881469517947,
+          1.101859398931265,
+          0.0,
+          0.0
+        ],
+        "quality": "VALID_CONVERGED",
+        "reference_final_invocation_seconds": 4.208170223999332,
+        "reference_qualified": true,
+        "registered_input_sha256": "b645650e5449f4dfbcd55422e5747e6bcdac3f8c739e3b6a7ccf375280d07d7b",
+        "seconds": 4.208170223999332,
+        "split": "test",
+        "verified_cache_reuse": false,
+        "worker_process_wall_seconds": 5.7360019920015475
+      },
+      {
+        "actual_native_case_id": "v2_friction_test_01",
+        "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+        "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_test_01/attempt_1792872822688570184/callback_receipt.json",
+        "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+        "callback_wall_seconds": 6.146856415998627,
+        "canonical_cold_seconds": 4.503975609000918,
+        "controls_sha256": "936c9e2a426acc70224c83a70c736abd1669548ff4cc3a960f729cf7ce145dda",
+        "cost_evidence": {
+          "actual_fresh_native_receipts": [
+            {
+              "id": "v2_friction_test_01",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/contact.inp",
+              "input_deck_sha256": "4be9ae7e928c58cbfc876fba056c1b5473f7bd7d904d289d66b5f969c1b3ad0f",
+              "job_finished": true,
+              "measured_seconds": 4.503975609000918,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/receipt.json",
+              "receipt_sha256": "4ae5fdb7a7b86c438e3edcd21206e278107a387ea8faaa5925615e470fd30334",
+              "returncode": 0,
+              "seconds": 4.503975609000918,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "actual_fresh_native_seconds": 4.503975609000918,
+          "canonical_cold_reference": {
+            "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/4be9ae7e928c58cbfc876fba056c1b5473f7bd7d904d289d66b5f969c1b3ad0f.json",
+            "sha256": "e5c5e39acf54beffb4dbb1d8881b30fa409f4279b03eaa547dfecf703d585025"
+          },
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/contact.inp",
+          "input_deck_sha256": "4be9ae7e928c58cbfc876fba056c1b5473f7bd7d904d289d66b5f969c1b3ad0f",
+          "measured_seconds": 4.503975609000918,
+          "native_receipts": [
+            {
+              "id": "v2_friction_test_01",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/contact.inp",
+              "input_deck_sha256": "4be9ae7e928c58cbfc876fba056c1b5473f7bd7d904d289d66b5f969c1b3ad0f",
+              "job_finished": true,
+              "measured_seconds": 4.503975609000918,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/receipt.json",
+              "receipt_sha256": "4ae5fdb7a7b86c438e3edcd21206e278107a387ea8faaa5925615e470fd30334",
+              "returncode": 0,
+              "seconds": 4.503975609000918,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/audit.json",
+          "qualification_receipt_sha256": "5b1fb4f5f10c415ac4c7784ff78751c215c6df29d715786443b1236d88b2f0ba",
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_test_01/attempt_1792872822688570184/cost_accounting.json",
+          "receipt_sha256": "cf519493d50b19590cdb7deaa4aac2330c70fc93d9c982d1355f8ee16c38c41c",
+          "timing_basis": "native_invocation_wall_including_log_write"
+        },
+        "cost_status": "MEASURED_COMPLETE",
+        "descriptor": {
+          "amplitude": 0.19453696955461056,
+          "canonical_input_sha256": "a894e9f0ae8c6d2b80e209c17ace45f43e4ae0c52f2127dd2e048e689a0cfacf",
+          "controls_sha256": "936c9e2a426acc70224c83a70c736abd1669548ff4cc3a960f729cf7ce145dda",
+          "dt": 0.05,
+          "dtmax": 0.1,
+          "family": "friction",
+          "future_native_fields_present": false,
+          "group_id": "v2_friction_a894e9f0ae8c6d2b80e2",
+          "id": "v2_friction_test_01",
+          "kn": 1000000.0,
+          "kt": 10000.0,
+          "mesh": [
+            8,
+            4,
+            2
+          ],
+          "mu": 0.475187698751688,
+          "normal_mode": 0,
+          "observed_frames": 33,
+          "opening": 0.02,
+          "params": [
+            0.475187698751688,
+            22.4181716889143,
+            0.19453696955461056,
+            0.9816259987652303,
+            0.9786089815199376,
+            0.9103755734860898,
+            0.0,
+            1.0
+          ],
+          "pressure": 22.4181716889143,
+          "protocol": 1,
+          "scale": [
+            0.9816259987652303,
+            0.9786089815199376,
+            0.9103755734860898
+          ],
+          "split": "test"
+        },
+        "export_sha256": {
+          "audit.json": "5b1fb4f5f10c415ac4c7784ff78751c215c6df29d715786443b1236d88b2f0ba",
+          "fields.npz": "082570a6c3a141b0ca4a81991cbad95344e52a4be732f4beeb35e197016d73fd",
+          "metadata.json": "ed9d35d4f62cd802a12ce221c79199961fbd58a99f9b12b30349aa925f4499bd",
+          "native_tables.npz": "43469a1bcfdf04af3dc5d5d34102ecf37246ba31459aa7c047b6bd47fce825c4"
+        },
+        "family": "friction",
+        "fresh_native_execution_count": 1,
+        "fresh_native_seconds_total": 4.503975609000918,
+        "fresh_native_solve": true,
+        "group_id": "v2_friction_a894e9f0ae8c6d2b80e2",
+        "heldout_release": {
+          "guard_source_sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76",
+          "release_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+          "release_sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+        },
+        "id": "v2_friction_test_01",
+        "input_identity": {
+          "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+          "controls_sha256": "445137ca0f3172ec2c078f69c17c2a68df1b6ed0648f8a4a0b1af2f0da15d9c8",
+          "geometry_sha256": "3ded0777447442bfbf6c978961df721f6da1b08ceb55276b2a43346ea0057299",
+          "native_input_sha256": "4be9ae7e928c58cbfc876fba056c1b5473f7bd7d904d289d66b5f969c1b3ad0f",
+          "schema": "bridge.v2.friction.input_identity.v1",
+          "signature_sha256": "7bb188eee5ed50ecdb73e572b402d2a0b77ec1cb0fe2df069731a3053135d4d5"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/metadata.json",
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_01/fields.npz",
+        "params": [
+          0.475187698751688,
+          22.4181716889143,
+          0.19453696955461056,
+          0.9816259987652303,
+          0.9786089815199376,
+          0.9103755734860898,
+          0.0,
+          1.0
+        ],
+        "quality": "VALID_CONVERGED",
+        "reference_final_invocation_seconds": 4.503975609000918,
+        "reference_qualified": true,
+        "registered_input_sha256": "a894e9f0ae8c6d2b80e209c17ace45f43e4ae0c52f2127dd2e048e689a0cfacf",
+        "seconds": 4.503975609000918,
+        "split": "test",
+        "verified_cache_reuse": false,
+        "worker_process_wall_seconds": 6.0892622339997615
+      },
+      {
+        "actual_native_case_id": "v2_friction_test_02",
+        "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+        "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_test_02/attempt_1792872828863321676/callback_receipt.json",
+        "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+        "callback_wall_seconds": 5.064482786001463,
+        "canonical_cold_seconds": 3.5019242279995524,
+        "controls_sha256": "c41d68d27fd7f2124cbbd6096c6d03363c46fe679e101c1a3ae3f0019aaa7758",
+        "cost_evidence": {
+          "actual_fresh_native_receipts": [
+            {
+              "id": "v2_friction_test_02",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/contact.inp",
+              "input_deck_sha256": "83c2ab68a58b7a1ace831c923a46b052202a950b1bd3878749cc3e0695f8c9d2",
+              "job_finished": true,
+              "measured_seconds": 3.5019242279995524,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/receipt.json",
+              "receipt_sha256": "81453387e25d1329f2686bc547ef8c19c90f2d8d40bc7824946cf49bf219d64a",
+              "returncode": 0,
+              "seconds": 3.5019242279995524,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "actual_fresh_native_seconds": 3.5019242279995524,
+          "canonical_cold_reference": {
+            "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/83c2ab68a58b7a1ace831c923a46b052202a950b1bd3878749cc3e0695f8c9d2.json",
+            "sha256": "2e75ccd06c0d0657a9f13d8ee160775c0ee7135b58c7077b55cdd50573665fcf"
+          },
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/contact.inp",
+          "input_deck_sha256": "83c2ab68a58b7a1ace831c923a46b052202a950b1bd3878749cc3e0695f8c9d2",
+          "measured_seconds": 3.5019242279995524,
+          "native_receipts": [
+            {
+              "id": "v2_friction_test_02",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/contact.inp",
+              "input_deck_sha256": "83c2ab68a58b7a1ace831c923a46b052202a950b1bd3878749cc3e0695f8c9d2",
+              "job_finished": true,
+              "measured_seconds": 3.5019242279995524,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/receipt.json",
+              "receipt_sha256": "81453387e25d1329f2686bc547ef8c19c90f2d8d40bc7824946cf49bf219d64a",
+              "returncode": 0,
+              "seconds": 3.5019242279995524,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/audit.json",
+          "qualification_receipt_sha256": "192497512d8590db6aa9cb8d7a468691c23db9c1a634d016e5640e115cb6e203",
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_test_02/attempt_1792872828863321676/cost_accounting.json",
+          "receipt_sha256": "b8abeb9fe8d0887d5d2858c31e33b5ef41b587db2b6acc1103474c4c4bf65dc8",
+          "timing_basis": "native_invocation_wall_including_log_write"
+        },
+        "cost_status": "MEASURED_COMPLETE",
+        "descriptor": {
+          "amplitude": 0.10828190867323428,
+          "canonical_input_sha256": "f215add9653373b90ce8fb82f04e5ff8d48db83cbc06e21e833fc86af012b166",
+          "controls_sha256": "c41d68d27fd7f2124cbbd6096c6d03363c46fe679e101c1a3ae3f0019aaa7758",
+          "dt": 0.05,
+          "dtmax": 0.1,
+          "family": "friction",
+          "future_native_fields_present": false,
+          "group_id": "v2_friction_f215add9653373b90ce8",
+          "id": "v2_friction_test_02",
+          "kn": 1000000.0,
+          "kt": 10000.0,
+          "mesh": [
+            8,
+            4,
+            2
+          ],
+          "mu": 0.37587307877838616,
+          "normal_mode": 1,
+          "observed_frames": 33,
+          "opening": 0.02,
+          "params": [
+            0.37587307877838616,
+            10.882521476596594,
+            0.10828190867323428,
+            1.0144769314676523,
+            0.9282702742144465,
+            0.813658956438303,
+            1.0,
+            0.0
+          ],
+          "pressure": 10.882521476596594,
+          "protocol": 0,
+          "scale": [
+            1.0144769314676523,
+            0.9282702742144465,
+            0.813658956438303
+          ],
+          "split": "test"
+        },
+        "export_sha256": {
+          "audit.json": "192497512d8590db6aa9cb8d7a468691c23db9c1a634d016e5640e115cb6e203",
+          "fields.npz": "bbe1c6d259d34ff9b8a040b93fdbc61664c5006a94ee2b89f2b7462d6733315b",
+          "metadata.json": "35f8fda27500aaa9407b7fe65f9b41fcd2d7135514318fe307c16a4cc24ae50d",
+          "native_tables.npz": "b4ea0bc42e9707aa37b8242cf298d7a1dd3c2d5ed009b4423bfad69216d11f9e"
+        },
+        "family": "friction",
+        "fresh_native_execution_count": 1,
+        "fresh_native_seconds_total": 3.5019242279995524,
+        "fresh_native_solve": true,
+        "group_id": "v2_friction_f215add9653373b90ce8",
+        "heldout_release": {
+          "guard_source_sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76",
+          "release_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+          "release_sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+        },
+        "id": "v2_friction_test_02",
+        "input_identity": {
+          "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+          "controls_sha256": "ec8b6f6def6689dcbed14a2773f04a8b610d42563fa8dfdaf21219dc4451ce10",
+          "geometry_sha256": "53f20576afc839f4183776cbadd58f8b251ecf4e25440d1751c3eb84ddf4c961",
+          "native_input_sha256": "83c2ab68a58b7a1ace831c923a46b052202a950b1bd3878749cc3e0695f8c9d2",
+          "schema": "bridge.v2.friction.input_identity.v1",
+          "signature_sha256": "e9f030560d9cae1137330d2db8afb78357f94d2d59dbd0abe39e3730f824d0e4"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/metadata.json",
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_02/fields.npz",
+        "params": [
+          0.37587307877838616,
+          10.882521476596594,
+          0.10828190867323428,
+          1.0144769314676523,
+          0.9282702742144465,
+          0.813658956438303,
+          1.0,
+          0.0
+        ],
+        "quality": "VALID_CONVERGED",
+        "reference_final_invocation_seconds": 3.5019242279995524,
+        "reference_qualified": true,
+        "registered_input_sha256": "f215add9653373b90ce8fb82f04e5ff8d48db83cbc06e21e833fc86af012b166",
+        "seconds": 3.5019242279995524,
+        "split": "test",
+        "verified_cache_reuse": false,
+        "worker_process_wall_seconds": 4.993986337998649
+      },
+      {
+        "actual_native_case_id": "v2_friction_test_03",
+        "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+        "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_test_03/attempt_1792872833924493622/callback_receipt.json",
+        "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+        "callback_wall_seconds": 5.363698569999542,
+        "canonical_cold_seconds": 3.7582167889995617,
+        "controls_sha256": "93420527d9834a130b4f2663de19453c86cdf5f8ff2d8b2c34bbb615796355e0",
+        "cost_evidence": {
+          "actual_fresh_native_receipts": [
+            {
+              "id": "v2_friction_test_03",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/contact.inp",
+              "input_deck_sha256": "71604bfc03f3a198a51db0bc976cd98a1c69f798e5b3b05ddbb6cbc2c2f6eb50",
+              "job_finished": true,
+              "measured_seconds": 3.7582167889995617,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/receipt.json",
+              "receipt_sha256": "16e45d4bdf920375b91a3b968d1e525cab395210fdc83a9da1ba4ee96077e60c",
+              "returncode": 0,
+              "seconds": 3.7582167889995617,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "actual_fresh_native_seconds": 3.7582167889995617,
+          "canonical_cold_reference": {
+            "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/71604bfc03f3a198a51db0bc976cd98a1c69f798e5b3b05ddbb6cbc2c2f6eb50.json",
+            "sha256": "bcdb3b08b3439fa1c7bb38cd014f7488a694010cde0183d606ed839806dca874"
+          },
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/contact.inp",
+          "input_deck_sha256": "71604bfc03f3a198a51db0bc976cd98a1c69f798e5b3b05ddbb6cbc2c2f6eb50",
+          "measured_seconds": 3.7582167889995617,
+          "native_receipts": [
+            {
+              "id": "v2_friction_test_03",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/contact.inp",
+              "input_deck_sha256": "71604bfc03f3a198a51db0bc976cd98a1c69f798e5b3b05ddbb6cbc2c2f6eb50",
+              "job_finished": true,
+              "measured_seconds": 3.7582167889995617,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/receipt.json",
+              "receipt_sha256": "16e45d4bdf920375b91a3b968d1e525cab395210fdc83a9da1ba4ee96077e60c",
+              "returncode": 0,
+              "seconds": 3.7582167889995617,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/audit.json",
+          "qualification_receipt_sha256": "a7457cb647967ef53ef59f7766221faa4718c0031c3b7760cf8b8a8f1d47b113",
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_test_03/attempt_1792872833924493622/cost_accounting.json",
+          "receipt_sha256": "4237ae7307e9de9bbb2b6039a20fc32e7277340e21a00ff7dd617902ca2822f3",
+          "timing_basis": "native_invocation_wall_including_log_write"
+        },
+        "cost_status": "MEASURED_COMPLETE",
+        "descriptor": {
+          "amplitude": 0.13928318682592364,
+          "canonical_input_sha256": "bbbd1720ffb0bd7f01ca3ee52a2610e6783a0f7109caf24f4d7bdedaea1f58a3",
+          "controls_sha256": "93420527d9834a130b4f2663de19453c86cdf5f8ff2d8b2c34bbb615796355e0",
+          "dt": 0.05,
+          "dtmax": 0.1,
+          "family": "friction",
+          "future_native_fields_present": false,
+          "group_id": "v2_friction_bbbd1720ffb0bd7f01ca",
+          "id": "v2_friction_test_03",
+          "kn": 1000000.0,
+          "kt": 10000.0,
+          "mesh": [
+            8,
+            4,
+            2
+          ],
+          "mu": 0.2362590279430151,
+          "normal_mode": 1,
+          "observed_frames": 33,
+          "opening": 0.02,
+          "params": [
+            0.2362590279430151,
+            15.112343616783619,
+            0.13928318682592364,
+            0.9062028497457505,
+            1.090854218788445,
+            1.0237223125994206,
+            1.0,
+            1.0
+          ],
+          "pressure": 15.112343616783619,
+          "protocol": 1,
+          "scale": [
+            0.9062028497457505,
+            1.090854218788445,
+            1.0237223125994206
+          ],
+          "split": "test"
+        },
+        "export_sha256": {
+          "audit.json": "a7457cb647967ef53ef59f7766221faa4718c0031c3b7760cf8b8a8f1d47b113",
+          "fields.npz": "f32e59f8dec15377219109680a946ace8d5f782d14f1722dabb5422ec6410bc9",
+          "metadata.json": "05f694219ba26bd6629c84f474bf62dd97e2a95b0d19ce516106c54d5b0c8c1b",
+          "native_tables.npz": "b301086584f873c763e44e75ef2f87d11a02778c8edf38ddd48e205054b37bfa"
+        },
+        "family": "friction",
+        "fresh_native_execution_count": 1,
+        "fresh_native_seconds_total": 3.7582167889995617,
+        "fresh_native_solve": true,
+        "group_id": "v2_friction_bbbd1720ffb0bd7f01ca",
+        "heldout_release": {
+          "guard_source_sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76",
+          "release_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+          "release_sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+        },
+        "id": "v2_friction_test_03",
+        "input_identity": {
+          "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+          "controls_sha256": "997eb05265326a6116fe1ac7df8e8d82c69aa4a622d0e399616026c247be3253",
+          "geometry_sha256": "cf5c0432e100544e981a5fa7d4492420d117d1f6454703b22912fcaf756da6c1",
+          "native_input_sha256": "71604bfc03f3a198a51db0bc976cd98a1c69f798e5b3b05ddbb6cbc2c2f6eb50",
+          "schema": "bridge.v2.friction.input_identity.v1",
+          "signature_sha256": "ded5deeedd74444134998eea0789b8403c417018479659e4ce7354ea022d4e03"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/metadata.json",
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_test_03/fields.npz",
+        "params": [
+          0.2362590279430151,
+          15.112343616783619,
+          0.13928318682592364,
+          0.9062028497457505,
+          1.090854218788445,
+          1.0237223125994206,
+          1.0,
+          1.0
+        ],
+        "quality": "VALID_CONVERGED",
+        "reference_final_invocation_seconds": 3.7582167889995617,
+        "reference_qualified": true,
+        "registered_input_sha256": "bbbd1720ffb0bd7f01ca3ee52a2610e6783a0f7109caf24f4d7bdedaea1f58a3",
+        "seconds": 3.7582167889995617,
+        "split": "test",
+        "verified_cache_reuse": false,
+        "worker_process_wall_seconds": 5.311522166000941
+      },
+      {
+        "actual_native_case_id": "v2_friction_ood_00",
+        "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+        "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_ood_00/attempt_1792872839300395653/callback_receipt.json",
+        "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+        "callback_wall_seconds": 7.066891332000523,
+        "canonical_cold_seconds": 5.421477279000101,
+        "controls_sha256": "8e38a2a695a5bdc3c0518a8410955d2359503dd22e3b5dfde402aaf482a32238",
+        "cost_evidence": {
+          "actual_fresh_native_receipts": [
+            {
+              "id": "v2_friction_ood_00",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/contact.inp",
+              "input_deck_sha256": "730346bf69209368397425ce93c03db36e98a7b6af7f5a90d9704450d6867b18",
+              "job_finished": true,
+              "measured_seconds": 5.421477279000101,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/receipt.json",
+              "receipt_sha256": "f6963586ac853337371d6c1aeaf28eee4b515316df231bcb7a1f44454374a98d",
+              "returncode": 0,
+              "seconds": 5.421477279000101,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "actual_fresh_native_seconds": 5.421477279000101,
+          "canonical_cold_reference": {
+            "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/730346bf69209368397425ce93c03db36e98a7b6af7f5a90d9704450d6867b18.json",
+            "sha256": "1b5b36ac1a91550cd2974d604c7dbe006145659541491e9c3b4b704ac2080bfa"
+          },
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/contact.inp",
+          "input_deck_sha256": "730346bf69209368397425ce93c03db36e98a7b6af7f5a90d9704450d6867b18",
+          "measured_seconds": 5.421477279000101,
+          "native_receipts": [
+            {
+              "id": "v2_friction_ood_00",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/contact.inp",
+              "input_deck_sha256": "730346bf69209368397425ce93c03db36e98a7b6af7f5a90d9704450d6867b18",
+              "job_finished": true,
+              "measured_seconds": 5.421477279000101,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/receipt.json",
+              "receipt_sha256": "f6963586ac853337371d6c1aeaf28eee4b515316df231bcb7a1f44454374a98d",
+              "returncode": 0,
+              "seconds": 5.421477279000101,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/audit.json",
+          "qualification_receipt_sha256": "e2d47a89bad39301cf50084fb240e37957315c49b85b261957ac6a08f84fb252",
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_ood_00/attempt_1792872839300395653/cost_accounting.json",
+          "receipt_sha256": "17795aa3d1e04f8b28c77633067c9d292fb7715b69f8ee143da825815d8c2f84",
+          "timing_basis": "native_invocation_wall_including_log_write"
+        },
+        "cost_status": "MEASURED_COMPLETE",
+        "descriptor": {
+          "amplitude": 0.23796289889141917,
+          "canonical_input_sha256": "98a463a7ab3e5d8575dd0aaf8a1ca76d993e55c4034d0714393d46a6380c3842",
+          "controls_sha256": "8e38a2a695a5bdc3c0518a8410955d2359503dd22e3b5dfde402aaf482a32238",
+          "dt": 0.05,
+          "dtmax": 0.1,
+          "family": "friction",
+          "future_native_fields_present": false,
+          "group_id": "v2_friction_98a463a7ab3e5d8575dd",
+          "id": "v2_friction_ood_00",
+          "kn": 1000000.0,
+          "kt": 10000.0,
+          "mesh": [
+            8,
+            4,
+            2
+          ],
+          "mu": 0.7233538324758411,
+          "normal_mode": 0,
+          "observed_frames": 33,
+          "ood_axes": [
+            "friction_coefficient"
+          ],
+          "opening": 0.02,
+          "params": [
+            0.7233538324758411,
+            13.630945105105639,
+            0.23796289889141917,
+            0.9367619052529336,
+            1.0689885664731265,
+            1.1988930232822896,
+            0.0,
+            0.0
+          ],
+          "pressure": 13.630945105105639,
+          "protocol": 0,
+          "scale": [
+            0.9367619052529336,
+            1.0689885664731265,
+            1.1988930232822896
+          ],
+          "split": "ood"
+        },
+        "export_sha256": {
+          "audit.json": "e2d47a89bad39301cf50084fb240e37957315c49b85b261957ac6a08f84fb252",
+          "fields.npz": "8c2f256920f3a65811d36451a626ed5b0d65c04abf590d930dd62e5996576848",
+          "metadata.json": "4e7180eeb1993fe1478272e146d8c526bcca6748ca17657a31444f50029cb719",
+          "native_tables.npz": "28159a6421dc39480cc9ace5368154559aeff99f0fba67a8b18e24f7a749ba83"
+        },
+        "family": "friction",
+        "fresh_native_execution_count": 1,
+        "fresh_native_seconds_total": 5.421477279000101,
+        "fresh_native_solve": true,
+        "group_id": "v2_friction_98a463a7ab3e5d8575dd",
+        "heldout_release": {
+          "guard_source_sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76",
+          "release_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+          "release_sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+        },
+        "id": "v2_friction_ood_00",
+        "input_identity": {
+          "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+          "controls_sha256": "04f976d393c0c83d9b93a100430674c90403be65ba5a09cf9e439cb18d8bf0f2",
+          "geometry_sha256": "5d2ce21bbb3ca4768ba883fa421df68ced426412886548094e39a8b7b0140f0e",
+          "native_input_sha256": "730346bf69209368397425ce93c03db36e98a7b6af7f5a90d9704450d6867b18",
+          "schema": "bridge.v2.friction.input_identity.v1",
+          "signature_sha256": "10f7407059185b0f1575b1e7f3f73073e3795d9bec4ee3b961ef77ac3d6751cc"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/metadata.json",
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_00/fields.npz",
+        "params": [
+          0.7233538324758411,
+          13.630945105105639,
+          0.23796289889141917,
+          0.9367619052529336,
+          1.0689885664731265,
+          1.1988930232822896,
+          0.0,
+          0.0
+        ],
+        "quality": "VALID_CONVERGED",
+        "reference_final_invocation_seconds": 5.421477279000101,
+        "reference_qualified": true,
+        "registered_input_sha256": "98a463a7ab3e5d8575dd0aaf8a1ca76d993e55c4034d0714393d46a6380c3842",
+        "seconds": 5.421477279000101,
+        "split": "ood",
+        "verified_cache_reuse": false,
+        "worker_process_wall_seconds": 7.012146500997915
+      },
+      {
+        "actual_native_case_id": "v2_friction_ood_01",
+        "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+        "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_ood_01/attempt_1792872846387702372/callback_receipt.json",
+        "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+        "callback_wall_seconds": 6.081641723998473,
+        "canonical_cold_seconds": 4.480297535999853,
+        "controls_sha256": "169bc9dec757c7ceec6a59871f29cf191102e59baac3e6875bec2941a126933f",
+        "cost_evidence": {
+          "actual_fresh_native_receipts": [
+            {
+              "id": "v2_friction_ood_01",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/contact.inp",
+              "input_deck_sha256": "2a7dd8d5b94127904efc5e17003436da7704a44a436fdb5321d3a81ff58caf83",
+              "job_finished": true,
+              "measured_seconds": 4.480297535999853,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/receipt.json",
+              "receipt_sha256": "3097a1cae728e6fbc9bfd04538066c45d4d5bb2f4df24cd110f07ca72e3da1f5",
+              "returncode": 0,
+              "seconds": 4.480297535999853,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "actual_fresh_native_seconds": 4.480297535999853,
+          "canonical_cold_reference": {
+            "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/2a7dd8d5b94127904efc5e17003436da7704a44a436fdb5321d3a81ff58caf83.json",
+            "sha256": "c6b5982b62fa91845e423c4d8ea797627b08ffb500d8d5bcef7badbf1fa28437"
+          },
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/contact.inp",
+          "input_deck_sha256": "2a7dd8d5b94127904efc5e17003436da7704a44a436fdb5321d3a81ff58caf83",
+          "measured_seconds": 4.480297535999853,
+          "native_receipts": [
+            {
+              "id": "v2_friction_ood_01",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/contact.inp",
+              "input_deck_sha256": "2a7dd8d5b94127904efc5e17003436da7704a44a436fdb5321d3a81ff58caf83",
+              "job_finished": true,
+              "measured_seconds": 4.480297535999853,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/receipt.json",
+              "receipt_sha256": "3097a1cae728e6fbc9bfd04538066c45d4d5bb2f4df24cd110f07ca72e3da1f5",
+              "returncode": 0,
+              "seconds": 4.480297535999853,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/audit.json",
+          "qualification_receipt_sha256": "1675d220c710984a1ababa7efbfa91f28dab711488d916ff64c1fc11ad127d9d",
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_ood_01/attempt_1792872846387702372/cost_accounting.json",
+          "receipt_sha256": "fc318f4f8b7d95f28b5d38f1201e4516498d8a4246c1f361161ff28d53975146",
+          "timing_basis": "native_invocation_wall_including_log_write"
+        },
+        "cost_status": "MEASURED_COMPLETE",
+        "descriptor": {
+          "amplitude": 0.4181809039786458,
+          "canonical_input_sha256": "79c11922582759a6b533afaae315fe99f7efe8cc19643952a8c5d7dccc358425",
+          "controls_sha256": "169bc9dec757c7ceec6a59871f29cf191102e59baac3e6875bec2941a126933f",
+          "dt": 0.05,
+          "dtmax": 0.1,
+          "family": "friction",
+          "future_native_fields_present": false,
+          "group_id": "v2_friction_79c11922582759a6b533",
+          "id": "v2_friction_ood_01",
+          "kn": 1000000.0,
+          "kt": 10000.0,
+          "mesh": [
+            8,
+            4,
+            2
+          ],
+          "mu": 0.42372021526098247,
+          "normal_mode": 0,
+          "observed_frames": 33,
+          "ood_axes": [
+            "tangential_amplitude"
+          ],
+          "opening": 0.02,
+          "params": [
+            0.42372021526098247,
+            17.832671999931335,
+            0.4181809039786458,
+            1.0456829775124787,
+            0.9063802041113377,
+            0.9888300366699696,
+            0.0,
+            1.0
+          ],
+          "pressure": 17.832671999931335,
+          "protocol": 1,
+          "scale": [
+            1.0456829775124787,
+            0.9063802041113377,
+            0.9888300366699696
+          ],
+          "split": "ood"
+        },
+        "export_sha256": {
+          "audit.json": "1675d220c710984a1ababa7efbfa91f28dab711488d916ff64c1fc11ad127d9d",
+          "fields.npz": "fb3c41d4e9f4710eac703cce9bb85f58ecd2f3a40b6b0343c6d491b18c6805d8",
+          "metadata.json": "7e755fbc0f036ba3db9a766a9b9f784c728999c0b8c69effdb0d1a2629152d17",
+          "native_tables.npz": "37aabc6bbf77f0e4e6bb32161750de91084355be72ac15a3ad43b34266d7546e"
+        },
+        "family": "friction",
+        "fresh_native_execution_count": 1,
+        "fresh_native_seconds_total": 4.480297535999853,
+        "fresh_native_solve": true,
+        "group_id": "v2_friction_79c11922582759a6b533",
+        "heldout_release": {
+          "guard_source_sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76",
+          "release_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+          "release_sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+        },
+        "id": "v2_friction_ood_01",
+        "input_identity": {
+          "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+          "controls_sha256": "7b6ce27b8e786fee0ce5357cb8caf10863295e877e7e6efb026e3badf58cb91e",
+          "geometry_sha256": "cb6d0fc99a122ed902c1d8ac866292fc14e0fea5f76cb6cbd1fcc8aa84bcac8a",
+          "native_input_sha256": "2a7dd8d5b94127904efc5e17003436da7704a44a436fdb5321d3a81ff58caf83",
+          "schema": "bridge.v2.friction.input_identity.v1",
+          "signature_sha256": "4c989de8a634a9fa1c7ee032f24622d4c7a95d65a779c1c6e57010359b4fe83f"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/metadata.json",
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_01/fields.npz",
+        "params": [
+          0.42372021526098247,
+          17.832671999931335,
+          0.4181809039786458,
+          1.0456829775124787,
+          0.9063802041113377,
+          0.9888300366699696,
+          0.0,
+          1.0
+        ],
+        "quality": "VALID_CONVERGED",
+        "reference_final_invocation_seconds": 4.480297535999853,
+        "reference_qualified": true,
+        "registered_input_sha256": "79c11922582759a6b533afaae315fe99f7efe8cc19643952a8c5d7dccc358425",
+        "seconds": 4.480297535999853,
+        "split": "ood",
+        "verified_cache_reuse": false,
+        "worker_process_wall_seconds": 6.027965692002908
+      },
+      {
+        "actual_native_case_id": "v2_friction_ood_02",
+        "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+        "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_ood_02/attempt_1792872852482628854/callback_receipt.json",
+        "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+        "callback_wall_seconds": 5.133401568000409,
+        "canonical_cold_seconds": 3.5813604760005546,
+        "controls_sha256": "2150848bc70753d75659568de05e3ef5dd180277e6375f8281a75bbf060877c4",
+        "cost_evidence": {
+          "actual_fresh_native_receipts": [
+            {
+              "id": "v2_friction_ood_02",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/contact.inp",
+              "input_deck_sha256": "52125305808be9d04da01d3cba53ce76f4e3d9f4310b6ecd25517843bb594ede",
+              "job_finished": true,
+              "measured_seconds": 3.5813604760005546,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/receipt.json",
+              "receipt_sha256": "42a4cd4a983ed4505bcf44b2e96ab100e639c41a1ae9405af08918ad8bf32351",
+              "returncode": 0,
+              "seconds": 3.5813604760005546,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "actual_fresh_native_seconds": 3.5813604760005546,
+          "canonical_cold_reference": {
+            "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/52125305808be9d04da01d3cba53ce76f4e3d9f4310b6ecd25517843bb594ede.json",
+            "sha256": "b97c7128f75f7f78984dc6b52113ea6ab9ab548193705fc7fac0c6c2dab756d2"
+          },
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/contact.inp",
+          "input_deck_sha256": "52125305808be9d04da01d3cba53ce76f4e3d9f4310b6ecd25517843bb594ede",
+          "measured_seconds": 3.5813604760005546,
+          "native_receipts": [
+            {
+              "id": "v2_friction_ood_02",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/contact.inp",
+              "input_deck_sha256": "52125305808be9d04da01d3cba53ce76f4e3d9f4310b6ecd25517843bb594ede",
+              "job_finished": true,
+              "measured_seconds": 3.5813604760005546,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/receipt.json",
+              "receipt_sha256": "42a4cd4a983ed4505bcf44b2e96ab100e639c41a1ae9405af08918ad8bf32351",
+              "returncode": 0,
+              "seconds": 3.5813604760005546,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/audit.json",
+          "qualification_receipt_sha256": "a357d4e0adb0f11292eb9c455bb5158830796fb675a4fa4b2a7ab60d667d3a78",
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_ood_02/attempt_1792872852482628854/cost_accounting.json",
+          "receipt_sha256": "c36bf826ed86b6c3899d30fdf0f2d7980d9d753fad931834526c86a58610ff2e",
+          "timing_basis": "native_invocation_wall_including_log_write"
+        },
+        "cost_status": "MEASURED_COMPLETE",
+        "descriptor": {
+          "amplitude": 0.1802906219381839,
+          "canonical_input_sha256": "59c53f13021ed146996a2549ff6d0abed3922135275d5203d56aab59dad7ef58",
+          "controls_sha256": "2150848bc70753d75659568de05e3ef5dd180277e6375f8281a75bbf060877c4",
+          "dt": 0.05,
+          "dtmax": 0.1,
+          "family": "friction",
+          "future_native_fields_present": false,
+          "group_id": "v2_friction_59c53f13021ed146996a",
+          "id": "v2_friction_ood_02",
+          "kn": 1000000.0,
+          "kt": 10000.0,
+          "mesh": [
+            8,
+            4,
+            2
+          ],
+          "mu": 0.5246069621294737,
+          "normal_mode": 1,
+          "observed_frames": 33,
+          "ood_axes": [
+            "loading_protocol"
+          ],
+          "opening": 0.02,
+          "params": [
+            0.5246069621294737,
+            8.904452752321959,
+            0.1802906219381839,
+            0.9504077665507794,
+            0.956725019030273,
+            0.8855950586497784,
+            1.0,
+            2.0
+          ],
+          "pressure": 8.904452752321959,
+          "protocol": 2,
+          "scale": [
+            0.9504077665507794,
+            0.956725019030273,
+            0.8855950586497784
+          ],
+          "split": "ood"
+        },
+        "export_sha256": {
+          "audit.json": "a357d4e0adb0f11292eb9c455bb5158830796fb675a4fa4b2a7ab60d667d3a78",
+          "fields.npz": "45369d55315575af07613d6eef3e39e22a4991a6b0f5ac4b2e7a728fa7be0368",
+          "metadata.json": "94e421f7a9bb09cff710f2189fffa11284a40362877828c9745a9d26a79ee1f9",
+          "native_tables.npz": "28db7731258a328940b6a4079aa22fe6915f33eaa4bd07e209b893b65504adac"
+        },
+        "family": "friction",
+        "fresh_native_execution_count": 1,
+        "fresh_native_seconds_total": 3.5813604760005546,
+        "fresh_native_solve": true,
+        "group_id": "v2_friction_59c53f13021ed146996a",
+        "heldout_release": {
+          "guard_source_sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76",
+          "release_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+          "release_sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+        },
+        "id": "v2_friction_ood_02",
+        "input_identity": {
+          "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+          "controls_sha256": "1bc16ec8ba44bfa1ddfff2b84eca8ace57b4c6f751edb2cfdbde9093b7c72425",
+          "geometry_sha256": "cf5334287ebbac2897d1e2d038d7991f3f57224466c7a4adf0f01742ed6cfb49",
+          "native_input_sha256": "52125305808be9d04da01d3cba53ce76f4e3d9f4310b6ecd25517843bb594ede",
+          "schema": "bridge.v2.friction.input_identity.v1",
+          "signature_sha256": "96ccc7eb4f2190859f79b20704ea8563311418d5e10b21e6c0dd3cc52cc42f6c"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/metadata.json",
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_02/fields.npz",
+        "params": [
+          0.5246069621294737,
+          8.904452752321959,
+          0.1802906219381839,
+          0.9504077665507794,
+          0.956725019030273,
+          0.8855950586497784,
+          1.0,
+          2.0
+        ],
+        "quality": "VALID_CONVERGED",
+        "reference_final_invocation_seconds": 3.5813604760005546,
+        "reference_qualified": true,
+        "registered_input_sha256": "59c53f13021ed146996a2549ff6d0abed3922135275d5203d56aab59dad7ef58",
+        "seconds": 3.5813604760005546,
+        "split": "ood",
+        "verified_cache_reuse": false,
+        "worker_process_wall_seconds": 5.080715563999547
+      },
+      {
+        "actual_native_case_id": "v2_friction_ood_03",
+        "adapter_source_sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736",
+        "callback_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_ood_03/attempt_1792872857634327242/callback_receipt.json",
+        "callback_wall_scope": "Whole callback through validation before final receipt serialization",
+        "callback_wall_seconds": 5.4025195889989845,
+        "canonical_cold_seconds": 3.8627002949979214,
+        "controls_sha256": "f05946c47d9e4abd0e3c1ec87e6c65d903f4da9094a905bfcaaab4c75b858472",
+        "cost_evidence": {
+          "actual_fresh_native_receipts": [
+            {
+              "id": "v2_friction_ood_03",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/contact.inp",
+              "input_deck_sha256": "6e157bc37192217fd697ccdec0bc26b66b7bc5238280526414e485d482f75f96",
+              "job_finished": true,
+              "measured_seconds": 3.8627002949979214,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/receipt.json",
+              "receipt_sha256": "8df5955b6f8a66f1c64a9035de16e566ab484fdfb4c491d382f6e33d243d4a62",
+              "returncode": 0,
+              "seconds": 3.8627002949979214,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "actual_fresh_native_seconds": 3.8627002949979214,
+          "canonical_cold_reference": {
+            "path": "/dev/shm/bridge_complex_v2_20261025/friction/cold_references/6e157bc37192217fd697ccdec0bc26b66b7bc5238280526414e485d482f75f96.json",
+            "sha256": "fe6867ba1f2487dfd6b94db5f045ac52c70543d320ede48c63554a0fd14817d2"
+          },
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/contact.inp",
+          "input_deck_sha256": "6e157bc37192217fd697ccdec0bc26b66b7bc5238280526414e485d482f75f96",
+          "measured_seconds": 3.8627002949979214,
+          "native_receipts": [
+            {
+              "id": "v2_friction_ood_03",
+              "input_deck": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/contact.inp",
+              "input_deck_sha256": "6e157bc37192217fd697ccdec0bc26b66b7bc5238280526414e485d482f75f96",
+              "job_finished": true,
+              "measured_seconds": 3.8627002949979214,
+              "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/receipt.json",
+              "receipt_sha256": "8df5955b6f8a66f1c64a9035de16e566ab484fdfb4c491d382f6e33d243d4a62",
+              "returncode": 0,
+              "seconds": 3.8627002949979214,
+              "timing_basis": "native_invocation_wall_including_log_write"
+            }
+          ],
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/audit.json",
+          "qualification_receipt_sha256": "a432eaac99617c85d627a597cf8942bf9b127e1328ffa1e4bcc02673efdfd8f2",
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/friction/requests/v2_friction_ood_03/attempt_1792872857634327242/cost_accounting.json",
+          "receipt_sha256": "019221a729f097d20ba3c81e284853edc443afe70c36d1d27bfddb966a5d081f",
+          "timing_basis": "native_invocation_wall_including_log_write"
+        },
+        "cost_status": "MEASURED_COMPLETE",
+        "descriptor": {
+          "amplitude": 0.5423482250422239,
+          "canonical_input_sha256": "32bffb1018dfb93af9d51bbccd02846bdb6e881f5a48128f1861f45f27f27ac3",
+          "controls_sha256": "f05946c47d9e4abd0e3c1ec87e6c65d903f4da9094a905bfcaaab4c75b858472",
+          "dt": 0.05,
+          "dtmax": 0.1,
+          "family": "friction",
+          "future_native_fields_present": false,
+          "group_id": "v2_friction_32bffb1018dfb93af9d5",
+          "id": "v2_friction_ood_03",
+          "kn": 1000000.0,
+          "kt": 10000.0,
+          "mesh": [
+            8,
+            4,
+            2
+          ],
+          "mu": 0.8281314642168582,
+          "normal_mode": 1,
+          "observed_frames": 33,
+          "ood_axes": [
+            "friction_coefficient",
+            "tangential_amplitude",
+            "loading_protocol"
+          ],
+          "opening": 0.02,
+          "params": [
+            0.8281314642168582,
+            24.66854613274336,
+            0.5423482250422239,
+            1.0671474006026984,
+            1.0195285947993398,
+            1.0770793728530408,
+            1.0,
+            2.0
+          ],
+          "pressure": 24.66854613274336,
+          "protocol": 2,
+          "scale": [
+            1.0671474006026984,
+            1.0195285947993398,
+            1.0770793728530408
+          ],
+          "split": "ood"
+        },
+        "export_sha256": {
+          "audit.json": "a432eaac99617c85d627a597cf8942bf9b127e1328ffa1e4bcc02673efdfd8f2",
+          "fields.npz": "66f8b9076526dcba7979b10fa67f0e8008797479b04d626c42d1d201d7a094cc",
+          "metadata.json": "875221c9c5f72b1dfbb197396353b6b68c82738ca743772dd3aec3dbd6a3a1fc",
+          "native_tables.npz": "6dae8c12346bfec49d2f9fd1ac6950a33336b86a2e91883c942827f11b818fe4"
+        },
+        "family": "friction",
+        "fresh_native_execution_count": 1,
+        "fresh_native_seconds_total": 3.8627002949979214,
+        "fresh_native_solve": true,
+        "group_id": "v2_friction_32bffb1018dfb93af9d5",
+        "heldout_release": {
+          "guard_source_sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76",
+          "release_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release.json",
+          "release_sha256": "44728849e69d08bb48eaeb4ec6c1e167d489143b5f035e9bcbdbaddad8514de6"
+        },
+        "id": "v2_friction_ood_03",
+        "input_identity": {
+          "connectivity_sha256": "1b01c2963d9b4131d1238f3c08d11b3e852f5fe4a1c899a650dffd6ba38295c2",
+          "controls_sha256": "949e40aaf72d5257feb6b8804a7762d9d8172fded7348edcc6a8c66ff40afc10",
+          "geometry_sha256": "27bca6e20ce41f0174981e6d9bc54688360c8f2639059b5c144e5e5cad21f84d",
+          "native_input_sha256": "6e157bc37192217fd697ccdec0bc26b66b7bc5238280526414e485d482f75f96",
+          "schema": "bridge.v2.friction.input_identity.v1",
+          "signature_sha256": "c78ba7882404fcfba6b4dd4dedc155e2a400a015a3be72e4edbf395348ecae3a"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/metadata.json",
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_source_sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/friction/native/cases/v2_friction_ood_03/fields.npz",
+        "params": [
+          0.8281314642168582,
+          24.66854613274336,
+          0.5423482250422239,
+          1.0671474006026984,
+          1.0195285947993398,
+          1.0770793728530408,
+          1.0,
+          2.0
+        ],
+        "quality": "VALID_CONVERGED",
+        "reference_final_invocation_seconds": 3.8627002949979214,
+        "reference_qualified": true,
+        "registered_input_sha256": "32bffb1018dfb93af9d51bbccd02846bdb6e881f5a48128f1861f45f27f27ac3",
+        "seconds": 3.8627002949979214,
+        "split": "ood",
+        "verified_cache_reuse": false,
+        "worker_process_wall_seconds": 5.346371905001433
+      }
+    ],
+    "rebar": [
+      {
+        "actual_native_case_id": "v2_rebar_test_00",
+        "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+        "callback_wall_seconds": 57.938571333001164,
+        "canonical_input_sha256": "de6148ec7d045e158190d5915c8e2ebb89f9deff2a8cf52b5a6897d2f0aa8a2a",
+        "controls_sha256": "a4c68b27f5aeb54b0a3b115d955674a9b7afa4899a7dbda15ab6a2f1a632ca35",
+        "cost_evidence": {
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/model.inp",
+          "input_deck_sha256": "79df906feee9f69ab5470732957ad92d8ac58db744f678f4f35e2a5800ef5f03",
+          "measured_seconds": 55.22255325199876,
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/receipt.json",
+          "qualification_receipt_sha256": "7c514094aaf35f0eab1be90884d0d9735a5c38c45d2a5c23db0a250837898751",
+          "qualified_native_reference": true,
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/receipt.json",
+          "receipt_sha256": "7c514094aaf35f0eab1be90884d0d9735a5c38c45d2a5c23db0a250837898751",
+          "timing_basis": "native_process_wall_seconds"
+        },
+        "cross_refinement": 1,
+        "element_type": "C3D20",
+        "endpoint_output": true,
+        "export_sha256": {
+          "metadata": "444c68de4d7b33a1c9346aad3024b4630790c82eae1ed96059dccc64a4551f46",
+          "npz": "5fc3fcb512b62739ef28a7d2a4d466d3e01474701e25f38c4bf34f9ddf33a827"
+        },
+        "family": "rebar",
+        "free_axial_cells": 4,
+        "fresh_native_solve": true,
+        "future_native_fields_present": false,
+        "group_id": "v2_rebar_de6148ec7d045e158190",
+        "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+        "id": "v2_rebar_test_00",
+        "input_identity": {
+          "canonical_input_sha256": "de6148ec7d045e158190d5915c8e2ebb89f9deff2a8cf52b5a6897d2f0aa8a2a",
+          "controls_sha256": "a4c68b27f5aeb54b0a3b115d955674a9b7afa4899a7dbda15ab6a2f1a632ca35",
+          "group_id": "v2_rebar_de6148ec7d045e158190",
+          "id": "v2_rebar_test_00",
+          "mesh": {
+            "cross_refinement": 1,
+            "element_type": "C3D20",
+            "free_axial_cells": 4,
+            "nx": 12,
+            "solid_points_per_element": 27
+          },
+          "native_input_sha256": "79df906feee9f69ab5470732957ad92d8ac58db744f678f4f35e2a5800ef5f03",
+          "params": [
+            1.1338909037411213,
+            366.95351069793105,
+            16.61034908145666,
+            0.8688967362046243,
+            0.3871915609575808,
+            0.05901740521192551
+          ],
+          "physical_history_sha256": "32ac41d13eb143a0f6d02962269fbb5da770ca65d28d0c25866572f991c5621b",
+          "protocol_id": 0,
+          "schema": "bridge.v2.rebar.input_identity.v1"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/metadata.json",
+        "native_bond_traction": true,
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_reported_seconds": 55.216783,
+        "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/fields.npz",
+        "nx": 12,
+        "observed_frames": 25,
+        "params": [
+          1.1338909037411213,
+          366.95351069793105,
+          16.61034908145666,
+          0.8688967362046243,
+          0.3871915609575808,
+          0.05901740521192551
+        ],
+        "physical_history_sha256": "32ac41d13eb143a0f6d02962269fbb5da770ca65d28d0c25866572f991c5621b",
+        "protocol_id": 0,
+        "quality": "VALID_CONVERGED",
+        "reference_qualified": true,
+        "registered_input_sha256": "de6148ec7d045e158190d5915c8e2ebb89f9deff2a8cf52b5a6897d2f0aa8a2a",
+        "seconds": 55.22255325199876,
+        "split": "test",
+        "timeout": 600,
+        "verified_cache_reuse": false
+      },
+      {
+        "actual_native_case_id": "v2_rebar_test_01",
+        "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+        "callback_wall_seconds": 173.8174234020007,
+        "canonical_input_sha256": "c61e03cef715f09b7c5d289289c122a5f153bef036589491c8460aaa490a5b1d",
+        "controls_sha256": "97910664e3a153bd7484121b6472c6071c11befc5459574e45677555e6ee164d",
+        "cost_evidence": {
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_01/model.inp",
+          "input_deck_sha256": "82295f30e22c2b097b1828044f178152ceb7e4296293fba8308831085d6dbebe",
+          "measured_seconds": 171.3619237089988,
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_01/receipt.json",
+          "qualification_receipt_sha256": "4b52cdb7584e3fc3507e8a21dad3bc82092ef251de2db12479cbc9ddcdd948f6",
+          "qualified_native_reference": true,
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_01/receipt.json",
+          "receipt_sha256": "4b52cdb7584e3fc3507e8a21dad3bc82092ef251de2db12479cbc9ddcdd948f6",
+          "timing_basis": "native_process_wall_seconds"
+        },
+        "cross_refinement": 1,
+        "element_type": "C3D20",
+        "endpoint_output": true,
+        "export_sha256": {
+          "metadata": "931a57bced72231bf7c064978a6ed6037093310b20e41fdc8ede5681d1b6570c",
+          "npz": "afc0d3d17630504a6b8a44e0f8a77d9fd0dc187fea948192959f278e233e1312"
+        },
+        "family": "rebar",
+        "free_axial_cells": 4,
+        "fresh_native_solve": true,
+        "future_native_fields_present": false,
+        "group_id": "v2_rebar_c61e03cef715f09b7c5d",
+        "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+        "id": "v2_rebar_test_01",
+        "input_identity": {
+          "canonical_input_sha256": "c61e03cef715f09b7c5d289289c122a5f153bef036589491c8460aaa490a5b1d",
+          "controls_sha256": "97910664e3a153bd7484121b6472c6071c11befc5459574e45677555e6ee164d",
+          "group_id": "v2_rebar_c61e03cef715f09b7c5d",
+          "id": "v2_rebar_test_01",
+          "mesh": {
+            "cross_refinement": 1,
+            "element_type": "C3D20",
+            "free_axial_cells": 4,
+            "nx": 12,
+            "solid_points_per_element": 27
+          },
+          "native_input_sha256": "82295f30e22c2b097b1828044f178152ceb7e4296293fba8308831085d6dbebe",
+          "params": [
+            0.9360605832189322,
+            430.1822880282998,
+            15.253354534506798,
+            1.2472227804362774,
+            0.7345012397505343,
+            0.03147895325440914
+          ],
+          "physical_history_sha256": "2932f144561c0b88e18594b21d0c99f7f5bbea41027ee08a2085a4de8a6580c4",
+          "protocol_id": 1,
+          "schema": "bridge.v2.rebar.input_identity.v1"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_01/metadata.json",
+        "native_bond_traction": true,
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_reported_seconds": 171.355568,
+        "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_01/fields.npz",
+        "nx": 12,
+        "observed_frames": 25,
+        "params": [
+          0.9360605832189322,
+          430.1822880282998,
+          15.253354534506798,
+          1.2472227804362774,
+          0.7345012397505343,
+          0.03147895325440914
+        ],
+        "physical_history_sha256": "2932f144561c0b88e18594b21d0c99f7f5bbea41027ee08a2085a4de8a6580c4",
+        "protocol_id": 1,
+        "quality": "VALID_CONVERGED",
+        "reference_qualified": true,
+        "registered_input_sha256": "c61e03cef715f09b7c5d289289c122a5f153bef036589491c8460aaa490a5b1d",
+        "seconds": 171.3619237089988,
+        "split": "test",
+        "timeout": 600,
+        "verified_cache_reuse": false
+      },
+      {
+        "actual_native_case_id": "v2_rebar_test_02",
+        "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+        "callback_wall_seconds": 48.661962681999285,
+        "canonical_input_sha256": "ad43d2c5288653d2905079dfbc880cd24f331bdcd09860f938ef845ed266d91c",
+        "controls_sha256": "49a0377a676c1dfb3322112aa358509d23f370a60f999db87bc19f106ae1af09",
+        "cost_evidence": {
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_02/model.inp",
+          "input_deck_sha256": "231bd181817e112b3ed52973ac7f9a5dfe3bab4e63524a57b0e748404b42faa0",
+          "measured_seconds": 46.18396478900104,
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_02/receipt.json",
+          "qualification_receipt_sha256": "44f3aef4ec9cceac0f93e7f84a58bb3828b48749ef757d7b70916a0802f1c602",
+          "qualified_native_reference": true,
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_02/receipt.json",
+          "receipt_sha256": "44f3aef4ec9cceac0f93e7f84a58bb3828b48749ef757d7b70916a0802f1c602",
+          "timing_basis": "native_process_wall_seconds"
+        },
+        "cross_refinement": 1,
+        "element_type": "C3D20",
+        "endpoint_output": true,
+        "export_sha256": {
+          "metadata": "58df1d4cce5c714b1630251bccb22d3065e5ab159f209f1f0f9ff08cfae0c94f",
+          "npz": "25bef5accb436cbd93afc63558bd0611d2a0791f0a740d63a9eb73fbb4b3905f"
+        },
+        "family": "rebar",
+        "free_axial_cells": 4,
+        "fresh_native_solve": true,
+        "future_native_fields_present": false,
+        "group_id": "v2_rebar_ad43d2c5288653d29050",
+        "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+        "id": "v2_rebar_test_02",
+        "input_identity": {
+          "canonical_input_sha256": "ad43d2c5288653d2905079dfbc880cd24f331bdcd09860f938ef845ed266d91c",
+          "controls_sha256": "49a0377a676c1dfb3322112aa358509d23f370a60f999db87bc19f106ae1af09",
+          "group_id": "v2_rebar_ad43d2c5288653d29050",
+          "id": "v2_rebar_test_02",
+          "mesh": {
+            "cross_refinement": 1,
+            "element_type": "C3D20",
+            "free_axial_cells": 4,
+            "nx": 12,
+            "solid_points_per_element": 27
+          },
+          "native_input_sha256": "231bd181817e112b3ed52973ac7f9a5dfe3bab4e63524a57b0e748404b42faa0",
+          "params": [
+            0.8051036339253188,
+            316.69334694743156,
+            18.080306366086006,
+            0.5535086192190647,
+            0.710648697707802,
+            0.05510785018093885
+          ],
+          "physical_history_sha256": "fc52dd138e1c38adce4b197042ce76637fe805d39d155a1e6e244831919f7438",
+          "protocol_id": 2,
+          "schema": "bridge.v2.rebar.input_identity.v1"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_02/metadata.json",
+        "native_bond_traction": true,
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_reported_seconds": 46.178403,
+        "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_02/fields.npz",
+        "nx": 12,
+        "observed_frames": 25,
+        "params": [
+          0.8051036339253188,
+          316.69334694743156,
+          18.080306366086006,
+          0.5535086192190647,
+          0.710648697707802,
+          0.05510785018093885
+        ],
+        "physical_history_sha256": "fc52dd138e1c38adce4b197042ce76637fe805d39d155a1e6e244831919f7438",
+        "protocol_id": 2,
+        "quality": "VALID_CONVERGED",
+        "reference_qualified": true,
+        "registered_input_sha256": "ad43d2c5288653d2905079dfbc880cd24f331bdcd09860f938ef845ed266d91c",
+        "seconds": 46.18396478900104,
+        "split": "test",
+        "timeout": 600,
+        "verified_cache_reuse": false
+      },
+      {
+        "actual_native_case_id": "v2_rebar_test_03",
+        "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+        "callback_wall_seconds": 62.35495316500237,
+        "canonical_input_sha256": "7bd3bf4d6735c96af14aad3adadfcc598c7a7b054b2c5b1dec5291123e1992cb",
+        "controls_sha256": "5dfbe7d57b359711ad00244ab7644aab53af073c5b4dbeac1d3f8350d62ec365",
+        "cost_evidence": {
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/model.inp",
+          "input_deck_sha256": "a82bceeb4b04946f3f73cd4a2cf2eb8b9b78b0b4446e808148466a4ddee5a7e6",
+          "measured_seconds": 59.77540013900216,
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/receipt.json",
+          "qualification_receipt_sha256": "368168f883f6ff86534745e5469418342deab75e7eee49b426b9d11601a6a4eb",
+          "qualified_native_reference": true,
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/receipt.json",
+          "receipt_sha256": "368168f883f6ff86534745e5469418342deab75e7eee49b426b9d11601a6a4eb",
+          "timing_basis": "native_process_wall_seconds"
+        },
+        "cross_refinement": 1,
+        "element_type": "C3D20",
+        "endpoint_output": true,
+        "export_sha256": {
+          "metadata": "7c838bec13890c1ff10e2cba68732d804425be5ed4b8e4b186ebc9374de54c99",
+          "npz": "2314bd57d55ca10f9a3008e4d10fc2e00d7bae01fc205649c3e5899b800d4826"
+        },
+        "family": "rebar",
+        "free_axial_cells": 4,
+        "fresh_native_solve": true,
+        "future_native_fields_present": false,
+        "group_id": "v2_rebar_7bd3bf4d6735c96af14a",
+        "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+        "id": "v2_rebar_test_03",
+        "input_identity": {
+          "canonical_input_sha256": "7bd3bf4d6735c96af14aad3adadfcc598c7a7b054b2c5b1dec5291123e1992cb",
+          "controls_sha256": "5dfbe7d57b359711ad00244ab7644aab53af073c5b4dbeac1d3f8350d62ec365",
+          "group_id": "v2_rebar_7bd3bf4d6735c96af14a",
+          "id": "v2_rebar_test_03",
+          "mesh": {
+            "cross_refinement": 1,
+            "element_type": "C3D20",
+            "free_axial_cells": 4,
+            "nx": 12,
+            "solid_points_per_element": 27
+          },
+          "native_input_sha256": "a82bceeb4b04946f3f73cd4a2cf2eb8b9b78b0b4446e808148466a4ddee5a7e6",
+          "params": [
+            1.0029336951673031,
+            403.1719417311251,
+            13.782882027328014,
+            0.9251841127872467,
+            0.567662310693413,
+            0.08464573794510216
+          ],
+          "physical_history_sha256": "f76388a932ff463e6b9c7251141e73fc491e7f9cebe6fb94535cdff09d3d9f0d",
+          "protocol_id": 0,
+          "schema": "bridge.v2.rebar.input_identity.v1"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/metadata.json",
+        "native_bond_traction": true,
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_reported_seconds": 59.769484,
+        "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_03/fields.npz",
+        "nx": 12,
+        "observed_frames": 25,
+        "params": [
+          1.0029336951673031,
+          403.1719417311251,
+          13.782882027328014,
+          0.9251841127872467,
+          0.567662310693413,
+          0.08464573794510216
+        ],
+        "physical_history_sha256": "f76388a932ff463e6b9c7251141e73fc491e7f9cebe6fb94535cdff09d3d9f0d",
+        "protocol_id": 0,
+        "quality": "VALID_CONVERGED",
+        "reference_qualified": true,
+        "registered_input_sha256": "7bd3bf4d6735c96af14aad3adadfcc598c7a7b054b2c5b1dec5291123e1992cb",
+        "seconds": 59.77540013900216,
+        "split": "test",
+        "timeout": 600,
+        "verified_cache_reuse": false
+      },
+      {
+        "actual_native_case_id": "v2_rebar_ood_00",
+        "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+        "callback_wall_seconds": 92.68573478699909,
+        "canonical_input_sha256": "d78fccce15e082e2b1ecc59c96facc48ed3074863b528f58900e4f67df2afe46",
+        "controls_sha256": "37a2385d7bc321c9bee5d633cab1da76d38f9d3f16f3a2ce8839a00c642f9442",
+        "cost_evidence": {
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_00/model.inp",
+          "input_deck_sha256": "6e8ce5de3e4633856c7ff182ab1ce266bdc14ac4f4c0392b50cf2c1a9764562b",
+          "measured_seconds": 90.33884819200102,
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_00/receipt.json",
+          "qualification_receipt_sha256": "c1a18af88c9a8846f236db7d478874f0edfdcfeab7caff8290892d011c76e348",
+          "qualified_native_reference": true,
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_00/receipt.json",
+          "receipt_sha256": "c1a18af88c9a8846f236db7d478874f0edfdcfeab7caff8290892d011c76e348",
+          "timing_basis": "native_process_wall_seconds"
+        },
+        "cross_refinement": 1,
+        "element_type": "C3D20",
+        "endpoint_output": true,
+        "export_sha256": {
+          "metadata": "f2f51c786c341c3dbd475f3c64d750554b5180a7419b03ac5c2b5936bc6ec6ff",
+          "npz": "4166d1c960e1694fed8f8411adc813ddc129bf7a235085ae94f6de752bd9fa3c"
+        },
+        "family": "rebar",
+        "free_axial_cells": 4,
+        "fresh_native_solve": true,
+        "future_native_fields_present": false,
+        "group_id": "v2_rebar_d78fccce15e082e2b1ec",
+        "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+        "id": "v2_rebar_ood_00",
+        "input_identity": {
+          "canonical_input_sha256": "d78fccce15e082e2b1ecc59c96facc48ed3074863b528f58900e4f67df2afe46",
+          "controls_sha256": "37a2385d7bc321c9bee5d633cab1da76d38f9d3f16f3a2ce8839a00c642f9442",
+          "group_id": "v2_rebar_d78fccce15e082e2b1ec",
+          "id": "v2_rebar_ood_00",
+          "mesh": {
+            "cross_refinement": 1,
+            "element_type": "C3D20",
+            "free_axial_cells": 4,
+            "nx": 12,
+            "solid_points_per_element": 27
+          },
+          "native_input_sha256": "6e8ce5de3e4633856c7ff182ab1ce266bdc14ac4f4c0392b50cf2c1a9764562b",
+          "params": [
+            1.0795352570712566,
+            328.3099732361734,
+            14.641952820122242,
+            1.5067831387277693,
+            0.5328909255564213,
+            0.07097003031987698
+          ],
+          "physical_history_sha256": "2bcf8fe07e93d983b894ae5c7834d9ee03cae3fe311d392ae88764bb417329fc",
+          "protocol_id": 0,
+          "schema": "bridge.v2.rebar.input_identity.v1"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_00/metadata.json",
+        "native_bond_traction": true,
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_reported_seconds": 90.330087,
+        "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_00/fields.npz",
+        "nx": 12,
+        "observed_frames": 25,
+        "ood_axes": [
+          "loading_amplitude"
+        ],
+        "params": [
+          1.0795352570712566,
+          328.3099732361734,
+          14.641952820122242,
+          1.5067831387277693,
+          0.5328909255564213,
+          0.07097003031987698
+        ],
+        "physical_history_sha256": "2bcf8fe07e93d983b894ae5c7834d9ee03cae3fe311d392ae88764bb417329fc",
+        "protocol_id": 0,
+        "quality": "VALID_CONVERGED",
+        "reference_qualified": true,
+        "registered_input_sha256": "d78fccce15e082e2b1ecc59c96facc48ed3074863b528f58900e4f67df2afe46",
+        "seconds": 90.33884819200102,
+        "split": "ood",
+        "timeout": 600,
+        "verified_cache_reuse": false
+      },
+      {
+        "actual_native_case_id": "v2_rebar_ood_01",
+        "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+        "callback_wall_seconds": 106.86071421299857,
+        "canonical_input_sha256": "70a8aa91b812a32e46b7f6f6f15e28084241203c853512b4a12ba39722a06745",
+        "controls_sha256": "4f0c0e20c6f8d2e4b4bff299f6047d127e1485c20f7879e4d22ec897d55efa37",
+        "cost_evidence": {
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/model.inp",
+          "input_deck_sha256": "444fe694d5660ca21e02a3ff25b7d7d6398c4457872b63f3cb9dd8451c0139c6",
+          "measured_seconds": 104.15561922100096,
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/receipt.json",
+          "qualification_receipt_sha256": "2bc0126700a3e6607338d4a9aafef2078b64015b59ab7ebc64dc8041e81b77b0",
+          "qualified_native_reference": true,
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/receipt.json",
+          "receipt_sha256": "2bc0126700a3e6607338d4a9aafef2078b64015b59ab7ebc64dc8041e81b77b0",
+          "timing_basis": "native_process_wall_seconds"
+        },
+        "cross_refinement": 1,
+        "element_type": "C3D20",
+        "endpoint_output": true,
+        "export_sha256": {
+          "metadata": "d943a482b753cc97974c60ffadf7a79aeacac7dd9541557d9378db83c63ca366",
+          "npz": "789e366967c811a72fc69bbdf626c3f1e2a9aa25e0d92d8435bd2ab97fca69ce"
+        },
+        "family": "rebar",
+        "free_axial_cells": 4,
+        "fresh_native_solve": true,
+        "future_native_fields_present": false,
+        "group_id": "v2_rebar_70a8aa91b812a32e46b7",
+        "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+        "id": "v2_rebar_ood_01",
+        "input_identity": {
+          "canonical_input_sha256": "70a8aa91b812a32e46b7f6f6f15e28084241203c853512b4a12ba39722a06745",
+          "controls_sha256": "4f0c0e20c6f8d2e4b4bff299f6047d127e1485c20f7879e4d22ec897d55efa37",
+          "group_id": "v2_rebar_70a8aa91b812a32e46b7",
+          "id": "v2_rebar_ood_01",
+          "mesh": {
+            "cross_refinement": 1,
+            "element_type": "C3D20",
+            "free_axial_cells": 4,
+            "nx": 12,
+            "solid_points_per_element": 27
+          },
+          "native_input_sha256": "444fe694d5660ca21e02a3ff25b7d7d6398c4457872b63f3cb9dd8451c0139c6",
+          "params": [
+            0.8754122626036406,
+            391.53726641088724,
+            17.47148159146309,
+            0.6474393755197525,
+            1.0540839917957783,
+            0.03552180200815201
+          ],
+          "physical_history_sha256": "d98c5d3ece7f5fdadf32062a394f9db982ae8493ae5d3f65e408f8209a6f9e01",
+          "protocol_id": 1,
+          "schema": "bridge.v2.rebar.input_identity.v1"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/metadata.json",
+        "native_bond_traction": true,
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_reported_seconds": 104.1492,
+        "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_01/fields.npz",
+        "nx": 12,
+        "observed_frames": 25,
+        "ood_axes": [
+          "reversal_ratio"
+        ],
+        "params": [
+          0.8754122626036406,
+          391.53726641088724,
+          17.47148159146309,
+          0.6474393755197525,
+          1.0540839917957783,
+          0.03552180200815201
+        ],
+        "physical_history_sha256": "d98c5d3ece7f5fdadf32062a394f9db982ae8493ae5d3f65e408f8209a6f9e01",
+        "protocol_id": 1,
+        "quality": "VALID_CONVERGED",
+        "reference_qualified": true,
+        "registered_input_sha256": "70a8aa91b812a32e46b7f6f6f15e28084241203c853512b4a12ba39722a06745",
+        "seconds": 104.15561922100096,
+        "split": "ood",
+        "timeout": 600,
+        "verified_cache_reuse": false
+      },
+      {
+        "actual_native_case_id": "v2_rebar_ood_02",
+        "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+        "callback_wall_seconds": 203.64006419100042,
+        "canonical_input_sha256": "1cf1f2b75957e94fdd3761ab60fbb2b77141522a4247c6440029e271ae45ffb0",
+        "controls_sha256": "5deab5cebdadfb85a6ede164ab7edd81a5ee039257ec021776b6ce6b8e42253e",
+        "cost_evidence": {
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_02/model.inp",
+          "input_deck_sha256": "e1eb50b31b4226a17d30d0af3630fe196400308a52dc85f169b28082f7a47b7f",
+          "measured_seconds": 201.06425251999826,
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_02/receipt.json",
+          "qualification_receipt_sha256": "c1158ad02f87ff5ab54f80aef9b2bcd0c62e336fa3c0e514e839ea562a95effe",
+          "qualified_native_reference": true,
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_02/receipt.json",
+          "receipt_sha256": "c1158ad02f87ff5ab54f80aef9b2bcd0c62e336fa3c0e514e839ea562a95effe",
+          "timing_basis": "native_process_wall_seconds"
+        },
+        "cross_refinement": 1,
+        "element_type": "C3D20",
+        "endpoint_output": true,
+        "export_sha256": {
+          "metadata": "366e224150025ab3062f020d8b8d62368b37716ebfecd16fd3fa8cdc7d23a6ae",
+          "npz": "e9e66ea8522962dd9c73e6a2d700f79118b356192373a86b2a29e9554e05050c"
+        },
+        "family": "rebar",
+        "free_axial_cells": 4,
+        "fresh_native_solve": true,
+        "future_native_fields_present": false,
+        "group_id": "v2_rebar_1cf1f2b75957e94fdd37",
+        "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+        "id": "v2_rebar_ood_02",
+        "input_identity": {
+          "canonical_input_sha256": "1cf1f2b75957e94fdd3761ab60fbb2b77141522a4247c6440029e271ae45ffb0",
+          "controls_sha256": "5deab5cebdadfb85a6ede164ab7edd81a5ee039257ec021776b6ce6b8e42253e",
+          "group_id": "v2_rebar_1cf1f2b75957e94fdd37",
+          "id": "v2_rebar_ood_02",
+          "mesh": {
+            "cross_refinement": 1,
+            "element_type": "C3D20",
+            "free_axial_cells": 4,
+            "nx": 12,
+            "solid_points_per_element": 27
+          },
+          "native_input_sha256": "e1eb50b31b4226a17d30d0af3630fe196400308a52dc85f169b28082f7a47b7f",
+          "params": [
+            0.9563693072646857,
+            355.3203172981739,
+            12.175386786460876,
+            1.7634191002696753,
+            1.1461179174482823,
+            0.04286958211567253
+          ],
+          "physical_history_sha256": "86c3858ff3c239a3f18b029190584f65a10a71f5b605357ace8185193a274bcc",
+          "protocol_id": 2,
+          "schema": "bridge.v2.rebar.input_identity.v1"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_02/metadata.json",
+        "native_bond_traction": true,
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_reported_seconds": 201.054717,
+        "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_02/fields.npz",
+        "nx": 12,
+        "observed_frames": 25,
+        "ood_axes": [
+          "loading_amplitude",
+          "reversal_ratio"
+        ],
+        "params": [
+          0.9563693072646857,
+          355.3203172981739,
+          12.175386786460876,
+          1.7634191002696753,
+          1.1461179174482823,
+          0.04286958211567253
+        ],
+        "physical_history_sha256": "86c3858ff3c239a3f18b029190584f65a10a71f5b605357ace8185193a274bcc",
+        "protocol_id": 2,
+        "quality": "VALID_CONVERGED",
+        "reference_qualified": true,
+        "registered_input_sha256": "1cf1f2b75957e94fdd3761ab60fbb2b77141522a4247c6440029e271ae45ffb0",
+        "seconds": 201.06425251999826,
+        "split": "ood",
+        "timeout": 600,
+        "verified_cache_reuse": false
+      },
+      {
+        "actual_native_case_id": "v2_rebar_ood_03",
+        "adapter_source_sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d",
+        "callback_wall_seconds": 108.80425596500208,
+        "canonical_input_sha256": "318702d748473f2b96eeb23fb6add189e46c0b7fff0f8083ccd30bb07f58c3a0",
+        "controls_sha256": "ddc6ff785496569b8f43bdeff160d64b55b5cd433eab6e4ad496f9ed8ab38378",
+        "cost_evidence": {
+          "input_deck": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/model.inp",
+          "input_deck_sha256": "f927ba7e007ab62ae5017e0903065269e885bb735dbc11ba33c95aee29a25a2d",
+          "measured_seconds": 106.3959609079975,
+          "qualification_receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/receipt.json",
+          "qualification_receipt_sha256": "045bd517e398d7e2299a8ea7f42a34ea4b3f4f6640078de92b08127c4aa965a0",
+          "qualified_native_reference": true,
+          "receipt": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/receipt.json",
+          "receipt_sha256": "045bd517e398d7e2299a8ea7f42a34ea4b3f4f6640078de92b08127c4aa965a0",
+          "timing_basis": "native_process_wall_seconds"
+        },
+        "cross_refinement": 1,
+        "element_type": "C3D20",
+        "endpoint_output": true,
+        "export_sha256": {
+          "metadata": "0068dea7c17051c66f6ea2e9180703022db192b9cb15757de00c64f27b0aa216",
+          "npz": "b17cf93ef3f2b7814efb9a5ff1ecf0e4408ddea936f9793ad4fc7cb25c38c693"
+        },
+        "family": "rebar",
+        "free_axial_cells": 4,
+        "fresh_native_solve": true,
+        "future_native_fields_present": false,
+        "group_id": "v2_rebar_318702d748473f2b96ee",
+        "guard_source_sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f",
+        "id": "v2_rebar_ood_03",
+        "input_identity": {
+          "canonical_input_sha256": "318702d748473f2b96eeb23fb6add189e46c0b7fff0f8083ccd30bb07f58c3a0",
+          "controls_sha256": "ddc6ff785496569b8f43bdeff160d64b55b5cd433eab6e4ad496f9ed8ab38378",
+          "group_id": "v2_rebar_318702d748473f2b96ee",
+          "id": "v2_rebar_ood_03",
+          "mesh": {
+            "cross_refinement": 1,
+            "element_type": "C3D20",
+            "free_axial_cells": 4,
+            "nx": 12,
+            "solid_points_per_element": 27
+          },
+          "native_input_sha256": "f927ba7e007ab62ae5017e0903065269e885bb735dbc11ba33c95aee29a25a2d",
+          "params": [
+            1.16049217954278,
+            441.79742792621255,
+            19.937532879412174,
+            1.6564371531829238,
+            1.063220665603876,
+            0.08038071964867413
+          ],
+          "physical_history_sha256": "49343c596f133c8810266ca423ac2096ec0920593c9a6472886adf9ddc58b554",
+          "protocol_id": 0,
+          "schema": "bridge.v2.rebar.input_identity.v1"
+        },
+        "metadata": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/metadata.json",
+        "native_bond_traction": true,
+        "native_execution_state": "CLOSED",
+        "native_replay_used": false,
+        "native_reported_seconds": 106.390195,
+        "native_source_sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae",
+        "npz": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_ood_03/fields.npz",
+        "nx": 12,
+        "observed_frames": 25,
+        "ood_axes": [
+          "loading_amplitude",
+          "reversal_ratio"
+        ],
+        "params": [
+          1.16049217954278,
+          441.79742792621255,
+          19.937532879412174,
+          1.6564371531829238,
+          1.063220665603876,
+          0.08038071964867413
+        ],
+        "physical_history_sha256": "49343c596f133c8810266ca423ac2096ec0920593c9a6472886adf9ddc58b554",
+        "protocol_id": 0,
+        "quality": "VALID_CONVERGED",
+        "reference_qualified": true,
+        "registered_input_sha256": "318702d748473f2b96eeb23fb6add189e46c0b7fff0f8083ccd30bb07f58c3a0",
+        "seconds": 106.3959609079975,
+        "split": "ood",
+        "timeout": 600,
+        "verified_cache_reuse": false
+      }
+    ]
+  },
+  "pending_histories": 0,
+  "qualified_reference_histories": 16,
+  "registered_unique_histories": 16,
+  "schema": "bridge.v2.released.evaluation.index.v1",
+  "solver_correction_of_neural_predictions": false,
+  "status": "NATIVE_EVALUATION_COMPLETE"
+}

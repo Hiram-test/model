@@ -1,0 +1,38 @@
+{
+  "status": "COMPLETE_COMMITTED_STAGE",
+  "family": "rebar",
+  "strategy": "random",
+  "round": 1,
+  "seed": 17,
+  "checkpoint_path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_17/model.pt",
+  "checkpoint_sha256": "cda631aa0b079bdcc7c6d4c693dcc8fb77c46f0519cef945d39e8f7ac8cebe1a",
+  "events_path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_17/actual_work_events.jsonl",
+  "events_sha256": "1301b368b9c306cdd6430921f41f1373a47e40be47c4870eb464f302afbcab47",
+  "card_path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_17/actual_work.json",
+  "card_sha256": "1cc8a5e631a82746f106bee41c4e684335acff07e99cc3737e58f9bae5335fc1",
+  "source_sha256": "109afa21a1428c673ead73d094ec5aca4f1ffa3a4d6fc0fbd8268ee3fb6b3d47",
+  "physics_provenance": {
+    "original_path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics_v3.py",
+    "source_sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a",
+    "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_17/physics_rebar_c2a7fb88adbc.py",
+    "dependencies": {
+      "v2_rebar_constitutive_v2.py": {
+        "source_sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c",
+        "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_1/seed_17/constitutive_4ba3802d5f40.py"
+      }
+    }
+  },
+  "files": {
+    "model.pt": "cda631aa0b079bdcc7c6d4c693dcc8fb77c46f0519cef945d39e8f7ac8cebe1a",
+    "stage_contract.json": "198ec3cb861b0cdd7d70192ab3d0ba8489a4ae774514a731a6780f46382d68a3",
+    "actual_work.json": "1cc8a5e631a82746f106bee41c4e684335acff07e99cc3737e58f9bae5335fc1",
+    "actual_work_events.jsonl": "1301b368b9c306cdd6430921f41f1373a47e40be47c4870eb464f302afbcab47",
+    "history.json": "68f7078408b8a505b91274a0a4ad0b38a684d00f60ac6653d06a816f7c0167c5",
+    "selected_validation.json": "e7f74ae796d672f5b97c184277899c852ce1208d5851c6ba3a2636bd9818b056"
+  },
+  "actual_optimizer_steps": 960,
+  "actual_loss_calls": 3840,
+  "actual_complete_cold_histories": 160,
+  "selected_epoch": 15,
+  "test_or_ood_fields_opened": false
+}

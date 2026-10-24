@@ -1,0 +1,33 @@
+{
+  "FEM_correction_applied": false,
+  "all_future_states_poisoned": true,
+  "case_id": "v2_rebar_test_00",
+  "checkpoint": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/random/round_2/seed_17/model.pt",
+    "sha256": "533fad8c34c5ead7ef865d38a539184ad7c7e2424654ea38cd64dda017b8635a"
+  },
+  "family": "rebar",
+  "full_entity_count": 5232,
+  "full_frames": 25,
+  "future_reference_removed": true,
+  "invariant_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_invariants.py",
+    "sha256": "734332d2bc8e6642a79aef2ef5f879680540acef517b92b5dd301ba70e9de225"
+  },
+  "known_T0_and_input_controls_preserved": true,
+  "maximum_normalized_full_entity_permutation_difference": 1.6808509826659435e-05,
+  "maximum_normalized_future_poison_difference": 0.0,
+  "maximum_normalized_reload_difference": 0.0,
+  "maximum_normalized_saved_field_difference": 0.0,
+  "native_reference": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/rebar/native/cases/v2_rebar_test_00/fields.npz",
+    "sha256": "5fc3fcb512b62739ef28a7d2a4d466d3e01474701e25f38c4bf34f9ddf33a827"
+  },
+  "permutation_tolerance": 0.001,
+  "physical_head_indexing": "Native head inverse-permutation then exact original physical operation then forward-permutation; steel point selection remapped explicitly",
+  "status": "PASS_COLD_REPLAY_FUTURE_POISON_AND_FULL_ENTITY_PERMUTATION",
+  "trainer_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+    "sha256": "109afa21a1428c673ead73d094ec5aca4f1ffa3a4d6fc0fbd8268ee3fb6b3d47"
+  }
+}

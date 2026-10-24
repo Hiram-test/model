@@ -1,0 +1,49 @@
+{
+  "schema": "bridge.v2.nn_fem_native_point_plots.postrender_layout_source_freeze.v1",
+  "status": "PENDING_STATIC_POSTRENDER_LAYOUT_ONLY_REVIEW",
+  "pretest_claimed": false,
+  "renderer": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_postrender_layout_v2.py",
+    "bytes": 13332,
+    "sha256": "ae75ca7eff8d7c49fb1fa1ff8ec0a03de5f8c8eeaf465807a0f019163e56561a"
+  },
+  "prior_renderer": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison_posttest_audit_adapter.py",
+    "bytes": 37563,
+    "sha256": "6748123a5568f6a5fe5d19ea0e3a3b30eb98b5cd4967f10efd05d98a8bcef6b6"
+  },
+  "plan": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/point_plot_plan.json",
+    "bytes": 5158,
+    "sha256": "c64186a60dee4e8dd32987f8adcd4641beeba04789c0b70aa3627f7eb9791a6c"
+  },
+  "original_render_index": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/rendered/render_index.json",
+    "bytes": 125163,
+    "sha256": "314b58614ba11eef5d96ea7afca988a6bef2b49c56120fd9179efbd502efaecb"
+  },
+  "original_visual_review": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/initial_render_visual_qa.json",
+    "bytes": 2222,
+    "sha256": "fe5ab89c2e9b9a13c71a0b1af43d1990950b1aa233874c8c9191b903b5e2481d"
+  },
+  "render_diff": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/postrender_layout_v2_render.diff",
+    "bytes": 6678,
+    "sha256": "7fe679f75a792483d96aeb95e4c86a8d4a4997d84d0d832980764800c749abff"
+  },
+  "independent_static_review": null,
+  "exact_placement_substitutions": [
+    {
+      "before": "ax=fig.add_subplot(2,3,number,projection='3d')",
+      "after": "ax=fig.add_axes([.02+.32*((number-1)%3),.55 if number<=3 else .17,.24,.30],projection='3d')"
+    },
+    {
+      "before": "bar=fig.colorbar(scatter,ax=ax,shrink=.70,pad=.04,fraction=.035)",
+      "after": "bar=fig.colorbar(scatter,cax=fig.add_axes([.285+.32*((number-1)%3),.59 if number<=3 else .21,.008,.22]))"
+    }
+  ],
+  "only_presentation_positions_changed": true,
+  "render_function_AST_identical_after_reversing_two_layout_calls": true,
+  "scientific_arrays_or_masks_or_formula_or_camera_or_color_scale_changed": false
+}
