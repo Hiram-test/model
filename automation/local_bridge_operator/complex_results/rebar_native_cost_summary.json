@@ -1,0 +1,78 @@
+{
+  "cost_reporter_source_sha256": "3895fea2214a41d9f746cc2a16b601f22e8bb9bfbf3f79809cd18bc1c726d8a3",
+  "original_archive_timezone": "America/Los_Angeles",
+  "stages": [
+    {
+      "stage": "active/round_1",
+      "requested_count": 2,
+      "qualified_count": 2,
+      "fresh_reference_count": 2,
+      "verified_cache_reference_count": 0,
+      "unknown_cache_status_count": 0,
+      "failed_or_unfinished_count": 0,
+      "seconds": 80.58156425400011
+    },
+    {
+      "stage": "active/round_2",
+      "requested_count": 2,
+      "qualified_count": 2,
+      "fresh_reference_count": 2,
+      "verified_cache_reference_count": 0,
+      "unknown_cache_status_count": 0,
+      "failed_or_unfinished_count": 0,
+      "seconds": 177.40142899000057
+    },
+    {
+      "stage": "random/round_1",
+      "requested_count": 2,
+      "qualified_count": 2,
+      "fresh_reference_count": 2,
+      "verified_cache_reference_count": 0,
+      "unknown_cache_status_count": 0,
+      "failed_or_unfinished_count": 0,
+      "seconds": 166.79934706300264
+    },
+    {
+      "stage": "random/round_2",
+      "requested_count": 2,
+      "qualified_count": 2,
+      "fresh_reference_count": 1,
+      "verified_cache_reference_count": 1,
+      "unknown_cache_status_count": 0,
+      "failed_or_unfinished_count": 0,
+      "seconds": 172.87944076200074
+    }
+  ],
+  "unique_qualified_history_ids": [
+    "rebar_candidate_01",
+    "rebar_candidate_02",
+    "rebar_candidate_04",
+    "rebar_candidate_05",
+    "rebar_candidate_10",
+    "rebar_candidate_12",
+    "rebar_candidate_13"
+  ],
+  "acquisition_cost_estimator": [
+    {
+      "stage": "active/round_1",
+      "source_sha256": "6e795bef8fcf02f0eb997c14bb49618867e58143e9a5521a744eafe7f21a68ca",
+      "candidate_count": 16,
+      "unique_saved_cost_estimates": [
+        1.0
+      ],
+      "unit_constant_fallback": true,
+      "interpretation": "Selection used a constant unit1 denominator because source rows lacked timing; this is not actual native-runtime optimization."
+    },
+    {
+      "stage": "active/round_2",
+      "source_sha256": "e9f71d3089fce3a114b69e09520c2b9ec58457c2ff3b1ce7b92c839f8555de4e",
+      "candidate_count": 14,
+      "unique_saved_cost_estimates": [
+        1.0
+      ],
+      "unit_constant_fallback": true,
+      "interpretation": "Selection used a constant unit1 denominator because source rows lacked timing; this is not actual native-runtime optimization."
+    }
+  ],
+  "scope": "Unique IDs deduplicate reference reuse across active and random branches; cold original solver costs remain in native receipts. Saved selection estimates and post-solve actual costs are separate quantities."
+}

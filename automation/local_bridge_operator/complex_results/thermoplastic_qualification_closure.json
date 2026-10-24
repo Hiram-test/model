@@ -1,0 +1,354 @@
+{
+  "status": "CLOSED_REFERENCE_HOLD",
+  "learning_status": "NOT_RUN_REFERENCE_UNQUALIFIED",
+  "reference_fidelity_pass": false,
+  "reason": "The final bounded reference qualification did not pass the unchanged full-field spatial/temporal gates; no19history production set, neural training, or active FEM acquisition is released for this family.",
+  "time_refinement": {
+    "coarse": "build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000",
+    "fine": "build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4",
+    "kind": "identical_continuous_path_temporal_refinement",
+    "metrics": {
+      "full_u_relative": 0.0053060163682769855,
+      "full_temperature_relative": 0.004494050829466873,
+      "full_stress_relative": 0.0028714773323159147,
+      "full_peeq_relative": 0.0009472768070539045,
+      "reaction_path_relative": 0.0008935839696883115
+    },
+    "limits": {
+      "full_u_relative": 0.05,
+      "full_temperature_relative": 0.02,
+      "full_stress_relative": 0.05,
+      "full_peeq_relative": 0.05,
+      "reaction_path_relative": 0.05
+    },
+    "status": "PASS",
+    "native_seconds": 1058.6256527270016
+  },
+  "first_coarse_spatial_comparison": {
+    "coarse": "build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000",
+    "fine": "build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05",
+    "kind": "full3D_actual_mesh_refinement",
+    "common_volume_fraction": 1.0,
+    "common_points": 11228,
+    "all_coarse_points": 11228,
+    "sampling": "Every coarse native IP; true C3D10 nodal interpolation, linear reconstruction through four actual IP values for stress and history comparisons; no surrogate response reduction.",
+    "metrics": {
+      "full_field_common_points_u_relative": 0.022319391343288256,
+      "full_field_common_points_temperature_relative": 0.00023947172928866732,
+      "full_field_common_points_stress_relative": 0.1552289608560237,
+      "full_field_common_points_peeq_relative": 0.05721308694862113,
+      "reaction_path_relative": 0.00031903013761949863,
+      "peak_peeq_relative": 0.01913926572529708,
+      "peak_stress_relative": 0.011113060971965023
+    },
+    "limits": {
+      "full_field_common_points_u_relative": 0.05,
+      "full_field_common_points_temperature_relative": 0.02,
+      "full_field_common_points_stress_relative": 0.05,
+      "full_field_common_points_peeq_relative": 0.05,
+      "reaction_path_relative": 0.05,
+      "peak_peeq_relative": 0.1,
+      "peak_stress_relative": 0.1
+    },
+    "actual_native_peaks": {
+      "coarse_peeq": 0.23228793035095524,
+      "fine_peeq": 0.23682050084584175,
+      "coarse_mises_MPa": 793.156883493261,
+      "fine_mises_MPa": 802.0703400864464
+    },
+    "status": "HOLD_MESH_REFINEMENT",
+    "native_seconds": 1122.0848194459995
+  },
+  "final_finest_spatial_comparison": {
+    "coarse": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05",
+    "fine": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035",
+    "kind": "full3D_actual_mesh_refinement",
+    "common_volume_fraction": 1.0,
+    "common_points": 16748,
+    "all_coarse_points": 16748,
+    "sampling": "Every coarse native IP; true C3D10 nodal interpolation, linear reconstruction through four actual IP values for stress and history comparisons; no surrogate response reduction.",
+    "metrics": {
+      "full_field_common_points_u_relative": 0.01863595802810816,
+      "full_field_common_points_temperature_relative": 0.00019074057704184376,
+      "full_field_common_points_stress_relative": 0.15551001256628616,
+      "full_field_common_points_peeq_relative": 0.06467490305542856,
+      "reaction_path_relative": 0.00036668479805251723,
+      "peak_peeq_relative": 0.031831629300988956,
+      "peak_stress_relative": 0.019623445216265648
+    },
+    "limits": {
+      "full_field_common_points_u_relative": 0.05,
+      "full_field_common_points_temperature_relative": 0.02,
+      "full_field_common_points_stress_relative": 0.05,
+      "full_field_common_points_peeq_relative": 0.05,
+      "reaction_path_relative": 0.05,
+      "peak_peeq_relative": 0.1,
+      "peak_stress_relative": 0.1
+    },
+    "actual_native_peaks": {
+      "coarse_peeq": 0.23682050084584175,
+      "fine_peeq": 0.22951467479851828,
+      "coarse_mises_MPa": 802.0703400864464,
+      "fine_mises_MPa": 786.633873367167
+    },
+    "status": "HOLD_MESH_REFINEMENT",
+    "native_seconds": 2489.3968676900004
+  },
+  "selected_production_mesh_if_qualified": null,
+  "bounded_repairs": [
+    "Preserved all failed original model versions and incomplete-output integrity evidence.",
+    "Used private native workspaces, atomic publication, exact native entity/geometry checks, and numeric input fields limited to20characters.",
+    "Repaired only native output formatting to full precision with executable-section and actual native equivalence checks.",
+    "Explicitly versioned a finite-radius full3Dresearch connector with actual10–60s transient heat histories.",
+    "Extended the same declared temperature-dependent J2hardening slopes throughPEEQ1 and enforced table-range coverage.",
+    "Retained every FE node, every actual IP and all13native plasticSDVs; no POD, modal truncation or response basis.",
+    "Completed the frozen coupling2/4 and actualmesh0.7/0.5/0.35 qualification study without changing its error limits."
+  ],
+  "native_case_directories": [
+    "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000",
+    "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4",
+    "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05",
+    "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035"
+  ],
+  "unique_physical_history_groups": 1,
+  "native_discretization_runs": 4,
+  "mesh_time_refinement_runs": 3,
+  "native_job_attempts": 8,
+  "completed_native_job_count": 8,
+  "completed_reported_state_frames_across_discretizations": 114,
+  "native_solved_stage_frames": 110,
+  "known_initial_frames": 4,
+  "completed_native_solver_seconds": 3548.022520417002,
+  "cost_measure": "Sum of measured wall seconds for each actually launched native job; this is not elapsed campaign wall time.",
+  "planned_initial_independent_history_groups": {
+    "train": 8,
+    "validation": 3,
+    "test": 4,
+    "ood": 4
+  },
+  "actually_released_training_history_groups": 0,
+  "input_only_candidate_descriptors": 16,
+  "actual_active_selected_FEM_histories": 0,
+  "actual_NN_vs_trusted_FEM_negative_samples": 0,
+  "negative_sample_definition": "A negative sample is an excessive neural-versus-qualified-FEM error; a quarantined or mesh-unqualified FEM reference is a separate reference failure.",
+  "geometry_note": "The100x30x20mm connector and6mm circular notches are the baseCAD; each case applies its declaredX/Ylength/widthscales to every node, so unequal scales produce finite elliptical notches. The geometry is an assumed research specimen, not an as-built bridge detail.",
+  "thermal_coupling": "Actual3Dtransient heat PDE and temperature-dependent finite-strain material with irreversible PEEQ history; one-way thermal→mechanical coupling; plastic dissipation heat feedback is not implemented.",
+  "plastic_metric_integration_drift": {
+    "th4_000": 0.00650290585617741,
+    "th4_verify_time4": 0.0053013845635996315,
+    "th4_verify_mesh05": 0.006761620458408224,
+    "th4_verify_mesh035": 0.006278329908263158
+  },
+  "plastic_metric_note": "RawSDV2:7=(I-inverseCp)/2 is retained exactly; the disclosed native additive-update isochoric drift is an independent integration diagnostic, not projected or hidden.",
+  "historical_versions": {
+    "girder_v1_to_v5": {
+      "completed_attempts": 27,
+      "native_status_counts": {
+        "QUARANTINED": 10,
+        "VALID_CONVERGED": 17
+      },
+      "learning_release": "HOLD; these native status counts are not qualified training-history counts"
+    },
+    "notched_connector_before_transient_v4": {
+      "completed_attempts": 9,
+      "native_status_counts": {
+        "QUARANTINED": 9
+      },
+      "learning_release": "HOLD; these native status counts are not qualified training-history counts"
+    }
+  },
+  "native_figures": [
+    "thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history.png"
+  ],
+  "native_figure_source_manifest": {
+    "path": "thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history_sources.json",
+    "sha256": "078b76023bb33fe6bcd9c28451be3bc2be3ccd2551581b75e36827b8ffed0123"
+  },
+  "native_figure_scope": "Actual solved temperature, heat flux, PEEQ and unprojected plastic-metric drift; these are not neural test results and do not replace the final spatial qualification.",
+  "evidence": [
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/configuration.json",
+      "sha256": "43e24af2a7a9620207e0028277f23c094b939418894e9bea2936cc5bb892e355"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/plan.json",
+      "sha256": "8649451a9554ed405bcf2030fff1c9554833b49c9923c495f801e782e0a6b717"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/time_2_4_refinement.json",
+      "sha256": "cdb9c64fe3aa43430512a3b16d01f3ecc6b2a96868e7b0f2226dd43621316609"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/mesh_07_05_refinement.json",
+      "sha256": "89683ae4ae95c9e0b1c07e85ded556e462014aba6e709fe8d53ec0300af2b0c8"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/mesh_05_035_refinement.json",
+      "sha256": "bb23848bd5cef8337c3de23619f7e3705effb7b5a3a81159e2af095f5bb90385"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/verification/uniaxial_plasticity/benchmark.json",
+      "sha256": "91655e2dc1e9fe0b78fc1d6c9d97d24e2edf99d17676bb2859a9bb10756009c9"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/thermal_time_component_check.json",
+      "sha256": "f3b10582658e772532fcd22d77f8af7ce56425db26ae543a4a59917931d1b1ea"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/transient_effect_check.json",
+      "sha256": "e59e5819f3ae21fedb4ffda6c0b5e63cba87ff3954dcdd7a379119f324acc521"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/independent_heat_benchmark.json",
+      "sha256": "ba41f0c84fbd3a9cb4d6cfcfc4f331b0455ec1d8e4a03b251fd6170ec8f4477d"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/native_precision_equivalence.json",
+      "sha256": "e675660f67b484fc4d8462025ddfbd218dae30ac064ef98b943d48713ed2f50f"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/receipt.json",
+      "sha256": "f2832dcccc5817b5c5a41256ae892d4bc8a81d65a5cdb777ba2a93bc179d1968"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/metadata.json",
+      "sha256": "4d21ad82aa6fe77152082045d4b6ed17429a1c1ab28868f0e0285ff66899fa1c"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/fields.npz",
+      "sha256": "7ce424ebadf7598d4f83f01ebc3c819152100bd0fa00b6cc1a7c1e54b232fab3"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/independent_physics.json",
+      "sha256": "c810627bc10b068c4f8017e868187ec910f7efdea56321bb94d659357056bceb"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/native_archive.json",
+      "sha256": "79d2ad2ddc5eb5aad713bc910071bbf162331e8532ac1e73b8b04ee14046e13c"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/heat_receipt.json",
+      "sha256": "28d0c8fd105890bb7e64f0228cb53011153cb39acaa7184351a3d785ec6eaa7d"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/mechanical_receipt.json",
+      "sha256": "daba2a4c08a73779e6291b0af6d6b7dabcbde9a81de6cf7faf79820177410162"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/receipt.json",
+      "sha256": "27aff4942b0e6cecfdf842a41d798e022417c9d1908a3d8a1e51eb2dc1be5728"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/metadata.json",
+      "sha256": "1bd1909c74c44e2e29d6b8a328bd4bac3e5783f149e9b371be364cecbd29f2c3"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/fields.npz",
+      "sha256": "f338eba2854a7659d3eab0486d3d557c4a8431586299931237d28d943b88bb57"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/independent_physics.json",
+      "sha256": "2f17f0794c29c6ba971452cfe52d42844e0c718df56d68b6f93a32d850edda03"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/native_archive.json",
+      "sha256": "e9736bed40590fee0b73bf87b87c1978326e366490c8a8a252e976ddf5393097"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/heat_receipt.json",
+      "sha256": "9e146728edd75da6205dad217271cd1e910e50735fc3171e4f3439434f15ea14"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/mechanical_receipt.json",
+      "sha256": "6e29d67d7bf72b3dab3d56651ad13601e70685649a6be56fbcdfe3a8af904356"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/receipt.json",
+      "sha256": "ee921b051b700dbb9b425d17aa5fcfe1f7ef8cece43e5ab68e050aea95ba592e"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/metadata.json",
+      "sha256": "2ab9ae1c22dad02d31449e426f252ed2b68a0f8074bf74e35415895bd9a30c57"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/fields.npz",
+      "sha256": "0380e61c03214c26f1d12f8dbd5f6442a52d73e65fe2fed33db5dfb7117732cd"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/independent_physics.json",
+      "sha256": "6d299ead8868d2cbb69aba8f5d2b6e888cb622de0319c355e2fc9bcf68de7aab"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/native_archive.json",
+      "sha256": "cbcddecf1416986bb5267c72127fb412425fbc02f49ab0f585990f41f12318db"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/heat_receipt.json",
+      "sha256": "f89c91fdfa0d53e4426f5d99bbd2705d01026511edd93c20cdb4fc6a43084096"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/mechanical_receipt.json",
+      "sha256": "155ec9cfb893653c7899fa246dbadd2470329e712f89373419ee3faea44072ba"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/receipt.json",
+      "sha256": "20dbe4144b55c795ea53f9d0fb3ebaf426da7ade8992d47f3a65cf719b643d74"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/metadata.json",
+      "sha256": "28bb08170e4af83253012859f902c1f6a69180e73e1216425725b17436ebbf5e"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/fields.npz",
+      "sha256": "3d1a498d62b82dd873753d4ac14be6f01a66197c05e6d7c29bfdd421c287012e"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/independent_physics.json",
+      "sha256": "d644898b54e305ae3013328f8e57b3aad7944ef3e37c9971661043111d86819b"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/native_archive.json",
+      "sha256": "14870ad18b4034992b46d99142d25bb8df2d7a481815e4f25a4d59744b43526e"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/heat_receipt.json",
+      "sha256": "e33a39852d47dc1a547de2032ba813b99b5d38a13ab40b29029db334874801b7"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/mechanical_receipt.json",
+      "sha256": "1eb2f19d8349bb1ab3b0c53dcc84db7e060c4f09be2005f5073342ecc6f9c220"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history.png",
+      "sha256": "2910798c012860d17e6be6a546b98a7a50363edef9131735d5e65241e0a32622"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history.pdf",
+      "sha256": "e24bbb9aca5a8c46a5e0687ff7e10b53f9b21392545a363d3d031370b2b9fe63"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history.csv",
+      "sha256": "ffc6785c6609a1911b88836eb2f9f62f515088acc079a578012eff2036fb013f"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history_sources.json",
+      "sha256": "078b76023bb33fe6bcd9c28451be3bc2be3ccd2551581b75e36827b8ffed0123"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/native_outputs.zip",
+      "sha256": "2e84ab2d9f55d5089d3c7f99ee48234e0fb879fb312784d6873fffcd7040c730"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/native_outputs.zip",
+      "sha256": "1981c3147eaea182a3717b662a5785cc0021899cd31f368e717129246ebe8d2c"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/native_outputs.zip",
+      "sha256": "c39e6045debd2f6f86f4663c9c0fd593b5f0fa6e4d3736811184adefbad19719"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/native_outputs.zip",
+      "sha256": "0ebe1f14a1f330ee6c39e2ad3a5ad061253f59a3516d70ab963909c8ab27a79f"
+    }
+  ]
+}

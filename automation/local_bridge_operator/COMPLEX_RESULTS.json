@@ -1,0 +1,1127 @@
+{
+  "schema": "bridge.complex.reviewable.results.v1",
+  "complete_delivery_summary": {
+    "path": "build/complex-nonlinear-20261024/delivery_summary.json",
+    "sha256": "bee91c67ea37184cfb68bf62bfb314891d7f0460aadf271ab456e3dab5e831b1"
+  },
+  "independent_audit": {
+    "path": "build/complex-nonlinear-20261024/audit/final_independent_audit.json",
+    "sha256": "1de3ca98b43ffed472a3906a44d76669df06724e5e8b0a287f0f4235d9fc0d8a",
+    "integrity_and_execution_audit_pass": true,
+    "checks": {
+      "all_training_eligible_array_and_split_checks": true,
+      "all_selected_training_native_hashes_match": true,
+      "all_completed_learning_provenance_checks": true,
+      "all_declared_reference_holds_have_verified_evidence": true,
+      "every_family_explicitly_completed_or_closed": true,
+      "all_authored_python_lines_commented": true,
+      "historical_bad_bytes_preserved": true,
+      "authorized_storage_compaction_exactly_reconstructs_original_bytes": true,
+      "independent_transient_heat_benchmark_pass": true,
+      "independent_heat_native_hashes_match": true,
+      "independent_quadratic_verification_unchanged": true,
+      "native_precision_repair_only_changes_output_formats": true,
+      "synthetic_failure_controller_behavior_verified_for_current_source": true
+    },
+    "scientific_outcomes": [
+      {
+        "family": "thermoplastic",
+        "reference_fidelity_status": "CLOSED_REFERENCE_HOLD",
+        "native_qualification_evidence": {
+          "present": true,
+          "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/summary.json",
+          "sha256": "94746d315fbf6500b1f9b855bf36631dd84df1198261074836267403c1158972",
+          "status": "CLOSED_REFERENCE_HOLD",
+          "qualification": {
+            "physical_release": "CLOSED_REFERENCE_HOLD",
+            "learning_status": "NOT_RUN_REFERENCE_UNQUALIFIED",
+            "refinement_release_evidence": "refinement_release.json",
+            "limitations": [
+              "Declared research connector geometry and assumed material, not a measured or certified bridge connection.",
+              "One-way actual transient conduction to temperature-dependent finite-strain J2; no plastic heat, fracture, creep or radiation feedback.",
+              "Native stored plastic metric has a disclosed increment-dependent isochoric drift; no projection or correction is applied.",
+              "Solver completion and unreduced equilibrium/Fourier checks do not replace actual mesh/time qualification or held-out surrogate tests."
+            ]
+          },
+          "training_reference_scope": "The declared native finite-element discretization; this summary separately limits continuum and local-peak claims."
+        },
+        "learning_status": "NOT_RUN_REFERENCE_UNQUALIFIED",
+        "surrogate_accuracy_status": "NOT_RUN_REFERENCE_UNQUALIFIED",
+        "active_final_test_histories": null,
+        "active_negative_histories": null,
+        "training_work_event_trace_status": "NOT_REGISTERED_FOR_THIS_EXPERIMENT",
+        "engineering_release": "NOT_ESTABLISHED_BY_THIS_AUDIT"
+      },
+      {
+        "family": "friction",
+        "reference_fidelity_status": "FULL_FIELD_NATIVE_CONTACT_DATASET_COMPLETE",
+        "native_qualification_evidence": {
+          "present": true,
+          "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/summary.json",
+          "sha256": "77664d12bb74660cbb8f21d3eaa90dc47e81ecf3cb58767537b296de016bd52a",
+          "status": "FULL_FIELD_NATIVE_CONTACT_DATASET_COMPLETE",
+          "qualification": {
+            "status": "FULL_FIELD_NATIVE_CONTACT_DATASET_COMPLETE",
+            "local_peak_release": "HOLD: actual mesh sensitivity exceeds the registered5percentthreshold for some contact and volume-stresspeaks",
+            "limitations": [
+              "Declared friction-bearing specimen, not complete as-built bridge joint.",
+              "Steel elasticity in this branch; material plasticity is evaluated separately.",
+              "All internal nine-component native contact history is not exported; recurrent neural memory is required and complete Markov closure is not asserted.",
+              "Nodal FRD contact fields are native projected observables, while physical friction laws are checked on all raw contact quadrature rows.",
+              "Thirty-two output times per path retain all spatial entities; native nonlinear increments are finer and separately retained."
+            ]
+          },
+          "training_reference_scope": "The declared native finite-element discretization; this summary separately limits continuum and local-peak claims."
+        },
+        "learning_status": "LEARNING_PROVENANCE_CHECKS_PASS",
+        "surrogate_accuracy_status": "HOLD_MISMATCH_THRESHOLD_EXCEEDED",
+        "active_final_test_histories": 8,
+        "active_negative_histories": 8,
+        "training_work_event_trace_status": "NOT_REGISTERED_FOR_THIS_EXPERIMENT",
+        "engineering_release": "NOT_ESTABLISHED_BY_THIS_AUDIT"
+      },
+      {
+        "family": "rebar",
+        "reference_fidelity_status": "SEALED_FIXED_DISCRETIZATION_REFERENCE_READY__LOCAL_IP_STRESS_HOLD",
+        "native_qualification_evidence": {
+          "present": true,
+          "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/summary.json",
+          "sha256": "2d7067dd7ee748246db13deffbbc7b67ca50e8164c581afd6fb125be3b785bf3",
+          "status": "SEALED_FIXED_DISCRETIZATION_REFERENCE_READY__LOCAL_IP_STRESS_HOLD",
+          "qualification": {
+            "status": "SEALED_FIXED_DISCRETIZATION_REFERENCE_READY__LOCAL_IP_STRESS_HOLD",
+            "selected_spatial_qualification": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/verification/production_qualification.json",
+            "spatial_qualification": "verification/mesh_comparison.json",
+            "temporal_qualification": "verification/time_comparison.json",
+            "complete_ip_fields": {
+              "observed": {
+                "stress": 0.20995329385455783,
+                "peeq": 0.04242777354538233,
+                "plastic_metric": 0.12866505483023358,
+                "backstress": 0.1461046068235355
+              },
+              "admission_role": "additional_diagnostic_no_new_posthoc_gate",
+              "observation_count": 3024,
+              "scope": "Reference-volume-weighted complete tensor/scalar field norms at every actual coarse IP. Fine values use element-local tensor-product Lagrange interpolation through all native Gauss values. Comparison transfer only; no native training field is replaced or reduced."
+            },
+            "native_numerical_quality": "VALID_CONVERGED",
+            "temporal_verification_scope": "Same physical law and load history, actual step-halving on original full27 nx6/cross1/free2 mesh with2640 entities. No independent step-halving run on final5232-entity mesh is claimed.",
+            "limitations": [
+              "Fixed-discretization FEM reproduction training only; complete-IP stress spatial diagnostic20.995% remains HOLD, despite registered displacement/reaction/slip/cell-average checks passing.",
+              "Spatial qualification covers one representative physical history; other parameter and OOD histories receive native numerical/field admission checks, not individual mesh studies.",
+              "Time-step refinement was independently measured on the earlier2640-entity full27 mesh, not repeated on final5232-entity mesh.",
+              "A constant terminal ordinate of the kinematic hardening curve does not imply constant actual Cauchy stress under arbitrary multiaxial cyclic loading; elastic strain, backstress history, stress rotation and finite deformation remain active.",
+              "Concrete is elastic; bond law is memoryless nonlinear elastic traction-slip with normal compatibility. No concrete damage/cracking, resolved steel ribs, interface opening or inertia is modeled.",
+              "Incomplete native STA tails, when present, limit iteration counts to the observed printed lower bound; all admitted actual DAT endpoints and all original expected source hashes are checked separately."
+            ]
+          },
+          "training_reference_scope": "The declared native finite-element discretization; this summary separately limits continuum and local-peak claims."
+        },
+        "learning_status": "LEARNING_PROVENANCE_CHECKS_PASS",
+        "surrogate_accuracy_status": "HOLD_MISMATCH_THRESHOLD_EXCEEDED",
+        "active_final_test_histories": 8,
+        "active_negative_histories": 8,
+        "training_work_event_trace_status": "HOLD_SOME_ORIGINAL_EVENT_TRACE_TAILS_INCOMPLETE",
+        "engineering_release": "NOT_ESTABLISHED_BY_THIS_AUDIT"
+      }
+    ]
+  },
+  "branches": {
+    "friction": {
+      "status": "COMPLETED_LEARNING_AND_FIXED_TESTS",
+      "initial_histories": 19,
+      "unique_reference_histories_in_comparison": 27,
+      "reference_admission": {},
+      "training_protocol": {
+        "architecture": "absolute",
+        "epochs": 200,
+        "continuation_epochs": 120,
+        "rounds": 2,
+        "initial_training_ids": [
+          "friction_000_replay1",
+          "friction_001",
+          "friction_002",
+          "friction_003",
+          "friction_004",
+          "friction_005",
+          "friction_006",
+          "friction_007"
+        ],
+        "validation_ids": [
+          "friction_008",
+          "friction_009",
+          "friction_010"
+        ],
+        "registered_test_ids": [
+          "friction_011",
+          "friction_012",
+          "friction_013",
+          "friction_014",
+          "friction_015",
+          "friction_016",
+          "friction_017",
+          "friction_018"
+        ],
+        "POD": false,
+        "modal_truncation": false,
+        "graph_coarsening": false,
+        "fixed_response_basis": false
+      },
+      "acquisition_cost_scoring": [
+        {
+          "round": "round_1",
+          "source_sha256": "2b520863304dcffc6a7df0e13debd4ae3c4f80cc97f960bae1d92b8dd97b1e6c",
+          "candidate_count": 16,
+          "minimum": 3.765927647888355,
+          "maximum": 4.570572300730403,
+          "all_unit_cost": false
+        },
+        {
+          "round": "round_2",
+          "source_sha256": "66ad8b9a7d6dfcd6b5a223f82a0bdbc46278fbeffda7ca9022ccb1d49983d05c",
+          "candidate_count": 14,
+          "minimum": 3.7652371987298867,
+          "maximum": 6.699089775228525,
+          "all_unit_cost": false
+        }
+      ],
+      "native_cost_summary": {
+        "stages": [
+          {
+            "stage": "active/round_1",
+            "requested_count": 2,
+            "qualified_count": 2,
+            "fresh_reference_count": 1,
+            "verified_cache_reference_count": 1,
+            "unknown_cache_status_count": 0,
+            "failed_or_unfinished_count": 0,
+            "seconds": 12.026796121999723
+          },
+          {
+            "stage": "active/round_2",
+            "requested_count": 2,
+            "qualified_count": 2,
+            "fresh_reference_count": 0,
+            "verified_cache_reference_count": 2,
+            "unknown_cache_status_count": 0,
+            "failed_or_unfinished_count": 0,
+            "seconds": 0.06408333000035782
+          },
+          {
+            "stage": "random/round_1",
+            "requested_count": 2,
+            "qualified_count": 2,
+            "fresh_reference_count": 0,
+            "verified_cache_reference_count": 2,
+            "unknown_cache_status_count": 0,
+            "failed_or_unfinished_count": 0,
+            "seconds": 0.062074945999484044
+          },
+          {
+            "stage": "random/round_2",
+            "requested_count": 2,
+            "qualified_count": 2,
+            "fresh_reference_count": 0,
+            "verified_cache_reference_count": 2,
+            "unknown_cache_status_count": 0,
+            "failed_or_unfinished_count": 0,
+            "seconds": 0.12423081399902003
+          }
+        ],
+        "unique_qualified_history_ids": [
+          "friction_021",
+          "friction_022",
+          "friction_023",
+          "friction_025",
+          "friction_029",
+          "friction_030",
+          "friction_031",
+          "friction_032"
+        ],
+        "scope": "Unique IDs deduplicate reference reuse across active and random branches; cold original solver costs remain in native receipts."
+      },
+      "results": {
+        "initial": {
+          "test": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.42310902063520717
+          },
+          "ood": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.6211504220100749
+          }
+        },
+        "active": {
+          "test": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.37914574161298736
+          },
+          "ood": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.4813703440976831
+          }
+        },
+        "random": {
+          "test": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.3893804154846447
+          },
+          "ood": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.4985400832339546
+          }
+        }
+      },
+      "native_entity_counts": [
+        697
+      ],
+      "final_metrics_sources": {
+        "initial": {
+          "path": "build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/final_test/initial/metrics.json",
+          "sha256": "df83cf93526e92a466398fc8f1095b07d6c1e296a5c689a96282fb1a69986831"
+        },
+        "active": {
+          "path": "build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/final_test/active/metrics.json",
+          "sha256": "d7e5361f5c5a3e9e8a781962d8f5a708cd1c74c161c19ac7a9decd372b5e1664"
+        },
+        "random": {
+          "path": "build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/final_test/random/metrics.json",
+          "sha256": "c0f2facd87664ba66e3cc9ade7c5804541db8f745a95fb37468ee7448655d4ed"
+        }
+      }
+    },
+    "rebar": {
+      "status": "COMPLETED_LEARNING_AND_FIXED_TESTS",
+      "initial_histories": 19,
+      "unique_reference_histories_in_comparison": 26,
+      "reference_admission": {
+        "reference_fidelity": "PASS_REGISTERED_SPATIAL_OBSERVABLES",
+        "admission_scope": "Fixed discretization reproduction training only; continuum local stress convergence within ten percent is not established.",
+        "local_ip_stress_fidelity": "HOLD_20.995_PERCENT_COMMON_POINT_DIAGNOSTIC",
+        "native_field_semantics": {
+          "peeq": "Native SDV1 accumulated equivalent plastic strain, initial zero.",
+          "plastic_metric_xx_yy_zz_xy_xz_yz": "Raw native SDV2:7 equals (I-Cp_inverse)/2; all six initial components are zero. This is an invertible encoding of the complete symmetric plastic metric; reconstruct Cp_inverse = I - 2*plastic_metric. Do not subtract an additional identity during normalization.",
+          "backstress_xx_yy_zz_xy_xz_yz": "Raw native SDV8:13 full backstress tensor components, initial zero.",
+          "stress": "Native integration-point Cauchy Sxx,Syy,Szz,Sxy,Sxz,Syz; tensor shear components."
+        },
+        "solver_module": "complex_rebar_full27"
+      },
+      "training_protocol": {
+        "architecture": "absolute",
+        "epochs": 32,
+        "continuation_epochs": 16,
+        "rounds": 2,
+        "initial_training_ids": [
+          "full27_all_axial12_free4",
+          "rebar_train_01",
+          "rebar_train_02",
+          "rebar_train_03",
+          "rebar_train_04",
+          "rebar_train_05",
+          "rebar_train_06",
+          "rebar_train_07"
+        ],
+        "validation_ids": [
+          "rebar_validation_08",
+          "rebar_validation_09",
+          "rebar_validation_10"
+        ],
+        "registered_test_ids": [
+          "rebar_test_11",
+          "rebar_test_12",
+          "rebar_test_13",
+          "rebar_test_14",
+          "rebar_ood_15",
+          "rebar_ood_16",
+          "rebar_ood_17",
+          "rebar_ood_18"
+        ],
+        "POD": false,
+        "modal_truncation": false,
+        "graph_coarsening": false,
+        "fixed_response_basis": false
+      },
+      "acquisition_cost_scoring": [
+        {
+          "round": "round_1",
+          "source_sha256": "6e795bef8fcf02f0eb997c14bb49618867e58143e9a5521a744eafe7f21a68ca",
+          "candidate_count": 16,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "all_unit_cost": true
+        },
+        {
+          "round": "round_2",
+          "source_sha256": "e9f71d3089fce3a114b69e09520c2b9ec58457c2ff3b1ce7b92c839f8555de4e",
+          "candidate_count": 14,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "all_unit_cost": true
+        }
+      ],
+      "native_cost_summary": {
+        "cost_reporter_source_sha256": "3895fea2214a41d9f746cc2a16b601f22e8bb9bfbf3f79809cd18bc1c726d8a3",
+        "original_archive_timezone": "America/Los_Angeles",
+        "stages": [
+          {
+            "stage": "active/round_1",
+            "requested_count": 2,
+            "qualified_count": 2,
+            "fresh_reference_count": 2,
+            "verified_cache_reference_count": 0,
+            "unknown_cache_status_count": 0,
+            "failed_or_unfinished_count": 0,
+            "seconds": 80.58156425400011
+          },
+          {
+            "stage": "active/round_2",
+            "requested_count": 2,
+            "qualified_count": 2,
+            "fresh_reference_count": 2,
+            "verified_cache_reference_count": 0,
+            "unknown_cache_status_count": 0,
+            "failed_or_unfinished_count": 0,
+            "seconds": 177.40142899000057
+          },
+          {
+            "stage": "random/round_1",
+            "requested_count": 2,
+            "qualified_count": 2,
+            "fresh_reference_count": 2,
+            "verified_cache_reference_count": 0,
+            "unknown_cache_status_count": 0,
+            "failed_or_unfinished_count": 0,
+            "seconds": 166.79934706300264
+          },
+          {
+            "stage": "random/round_2",
+            "requested_count": 2,
+            "qualified_count": 2,
+            "fresh_reference_count": 1,
+            "verified_cache_reference_count": 1,
+            "unknown_cache_status_count": 0,
+            "failed_or_unfinished_count": 0,
+            "seconds": 172.87944076200074
+          }
+        ],
+        "unique_qualified_history_ids": [
+          "rebar_candidate_01",
+          "rebar_candidate_02",
+          "rebar_candidate_04",
+          "rebar_candidate_05",
+          "rebar_candidate_10",
+          "rebar_candidate_12",
+          "rebar_candidate_13"
+        ],
+        "acquisition_cost_estimator": [
+          {
+            "stage": "active/round_1",
+            "source_sha256": "6e795bef8fcf02f0eb997c14bb49618867e58143e9a5521a744eafe7f21a68ca",
+            "candidate_count": 16,
+            "unique_saved_cost_estimates": [
+              1.0
+            ],
+            "unit_constant_fallback": true,
+            "interpretation": "Selection used a constant unit1 denominator because source rows lacked timing; this is not actual native-runtime optimization."
+          },
+          {
+            "stage": "active/round_2",
+            "source_sha256": "e9f71d3089fce3a114b69e09520c2b9ec58457c2ff3b1ce7b92c839f8555de4e",
+            "candidate_count": 14,
+            "unique_saved_cost_estimates": [
+              1.0
+            ],
+            "unit_constant_fallback": true,
+            "interpretation": "Selection used a constant unit1 denominator because source rows lacked timing; this is not actual native-runtime optimization."
+          }
+        ],
+        "scope": "Unique IDs deduplicate reference reuse across active and random branches; cold original solver costs remain in native receipts. Saved selection estimates and post-solve actual costs are separate quantities."
+      },
+      "results": {
+        "initial": {
+          "test": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.6920581070806284
+          },
+          "ood": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.7830139922177878
+          }
+        },
+        "active": {
+          "test": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.554175622921582
+          },
+          "ood": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.7308476964465511
+          }
+        },
+        "random": {
+          "test": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.5214460742705891
+          },
+          "ood": {
+            "count": 4,
+            "accuracy_pass": 0,
+            "negative_examples": 4,
+            "mean_channel_relative_L2": 0.7008664520776462
+          }
+        }
+      },
+      "native_entity_counts": [
+        5232
+      ],
+      "final_metrics_sources": {
+        "initial": {
+          "path": "build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/final_test/initial/metrics.json",
+          "sha256": "4725db27862aabaeee4d3fea8e2af92b624d32ebd624f2ef552b66e0b635a780"
+        },
+        "active": {
+          "path": "build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/final_test/active/metrics.json",
+          "sha256": "1186272c7fdd15bd715ee8a0b806a75dcfccee574e5143042f6f191a2b215a5e"
+        },
+        "random": {
+          "path": "build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/final_test/random/metrics.json",
+          "sha256": "b8082747c34901d5490556ad78c90eeb1faef89449d9b20e168ebce2b19b16a8"
+        }
+      },
+      "raw_physics": {
+        "force_residual_normalization": "steel yield stress times 100 square millimeters",
+        "maximum_weak_residual_ranges": {
+          "initial": [
+            0.5732313616617061,
+            0.9836634467882548
+          ],
+          "active": [
+            1.628564519191804,
+            4.7204994414020724
+          ],
+          "random": [
+            2.157238449106102,
+            8.189682445581754
+          ]
+        },
+        "full_J2_return_mapping_reintegrated": false,
+        "engineering_release": "HOLD"
+      },
+      "work_trace_audit": {
+        "sha256": "a7ae842afd80113f5a345dfc1b1a2ab8aa537bc37df7ea7c1ebf8b94ac8266c4",
+        "stages": [
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/active/round_1/seed_17/actual_work.json",
+            "actual_optimizer_steps": 460,
+            "card_and_observed_prefix_consistency": {
+              "checks": {
+                "card_batch_subtotals_and_frozen_curriculum_consistent": true,
+                "card_global_counts_reproduce": true,
+                "card_per_case_counts_reproduce": true,
+                "card_traversal_flags_reproduce": true,
+                "observed_work_events_are_exact_prefix": true
+              },
+              "consistent": true,
+              "card_reported_optimizer_steps": 460,
+              "card_reported_loss_calls": 1740,
+              "card_reported_complete_cold_histories": 60,
+              "observed_work_event_count": 2200,
+              "card_implied_work_event_count": 2200,
+              "unobserved_implied_tail_length": 0,
+              "scope": "A card-implied tail is not an original execution trace and is never appended to the log. Card totals remain explicitly separate from independently observed event counts."
+            },
+            "execution_identity_and_record_consistency_pass": true,
+            "complete_event_trace_status": "PASS_COMPLETE_OBSERVED_TRACE"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/active/round_1/seed_41/actual_work.json",
+            "actual_optimizer_steps": 460,
+            "card_and_observed_prefix_consistency": {
+              "checks": {
+                "card_batch_subtotals_and_frozen_curriculum_consistent": true,
+                "card_global_counts_reproduce": true,
+                "card_per_case_counts_reproduce": true,
+                "card_traversal_flags_reproduce": true,
+                "observed_work_events_are_exact_prefix": true
+              },
+              "consistent": true,
+              "card_reported_optimizer_steps": 460,
+              "card_reported_loss_calls": 1740,
+              "card_reported_complete_cold_histories": 60,
+              "observed_work_event_count": 2200,
+              "card_implied_work_event_count": 2200,
+              "unobserved_implied_tail_length": 0,
+              "scope": "A card-implied tail is not an original execution trace and is never appended to the log. Card totals remain explicitly separate from independently observed event counts."
+            },
+            "execution_identity_and_record_consistency_pass": true,
+            "complete_event_trace_status": "PASS_COMPLETE_OBSERVED_TRACE"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/active/round_2/seed_17/actual_work.json",
+            "actual_optimizer_steps": 552,
+            "card_and_observed_prefix_consistency": {
+              "checks": {
+                "card_batch_subtotals_and_frozen_curriculum_consistent": true,
+                "card_global_counts_reproduce": true,
+                "card_per_case_counts_reproduce": true,
+                "card_traversal_flags_reproduce": true,
+                "observed_work_events_are_exact_prefix": true
+              },
+              "consistent": true,
+              "card_reported_optimizer_steps": 552,
+              "card_reported_loss_calls": 2088,
+              "card_reported_complete_cold_histories": 72,
+              "observed_work_event_count": 2640,
+              "card_implied_work_event_count": 2640,
+              "unobserved_implied_tail_length": 0,
+              "scope": "A card-implied tail is not an original execution trace and is never appended to the log. Card totals remain explicitly separate from independently observed event counts."
+            },
+            "execution_identity_and_record_consistency_pass": true,
+            "complete_event_trace_status": "PASS_COMPLETE_OBSERVED_TRACE"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/active/round_2/seed_41/actual_work.json",
+            "actual_optimizer_steps": 552,
+            "card_and_observed_prefix_consistency": {
+              "checks": {
+                "card_batch_subtotals_and_frozen_curriculum_consistent": true,
+                "card_global_counts_reproduce": true,
+                "card_per_case_counts_reproduce": true,
+                "card_traversal_flags_reproduce": true,
+                "observed_work_events_are_exact_prefix": true
+              },
+              "consistent": true,
+              "card_reported_optimizer_steps": 552,
+              "card_reported_loss_calls": 2088,
+              "card_reported_complete_cold_histories": 72,
+              "observed_work_event_count": 2640,
+              "card_implied_work_event_count": 2640,
+              "unobserved_implied_tail_length": 0,
+              "scope": "A card-implied tail is not an original execution trace and is never appended to the log. Card totals remain explicitly separate from independently observed event counts."
+            },
+            "execution_identity_and_record_consistency_pass": true,
+            "complete_event_trace_status": "PASS_COMPLETE_OBSERVED_TRACE"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/initial/seed_17/actual_work.json",
+            "actual_optimizer_steps": 695,
+            "card_and_observed_prefix_consistency": {
+              "checks": {
+                "card_batch_subtotals_and_frozen_curriculum_consistent": true,
+                "card_global_counts_reproduce": true,
+                "card_per_case_counts_reproduce": true,
+                "card_traversal_flags_reproduce": true,
+                "observed_work_events_are_exact_prefix": true
+              },
+              "consistent": true,
+              "card_reported_optimizer_steps": 696,
+              "card_reported_loss_calls": 2624,
+              "card_reported_complete_cold_histories": 88,
+              "observed_work_event_count": 3315,
+              "card_implied_work_event_count": 3320,
+              "unobserved_implied_tail_length": 5,
+              "scope": "A card-implied tail is not an original execution trace and is never appended to the log. Card totals remain explicitly separate from independently observed event counts."
+            },
+            "execution_identity_and_record_consistency_pass": true,
+            "complete_event_trace_status": "HOLD_INCOMPLETE_OR_INCONSISTENT_OBSERVED_TRACE"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/initial/seed_41/actual_work.json",
+            "actual_optimizer_steps": 696,
+            "card_and_observed_prefix_consistency": {
+              "checks": {
+                "card_batch_subtotals_and_frozen_curriculum_consistent": true,
+                "card_global_counts_reproduce": true,
+                "card_per_case_counts_reproduce": true,
+                "card_traversal_flags_reproduce": true,
+                "observed_work_events_are_exact_prefix": true
+              },
+              "consistent": true,
+              "card_reported_optimizer_steps": 696,
+              "card_reported_loss_calls": 2624,
+              "card_reported_complete_cold_histories": 88,
+              "observed_work_event_count": 3320,
+              "card_implied_work_event_count": 3320,
+              "unobserved_implied_tail_length": 0,
+              "scope": "A card-implied tail is not an original execution trace and is never appended to the log. Card totals remain explicitly separate from independently observed event counts."
+            },
+            "execution_identity_and_record_consistency_pass": true,
+            "complete_event_trace_status": "PASS_COMPLETE_OBSERVED_TRACE"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/random/round_1/seed_17/actual_work.json",
+            "actual_optimizer_steps": 460,
+            "card_and_observed_prefix_consistency": {
+              "checks": {
+                "card_batch_subtotals_and_frozen_curriculum_consistent": true,
+                "card_global_counts_reproduce": true,
+                "card_per_case_counts_reproduce": true,
+                "card_traversal_flags_reproduce": true,
+                "observed_work_events_are_exact_prefix": true
+              },
+              "consistent": true,
+              "card_reported_optimizer_steps": 460,
+              "card_reported_loss_calls": 1740,
+              "card_reported_complete_cold_histories": 60,
+              "observed_work_event_count": 2200,
+              "card_implied_work_event_count": 2200,
+              "unobserved_implied_tail_length": 0,
+              "scope": "A card-implied tail is not an original execution trace and is never appended to the log. Card totals remain explicitly separate from independently observed event counts."
+            },
+            "execution_identity_and_record_consistency_pass": true,
+            "complete_event_trace_status": "PASS_COMPLETE_OBSERVED_TRACE"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/random/round_1/seed_41/actual_work.json",
+            "actual_optimizer_steps": 8,
+            "card_and_observed_prefix_consistency": {
+              "checks": {
+                "card_batch_subtotals_and_frozen_curriculum_consistent": true,
+                "card_global_counts_reproduce": true,
+                "card_per_case_counts_reproduce": true,
+                "card_traversal_flags_reproduce": true,
+                "observed_work_events_are_exact_prefix": true
+              },
+              "consistent": true,
+              "card_reported_optimizer_steps": 460,
+              "card_reported_loss_calls": 1740,
+              "card_reported_complete_cold_histories": 60,
+              "observed_work_event_count": 24,
+              "card_implied_work_event_count": 2200,
+              "unobserved_implied_tail_length": 2176,
+              "scope": "A card-implied tail is not an original execution trace and is never appended to the log. Card totals remain explicitly separate from independently observed event counts."
+            },
+            "execution_identity_and_record_consistency_pass": true,
+            "complete_event_trace_status": "HOLD_INCOMPLETE_OR_INCONSISTENT_OBSERVED_TRACE"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/random/round_2/seed_17/actual_work.json",
+            "actual_optimizer_steps": 552,
+            "card_and_observed_prefix_consistency": {
+              "checks": {
+                "card_batch_subtotals_and_frozen_curriculum_consistent": true,
+                "card_global_counts_reproduce": true,
+                "card_per_case_counts_reproduce": true,
+                "card_traversal_flags_reproduce": true,
+                "observed_work_events_are_exact_prefix": true
+              },
+              "consistent": true,
+              "card_reported_optimizer_steps": 552,
+              "card_reported_loss_calls": 2088,
+              "card_reported_complete_cold_histories": 72,
+              "observed_work_event_count": 2640,
+              "card_implied_work_event_count": 2640,
+              "unobserved_implied_tail_length": 0,
+              "scope": "A card-implied tail is not an original execution trace and is never appended to the log. Card totals remain explicitly separate from independently observed event counts."
+            },
+            "execution_identity_and_record_consistency_pass": true,
+            "complete_event_trace_status": "PASS_COMPLETE_OBSERVED_TRACE"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/random/round_2/seed_41/actual_work.json",
+            "actual_optimizer_steps": 552,
+            "card_and_observed_prefix_consistency": {
+              "checks": {
+                "card_batch_subtotals_and_frozen_curriculum_consistent": true,
+                "card_global_counts_reproduce": true,
+                "card_per_case_counts_reproduce": true,
+                "card_traversal_flags_reproduce": true,
+                "observed_work_events_are_exact_prefix": true
+              },
+              "consistent": true,
+              "card_reported_optimizer_steps": 552,
+              "card_reported_loss_calls": 2088,
+              "card_reported_complete_cold_histories": 72,
+              "observed_work_event_count": 2640,
+              "card_implied_work_event_count": 2640,
+              "unobserved_implied_tail_length": 0,
+              "scope": "A card-implied tail is not an original execution trace and is never appended to the log. Card totals remain explicitly separate from independently observed event counts."
+            },
+            "execution_identity_and_record_consistency_pass": true,
+            "complete_event_trace_status": "PASS_COMPLETE_OBSERVED_TRACE"
+          }
+        ]
+      }
+    },
+    "thermoplastic": {
+      "status": "CLOSED_REFERENCE_HOLD",
+      "closure_sha256": "ad58b33c69e42a8164e223c6333634a6df82e006c39e108c48c9f5a08ffe7324",
+      "closure": {
+        "status": "CLOSED_REFERENCE_HOLD",
+        "learning_status": "NOT_RUN_REFERENCE_UNQUALIFIED",
+        "reference_fidelity_pass": false,
+        "reason": "The final bounded reference qualification did not pass the unchanged full-field spatial/temporal gates; no19history production set, neural training, or active FEM acquisition is released for this family.",
+        "time_refinement": {
+          "coarse": "build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000",
+          "fine": "build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4",
+          "kind": "identical_continuous_path_temporal_refinement",
+          "metrics": {
+            "full_u_relative": 0.0053060163682769855,
+            "full_temperature_relative": 0.004494050829466873,
+            "full_stress_relative": 0.0028714773323159147,
+            "full_peeq_relative": 0.0009472768070539045,
+            "reaction_path_relative": 0.0008935839696883115
+          },
+          "limits": {
+            "full_u_relative": 0.05,
+            "full_temperature_relative": 0.02,
+            "full_stress_relative": 0.05,
+            "full_peeq_relative": 0.05,
+            "reaction_path_relative": 0.05
+          },
+          "status": "PASS",
+          "native_seconds": 1058.6256527270016
+        },
+        "first_coarse_spatial_comparison": {
+          "coarse": "build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000",
+          "fine": "build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05",
+          "kind": "full3D_actual_mesh_refinement",
+          "common_volume_fraction": 1.0,
+          "common_points": 11228,
+          "all_coarse_points": 11228,
+          "sampling": "Every coarse native IP; true C3D10 nodal interpolation, linear reconstruction through four actual IP values for stress and history comparisons; no surrogate response reduction.",
+          "metrics": {
+            "full_field_common_points_u_relative": 0.022319391343288256,
+            "full_field_common_points_temperature_relative": 0.00023947172928866732,
+            "full_field_common_points_stress_relative": 0.1552289608560237,
+            "full_field_common_points_peeq_relative": 0.05721308694862113,
+            "reaction_path_relative": 0.00031903013761949863,
+            "peak_peeq_relative": 0.01913926572529708,
+            "peak_stress_relative": 0.011113060971965023
+          },
+          "limits": {
+            "full_field_common_points_u_relative": 0.05,
+            "full_field_common_points_temperature_relative": 0.02,
+            "full_field_common_points_stress_relative": 0.05,
+            "full_field_common_points_peeq_relative": 0.05,
+            "reaction_path_relative": 0.05,
+            "peak_peeq_relative": 0.1,
+            "peak_stress_relative": 0.1
+          },
+          "actual_native_peaks": {
+            "coarse_peeq": 0.23228793035095524,
+            "fine_peeq": 0.23682050084584175,
+            "coarse_mises_MPa": 793.156883493261,
+            "fine_mises_MPa": 802.0703400864464
+          },
+          "status": "HOLD_MESH_REFINEMENT",
+          "native_seconds": 1122.0848194459995
+        },
+        "final_finest_spatial_comparison": {
+          "coarse": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05",
+          "fine": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035",
+          "kind": "full3D_actual_mesh_refinement",
+          "common_volume_fraction": 1.0,
+          "common_points": 16748,
+          "all_coarse_points": 16748,
+          "sampling": "Every coarse native IP; true C3D10 nodal interpolation, linear reconstruction through four actual IP values for stress and history comparisons; no surrogate response reduction.",
+          "metrics": {
+            "full_field_common_points_u_relative": 0.01863595802810816,
+            "full_field_common_points_temperature_relative": 0.00019074057704184376,
+            "full_field_common_points_stress_relative": 0.15551001256628616,
+            "full_field_common_points_peeq_relative": 0.06467490305542856,
+            "reaction_path_relative": 0.00036668479805251723,
+            "peak_peeq_relative": 0.031831629300988956,
+            "peak_stress_relative": 0.019623445216265648
+          },
+          "limits": {
+            "full_field_common_points_u_relative": 0.05,
+            "full_field_common_points_temperature_relative": 0.02,
+            "full_field_common_points_stress_relative": 0.05,
+            "full_field_common_points_peeq_relative": 0.05,
+            "reaction_path_relative": 0.05,
+            "peak_peeq_relative": 0.1,
+            "peak_stress_relative": 0.1
+          },
+          "actual_native_peaks": {
+            "coarse_peeq": 0.23682050084584175,
+            "fine_peeq": 0.22951467479851828,
+            "coarse_mises_MPa": 802.0703400864464,
+            "fine_mises_MPa": 786.633873367167
+          },
+          "status": "HOLD_MESH_REFINEMENT",
+          "native_seconds": 2489.3968676900004
+        },
+        "selected_production_mesh_if_qualified": null,
+        "bounded_repairs": [
+          "Preserved all failed original model versions and incomplete-output integrity evidence.",
+          "Used private native workspaces, atomic publication, exact native entity/geometry checks, and numeric input fields limited to20characters.",
+          "Repaired only native output formatting to full precision with executable-section and actual native equivalence checks.",
+          "Explicitly versioned a finite-radius full3Dresearch connector with actual10–60s transient heat histories.",
+          "Extended the same declared temperature-dependent J2hardening slopes throughPEEQ1 and enforced table-range coverage.",
+          "Retained every FE node, every actual IP and all13native plasticSDVs; no POD, modal truncation or response basis.",
+          "Completed the frozen coupling2/4 and actualmesh0.7/0.5/0.35 qualification study without changing its error limits."
+        ],
+        "native_case_directories": [
+          "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000",
+          "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4",
+          "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05",
+          "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035"
+        ],
+        "unique_physical_history_groups": 1,
+        "native_discretization_runs": 4,
+        "mesh_time_refinement_runs": 3,
+        "native_job_attempts": 8,
+        "completed_native_job_count": 8,
+        "completed_reported_state_frames_across_discretizations": 114,
+        "native_solved_stage_frames": 110,
+        "known_initial_frames": 4,
+        "completed_native_solver_seconds": 3548.022520417002,
+        "cost_measure": "Sum of measured wall seconds for each actually launched native job; this is not elapsed campaign wall time.",
+        "planned_initial_independent_history_groups": {
+          "train": 8,
+          "validation": 3,
+          "test": 4,
+          "ood": 4
+        },
+        "actually_released_training_history_groups": 0,
+        "input_only_candidate_descriptors": 16,
+        "actual_active_selected_FEM_histories": 0,
+        "actual_NN_vs_trusted_FEM_negative_samples": 0,
+        "negative_sample_definition": "A negative sample is an excessive neural-versus-qualified-FEM error; a quarantined or mesh-unqualified FEM reference is a separate reference failure.",
+        "geometry_note": "The100x30x20mm connector and6mm circular notches are the baseCAD; each case applies its declaredX/Ylength/widthscales to every node, so unequal scales produce finite elliptical notches. The geometry is an assumed research specimen, not an as-built bridge detail.",
+        "thermal_coupling": "Actual3Dtransient heat PDE and temperature-dependent finite-strain material with irreversible PEEQ history; one-way thermal→mechanical coupling; plastic dissipation heat feedback is not implemented.",
+        "plastic_metric_integration_drift": {
+          "th4_000": 0.00650290585617741,
+          "th4_verify_time4": 0.0053013845635996315,
+          "th4_verify_mesh05": 0.006761620458408224,
+          "th4_verify_mesh035": 0.006278329908263158
+        },
+        "plastic_metric_note": "RawSDV2:7=(I-inverseCp)/2 is retained exactly; the disclosed native additive-update isochoric drift is an independent integration diagnostic, not projected or hidden.",
+        "historical_versions": {
+          "girder_v1_to_v5": {
+            "completed_attempts": 27,
+            "native_status_counts": {
+              "QUARANTINED": 10,
+              "VALID_CONVERGED": 17
+            },
+            "learning_release": "HOLD; these native status counts are not qualified training-history counts"
+          },
+          "notched_connector_before_transient_v4": {
+            "completed_attempts": 9,
+            "native_status_counts": {
+              "QUARANTINED": 9
+            },
+            "learning_release": "HOLD; these native status counts are not qualified training-history counts"
+          }
+        },
+        "native_figures": [
+          "thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history.png"
+        ],
+        "native_figure_source_manifest": {
+          "path": "thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history_sources.json",
+          "sha256": "078b76023bb33fe6bcd9c28451be3bc2be3ccd2551581b75e36827b8ffed0123"
+        },
+        "native_figure_scope": "Actual solved temperature, heat flux, PEEQ and unprojected plastic-metric drift; these are not neural test results and do not replace the final spatial qualification.",
+        "evidence": [
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/configuration.json",
+            "sha256": "43e24af2a7a9620207e0028277f23c094b939418894e9bea2936cc5bb892e355"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/plan.json",
+            "sha256": "8649451a9554ed405bcf2030fff1c9554833b49c9923c495f801e782e0a6b717"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/time_2_4_refinement.json",
+            "sha256": "cdb9c64fe3aa43430512a3b16d01f3ecc6b2a96868e7b0f2226dd43621316609"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/mesh_07_05_refinement.json",
+            "sha256": "89683ae4ae95c9e0b1c07e85ded556e462014aba6e709fe8d53ec0300af2b0c8"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/mesh_05_035_refinement.json",
+            "sha256": "bb23848bd5cef8337c3de23619f7e3705effb7b5a3a81159e2af095f5bb90385"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/verification/uniaxial_plasticity/benchmark.json",
+            "sha256": "91655e2dc1e9fe0b78fc1d6c9d97d24e2edf99d17676bb2859a9bb10756009c9"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/thermal_time_component_check.json",
+            "sha256": "f3b10582658e772532fcd22d77f8af7ce56425db26ae543a4a59917931d1b1ea"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/transient_effect_check.json",
+            "sha256": "e59e5819f3ae21fedb4ffda6c0b5e63cba87ff3954dcdd7a379119f324acc521"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/independent_heat_benchmark.json",
+            "sha256": "ba41f0c84fbd3a9cb4d6cfcfc4f331b0455ec1d8e4a03b251fd6170ec8f4477d"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/native_precision_equivalence.json",
+            "sha256": "e675660f67b484fc4d8462025ddfbd218dae30ac064ef98b943d48713ed2f50f"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/receipt.json",
+            "sha256": "f2832dcccc5817b5c5a41256ae892d4bc8a81d65a5cdb777ba2a93bc179d1968"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/metadata.json",
+            "sha256": "4d21ad82aa6fe77152082045d4b6ed17429a1c1ab28868f0e0285ff66899fa1c"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/fields.npz",
+            "sha256": "7ce424ebadf7598d4f83f01ebc3c819152100bd0fa00b6cc1a7c1e54b232fab3"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/independent_physics.json",
+            "sha256": "c810627bc10b068c4f8017e868187ec910f7efdea56321bb94d659357056bceb"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/native_archive.json",
+            "sha256": "79d2ad2ddc5eb5aad713bc910071bbf162331e8532ac1e73b8b04ee14046e13c"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/heat_receipt.json",
+            "sha256": "28d0c8fd105890bb7e64f0228cb53011153cb39acaa7184351a3d785ec6eaa7d"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/mechanical_receipt.json",
+            "sha256": "daba2a4c08a73779e6291b0af6d6b7dabcbde9a81de6cf7faf79820177410162"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/receipt.json",
+            "sha256": "27aff4942b0e6cecfdf842a41d798e022417c9d1908a3d8a1e51eb2dc1be5728"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/metadata.json",
+            "sha256": "1bd1909c74c44e2e29d6b8a328bd4bac3e5783f149e9b371be364cecbd29f2c3"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/fields.npz",
+            "sha256": "f338eba2854a7659d3eab0486d3d557c4a8431586299931237d28d943b88bb57"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/independent_physics.json",
+            "sha256": "2f17f0794c29c6ba971452cfe52d42844e0c718df56d68b6f93a32d850edda03"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/native_archive.json",
+            "sha256": "e9736bed40590fee0b73bf87b87c1978326e366490c8a8a252e976ddf5393097"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/heat_receipt.json",
+            "sha256": "9e146728edd75da6205dad217271cd1e910e50735fc3171e4f3439434f15ea14"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/mechanical_receipt.json",
+            "sha256": "6e29d67d7bf72b3dab3d56651ad13601e70685649a6be56fbcdfe3a8af904356"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/receipt.json",
+            "sha256": "ee921b051b700dbb9b425d17aa5fcfe1f7ef8cece43e5ab68e050aea95ba592e"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/metadata.json",
+            "sha256": "2ab9ae1c22dad02d31449e426f252ed2b68a0f8074bf74e35415895bd9a30c57"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/fields.npz",
+            "sha256": "0380e61c03214c26f1d12f8dbd5f6442a52d73e65fe2fed33db5dfb7117732cd"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/independent_physics.json",
+            "sha256": "6d299ead8868d2cbb69aba8f5d2b6e888cb622de0319c355e2fc9bcf68de7aab"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/native_archive.json",
+            "sha256": "cbcddecf1416986bb5267c72127fb412425fbc02f49ab0f585990f41f12318db"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/heat_receipt.json",
+            "sha256": "f89c91fdfa0d53e4426f5d99bbd2705d01026511edd93c20cdb4fc6a43084096"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/mechanical_receipt.json",
+            "sha256": "155ec9cfb893653c7899fa246dbadd2470329e712f89373419ee3faea44072ba"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/receipt.json",
+            "sha256": "20dbe4144b55c795ea53f9d0fb3ebaf426da7ade8992d47f3a65cf719b643d74"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/metadata.json",
+            "sha256": "28bb08170e4af83253012859f902c1f6a69180e73e1216425725b17436ebbf5e"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/fields.npz",
+            "sha256": "3d1a498d62b82dd873753d4ac14be6f01a66197c05e6d7c29bfdd421c287012e"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/independent_physics.json",
+            "sha256": "d644898b54e305ae3013328f8e57b3aad7944ef3e37c9971661043111d86819b"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/native_archive.json",
+            "sha256": "14870ad18b4034992b46d99142d25bb8df2d7a481815e4f25a4d59744b43526e"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/heat_receipt.json",
+            "sha256": "e33a39852d47dc1a547de2032ba813b99b5d38a13ab40b29029db334874801b7"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/mechanical_receipt.json",
+            "sha256": "1eb2f19d8349bb1ab3b0c53dcc84db7e060c4f09be2005f5073342ecc6f9c220"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history.png",
+            "sha256": "2910798c012860d17e6be6a546b98a7a50363edef9131735d5e65241e0a32622"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history.pdf",
+            "sha256": "e24bbb9aca5a8c46a5e0687ff7e10b53f9b21392545a363d3d031370b2b9fe63"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history.csv",
+            "sha256": "ffc6785c6609a1911b88836eb2f9f62f515088acc079a578012eff2036fb013f"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/figures/native_thermoplastic_history_sources.json",
+            "sha256": "078b76023bb33fe6bcd9c28451be3bc2be3ccd2551581b75e36827b8ffed0123"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000/native_outputs.zip",
+            "sha256": "2e84ab2d9f55d5089d3c7f99ee48234e0fb879fb312784d6873fffcd7040c730"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_time4/native_outputs.zip",
+            "sha256": "1981c3147eaea182a3717b662a5785cc0021899cd31f368e717129246ebe8d2c"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh05/native_outputs.zip",
+            "sha256": "c39e6045debd2f6f86f4663c9c0fd593b5f0fa6e4d3736811184adefbad19719"
+          },
+          {
+            "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_verify_mesh035/native_outputs.zip",
+            "sha256": "0ebe1f14a1f330ee6c39e2ad3a5ad061253f59a3516d70ab963909c8ab27a79f"
+          }
+        ]
+      }
+    }
+  }
+}
