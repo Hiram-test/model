@@ -1,0 +1,99 @@
+{
+  "actual_native_solves": 0,
+  "actual_training_or_inference_calls": 0,
+  "checks": [
+    {
+      "name": "stdlib_only_no_torch_import",
+      "passed": true
+    },
+    {
+      "name": "all_16_slots_closed_15_qualified_one_failure",
+      "passed": true
+    },
+    {
+      "name": "logical_id_preserved_and_actual_replay_visible",
+      "passed": true
+    },
+    {
+      "name": "closed_native_failure_has_no_fabricated_arrays",
+      "passed": true
+    },
+    {
+      "name": "completed_restart_calls_zero_callbacks",
+      "passed": true
+    },
+    {
+      "name": "sixteen_completion_receipts_preserved",
+      "passed": true
+    },
+    {
+      "name": "changed_completed_evidence_rejected_before_solver",
+      "passed": true
+    },
+    {
+      "name": "duplicate_public_slot_rejected",
+      "passed": true
+    },
+    {
+      "name": "descriptor_denial_invokes_no_callback",
+      "passed": true
+    },
+    {
+      "name": "exception_keeps_original_partial_cost",
+      "passed": true
+    },
+    {
+      "name": "unresolved_restart_does_not_repeat_solver",
+      "passed": true
+    },
+    {
+      "name": "audited_existing_failed_closure_runs_only_remaining_15",
+      "passed": true
+    },
+    {
+      "name": "orphan_callback_without_intent_rejected_without_repeat",
+      "passed": true
+    },
+    {
+      "name": "saved_callback_changed_export_rejected_without_repeat",
+      "passed": true
+    },
+    {
+      "name": "saved_callback_result_recovered_without_duplicate_native",
+      "passed": true
+    },
+    {
+      "name": "concurrent_runner_rejected",
+      "passed": true
+    },
+    {
+      "name": "missing_strong_release_rejected_before_descriptor_read",
+      "passed": true
+    },
+    {
+      "name": "v2_evaluation_native_runner.py_every_nonblank_line_has_real_comment",
+      "passed": true
+    },
+    {
+      "name": "v2_evaluation_native_runner_verify.py_every_nonblank_line_has_real_comment",
+      "passed": true
+    },
+    {
+      "name": "zero_torch_and_native_modules_imported",
+      "passed": true
+    }
+  ],
+  "new_test_response_reads": 0,
+  "runner": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_evaluation_native_runner.py",
+    "sha256": "7fc184b60eeed66297595cc7dbb696d6c39f3057ab31a4aec9365b86659ba9df"
+  },
+  "schema": "bridge.v2.evaluation.native.runner.synthetic.verification.v1",
+  "sealed_descriptor_reads": 0,
+  "status": "PASS_SYNTHETIC_ONLY",
+  "synthetic_fixture_values_are_not_scientific_results": true,
+  "verification_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_evaluation_native_runner_verify.py",
+    "sha256": "5738ebccdbe94b9b56cf2e642d744ecbfd4787ed50791d0e93445e73bcfa0f3c"
+  }
+}

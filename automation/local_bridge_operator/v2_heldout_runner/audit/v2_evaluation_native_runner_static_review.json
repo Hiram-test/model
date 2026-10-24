@@ -1,0 +1,56 @@
+{
+  "independent_formal_native_or_training_calls": 0,
+  "independent_review_scope": [
+    "Exact fixed release and verification SHA plus proof schema are checked before released envelope access",
+    "All sixteen fixed case identities and complete canonical descriptors are authorized before any callback",
+    "Qualified resume compares original callback export hashes instead of replacing expected hashes",
+    "Orphan transaction evidence without original intent is rejected before every callback",
+    "A persistent nonblocking lock prevents overlapping runner invocations",
+    "Unknown STARTED intent remains unresolved and is never automatically re-solved",
+    "Auditor reconciliation requires exact intent and actual termination evidence and only reads existing results or closes an evidenced failure",
+    "Native replay logical identity remains registered while actual source identity is retained",
+    "Qualified and failed references retain all sixteen slots; failures are not neural negative samples"
+  ],
+  "independent_synthetic_tests_executed": false,
+  "new_heldout_descriptors_or_fields_read": false,
+  "output_directory": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native",
+  "private_input_boundary": "Runner reads only the released envelope. The already authorized strong guard may verify the original private commitments internally after formal release.",
+  "producer_synthetic_checks_reported": 20,
+  "producer_synthetic_verification": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/evaluation_native_runner_verification/verification.json",
+    "sha256": "e1f7776ab39ebc1fcd842a2bcc635c3abc31358866564e552297dfaf2e837886"
+  },
+  "reference_encoding": "Use exact path+sha256 references where compared to frozen config/release records; do not add differing fields to those equality-compared refs.",
+  "released_descriptor_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_released_evaluation_descriptors.json",
+  "released_descriptor_schema": "bridge.v2.released.evaluation.descriptors.v1",
+  "required_source_freeze_fields": [
+    "runner",
+    "config",
+    "verification",
+    "design_contract",
+    "execution_lock",
+    "release_guard",
+    "release",
+    "release_verification",
+    "released_descriptors",
+    "native_adapters",
+    "source_files",
+    "output_directory"
+  ],
+  "required_source_freeze_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_evaluation_native_runner_freeze.json",
+  "required_source_freeze_schema": "bridge.v2.evaluation.native.runner.freeze.v1",
+  "required_source_freeze_status": "FROZEN_BEFORE_NEW_TEST_REFERENCE",
+  "runner": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_evaluation_native_runner.py",
+    "sha256": "7fc184b60eeed66297595cc7dbb696d6c39f3057ab31a4aec9365b86659ba9df"
+  },
+  "runner_source_addendum_issued": false,
+  "source_or_training_math_modified_by_reviewer": false,
+  "status": "PASS_INDEPENDENT_STATIC_RUNNER_GUARD_AND_RESUME_REVIEW_AWAITING_STRONG_RELEASE",
+  "strong_test_release_issued": false,
+  "verification_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_evaluation_native_runner_verify.py",
+    "sha256": "5738ebccdbe94b9b56cf2e642d744ecbfd4787ed50791d0e93445e73bcfa0f3c"
+  },
+  "whole_twenty_stage_campaign_complete_asserted": false
+}
