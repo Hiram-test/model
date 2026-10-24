@@ -1,0 +1,15 @@
+{
+  "status": "PRE_EVALUATION_SOURCE_COORDINATE_IDENTITY_CHECK_CORRECTION",
+  "old_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_final_fields_independent_audit_4773db32eaeb.py",
+    "sha256": "4773db32eaeb4f96f77296060258eb3654d1b4ab846d7938500bd87dda613313"
+  },
+  "new_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.py",
+    "sha256": "9d79c9200fb6b9616ae0734689110c144593e4d95dea8be339a35d6545907ac7"
+  },
+  "reason": "Original frozen base.read_case converts source xyz to float32 before final export; compare exactly that declared conversion, not unrounded float64 xyz. Native source SHA and all coordinate rows remain required.",
+  "metric_formula_changed": false,
+  "new_reference_arrays_read": false,
+  "V2_formal_source_or_lock_changed": false
+}

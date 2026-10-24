@@ -1,0 +1,1696 @@
+{
+  "GitHub_mutations": 0,
+  "Torch_imports": 0,
+  "all_python_AST_and_nonblank_COMMENT_token_checks_pass": true,
+  "branch": "codex/complex-fullfield-v2-20261025",
+  "changed_file_count": 74,
+  "double_stat_SHA_source_stability_pass": true,
+  "excluded_archived_binary_or_logs": [
+    {
+      "bytes": 198570,
+      "reason": "BINARY_OR_EVENT_LOG_ALREADY_SEPARATELY_ARCHIVED_NOT_LIGHTWEIGHT_GITHUB_PAYLOAD",
+      "sha256": "64925bfafc815f5660221a8d83571b38e308aee15c4d97b3be05ca1546e391a3",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/actual_work_events.jsonl"
+    },
+    {
+      "bytes": 299578,
+      "reason": "BINARY_OR_EVENT_LOG_ALREADY_SEPARATELY_ARCHIVED_NOT_LIGHTWEIGHT_GITHUB_PAYLOAD",
+      "sha256": "0376cff76a6bc0b586ad1061e531706b499e94e12c0fe48c22d73fe7e726c7c5",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/epoch_1.pt"
+    },
+    {
+      "bytes": 299578,
+      "reason": "BINARY_OR_EVENT_LOG_ALREADY_SEPARATELY_ARCHIVED_NOT_LIGHTWEIGHT_GITHUB_PAYLOAD",
+      "sha256": "812b8bb7c3a9103da9e63ef7b3a597f6991c3a764ced113fb94d694ab64080bb",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/epoch_2.pt"
+    },
+    {
+      "bytes": 102137,
+      "reason": "BINARY_OR_EVENT_LOG_ALREADY_SEPARATELY_ARCHIVED_NOT_LIGHTWEIGHT_GITHUB_PAYLOAD",
+      "sha256": "c3062bdd0605fea19c54b7f7b82476a78e2a761f3603ef4b27e58e91cb4d5f96",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/model.pt"
+    },
+    {
+      "bytes": 2251,
+      "reason": "BINARY_OR_EVENT_LOG_ALREADY_SEPARATELY_ARCHIVED_NOT_LIGHTWEIGHT_GITHUB_PAYLOAD",
+      "sha256": "ee12808939cbcf63a238d7744036186bfe55b69a8aca8ed07a70a9e077468bec",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training_run.log"
+    },
+    {
+      "bytes": 1274,
+      "reason": "BINARY_OR_EVENT_LOG_ALREADY_SEPARATELY_ARCHIVED_NOT_LIGHTWEIGHT_GITHUB_PAYLOAD",
+      "sha256": "e4d1999b180e2e61db647b1124d02eac5e7475b992706fd5aa75e6eccde826b4",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/verification_run.log"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 4865,
+      "git_blob_sha1": "fa34f21c7724cccefea3461320813adb4bd5f7cd",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/REPORT_GENERATOR.md",
+      "previous_remote_blob_sha1": "065a22f54ff8ccdac2a74a8b9f76bb25d75e5bba",
+      "remote_action": "UPDATE",
+      "repo_path": "automation/local_bridge_operator/v2_report/REPORT_GENERATOR.md",
+      "role": "closed_report_interface",
+      "sha256": "2e1c3be0d1585486a8aad7fcd4819b894781859e13f23bc742a61f464e6c7148",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/REPORT_GENERATOR.md",
+      "stat": {
+        "st_ctime_ns": 1792868974687986766,
+        "st_dev": 26,
+        "st_ino": 22146,
+        "st_mtime_ns": 1792868974687986766,
+        "st_size": 4865
+      }
+    },
+    {
+      "bytes": 2766,
+      "git_blob_sha1": "0b966cc460e8c9ba69be31966afdacd1e017dee8",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/capture_runtime_snapshot.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/capture_runtime_snapshot.py",
+      "role": "closed_report_interface",
+      "sha256": "7d41691d8ddd22e6761d7a46aaa9c3035a6968009bd43702616619f6e0f1bb86",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/capture_runtime_snapshot.py",
+      "stat": {
+        "st_ctime_ns": 1792865957670913585,
+        "st_dev": 26,
+        "st_ino": 20931,
+        "st_mtime_ns": 1792865957670913585,
+        "st_size": 2766
+      }
+    },
+    {
+      "bytes": 5324,
+      "git_blob_sha1": "e08342ed5715bd86cf6e866ca7a449b02a8c17ce",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/development_interface_verification.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/development_interface_verification.json",
+      "role": "closed_report_interface",
+      "sha256": "907eef438e37529a7a437e06af08ca63ac3c794a85533dfcc56ff146e970fb8e",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/development_interface_verification.json",
+      "stat": {
+        "st_ctime_ns": 1792865992909071813,
+        "st_dev": 26,
+        "st_ino": 22189,
+        "st_mtime_ns": 1792865992909071813,
+        "st_size": 5324
+      }
+    },
+    {
+      "bytes": 19283,
+      "git_blob_sha1": "74278318de1779066ad41cff85756a9c83a9edd4",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/development_interface_verification_v2.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/development_interface_verification_v2.json",
+      "role": "closed_report_interface",
+      "sha256": "834549eda2e615d15df6f6e75ff567a9e2d41778c8dfba2a963114d3d24170ed",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/development_interface_verification_v2.json",
+      "stat": {
+        "st_ctime_ns": 1792869008371939470,
+        "st_dev": 26,
+        "st_ino": 29265,
+        "st_mtime_ns": 1792869008371939470,
+        "st_size": 19283
+      }
+    },
+    {
+      "bytes": 2170,
+      "git_blob_sha1": "4ea82719eebff2d8a7dbbb43da8bec90a7d13605",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/generator_source_freeze.json",
+      "previous_remote_blob_sha1": "4ea82719eebff2d8a7dbbb43da8bec90a7d13605",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_report/generator_source_freeze.json",
+      "role": "closed_report_interface",
+      "sha256": "3a09eb6a69759ade5c99117dd7dbdc8094e1d88983e5dc76cd46c453d947b693",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/generator_source_freeze.json",
+      "stat": {
+        "st_ctime_ns": 1792866059741211877,
+        "st_dev": 26,
+        "st_ino": 23500,
+        "st_mtime_ns": 1792866059741211877,
+        "st_size": 2170
+      }
+    },
+    {
+      "bytes": 3360,
+      "git_blob_sha1": "ee4158075dc89d5db4adbf18c75cafc37b8057b6",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/generator_source_freeze_v2.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/generator_source_freeze_v2.json",
+      "role": "closed_report_interface",
+      "sha256": "8cd9734653ce1219388adedab8e4211ef8942dbaf8528ddd5b7a2d71c4cfdfe3",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/generator_source_freeze_v2.json",
+      "stat": {
+        "st_ctime_ns": 1792869008372561761,
+        "st_dev": 26,
+        "st_ino": 29266,
+        "st_mtime_ns": 1792869008372561761,
+        "st_size": 3360
+      }
+    },
+    {
+      "bytes": 12145,
+      "git_blob_sha1": "7cd0f012648176d6c506c527898f1736fca39cac",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/generator_verification.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/generator_verification.json",
+      "role": "closed_report_interface",
+      "sha256": "254a4359527650209b6a6c026353c37ca0443853306d35685c76a89ceb5c4c35",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/generator_verification.json",
+      "stat": {
+        "st_ctime_ns": 1792868975188795837,
+        "st_dev": 26,
+        "st_ino": 20997,
+        "st_mtime_ns": 1792868975188795837,
+        "st_size": 12145
+      }
+    },
+    {
+      "bytes": 2234,
+      "git_blob_sha1": "64d666f0ac1fecc171211587c11007aacd743878",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/report_inputs.json",
+      "previous_remote_blob_sha1": "11f03d0ce523da407794e78b5ba4e03c804c6162",
+      "remote_action": "UPDATE",
+      "repo_path": "automation/local_bridge_operator/v2_report/report_inputs.json",
+      "role": "closed_report_interface",
+      "sha256": "71ef000ec5c9c48949db81be90365c78bd027e91be03d0cb225653fb8913b938",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/report_inputs.json",
+      "stat": {
+        "st_ctime_ns": 1792868972471918759,
+        "st_dev": 26,
+        "st_ino": 22108,
+        "st_mtime_ns": 1792868972471918759,
+        "st_size": 2234
+      }
+    },
+    {
+      "bytes": 1270,
+      "git_blob_sha1": "74d9a3ef8711cbb529adb8c6f3e2440917e22e0a",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/runtime_observation.json",
+      "previous_remote_blob_sha1": "74d9a3ef8711cbb529adb8c6f3e2440917e22e0a",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_report/runtime_observation.json",
+      "role": "closed_report_interface",
+      "sha256": "0de15156c9e23b9839944cff6f01f52b929a0b1b37117f8b182d44eb5f22ebf5",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/runtime_observation.json",
+      "stat": {
+        "st_ctime_ns": 1792865959106955283,
+        "st_dev": 26,
+        "st_ino": 20981,
+        "st_mtime_ns": 1792865959106955283,
+        "st_size": 1270
+      }
+    },
+    {
+      "bytes": 83586,
+      "git_blob_sha1": "63ccb8f80762562595dbbe6832b5140a4d1e8804",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/v2_report.py",
+      "previous_remote_blob_sha1": "0d620e9eccc8c302ffdcef0d138989969c8857d1",
+      "remote_action": "UPDATE",
+      "repo_path": "automation/local_bridge_operator/v2_report/v2_report.py",
+      "role": "closed_report_interface",
+      "sha256": "db652c058d1a0b255a1b02a539f6de8dc384974304ce89498de979881071141d",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/v2_report.py",
+      "stat": {
+        "st_ctime_ns": 1792868971531889911,
+        "st_dev": 26,
+        "st_ino": 13919,
+        "st_mtime_ns": 1792868971531889911,
+        "st_size": 83586
+      }
+    },
+    {
+      "bytes": 11804,
+      "git_blob_sha1": "0b5b4ce4373d11656373266422b89f6d26cde1f9",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/v2_report_charts.py",
+      "previous_remote_blob_sha1": "0b5b4ce4373d11656373266422b89f6d26cde1f9",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_report/v2_report_charts.py",
+      "role": "closed_report_interface",
+      "sha256": "2737321ec2c9e749d3074e34950c669c7f7bf5f364e9feec511b57112d996103",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/v2_report_charts.py",
+      "stat": {
+        "st_ctime_ns": 1792865915317619528,
+        "st_dev": 26,
+        "st_ino": 19263,
+        "st_mtime_ns": 1792865915317619528,
+        "st_size": 11804
+      }
+    },
+    {
+      "bytes": 14313,
+      "git_blob_sha1": "1bbce48770a52af27e27e0bb934fe660d3ac9763",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/verify_report_generator.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/verify_report_generator.py",
+      "role": "closed_report_interface",
+      "sha256": "30ae2c5d06503a3f375f57780b2f7ddea4662108e4f1fdd604bb313aba78cd84",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/verify_report_generator.py",
+      "stat": {
+        "st_ctime_ns": 1792868973739957673,
+        "st_dev": 26,
+        "st_ino": 20968,
+        "st_mtime_ns": 1792868973739957673,
+        "st_size": 14313
+      }
+    },
+    {
+      "bytes": 3247,
+      "git_blob_sha1": "065a22f54ff8ccdac2a74a8b9f76bb25d75e5bba",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/REPORT_GENERATOR.md",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/REPORT_GENERATOR.md",
+      "role": "prior_report_interface_history",
+      "sha256": "19fec7bb568b4ee1840d804c6ba149eb5e99c4b06af0789fb970419343d3edc6",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/REPORT_GENERATOR.md",
+      "stat": {
+        "st_ctime_ns": 1792868830093324680,
+        "st_dev": 26,
+        "st_ino": 28831,
+        "st_mtime_ns": 1792868830093324680,
+        "st_size": 3247
+      }
+    },
+    {
+      "bytes": 2766,
+      "git_blob_sha1": "0b966cc460e8c9ba69be31966afdacd1e017dee8",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/capture_runtime_snapshot.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/capture_runtime_snapshot.py",
+      "role": "prior_report_interface_history",
+      "sha256": "7d41691d8ddd22e6761d7a46aaa9c3035a6968009bd43702616619f6e0f1bb86",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/capture_runtime_snapshot.py",
+      "stat": {
+        "st_ctime_ns": 1792868830093454988,
+        "st_dev": 26,
+        "st_ino": 28832,
+        "st_mtime_ns": 1792868830093454988,
+        "st_size": 2766
+      }
+    },
+    {
+      "bytes": 5324,
+      "git_blob_sha1": "e08342ed5715bd86cf6e866ca7a449b02a8c17ce",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/development_interface_verification.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/development_interface_verification.json",
+      "role": "prior_report_interface_history",
+      "sha256": "907eef438e37529a7a437e06af08ca63ac3c794a85533dfcc56ff146e970fb8e",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/development_interface_verification.json",
+      "stat": {
+        "st_ctime_ns": 1792868830093523251,
+        "st_dev": 26,
+        "st_ino": 28833,
+        "st_mtime_ns": 1792868830093523251,
+        "st_size": 5324
+      }
+    },
+    {
+      "bytes": 2170,
+      "git_blob_sha1": "4ea82719eebff2d8a7dbbb43da8bec90a7d13605",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/generator_source_freeze.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/generator_source_freeze.json",
+      "role": "prior_report_interface_history",
+      "sha256": "3a09eb6a69759ade5c99117dd7dbdc8094e1d88983e5dc76cd46c453d947b693",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/generator_source_freeze.json",
+      "stat": {
+        "st_ctime_ns": 1792868830093589551,
+        "st_dev": 26,
+        "st_ino": 28834,
+        "st_mtime_ns": 1792868830093589551,
+        "st_size": 2170
+      }
+    },
+    {
+      "bytes": 1445,
+      "git_blob_sha1": "b9f461b065c1068f6ff9da1e60b09db28a48bac6",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/generator_verification.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/generator_verification.json",
+      "role": "prior_report_interface_history",
+      "sha256": "a526823f97444bc3f73bfb34e893017a5fdf82c43f795840949cb43ede48c3ff",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/generator_verification.json",
+      "stat": {
+        "st_ctime_ns": 1792868830093648570,
+        "st_dev": 26,
+        "st_ino": 28835,
+        "st_mtime_ns": 1792868830093648570,
+        "st_size": 1445
+      }
+    },
+    {
+      "bytes": 3474,
+      "git_blob_sha1": "f62807e53b415b5e7cf922792de94d0e753c2401",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/history_snapshot_receipt.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/history_snapshot_receipt.json",
+      "role": "prior_report_interface_history",
+      "sha256": "a0c2bb2bbba1a680a0fd119515359138cb24cd9bf7727194fd788157496c6062",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/history_snapshot_receipt.json",
+      "stat": {
+        "st_ctime_ns": 1792868830094349491,
+        "st_dev": 26,
+        "st_ino": 28841,
+        "st_mtime_ns": 1792868830094349491,
+        "st_size": 3474
+      }
+    },
+    {
+      "bytes": 1583,
+      "git_blob_sha1": "11f03d0ce523da407794e78b5ba4e03c804c6162",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/report_inputs.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/report_inputs.json",
+      "role": "prior_report_interface_history",
+      "sha256": "e7be95d84ccd00189d8ba3856d551d483e2011efa407c598aacde826e2125658",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/report_inputs.json",
+      "stat": {
+        "st_ctime_ns": 1792868830093706839,
+        "st_dev": 26,
+        "st_ino": 28836,
+        "st_mtime_ns": 1792868830093706839,
+        "st_size": 1583
+      }
+    },
+    {
+      "bytes": 1270,
+      "git_blob_sha1": "74d9a3ef8711cbb529adb8c6f3e2440917e22e0a",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/runtime_observation.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/runtime_observation.json",
+      "role": "prior_report_interface_history",
+      "sha256": "0de15156c9e23b9839944cff6f01f52b929a0b1b37117f8b182d44eb5f22ebf5",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/runtime_observation.json",
+      "stat": {
+        "st_ctime_ns": 1792868830093783645,
+        "st_dev": 26,
+        "st_ino": 28837,
+        "st_mtime_ns": 1792868830093783645,
+        "st_size": 1270
+      }
+    },
+    {
+      "bytes": 65073,
+      "git_blob_sha1": "0d620e9eccc8c302ffdcef0d138989969c8857d1",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/v2_report.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/v2_report.py",
+      "role": "prior_report_interface_history",
+      "sha256": "e6936b891da65fc2e030642a777cf1a43958c2eefac741ab3540e0ad1e05638a",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/v2_report.py",
+      "stat": {
+        "st_ctime_ns": 1792868830093872449,
+        "st_dev": 26,
+        "st_ino": 28838,
+        "st_mtime_ns": 1792868830093872449,
+        "st_size": 65073
+      }
+    },
+    {
+      "bytes": 11804,
+      "git_blob_sha1": "0b5b4ce4373d11656373266422b89f6d26cde1f9",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/v2_report_charts.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/v2_report_charts.py",
+      "role": "prior_report_interface_history",
+      "sha256": "2737321ec2c9e749d3074e34950c669c7f7bf5f364e9feec511b57112d996103",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/v2_report_charts.py",
+      "stat": {
+        "st_ctime_ns": 1792868830094101455,
+        "st_dev": 26,
+        "st_ino": 28839,
+        "st_mtime_ns": 1792868830094101455,
+        "st_size": 11804
+      }
+    },
+    {
+      "bytes": 8593,
+      "git_blob_sha1": "45d37adeed0edd262611c52c496b4119c810ee8e",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/verify_report_generator.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report/history/before_thermal_probe_support_v2/verify_report_generator.py",
+      "role": "prior_report_interface_history",
+      "sha256": "26e72e2aab5a77d279d53fb3ad272b47fda97d0a5ff0315ab574ba85e9270ad8",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/report/history/before_thermal_probe_support_v2/verify_report_generator.py",
+      "stat": {
+        "st_ctime_ns": 1792868830094176599,
+        "st_dev": 26,
+        "st_ino": 28840,
+        "st_mtime_ns": 1792868830094176599,
+        "st_size": 8593
+      }
+    },
+    {
+      "bytes": 1531,
+      "git_blob_sha1": "9fb3d02605566acf39dbc9cf91ba1d3734544536",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/BUNDLE_NOTE.md",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/BUNDLE_NOTE.md",
+      "role": "closed_independent_decoder_development",
+      "sha256": "46ace4a71c20c634552883804484fc3e85443db069769fe986cb582732111dcd",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/BUNDLE_NOTE.md",
+      "stat": {
+        "st_ctime_ns": 1792868698291489046,
+        "st_dev": 26,
+        "st_ino": 28738,
+        "st_mtime_ns": 1792868698291489046,
+        "st_size": 1531
+      }
+    },
+    {
+      "bytes": 5699,
+      "git_blob_sha1": "bc1120eafa3706c45168cc09d5ad2ad76c7b6c05",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/PROBE_RESULT.md",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/PROBE_RESULT.md",
+      "role": "closed_independent_decoder_development",
+      "sha256": "707bf90c8b406b561f7528d901caabb3da3fc318cebfcaac0ad2effcae3eb4b5",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/PROBE_RESULT.md",
+      "stat": {
+        "st_ctime_ns": 1792868560679022305,
+        "st_dev": 26,
+        "st_ino": 28601,
+        "st_mtime_ns": 1792868560679022305,
+        "st_size": 5699
+      }
+    },
+    {
+      "bytes": 2480,
+      "git_blob_sha1": "142faa7c9cbf612b4953e5d7cfe472392309b5e2",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/PROBE_SCOPE.md",
+      "previous_remote_blob_sha1": "142faa7c9cbf612b4953e5d7cfe472392309b5e2",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/PROBE_SCOPE.md",
+      "role": "closed_independent_decoder_development",
+      "sha256": "c3d8330bc389e6bb9d02c05f5407b8abc14fb0214055181a704e3311836241eb",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/PROBE_SCOPE.md",
+      "stat": {
+        "st_ctime_ns": 1792867270103732699,
+        "st_dev": 26,
+        "st_ino": 25752,
+        "st_mtime_ns": 1792867270103732699,
+        "st_size": 2480
+      }
+    },
+    {
+      "bytes": 7257,
+      "git_blob_sha1": "2867c985d3b329c826863ac624cd0b0560ad3a5d",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/constitutive_decoder.py",
+      "previous_remote_blob_sha1": "2867c985d3b329c826863ac624cd0b0560ad3a5d",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/constitutive_decoder.py",
+      "role": "closed_independent_decoder_development",
+      "sha256": "70e44e7337835593c751bdd19d4f9fec88cbccd642755c48b215e3e7b4114799",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/constitutive_decoder.py",
+      "stat": {
+        "st_ctime_ns": 1792867226362395560,
+        "st_dev": 26,
+        "st_ino": 25258,
+        "st_mtime_ns": 1792867226362395560,
+        "st_size": 7257
+      }
+    },
+    {
+      "bytes": 6228,
+      "git_blob_sha1": "d45e7ced4423ed6fe11f82d2eae00ab714c9f7f7",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/finalize_probe_artifacts.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/finalize_probe_artifacts.py",
+      "role": "closed_independent_decoder_development",
+      "sha256": "7108431b0ea7aa4204909dce3ba9d1d6fd0afe83e0519506c0e8042150965484",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/finalize_probe_artifacts.py",
+      "stat": {
+        "st_ctime_ns": 1792868653250074251,
+        "st_dev": 26,
+        "st_ino": 28739,
+        "st_mtime_ns": 1792868653250074251,
+        "st_size": 6228
+      }
+    },
+    {
+      "bytes": 14512,
+      "git_blob_sha1": "0c59ce964567e230fa44437aaee89bd4614376cc",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/frozen_probe_plan.json",
+      "previous_remote_blob_sha1": "0c59ce964567e230fa44437aaee89bd4614376cc",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/frozen_probe_plan.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "fc5772d7cd534c0f9f7e65dc24235589848019a589d70b329e8be27972b272e3",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/frozen_probe_plan.json",
+      "stat": {
+        "st_ctime_ns": 1792867519846560375,
+        "st_dev": 26,
+        "st_ino": 26128,
+        "st_mtime_ns": 1792867519846560375,
+        "st_size": 14512
+      }
+    },
+    {
+      "bytes": 725,
+      "git_blob_sha1": "5339706a396628c6560a7670598903cffd37ddc1",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/material_import_source_identity.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/material_import_source_identity.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "f345c65c5a6e062a85ef05cc031cf220c970bd82be5bba08a5749b6caf1b15c5",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/material_import_source_identity.json",
+      "stat": {
+        "st_ctime_ns": 1792868141979170158,
+        "st_dev": 26,
+        "st_ino": 27299,
+        "st_mtime_ns": 1792868141979170158,
+        "st_size": 725
+      }
+    },
+    {
+      "bytes": 1298,
+      "git_blob_sha1": "63ce993e443fe54e9dbccc81c3b9ecb2b473d6c2",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/probe_status.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/probe_status.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "ae46b06a3ca3eb996a78e50e8382df0fbcccb5def528d44d75525bb8d92f2c94",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/probe_status.json",
+      "stat": {
+        "st_ctime_ns": 1792868580146432909,
+        "st_dev": 26,
+        "st_ino": 26266,
+        "st_mtime_ns": 1792868580146432909,
+        "st_size": 1298
+      }
+    },
+    {
+      "bytes": 2537,
+      "git_blob_sha1": "31fee45bffad745e51a7e9386f38ff61cd3cd0d4",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/publication_manifest.json",
+      "previous_remote_blob_sha1": "31fee45bffad745e51a7e9386f38ff61cd3cd0d4",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/publication_manifest.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "23765212068718052d6ea582d7c80d174a0a0d7fd9b6ed9edff93bdb06e8b267",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/publication_manifest.json",
+      "stat": {
+        "st_ctime_ns": 1792868093451725589,
+        "st_dev": 26,
+        "st_ino": 27215,
+        "st_mtime_ns": 1792868093451725589,
+        "st_size": 2537
+      }
+    },
+    {
+      "bytes": 4651,
+      "git_blob_sha1": "1b1ed39cdefe42479115969ac76fe83610cc442c",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/result_summary.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/result_summary.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "8532cffe521fa9a29adcb61914bbdf1c527fb4b3d262a83951609630e30ecf05",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/result_summary.json",
+      "stat": {
+        "st_ctime_ns": 1792868580146912261,
+        "st_dev": 26,
+        "st_ino": 28683,
+        "st_mtime_ns": 1792868580146912261,
+        "st_size": 4651
+      }
+    },
+    {
+      "bytes": 982,
+      "git_blob_sha1": "d96433522dda471e76abc562c58a443fa41b1dc5",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/static_review.json",
+      "previous_remote_blob_sha1": "d96433522dda471e76abc562c58a443fa41b1dc5",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/static_review.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "5d753e1c33cd06d6710cc8556515029ebb01df44954de556e315789da499ece7",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/static_review.json",
+      "stat": {
+        "st_ctime_ns": 1792867501208654885,
+        "st_dev": 26,
+        "st_ino": 26090,
+        "st_mtime_ns": 1792867501208654885,
+        "st_size": 982
+      }
+    },
+    {
+      "bytes": 23199,
+      "git_blob_sha1": "56d977f130aeadcef6f727726b85a0c5e52cf44c",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/train_constitutive_decoder_probe.py",
+      "previous_remote_blob_sha1": "56d977f130aeadcef6f727726b85a0c5e52cf44c",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/train_constitutive_decoder_probe.py",
+      "role": "closed_independent_decoder_development",
+      "sha256": "eb1b6f54bddea49caa11270a2acf6c0695624d6234aa87827f6d78e2d671bf70",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/train_constitutive_decoder_probe.py",
+      "stat": {
+        "st_ctime_ns": 1792867446057087337,
+        "st_dev": 26,
+        "st_ino": 25987,
+        "st_mtime_ns": 1792867446057087337,
+        "st_size": 23199
+      }
+    },
+    {
+      "bytes": 642,
+      "git_blob_sha1": "7c88e2ad3ab3061490b78320217d70c530d31f02",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/actual_work.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/actual_work.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "19245424f379090718ca77fae7d0e081dcdf61f34dc3902415f68994887b12a0",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/actual_work.json",
+      "stat": {
+        "st_ctime_ns": 1792868475828661738,
+        "st_dev": 26,
+        "st_ino": 28479,
+        "st_mtime_ns": 1792868475828661738,
+        "st_size": 642
+      }
+    },
+    {
+      "bytes": 65705,
+      "git_blob_sha1": "5aa27ad6fd682c2ab3704953fd86801806976348",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/checkpoint_tensor_audit.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/checkpoint_tensor_audit.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "607065d75e0de17b6a77f371bb4757d7837bbda55ef8ad67eb609b5aa792b61d",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/checkpoint_tensor_audit.json",
+      "stat": {
+        "st_ctime_ns": 1792868662757447492,
+        "st_dev": 26,
+        "st_ino": 28742,
+        "st_mtime_ns": 1792868662757447492,
+        "st_size": 65705
+      }
+    },
+    {
+      "bytes": 8465,
+      "git_blob_sha1": "9fe9b4dc5248e93dab90dd62c739c9da2914ac77",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/constitutive_4ba3802d5f40.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/constitutive_4ba3802d5f40.py",
+      "role": "closed_independent_decoder_development",
+      "sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/constitutive_4ba3802d5f40.py",
+      "stat": {
+        "st_ctime_ns": 1792868346875731457,
+        "st_dev": 26,
+        "st_ino": 27718,
+        "st_mtime_ns": 1792868346875731457,
+        "st_size": 8465
+      }
+    },
+    {
+      "bytes": 7257,
+      "git_blob_sha1": "2867c985d3b329c826863ac624cd0b0560ad3a5d",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/decoder_source.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/decoder_source.py",
+      "role": "closed_independent_decoder_development",
+      "sha256": "70e44e7337835593c751bdd19d4f9fec88cbccd642755c48b215e3e7b4114799",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/decoder_source.py",
+      "stat": {
+        "st_ctime_ns": 1792868352728569128,
+        "st_dev": 26,
+        "st_ino": 27727,
+        "st_mtime_ns": 1792868352728569128,
+        "st_size": 7257
+      }
+    },
+    {
+      "bytes": 5056,
+      "git_blob_sha1": "70ac0e5cd65e1187527cc659010e0f89a1e29c53",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/first_state_group_gradients.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/first_state_group_gradients.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "8e1b7ae8c592f91f5374708690aff5f08a24f4006316a6b6b894c22205920150",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/first_state_group_gradients.json",
+      "stat": {
+        "st_ctime_ns": 1792868370881743720,
+        "st_dev": 26,
+        "st_ino": 27768,
+        "st_mtime_ns": 1792868370881743720,
+        "st_size": 5056
+      }
+    },
+    {
+      "bytes": 505014,
+      "git_blob_sha1": "675d18baf6bd23d8d4b65acaf5b1ec63e9f4b276",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/history.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/history.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "517d143ad429219e81947054c057e596f6c66e8e70e7e32d6e975ec99f858efd",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/history.json",
+      "stat": {
+        "st_ctime_ns": 1792868459891599794,
+        "st_dev": 26,
+        "st_ino": 28448,
+        "st_mtime_ns": 1792868459891599794,
+        "st_size": 505014
+      }
+    },
+    {
+      "bytes": 9566,
+      "git_blob_sha1": "a4482477f2dedc6747cdb8c2d31b40f2e0bc1e76",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/independent_review.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/independent_review.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "0aa3c750fa52002aaf381450edd55fbb2c0d9d7afd98e89b457e6b245d5564b7",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/independent_review.json",
+      "stat": {
+        "st_ctime_ns": 1792868537344635221,
+        "st_dev": 26,
+        "st_ino": 28604,
+        "st_mtime_ns": 1792868537344635221,
+        "st_size": 9566
+      }
+    },
+    {
+      "bytes": 13371,
+      "git_blob_sha1": "6ba4a3241c7b1f5c23a9b925a7af9c79ca6849d0",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/initial_amplitude_and_groups.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/initial_amplitude_and_groups.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "e8c0111891a60c2a72822c4784aa610b9a07197576ae389da3dd2264c4b00cc8",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/initial_amplitude_and_groups.json",
+      "stat": {
+        "st_ctime_ns": 1792868369893908539,
+        "st_dev": 26,
+        "st_ino": 27763,
+        "st_mtime_ns": 1792868369893908539,
+        "st_size": 13371
+      }
+    },
+    {
+      "bytes": 142657,
+      "git_blob_sha1": "eac80c38fb3bdcd0590fac5192d0477215f2f806",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/initial_validation.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/initial_validation.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "19b9f9d251daa44b8c456d66943ffa4daeb7d57e9433aaa6726af48b52b75381",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/initial_validation.json",
+      "stat": {
+        "st_ctime_ns": 1792868361718477922,
+        "st_dev": 26,
+        "st_ino": 27745,
+        "st_mtime_ns": 1792868361718477922,
+        "st_size": 142657
+      }
+    },
+    {
+      "bytes": 16407,
+      "git_blob_sha1": "853ba447f60bd321b1db3353a107ef11c1c91429",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/physics_rebar_c2a7fb88adbc.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/physics_rebar_c2a7fb88adbc.py",
+      "role": "closed_independent_decoder_development",
+      "sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/physics_rebar_c2a7fb88adbc.py",
+      "stat": {
+        "st_ctime_ns": 1792868346875653079,
+        "st_dev": 26,
+        "st_ino": 27717,
+        "st_mtime_ns": 1792868346875653079,
+        "st_size": 16407
+      }
+    },
+    {
+      "bytes": 19641,
+      "git_blob_sha1": "dcc3b680bdd33700fe12a0c2c1cf28be2e82a55a",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/probe_contract.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/probe_contract.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "d374741105ad402a7f571ec4fb9b6e96935a0251478845f80e3f7f006e797e51",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/probe_contract.json",
+      "stat": {
+        "st_ctime_ns": 1792868352728487604,
+        "st_dev": 26,
+        "st_ino": 27726,
+        "st_mtime_ns": 1792868352728487604,
+        "st_size": 19641
+      }
+    },
+    {
+      "bytes": 165979,
+      "git_blob_sha1": "b3fa5f1a233b741976135ed5a866503fec9338ce",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/probe_result.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/probe_result.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "343617f1e134ffa11d36165a2a1b448a18a8f9a17ee38145f9e8fef062c23356",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/probe_result.json",
+      "stat": {
+        "st_ctime_ns": 1792868475832493562,
+        "st_dev": 26,
+        "st_ino": 28480,
+        "st_mtime_ns": 1792868475832493562,
+        "st_size": 165979
+      }
+    },
+    {
+      "bytes": 23199,
+      "git_blob_sha1": "56d977f130aeadcef6f727726b85a0c5e52cf44c",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/runner_source.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/runner_source.py",
+      "role": "closed_independent_decoder_development",
+      "sha256": "eb1b6f54bddea49caa11270a2acf6c0695624d6234aa87827f6d78e2d671bf70",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/runner_source.py",
+      "stat": {
+        "st_ctime_ns": 1792868352728595457,
+        "st_dev": 26,
+        "st_ino": 27728,
+        "st_mtime_ns": 1792868352728595457,
+        "st_size": 23199
+      }
+    },
+    {
+      "bytes": 13368,
+      "git_blob_sha1": "2eac5298dba5e7f9dc7566d70611fb143fd34b81",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/selected_amplitude_and_groups.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/selected_amplitude_and_groups.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "4856fe6c8208e09cef0bd45055a00cd14a7456a125af58fdc58ec730310c1729",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/selected_amplitude_and_groups.json",
+      "stat": {
+        "st_ctime_ns": 1792868472175511489,
+        "st_dev": 26,
+        "st_ino": 28470,
+        "st_mtime_ns": 1792868472175511489,
+        "st_size": 13368
+      }
+    },
+    {
+      "bytes": 20494,
+      "git_blob_sha1": "673b3eda3e99339551756d3a5bb7c526e886a05a",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/selected_epoch_tensor_match.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/selected_epoch_tensor_match.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "dfed2f20c74d216bbfb9b6ea53262d5b443a70062742e69e45ab80dd9618b57c",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/selected_epoch_tensor_match.json",
+      "stat": {
+        "st_ctime_ns": 1792868706486174306,
+        "st_dev": 26,
+        "st_ino": 28743,
+        "st_mtime_ns": 1792868706486174306,
+        "st_size": 20494
+      }
+    },
+    {
+      "bytes": 142649,
+      "git_blob_sha1": "3b0f9b65f2f62ce4f44c8a4b49e6d2b58e6c00b9",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/training/selected_validation.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/training/selected_validation.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "29b804d45ff2823e1dd8029b064d1fb9ec7e24b4dcd2700abc2728a7a8629e3e",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/selected_validation.json",
+      "stat": {
+        "st_ctime_ns": 1792868472175142752,
+        "st_dev": 26,
+        "st_ino": 28469,
+        "st_mtime_ns": 1792868472175142752,
+        "st_size": 142649
+      }
+    },
+    {
+      "bytes": 8465,
+      "git_blob_sha1": "9fe9b4dc5248e93dab90dd62c739c9da2914ac77",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/verification/constitutive_4ba3802d5f40.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/verification/constitutive_4ba3802d5f40.py",
+      "role": "closed_independent_decoder_development",
+      "sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/verification/constitutive_4ba3802d5f40.py",
+      "stat": {
+        "st_ctime_ns": 1792867338419494878,
+        "st_dev": 26,
+        "st_ino": 25834,
+        "st_mtime_ns": 1792867338419494878,
+        "st_size": 8465
+      }
+    },
+    {
+      "bytes": 16407,
+      "git_blob_sha1": "853ba447f60bd321b1db3353a107ef11c1c91429",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/verification/physics_rebar_c2a7fb88adbc.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/verification/physics_rebar_c2a7fb88adbc.py",
+      "role": "closed_independent_decoder_development",
+      "sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/verification/physics_rebar_c2a7fb88adbc.py",
+      "stat": {
+        "st_ctime_ns": 1792867338419434416,
+        "st_dev": 26,
+        "st_ino": 25833,
+        "st_mtime_ns": 1792867338419434416,
+        "st_size": 16407
+      }
+    },
+    {
+      "bytes": 11597,
+      "git_blob_sha1": "b3e245797d594cf9575217fd642ec09122004da7",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/verification/verification.json",
+      "previous_remote_blob_sha1": "b3e245797d594cf9575217fd642ec09122004da7",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/verification/verification.json",
+      "role": "closed_independent_decoder_development",
+      "sha256": "ec1e901a665868a5af53b2e64e3e99436347cd2104f71be2313103450c23a212",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/verification/verification.json",
+      "stat": {
+        "st_ctime_ns": 1792867351313941023,
+        "st_dev": 26,
+        "st_ino": 25836,
+        "st_mtime_ns": 1792867351313941023,
+        "st_size": 11597
+      }
+    },
+    {
+      "bytes": 13691,
+      "git_blob_sha1": "7caca79b67528dbdb5770e0b11b10f603eacbac9",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/verify_constitutive_decoder.py",
+      "previous_remote_blob_sha1": "7caca79b67528dbdb5770e0b11b10f603eacbac9",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/verify_constitutive_decoder.py",
+      "role": "closed_independent_decoder_development",
+      "sha256": "f4f11d4d5f8525edc237b851c2f176c576cacdc047bae7a87a9d5ca977497a88",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/verify_constitutive_decoder.py",
+      "stat": {
+        "st_ctime_ns": 1792867288933767956,
+        "st_dev": 26,
+        "st_ino": 25493,
+        "st_mtime_ns": 1792867288933767956,
+        "st_size": 13691
+      }
+    },
+    {
+      "bytes": 9095,
+      "git_blob_sha1": "2ca7668dedcb618ad46966ba36e27a9043fbc115",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/final_result_manifest.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/final_result_manifest.json",
+      "role": "closed_probe_final_identity_manifest",
+      "sha256": "f00b104db135915c15c222dc639bcea4c26c78f745ac1dc1988304ce61d6d227",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/final_result_manifest.json",
+      "stat": {
+        "st_ctime_ns": 1792868714296471130,
+        "st_dev": 26,
+        "st_ino": 28744,
+        "st_mtime_ns": 1792868714296471130,
+        "st_size": 9095
+      }
+    },
+    {
+      "bytes": 371,
+      "git_blob_sha1": "014cb42265dd268bf206f7c7ed2a044dae7907e5",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_constitutive_decoder_probe/library_probe_saved.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_constitutive_decoder_probe/library_probe_saved.json",
+      "role": "confirmed_saved_probe_archive_identity",
+      "sha256": "d3aa343ea1d8aae53dfae2495854faff346830ced12d1adba4506d024897c7cd",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/library_probe_saved.json",
+      "stat": {
+        "st_ctime_ns": 1792869171865564680,
+        "st_dev": 26,
+        "st_ino": 29882,
+        "st_mtime_ns": 1792869171865564680,
+        "st_size": 371
+      }
+    },
+    {
+      "bytes": 6957,
+      "git_blob_sha1": "961063f311454578d43a52c886c9c57d060e0247",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_adapter_error_interface_verification.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_adapter_error_interface_verification.py",
+      "role": "audit_source",
+      "sha256": "c31b8b9d9d8b645da95646e589cf089e76cf37b7d79258a9a98c5367a77376ba",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_adapter_error_interface_verification.py",
+      "stat": {
+        "st_ctime_ns": 1792869415533433272,
+        "st_dev": 26,
+        "st_ino": 30816,
+        "st_mtime_ns": 1792869415533433272,
+        "st_size": 6957
+      }
+    },
+    {
+      "bytes": 8206,
+      "git_blob_sha1": "6017be66bf874452cca641c141aa49bc09cc246e",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_cost_independent_audit.py",
+      "previous_remote_blob_sha1": "6017be66bf874452cca641c141aa49bc09cc246e",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_cost_independent_audit.py",
+      "role": "audit_source",
+      "sha256": "eb0f677a4d8693b05ff9c0158572842d30a4f49ab44525a2ccda74272d3ede29",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_cost_independent_audit.py",
+      "stat": {
+        "st_ctime_ns": 1792865163918682239,
+        "st_dev": 26,
+        "st_ino": 2454,
+        "st_mtime_ns": 1792865163918682239,
+        "st_size": 8206
+      }
+    },
+    {
+      "bytes": 36849,
+      "git_blob_sha1": "6cb0e019830590e64deb9e7ebc1e2369e46028a3",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_experiment_contract.py",
+      "previous_remote_blob_sha1": "6cb0e019830590e64deb9e7ebc1e2369e46028a3",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_experiment_contract.py",
+      "role": "audit_source",
+      "sha256": "f470e45473d5383b71c4254934eb265e934c935e350d6b7478714b2495c2fb05",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_experiment_contract.py",
+      "stat": {
+        "st_ctime_ns": 1792864350590064128,
+        "st_dev": 26,
+        "st_ino": 351,
+        "st_mtime_ns": 1792864350590064128,
+        "st_size": 36849
+      }
+    },
+    {
+      "bytes": 17093,
+      "git_blob_sha1": "8045070dd712ef0024f083d42bd00a09863e8f72",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_final_fields_independent_audit.py",
+      "previous_remote_blob_sha1": "66ade4828f4668cd64ec6f8bb3145c4571fc5474",
+      "remote_action": "UPDATE",
+      "repo_path": "automation/local_bridge_operator/v2_final_fields_independent_audit.py",
+      "role": "audit_source",
+      "sha256": "27764e270af732fadfa315f944a4b3d7de7d10fe4c7ac8d98bf4ef19f399b7d8",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.py",
+      "stat": {
+        "st_ctime_ns": 1792869389902899009,
+        "st_dev": 26,
+        "st_ino": 5705,
+        "st_mtime_ns": 1792869389902899009,
+        "st_size": 17093
+      }
+    },
+    {
+      "bytes": 8409,
+      "git_blob_sha1": "c323ec1f487e15a079098a120f11293b2d154e40",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_historical_baseline_freeze.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_historical_baseline_freeze.py",
+      "role": "audit_source",
+      "sha256": "68c33e64f13e85a45f691be9ba1bcfa8d57713cb29123e7085a3d4480b55d5f6",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_historical_baseline_freeze.py",
+      "stat": {
+        "st_ctime_ns": 1792865619672588016,
+        "st_dev": 26,
+        "st_ino": 8702,
+        "st_mtime_ns": 1792865619672588016,
+        "st_size": 8409
+      }
+    },
+    {
+      "bytes": 10662,
+      "git_blob_sha1": "6c5304c93c2e2d017df68c24a8a22d2c00f49560",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_historical_baseline_independent_audit.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_historical_baseline_independent_audit.py",
+      "role": "audit_source",
+      "sha256": "466d323344d933c2051a3aeedbe0c85add30bfb25c43fc7acd4ab3dad489b60f",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_historical_baseline_independent_audit.py",
+      "stat": {
+        "st_ctime_ns": 1792869389902944158,
+        "st_dev": 26,
+        "st_ino": 15993,
+        "st_mtime_ns": 1792869389902944158,
+        "st_size": 10662
+      }
+    },
+    {
+      "bytes": 11038,
+      "git_blob_sha1": "3125205f653ada97a3d7fe5258ebcccf619b8088",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_rebar_initial_and_first_acquisition_audit.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_rebar_initial_and_first_acquisition_audit.py",
+      "role": "audit_source",
+      "sha256": "43aee58716e2cee36311db388ff8640101c73b5804d4b84d466ccaa90633db27",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_rebar_initial_and_first_acquisition_audit.py",
+      "stat": {
+        "st_ctime_ns": 1792869004017394842,
+        "st_dev": 26,
+        "st_ino": 29173,
+        "st_mtime_ns": 1792869004017394842,
+        "st_size": 11038
+      }
+    },
+    {
+      "bytes": 14405,
+      "git_blob_sha1": "369c7303774f3debe659649d47ebede1326a1b26",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_release_completion_audit.py",
+      "previous_remote_blob_sha1": "369c7303774f3debe659649d47ebede1326a1b26",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_release_completion_audit.py",
+      "role": "audit_source",
+      "sha256": "bd3b8762904589da46bc40f1535f6768c4bec86af7a352ad9216ffcd9978dfb2",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_release_completion_audit.py",
+      "stat": {
+        "st_ctime_ns": 1792865272653982806,
+        "st_dev": 26,
+        "st_ino": 2685,
+        "st_mtime_ns": 1792865272653982806,
+        "st_size": 14405
+      }
+    },
+    {
+      "bytes": 10301,
+      "git_blob_sha1": "142527072d5186f33c85a1cf6819f322db4c6e29",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_report_interface_handoff.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_report_interface_handoff.py",
+      "role": "audit_source",
+      "sha256": "38884e4d18a0e1fde0fd17acd71de92bd2c252da2e40c26a7ffcb999fca87549",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_report_interface_handoff.py",
+      "stat": {
+        "st_ctime_ns": 1792869467667026298,
+        "st_dev": 26,
+        "st_ino": 31028,
+        "st_mtime_ns": 1792869467667026298,
+        "st_size": 10301
+      }
+    },
+    {
+      "bytes": 10257,
+      "git_blob_sha1": "e39dc2a2fcd1cecb75394b8b6dde55793a1a72f7",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_selected_native_identity_audit.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_selected_native_identity_audit.py",
+      "role": "audit_source",
+      "sha256": "66d5632a4abc0a85b77e0e56debdfb51b1ceabc0e403feb01d32865fcd6aac67",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.py",
+      "stat": {
+        "st_ctime_ns": 1792866008780473716,
+        "st_dev": 26,
+        "st_ino": 22264,
+        "st_mtime_ns": 1792866008780473716,
+        "st_size": 10257
+      }
+    },
+    {
+      "bytes": 7040,
+      "git_blob_sha1": "a162ff67c37d00ae14a729f2fd842ea91c8b8a9b",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_selected_weight_support_audit.py",
+      "previous_remote_blob_sha1": "a162ff67c37d00ae14a729f2fd842ea91c8b8a9b",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_selected_weight_support_audit.py",
+      "role": "audit_source",
+      "sha256": "4189e63f2b938709f5da3319812676275e778ae9c5c54cd89ba08473e057d99a",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_weight_support_audit.py",
+      "stat": {
+        "st_ctime_ns": 1792866327258169613,
+        "st_dev": 26,
+        "st_ino": 23896,
+        "st_mtime_ns": 1792866327258169613,
+        "st_size": 7040
+      }
+    },
+    {
+      "bytes": 16771,
+      "git_blob_sha1": "c4af099fb6255db33f996894fcd13fba7bbf4a5f",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_test_release_guard.py",
+      "previous_remote_blob_sha1": "c4af099fb6255db33f996894fcd13fba7bbf4a5f",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_test_release_guard.py",
+      "role": "audit_source",
+      "sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release_guard.py",
+      "stat": {
+        "st_ctime_ns": 1792864890494350547,
+        "st_dev": 26,
+        "st_ino": 909,
+        "st_mtime_ns": 1792864890494350547,
+        "st_size": 16771
+      }
+    },
+    {
+      "bytes": 18977,
+      "git_blob_sha1": "fee976a621ff8d13fbcd8f508af342ae46286bc2",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_evidence/thermal_final/audit/v2_thermal_final_qualification_audit.py",
+      "previous_remote_blob_sha1": "fee976a621ff8d13fbcd8f508af342ae46286bc2",
+      "remote_action": "UNCHANGED",
+      "repo_path": "automation/local_bridge_operator/v2_evidence/thermal_final/audit/v2_thermal_final_qualification_audit.py",
+      "role": "audit_source",
+      "sha256": "41fb58680c95d3649404e93d86e260ba98f9d8e40fec981967c9e8cdb5e88092",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_thermal_final_qualification_audit.py",
+      "stat": {
+        "st_ctime_ns": 1792868537747643150,
+        "st_dev": 26,
+        "st_ino": 28573,
+        "st_mtime_ns": 1792868537747643150,
+        "st_size": 18977
+      }
+    },
+    {
+      "bytes": 7594,
+      "git_blob_sha1": "3d4a1165b7d5f87c8fc2e9d37262113906a85130",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_thermal_fine_identity_audit.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_thermal_fine_identity_audit.py",
+      "role": "audit_source",
+      "sha256": "4654af41de758ffb89f5e955aa01a4c0e5b8b7469db8b84f2af6878c88516266",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_thermal_fine_identity_audit.py",
+      "stat": {
+        "st_ctime_ns": 1792865699139017853,
+        "st_dev": 26,
+        "st_ino": 12614,
+        "st_mtime_ns": 1792865699139017853,
+        "st_size": 7594
+      }
+    },
+    {
+      "bytes": 14151,
+      "git_blob_sha1": "c8d3042335c8c209a42fecc2d73db478e5d8b63a",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_history/v2_final_fields_independent_audit_4773db32eaeb.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_history/v2_final_fields_independent_audit_4773db32eaeb.py",
+      "role": "audit_source",
+      "sha256": "4773db32eaeb4f96f77296060258eb3654d1b4ab846d7938500bd87dda613313",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_final_fields_independent_audit_4773db32eaeb.py",
+      "stat": {
+        "st_ctime_ns": 1792865617353112613,
+        "st_dev": 26,
+        "st_ino": 10564,
+        "st_mtime_ns": 1792865617353112613,
+        "st_size": 14151
+      }
+    },
+    {
+      "bytes": 14210,
+      "git_blob_sha1": "66ade4828f4668cd64ec6f8bb3145c4571fc5474",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_history/v2_final_fields_independent_audit_9d79c9200fb6.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_history/v2_final_fields_independent_audit_9d79c9200fb6.py",
+      "role": "audit_source",
+      "sha256": "9d79c9200fb6b9616ae0734689110c144593e4d95dea8be339a35d6545907ac7",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_final_fields_independent_audit_9d79c9200fb6.py",
+      "stat": {
+        "st_ctime_ns": 1792869389902672978,
+        "st_dev": 26,
+        "st_ino": 30725,
+        "st_mtime_ns": 1792869389902672978,
+        "st_size": 14210
+      }
+    },
+    {
+      "bytes": 7037,
+      "git_blob_sha1": "939b314bdc531f4b06461ba61618e3fc2acb8b28",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_history/v2_historical_baseline_freeze_ec04801c1c0f.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_history/v2_historical_baseline_freeze_ec04801c1c0f.py",
+      "role": "audit_source",
+      "sha256": "ec04801c1c0f130fc6866160f1daf8660532b683a2716b3bd408ea9bc411a8d5",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_historical_baseline_freeze_ec04801c1c0f.py",
+      "stat": {
+        "st_ctime_ns": 1792865617353018851,
+        "st_dev": 26,
+        "st_ino": 10563,
+        "st_mtime_ns": 1792865617353018851,
+        "st_size": 7037
+      }
+    },
+    {
+      "bytes": 10791,
+      "git_blob_sha1": "5a658e7208ae72ef47ffa7aee9d4b48dd5f77186",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_history/v2_historical_baseline_independent_audit_455c2977816a.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_history/v2_historical_baseline_independent_audit_455c2977816a.py",
+      "role": "audit_source",
+      "sha256": "455c2977816ac8701334725a99f5e6a298b3c27b1250f67f9daa6fa129c6a2e5",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_historical_baseline_independent_audit_455c2977816a.py",
+      "stat": {
+        "st_ctime_ns": 1792869389902744406,
+        "st_dev": 26,
+        "st_ino": 30726,
+        "st_mtime_ns": 1792869389902744406,
+        "st_size": 10791
+      }
+    },
+    {
+      "bytes": 10655,
+      "git_blob_sha1": "a1a59b1a05cf5eac4ef6105f6f168125022d1855",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_history/v2_rebar_initial_and_first_acquisition_audit_a0bf13cedf6c.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_history/v2_rebar_initial_and_first_acquisition_audit_a0bf13cedf6c.py",
+      "role": "audit_source",
+      "sha256": "a0bf13cedf6cfdb83b47206290ccea7faaa7a282d4bece72a95406933500e20b",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_rebar_initial_and_first_acquisition_audit_a0bf13cedf6c.py",
+      "stat": {
+        "st_ctime_ns": 1792869004017193818,
+        "st_dev": 26,
+        "st_ino": 29237,
+        "st_mtime_ns": 1792869004017193818,
+        "st_size": 10655
+      }
+    },
+    {
+      "bytes": 845,
+      "git_blob_sha1": "285e93b2f4e89fe88855f6321ed39dbcf05b84fb",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_evidence/audit_closed_interface/v2_final_metric_coordinate_identity_correction.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_evidence/audit_closed_interface/v2_final_metric_coordinate_identity_correction.json",
+      "role": "closed_correction_or_static_interface_evidence",
+      "sha256": "76a3655fad8065c421b70363f52cd7218ff2acd62e92771de7fad103ab710c36",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_metric_coordinate_identity_correction.json",
+      "stat": {
+        "st_ctime_ns": 1792865638515246769,
+        "st_dev": 26,
+        "st_ino": 11319,
+        "st_mtime_ns": 1792865638515246769,
+        "st_size": 845
+      }
+    },
+    {
+      "bytes": 2014,
+      "git_blob_sha1": "eb75ca3d681215f324449d8476c1c7067185df4a",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_evidence/audit_closed_interface/v2_adapter_error_interface_correction.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_evidence/audit_closed_interface/v2_adapter_error_interface_correction.json",
+      "role": "closed_correction_or_static_interface_evidence",
+      "sha256": "9db8b968da244f1a85a7b19d78ff9faec7ea4e711bb7c89a9e156d95acf0a78b",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_adapter_error_interface_correction.json",
+      "stat": {
+        "st_ctime_ns": 1792869416670383448,
+        "st_dev": 26,
+        "st_ino": 30820,
+        "st_mtime_ns": 1792869416670383448,
+        "st_size": 2014
+      }
+    },
+    {
+      "bytes": 503,
+      "git_blob_sha1": "7ba76ec62aa7233185ba33f22af309b489d59895",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_evidence/audit_closed_interface/v2_historical_baseline_initial_attempt.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_evidence/audit_closed_interface/v2_historical_baseline_initial_attempt.json",
+      "role": "closed_correction_or_static_interface_evidence",
+      "sha256": "b87cf5eac24e5d873bb4607e0b3d5ef27bd5291ee147db0ce0876eca9b73b4ed",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_historical_baseline_initial_attempt.json",
+      "stat": {
+        "st_ctime_ns": 1792865638509913044,
+        "st_dev": 26,
+        "st_ino": 10565,
+        "st_mtime_ns": 1792865638509913044,
+        "st_size": 503
+      }
+    },
+    {
+      "bytes": 5315,
+      "git_blob_sha1": "c61bf59b7a373a38a5555765cdec2af44186dfd8",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_evidence/audit_closed_interface/v2_report_interface_handoff.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_evidence/audit_closed_interface/v2_report_interface_handoff.json",
+      "role": "closed_correction_or_static_interface_evidence",
+      "sha256": "49207d9e22df762331ca8d2370ab3c3bb2e2e94551174b9e2d55d5d9ff14b062",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_report_interface_handoff.json",
+      "stat": {
+        "st_ctime_ns": 1792869468084465758,
+        "st_dev": 26,
+        "st_ino": 31032,
+        "st_mtime_ns": 1792869468084465758,
+        "st_size": 5315
+      }
+    },
+    {
+      "bytes": 8977,
+      "git_blob_sha1": "1964498185dde3debbef7b6f358b36f28b395c6e",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_evidence/audit_closed_interface/v2_closed_audit_source_publication_manifest.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_evidence/audit_closed_interface/v2_closed_audit_source_publication_manifest.json",
+      "role": "independent_closed_audit_source_whitelist",
+      "sha256": "ad2caa6f6acbed5e4d2879402a7461a1debccca3a753c78d975eea33ae7f5d72",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_closed_audit_source_publication_manifest.json",
+      "stat": {
+        "st_ctime_ns": 1792869468152344970,
+        "st_dev": 26,
+        "st_ino": 31034,
+        "st_mtime_ns": 1792869468152344970,
+        "st_size": 8977
+      }
+    },
+    {
+      "bytes": 618,
+      "git_blob_sha1": "5c4927ad648a0ba62a3169ec38149542a2d903f1",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_delivery/library_rebar_initial41_saved.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_delivery/library_rebar_initial41_saved.json",
+      "role": "confirmed_saved_initial41_archive_identity",
+      "sha256": "3f47d88357868380744e6a6f6ccf54f7b1d7c2a85168d6ba28ac7bd2d039a099",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_rebar_initial41_saved.json",
+      "stat": {
+        "st_ctime_ns": 1792869171865505070,
+        "st_dev": 26,
+        "st_ino": 29881,
+        "st_mtime_ns": 1792869171865505070,
+        "st_size": 618
+      }
+    },
+    {
+      "bytes": 4444,
+      "git_blob_sha1": "07a6e09d5dd369d01dff48531776c7e8682c6f35",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_delivery/closed_packaging/CLOSED_EVIDENCE_PACKAGING.md",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_delivery/closed_packaging/CLOSED_EVIDENCE_PACKAGING.md",
+      "role": "bounded_archive_preparation_no_live_packaging",
+      "sha256": "f37a84f573e641fffe940657b076936115ba27f65045c359847c77ca9c340f93",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/delivery/closed_packaging/CLOSED_EVIDENCE_PACKAGING.md",
+      "stat": {
+        "st_ctime_ns": 1792869510160323957,
+        "st_dev": 26,
+        "st_ino": 31182,
+        "st_mtime_ns": 1792869510160323957,
+        "st_size": 4444
+      }
+    },
+    {
+      "bytes": 1251,
+      "git_blob_sha1": "84ca2b105d527c53b3740b90d7aa0d1c2992b903",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_delivery/closed_packaging/packager_verification.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_delivery/closed_packaging/packager_verification.json",
+      "role": "bounded_archive_preparation_no_live_packaging",
+      "sha256": "ba1ed6ceb85cd50b9cd56b63f6ab1a41c21ba52eef10e3faf6bb159552faf042",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/delivery/closed_packaging/packager_verification.json",
+      "stat": {
+        "st_ctime_ns": 1792869510565325833,
+        "st_dev": 26,
+        "st_ino": 31204,
+        "st_mtime_ns": 1792869510565325833,
+        "st_size": 1251
+      }
+    },
+    {
+      "bytes": 27170,
+      "git_blob_sha1": "2306a8e912bf78b6cf361158655c65fe3f301b82",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_delivery/closed_packaging/v2_closed_evidence_packager.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_delivery/closed_packaging/v2_closed_evidence_packager.py",
+      "role": "bounded_archive_preparation_no_live_packaging",
+      "sha256": "648dc96f1989e9b60f8777ce4d2ed82bf0c52d856f9a338035bc82e9cd45ac50",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/delivery/closed_packaging/v2_closed_evidence_packager.py",
+      "stat": {
+        "st_ctime_ns": 1792869465926973129,
+        "st_dev": 26,
+        "st_ino": 30602,
+        "st_mtime_ns": 1792869465926973129,
+        "st_size": 27170
+      }
+    },
+    {
+      "bytes": 7519,
+      "git_blob_sha1": "baf5a30d01d052eaf38a83db9a71973df188d3ba",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_delivery/closed_packaging/verify_closed_packager.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_delivery/closed_packaging/verify_closed_packager.py",
+      "role": "bounded_archive_preparation_no_live_packaging",
+      "sha256": "67dac6d18f9dd2d5acbe3214d7a58b611cd807a4d3bf393293e6798a65d475d6",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/delivery/closed_packaging/verify_closed_packager.py",
+      "stat": {
+        "st_ctime_ns": 1792869509220295241,
+        "st_dev": 26,
+        "st_ino": 31179,
+        "st_mtime_ns": 1792869509220295241,
+        "st_size": 7519
+      }
+    },
+    {
+      "bytes": 16077,
+      "git_blob_sha1": "abd15be53ec51f90714c1d3d15e75421dfc3278a",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_delivery/report_probe_publication_v2/prepare_publication.py",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_delivery/report_probe_publication_v2/prepare_publication.py",
+      "role": "read_only_publication_preparation_provenance",
+      "sha256": "a6db0aa46936ae190fc3bfeabc0ef00e7dae40e57d7fc344e8e5e635f251043b",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/delivery/report_probe_publish_v2/prepare_publication.py",
+      "stat": {
+        "st_ctime_ns": 1792869582326548773,
+        "st_dev": 26,
+        "st_ino": 31502,
+        "st_mtime_ns": 1792869582326548773,
+        "st_size": 16077
+      }
+    },
+    {
+      "bytes": 2428,
+      "git_blob_sha1": "62a36c231d96bebf7510af22b4d11ad253bd8b37",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_delivery/report_probe_publication_v2/PUBLICATION_NOTES.md",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_delivery/report_probe_publication_v2/PUBLICATION_NOTES.md",
+      "role": "read_only_publication_preparation_provenance",
+      "sha256": "d2b06b33bd400b663e125d47a2bf374aa82a6bf86f89d2b94eda8195672fe862",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/delivery/report_probe_publish_v2/PUBLICATION_NOTES.md",
+      "stat": {
+        "st_ctime_ns": 1792869583262578368,
+        "st_dev": 26,
+        "st_ino": 31507,
+        "st_mtime_ns": 1792869583262578368,
+        "st_size": 2428
+      }
+    },
+    {
+      "bytes": 3181,
+      "git_blob_sha1": "ac0b5f26d901ca548fbbdc92890a1b33ea11e74b",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_delivery/report_probe_publication_v2/remote_directory_observation.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_delivery/report_probe_publication_v2/remote_directory_observation.json",
+      "role": "read_only_publication_preparation_provenance",
+      "sha256": "5451324593fdd2922a5dfc2ce1570b36e32458c82a788594ecdb947b06623f89",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/delivery/report_probe_publish_v2/remote_directory_observation.json",
+      "stat": {
+        "st_ctime_ns": 1792869201034878591,
+        "st_dev": 26,
+        "st_ino": 29985,
+        "st_mtime_ns": 1792869201034878591,
+        "st_size": 3181
+      }
+    },
+    {
+      "bytes": 75304,
+      "git_blob_sha1": "0f79fb7566698f06422729659942fefe7eed317e",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_delivery/report_probe_publication_v2/remote_git_tree_observation.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_delivery/report_probe_publication_v2/remote_git_tree_observation.json",
+      "role": "read_only_publication_preparation_provenance",
+      "sha256": "ac00748cec331e33b32895e2d5915a76c64dca50059d365d654fbe60221e0e9c",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/delivery/report_probe_publish_v2/remote_git_tree_observation.json",
+      "stat": {
+        "st_ctime_ns": 1792869265044827529,
+        "st_dev": 26,
+        "st_ino": 30228,
+        "st_mtime_ns": 1792869265044827529,
+        "st_size": 75304
+      }
+    },
+    {
+      "bytes": 29779,
+      "git_blob_sha1": "c013f2997aaa2118753caf54f1977da1d78995f1",
+      "local_path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_delivery/report_probe_publication_v2/runtime_source_mapping_publication_v2.json",
+      "previous_remote_blob_sha1": null,
+      "remote_action": "ADD",
+      "repo_path": "automation/local_bridge_operator/v2_delivery/report_probe_publication_v2/runtime_source_mapping_publication_v2.json",
+      "role": "explicit_runtime_to_repository_path_mapping",
+      "sha256": "518e7d03f544762509781d38c12191d1b62481abd7bff7d93a293abf8d449121",
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/delivery/report_probe_publish_v2/runtime_source_mapping_publication_v2.json",
+      "stat": {
+        "st_ctime_ns": 1792869583761147955,
+        "st_dev": 26,
+        "st_ino": 31510,
+        "st_mtime_ns": 1792869583761147955,
+        "st_size": 29779
+      }
+    }
+  ],
+  "formal_training_test_sources_modified": false,
+  "native_solver_calls": 0,
+  "new_test_inputs_or_responses_read": false,
+  "observed_remote_head": "c4312088d82accce4f5515a5d4220575e63b5602",
+  "payload_bytes": 1986892,
+  "repository": "Hiram-test/model",
+  "schema": "bridge.v2.lightweight.publication.inventory.v2",
+  "scientific_scope": "Report interface revision, separately closed negative decoder development, closed independent audit interface/history, confirmed saved receipt links, and future bounded archive tooling. No final report, formal model completion or new-test result is fabricated.",
+  "source_count": 91,
+  "status": "LOCAL_REPOSITORY_PAYLOAD_PREPARED_NOT_PUBLISHED"
+}

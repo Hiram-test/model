@@ -1,0 +1,43 @@
+{
+  "status": "PASS_STATIC_AND_SYNTHETIC_SEMANTIC_CHECKS",
+  "sources": {
+    "capture_runtime_snapshot.py": "7d41691d8ddd22e6761d7a46aaa9c3035a6968009bd43702616619f6e0f1bb86",
+    "v2_report.py": "e6936b891da65fc2e030642a777cf1a43958c2eefac741ab3540e0ad1e05638a",
+    "v2_report_charts.py": "2737321ec2c9e749d3074e34950c669c7f7bf5f364e9feec511b57112d996103",
+    "verify_report_generator.py": "26e72e2aab5a77d279d53fb3ad272b47fda97d0a5ff0315ab574ba85e9270ad8"
+  },
+  "checks": [
+    {
+      "check": "syntax_and_nonblank_comment_tokens",
+      "status": "PASS"
+    },
+    {
+      "check": "pre_release_V1_V2_and_permanent_sealed_read_guards",
+      "status": "PASS",
+      "files_opened": 0
+    },
+    {
+      "check": "analytic_qualified_denominator_and_native_failure_separation",
+      "status": "PASS",
+      "fixture_scope": "SYNTHETIC_LOGIC_ONLY_NOT_FEM"
+    },
+    {
+      "check": "analytic_per_frame_Frobenius_floor_T0_support_and_prescribed_masks",
+      "status": "PASS",
+      "fixture_scope": "SYNTHETIC_ANALYTIC_TENSOR_NOT_FEM"
+    },
+    {
+      "check": "missing_release_blocks_before_any_final_read_or_report",
+      "status": "PASS"
+    },
+    {
+      "check": "HTML_source_text_escaping",
+      "status": "PASS"
+    }
+  ],
+  "new_test_parameters_or_responses_read": false,
+  "actual_native_solves": 0,
+  "actual_optimizer_updates": 0,
+  "final_report_generated": false,
+  "synthetic_fixture_is_not_scientific_result": true
+}

@@ -1,0 +1,245 @@
+{
+  "schema": "bridge.research.constitutive_decoder.final_result_manifest.v1",
+  "decision": "NOT_PROMOTED",
+  "scope": "Independent completed original-development architecture; not one of six formal V2 models and not a new-test result.",
+  "training_process_exit_code": 0,
+  "original_seven_frozen_files_unchanged": true,
+  "historical_publication_commit": "3699854be363c8bcb41b4440038f21d67b0801d5",
+  "historical_publication_manifest_pending_status_is_superseded": true,
+  "actual_development_optimizer_steps": 96,
+  "actual_loss_calls": 384,
+  "actual_complete_cold_histories": 16,
+  "checkpoint_sha256": "c3062bdd0605fea19c54b7f7b82476a78e2a761f3603ef4b27e58e91cb4d5f96",
+  "stable_files": [
+    {
+      "relative_path": "BUNDLE_NOTE.md",
+      "bytes": 1531,
+      "sha256": "46ace4a71c20c634552883804484fc3e85443db069769fe986cb582732111dcd",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "PROBE_RESULT.md",
+      "bytes": 5699,
+      "sha256": "707bf90c8b406b561f7528d901caabb3da3fc318cebfcaac0ad2effcae3eb4b5",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "PROBE_SCOPE.md",
+      "bytes": 2480,
+      "sha256": "c3d8330bc389e6bb9d02c05f5407b8abc14fb0214055181a704e3311836241eb",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "constitutive_decoder.py",
+      "bytes": 7257,
+      "sha256": "70e44e7337835593c751bdd19d4f9fec88cbccd642755c48b215e3e7b4114799",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "finalize_probe_artifacts.py",
+      "bytes": 6228,
+      "sha256": "7108431b0ea7aa4204909dce3ba9d1d6fd0afe83e0519506c0e8042150965484",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "frozen_probe_plan.json",
+      "bytes": 14512,
+      "sha256": "fc5772d7cd534c0f9f7e65dc24235589848019a589d70b329e8be27972b272e3",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "material_import_source_identity.json",
+      "bytes": 725,
+      "sha256": "f345c65c5a6e062a85ef05cc031cf220c970bd82be5bba08a5749b6caf1b15c5",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "probe_status.json",
+      "bytes": 1298,
+      "sha256": "ae46b06a3ca3eb996a78e50e8382df0fbcccb5def528d44d75525bb8d92f2c94",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "publication_manifest.json",
+      "bytes": 2537,
+      "sha256": "23765212068718052d6ea582d7c80d174a0a0d7fd9b6ed9edff93bdb06e8b267",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "result_summary.json",
+      "bytes": 4651,
+      "sha256": "8532cffe521fa9a29adcb61914bbdf1c527fb4b3d262a83951609630e30ecf05",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "static_review.json",
+      "bytes": 982,
+      "sha256": "5d753e1c33cd06d6710cc8556515029ebb01df44954de556e315789da499ece7",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "train_constitutive_decoder_probe.py",
+      "bytes": 23199,
+      "sha256": "eb1b6f54bddea49caa11270a2acf6c0695624d6234aa87827f6d78e2d671bf70",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/actual_work.json",
+      "bytes": 642,
+      "sha256": "19245424f379090718ca77fae7d0e081dcdf61f34dc3902415f68994887b12a0",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/actual_work_events.jsonl",
+      "bytes": 198570,
+      "sha256": "64925bfafc815f5660221a8d83571b38e308aee15c4d97b3be05ca1546e391a3",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/checkpoint_tensor_audit.json",
+      "bytes": 65705,
+      "sha256": "607065d75e0de17b6a77f371bb4757d7837bbda55ef8ad67eb609b5aa792b61d",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/constitutive_4ba3802d5f40.py",
+      "bytes": 8465,
+      "sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/decoder_source.py",
+      "bytes": 7257,
+      "sha256": "70e44e7337835593c751bdd19d4f9fec88cbccd642755c48b215e3e7b4114799",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/epoch_1.pt",
+      "bytes": 299578,
+      "sha256": "0376cff76a6bc0b586ad1061e531706b499e94e12c0fe48c22d73fe7e726c7c5",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/epoch_2.pt",
+      "bytes": 299578,
+      "sha256": "812b8bb7c3a9103da9e63ef7b3a597f6991c3a764ced113fb94d694ab64080bb",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/first_state_group_gradients.json",
+      "bytes": 5056,
+      "sha256": "8e1b7ae8c592f91f5374708690aff5f08a24f4006316a6b6b894c22205920150",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/history.json",
+      "bytes": 505014,
+      "sha256": "517d143ad429219e81947054c057e596f6c66e8e70e7e32d6e975ec99f858efd",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/independent_review.json",
+      "bytes": 9566,
+      "sha256": "0aa3c750fa52002aaf381450edd55fbb2c0d9d7afd98e89b457e6b245d5564b7",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/initial_amplitude_and_groups.json",
+      "bytes": 13371,
+      "sha256": "e8c0111891a60c2a72822c4784aa610b9a07197576ae389da3dd2264c4b00cc8",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/initial_validation.json",
+      "bytes": 142657,
+      "sha256": "19b9f9d251daa44b8c456d66943ffa4daeb7d57e9433aaa6726af48b52b75381",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/model.pt",
+      "bytes": 102137,
+      "sha256": "c3062bdd0605fea19c54b7f7b82476a78e2a761f3603ef4b27e58e91cb4d5f96",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/physics_rebar_c2a7fb88adbc.py",
+      "bytes": 16407,
+      "sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/probe_contract.json",
+      "bytes": 19641,
+      "sha256": "d374741105ad402a7f571ec4fb9b6e96935a0251478845f80e3f7f006e797e51",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/probe_result.json",
+      "bytes": 165979,
+      "sha256": "343617f1e134ffa11d36165a2a1b448a18a8f9a17ee38145f9e8fef062c23356",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/runner_source.py",
+      "bytes": 23199,
+      "sha256": "eb1b6f54bddea49caa11270a2acf6c0695624d6234aa87827f6d78e2d671bf70",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/selected_amplitude_and_groups.json",
+      "bytes": 13368,
+      "sha256": "4856fe6c8208e09cef0bd45055a00cd14a7456a125af58fdc58ec730310c1729",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/selected_epoch_tensor_match.json",
+      "bytes": 20494,
+      "sha256": "dfed2f20c74d216bbfb9b6ea53262d5b443a70062742e69e45ab80dd9618b57c",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training/selected_validation.json",
+      "bytes": 142649,
+      "sha256": "29b804d45ff2823e1dd8029b064d1fb9ec7e24b4dcd2700abc2728a7a8629e3e",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "training_run.log",
+      "bytes": 2251,
+      "sha256": "ee12808939cbcf63a238d7744036186bfe55b69a8aca8ed07a70a9e077468bec",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "verification/constitutive_4ba3802d5f40.py",
+      "bytes": 8465,
+      "sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "verification/physics_rebar_c2a7fb88adbc.py",
+      "bytes": 16407,
+      "sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "verification/verification.json",
+      "bytes": 11597,
+      "sha256": "ec1e901a665868a5af53b2e64e3e99436347cd2104f71be2313103450c23a212",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "verification_run.log",
+      "bytes": 1274,
+      "sha256": "e4d1999b180e2e61db647b1124d02eac5e7475b992706fd5aa75e6eccde826b4",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    },
+    {
+      "relative_path": "verify_constitutive_decoder.py",
+      "bytes": 13691,
+      "sha256": "f4f11d4d5f8525edc237b851c2f176c576cacdc047bae7a87a9d5ca977497a88",
+      "status": "CLOSED_FROZEN_SAFE_TO_COPY"
+    }
+  ],
+  "scientific_response_arrays_added": false,
+  "formal_V2_or_new_tests_modified": false
+}

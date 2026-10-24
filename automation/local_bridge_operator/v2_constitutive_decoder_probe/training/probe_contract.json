@@ -1,0 +1,521 @@
+{
+  "schema": "bridge.research.constitutive_decoder.probe_contract.v1",
+  "architecture_variant": "research_complete_graph_constitutive_stress_decoder_v1",
+  "decoder_source_sha256": "70e44e7337835593c751bdd19d4f9fec88cbccd642755c48b215e3e7b4114799",
+  "runner_source_sha256": "eb1b6f54bddea49caa11270a2acf6c0695624d6234aa87827f6d78e2d671bf70",
+  "initial_stage_spec_sha256": "90b558ad6d8d9bd1c6f3d97e4b701360d3d9468d08ad95105d22303fac3a64a6",
+  "initial_checkpoint": {
+    "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/initial/seed_17/model.pt",
+    "sha256": "ba9f5ed7f36b47505612ab9c4e27878248d29e3f823c2c40286e72aba13e3c0e",
+    "source_architecture": "absolute_normalized_state",
+    "prediction_function_equivalent": false
+  },
+  "verification_receipt_sha256": "ec1e901a665868a5af53b2e64e3e99436347cd2104f71be2313103450c23a212",
+  "inherited_source_files": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_experiment_contract.py",
+      "sha256": "f470e45473d5383b71c4254934eb265e934c935e350d6b7478714b2495c2fb05"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_release_completion_audit.py",
+      "sha256": "bd3b8762904589da46bc40f1535f6768c4bec86af7a352ad9216ffcd9978dfb2"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release_guard.py",
+      "sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_native.py",
+      "sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_physics.py",
+      "sha256": "b091a5663bd6b51e6604549f203c7352563834d2e0dd38ec9be381b9a57cbf5a"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller.py",
+      "sha256": "95c1209149c04b90297047b9874049e806dd471f26235e8ad02afb373eb9c477"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+      "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_finalize.py",
+      "sha256": "2e7103a6958d43628168e62deaff6f6448bd518bab644cfb4f9a64b0064295da"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_invariants.py",
+      "sha256": "734332d2bc8e6642a79aef2ef5f879680540acef517b92b5dd301ba70e9de225"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_verify.py",
+      "sha256": "f3137b4cfd1cccfd15881611e06cfc841892c99391af091301af102eb869dc53"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+      "sha256": "109afa21a1428c673ead73d094ec5aca4f1ffa3a4d6fc0fbd8268ee3fb6b3d47"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_guard_v3.py",
+      "sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v4.py",
+      "sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_constitutive.py",
+      "sha256": "a012b2cd6d3ae8f9ee6212f39f6fa70d150ee99fb17c9922475bf6b159f57b38"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_constitutive_v2.py",
+      "sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics.py",
+      "sha256": "488430b5daf28714912ca46448c9cf62feaf7b0bbd3aed586a414bd827bda78b"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics_v3.py",
+      "sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_friction.py",
+      "sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_friction_checks.py",
+      "sha256": "bab185a70eccfc9b41548d85900a1f99d0d6bd964a63d8c892760424f59f2201"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_input_guard.py",
+      "sha256": "00c4de41c58c3cbb23734fb26f4b4fd2248af685c8ac56ca7b66952bdff07a6e"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_operator.py",
+      "sha256": "c6e285f103dfb4ea13a50e3e884ebc91027857db7763b78ea5fa2a8413a0ffd4"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_operator_validation.py",
+      "sha256": "45f30cfcec0187d8d9e5fcea39535e15b27dc6deca00ea328ee448a97a308023"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_quadratic.py",
+      "sha256": "0e863fec314794c9554ea23b64a93bcf19b755d9ced96eeac45095ef8ba2950e"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar.py",
+      "sha256": "73c82e378f83251e484b0c731473a590ba3fe950d8cabafd76f38aa7ce7efbde"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar_quadratic.py",
+      "sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/contact_audit.py",
+      "sha256": "0a852caf1329d99c61c5b210a1609103bf33915509f26a3d90bc1d4c69470ea9"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/contact_solver.py",
+      "sha256": "a03f43548f8ea2c80b99bc0369d62d546862a3f4b36d5a2d8ca0facc4494ae58"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_acquisition.py",
+      "sha256": "24e94096afde654b0260551efc15647a988ecae7e5729cd58109aa38ae8af261"
+    }
+  ],
+  "physics_provenance": {
+    "original_path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics_v3.py",
+    "source_sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a",
+    "snapshot": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/physics_rebar_c2a7fb88adbc.py",
+    "dependencies": {
+      "v2_rebar_constitutive_v2.py": {
+        "source_sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c",
+        "snapshot": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/constitutive_4ba3802d5f40.py"
+      }
+    }
+  },
+  "epochs": 2,
+  "seed": 17,
+  "visits_per_epoch": 8,
+  "times_per_history": 25,
+  "entities": 5232,
+  "channels": 24,
+  "solid_integration_points": 3024,
+  "TBPTT": 4,
+  "teacher_forcing": false,
+  "optimizer": {
+    "name": "AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 1e-05,
+    "clip_norm": 1.0
+  },
+  "normalization": {
+    "control_mean": [
+      0.5,
+      0.21010206639766693,
+      0.02767013944685459
+    ],
+    "control_scale": [
+      0.30046260356903076,
+      0.4141570031642914,
+      0.24702009558677673
+    ],
+    "feature_mean": [
+      0.3902451992034912,
+      2.194802561916731e-09,
+      -1.266328153448626e-09,
+      0.17431192100048065,
+      0.4954128563404083,
+      0.08256880939006805,
+      0.08256880939006805,
+      0.1651376187801361,
+      1.000311017036438,
+      375.10931396484375,
+      15.991718292236328,
+      0.8940340876579285,
+      0.580354630947113,
+      0.05741353705525398,
+      0.00917431153357029,
+      0.17431192100048065,
+      0.17431192100048065
+    ],
+    "feature_scale": [
+      0.23777858912944794,
+      0.23536613583564758,
+      0.23536616563796997,
+      0.37927213311195374,
+      0.49998044967651367,
+      0.2752559185028076,
+      0.27525559067726135,
+      0.3713493049144745,
+      0.1112392246723175,
+      43.49885177612305,
+      2.312227964401245,
+      0.24100543558597565,
+      0.140011727809906,
+      0.01690610498189926,
+      0.09537065774202347,
+      0.37927499413490295,
+      0.37927499413490295
+    ],
+    "field_groups": [
+      "displacement",
+      "displacement",
+      "displacement",
+      "cauchy_stress",
+      "cauchy_stress",
+      "cauchy_stress",
+      "cauchy_stress",
+      "cauchy_stress",
+      "cauchy_stress",
+      "equivalent_plastic_strain",
+      "plastic_metric",
+      "plastic_metric",
+      "plastic_metric",
+      "plastic_metric",
+      "plastic_metric",
+      "plastic_metric",
+      "backstress",
+      "backstress",
+      "backstress",
+      "backstress",
+      "backstress",
+      "backstress",
+      "interface_slip",
+      "interface_shear_traction"
+    ],
+    "fields": [
+      "ux",
+      "uy",
+      "uz",
+      "sxx",
+      "syy",
+      "szz",
+      "sxy",
+      "sxz",
+      "syz",
+      "peeq",
+      "plastic_metric_xx",
+      "plastic_metric_yy",
+      "plastic_metric_zz",
+      "plastic_metric_xy",
+      "plastic_metric_xz",
+      "plastic_metric_yz",
+      "backstress_xx",
+      "backstress_yy",
+      "backstress_zz",
+      "backstress_xy",
+      "backstress_xz",
+      "backstress_yz",
+      "bond_slip",
+      "bond_traction"
+    ],
+    "fit_ids": [
+      "full27_all_axial12_free4",
+      "rebar_train_01",
+      "rebar_train_02",
+      "rebar_train_03",
+      "rebar_train_04",
+      "rebar_train_05",
+      "rebar_train_06",
+      "rebar_train_07"
+    ],
+    "floor_fraction": 0.01,
+    "group_scales": {
+      "backstress": 4.530428465238783,
+      "cauchy_stress": 82.08172140059631,
+      "displacement": 0.06380498557948724,
+      "equivalent_plastic_strain": 0.032656659685147735,
+      "interface_shear_traction": 7.795360701398806,
+      "interface_slip": 0.031286095299014764,
+      "plastic_metric": 0.007104641771425653
+    },
+    "primary_negative_gate": "commensurate physical vector/tensor groups, unknown entries only",
+    "state_offset": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "state_scale": [
+      0.06380498557948724,
+      0.06380498557948724,
+      0.06380498557948724,
+      82.08172140059631,
+      82.08172140059631,
+      82.08172140059631,
+      82.08172140059631,
+      82.08172140059631,
+      82.08172140059631,
+      0.032656659685147735,
+      0.007104641771425653,
+      0.007104641771425653,
+      0.007104641771425653,
+      0.007104641771425653,
+      0.007104641771425653,
+      0.007104641771425653,
+      4.530428465238783,
+      4.530428465238783,
+      4.530428465238783,
+      4.530428465238783,
+      4.530428465238783,
+      4.530428465238783,
+      0.031286095299014764,
+      7.795360701398806
+    ],
+    "temperature_reference": "initial native temperature subtracted before thermal-response normalization",
+    "xyz_mean": [
+      62.442623138427734,
+      -4.556930111032642e-10,
+      -9.113860360843162e-11
+    ],
+    "xyz_scale": [
+      181.128662109375,
+      60.0,
+      60.0
+    ]
+  },
+  "physics_weights": {
+    "Cp_spd": 1.0,
+    "J_positive": 10.0,
+    "auxiliary_mpc": 1.0,
+    "bond_law": 0.1,
+    "bond_slip": 1.0,
+    "concrete_stress_closure": 0.1,
+    "elastic_backstress_constancy": 0.01,
+    "elastic_metric_constancy": 0.01,
+    "normal_compatibility": 1.0,
+    "peeq_monotone": 1.0,
+    "peeq_nonnegative": 1.0,
+    "plateau_backstress_constancy": 0.01,
+    "prescribed_displacement": 1.0,
+    "steel_stress_closure": 0.1,
+    "weak_equilibrium": 0.1
+  },
+  "training_ids": [
+    "full27_all_axial12_free4",
+    "rebar_train_01",
+    "rebar_train_02",
+    "rebar_train_03",
+    "rebar_train_04",
+    "rebar_train_05",
+    "rebar_train_06",
+    "rebar_train_07"
+  ],
+  "validation_ids": [
+    "rebar_validation_08",
+    "rebar_validation_09",
+    "rebar_validation_10"
+  ],
+  "native_label_identities": [
+    {
+      "group_id": "rebar_group_00",
+      "id": "full27_all_axial12_free4",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/full27_all_axial12_free4/metadata.json",
+        "sha256": "5e8a383ccea57a8e2f186a1345aef9497ca39a0cd0c7a8dff50924b2e45c1fcf"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/full27_all_axial12_free4/fields.npz",
+        "sha256": "2550ff3e0049c807c391a3d19b1a44331f80ff629ff138d062dabc309c84b929"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "rebar_group_01",
+      "id": "rebar_train_01",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_01/metadata.json",
+        "sha256": "80517b778caafffa14b30767c09bccae0069cd93d7a436f82132a59d75c43b0a"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_01/fields.npz",
+        "sha256": "3ae52868a06e7e0b5cd538066f1c75e6cc5a2c42ea5591b29ada0cb473b81297"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "rebar_group_02",
+      "id": "rebar_train_02",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_02/metadata.json",
+        "sha256": "fb75e37df24efbb2e638e7c7ba17daafced98fbc616513d1f45c558e1bc872c6"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_02/fields.npz",
+        "sha256": "824cbd4c743bea41aa6967ede8098422f6a942a58173cee83c3ce5a56b369ef2"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "rebar_group_03",
+      "id": "rebar_train_03",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_03/metadata.json",
+        "sha256": "3a4af7701b0140db3bc96df697fff3c7588a4491da72e749d61e7db2a125ef82"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_03/fields.npz",
+        "sha256": "06754e42bbfee11eb1b37544cfa5e5ee8618929d74764d9a52981cafb057e1f1"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "rebar_group_04",
+      "id": "rebar_train_04",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_04/metadata.json",
+        "sha256": "72cc51d982928e925a14692130277a21bc2e67f0498d708fe39615c930e7bf5e"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_04/fields.npz",
+        "sha256": "a7c2fa9fa1992b1169d2cbbbe9dadda3e45b0e14a1ed79446047b4c478c5a843"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "rebar_group_05",
+      "id": "rebar_train_05",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_05/metadata.json",
+        "sha256": "e3a342aca53ae27ae80bf9cc5541f4cc0a369c003f2fd20b3854f76a69f8b974"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_05/fields.npz",
+        "sha256": "98b685033479afc1d3dadc1ab401b2b09937747bd7787334f8a8e208882c3fdd"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "rebar_group_06",
+      "id": "rebar_train_06",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_06/metadata.json",
+        "sha256": "2f3f92005a116edacceaa8369bf6601a305362643e204e4a358b8a6fcd165496"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_06/fields.npz",
+        "sha256": "426ef57835b31ea1053f6be879dc4f212a855512c446b08e8dc8a4e8b7dee0db"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "rebar_group_07",
+      "id": "rebar_train_07",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_07/metadata.json",
+        "sha256": "261cf36b8f872afa89851bff82bab7ab212c80ee018bcaff60134a2c3f94660e"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_07/fields.npz",
+        "sha256": "dc402673c440a2bd4f010b47f2deb65ce840d267938ff437b2b4686a35237720"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "rebar_group_08",
+      "id": "rebar_validation_08",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_validation_08/metadata.json",
+        "sha256": "abcfd81f7d18e2d18133bbd84b2759b4735869571b14b4c37c2a6f185584bbd5"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_validation_08/fields.npz",
+        "sha256": "19b576d1b20da7024c7acb4cdbea4187da83b6db7281a0d336c7c1585a4200a6"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "rebar_group_09",
+      "id": "rebar_validation_09",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_validation_09/metadata.json",
+        "sha256": "6d68812f20f387512ed7a4c38219b53c251ac8dfb38147052b7910f00192ae8b"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_validation_09/fields.npz",
+        "sha256": "2a7a5f285a468e0218fcd0a00f2420fb97ffe4499fcdeda091814d2c85a77d0a"
+      },
+      "quality": "VALID_CONVERGED"
+    },
+    {
+      "group_id": "rebar_group_10",
+      "id": "rebar_validation_10",
+      "metadata": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_validation_10/metadata.json",
+        "sha256": "3b281a59fe4f1493c6c650ae4ab18fd9459e862a5f00159a68653cd44298fe94"
+      },
+      "npz": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_validation_10/fields.npz",
+        "sha256": "1bbd839cab4fa02daf6d264806b076dfa9a9b70942ba78ee1717f9ac6dadc117"
+      },
+      "quality": "VALID_CONVERGED"
+    }
+  ],
+  "authorization_note": "operator-approved after thermal release",
+  "formal_V2_models_or_selection_modified": false,
+  "new_test_or_candidate_fields_opened": false,
+  "selection_scope": "Within this exploratory architecture only; no entry into the six formal V2 model selections. Algebraic closure is construction-enforced, so joint-score changes across architectures are not sufficient evidence of learning improvement."
+}

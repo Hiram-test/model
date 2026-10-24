@@ -12,6 +12,8 @@ python /dev/shm/bridge_complex_v2_20261025/report/v2_report.py \
 
 生成器先核固定 `audit/v2_test_release_verification.json` 与 `v2_test_release.json`，再核独立20阶段／8轮补算审计、模型实际 SHA、控制器执行锁、独立完整场审计，以及全部选中原生参考的原始字节／实体身份审计。它永远拒绝读取封存输入描述文件；放行前拒绝读取 V1/V2 最终测试目录。证据缺失或不一致时退出码为2，仅写 `report_generation_blocked.json`，不写最终 HTML 或完成摘要。
 
+本次报告接口版本另强制要求 `v2_selected_weight_support_audit.json` 的最终20阶段／六发射检查点PASS。`available_training_ids` 和最终 `selected_weight_training_support_ids` 分开呈现；验证回退incoming（epoch−1）必须有独立逐张量相等证明并继承输入支持，不能把新可用标签都归功给最终权重。十阶段的局部观察不满足最终门。
+
 输出：
 
 - `V2非线性神经算子实验报告.html`：自包含中文报告，嵌入真实统计图与已核验的5张原生结果／尺寸图。
@@ -22,6 +24,12 @@ python /dev/shm/bridge_complex_v2_20261025/report/v2_report.py \
 报告将真实独立工况与分组、历史访问、帧损失、优化更新分开。原生失败保留注册分母，但不计作NN–FEM误差负样本。模型比较仅使用同一批新参考；历史V1仅在单独独立完整场与配对审计PASS后显示，原发射为V1 active单seed17的absolute_normalized_state，明确不属于等算力且仅改loss的消融。
 
 热—力读取其最终资格收据，允许真实HOLD；未提供则显示缺失，不从coarse解、dataset接口或规划推导“已训练”。5张原生图的绘图PASS仅表示字段与图像核验，研究试件尺寸图不是扎青吊桥施工图。材料端点闭合与完整原生J2增量路径、固定离散与连续体参考资格、正式结果与开发应力缩小／梯度对照分别报告。
+
+当前热最终资格及独立审计均以实际SHA锁定：三层空间离散的6个原生作业全部完成，但最后双向完整应力差7.701%／9.636%超过冻结5%门限，状态为 `CLOSED_REFERENCE_HOLD`；时间细化和热神经训练未执行。独立字节／全实体完整性PASS不会变成参考精度PASS。额外C3D10T温度插值A/B仍属同一条物理历史，单列计数。
+
+新增独立本构应力解码器负结果短节，引用冻结 `result_summary.json`、`PROBE_RESULT.md`、`final_result_manifest.json` 及原生/梯度核对和独立事件审计。仅旧8训练／3验证：2epoch、96更新、384帧损失、16完整访问；原生回代831,600点帧与有限差分/未来标签毒化验证通过，但字段误差270.162%对旧两epoch参考72.437%，弱残差72.191对0.462843，构造闭合约2.91e−7。结论为NOT_PROMOTED；不是新test比较，不属于正式六模型，不并入正式26,880步。
+
+上一个报告接口及其源freeze完整保存在 `history/before_thermal_probe_support_v2/`，有逐文件SHA历史收据。新源只影响报告，不改任何正式训练、测试、门限或指标。当前接口冻结见 `generator_source_freeze_v2.json`。
 
 `runtime_observation.json` 是生成器准备时对共享环境的实际观察，包含Python、torch、numpy、scipy、matplotlib及原生wrapper/ELF完整SHA；不冒充每个历史进程的启动收据。项目是固定绝对路径科研运行快照，GitHub源码之外仍依赖旧V1数据、模型、原生求解器和已保存证据，不能声称clone后无依赖运行。
 

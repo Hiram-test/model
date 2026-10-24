@@ -1,0 +1,43 @@
+{
+  "checks": [
+    "explicit_recorded_adapter_error_is_unavailable_not_neural_physics_negative",
+    "missing_traceback_rejected",
+    "unrelated_exception_name_rejected",
+    "false_overall_PASS_rejected",
+    "false_neural_physics_negative_rejected",
+    "changed_adapter_source_rejected",
+    "empty_history_without_explicit_exception_rejected",
+    "complete_native_PASS_retains_frozen_predicates",
+    "numerical_native_HOLD_stays_distinct_from_adapter_exception",
+    "metric_group_unchanged_AST",
+    "physics_status_unchanged_AST"
+  ],
+  "frozen_training_or_finalizer_source_changed": false,
+  "new_baseline_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_historical_baseline_independent_audit.py",
+    "sha256": "466d323344d933c2051a3aeedbe0c85add30bfb25c43fc7acd4ab3dad489b60f"
+  },
+  "new_final_fields_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.py",
+    "sha256": "27764e270af732fadfa315f944a4b3d7de7d10fe4c7ac8d98bf4ef19f399b7d8"
+  },
+  "new_solver_calls": 0,
+  "new_test_fields_read": false,
+  "new_training_updates": 0,
+  "numerical_error_formula_or_threshold_changed": false,
+  "old_baseline_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_historical_baseline_independent_audit_455c2977816a.py",
+    "sha256": "455c2977816ac8701334725a99f5e6a298b3c27b1250f67f9daa6fa129c6a2e5"
+  },
+  "old_final_fields_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/source_history/v2_final_fields_independent_audit_9d79c9200fb6.py",
+    "sha256": "9d79c9200fb6b9616ae0734689110c144593e4d95dea8be339a35d6545907ac7"
+  },
+  "real_native_or_neural_test_results": false,
+  "source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_adapter_error_interface_verification.py",
+    "sha256": "c31b8b9d9d8b645da95646e589cf089e76cf37b7d79258a9a98c5367a77376ba"
+  },
+  "status": "PASS_SYNTHETIC_ADAPTER_EXCEPTION_INTERFACE_WITH_UNCHANGED_NUMERICAL_GATES",
+  "synthetic_only": true
+}

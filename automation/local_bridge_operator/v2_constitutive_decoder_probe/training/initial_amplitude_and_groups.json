@@ -1,0 +1,407 @@
+[
+  {
+    "id": "rebar_validation_08",
+    "physical_groups": [
+      {
+        "group": "backstress",
+        "fields": [
+          "backstress_xx",
+          "backstress_yy",
+          "backstress_zz",
+          "backstress_xy",
+          "backstress_xz",
+          "backstress_yz"
+        ],
+        "relative_L2": 0.850784829220834,
+        "reference_norm": 415.6886209318397,
+        "normalization_floor": 13.839105698427918,
+        "weighted_unknown_values": 93312.0,
+        "threshold": 0.1,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "cauchy_stress",
+        "fields": [
+          "sxx",
+          "syy",
+          "szz",
+          "sxy",
+          "sxz",
+          "syz"
+        ],
+        "relative_L2": 10.48875325507478,
+        "reference_norm": 26351.927394558807,
+        "normalization_floor": 663.3828270669497,
+        "weighted_unknown_values": 653184.0,
+        "threshold": 0.1,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "displacement",
+        "fields": [
+          "ux",
+          "uy",
+          "uz"
+        ],
+        "relative_L2": 0.6530763229841121,
+        "reference_norm": 11.238288413222387,
+        "normalization_floor": 0.18375835846892327,
+        "weighted_unknown_values": 82944.0,
+        "threshold": 0.05,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "equivalent_plastic_strain",
+        "fields": [
+          "peeq"
+        ],
+        "relative_L2": 1.1697417468171967,
+        "reference_norm": 1.6500759493474282,
+        "normalization_floor": 0.0332521135405478,
+        "weighted_unknown_values": 10368.0,
+        "threshold": 0.15,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "interface_shear_traction",
+        "fields": [
+          "bond_traction"
+        ],
+        "relative_L2": 0.3731002606026073,
+        "reference_norm": 946.4599572528441,
+        "normalization_floor": 7.9374994758060735,
+        "weighted_unknown_values": 10368.0,
+        "threshold": 0.1,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "interface_slip",
+        "fields": [
+          "bond_slip"
+        ],
+        "relative_L2": 0.8725075431050885,
+        "reference_norm": 5.471199480754685,
+        "normalization_floor": 0.03185655860560595,
+        "weighted_unknown_values": 10368.0,
+        "threshold": 0.15,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "plastic_metric",
+        "fields": [
+          "plastic_metric_xx",
+          "plastic_metric_yy",
+          "plastic_metric_zz",
+          "plastic_metric_xy",
+          "plastic_metric_xz",
+          "plastic_metric_yz"
+        ],
+        "relative_L2": 1.2835747418758447,
+        "reference_norm": 0.4221811809016612,
+        "normalization_floor": 0.021702558417737553,
+        "weighted_unknown_values": 93312.0,
+        "threshold": 0.15,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      }
+    ],
+    "mean_group_error": 2.2416483856686376,
+    "stress_amplitude": {
+      "all": {
+        "predicted_Frobenius_norm": 279540.0526620382,
+        "reference_Frobenius_norm": 26351.9273945588,
+        "prediction_to_reference_norm_ratio": 10.607954722877622
+      },
+      "steel": {
+        "predicted_Frobenius_norm": 279323.4106363721,
+        "reference_Frobenius_norm": 26261.58600688329,
+        "prediction_to_reference_norm_ratio": 10.63619731737299
+      },
+      "concrete": {
+        "predicted_Frobenius_norm": 11003.331893555813,
+        "reference_Frobenius_norm": 2180.1783897585733,
+        "prediction_to_reference_norm_ratio": 5.046986955399686
+      }
+    },
+    "minimum_det_F": 0.8912010259096477,
+    "plateau_activation_point_times": 1293,
+    "elastic_implication_activation_point_times": 304,
+    "history_scope": "Endpoint implications only; zero activation is not evidence of complete J2 flow."
+  },
+  {
+    "id": "rebar_validation_09",
+    "physical_groups": [
+      {
+        "group": "backstress",
+        "fields": [
+          "backstress_xx",
+          "backstress_yy",
+          "backstress_zz",
+          "backstress_xy",
+          "backstress_xz",
+          "backstress_yz"
+        ],
+        "relative_L2": 0.8134510258387404,
+        "reference_norm": 1102.028687928576,
+        "normalization_floor": 13.839105698427918,
+        "weighted_unknown_values": 93312.0,
+        "threshold": 0.1,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "cauchy_stress",
+        "fields": [
+          "sxx",
+          "syy",
+          "szz",
+          "sxy",
+          "sxz",
+          "syz"
+        ],
+        "relative_L2": 29.766501352116247,
+        "reference_norm": 21630.24596182159,
+        "normalization_floor": 663.3828270669497,
+        "weighted_unknown_values": 653184.0,
+        "threshold": 0.1,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "displacement",
+        "fields": [
+          "ux",
+          "uy",
+          "uz"
+        ],
+        "relative_L2": 0.7269650801226054,
+        "reference_norm": 12.699976462118592,
+        "normalization_floor": 0.18375835846892327,
+        "weighted_unknown_values": 82944.0,
+        "threshold": 0.05,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "equivalent_plastic_strain",
+        "fields": [
+          "peeq"
+        ],
+        "relative_L2": 0.6579750623959302,
+        "reference_norm": 4.724741054277712,
+        "normalization_floor": 0.0332521135405478,
+        "weighted_unknown_values": 10368.0,
+        "threshold": 0.15,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "interface_shear_traction",
+        "fields": [
+          "bond_traction"
+        ],
+        "relative_L2": 0.3247882519287987,
+        "reference_norm": 754.2334155510748,
+        "normalization_floor": 7.9374994758060735,
+        "weighted_unknown_values": 10368.0,
+        "threshold": 0.1,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "interface_slip",
+        "fields": [
+          "bond_slip"
+        ],
+        "relative_L2": 0.8622058826112474,
+        "reference_norm": 1.6194819511337344,
+        "normalization_floor": 0.03185655860560595,
+        "weighted_unknown_values": 10368.0,
+        "threshold": 0.15,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "plastic_metric",
+        "fields": [
+          "plastic_metric_xx",
+          "plastic_metric_yy",
+          "plastic_metric_zz",
+          "plastic_metric_xy",
+          "plastic_metric_xz",
+          "plastic_metric_yz"
+        ],
+        "relative_L2": 0.994181581104711,
+        "reference_norm": 1.7352747622639209,
+        "normalization_floor": 0.021702558417737553,
+        "weighted_unknown_values": 93312.0,
+        "threshold": 0.15,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      }
+    ],
+    "mean_group_error": 4.878009748016899,
+    "stress_amplitude": {
+      "all": {
+        "predicted_Frobenius_norm": 645465.0464157559,
+        "reference_Frobenius_norm": 21630.24596182159,
+        "prediction_to_reference_norm_ratio": 29.840855603539243
+      },
+      "steel": {
+        "predicted_Frobenius_norm": 645394.4846285386,
+        "reference_Frobenius_norm": 21537.061277774283,
+        "prediction_to_reference_norm_ratio": 29.966692126867365
+      },
+      "concrete": {
+        "predicted_Frobenius_norm": 9543.864812378713,
+        "reference_Frobenius_norm": 2005.6250612452134,
+        "prediction_to_reference_norm_ratio": 4.758548841852477
+      }
+    },
+    "minimum_det_F": 0.8225349159790579,
+    "plateau_activation_point_times": 2185,
+    "elastic_implication_activation_point_times": 804,
+    "history_scope": "Endpoint implications only; zero activation is not evidence of complete J2 flow."
+  },
+  {
+    "id": "rebar_validation_10",
+    "physical_groups": [
+      {
+        "group": "backstress",
+        "fields": [
+          "backstress_xx",
+          "backstress_yy",
+          "backstress_zz",
+          "backstress_xy",
+          "backstress_xz",
+          "backstress_yz"
+        ],
+        "relative_L2": 0.793166752882157,
+        "reference_norm": 552.2746022004245,
+        "normalization_floor": 13.839105698427918,
+        "weighted_unknown_values": 93312.0,
+        "threshold": 0.1,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "cauchy_stress",
+        "fields": [
+          "sxx",
+          "syy",
+          "szz",
+          "sxy",
+          "sxz",
+          "syz"
+        ],
+        "relative_L2": 13.383185471019656,
+        "reference_norm": 22165.23189385783,
+        "normalization_floor": 663.3828270669497,
+        "weighted_unknown_values": 653184.0,
+        "threshold": 0.1,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "displacement",
+        "fields": [
+          "ux",
+          "uy",
+          "uz"
+        ],
+        "relative_L2": 0.5079732998851049,
+        "reference_norm": 9.504817995509212,
+        "normalization_floor": 0.18375835846892327,
+        "weighted_unknown_values": 82944.0,
+        "threshold": 0.05,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "equivalent_plastic_strain",
+        "fields": [
+          "peeq"
+        ],
+        "relative_L2": 1.005920666248663,
+        "reference_norm": 1.88293627451193,
+        "normalization_floor": 0.0332521135405478,
+        "weighted_unknown_values": 10368.0,
+        "threshold": 0.15,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "interface_shear_traction",
+        "fields": [
+          "bond_traction"
+        ],
+        "relative_L2": 0.3069893392418821,
+        "reference_norm": 727.9349604083689,
+        "normalization_floor": 7.9374994758060735,
+        "weighted_unknown_values": 10368.0,
+        "threshold": 0.1,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "interface_slip",
+        "fields": [
+          "bond_slip"
+        ],
+        "relative_L2": 0.6125429649200955,
+        "reference_norm": 2.8282213197233803,
+        "normalization_floor": 0.03185655860560595,
+        "weighted_unknown_values": 10368.0,
+        "threshold": 0.15,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      },
+      {
+        "group": "plastic_metric",
+        "fields": [
+          "plastic_metric_xx",
+          "plastic_metric_yy",
+          "plastic_metric_zz",
+          "plastic_metric_xy",
+          "plastic_metric_xz",
+          "plastic_metric_yz"
+        ],
+        "relative_L2": 1.0971148230613985,
+        "reference_norm": 0.4831326963499789,
+        "normalization_floor": 0.021702558417737553,
+        "weighted_unknown_values": 93312.0,
+        "threshold": 0.15,
+        "pass": false,
+        "norm": "symmetric-tensor Frobenius or physical-vector Euclidean, unknown entries only"
+      }
+    ],
+    "mean_group_error": 2.529556188179851,
+    "stress_amplitude": {
+      "all": {
+        "predicted_Frobenius_norm": 299722.1883149752,
+        "reference_Frobenius_norm": 22165.231893857832,
+        "prediction_to_reference_norm_ratio": 13.522176972938896
+      },
+      "steel": {
+        "predicted_Frobenius_norm": 299561.9755053378,
+        "reference_Frobenius_norm": 22084.323674367082,
+        "prediction_to_reference_norm_ratio": 13.564462282041019
+      },
+      "concrete": {
+        "predicted_Frobenius_norm": 9798.622334634925,
+        "reference_Frobenius_norm": 1892.1291589851674,
+        "prediction_to_reference_norm_ratio": 5.178622340924316
+      }
+    },
+    "minimum_det_F": 0.9428445210522081,
+    "plateau_activation_point_times": 1524,
+    "elastic_implication_activation_point_times": 320,
+    "history_scope": "Endpoint implications only; zero activation is not evidence of complete J2 flow."
+  }
+]

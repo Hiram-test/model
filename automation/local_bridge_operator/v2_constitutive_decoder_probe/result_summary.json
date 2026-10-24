@@ -1,0 +1,108 @@
+{
+  "schema": "bridge.research.constitutive_decoder.result_summary.v1",
+  "decision": "NOT_PROMOTED",
+  "scope": "Original 8 training and 3 validation histories only; standalone development architecture; not formal V2 selection and not new test.",
+  "work": {
+    "status": "COMPLETE",
+    "actual_optimizer_steps": 96,
+    "actual_loss_calls": 384,
+    "actual_complete_cold_histories": 16,
+    "epochs_completed": 2,
+    "visits": {
+      "rebar_train_01": 2,
+      "full27_all_axial12_free4": 2,
+      "rebar_train_06": 2,
+      "rebar_train_04": 2,
+      "rebar_train_02": 2,
+      "rebar_train_07": 2,
+      "rebar_train_05": 2,
+      "rebar_train_03": 2
+    },
+    "elapsed_seconds": 128.9981998050025,
+    "peak_rss_bytes": 2391269376,
+    "architecture_variant": "research_complete_graph_constitutive_stress_decoder_v1",
+    "formal_V2_modified": false,
+    "new_test_or_candidate_fields_opened": false
+  },
+  "mean_physical_group_errors": {
+    "backstress": 0.8141504501180712,
+    "cauchy_stress": 14.448513649632906,
+    "displacement": 0.6305206117124755,
+    "equivalent_plastic_strain": 0.8555780662256137,
+    "interface_shear_traction": 0.3377111830315195,
+    "interface_slip": 0.8106114146548886,
+    "plastic_metric": 1.01426101036161
+  },
+  "metric_semantics": "plastic_metric group compares raw native M=(I-Cp_inverse)/2, not a relative error normalized by full Cp_inverse norm.",
+  "comparison": {
+    "reference": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/selection.json",
+      "sha256": "d3284c66073c1ac4b5472edfb4230b7b5b1d795231f6a7e4156259266cfefbb6",
+      "scope": "Previously frozen original V2 independent-sigma two-epoch development result; not a new test or a matched-runtime comparison.",
+      "components": {
+        "mean_group_error": 0.7243721742141878,
+        "mean_maximum_weak_residual": 0.462842662261502,
+        "mean_maximum_constitutive_error": 6.343260481647683
+      }
+    },
+    "probe_selected_components": {
+      "mean_group_error": 2.7016209122481545,
+      "mean_maximum_weak_residual": 72.19114959556228,
+      "mean_maximum_constitutive_error": 2.910034347401528e-07
+    },
+    "field_error_change_probe_minus_reference": 1.9772487380339667,
+    "weak_residual_change_probe_minus_reference": 71.72830693330077,
+    "joint_score_cross_architecture_warning": "New stress closure is algebraic by construction; reduced closure/joint score alone does not establish better learned fields or complete J2 evolution.",
+    "decision": "EXPLORATORY_ONLY_NOT_ELIGIBLE_FOR_CURRENT_FORMAL_MODEL_SELECTION"
+  },
+  "per_case": [
+    {
+      "id": "rebar_validation_08",
+      "stress_prediction_reference_norm_ratios": {
+        "all": 8.76171176700017,
+        "steel": 8.786079422788603,
+        "concrete": 3.8372402910223986
+      },
+      "minimum_det_F": 0.9135456173475967,
+      "plateau_active_point_times": 871,
+      "zero_plastic_increment_active_point_times": 308,
+      "minimum_Cp_inverse_eigenvalue": 0.9858017945374679,
+      "maximum_yield_excess_MPa": 14644.4288950884
+    },
+    {
+      "id": "rebar_validation_09",
+      "stress_prediction_reference_norm_ratios": {
+        "all": 25.20772137299208,
+        "steel": 25.315432557418575,
+        "concrete": 2.813084191131074
+      },
+      "minimum_det_F": 0.8644625111325517,
+      "plateau_active_point_times": 1904,
+      "zero_plastic_increment_active_point_times": 1377,
+      "minimum_Cp_inverse_eigenvalue": 0.9836230883997683,
+      "maximum_yield_excess_MPa": 28804.757069499523
+    },
+    {
+      "id": "rebar_validation_10",
+      "stress_prediction_reference_norm_ratios": {
+        "all": 9.80999432877954,
+        "steel": 9.841778986813877,
+        "concrete": 3.3383432671257016
+      },
+      "minimum_det_F": 0.9562241733888162,
+      "plateau_active_point_times": 1087,
+      "zero_plastic_increment_active_point_times": 700,
+      "minimum_Cp_inverse_eigenvalue": 0.9850181429386894,
+      "maximum_yield_excess_MPa": 13589.837376164587
+    }
+  ],
+  "source_references": {
+    "original_frozen_plan_sha256": "fc5772d7cd534c0f9f7e65dc24235589848019a589d70b329e8be27972b272e3",
+    "original_frozen_publication_commit": "3699854be363c8bcb41b4440038f21d67b0801d5",
+    "result_sha256": "343617f1e134ffa11d36165a2a1b448a18a8f9a17ee38145f9e8fef062c23356",
+    "checkpoint_sha256": "c3062bdd0605fea19c54b7f7b82476a78e2a761f3603ef4b27e58e91cb4d5f96"
+  },
+  "saved_checkpoint_replay": "Same-process new-object reload; maximum prediction difference zero; not an independent-process reproduction.",
+  "training_process_closed": true,
+  "no_further_solver_or_training_started": true
+}

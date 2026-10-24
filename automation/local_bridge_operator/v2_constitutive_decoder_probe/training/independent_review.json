@@ -1,0 +1,249 @@
+{
+  "checked_file_sha256": {
+    "actual_work.json": "19245424f379090718ca77fae7d0e081dcdf61f34dc3902415f68994887b12a0",
+    "actual_work_events.jsonl": "64925bfafc815f5660221a8d83571b38e308aee15c4d97b3be05ca1546e391a3",
+    "first_state_group_gradients.json": "8e1b7ae8c592f91f5374708690aff5f08a24f4006316a6b6b894c22205920150",
+    "history.json": "517d143ad429219e81947054c057e596f6c66e8e70e7e32d6e975ec99f858efd",
+    "model.pt": "c3062bdd0605fea19c54b7f7b82476a78e2a761f3603ef4b27e58e91cb4d5f96",
+    "probe_result.json": "343617f1e134ffa11d36165a2a1b448a18a8f9a17ee38145f9e8fef062c23356",
+    "selected_amplitude_and_groups.json": "4856fe6c8208e09cef0bd45055a00cd14a7456a125af58fdc58ec730310c1729",
+    "selected_validation.json": "29b804d45ff2823e1dd8029b064d1fb9ec7e24b4dcd2700abc2728a7a8629e3e"
+  },
+  "checkpoint_audit": {
+    "architecture_evidence": "Frozen writer/loader and JSON metadata inspected; opaque checkpoint payload was hashed but not deserialized in this audit.",
+    "architecture_variant": "research_complete_graph_constitutive_stress_decoder_v1",
+    "independent_new_process_reload_performed": false,
+    "matches_result_and_terminal_event": true,
+    "path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/training/model.pt",
+    "runner_reported_same_process_fresh_object_reload_max_difference": 0.0,
+    "sha256": "c3062bdd0605fea19c54b7f7b82476a78e2a761f3603ef4b27e58e91cb4d5f96"
+  },
+  "contract_sha256": "d374741105ad402a7f571ec4fb9b6e96935a0251478845f80e3f7f006e797e51",
+  "development_outcome": {
+    "baseline_components": {
+      "mean_group_error": 0.7243721742141878,
+      "mean_maximum_constitutive_error": 6.343260481647683,
+      "mean_maximum_weak_residual": 0.462842662261502
+    },
+    "conclusion": "NEGATIVE: field and weak-equilibrium errors are substantially worse than the previously frozen original V2 first-two-epoch development reference. Strong stress-amplitude inflation persists in both materials. Near-zero stress closure is algebraic by construction and does not establish learned accuracy, complete adaptive J2 evolution, or engineering precision.",
+    "failed_case_group_checks": 21,
+    "field_error_change_probe_minus_reference": 1.9772487380339667,
+    "formal_model_selection_eligible": false,
+    "group_mean_relative_L2": {
+      "backstress": 0.8141504501180713,
+      "cauchy_stress": 14.448513649632906,
+      "displacement": 0.6305206117124755,
+      "equivalent_plastic_strain": 0.8555780662256137,
+      "interface_shear_traction": 0.33771118303151954,
+      "interface_slip": 0.8106114146548885,
+      "plastic_metric": 1.0142610103616099
+    },
+    "probe_components": {
+      "mean_group_error": 2.7016209122481545,
+      "mean_maximum_constitutive_error": 2.910034347401528e-07,
+      "mean_maximum_weak_residual": 72.19114959556228
+    },
+    "total_case_group_checks": 21,
+    "validation_cases": [
+      {
+        "all_groups_pass": false,
+        "elastic_implication_activation_point_times": 308,
+        "group_relative_L2": {
+          "backstress": 0.8176085747703621,
+          "cauchy_stress": 8.61150047509896,
+          "displacement": 0.7209549308564219,
+          "equivalent_plastic_strain": 1.02353709546266,
+          "interface_shear_traction": 0.41820917970668425,
+          "interface_slip": 0.8553771091976511,
+          "plastic_metric": 1.1145072580754438
+        },
+        "id": "rebar_validation_08",
+        "mean_group_error": 1.9373849461668833,
+        "minimum_det_F": 0.9135456173475967,
+        "plateau_activation_point_times": 871,
+        "stress_norm_ratio": {
+          "all": 8.76171176700017,
+          "concrete": 3.8372402910223986,
+          "steel": 8.786079422788603
+        }
+      },
+      {
+        "all_groups_pass": false,
+        "elastic_implication_activation_point_times": 1377,
+        "group_relative_L2": {
+          "backstress": 0.8337975270647616,
+          "cauchy_stress": 25.116748249742443,
+          "displacement": 0.6599802454379241,
+          "equivalent_plastic_strain": 0.6591483210868387,
+          "interface_shear_traction": 0.3055475400789449,
+          "interface_slip": 0.9674774403503693,
+          "plastic_metric": 0.9707620683693968
+        },
+        "id": "rebar_validation_09",
+        "mean_group_error": 4.216208770304382,
+        "minimum_det_F": 0.8644625111325517,
+        "plateau_activation_point_times": 1904,
+        "stress_norm_ratio": {
+          "all": 25.20772137299208,
+          "concrete": 2.813084191131074,
+          "steel": 25.315432557418575
+        }
+      },
+      {
+        "all_groups_pass": false,
+        "elastic_implication_activation_point_times": 700,
+        "group_relative_L2": {
+          "backstress": 0.79104524851909,
+          "cauchy_stress": 9.617292224057312,
+          "displacement": 0.5106266588430804,
+          "equivalent_plastic_strain": 0.8840487821273424,
+          "interface_shear_traction": 0.2893768293089293,
+          "interface_slip": 0.6089796944166453,
+          "plastic_metric": 0.9575137046399894
+        },
+        "id": "rebar_validation_10",
+        "mean_group_error": 1.9512690202731984,
+        "minimum_det_F": 0.9562241733888162,
+        "plateau_activation_point_times": 1087,
+        "stress_norm_ratio": {
+          "all": 9.80999432877954,
+          "concrete": 3.3383432671257016,
+          "steel": 9.841778986813877
+        }
+      }
+    ],
+    "weak_residual_change_probe_minus_reference": 71.72830693330077
+  },
+  "event_audit": {
+    "TBPTT_state_policy": "Frozen source detaches physical/hidden states only at segment boundaries and resets only at each cold-history start.",
+    "actual_complete_cold_histories": 16,
+    "actual_loss_calls": 384,
+    "actual_optimizer_steps": 96,
+    "counts": {
+      "epoch_complete": 2,
+      "history_complete": 16,
+      "history_started": 16,
+      "loss_observed": 384,
+      "optimizer_step": 96,
+      "probe_complete": 1,
+      "probe_started": 1
+    },
+    "epoch_visit_order": [
+      [
+        "rebar_train_01",
+        "full27_all_axial12_free4",
+        "rebar_train_06",
+        "rebar_train_04",
+        "rebar_train_02",
+        "rebar_train_07",
+        "rebar_train_05",
+        "rebar_train_03"
+      ],
+      [
+        "rebar_train_02",
+        "rebar_train_04",
+        "rebar_train_06",
+        "rebar_train_03",
+        "rebar_train_01",
+        "full27_all_axial12_free4",
+        "rebar_train_05",
+        "rebar_train_07"
+      ]
+    ],
+    "epochs_completed": 2,
+    "event_order": "EXACT_FULL_COLD_HISTORY_SEQUENCE",
+    "events": 516,
+    "frames_per_history_including_known_initial": 25,
+    "hash_chain": "ALL_516_EVENTS_RECOMPUTED_AND_MATCHED",
+    "known_initial_time_index": 0,
+    "maximum_recorded_unclipped_gradient_norm": 3961.11474609375,
+    "optimizer_time_boundaries": [
+      4,
+      8,
+      12,
+      16,
+      20,
+      24
+    ],
+    "prediction_time_indices": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "status": "PASS",
+    "unique_training_ids": 8,
+    "visits": {
+      "full27_all_axial12_free4": 2,
+      "rebar_train_01": 2,
+      "rebar_train_02": 2,
+      "rebar_train_03": 2,
+      "rebar_train_04": 2,
+      "rebar_train_05": 2,
+      "rebar_train_06": 2,
+      "rebar_train_07": 2
+    }
+  },
+  "gradient_receipt_audit": {
+    "all_reported_emission_group_sigma_head_rows_zero": true,
+    "cauchy_group_direct_displacement_and_metric_gradients_positive": true,
+    "cauchy_group_direct_peeq_and_backstress_row_gradients_zero": true,
+    "structurally_unused_sigma_head_parameters": 198,
+    "weight_decay_semantics": "Stored unused rows may change under AdamW decay; zero emission gradient is not frozen storage."
+  },
+  "parent_reported_process_exit": {
+    "exit_code": 0,
+    "independently_reexecuted": false,
+    "session_id": 75236
+  },
+  "reported_resources": {
+    "elapsed_seconds": 128.9981998050025,
+    "peak_rss_bytes": 2391269376
+  },
+  "review_method": "Independent Python standard-library-only audit of frozen source, JSON evidence, event sequence/hash chain, and streamed checkpoint bytes. No Torch import, model/solver execution, or response-array reads.",
+  "schema": "bridge.research.constitutive_decoder.independent_review.v1",
+  "scope_limits": [
+    "Metrics and gradient values were checked for consistency against the retained runner records, not recalculated from full field arrays.",
+    "No native reference solve or independent engineering-accuracy qualification was performed.",
+    "No new test or candidate responses were read; baseline is original development only.",
+    "No original frozen file was modified; this review is a newly created audit artifact."
+  ],
+  "selection_audit": {
+    "rule": "Unchanged within-probe selection score; initial function and both epoch outcomes compared.",
+    "selected_epoch": 1,
+    "selected_metrics_match_saved_epoch": true
+  },
+  "source_checks": {
+    "constitutive_decoder.py": {
+      "AST_parse": "PASS",
+      "nonblank_line_COMMENT_tokens": "PASS",
+      "sha256": "70e44e7337835593c751bdd19d4f9fec88cbccd642755c48b215e3e7b4114799"
+    },
+    "train_constitutive_decoder_probe.py": {
+      "AST_parse": "PASS",
+      "nonblank_line_COMMENT_tokens": "PASS",
+      "sha256": "eb1b6f54bddea49caa11270a2acf6c0695624d6234aa87827f6d78e2d671bf70"
+    }
+  },
+  "status": "PASS_EXECUTION_RECORD_INTEGRITY_WITH_NEGATIVE_ACCURACY_OUTCOME"
+}
