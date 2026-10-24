@@ -1,0 +1,13 @@
+import json,shutil # Preserve an honest zero-state initialization comparison.
+import numpy as np # Construct the unbiased unloaded displacement guess.
+from nonlinear_mechanics import OUT,FiniteStrain # Reuse exactly the same full nonlinear mechanics.
+from nonlinear_correct import correct # Apply identical Newton tolerance and line-search safeguards.
+from fem import write_json # Save measured iterations and costs without a neural acceleration claim.
+def main(): # Compare actual peak-load convergence from neural and zero initial fields.
+    previous=OUT/'initialization_comparison.json' # Locate the historical force-merit comparison before the energy repair.
+    if previous.exists() and not (OUT/'failures'/'initialization_comparison_force_merit.json').exists(): shutil.copy2(previous,OUT/'failures'/'initialization_comparison_force_merit.json') # Preserve the genuine zero-initialization failure and old neural comparison.
+    records=[] # Preserve both topology-specific independent test cases.
+    for family in ['splice','deck']: # Use the first fixed held-out geometry, selected before observing timing.
+        identity=f'{family}_g11';source=dict(np.load(OUT/'cases'/identity/'trajectory.npz'));adapter=FiniteStrain(source['xyz'],source['tet'],source['groups'],float(source['E']),float(source['nu']));corrected,zero=correct(adapter,np.zeros_like(source['xyz']),source['force'],source['free'],source['fixed'],np.linalg.norm(source['force']));raw=np.load(OUT/'corrected'/f'{identity}.npz')['raw'][4];neural_solution,neural=correct(adapter,raw,source['force'],source['free'],source['fixed'],np.linalg.norm(source['force'])) # Run the actual same peak-load equation from a zero guess.
+        records.append({'geometry_id':identity,'load_amplitude':1.,'line_search':'same exact elastic-energy Armijo plus force-reduction fallback for both initial guesses','zero_initialization':zero,'neural_initialization':neural,'zero_solution_relative_L2':float(np.linalg.norm(corrected-source['displacement'][4])/np.linalg.norm(source['displacement'][4])),'timing_scope':'Single CPU runs under concurrent workload; not a controlled speed benchmark.','conclusion':'Full FE correction required; reported counts determine whether the neural initial guess actually helps on this case.'});np.savez_compressed(OUT/'corrected'/f'{identity}_zero_initialization.npz',solution=corrected,neural_solution=neural_solution);write_json(OUT/'initialization_comparison.json',records);print(identity,zero['status'],zero['iterations'],neural['iterations'],flush=True) # Preserve all actual iterations, including a possible inferior neural guess.
+if __name__=='__main__': main() # Execute both predefined initialization comparisons.

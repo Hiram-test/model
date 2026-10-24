@@ -1,0 +1,13 @@
+import json # Repair report counts using explicit native source records without changing solver outputs.
+from nonlinear_mechanics import OUT,parse_dat # Read the same exact native displacement endpoint tables.
+from fem import write_json,sha # Preserve source checksums and reproducible audit receipts.
+def main(): # Distinguish printed physical-audit frames from all native converged increments.
+    counts=[] # Preserve one transparent counting explanation per native path.
+    for name in ['native_results.json','independent_path_native_results.json']: # Audit both fitting and independent native path batches.
+        records=json.loads((OUT/name).read_text()) # Read the completed native receipts without rerunning any solver.
+        for record in records: # Count unique actual converged native pseudo-times from primary artifacts.
+            directory=OUT/'cases'/record['id'];rows=[line.split() for line in (directory/'model.sta').read_text().splitlines() if len(line.split())==7 and all(v.isdigit() for v in line.split()[:4])];sta_times={round(float(row[4]),8) for row in rows};dat_times={round(frame['pseudo_time'],8) for frame in record['frames']};union=sta_times|dat_times;receipt={'id':record['id'],'native_increment_count':len(union),'sta_recorded_increments':len(sta_times),'dat_audited_endpoint_frames':len(dat_times),'endpoints_absent_from_sta':sorted(dat_times-sta_times),'count_rule':'Union of accepted native STA total-times and actual printed DAT endpoint-times; no inferred intermediate fields.','sta_sha256':sha(directory/'model.sta'),'dat_sha256':sha(directory/'model.dat')} # Use actual endpoint evidence when a final buffered STA row is absent.
+            record['increment_count']=len(union);record['printed_frame_count']=len(dat_times);record['increment_count_evidence']=f"build/local-nonlinear-20261024/cases/{record['id']}/model.sta and model.dat";record['physical_audit_scope']='All printed stage-endpoint fields; intermediate converged increments are counted from native STA, not independently reconstructed.';write_json(directory/'receipt.json',record);counts.append(receipt) # Correct metadata while explicitly narrowing the independent residual audit claim.
+        write_json(OUT/name,records) # Keep aggregate receipts consistent with the exact native evidence.
+    write_json(OUT/'increment_count_audit.json',counts);print(sum(r['native_increment_count'] for r in counts),sum(r['dat_audited_endpoint_frames'] for r in counts)) # Report separate native and independently audited frame denominators.
+if __name__=='__main__': main() # Execute the transparent native-count audit.

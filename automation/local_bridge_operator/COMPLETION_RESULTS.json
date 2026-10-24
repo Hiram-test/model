@@ -1,0 +1,2764 @@
+{
+  "schema": "bridge.md.completion.v1",
+  "date": "2026-10-24",
+  "source_md": "bridge_group_three_module_autoregressive_design.md",
+  "source_md_sha256": "4d94495ca84c7161dc5b74a975f2513c68407691ef0291cd5b79adedfb42b7b7",
+  "repository": "Hiram-test/model",
+  "branch": "codex/local-bridge-operator-20261024",
+  "previous_commit": "37813168b2505a9385c61537564388d7ae111bd3",
+  "execution": "All registered experiments, numerical repairs, training and tests in this continuation completed.",
+  "engineering_release": "HOLD: raw static/nonlinear/unified neural gates and project validation remain unmet.",
+  "stages": {
+    "coupling": {
+      "schema": "zhaqing.one_way_submodel.v1",
+      "status": "PASS_ONE_WAY_SUBMODEL",
+      "source_contract": {
+        "global_source_input": "/workspace/scratch/500ec816102b/model-repo/build/zhaqing-md-20261024/calculation/cases/LC02_G_Q_SERVICE/ZQ_LC02_G_Q_SERVICE_NL_19.inp",
+        "source_input_sha256": "cc13a63c8d14549d606367240e15711b2cb132cb48bae7d0363cdd1ae91c9f20",
+        "global_replay_input_sha256": "110cdf7a2c980dbd0c43c5c91661f933ad68cfb6c50a02a32ccf418cc0a3bcf9",
+        "global_replay_frd_sha256": "0c873a9fb83db8786510b1d3406d5e816efa468ea160e73159ccff0d085e305d",
+        "global_replay_dat_sha256": "64ca0929e463afa45166a6624775ea31b5cc484a8cbc948992e39cc3cf289d95",
+        "global_output_only_change": true,
+        "global_replay_max_original_node_displacement_difference_mm": 4.979266756142796e-05,
+        "parent_element": 243,
+        "parent_original_nodes": [
+          283,
+          290,
+          291,
+          284
+        ],
+        "native_expanded_node_ids": [
+          "104491",
+          "104591",
+          "104615",
+          "104494",
+          "104493",
+          "104593",
+          "104617",
+          "104496"
+        ],
+        "material": {
+          "E": 30000.0,
+          "nu": 0.2,
+          "rho": 2.67908381e-09
+        },
+        "section": {
+          "material": "DECK_PANEL_EQUIV_SCREEN",
+          "offset": -0.5,
+          "thickness": 50.0
+        },
+        "gravity_mm_s2": [
+          0.0,
+          0.0,
+          -9810.0
+        ],
+        "reconstructed_corner_surface_tractions_N_mm2": [
+          -0.003631409063829787,
+          -0.003631409063829787,
+          -0.0036314090568644293,
+          -0.0036314090568644293
+        ],
+        "traction_reconstruction_spread": 6.9653575442141236e-12,
+        "rigid_translation_removed_mm": [
+          0.144754125,
+          0.0039241597879400006,
+          -212.30075000000002
+        ],
+        "native_parent_strain_energy_Nmm": 281.50822142290167,
+        "boundary_precision": "Native FRD displacement uses five digits after decimal in exponential format; global translation near 212 mm implies up to approximately 0.0005 mm original coordinate-component rounding. Full-through-thickness vectors are transferred; no invented shell rotation."
+      },
+      "local_solves": [
+        {
+          "case": "local_n2_nz2",
+          "nodes": 125,
+          "elements": 48,
+          "n": 2,
+          "nz": 2,
+          "free_displacement_dofs": 135,
+          "source_E_MPa": 30000.0,
+          "source_nu": 0.2,
+          "source_thickness_mm": 50.0,
+          "load_resultant_N": [
+            0.0,
+            0.0,
+            -3873.9747391873143
+          ],
+          "cut_reaction_resultant_N": [
+            1.8189894035458565e-09,
+            -7.275957614183426e-10,
+            3873.974739219204
+          ],
+          "free_relative_residual": 4.084485011595166e-11,
+          "force_balance_relative": 8.724607260434465e-12,
+          "moment_balance_relative": 7.844291708665368e-12,
+          "moment_balance_absolute_Nmm": 3.863190532624809e-05,
+          "moment_reference_Nmm": 4924843.027391818,
+          "energy_identity_relative": 9.205742449226456e-15,
+          "actual_cut_work_transfer_relative": 1.940871348109696e-16,
+          "strain_energy_Nmm": 4742.229746908559,
+          "applied_work_Nmm": 112.4348858108376,
+          "cut_boundary_work_Nmm": 9372.024608006368,
+          "cross_solver_relative": 2.44482152475389e-13,
+          "center_u_total_mm": [
+            0.1443859006908271,
+            0.003819609947264775,
+            -212.3665452495694
+          ],
+          "center_extra_deflection_mm": [
+            -0.00036822430917290527,
+            -0.00010454984067522486,
+            -0.0657952495694161
+          ],
+          "max_local_correction_mm": 0.06581832954145955,
+          "native_input_sha256": "f1fc58a9edab833c08d314d8f380ceacaee8e17714881a09b82cb4ff60881054",
+          "native_dat_sha256": "28146c170ac3de4de594b4731acf51e1e6c65688de1b10e6d8fe6b38d4afdf74",
+          "native_frd_sha256": "1bfea6382afcfe1fc6876da2b09faa69a8b69554a372c433ff67e117f58d2c89",
+          "native_exit_code": 0,
+          "seconds": 0.05419468879699707,
+          "status": "PASS",
+          "native_reaction_relative_error": 2.4274796337185267e-12,
+          "partition_of_unity_max": 0.0,
+          "coordinate_reproduction_max_mm": 0.0,
+          "weight_min": 0.0,
+          "weight_max": 1.0,
+          "force_return_error_N": 1.2316939242107054e-10,
+          "moment_return_error_Nmm": 1.5460024868169826e-08,
+          "boundary_displacement_error_mm": 0.0,
+          "native_evidence": {
+            "local.inp": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n2_nz2/local.inp",
+            "local.dat": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n2_nz2/local.dat",
+            "local.frd": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n2_nz2/local.frd",
+            "solver.log": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n2_nz2/solver.log",
+            "fields.npz": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n2_nz2/fields.npz"
+          },
+          "native_RF_semantics": "internal force; true cut reaction = native RF minus applied nodal CLOAD"
+        },
+        {
+          "case": "local_n4_nz2",
+          "nodes": 405,
+          "elements": 192,
+          "n": 4,
+          "nz": 2,
+          "free_displacement_dofs": 735,
+          "source_E_MPa": 30000.0,
+          "source_nu": 0.2,
+          "source_thickness_mm": 50.0,
+          "load_resultant_N": [
+            0.0,
+            0.0,
+            -3873.9747391873216
+          ],
+          "cut_reaction_resultant_N": [
+            5.802576197311282e-10,
+            1.469743438065052e-09,
+            3873.9747391183473
+          ],
+          "free_relative_residual": 7.159639662318371e-11,
+          "force_balance_relative": 1.3523546454996099e-11,
+          "moment_balance_relative": 5.285568292430753e-12,
+          "moment_balance_absolute_Nmm": 2.6030594150780922e-05,
+          "moment_reference_Nmm": 4924843.027391828,
+          "energy_identity_relative": 7.588696025720529e-13,
+          "actual_cut_work_transfer_relative": 2.0024078362406113e-16,
+          "strain_energy_Nmm": 2325.063114215269,
+          "applied_work_Nmm": 108.1209220602932,
+          "cut_boundary_work_Nmm": 4542.005306373773,
+          "cross_solver_relative": 6.580234581780421e-13,
+          "center_u_total_mm": [
+            0.14432988872070504,
+            0.003933173001174809,
+            -212.36291564416433
+          ],
+          "center_extra_deflection_mm": [
+            -0.0004242362792949688,
+            9.013213234809248e-06,
+            -0.062165644164334614
+          ],
+          "max_local_correction_mm": 0.062177963745927725,
+          "native_input_sha256": "2398af51cb10f72de37d9432631860104dda3de2ea594c72b31f3b587a96af03",
+          "native_dat_sha256": "20ce56d6e16aec6e400f37b5304de74a9894d6ccaa2b639bc386ab372e4c5ceb",
+          "native_frd_sha256": "3176d458db64e5e292e2207d67d7fbc920c1a655912b8fb953f6f86efd81cbbd",
+          "native_exit_code": 0,
+          "seconds": 0.17381501197814941,
+          "status": "PASS",
+          "native_reaction_relative_error": 2.4877957933427123e-12,
+          "partition_of_unity_max": 2.220446049250313e-16,
+          "coordinate_reproduction_max_mm": 7.27684920742232e-12,
+          "weight_min": 0.0,
+          "weight_max": 1.0,
+          "force_return_error_N": 4.246473519716802e-11,
+          "moment_return_error_Nmm": 5.0550429631564144e-08,
+          "boundary_displacement_error_mm": 0.0,
+          "native_evidence": {
+            "local.inp": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n4_nz2/local.inp",
+            "local.dat": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n4_nz2/local.dat",
+            "local.frd": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n4_nz2/local.frd",
+            "solver.log": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n4_nz2/solver.log",
+            "fields.npz": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n4_nz2/fields.npz"
+          },
+          "native_RF_semantics": "internal force; true cut reaction = native RF minus applied nodal CLOAD"
+        },
+        {
+          "case": "local_n8_nz2",
+          "nodes": 1445,
+          "elements": 768,
+          "n": 8,
+          "nz": 2,
+          "free_displacement_dofs": 3375,
+          "source_E_MPa": 30000.0,
+          "source_nu": 0.2,
+          "source_thickness_mm": 50.0,
+          "load_resultant_N": [
+            0.0,
+            0.0,
+            -3873.9747391872957
+          ],
+          "cut_reaction_resultant_N": [
+            3.8471625884994864e-10,
+            -1.6370904631912708e-09,
+            3873.9747392859317
+          ],
+          "free_relative_residual": 9.76892338924226e-11,
+          "force_balance_relative": 2.368875206256833e-11,
+          "moment_balance_relative": 9.890817926641464e-12,
+          "moment_balance_absolute_Nmm": 4.8710725701221974e-05,
+          "moment_reference_Nmm": 4924843.027391794,
+          "energy_identity_relative": 1.5891759221562146e-12,
+          "actual_cut_work_transfer_relative": 1.624725658648517e-16,
+          "strain_energy_Nmm": 1461.5261043605867,
+          "applied_work_Nmm": 124.13444394919448,
+          "cut_boundary_work_Nmm": 2798.9177647673337,
+          "cross_solver_relative": 2.190270286438985e-12,
+          "center_u_total_mm": [
+            0.14434241043548945,
+            0.003925505346596793,
+            -212.37469836627704
+          ],
+          "center_extra_deflection_mm": [
+            -0.00041171456451053606,
+            1.3455586567926554e-06,
+            -0.07394836627705016
+          ],
+          "max_local_correction_mm": 0.07395394790309098,
+          "native_input_sha256": "78d6511d0dbfa6c46ff356762d6c587c9a4b79e6ddf5a6ac704df87409c4d03f",
+          "native_dat_sha256": "2283b13551749cd9ed7825e7d18d623216c621eeb0da177df3e19d60c25b8049",
+          "native_frd_sha256": "7efd3414c8cc5b9f385adedf4c732acd715cb2dc0dce78a0cf86162905732093",
+          "native_exit_code": 0,
+          "seconds": 1.0241873264312744,
+          "status": "PASS",
+          "native_reaction_relative_error": 3.5836020036806057e-12,
+          "partition_of_unity_max": 2.220446049250313e-16,
+          "coordinate_reproduction_max_mm": 7.27684920742232e-12,
+          "weight_min": 0.0,
+          "weight_max": 1.0,
+          "force_return_error_N": 3.7358539700182285e-11,
+          "moment_return_error_Nmm": 1.3871631796355247e-08,
+          "boundary_displacement_error_mm": 0.0,
+          "native_evidence": {
+            "local.inp": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n8_nz2/local.inp",
+            "local.dat": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n8_nz2/local.dat",
+            "local.frd": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n8_nz2/local.frd",
+            "solver.log": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n8_nz2/solver.log",
+            "fields.npz": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n8_nz2/fields.npz"
+          },
+          "native_RF_semantics": "internal force; true cut reaction = native RF minus applied nodal CLOAD"
+        },
+        {
+          "case": "local_n16_nz2",
+          "nodes": 5445,
+          "elements": 3072,
+          "n": 16,
+          "nz": 2,
+          "free_displacement_dofs": 14415,
+          "source_E_MPa": 30000.0,
+          "source_nu": 0.2,
+          "source_thickness_mm": 50.0,
+          "load_resultant_N": [
+            0.0,
+            0.0,
+            -3873.9747391874585
+          ],
+          "cut_reaction_resultant_N": [
+            5.232777766650543e-09,
+            -9.849827620200813e-10,
+            3873.974739164166
+          ],
+          "free_relative_residual": 1.5099703027152713e-10,
+          "force_balance_relative": 6.597782825000731e-12,
+          "moment_balance_relative": 3.237397706797098e-12,
+          "moment_balance_absolute_Nmm": 1.5943675523214545e-05,
+          "moment_reference_Nmm": 4924843.027392002,
+          "energy_identity_relative": 4.7858193665567e-13,
+          "actual_cut_work_transfer_relative": 4.139748161804586e-16,
+          "strain_energy_Nmm": 1162.566618576529,
+          "applied_work_Nmm": 128.15248802235516,
+          "cut_boundary_work_Nmm": 2196.98074912959,
+          "cross_solver_relative": 1.5040224955794783e-13,
+          "center_u_total_mm": [
+            0.1443536673049096,
+            0.003925416970016638,
+            -212.37702193920734
+          ],
+          "center_extra_deflection_mm": [
+            -0.0004004576950904157,
+            1.257182076638331e-06,
+            -0.07627193920734472
+          ],
+          "max_local_correction_mm": 0.07627697374377117,
+          "native_input_sha256": "c9c052d3e572b8d3d2d89f81b65c2f5c443b7c86ded676e2890028403864fc25",
+          "native_dat_sha256": "0d189c279363adbf9187615c763fc828b24e7f695bc3c295b5178c5216e71b64",
+          "native_frd_sha256": "5f4eb7fd0e275aa3fdabf631eb557b9ab1ea33a370adc4dc0a514e0e05435aa5",
+          "native_exit_code": 0,
+          "seconds": 3.7434120178222656,
+          "status": "PASS",
+          "native_reaction_relative_error": 2.6586465281360733e-12,
+          "partition_of_unity_max": 2.220446049250313e-16,
+          "coordinate_reproduction_max_mm": 7.27684920742232e-12,
+          "weight_min": 0.0,
+          "weight_max": 1.0,
+          "force_return_error_N": 2.8054631575627683e-11,
+          "moment_return_error_Nmm": 1.942845815680772e-08,
+          "boundary_displacement_error_mm": 0.0,
+          "native_evidence": {
+            "local.inp": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n16_nz2/local.inp",
+            "local.dat": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n16_nz2/local.dat",
+            "local.frd": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n16_nz2/local.frd",
+            "solver.log": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n16_nz2/solver.log",
+            "fields.npz": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n16_nz2/fields.npz"
+          },
+          "native_RF_semantics": "internal force; true cut reaction = native RF minus applied nodal CLOAD"
+        },
+        {
+          "case": "local_n32_nz2",
+          "nodes": 21125,
+          "elements": 12288,
+          "n": 32,
+          "nz": 2,
+          "free_displacement_dofs": 59535,
+          "source_E_MPa": 30000.0,
+          "source_nu": 0.2,
+          "source_thickness_mm": 50.0,
+          "load_resultant_N": [
+            0.0,
+            0.0,
+            -3873.974739186806
+          ],
+          "cut_reaction_resultant_N": [
+            2.0579818738042377e-08,
+            2.4988366931211203e-09,
+            3873.97473914008
+          ],
+          "free_relative_residual": 2.2238925152412535e-10,
+          "force_balance_relative": 1.337022495502003e-11,
+          "moment_balance_relative": 1.0886536191622948e-11,
+          "moment_balance_absolute_Nmm": 5.361448185575592e-05,
+          "moment_reference_Nmm": 4924843.027391172,
+          "energy_identity_relative": 9.383174444936696e-13,
+          "actual_cut_work_transfer_relative": 3.3633559586147616e-16,
+          "strain_energy_Nmm": 1078.3268089706808,
+          "applied_work_Nmm": 128.55717283206522,
+          "cut_boundary_work_Nmm": 2028.0964451072728,
+          "cross_solver_relative": 8.09820759769029e-13,
+          "center_u_total_mm": [
+            0.1443590668848431,
+            0.0039250716698769035,
+            -212.37719979812815
+          ],
+          "center_extra_deflection_mm": [
+            -0.00039505811515690755,
+            9.118819369037276e-07,
+            -0.0764497981281462
+          ],
+          "max_local_correction_mm": 0.07645500217907154,
+          "native_input_sha256": "a2d175f6cf9481993b89887402e0147debe1c2c2fe141b8e6ba0610142f7799c",
+          "native_dat_sha256": "6286754a447c98298b83730bfcdac71e297e7e1db477d90eb18c6a6b956e4a6a",
+          "native_frd_sha256": "adfa859fc5b9a3fe5a7705c33925f51e038212d043bd5e87e20a10c14c5a8968",
+          "native_exit_code": 0,
+          "seconds": 12.502954959869385,
+          "status": "PASS",
+          "native_reaction_relative_error": 3.671630440386065e-12,
+          "partition_of_unity_max": 2.220446049250313e-16,
+          "coordinate_reproduction_max_mm": 7.279512928677046e-12,
+          "weight_min": 0.0,
+          "weight_max": 1.0,
+          "force_return_error_N": 4.648054069848644e-11,
+          "moment_return_error_Nmm": 3.1330716191603405e-08,
+          "boundary_displacement_error_mm": 0.0,
+          "native_evidence": {
+            "local.inp": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n32_nz2/local.inp",
+            "local.dat": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n32_nz2/local.dat",
+            "local.frd": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n32_nz2/local.frd",
+            "solver.log": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n32_nz2/solver.log",
+            "fields.npz": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n32_nz2/fields.npz"
+          },
+          "native_RF_semantics": "internal force; true cut reaction = native RF minus applied nodal CLOAD"
+        },
+        {
+          "case": "local_n32_nz4",
+          "nodes": 38025,
+          "elements": 24576,
+          "n": 32,
+          "nz": 4,
+          "free_displacement_dofs": 107163,
+          "source_E_MPa": 30000.0,
+          "source_nu": 0.2,
+          "source_thickness_mm": 50.0,
+          "load_resultant_N": [
+            0.0,
+            0.0,
+            -3873.974739188657
+          ],
+          "cut_reaction_resultant_N": [
+            1.5917521523078904e-08,
+            1.5543264453299344e-09,
+            3873.974739040561
+          ],
+          "free_relative_residual": 7.922696039914109e-10,
+          "force_balance_relative": 8.849366752745325e-12,
+          "moment_balance_relative": 8.219724444768058e-12,
+          "moment_balance_absolute_Nmm": 4.048085261891208e-05,
+          "moment_reference_Nmm": 4924843.0273935255,
+          "energy_identity_relative": 2.476412549504966e-11,
+          "actual_cut_work_transfer_relative": 9.061742706392058e-16,
+          "strain_energy_Nmm": 1067.9686680226002,
+          "applied_work_Nmm": 128.60887568753807,
+          "cut_boundary_work_Nmm": 2007.328460410557,
+          "cross_solver_relative": 3.0122423553613104e-12,
+          "center_u_total_mm": [
+            0.1443599158213322,
+            0.003924896160651313,
+            -212.37721969381937
+          ],
+          "center_extra_deflection_mm": [
+            -0.00039420917866779363,
+            7.363727113131888e-07,
+            -0.07646969381935562
+          ],
+          "max_local_correction_mm": 0.07648062926026807,
+          "native_input_sha256": "20a9ba2b9b5bdec4a09e9d78e854b7a9250b5c64356bc24c576ed2b8c940ef57",
+          "native_dat_sha256": "4c3c2663cf757ce5f621cbb3db1aef057e3f75644f760b641407e2308aa414a6",
+          "native_frd_sha256": "e36141d0fca73328998ebb773ef5e42055c52a886ec6c44a16714400d3482fe5",
+          "native_exit_code": 0,
+          "seconds": 109.09769296646118,
+          "status": "PASS",
+          "native_reaction_relative_error": 7.835055290905707e-12,
+          "partition_of_unity_max": 2.220446049250313e-16,
+          "coordinate_reproduction_max_mm": 7.279512928677046e-12,
+          "weight_min": 0.0,
+          "weight_max": 1.0,
+          "force_return_error_N": 7.490780790580821e-11,
+          "moment_return_error_Nmm": 1.1237028136354575e-08,
+          "boundary_displacement_error_mm": 0.0,
+          "native_evidence": {
+            "local.inp": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n32_nz4/local.inp",
+            "local.dat": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n32_nz4/local.dat",
+            "local.frd": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n32_nz4/local.frd",
+            "solver.log": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n32_nz4/solver.log",
+            "fields.npz": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n32_nz4/fields.npz"
+          },
+          "native_RF_semantics": "internal force; true cut reaction = native RF minus applied nodal CLOAD"
+        },
+        {
+          "case": "local_n48_nz2",
+          "nodes": 47045,
+          "elements": 27648,
+          "n": 48,
+          "nz": 2,
+          "free_displacement_dofs": 135375,
+          "source_E_MPa": 30000.0,
+          "source_nu": 0.2,
+          "source_thickness_mm": 50.0,
+          "load_resultant_N": [
+            0.0,
+            0.0,
+            -3873.9747391876126
+          ],
+          "cut_reaction_resultant_N": [
+            3.6707206163555384e-09,
+            2.591605152701959e-09,
+            3873.974739225213
+          ],
+          "free_relative_residual": 3.661816452387967e-10,
+          "force_balance_relative": 3.1517178702031665e-12,
+          "moment_balance_relative": 1.5511350794034134e-12,
+          "moment_balance_absolute_Nmm": 7.639096780343343e-06,
+          "moment_reference_Nmm": 4924843.027392197,
+          "energy_identity_relative": 3.255274477310759e-12,
+          "actual_cut_work_transfer_relative": 1.0247067917581258e-15,
+          "strain_energy_Nmm": 1062.8037265854014,
+          "applied_work_Nmm": 128.58440671947474,
+          "cut_boundary_work_Nmm": 1997.0230464444085,
+          "cross_solver_relative": 2.727781015777298e-13,
+          "center_u_total_mm": [
+            0.14436027759251194,
+            0.003924841136251356,
+            -212.37720640655058
+          ],
+          "center_extra_deflection_mm": [
+            -0.0003938474074880488,
+            6.813483113558209e-07,
+            -0.07645640655058011
+          ],
+          "max_local_correction_mm": 0.07647594105746816,
+          "native_input_sha256": "3c682a4b01087213d60ab08a50050db32625e5e4d5a2920db34711b0fbfdda5e",
+          "native_dat_sha256": "6ce1064b93a92f75e0cae2036027dd2f727cbe8baea91808797829878a866a0a",
+          "native_frd_sha256": "f93b029f84f8c5819bd9c2c343e1b076bb2ea789e827dd690ad26347d3dd8a0b",
+          "native_exit_code": 0,
+          "seconds": 38.82839274406433,
+          "status": "PASS",
+          "native_reaction_relative_error": 2.2451622606134995e-11,
+          "partition_of_unity_max": 2.220446049250313e-16,
+          "coordinate_reproduction_max_mm": 1.455369321131092e-11,
+          "weight_min": 0.0,
+          "weight_max": 1.0,
+          "force_return_error_N": 1.1572940373194856e-10,
+          "moment_return_error_Nmm": 1.8210865807668894e-08,
+          "boundary_displacement_error_mm": 0.0,
+          "native_evidence": {
+            "local.inp": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n48_nz2/local.inp",
+            "local.dat": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n48_nz2/local.dat",
+            "local.frd": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n48_nz2/local.frd",
+            "solver.log": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n48_nz2/solver.log",
+            "fields.npz": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed/local_n48_nz2/fields.npz"
+          },
+          "native_RF_semantics": "internal force; true cut reaction = native RF minus applied nodal CLOAD"
+        }
+      ],
+      "completed_native_local_solve_count": 7,
+      "completed_independent_local_solve_count": 7,
+      "mesh_comparisons": [
+        {
+          "axis": "in_plane",
+          "coarser": "local_n2_nz2",
+          "finer": "local_n4_nz2",
+          "center_correction_change_mm": 0.003631813500801913,
+          "center_correction_relative": 0.05842019247083563,
+          "energy_relative": 1.0396133412099253,
+          "center_gate": 0.01,
+          "energy_gate": 0.05,
+          "status": "REFINE"
+        },
+        {
+          "axis": "in_plane",
+          "coarser": "local_n4_nz2",
+          "finer": "local_n8_nz2",
+          "center_correction_change_mm": 0.011782731261118697,
+          "center_correction_relative": 0.15933480664112445,
+          "energy_relative": 0.5908461075571941,
+          "center_gate": 0.01,
+          "energy_gate": 0.05,
+          "status": "REFINE"
+        },
+        {
+          "axis": "in_plane",
+          "coarser": "local_n8_nz2",
+          "finer": "local_n16_nz2",
+          "center_correction_change_mm": 0.0023236001995432017,
+          "center_correction_relative": 0.030464259819816705,
+          "energy_relative": 0.25715471355104796,
+          "center_gate": 0.01,
+          "energy_gate": 0.05,
+          "status": "REFINE"
+        },
+        {
+          "axis": "in_plane",
+          "coarser": "local_n16_nz2",
+          "finer": "local_n32_nz2",
+          "center_correction_change_mm": 0.00017794119928873095,
+          "center_correction_relative": 0.0023275250929107685,
+          "energy_relative": 0.07812085251433146,
+          "center_gate": 0.01,
+          "energy_gate": 0.05,
+          "status": "REFINE"
+        },
+        {
+          "axis": "in_plane",
+          "coarser": "local_n32_nz2",
+          "finer": "local_n48_nz2",
+          "center_correction_change_mm": 6.7223660921567795e-06,
+          "center_correction_relative": 8.792300352687257e-05,
+          "energy_relative": 0.014605784677809031,
+          "center_gate": 0.01,
+          "energy_gate": 0.05,
+          "status": "PASS"
+        },
+        {
+          "axis": "through_thickness",
+          "coarser": "local_n32_nz2",
+          "finer": "local_n32_nz4",
+          "center_correction_change_mm": 1.9914568168835875e-05,
+          "center_correction_relative": 0.00026042086168801443,
+          "energy_relative": 0.009698918384243572,
+          "center_gate": 0.01,
+          "energy_gate": 0.05,
+          "status": "PASS"
+        }
+      ],
+      "mesh_qualified": true,
+      "all_numerical_checks_pass": true,
+      "finest_inplane_case": "local_n48_nz2",
+      "parent_vs_finest": {
+        "global_parent_native_strain_energy_Nmm": 281.50822142290167,
+        "local_strain_energy_Nmm": 1062.8037265854014,
+        "energy_difference_relative": 2.775391429825355,
+        "center_displacement_difference_mm": [
+          -0.0003938474074880488,
+          6.813483113558209e-07,
+          -0.07645640655058011
+        ],
+        "local_load_resultant_N": [
+          0.0,
+          0.0,
+          -3873.9747391876126
+        ],
+        "returned_cut_reaction_resultant_N": [
+          3.6707206163555384e-09,
+          2.591605152701959e-09,
+          3873.974739225213
+        ]
+      },
+      "coupling": "Actual one-way displacement-driven global-to-local continuum submodel plus work-conjugate transfer of computed cut reactions",
+      "fully_one_way_coupled_and_validated": true,
+      "fully_two_way_coupled": false,
+      "two_way_rebalance_required_for_current_scope": false,
+      "coordinate_contract": {
+        "global_and_local_units": "N-mm-MPa-tonne-s",
+        "axes": "same actual source global x/y/z; identity rotation; no unit rescaling",
+        "local_reference_bounds_mm": [
+          [
+            40000.0,
+            -783.333333,
+            0.0
+          ],
+          [
+            41000.0,
+            0.0,
+            50.0
+          ]
+        ],
+        "shell_directors": "all eight actual native expanded solid displacement vectors are mapped; upper/lower differences retain director rotation",
+        "translation_removed_mm": [
+          0.144754125,
+          0.0039241597879400006,
+          -212.30075000000002
+        ],
+        "translation_restored_for_total_U": true,
+        "boundary": "all three displacement components on four lateral cut faces; top and bottom traction surfaces are free",
+        "load_refinement": "uniform top traction reconstructed from all four exact original nodal tributary-area ratios; original gravity independently integrated"
+      },
+      "acceptance_scope": [
+        "LC02 final retained global state, actual element 243, source equivalent linear elastic deck material",
+        "exact source rectangular patch and identity coordinate transformation",
+        "real local native C3D10 solve; exact independent quadratic elasticity cross-check",
+        "actual computed cut reactions returned with force, moment and virtual-work identities"
+      ],
+      "rejection_rules": [
+        "reject missing source nodes, unknown material or units, nonfinite or incomplete source output, unexpected shell offset or geometry",
+        "reject inconsistent source corner tributary traction ratios exceeding 1e-10 N/mm2",
+        "reject mapping outside parent domain, negative interpolation weights or coordinate reproduction error over 1e-7 mm",
+        "reject native incomplete output or nonzero exit, native displacement disagreement over 1e-5 relative or reaction disagreement over 1e-7",
+        "reject equilibrium/work residual over 1e-6 or interface displacement error over 1e-10 mm",
+        "reject mesh qualification unless final in-plane and thickness checks each satisfy center correction under 1% and energy under 5%",
+        "do not use returned loads to revise whole-bridge capacity without full-bridge re-equilibration and separate engineering validation",
+        "do not generalize to nonlinear cracking/contact/slip, unseen details or different load cases without new source-resolved solves"
+      ],
+      "limitations": [
+        "coarse parent expanded C3D8I and locally refined C3D10 have different interpolation/enhanced strain spaces; energy mismatch remains a model-resolution diagnostic, not a violated algebraic conservation identity",
+        "trilinear lateral boundary transfer constrains a one-parent-element cut; neighboring larger patches and boundary-distance independence are not yet checked",
+        "native FRD source director translations are rounded, with up to approximately 0.0005 mm component uncertainty near 212 mm global displacement",
+        "local refined uniform surface traction redistributes original corner-lumped load into local interior; parent and local energy are therefore not expected to be identical",
+        "stress peaks at prescribed cut boundaries are not qualified design stresses; reaction back-transfer alone does not update global equilibrium or load capacity"
+      ],
+      "references": [
+        {
+          "url": "https://web.mit.edu/calculix_v2.7/CalculiX/ccx_2.7/doc/ccx/node37.html",
+          "support": "Official CalculiX manual authored by Guido Dhondt: S4 expands to C3D8I; source mirrored by MIT"
+        },
+        {
+          "url": "https://www.dhondt.de/ccx_2.19.pdf",
+          "support": "Official manual section 6.2.3: C3D8I enhanced bubble modes and reduced shear locking"
+        }
+      ],
+      "energy_difference_interpretation": "Different coarse enhanced-strain and local continuum spaces, cut-face interpolation and load redistribution are documented plausible contributors; their individual contributions have not been separated by an ablation study",
+      "native_evidence_root": "/workspace/scratch/500ec816102b/model-repo/build/coupling_completed"
+    },
+    "residual": {
+      "status": "PASS",
+      "cases": 128,
+      "test_cases": 64,
+      "ood_cases": 64,
+      "comparisons": 384,
+      "accepted": 384,
+      "online_full_target_factorizations": 0,
+      "online_shared_reduced_factorizations_measured": 128,
+      "online_reduced_rank": 384,
+      "offline_training_factorizations": 32,
+      "offline_factorization_basis_and_restore_seconds": 68.13307523499498,
+      "offline_upstream_data_generation_recorded_seconds": 272.4743664264679,
+      "offline_upstream_all_neural_rounds_recorded_seconds": 105.64613842964172,
+      "maximum_residual": 2.83932368627287e-08,
+      "maximum_relative_field_error": 2.328608768234045e-07,
+      "thresholds": {
+        "physical_residual_relative": 1e-07,
+        "reference_field_relative": 1e-05
+      },
+      "internal_budget": {
+        "PCG_iterations_per_reference": 600,
+        "right_GMRES_restart": 40,
+        "right_GMRES_max_cycles_per_reference": 15,
+        "maximum_cached_references": 2,
+        "cg_rtol": 1e-11,
+        "physical_monitor_threshold": 1e-10,
+        "retry_acceptance_residual": 1e-09,
+        "reference_field_used_for_stopping": false
+      },
+      "raw_neural": {
+        "cases": 128,
+        "accepted": 0,
+        "maximum_residual": 9823.409699981761,
+        "maximum_field_error": 1.061250965073836,
+        "mean_field_error": 0.14999509615152604
+      },
+      "methods": {
+        "neural_warm": {
+          "comparisons": 128,
+          "accepted": 128,
+          "mean_initial_field_error": 0.14999509615152604,
+          "maximum_initial_residual": 9823.409699981761,
+          "maximum_corrected_residual": 2.3918850101267328e-08,
+          "maximum_corrected_field_error": 2.328608768234045e-07,
+          "median_iterations": 30.0,
+          "maximum_iterations": 242,
+          "sum_iterations": 5599,
+          "median_measured_online_compute_seconds": 0.3855818375004674,
+          "sum_measured_online_compute_seconds": 84.99041059301089,
+          "sum_initialization_seconds": 0.27200544900006207,
+          "sum_iterative_seconds": 69.55153529699783,
+          "online_full_target_factorizations": 0,
+          "online_reduced_factorizations": 128,
+          "online_reduced_rank": 384,
+          "online_initial_reduced_system_solves": 0,
+          "online_initial_reduced_rank": 0
+        },
+        "reduced_warm": {
+          "comparisons": 128,
+          "accepted": 128,
+          "mean_initial_field_error": 0.012736733187315911,
+          "maximum_initial_residual": 76.38247748322554,
+          "maximum_corrected_residual": 2.3981845661378594e-08,
+          "maximum_corrected_field_error": 2.1229813322444522e-07,
+          "median_iterations": 30.0,
+          "maximum_iterations": 240,
+          "sum_iterations": 5585,
+          "median_measured_online_compute_seconds": 0.38844836199768906,
+          "sum_measured_online_compute_seconds": 85.77258357203027,
+          "sum_initialization_seconds": 0.2554278090046864,
+          "sum_iterative_seconds": 70.35028591601258,
+          "online_full_target_factorizations": 0,
+          "online_reduced_factorizations": 128,
+          "online_reduced_rank": 384,
+          "online_initial_reduced_system_solves": 128,
+          "online_initial_reduced_rank": 16
+        },
+        "zero_cold": {
+          "comparisons": 128,
+          "accepted": 128,
+          "mean_initial_field_error": 1.0,
+          "maximum_initial_residual": 1.0,
+          "maximum_corrected_residual": 2.83932368627287e-08,
+          "maximum_corrected_field_error": 2.2494495114979332e-07,
+          "median_iterations": 30.0,
+          "maximum_iterations": 238,
+          "sum_iterations": 5573,
+          "median_measured_online_compute_seconds": 0.3924455215001217,
+          "sum_measured_online_compute_seconds": 83.80500600101368,
+          "sum_initialization_seconds": 0.0,
+          "sum_iterative_seconds": 68.63813615400068,
+          "online_full_target_factorizations": 0,
+          "online_reduced_factorizations": 128,
+          "online_reduced_rank": 384,
+          "online_initial_reduced_system_solves": 0,
+          "online_initial_reduced_rank": 0
+        }
+      },
+      "paired_comparisons_to_zero": {
+        "neural_warm": {
+          "fewer_iterations": 13,
+          "same_iterations": 88,
+          "more_iterations": 27,
+          "sum_measured_online_compute_seconds_ratio_to_zero": 1.0141447945482263
+        },
+        "reduced_warm": {
+          "fewer_iterations": 15,
+          "same_iterations": 92,
+          "more_iterations": 21,
+          "sum_measured_online_compute_seconds_ratio_to_zero": 1.0234780434356485
+        }
+      },
+      "families": [
+        {
+          "family": "girder",
+          "cases": 16,
+          "comparisons": 48,
+          "accepted": 48,
+          "offline_training_factorizations": 4,
+          "offline_factorization_and_loading_seconds": 0.5738246009987051,
+          "offline_coarse_basis_generation_seconds": 6.50743534600042,
+          "neural_restore_seconds": 0.01676533999852836,
+          "online_assembly_seconds_sum": 0.7321069140034524,
+          "online_coarse_setup_seconds_sum": 1.1639305930038972,
+          "maximum_residual": 3.646946965198109e-10,
+          "maximum_relative_field_error": 1.3411198840378287e-09,
+          "failed_comparisons": [],
+          "evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/girder/evaluation.json",
+          "offline_evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/girder/offline.json",
+          "coarse_training_sources": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/girder/coarse_training_sources.json"
+        },
+        {
+          "family": "splice",
+          "cases": 16,
+          "comparisons": 48,
+          "accepted": 48,
+          "offline_training_factorizations": 4,
+          "offline_factorization_and_loading_seconds": 0.1695923400020547,
+          "offline_coarse_basis_generation_seconds": 3.721557267999742,
+          "neural_restore_seconds": 0.022485248000521096,
+          "online_assembly_seconds_sum": 0.4892633150011534,
+          "online_coarse_setup_seconds_sum": 0.7789869749994978,
+          "maximum_residual": 1.569524351384035e-08,
+          "maximum_relative_field_error": 3.758463113761836e-09,
+          "failed_comparisons": [],
+          "evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/splice/evaluation.json",
+          "offline_evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/splice/offline.json",
+          "coarse_training_sources": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/splice/coarse_training_sources.json"
+        },
+        {
+          "family": "crossframe",
+          "cases": 16,
+          "comparisons": 48,
+          "accepted": 48,
+          "offline_training_factorizations": 4,
+          "offline_factorization_and_loading_seconds": 0.1264078169988352,
+          "offline_coarse_basis_generation_seconds": 2.937229833998572,
+          "neural_restore_seconds": 0.012995269999009906,
+          "online_assembly_seconds_sum": 0.29855233899797895,
+          "online_coarse_setup_seconds_sum": 0.5792415640044055,
+          "maximum_residual": 5.577947491449089e-10,
+          "maximum_relative_field_error": 2.2494495114979332e-07,
+          "failed_comparisons": [],
+          "evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/crossframe/evaluation.json",
+          "offline_evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/crossframe/offline.json",
+          "coarse_training_sources": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/crossframe/coarse_training_sources.json"
+        },
+        {
+          "family": "diaphragm",
+          "cases": 16,
+          "comparisons": 48,
+          "accepted": 48,
+          "offline_training_factorizations": 4,
+          "offline_factorization_and_loading_seconds": 0.28041322700119053,
+          "offline_coarse_basis_generation_seconds": 3.2129503060004936,
+          "neural_restore_seconds": 0.015760315000079572,
+          "online_assembly_seconds_sum": 0.3696248129981541,
+          "online_coarse_setup_seconds_sum": 0.6206420860016806,
+          "maximum_residual": 4.0884804657898017e-10,
+          "maximum_relative_field_error": 2.328608768234045e-07,
+          "failed_comparisons": [],
+          "evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/diaphragm/evaluation.json",
+          "offline_evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/diaphragm/offline.json",
+          "coarse_training_sources": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/diaphragm/coarse_training_sources.json"
+        },
+        {
+          "family": "stiffener",
+          "cases": 16,
+          "comparisons": 48,
+          "accepted": 48,
+          "offline_training_factorizations": 4,
+          "offline_factorization_and_loading_seconds": 1.606633867999335,
+          "offline_coarse_basis_generation_seconds": 8.142934944000444,
+          "neural_restore_seconds": 0.016034970998589415,
+          "online_assembly_seconds_sum": 0.832569369005796,
+          "online_coarse_setup_seconds_sum": 1.3569751600007294,
+          "maximum_residual": 2.9098728535835175e-10,
+          "maximum_relative_field_error": 1.772865328110137e-09,
+          "failed_comparisons": [],
+          "evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/stiffener/evaluation.json",
+          "offline_evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/stiffener/offline.json",
+          "coarse_training_sources": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/stiffener/coarse_training_sources.json"
+        },
+        {
+          "family": "deck",
+          "cases": 16,
+          "comparisons": 48,
+          "accepted": 48,
+          "offline_training_factorizations": 4,
+          "offline_factorization_and_loading_seconds": 1.6877738879975368,
+          "offline_coarse_basis_generation_seconds": 9.766300164999848,
+          "neural_restore_seconds": 0.017800397999963025,
+          "online_assembly_seconds_sum": 1.036073523999221,
+          "online_coarse_setup_seconds_sum": 1.732222840995746,
+          "maximum_residual": 2.83932368627287e-08,
+          "maximum_relative_field_error": 3.292260056067726e-09,
+          "failed_comparisons": [],
+          "evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/deck/evaluation.json",
+          "offline_evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/deck/offline.json",
+          "coarse_training_sources": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/deck/coarse_training_sources.json"
+        },
+        {
+          "family": "concrete",
+          "cases": 16,
+          "comparisons": 48,
+          "accepted": 48,
+          "offline_training_factorizations": 4,
+          "offline_factorization_and_loading_seconds": 1.2272772990017984,
+          "offline_coarse_basis_generation_seconds": 6.274055118999968,
+          "neural_restore_seconds": 0.014555149999068817,
+          "online_assembly_seconds_sum": 0.7662298999966879,
+          "online_coarse_setup_seconds_sum": 1.196041649007384,
+          "maximum_residual": 1.9640921400570908e-11,
+          "maximum_relative_field_error": 7.556895376889795e-12,
+          "failed_comparisons": [],
+          "evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/concrete/evaluation.json",
+          "offline_evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/concrete/offline.json",
+          "coarse_training_sources": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/concrete/coarse_training_sources.json"
+        },
+        {
+          "family": "bearing",
+          "cases": 16,
+          "comparisons": 48,
+          "accepted": 48,
+          "offline_training_factorizations": 4,
+          "offline_factorization_and_loading_seconds": 5.378331392001201,
+          "offline_coarse_basis_generation_seconds": 16.38029395599915,
+          "neural_restore_seconds": 0.023667172999921604,
+          "online_assembly_seconds_sum": 1.4381256499982555,
+          "online_coarse_setup_seconds_sum": 1.7762831549989642,
+          "maximum_residual": 1.4679980961238233e-09,
+          "maximum_relative_field_error": 6.34412313824948e-10,
+          "failed_comparisons": [],
+          "evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/bearing/evaluation.json",
+          "offline_evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/bearing/offline.json",
+          "coarse_training_sources": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/two_level/bearing/coarse_training_sources.json"
+        }
+      ],
+      "repair": {
+        "first_level_evidence": "/workspace/scratch/500ec816102b/model-repo/build/residual-online-20261024/first_level_summary.json",
+        "first_level_sha256": "01f19463b91d496b114babf20466a54a5914a43afbf23be03aa018e94f18093b",
+        "first_level_accepted": 377,
+        "first_level_comparisons": 384,
+        "first_level_failed_comparisons": [
+          {
+            "id": "crossframe_g24_l0",
+            "method": "neural_warm",
+            "residual": 4.379915619712014e-08,
+            "field_error": 5.318218254132121e-05,
+            "family": "crossframe"
+          },
+          {
+            "id": "crossframe_g24_l0",
+            "method": "zero_cold",
+            "residual": 6.153073612297738e-07,
+            "field_error": 0.00031559911847521847,
+            "family": "crossframe"
+          },
+          {
+            "id": "crossframe_g24_l1",
+            "method": "neural_warm",
+            "residual": 1.3521486600749677e-07,
+            "field_error": 0.000220199940880681,
+            "family": "crossframe"
+          },
+          {
+            "id": "crossframe_g24_l1",
+            "method": "zero_cold",
+            "residual": 3.3271015996142905e-07,
+            "field_error": 9.999827553065442e-05,
+            "family": "crossframe"
+          },
+          {
+            "id": "diaphragm_g26_l0",
+            "method": "neural_warm",
+            "residual": 4.785746833715579e-08,
+            "field_error": 5.877861371185905e-05,
+            "family": "diaphragm"
+          },
+          {
+            "id": "diaphragm_g26_l1",
+            "method": "reduced_warm",
+            "residual": 3.708568432499215e-08,
+            "field_error": 1.572038655078976e-05,
+            "family": "diaphragm"
+          },
+          {
+            "id": "diaphragm_g26_l1",
+            "method": "zero_cold",
+            "residual": 5.544640690602142e-08,
+            "field_error": 1.5582895059732437e-05,
+            "family": "diaphragm"
+          }
+        ],
+        "change": "Training-only 384-dimensional operator-enriched coarse space; symmetric two-level preconditioning; tighter internal original-equation stopping independent of held-out reference fields. Original acceptance gates remain unchanged.",
+        "full_target_LU_fallbacks": 0
+      },
+      "source_sha256": "80cf6b9b237dad59b1e0405f9455122c7391a7038b8560a41666c1ebb5f5e4a4",
+      "audit_source_sha256": "ad3d3d96b0d6e983a80a38c516acc760d5b3084b463a57adf1766af7c3e63eb4",
+      "interpretation": "PASS describes numerical equilibrium closure after actual online finite-element assembly and iterative correction, not raw neural accuracy or engineering release. Full target LU is never performed online; one disclosed 384-dimensional reduced matrix is factored for each target. Same-budget cold starts are equally qualified. Neural speed advantage is not established.",
+      "timing_scope": "Measured online compute-stage costs include full stiffness assembly, target coarse construction/factorization, feature preparation and real three-member neural inference or reduced initial solve, and all iterative attempts. A shared target setup is charged once to each hypothetical standalone method; summed method totals are not total experiment elapsed time. Current offline costs include train-factor loading, four full training LU factors per family, regenerated coarse bases and neural restore. Earlier data-generation and all recorded neural-round costs are disclosed separately; unlogged orchestration, historical mesh preparation and unrecorded representation-generation time are unavailable. Online input/receipt I/O, free-DOF slicing and verification/bookkeeping overhead are outside these stage timers, so their sum is not end-to-end latency. Shared-host concurrent timings are not controlled throughput evidence.",
+      "engineering_release": "HOLD: local linear elasticity and registered coarse-mesh assumptions remain; the solver benchmark does not establish nonlinear, contact, global-boundary or real-bridge validity.",
+      "pilot_exclusion": "girder_pilot_without_inference_timing remains excluded from all final denominators and cost comparisons."
+    },
+    "nonlinear": {
+      "status": "NATIVE_AND_FULL_FE_CORRECTION_PASS_RAW_NEURAL_HOLD",
+      "checkpoint_reloading": {
+        "status": "PASS",
+        "replayed_field_frames": 216,
+        "evidence": "build/local-nonlinear-20261024/checkpoint_reload_verification.json"
+      },
+      "native": {
+        "completed_paths": 36,
+        "qualified_paths": 36,
+        "actual_converged_increments": 1672,
+        "printed_endpoint_fields_audited": 396,
+        "increment_count_evidence": "build/local-nonlinear-20261024/increment_count_audit.json",
+        "physical_audit_scope": "396 printed stage-endpoint fields; 1672 native increment times are separately documented.",
+        "endpoint_states_including_initial": 432,
+        "max_full_nonlinear_residual": 1.469941263476298e-07,
+        "min_J": 0.9921097349184385,
+        "max_abs_Green_strain": 0.009115737518229028,
+        "max_global_force_relative": 1.2187521799164678e-11,
+        "max_global_moment_relative": 4.283180992914735e-10,
+        "evidence": [
+          "build/local-nonlinear-20261024/native_results.json",
+          "build/local-nonlinear-20261024/independent_path_native_results.json",
+          "build/local-nonlinear-20261024/source_integrity.json"
+        ]
+      },
+      "training": {
+        "completed_runs": 6,
+        "epochs_each": 2200,
+        "total_epochs": 13200,
+        "geometry_split_per_family": {
+          "train": 8,
+          "validation": 3,
+          "test": 3
+        },
+        "families": {
+          "splice": {
+            "mean_test_relative_L2_by_seed": {
+              "17": 0.0918163597620084,
+              "43": 0.10122168754767474,
+              "89": 0.11030825459544076
+            },
+            "raw_physics_gate": "HOLD"
+          },
+          "deck": {
+            "mean_test_relative_L2_by_seed": {
+              "17": 0.07750915491414391,
+              "43": 0.0550577800576137,
+              "89": 0.07907783299074053
+            },
+            "raw_physics_gate": "HOLD"
+          }
+        },
+        "evidence": "build/local-nonlinear-20261024/training_results.json"
+      },
+      "independent_path_tests": {
+        "count": 6,
+        "max_path_relative_L2": 0.1399173395918051,
+        "raw_physics_gate": "HOLD",
+        "evidence": "build/local-nonlinear-20261024/independent_path_operator_results.json"
+      },
+      "full_fe_correction": {
+        "completed_geometries": 6,
+        "completed_states": 72,
+        "status": "PASS",
+        "max_corrected_relative_L2": 3.113682601843151e-10,
+        "max_corrected_full_residual": 9.944916499373425e-08,
+        "full_sparse_newton_solves_final_attempts": 372,
+        "full_sparse_newton_solves_including_failed_attempts": 620,
+        "wall_seconds_sum_of_state_attempts": 267.5226275920868,
+        "actual_state_attempts_including_retries": 97,
+        "energy_merit_repair_evidence": "build/local-nonlinear-20261024/energy_merit_repair.json",
+        "evidence": "build/local-nonlinear-20261024/correction_results.json",
+        "cost_scope": "Full nonlinear FE tangent assembly and sparse solves; no speedup or pure-neural equilibrium claim.",
+        "initialization_comparison_evidence": "build/local-nonlinear-20261024/initialization_comparison.json",
+        "first_failed_16_iteration_attempts_evidence": [
+          "build/local-nonlinear-20261024/failures/splice_g12_first_correction_failure.json",
+          "build/local-nonlinear-20261024/failures/splice_g13_first_correction_failure.json"
+        ]
+      },
+      "increment_refinement": {
+        "max_trajectory_relative_L2": 1.2168793876386125e-11,
+        "evidence": "build/local-nonlinear-20261024/increment_sensitivity.json"
+      },
+      "repairs": [
+        {
+          "issue": "Force-norm monotone line search stagnated after 16 and 25 iterations on held-out splice states.",
+          "repair": "Retained failed fields, increased the budget without loosening tolerance, then used the verified total-potential Armijo merit. Final stagnant state converged in 3 additional full Newton solves.",
+          "evidence": "build/local-nonlinear-20261024/energy_merit_repair.json"
+        },
+        {
+          "issue": "Native default nonlinear convergence is looser than independent full-residual gate.",
+          "repair": "Tightened Rn, Cn and Rp to 1e-8; retained automatic increments and required every frame residual <1e-6.",
+          "evidence": "build/local-nonlinear-20261024/contract.json"
+        },
+        {
+          "issue": "Training was launched before final deck receipt existed and stopped after splice runs.",
+          "repair": "Preflight all qualified receipts before training and resume existing completed seeds; all six runs now complete.",
+          "evidence": "build/local-nonlinear-20261024/failures/training_started_before_dataset_complete.log"
+        },
+        {
+          "issue": "Raw neural displacement approximation violates full nonlinear equilibrium.",
+          "repair": "Retained raw HOLD and added independently verified complete FE Newton safeguard.",
+          "evidence": "build/local-nonlinear-20261024/consistent_tangent_verification.json"
+        }
+      ],
+      "initialization_comparison": [
+        {
+          "geometry_id": "splice_g11",
+          "load_amplitude": 1.0,
+          "line_search": "same exact elastic-energy Armijo plus force-reduction fallback for both initial guesses",
+          "zero_initialization": {
+            "status": "PASS",
+            "iterations": 12,
+            "history": [
+              {
+                "iteration": 0,
+                "relative_full_residual": 1.0,
+                "minimum_J": 1.0,
+                "potential_energy_Nmm": 0.0,
+                "accepted_step": 0.25,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 1,
+                "relative_full_residual": 302.6814270356638,
+                "minimum_J": 0.9984506465257617,
+                "potential_energy_Nmm": -65434.54401191953,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 2,
+                "relative_full_residual": 18.70876369964922,
+                "minimum_J": 0.9978828878027924,
+                "potential_energy_Nmm": -429557.421886518,
+                "accepted_step": 0.5,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 3,
+                "relative_full_residual": 213.38248490035846,
+                "minimum_J": 0.9966507124712128,
+                "potential_energy_Nmm": -481245.5792558899,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 4,
+                "relative_full_residual": 13.772525219699833,
+                "minimum_J": 0.9963237100642195,
+                "potential_energy_Nmm": -666213.509318911,
+                "accepted_step": 0.5,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 5,
+                "relative_full_residual": 102.2260316568161,
+                "minimum_J": 0.9954736475482808,
+                "potential_energy_Nmm": -715413.5410151049,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 6,
+                "relative_full_residual": 16.619584798991944,
+                "minimum_J": 0.9951154603564449,
+                "potential_energy_Nmm": -772817.5119657447,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 7,
+                "relative_full_residual": 92.89383183227065,
+                "minimum_J": 0.994271405800849,
+                "potential_energy_Nmm": -781645.0931787428,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 8,
+                "relative_full_residual": 1.8140012620787298,
+                "minimum_J": 0.9941515610472553,
+                "potential_energy_Nmm": -811889.4780097401,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 9,
+                "relative_full_residual": 19.056912070999637,
+                "minimum_J": 0.9937674648035274,
+                "potential_energy_Nmm": -814441.1171942417,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 10,
+                "relative_full_residual": 0.030465972112378836,
+                "minimum_J": 0.9937519014495149,
+                "potential_energy_Nmm": -815624.1921510706,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 11,
+                "relative_full_residual": 0.01490937474533976,
+                "minimum_J": 0.9937411345111544,
+                "potential_energy_Nmm": -815626.7614039435,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 12,
+                "relative_full_residual": 1.917444576727131e-08,
+                "minimum_J": 0.9937411221618111,
+                "potential_energy_Nmm": -815626.7621238411
+              }
+            ],
+            "seconds": 3.602628469467163,
+            "final_residual": 1.917444576727131e-08
+          },
+          "neural_initialization": {
+            "status": "PASS",
+            "iterations": 8,
+            "history": [
+              {
+                "iteration": 0,
+                "relative_full_residual": 21267.58651719791,
+                "minimum_J": 0.9178330023727707,
+                "potential_energy_Nmm": 861092740.9687815,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 1,
+                "relative_full_residual": 4385.860392777619,
+                "minimum_J": 0.9815090126012987,
+                "potential_energy_Nmm": 35185666.756200105,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 2,
+                "relative_full_residual": 435.75510190534413,
+                "minimum_J": 0.9879072550617626,
+                "potential_energy_Nmm": 538667.9027549373,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 3,
+                "relative_full_residual": 95.71545144424337,
+                "minimum_J": 0.9936599850153478,
+                "potential_energy_Nmm": -774284.4730824615,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 4,
+                "relative_full_residual": 8.614115442677162,
+                "minimum_J": 0.9937926077817348,
+                "potential_energy_Nmm": -814723.2369451304,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 5,
+                "relative_full_residual": 1.225825257721802,
+                "minimum_J": 0.9937482635595002,
+                "potential_energy_Nmm": -815621.7813499254,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 6,
+                "relative_full_residual": 0.00818842942621573,
+                "minimum_J": 0.9937413147594296,
+                "potential_energy_Nmm": -815626.7609960018,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 7,
+                "relative_full_residual": 5.2141496289339426e-06,
+                "minimum_J": 0.993741122211128,
+                "potential_energy_Nmm": -815626.7621238409,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 8,
+                "relative_full_residual": 4.6099565644159454e-10,
+                "minimum_J": 0.9937411221551188,
+                "potential_energy_Nmm": -815626.7621238423
+              }
+            ],
+            "seconds": 2.492753267288208,
+            "final_residual": 4.6099565644159454e-10
+          },
+          "zero_solution_relative_L2": 1.0992276187770686e-09,
+          "timing_scope": "Single CPU runs under concurrent workload; not a controlled speed benchmark.",
+          "conclusion": "Full FE correction required; reported counts determine whether the neural initial guess actually helps on this case."
+        },
+        {
+          "geometry_id": "deck_g11",
+          "load_amplitude": 1.0,
+          "line_search": "same exact elastic-energy Armijo plus force-reduction fallback for both initial guesses",
+          "zero_initialization": {
+            "status": "PASS",
+            "iterations": 3,
+            "history": [
+              {
+                "iteration": 0,
+                "relative_full_residual": 0.9999999999999998,
+                "minimum_J": 1.0,
+                "potential_energy_Nmm": 0.0,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 1,
+                "relative_full_residual": 3.373544438456609,
+                "minimum_J": 0.9999290758206804,
+                "potential_energy_Nmm": -5879.83329111826,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 2,
+                "relative_full_residual": 4.993720698926503e-07,
+                "minimum_J": 0.9999290694511629,
+                "potential_energy_Nmm": -5880.003738731895,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 3,
+                "relative_full_residual": 2.3131974772723266e-09,
+                "minimum_J": 0.9999290694511044,
+                "potential_energy_Nmm": -5880.0037387320035
+              }
+            ],
+            "seconds": 2.8161253929138184,
+            "final_residual": 2.3131974772723266e-09
+          },
+          "neural_initialization": {
+            "status": "PASS",
+            "iterations": 3,
+            "history": [
+              {
+                "iteration": 0,
+                "relative_full_residual": 2119.5569402460533,
+                "minimum_J": 0.9996933457794382,
+                "potential_energy_Nmm": 93714.65290760975,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 1,
+                "relative_full_residual": 1.403239510522239,
+                "minimum_J": 0.9999287893593711,
+                "potential_energy_Nmm": -5879.265569199283,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 2,
+                "relative_full_residual": 0.0010768729675690754,
+                "minimum_J": 0.9999290694387882,
+                "potential_energy_Nmm": -5880.003738712891,
+                "accepted_step": 1.0,
+                "merit": "energy_armijo"
+              },
+              {
+                "iteration": 3,
+                "relative_full_residual": 2.7074764734114682e-09,
+                "minimum_J": 0.9999290694511044,
+                "potential_energy_Nmm": -5880.003738731705
+              }
+            ],
+            "seconds": 2.838533639907837,
+            "final_residual": 2.7074764734114682e-09
+          },
+          "zero_solution_relative_L2": 1.0432412940805412e-13,
+          "timing_scope": "Single CPU runs under concurrent workload; not a controlled speed benchmark.",
+          "conclusion": "Full FE correction required; reported counts determine whether the neural initial guess actually helps on this case."
+        }
+      ],
+      "energy_merit_repair": [
+        {
+          "geometry_id": "splice_g13",
+          "state": 3,
+          "previous_status": "MAX_ITERATIONS",
+          "previous_residual": 0.43586924559078793,
+          "new_status": "PASS",
+          "new_residual": 4.2375468611946203e-10,
+          "additional_sparse_newton_solves": 3,
+          "additional_seconds": 1.0489757061004639,
+          "evidence": "build/local-nonlinear-20261024/corrected/splice_g13.json"
+        }
+      ],
+      "hard_gaps": [
+        "No as-built Zhaqing bridge geometry, measured material calibration, actual support conditions or bridge load envelope is established by these public-detail research coupons.",
+        "The splice has bonded bolt-hole interfaces; real frictional contact is a separate two-block experiment and must not be attributed to this splice.",
+        "St-Venant Kirchhoff ideal elasticity has no steel yielding, plasticity, damage, bolt preload or calibrated cyclic hysteresis; larger predicted strains can exceed a real steel elastic range.",
+        "The operator is a geometry-disjoint research surrogate on one reference mesh per topology; raw fields fail the strict nonlinear physics gate.",
+        "Quasi-static pseudo-time is not inertial dynamics; history reduction is valid only for the selected reversible elastic equilibrium branch.",
+        "The successful safeguard requires full FE tangents and solves; acceleration over CalculiX has not been established."
+      ],
+      "engineering_design_status": "NOT_QUALIFIED_FOR_REAL_BRIDGE_DESIGN",
+      "evidence_root": "build/local-nonlinear-20261024"
+    },
+    "dynamics": {
+      "status": "PASS_LINEAR_LOCAL_RESEARCH_SCOPE",
+      "families": [
+        "girder",
+        "deck"
+      ],
+      "geometry_count": 56,
+      "trajectory_count": 112,
+      "steps_per_trajectory": 320,
+      "long_rollout_steps": 1280,
+      "retained_modes": 48,
+      "geometry_splits": {
+        "train": [
+          "deck_g00",
+          "deck_g01",
+          "deck_g02",
+          "deck_g03",
+          "deck_g04",
+          "deck_g05",
+          "deck_g06",
+          "deck_g07",
+          "deck_g08",
+          "deck_g09",
+          "deck_g10",
+          "deck_g11",
+          "deck_g12",
+          "deck_g13",
+          "deck_g14",
+          "deck_g15",
+          "girder_g00",
+          "girder_g01",
+          "girder_g02",
+          "girder_g03",
+          "girder_g04",
+          "girder_g05",
+          "girder_g06",
+          "girder_g07",
+          "girder_g08",
+          "girder_g09",
+          "girder_g10",
+          "girder_g11",
+          "girder_g12",
+          "girder_g13",
+          "girder_g14",
+          "girder_g15"
+        ],
+        "validation": [
+          "deck_g16",
+          "deck_g17",
+          "deck_g18",
+          "deck_g19",
+          "girder_g16",
+          "girder_g17",
+          "girder_g18",
+          "girder_g19"
+        ],
+        "test": [
+          "deck_g20",
+          "deck_g21",
+          "deck_g22",
+          "deck_g23",
+          "girder_g20",
+          "girder_g21",
+          "girder_g22",
+          "girder_g23"
+        ],
+        "ood": [
+          "deck_g24",
+          "deck_g25",
+          "deck_g26",
+          "deck_g27",
+          "girder_g24",
+          "girder_g25",
+          "girder_g26",
+          "girder_g27"
+        ]
+      },
+      "trajectory_counts_by_split": {
+        "train": 64,
+        "validation": 16,
+        "test": 16,
+        "ood": 16
+      },
+      "density": {
+        "tonne_per_mm3": 7.85e-09,
+        "kg_per_m3": 7850,
+        "provenance": "Declared conventional research steel density; not extracted from source drawings"
+      },
+      "weights": [
+        {
+          "path": "build/local-dynamics-20261024/training_refined/model_seed_17.pt",
+          "sha256": "ba05087ab0d783a0bcec3a60813c9df4cd4df0ca5d453c744d0db90b885b9032",
+          "bytes": 35638
+        },
+        {
+          "path": "build/local-dynamics-20261024/training_refined/model_seed_41.pt",
+          "sha256": "6d651d3ee9fd471205cac767fdca3a131e1d80c395d6336fa08855a81f72f921",
+          "bytes": 35638
+        },
+        {
+          "path": "build/local-dynamics-20261024/training_refined/model_seed_73.pt",
+          "sha256": "e0724190c658115acbeb90620b740dac65743249932a2f3094640177f1454308",
+          "bytes": 35638
+        }
+      ],
+      "training": {
+        "seeds": [
+          17,
+          41,
+          73
+        ],
+        "epochs_per_member": 2000,
+        "architecture_scope": "zero-step-consistent modal-state recurrent neural operator for two linear elastic steel families; each new geometry requires full FEM eigenmodes; no nonlinear reduction or universal geometry encoder",
+        "raw_and_physics_correction_separate": true,
+        "lbfgs_max_iterations": 400,
+        "phase_supervision": "identified solely from observed training q/v/load transitions",
+        "selected_raw_seed": 17,
+        "raw_prediction_policy": "Single member selected solely by independent validation field error; ensemble mean state is not used because phase cancellation would introduce artificial damping.",
+        "validation_selection_scores": {
+          "17": 0.0003673615634516847,
+          "41": 0.0004125734936801195,
+          "73": 0.0010851515651899525
+        }
+      },
+      "raw_rollout_by_family_split": {
+        "girder": {
+          "train": {
+            "cases": 32,
+            "mean_field_relative": 0.0001619600867032454,
+            "max_field_relative": 0.0011174909528683407,
+            "max_momentum_relative": 9.880330352771061e-05,
+            "max_kinematic_relative": 0.00015118999773169878,
+            "mean_long_field_relative": 0.0007900110556042112,
+            "max_long_field_relative": 0.009956359451146984,
+            "accepted": 32
+          },
+          "validation": {
+            "cases": 8,
+            "mean_field_relative": 0.00014492946294932386,
+            "max_field_relative": 0.0002958947206173048,
+            "max_momentum_relative": 7.675293860424797e-05,
+            "max_kinematic_relative": 0.0001515007037158549,
+            "mean_long_field_relative": 0.0005176411303103505,
+            "max_long_field_relative": 0.0010050863443346017,
+            "accepted": 8
+          },
+          "test": {
+            "cases": 8,
+            "mean_field_relative": 0.00012852586513700811,
+            "max_field_relative": 0.000332320570775431,
+            "max_momentum_relative": 7.643759755375181e-05,
+            "max_kinematic_relative": 0.0001429847426791678,
+            "mean_long_field_relative": 0.00039179537524147365,
+            "max_long_field_relative": 0.0008813575701778706,
+            "accepted": 8
+          },
+          "ood": {
+            "cases": 8,
+            "mean_field_relative": 0.0007649045575879798,
+            "max_field_relative": 0.002039838339659279,
+            "max_momentum_relative": 0.0001285406412570817,
+            "max_kinematic_relative": 0.00017563605670833696,
+            "mean_long_field_relative": 0.00453568105902006,
+            "max_long_field_relative": 0.012967105697452274,
+            "accepted": 0
+          }
+        },
+        "deck": {
+          "train": {
+            "cases": 32,
+            "mean_field_relative": 0.0005944162793491577,
+            "max_field_relative": 0.0007007564225069264,
+            "max_momentum_relative": 0.00011826845138703158,
+            "max_kinematic_relative": 0.00043531363027721605,
+            "mean_long_field_relative": 0.0029156209277729963,
+            "max_long_field_relative": 0.003172063903049203,
+            "accepted": 32
+          },
+          "validation": {
+            "cases": 8,
+            "mean_field_relative": 0.0005897936639540455,
+            "max_field_relative": 0.0006395625696583463,
+            "max_momentum_relative": 8.725282292007469e-05,
+            "max_kinematic_relative": 0.0003581412351602538,
+            "mean_long_field_relative": 0.002908825010844049,
+            "max_long_field_relative": 0.003002792523633136,
+            "accepted": 8
+          },
+          "test": {
+            "cases": 8,
+            "mean_field_relative": 0.0005892868170340869,
+            "max_field_relative": 0.0006363466220189943,
+            "max_momentum_relative": 9.894641660769616e-05,
+            "max_kinematic_relative": 0.00014990140461844332,
+            "mean_long_field_relative": 0.0029090335212377974,
+            "max_long_field_relative": 0.003005002303613406,
+            "accepted": 8
+          },
+          "ood": {
+            "cases": 8,
+            "mean_field_relative": 0.0005890385926646711,
+            "max_field_relative": 0.0006342965836433416,
+            "max_momentum_relative": 7.463036590161185e-05,
+            "max_kinematic_relative": 0.0023168208213777556,
+            "mean_long_field_relative": 0.0029087245947730296,
+            "max_long_field_relative": 0.003001044674341568,
+            "accepted": 0
+          }
+        }
+      },
+      "physics_correction_scope": "exact 2-by-2 modal Newmark updates, separate from raw learned phase; does not remove modal truncation error",
+      "native_and_exact_mass_crosschecks": [
+        {
+          "family": "girder",
+          "native_K_relative_independent": 2.708790414483504e-10,
+          "native_M_relative_four_point": 1.7329389190434228e-11,
+          "native_M_relative_exact_mass": 0.2552313972877531,
+          "native_printed_frequency_vs_export_eigensolve_max_relative": 4.363350764535813e-07,
+          "native_rule_frequency_vs_independent_four_point_max_relative": 3.814914415932773e-09,
+          "native_frequency_vs_exact_mass_max_relative": 0.005118997998682444,
+          "exact_mass_Hz": [
+            22.10164750848944,
+            50.8594978428031,
+            56.91523818890035,
+            69.032484442417,
+            70.15579960293178,
+            93.44131332689993,
+            106.10628262906984,
+            109.38426356619266,
+            157.982840600247,
+            164.69059838502386,
+            176.58660363258176,
+            180.66006700277475,
+            187.09389639022737,
+            214.06622119919547,
+            255.7632734853225,
+            266.51688941854337,
+            279.06525381143894,
+            318.0829114495295,
+            324.9634861654114,
+            345.50816150057716,
+            359.92384887685563,
+            364.7408926505605,
+            388.0373851746013,
+            399.9580048256896
+          ],
+          "native_four_point_Hz": [
+            22.101949971414374,
+            50.86373312769319,
+            56.920088621810145,
+            69.03322707658126,
+            70.15936809553588,
+            93.47201710016748,
+            106.144746314676,
+            109.41779925463894,
+            158.08634428384863,
+            164.8186655453961,
+            176.76680783837668,
+            180.66351478569834,
+            187.29253180470536,
+            214.30138153649358,
+            256.32913032296005,
+            266.91610797065,
+            279.6435636585417,
+            318.5474696366074,
+            325.4334891366445,
+            345.70893366117417,
+            361.3206552267286,
+            364.8708859804561,
+            390.02374777272405,
+            400.2817388820106
+          ],
+          "input_sha256": "54b8ca02414efd943955a1a5cccd996a1d64cda230b238313f354b8f0c128c5d",
+          "mass_sha256": "a0dced53a53fa420ec71515f4ed788eae6064e9dc9e4c0a1bc5a5a0fc583f90f",
+          "explanation": "Native C3D10 uses four-point underintegrated Ni*Nj mass; production dynamics retain exact degree-four consistent mass. Like-for-like native-rule eigenproblem is compared separately.",
+          "status": "PASS"
+        },
+        {
+          "family": "deck",
+          "native_K_relative_independent": 7.565966273734576e-11,
+          "native_M_relative_four_point": 2.359557238516795e-11,
+          "native_M_relative_exact_mass": 0.25446552556419993,
+          "native_printed_frequency_vs_export_eigensolve_max_relative": 2.2808925328700673e-07,
+          "native_rule_frequency_vs_independent_four_point_max_relative": 1.7051935393074753e-08,
+          "native_frequency_vs_exact_mass_max_relative": 0.008684066238449905,
+          "exact_mass_Hz": [
+            48.16560062574393,
+            108.92792159050899,
+            139.50308538578577,
+            203.2303004739163,
+            253.43886369684546,
+            320.59169230658273,
+            337.56808541679135,
+            363.49649822616135,
+            380.37724117803594,
+            507.7494433050903,
+            520.0936716110892,
+            529.0036820860976,
+            594.3665494523855,
+            596.7872823060992,
+            601.5856733413211,
+            656.0595730422084,
+            695.2202727397291,
+            728.1506161719175,
+            769.1439153473041,
+            819.3407531185738,
+            945.6884453819521,
+            948.0623861032686,
+            975.4882792061042,
+            984.3687974150923
+          ],
+          "native_four_point_Hz": [
+            48.16561607876289,
+            108.92872059036294,
+            139.50413181939325,
+            203.246592578155,
+            253.44197247283086,
+            320.7321220057518,
+            337.7547965617737,
+            364.0368095677559,
+            380.796159978362,
+            508.30864941203254,
+            520.7836017578163,
+            529.0268962104543,
+            594.4628207010093,
+            597.1177804369607,
+            602.1102753112091,
+            656.2808816126794,
+            695.9391169523079,
+            729.2400238626196,
+            770.2708390295107,
+            823.4237681931613,
+            949.2771056701736,
+            956.2954226623723,
+            976.639208028477,
+            985.2166169358162
+          ],
+          "input_sha256": "c34251e7e6d2082fd76533f264a4b55ad23371a76fe0e8f92ecaa189b3481468",
+          "mass_sha256": "a7f70f4a9fdd47b1a167ccfe2175b51b590dbafeadb79eabe819bd7103e7ea1d",
+          "explanation": "Native C3D10 uses four-point underintegrated Ni*Nj mass; production dynamics retain exact degree-four consistent mass. Like-for-like native-rule eigenproblem is compared separately.",
+          "status": "PASS"
+        }
+      ],
+      "native_transient_and_time_step_checks": [
+        {
+          "family": "girder",
+          "density_tonne_mm3": 7.85e-09,
+          "max_modal_frequency_relative_ccx": 0.005118874877101811,
+          "native_transient_relative_probe": 5.673268588700046e-06,
+          "native_transient_steps": 320,
+          "native_completed": true,
+          "time_step_seconds": 0.0007069608722141579,
+          "time_step_halving_relative": 0.00043824282472933044,
+          "modal_truncation": [
+            {
+              "modes": 12,
+              "full_field_relative": 0.18346141480064537
+            },
+            {
+              "modes": 24,
+              "full_field_relative": 0.11482838216936922
+            },
+            {
+              "modes": 48,
+              "full_field_relative": 0.044512092127830964
+            }
+          ],
+          "full_order_dynamic_equilibrium": 8.846582680742552e-05,
+          "full_order_energy_balance_relative": 6.088639139090086e-12,
+          "fine_energy_balance_relative": 6.1210635445786815e-12,
+          "status": "HOLD"
+        },
+        {
+          "family": "deck",
+          "density_tonne_mm3": 7.85e-09,
+          "max_modal_frequency_relative_ccx": 0.008684042335319291,
+          "native_transient_relative_probe": 3.5118177657374895e-06,
+          "native_transient_steps": 320,
+          "native_completed": true,
+          "time_step_seconds": 0.0003244016434348469,
+          "time_step_halving_relative": 0.0063649835307190055,
+          "modal_truncation": [
+            {
+              "modes": 12,
+              "full_field_relative": 0.0009284565144578768
+            },
+            {
+              "modes": 24,
+              "full_field_relative": 0.0002527063191169417
+            },
+            {
+              "modes": 48,
+              "full_field_relative": 0.00012096907655272773
+            }
+          ],
+          "full_order_dynamic_equilibrium": 3.3178015480269276,
+          "full_order_energy_balance_relative": 5.666043560537907e-10,
+          "fine_energy_balance_relative": 5.128283375442451e-10,
+          "status": "HOLD"
+        }
+      ],
+      "native_modal_initial_hold_resolution": "Original 0.1% exact-mass/native-frequency comparison remains archived. Exported K/M and independent four-point assembly reproduce native eigenvalues; mass quadrature differs. Exact consistent mass remains the production dynamics model. No acceptance threshold was loosened.",
+      "full_order_modal_convergence": [
+        {
+          "case": "girder_reference",
+          "geometry_id": "girder_reference",
+          "family": "girder",
+          "wave": 0,
+          "split": "baseline",
+          "steps": 320,
+          "dt_seconds": 0.0007069608722045566,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.18526018975115643
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.11602610579133431
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.04503443197936573
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 0.010894337140126786
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 4.6802395299577674e-08,
+          "full_order_fixed_force_equilibrium_relative": 4.118096934861781e-11,
+          "characteristic_force_N": 1136.505430539326,
+          "full_order_energy_balance_relative": 8.920758665133895e-12,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "girder_reference",
+          "geometry_id": "girder_reference",
+          "family": "girder",
+          "wave": 1,
+          "split": "baseline",
+          "steps": 320,
+          "dt_seconds": 0.0007069608722045566,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.18346141479101064
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.11482838222964298
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.04451209212764989
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 0.010765471825980097
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 8.934930046675509e-08,
+          "full_order_fixed_force_equilibrium_relative": 4.274152918344096e-11,
+          "characteristic_force_N": 2090.4563354127968,
+          "full_order_energy_balance_relative": 8.691105411562183e-12,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "girder_g20_l0",
+          "geometry_id": "girder_g20",
+          "family": "girder",
+          "wave": 0,
+          "split": "test",
+          "steps": 320,
+          "dt_seconds": 0.0007987408367600811,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.12847786239793055
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.07211442012161894
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.021327250231386624
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 0.004798688097136598
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 1.1218716875559606e-07,
+          "full_order_fixed_force_equilibrium_relative": 1.7683467466157512e-10,
+          "characteristic_force_N": 634.4183852533391,
+          "full_order_energy_balance_relative": 3.035317573182312e-11,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "girder_g20_l0",
+          "geometry_id": "girder_g20",
+          "family": "girder",
+          "wave": 1,
+          "split": "test",
+          "steps": 320,
+          "dt_seconds": 0.0007987408367600811,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.11798799575103477
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.0659931349071419
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.019492073048073554
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 0.004384690312774091
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 2.6359854201269846e-07,
+          "full_order_fixed_force_equilibrium_relative": 2.25890339542665e-10,
+          "characteristic_force_N": 1166.9314524311976,
+          "full_order_energy_balance_relative": 4.181692726780535e-11,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "girder_g23_l0",
+          "geometry_id": "girder_g23",
+          "family": "girder",
+          "wave": 0,
+          "split": "test",
+          "steps": 320,
+          "dt_seconds": 0.0007478395781228805,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.12187937960122874
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.056485593851996016
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.01521009926972472
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 0.0036964407933333587
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 3.457085603954742e-07,
+          "full_order_fixed_force_equilibrium_relative": 2.979174321601484e-10,
+          "characteristic_force_N": 1160.4173609070153,
+          "full_order_energy_balance_relative": 7.133003194705084e-11,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "girder_g23_l0",
+          "geometry_id": "girder_g23",
+          "family": "girder",
+          "wave": 1,
+          "split": "test",
+          "steps": 320,
+          "dt_seconds": 0.0007478395781228805,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.10981468135364168
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.0506813796482718
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.013630145313775908
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 0.003311743493368995
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 8.165886381676951e-07,
+          "full_order_fixed_force_equilibrium_relative": 3.8257759256220575e-10,
+          "characteristic_force_N": 2134.4392720410583,
+          "full_order_energy_balance_relative": 5.982697965037847e-11,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "deck_reference",
+          "geometry_id": "deck_reference",
+          "family": "deck",
+          "wave": 0,
+          "split": "baseline",
+          "steps": 320,
+          "dt_seconds": 0.000324401643432736,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.002377721873531648
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.0006493552240807537
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.0003110392859428934
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 0.00013942361213770054
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 1.9828662645012874e-05,
+          "full_order_fixed_force_equilibrium_relative": 1.8064843881793885e-08,
+          "characteristic_force_N": 1097.6381957552703,
+          "full_order_energy_balance_relative": 3.8629087372323746e-10,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "deck_reference",
+          "geometry_id": "deck_reference",
+          "family": "deck",
+          "wave": 1,
+          "split": "baseline",
+          "steps": 320,
+          "dt_seconds": 0.000324401643432736,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.000928456463813706
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.00025270627183669145
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.00012096901954743684
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 5.4212825173551215e-05
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 6.981932997508166e-05,
+          "full_order_fixed_force_equilibrium_relative": 3.4581743095334206e-08,
+          "characteristic_force_N": 2018.9650296864804,
+          "full_order_energy_balance_relative": 4.259534569077691e-10,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "deck_g20_l0",
+          "geometry_id": "deck_g20",
+          "family": "deck",
+          "wave": 0,
+          "split": "test",
+          "steps": 320,
+          "dt_seconds": 0.0002763704789688705,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.002682844962715926
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.0007639072616750064
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.00037691272492738204
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 0.00018124065860028715
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 2.1174260126791026e-05,
+          "full_order_fixed_force_equilibrium_relative": 1.4080578826523424e-08,
+          "characteristic_force_N": 1503.7918815457583,
+          "full_order_energy_balance_relative": 8.679878416362848e-10,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "deck_g20_l0",
+          "geometry_id": "deck_g20",
+          "family": "deck",
+          "wave": 1,
+          "split": "test",
+          "steps": 320,
+          "dt_seconds": 0.0002763704789688705,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.0010484128284534745
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.0002975189777313199
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.00014670071695200397
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 7.052497195001805e-05
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 7.74316781517343e-05,
+          "full_order_fixed_force_equilibrium_relative": 2.7993767444867118e-08,
+          "characteristic_force_N": 2766.0327715529415,
+          "full_order_energy_balance_relative": 5.328428447577857e-10,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "deck_g23_l0",
+          "geometry_id": "deck_g23",
+          "family": "deck",
+          "wave": 0,
+          "split": "test",
+          "steps": 320,
+          "dt_seconds": 0.0002937044259026166,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.002698442861825323
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.0011802876215747963
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.0004100864554886928
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 0.0001930063765739948
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 1.5403940289218017e-05,
+          "full_order_fixed_force_equilibrium_relative": 1.2524096602034035e-08,
+          "characteristic_force_N": 1229.9442250162992,
+          "full_order_energy_balance_relative": 3.160251679873137e-10,
+          "native_solver_compared_on_baseline_only": true
+        },
+        {
+          "case": "deck_g23_l0",
+          "geometry_id": "deck_g23",
+          "family": "deck",
+          "wave": 1,
+          "split": "test",
+          "steps": 320,
+          "dt_seconds": 0.0002937044259026166,
+          "modal_convergence": [
+            {
+              "modes": 12,
+              "relative_full_field": 0.001054326607418285
+            },
+            {
+              "modes": 24,
+              "relative_full_field": 0.0004597032237194182
+            },
+            {
+              "modes": 48,
+              "relative_full_field": 0.00015952149034324163
+            },
+            {
+              "modes": 96,
+              "relative_full_field": 7.505900922714669e-05
+            }
+          ],
+          "full_order_absolute_equilibrium_N": 5.0032048405564406e-05,
+          "full_order_fixed_force_equilibrium_relative": 2.211532270885333e-08,
+          "characteristic_force_N": 2262.325043330039,
+          "full_order_energy_balance_relative": 2.1738717199302943e-10,
+          "native_solver_compared_on_baseline_only": true
+        }
+      ],
+      "raw_and_corrected_full_order_test": [
+        {
+          "id": "girder_g20_wave0",
+          "geometry_id": "girder_g20",
+          "family": "girder",
+          "raw_neural_vs_full_order_relative": 0.021326821183472285,
+          "corrected_modal_vs_full_order_relative": 0.02132725008875826,
+          "corrected_is_exact_modal_solver": true,
+          "full_order_gate_pass": true
+        },
+        {
+          "id": "girder_g20_wave1",
+          "geometry_id": "girder_g20",
+          "family": "girder",
+          "raw_neural_vs_full_order_relative": 0.019492496644992998,
+          "corrected_modal_vs_full_order_relative": 0.01949207304201108,
+          "corrected_is_exact_modal_solver": true,
+          "full_order_gate_pass": true
+        },
+        {
+          "id": "girder_g23_wave0",
+          "geometry_id": "girder_g23",
+          "family": "girder",
+          "raw_neural_vs_full_order_relative": 0.015210152011016005,
+          "corrected_modal_vs_full_order_relative": 0.01521009961463116,
+          "corrected_is_exact_modal_solver": true,
+          "full_order_gate_pass": true
+        },
+        {
+          "id": "girder_g23_wave1",
+          "geometry_id": "girder_g23",
+          "family": "girder",
+          "raw_neural_vs_full_order_relative": 0.013632609109484807,
+          "corrected_modal_vs_full_order_relative": 0.013630145239982286,
+          "corrected_is_exact_modal_solver": true,
+          "full_order_gate_pass": true
+        },
+        {
+          "id": "deck_g20_wave0",
+          "geometry_id": "deck_g20",
+          "family": "deck",
+          "raw_neural_vs_full_order_relative": 0.0006475609783568667,
+          "corrected_modal_vs_full_order_relative": 0.0003769127291064171,
+          "corrected_is_exact_modal_solver": true,
+          "full_order_gate_pass": true
+        },
+        {
+          "id": "deck_g20_wave1",
+          "geometry_id": "deck_g20",
+          "family": "deck",
+          "raw_neural_vs_full_order_relative": 0.0006597901610058426,
+          "corrected_modal_vs_full_order_relative": 0.00014670072101182686,
+          "corrected_is_exact_modal_solver": true,
+          "full_order_gate_pass": true
+        },
+        {
+          "id": "deck_g23_wave0",
+          "geometry_id": "deck_g23",
+          "family": "deck",
+          "raw_neural_vs_full_order_relative": 0.0006659270554851079,
+          "corrected_modal_vs_full_order_relative": 0.0004100864827331405,
+          "corrected_is_exact_modal_solver": true,
+          "full_order_gate_pass": true
+        },
+        {
+          "id": "deck_g23_wave1",
+          "geometry_id": "deck_g23",
+          "family": "deck",
+          "raw_neural_vs_full_order_relative": 0.0006626238710902119,
+          "corrected_modal_vs_full_order_relative": 0.00015952149870243696,
+          "corrected_is_exact_modal_solver": true,
+          "full_order_gate_pass": true
+        }
+      ],
+      "maximum_full_order_fixed_force_residual": 3.4581743095334206e-08,
+      "maximum_full_order_absolute_residual_N": 7.74316781517343e-05,
+      "maximum_free_vibration_energy_drift": 1.9340085088970227e-13,
+      "known_ood_rejected": 16,
+      "known_ood_total": 16,
+      "research_gates": {
+        "native_and_time_step_pass": true,
+        "raw_independent_test_and_full_order_pass": true,
+        "raw_field_threshold": 0.05,
+        "raw_modal_kinematic_threshold": 0.01,
+        "raw_modal_momentum_threshold": 0.01,
+        "truth_based_acceptance_is_not_a_deployment_confidence_estimate": true
+      },
+      "limitations": [
+        "Only two local linear-elastic steel families have dynamic validation; this is not a whole suspension-bridge dynamic model.",
+        "Every new geometry requires finite-element mass, stiffness and eigenmode preprocessing; the learned operator advances modal state and is not an end-to-end geometry encoder.",
+        "No contact, yielding, large deformation, nonlinear modal reduction, measured damping, earthquake certification or project-specific boundary transfer is supported.",
+        "Exact modal physics correction is a separate reduced mechanical solve; zero error versus the same modal reference is not evidence of raw network accuracy or elimination of truncation error.",
+        "Long 1280-step tests use repeated known forcing windows and exact modal references, not new full-order/native long histories.",
+        "Native transient comparison covers two baseline geometries at six response nodes; four independent test geometries are additionally checked against full-space independent Newmark.",
+        "Uncertainty/deployment confidence is not calibrated; known geometry OOD cases are rejected regardless of observed accuracy."
+      ],
+      "evidence": {
+        "native_receipts": "build/local-dynamics-20261024/native/",
+        "independent_test_full_fields": "build/local-dynamics-20261024/full_order_audit/",
+        "all_saved_state_predictions": "build/local-dynamics-20261024/predictions_final/",
+        "training_logs": "build/local-dynamics-20261024/training_refined/",
+        "solver_mass_source_receipt": "build/completion-audit-20261024/source/source_receipt.json",
+        "scripts": {
+          "automation/local_bridge_operator/dynamic_audit.py": "a4fc887cd40c7a3caca7afc014bb97147719f526972a5b0f21a93f2d70ee7a39",
+          "automation/local_bridge_operator/dynamic_dataset.py": "182f4c87c92a9995243107cefe83c0e197f86f2d5854937afe7424a793b7bc77",
+          "automation/local_bridge_operator/dynamic_evaluate.py": "0abdb5b13adcac7ea8faf0984e3d4d86b1bcd8475a7a8b6a00fbf4947c2c9a7c",
+          "automation/local_bridge_operator/dynamic_finalize.py": "7a9f4b6f7518843bc8c415bcea5908374fb2b3ea7880873238c87d0c0f5638c0",
+          "automation/local_bridge_operator/dynamic_native_replay.py": "5f09a11a1ed4f8c8b6d3ed5a17db8acb694bcae5d9f0682d2b60f26b1159cb77",
+          "automation/local_bridge_operator/dynamic_physics.py": "35870b6b2baf8929e99edf11a68cc3ebce7f6934ac9c773ca5a90e243c95fc03",
+          "automation/local_bridge_operator/dynamic_train.py": "7954e5fb04b60d1a0bef1491674bd1e215424a32d0d5fb5646e9c21411964631",
+          "automation/local_bridge_operator/dynamic_train_refined.py": "6c361dc8fe36502a76318926c3afe0179cf52eb1f785708546ee2ab0f4409822"
+        }
+      },
+      "repair_history": {
+        "first_attempt_evaluation": "build/local-dynamics-20261024/training_evaluation.json",
+        "first_attempt_weights": "build/local-dynamics-20261024/training/",
+        "failure": "Eight-step-only fitting admitted wrong low-frequency phase alias; full-horizon validation rejected those weights.",
+        "repair": "Zero-step consistency plus phase identified from observed training q/v/load increments, auxiliary phase supervision and training-only LBFGS refinement.",
+        "thresholds_unchanged": true
+      },
+      "native_final_hash_receipts": [
+        {
+          "input": "build/local-dynamics-20261024/native/deck_reference/frequency/model.inp",
+          "input_sha256": "0bb3ade8abb815866f098cbc31257279b2fb807b795920d8d241bfe1e1dc861c",
+          "dat_sha256": "c8777cbc2dcc0bb5a03b76c622ea84480861c552709d8fa29b1fa293ddd28f85",
+          "solver_log_sha256": "dc62da15b57a375c4df6e234de2530fd02d60541769a5f656b9da6a3617c9408",
+          "job_finished": true,
+          "solver_error": false
+        },
+        {
+          "input": "build/local-dynamics-20261024/native/deck_reference/matrix/model.inp",
+          "input_sha256": "c34251e7e6d2082fd76533f264a4b55ad23371a76fe0e8f92ecaa189b3481468",
+          "dat_sha256": "4bd4aa4c36f2c99804f4bed8bccbcd295445ff0dd3548383b9dfbe6d716d1aa6",
+          "solver_log_sha256": "1bbff1594c8ec7d3f2b0694237ce6162b0ac8d746216a8d02468ff250c885d45",
+          "job_finished": true,
+          "solver_error": false
+        },
+        {
+          "input": "build/local-dynamics-20261024/native/deck_reference/transient/model.inp",
+          "input_sha256": "03dddcb01b2fdc8472383bff64691a52f42fad7d647c9752b2daa4cf905b386c",
+          "dat_sha256": "67d29d948a6988450866b0b0b2010c7b93ca9cebd1024e35d473f5c47848aec9",
+          "solver_log_sha256": "be9ed044cb17b46bdffa49dbd24dbaee13b00bbedd8e7fe0be6d9490bbfecc6d",
+          "job_finished": true,
+          "solver_error": false
+        },
+        {
+          "input": "build/local-dynamics-20261024/native/girder_reference/frequency/model.inp",
+          "input_sha256": "29650380bc41eac6c45c89ff59b88bdfd91ecb080bf5415857fe05e01e219c49",
+          "dat_sha256": "32acec454f19fb91c27f7160696aebbdcf591d4d9e72ec06294a7bdfc5afcf3c",
+          "solver_log_sha256": "1ead3f6af1f2dab22550263e0d4f473525fa617c3139fadbeacb3c9c6ec5d302",
+          "job_finished": false,
+          "solver_error": false
+        },
+        {
+          "input": "build/local-dynamics-20261024/native/girder_reference/frequency_replay_v2/model.inp",
+          "input_sha256": "29650380bc41eac6c45c89ff59b88bdfd91ecb080bf5415857fe05e01e219c49",
+          "dat_sha256": "972aba30fe1b35e7a614cb702b74eafa877f9c2e170430dde4117e008a055061",
+          "solver_log_sha256": "f6a082b969c7d262e56189108f874d35f33bbae3d100802864f99c109af152cf",
+          "job_finished": true,
+          "solver_error": false
+        },
+        {
+          "input": "build/local-dynamics-20261024/native/girder_reference/matrix/model.inp",
+          "input_sha256": "54b8ca02414efd943955a1a5cccd996a1d64cda230b238313f354b8f0c128c5d",
+          "dat_sha256": "4bd4aa4c36f2c99804f4bed8bccbcd295445ff0dd3548383b9dfbe6d716d1aa6",
+          "solver_log_sha256": "37fb99ad11630fe1214e588d94b218e2d5c0e89cdbfbce59ec7cc9967a6ef57d",
+          "job_finished": true,
+          "solver_error": false
+        },
+        {
+          "input": "build/local-dynamics-20261024/native/girder_reference/transient/model.inp",
+          "input_sha256": "c6978e2cb5c6bc1de6db67a83bce50c55e9d3a9950cede467f0bd1af16bf8bd0",
+          "dat_sha256": "23573db40e3b31e2179aefe17ddef850246dfede6cbb65378e652f02efa5c725",
+          "solver_log_sha256": "bc0915b0814120bc7a8a8ba55a3bfb1391285d3c0296cb76bf5a1af41b187c22",
+          "job_finished": true,
+          "solver_error": false
+        }
+      ],
+      "unused_ensemble_state_averaging": {
+        "used_for_final_raw": false,
+        "reason": "Averaging states with different learned phase introduces artificial modal attenuation although each member conserves unforced energy.",
+        "historical_mean_evaluation": "build/local-dynamics-20261024/training_evaluation_refined.json",
+        "final_all_member_max_free_energy_drift": 1.9451107391432743e-13,
+        "unused_mean_min_modal_energy_ratio": 0.00017877132469271741
+      },
+      "native_historical_digest_mismatch": {
+        "case": "girder_reference",
+        "mode": "frequency_replay_v2",
+        "returncode": 0,
+        "finished": true,
+        "seconds": 0.6666378974914551,
+        "input_sha256": "29650380bc41eac6c45c89ff59b88bdfd91ecb080bf5415857fe05e01e219c49",
+        "dat_sha256": "972aba30fe1b35e7a614cb702b74eafa877f9c2e170430dde4117e008a055061",
+        "solver_log_sha256": "f6a082b969c7d262e56189108f874d35f33bbae3d100802864f99c109af152cf",
+        "supersedes_receipt": "build/local-dynamics-20261024/native/girder_reference/frequency/receipt.json",
+        "original_receipt_expected_dat_sha256": "972aba30fe1b35e7a614cb702b74eafa877f9c2e170430dde4117e008a055061",
+        "observed_old_dat_sha256": "32acec454f19fb91c27f7160696aebbdcf591d4d9e72ec06294a7bdfc5afcf3c",
+        "historical_mismatch_preserved": true,
+        "old_input_hash_matches": true,
+        "old_vs_replay_printed_frequency_max_relative": 0.0,
+        "reason": "Historical DAT digest mismatch found by independent audit; cause not established. Old input/DAT/receipt remain unchanged. This independently executed same-input run is the final authoritative native-frequency receipt.",
+        "post_replay_diagnosis": {
+          "old_bytes": 4142,
+          "replay_bytes": 7667,
+          "old_is_truncated_prefix_of_replay": true,
+          "frequency_table_unchanged": true,
+          "missing_tail": "Last participation-factor rows and effective modal mass output; truncation cause remains unknown."
+        }
+      },
+      "selected_native_receipts": [
+        {
+          "selected_receipt": "build/local-dynamics-20261024/native/girder_reference/frequency_replay_v2/receipt.json",
+          "superseded_receipt": "build/local-dynamics-20261024/native/girder_reference/frequency/receipt.json",
+          "reason": "Historical DAT digest mismatch found by independent audit; cause not established. Old input/DAT/receipt remain unchanged. This independently executed same-input run is the final authoritative native-frequency receipt.",
+          "input_path": "build/local-dynamics-20261024/native/girder_reference/frequency_replay_v2/model.inp",
+          "dat_path": "build/local-dynamics-20261024/native/girder_reference/frequency_replay_v2/model.dat"
+        },
+        {
+          "selected_receipt": "build/local-dynamics-20261024/native/girder_reference/transient/receipt.json",
+          "superseded_receipt": null,
+          "reason": "Original matching input/output receipt remains authoritative.",
+          "input_path": "build/local-dynamics-20261024/native/girder_reference/transient/model.inp",
+          "dat_path": "build/local-dynamics-20261024/native/girder_reference/transient/model.dat"
+        },
+        {
+          "selected_receipt": "build/local-dynamics-20261024/native/deck_reference/frequency/receipt.json",
+          "superseded_receipt": null,
+          "reason": "Original matching input/output receipt remains authoritative.",
+          "input_path": "build/local-dynamics-20261024/native/deck_reference/frequency/model.inp",
+          "dat_path": "build/local-dynamics-20261024/native/deck_reference/frequency/model.dat"
+        },
+        {
+          "selected_receipt": "build/local-dynamics-20261024/native/deck_reference/transient/receipt.json",
+          "superseded_receipt": null,
+          "reason": "Original matching input/output receipt remains authoritative.",
+          "input_path": "build/local-dynamics-20261024/native/deck_reference/transient/model.inp",
+          "dat_path": "build/local-dynamics-20261024/native/deck_reference/transient/model.dat"
+        }
+      ],
+      "checkpoint_reproduction": {
+        "checks": 96,
+        "maximum_absolute_phase_error": 0.0,
+        "passed": true
+      }
+    },
+    "unified": {
+      "initial_training_runs": 4,
+      "refinement_training_runs": 1,
+      "explicit_full_physics_training_runs": 1,
+      "initial_epochs_each": 300,
+      "refinement_epochs": 400,
+      "physics_epochs": 4,
+      "source_cases": 448,
+      "shared_weights": true,
+      "per_family_parameters": false,
+      "POD_or_node_id_decoders": false,
+      "held_out_topology": "deck absent from all fitting and validation data in leave_deck_out",
+      "geometry_split_overlap": false,
+      "original_test_status": "development tests repeatedly inspected across experiment rounds; not a completely untouched final certification set",
+      "independent_confirmation": {
+        "model_sha256": "1aa4b396b1aa76b474308e01412dc950b34601de035a8c1fdaa187a9906cfa1d",
+        "model": "physics_all_families",
+        "selection_before_confirmation": true,
+        "confirmation_plan_sha256": "0c9240be815ee361c4aaf04e7bfedb9c07b49ef1d1f2fcf34fdf204a0df275e3",
+        "scope": "new to this unified architecture; these source cases were used previously in separate per-family calibration experiments, so not a project-wide untouched certification set",
+        "aggregate": {
+          "cases": 32,
+          "mean_relative_L2": 0.06612766678345261,
+          "median_relative_L2": 0.05250957051839415,
+          "max_relative_L2": 0.22507089632274122,
+          "mean_full_equilibrium_relative": 16054.992901542613,
+          "max_full_equilibrium_relative": 67031.2460727944,
+          "accepted": 0
+        },
+        "families": {
+          "girder": {
+            "cases": 4,
+            "mean_relative_L2": 0.07797692745305783,
+            "median_relative_L2": 0.07593742084108451,
+            "max_relative_L2": 0.09277143415040318,
+            "mean_full_equilibrium_relative": 4153.252077570838,
+            "max_full_equilibrium_relative": 6375.029260150024,
+            "accepted": 0
+          },
+          "splice": {
+            "cases": 4,
+            "mean_relative_L2": 0.02060575772924965,
+            "median_relative_L2": 0.02085247633298185,
+            "max_relative_L2": 0.021041331062110195,
+            "mean_full_equilibrium_relative": 34755.470618513384,
+            "max_full_equilibrium_relative": 44557.849317324246,
+            "accepted": 0
+          },
+          "crossframe": {
+            "cases": 4,
+            "mean_relative_L2": 0.05796592376788866,
+            "median_relative_L2": 0.05250957051839415,
+            "max_relative_L2": 0.0840233668441579,
+            "mean_full_equilibrium_relative": 7361.051191555076,
+            "max_full_equilibrium_relative": 12740.641010844085,
+            "accepted": 0
+          },
+          "diaphragm": {
+            "cases": 4,
+            "mean_relative_L2": 0.03968556027442467,
+            "median_relative_L2": 0.040332988650088115,
+            "max_relative_L2": 0.04272978940937318,
+            "mean_full_equilibrium_relative": 3049.18502835674,
+            "max_full_equilibrium_relative": 3794.020660239095,
+            "accepted": 0
+          },
+          "stiffener": {
+            "cases": 4,
+            "mean_relative_L2": 0.09648680053194153,
+            "median_relative_L2": 0.09815964208781625,
+            "max_relative_L2": 0.11972136375292161,
+            "mean_full_equilibrium_relative": 3883.856779432187,
+            "max_full_equilibrium_relative": 5628.839938211798,
+            "accepted": 0
+          },
+          "deck": {
+            "cases": 4,
+            "mean_relative_L2": 0.03633240542641848,
+            "median_relative_L2": 0.030855046027797504,
+            "max_relative_L2": 0.06036818779300364,
+            "mean_full_equilibrium_relative": 11243.821239722974,
+            "max_full_equilibrium_relative": 15680.289699640547,
+            "accepted": 0
+          },
+          "concrete": {
+            "cases": 4,
+            "mean_relative_L2": 0.04239206637768536,
+            "median_relative_L2": 0.03734557128147583,
+            "max_relative_L2": 0.06785182250007761,
+            "mean_full_equilibrium_relative": 74.58149752952907,
+            "max_full_equilibrium_relative": 87.1163278083622,
+            "accepted": 0
+          },
+          "bearing": {
+            "cases": 4,
+            "mean_relative_L2": 0.1575758927069547,
+            "median_relative_L2": 0.15151300496972472,
+            "max_relative_L2": 0.22507089632274122,
+            "mean_full_equilibrium_relative": 63918.72477966017,
+            "max_full_equilibrium_relative": 67031.2460727944,
+            "accepted": 0
+          }
+        }
+      },
+      "training_fine_node_counts": [
+        976,
+        1016,
+        1178,
+        1779,
+        1897,
+        2104,
+        2489,
+        2899
+      ],
+      "actual_coarse_node_counts": [
+        28,
+        30,
+        32,
+        36
+      ],
+      "unseen_mesh_node_counts": [
+        1081,
+        2689,
+        2843,
+        2987,
+        5083,
+        15181,
+        17673,
+        20829
+      ],
+      "extension_prediction_difference_mm": 0.0,
+      "all_raw_physical_gates_pass": false,
+      "release": "HOLD: architectural variable-topology support does not establish independent equilibrium, mesh-fidelity or engineering accuracy",
+      "timing_and_unseen_mesh": "timing_and_unseen_mesh.json",
+      "source_comment_issues": [],
+      "source_sha256": {
+        "unified_plots.py": "01b7b00c70b3d6b24b20f4ebfaec62a0e64c77cb49e7fafec078178bed74684d",
+        "unified_physics.py": "a541e4d1d6e15849c486c128a3990ba7eaa597cd8600bcb4bf15e904484d75b5",
+        "unified_refine.py": "85017d5f358f95648f9d56deeea999f357714ef7742b9ee76720f29e046ab5fa",
+        "unified_summary.py": "bc1ea04cf0f289a3ac21818f612aa814bf32022c054625d4a55f395a1a7b48fa",
+        "unified_graph.py": "95ee1723d80d19229812d00b20c977dd528f3251bc9bf432939d412a96c0d096"
+      },
+      "shared_parameter_counts": {
+        "original_all_topologies": 29299,
+        "refined_and_physics_all_topologies": 30307
+      },
+      "coarse_node_permutation_tolerance": 1e-05,
+      "coarse_node_permutation_pass": true,
+      "complete_raw_residual_vector_cases": 160
+    },
+    "contact": {
+      "scope": "Actual contact verification and solver-backed path labels only; no contact neural operator trained here. Not an as-built bridge capacity assessment.",
+      "case_count": 7,
+      "frame_count": 336,
+      "all_checks_pass": true,
+      "mesh_penalty_comparison": {
+        "baseline_mu03_p10": {
+          "normal_N": 50000.0,
+          "shear_N": 15000.0,
+          "penetration_max_mm": 1.468021e-05,
+          "slave_mean_ux_mm": 0.09961903617032378
+        },
+        "mu02_p10_verified": {
+          "normal_N": 50000.0,
+          "shear_N": 10000.0,
+          "penetration_max_mm": 1.312901e-05,
+          "slave_mean_ux_mm": 0.09974666351869764
+        },
+        "mu03_p05": {
+          "normal_N": 25000.0,
+          "shear_N": 7500.0,
+          "penetration_max_mm": 7.340016e-06,
+          "slave_mean_ux_mm": 0.09980952976206407
+        },
+        "mu03_p20": {
+          "normal_N": 100000.0,
+          "shear_N": 30000.0,
+          "penetration_max_mm": 2.936115e-05,
+          "slave_mean_ux_mm": 0.09923797890158224
+        },
+        "mu04_p10": {
+          "normal_N": 50000.0,
+          "shear_N": 20000.0,
+          "penetration_max_mm": 1.657914e-05,
+          "slave_mean_ux_mm": 0.09949027294176517
+        },
+        "refined_mu03_p10": {
+          "normal_N": 50000.0,
+          "shear_N": 15000.0,
+          "penetration_max_mm": 1.662232e-05,
+          "slave_mean_ux_mm": 0.0996032663192161
+        },
+        "stiff_mu03_p10": {
+          "normal_N": 50000.0,
+          "shear_N": 15000.0,
+          "penetration_max_mm": 1.469743e-06,
+          "slave_mean_ux_mm": 0.09962001731808666
+        }
+      },
+      "raw_cdis_sign": "This executable prints negative normal CDIS for penetration; verified against deformed bottom-node z and pressure = stiffness * (-CDIS_normal). Raw values are retained.",
+      "path_state_definition": "Stable nodal states U/RF and load-path descriptors are retained. CSTR/CDIS rows retain slave element/face ownership but not persistent quadrature identities; face-contact remeshing changes point counts. Complete hidden friction-history variables are not exported; these snapshots alone must not be claimed a complete Markov state."
+    },
+    "contact_operator": {
+      "status": "trained_and_independently_tested_restricted_four_state_contact_proxy",
+      "model_scope": "Low-dimensional neural residual state surrogate; NOT a full-field neural operator, NOT a bridge joint capacity model.",
+      "split": {
+        "train": [
+          "baseline_mu03_p10",
+          "mu02_p10_verified",
+          "mu03_p05",
+          "mu03_p20"
+        ],
+        "validation": [
+          "refined_mu03_p10"
+        ],
+        "test": [
+          "mu04_p10",
+          "stiff_mu03_p10"
+        ]
+      },
+      "frame_counts": {
+        "train": 192,
+        "validation": 48,
+        "test": 96
+      },
+      "heldout_meaning": {
+        "validation": "same nominal physical parameters as baseline but an independently solved finer mesh; this is discretization holdout, not a new parameter regime",
+        "mu04_p10": "unseen friction coefficient 0.4, beyond training maximum 0.3",
+        "stiff_mu03_p10": "unseen normal and tangential penalty stiffnesses increased tenfold"
+      },
+      "input": "Current pressure, friction coefficient, imposed displacement and increment, pressure ratio, normal/tangent penalty compliance plus immediately preceding predicted Fn/Ft/peak penetration/mean slip state. All paths start from zero; no true test state is injected.",
+      "output": "Four scalar physical states: normal force N, signed contact shear N, peak penalty penetration mm, mean interface x displacement mm. Gap is negative penetration for this always-closed path; opening/reclosure is not tested.",
+      "prior": "Explicit series elastic shear spring plus Coulomb cap, uniform-pressure normal equilibrium, elementary moment peak-pressure estimate and elastic bulk shear lag. Neural network learns residuals; prior-only baseline is reported separately.",
+      "projection": "The separately reported projected rollout clips negative force/penetration and caps signed friction by mu*Fn. A zero projected cone violation is by construction and does not prove predictive accuracy.",
+      "training": {
+        "seeds": [
+          17,
+          29
+        ],
+        "teacher_forcing_epochs": 1800,
+        "autoregressive_epochs": 240,
+        "optimizer": "Adam",
+        "selection": "validation closed-rollout MSE only",
+        "test_used_for_training_or_selection": false
+      },
+      "limitations": [
+        "Only four independent training parameter cases; these tests do not establish generalization to arbitrary loading paths.",
+        "All seven paths share the same four-stage protocol; no independent loading-protocol test.",
+        "Hidden full friction integration-point histories are not observed; this four-state compression is not proven Markov-complete.",
+        "Mean slip and peak penetration are scalar summaries; there is no learned field or mesh-to-mesh neural operator here.",
+        "Force balance check is normal resultant balance against known applied pressure; no independent predicted nodal equilibrium field exists.",
+        "Local contact peak field lacks demonstrated mesh convergence; prototype errors inherit this label limitation."
+      ],
+      "runs": [
+        {
+          "seed": 17,
+          "training_seconds": 18.106990882999526,
+          "best_validation_rollout_mse": 0.004764567594975233
+        },
+        {
+          "seed": 29,
+          "training_seconds": 18.377518158000385,
+          "best_validation_rollout_mse": 0.004932350944727659
+        }
+      ],
+      "source_hashes": {
+        "path_labels.csv": "670f23e681af97c03e248edc7885767f6930c12de3de48a8a919261fe79fe1e7",
+        "solver_report.json": "2a47782a9cf670892e4415a8d1dc52a6480995c3b6d7246e3fe9bf1d25215663",
+        "training_code.py": "b85ba342e9da5a50311749dcf498b1715bc73a22ed8970461c28fd809322e5a7"
+      }
+    },
+    "audit": {
+      "status": "PASS",
+      "gates": {
+        "physical_invariants": true,
+        "one_way_coupling": true,
+        "residual_384_comparisons": true,
+        "native_hashes": true,
+        "historical_replay_restores_original": true,
+        "source_comments": true,
+        "shared_topology_release_remains_hold": true
+      },
+      "native_hash_checks": 159,
+      "native_hash_failures": [],
+      "historical_integrity_events": [
+        {
+          "superseded_receipt": "build/local-dynamics-20261024/native/girder_reference/frequency/receipt.json",
+          "selected_receipt": "build/local-dynamics-20261024/native/girder_reference/frequency_replay_v2/receipt.json",
+          "original_expected_dat_sha256": "972aba30fe1b35e7a614cb702b74eafa877f9c2e170430dde4117e008a055061",
+          "preserved_old_actual_sha256": "32acec454f19fb91c27f7160696aebbdcf591d4d9e72ec06294a7bdfc5afcf3c",
+          "new_replay_matches_original_expected": true,
+          "reason": "Historical DAT digest mismatch found by independent audit; cause not established. Old input/DAT/receipt remain unchanged. This independently executed same-input run is the final authoritative native-frequency receipt."
+        }
+      ],
+      "parsed_source_files": 50,
+      "comment_violations": [],
+      "scope": "Independent integration checks verify provenance and declared denominators; numerical and neural accuracy remain separately reported by each task."
+    }
+  },
+  "evidence_paths": {
+    "coupling": "coupling_completed/summary.json",
+    "residual": "residual-online-20261024/summary.json",
+    "nonlinear": "local-nonlinear-20261024/summary.json",
+    "dynamics": "local-dynamics-20261024/summary.json",
+    "unified": "unified-topology-20261024/summary.json",
+    "contact": "local-contact-20261024/REPORT.json",
+    "contact_operator": "local-contact-20261024/contact-operator/summary.json",
+    "audit": "completion-audit-20261024/integration_audit.json"
+  }
+}
