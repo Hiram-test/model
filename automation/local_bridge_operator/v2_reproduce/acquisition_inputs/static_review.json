@@ -1,0 +1,156 @@
+{
+  "actions_performed": {
+    "NPZ_opened": false,
+    "delegated_restore_static_review_peak_rss_bytes": 10653696,
+    "live_formal_training_files_read": false,
+    "native_solver_invocations": 0,
+    "numpy_imported": false,
+    "package_script_executed": false,
+    "restore_script_executed": false,
+    "sealed_or_newtest_files_read": false,
+    "source_and_JSON_only": true,
+    "sources_or_snapshot_modified": false,
+    "static_review_peak_rss_bytes": 13303808,
+    "torch_imported": false
+  },
+  "blocking_findings": [],
+  "candidate_count": 32,
+  "checks": [
+    {
+      "detail": "186 exact original files: 32 frozen prepared records, 144 input-directory files, seven existing candidate contact.inp decks, and three original adapter sources. Eight acquisition-complete markers are read/hash-bound only. No recursive formal-training, native response, sealed or test/OOD payload selection.",
+      "id": "exact_source_scope",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Friction fields.npz is an input-only graph despite its filename. Current snapshot uses original INPUT_ONLY_UNSOLVED/UNSOLVED_CANDIDATE records; rebar commits are COMMITTED_INPUT_ONLY. NPZ bytes are only streamed, never decoded, so this review is not an independent numeric zero-state verification.",
+      "id": "input_only_semantics",
+      "status": "PASS_STATIC_METADATA_AND_PRODUCER_SOURCE"
+    },
+    {
+      "detail": "All 32 NPZ/metadata pairs are checked against their frozen prepared records, rebar card members and original deck hashes are enforced, and friction existing contact.inp hashes must match input_identity. Candidate_00 keeps the historical rebar v3 receipt/source; other rebar candidates keep v4. Nine nonexistent friction decks remain missing and are not regenerated.",
+      "id": "original_SHA_bindings",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Package mode recomputes inventory and requires full equality with snapshot_manifest.json; the earlier independently reviewed comparison manifests retain their original SHA check. Source hashing compares dev/inode/size/mtime/ctime before and after. Every original file and all eight closure markers receive complete post-package SHA/CRC/length/stat comparison.",
+      "id": "inventory_freeze_and_stability",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Expected archive contains 186 original payloads plus four metadata/helper files, 190 members total. Package mode uses exclusive ZIP creation, deterministic regular-file metadata, one-MiB streaming and complete per-member SHA/CRC/length readback, plus exact member-set/count checks.",
+      "id": "archive_verification",
+      "status": "PASS_STATIC_PLAN_NOT_EXECUTED"
+    },
+    {
+      "detail": "Restore preflights every payload before making the destination root; root must be new with no symlink ancestors, relative members reject absolute/parent traversal, and files are created using xb. Embedded original absolute paths remain unchanged. The caller must use a fresh isolated recovery location with no concurrent mutation.",
+      "id": "restore_boundary",
+      "status": "PASS_STATIC_UNDER_DOCUMENTED_ISOLATED_RECOVERY"
+    },
+    {
+      "detail": "README requires first checking the whole-ZIP SHA from the external snapshot receipt. The restore helper itself trusts the internal manifest and verifies all 186 payloads; it does not implement an external receipt/SHA argument and does not independently stream all three helper/document members. Full 190-member CRC/SHA verification belongs to package receipt. No internal manifest is described here as an external trusted signature.",
+      "id": "external_trust_split",
+      "status": "PASS_DOCUMENTED_BOUNDARY"
+    },
+    {
+      "detail": "Both helpers use one-MiB opaque streams and no numerical libraries. The inventory parses one bounded prior manifest at a time. Package/restore checks observe RSS below 30 MiB after relevant phases; these are rejection checks, not preventive OS limits. This review does not establish future packaging/restoration peak RSS.",
+      "id": "small_memory",
+      "status": "PASS_STATIC_DESIGN_RUNTIME_UNVERIFIED"
+    },
+    {
+      "detail": "Recovery copies existing original bytes only. It does not release tests, solve, train or make path-bound locks portable. Missing-deck regeneration, relocated/new execution and dependency/environment changes require the separately documented new identity/freeze process.",
+      "id": "recovery_replay_scope",
+      "status": "PASS_DOCUMENTED"
+    }
+  ],
+  "closed_acquisition_markers_hash_only": 8,
+  "existing_original_friction_decks": 7,
+  "expected_archive_member_count": 190,
+  "input_graph_count": 32,
+  "missing_prior_content_rebar_input_graphs": 16,
+  "missing_prior_exact_rebar_paths": 96,
+  "never_persisted_friction_decks": 9,
+  "nonblocking_findings": [
+    {
+      "finding": "The coverage extractor recognizes member/archive_member/relative_path/repo_path fields, not path-only publication records. Independent small-metadata inspection found five additional GitHub source references for the same three adapter hashes. All three adapter contents are already covered via other recognized records; the 16 input-graph and 96 rebar-path conclusions are unchanged.",
+      "id": "prior_member_schema_not_exhaustive",
+      "scope": "prior_content_matches is a recognized-schema match list, not an exhaustive list of every possible published source reference. The README now documents this limitation; the original inventory is preserved unchanged."
+    }
+  ],
+  "original_bytes": 22322439,
+  "original_file_count": 186,
+  "original_rebar_decks": 16,
+  "package_provenance_cycle_avoided": "This static_review.json is package-external and absent from the package script metadata/payload lists.",
+  "prior_manifests_inspected_by_inventory": 34,
+  "recovery_limitations": [
+    "Externally authenticate the ZIP against the trusted snapshot receipt before using the helper; the helper does not establish this trust by itself.",
+    "Use a fresh isolated destination without symlink ancestors or concurrent filesystem mutation. Existing session runtimes must not be selected as recovery locations.",
+    "Restoration is not an all-or-nothing directory transaction: I/O failure can leave an incomplete newly created root; preserve it for diagnosis and use a different fresh root on retry.",
+    "No NPZ was decoded in this review; zero-future semantics derive from original records and the reviewed producer, not a new numeric contents check.",
+    "Peak RSS limits are observed rejection checks rather than OS-enforced hard memory caps. Actual package/restore receipts must supply their own measured peaks.",
+    "All four helper/metadata members are checked by package mode; default restore verifies payload identity and requires the separate external whole-ZIP SHA premise."
+  ],
+  "reviewed_files": {
+    "README.md": {
+      "bytes": 4585,
+      "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/acquisition_inputs/README.md",
+      "sha256": "4392882c80fda0d095b5b0a14eccc487296309ecb34987f0711f31b30ef2e25b"
+    },
+    "package_acquisition_inputs.py": {
+      "bytes": 18253,
+      "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/acquisition_inputs/package_acquisition_inputs.py",
+      "sha256": "ff14a90b371d961ff7ce72b7311b13dd0de35a22cae89f3cef21a335c4b6cdfd"
+    },
+    "restore_acquisition_inputs.py": {
+      "bytes": 5550,
+      "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/acquisition_inputs/restore_acquisition_inputs.py",
+      "sha256": "0b67d27536a8d428df755fedd5c1a90a20e70b81bf23dc00180a0862dbd63812"
+    },
+    "snapshot_manifest.json": {
+      "bytes": 243331,
+      "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/acquisition_inputs/snapshot_manifest.json",
+      "sha256": "0676ca059fc6d6eae55b6c2a466631a39de29234f546fdcd7c99b278c6071b5e"
+    }
+  },
+  "reviewed_utc": "2026-10-24T20:09:39.876598+00:00",
+  "schema": "bridge_v2_closed_acquisition_inputs_static_review_v1",
+  "source_syntax_checks": [
+    {
+      "AST_pass": true,
+      "all_nonblank_lines_have_COMMENT_token": true,
+      "file": "package_acquisition_inputs.py",
+      "imports": [
+        "ast",
+        "hashlib",
+        "io",
+        "json",
+        "os",
+        "resource",
+        "shutil",
+        "stat",
+        "sys",
+        "time",
+        "tokenize",
+        "zipfile",
+        "zlib",
+        "Path"
+      ]
+    },
+    {
+      "AST_pass": true,
+      "all_nonblank_lines_have_COMMENT_token": true,
+      "file": "restore_acquisition_inputs.py",
+      "imports": [
+        "argparse",
+        "hashlib",
+        "json",
+        "resource",
+        "zipfile",
+        "zlib",
+        "Path",
+        "PurePosixPath"
+      ]
+    }
+  ],
+  "status": "PASS_STATIC_WITH_EXPLICIT_TRUST_AND_COVERAGE_BOUNDARIES_NOT_PACKAGED",
+  "three_adapters_already_have_other_prior_content_matches": true
+}
