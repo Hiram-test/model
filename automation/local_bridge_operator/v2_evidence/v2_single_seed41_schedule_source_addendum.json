@@ -1,0 +1,37 @@
+{
+  "allowed_stage": [
+    "rebar",
+    "initial",
+    0,
+    41
+  ],
+  "equivalence_proof": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/external_scheduling/single_seed41_spec_equivalence.json",
+    "sha256": "071c1cb693e3045e69f7818f08ee4aebda40f51cb31b4dbc1dea18b8dbf53e67"
+  },
+  "execution_lock": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+    "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+  },
+  "native_or_training_execution_by_auditor": false,
+  "new_test_release_authorized": false,
+  "optimizer_models_data_and_source_lock_changed": false,
+  "original_cli_spec_sha256": "621a1e92d68f63072ce6bd5db5df7b6d37925837530f62e8441c4a3c3f88d580",
+  "prior_seed17_source_addendum": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_single_seed_schedule_source_addendum.json",
+    "sha256": "dcfeba84c3ef893a314ff3b30d9d330488fcfaaf468a62e574ae3b8938ea654a"
+  },
+  "runtime_preconditions": [
+    "Original seed17 stage passes frozen verify_stage.",
+    "Original c2af seed17 coordinator completion receipt exists; executor observes its terminal session has exited before launching seed41.",
+    "Only one rebar worker is active while thermal retains its declared memory reservation.",
+    "Normal full CLI and native acquisition wait for the thermal native slot to be released, then reuse both committed initial stages."
+  ],
+  "same_32_epochs_8_visits_per_epoch": true,
+  "scope": "Resource-only dispatch order review. This does not assert seed17 or seed41 has completed, and does not alter twenty-stage scientific execution or any test gate.",
+  "source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_single_seed41_schedule.py",
+    "sha256": "49857267c59aebfc6be905a1c3c032ae2dd9057c8ea4ce01bdc369828d1f24c4"
+  },
+  "status": "PASS_SERIAL_SEED41_SOURCE_AND_ORIGINAL_CLI_SPEC_IDENTITY"
+}

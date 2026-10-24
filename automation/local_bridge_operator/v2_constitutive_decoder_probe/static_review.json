@@ -1,0 +1,14 @@
+{
+  "status": "STATIC_REVIEW_PASS",
+  "reviewer": "independent decoder_static_review agent",
+  "module": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/constitutive_decoder.py",
+  "module_sha256": "70e44e7337835593c751bdd19d4f9fec88cbccd642755c48b215e3e7b4114799",
+  "findings": [
+    "Native raw M=(I-Cp_inverse)/2 and all 3024-IP material ordering are preserved.",
+    "Clone/index-copy does not overwrite the original state used by the constitutive autograd path.",
+    "Current stress directly depends on u and M; PEEQ and material backstress require their own supervision/history constraints.",
+    "Old sigma output rows are structurally unused with zero emission gradient; AdamW decay may still change their stored values.",
+    "A separate checkpoint writer is required because formal v2.train hardcodes its own architecture ID; the independent runner implements separate persistence."
+  ],
+  "no_torch_solver_or_response_array_access_during_review": true
+}

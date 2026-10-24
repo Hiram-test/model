@@ -1,0 +1,287 @@
+{
+  "schema": "bridge.research.constitutive_decoder.verification.v1",
+  "status": "NATIVE_FIELD_AND_GRADIENT_VERIFICATION_PASS",
+  "architecture_id": "research_complete_graph_constitutive_stress_decoder_v1",
+  "raw_SDV_semantics": "raw_M=(I-Cp_inverse)/2;Cp_inverse=I-2*raw_M;T0_raw_M=0_implies_Cp_inverse=I",
+  "source_sha256": "70e44e7337835593c751bdd19d4f9fec88cbccd642755c48b215e3e7b4114799",
+  "verification_source_sha256": "f4f11d4d5f8525edc237b851c2f176c576cacdc047bae7a87a9d5ca977497a88",
+  "physics_provenance": {
+    "original_path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics_v3.py",
+    "source_sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a",
+    "snapshot": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/verification/physics_rebar_c2a7fb88adbc.py",
+    "dependencies": {
+      "v2_rebar_constitutive_v2.py": {
+        "source_sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c",
+        "snapshot": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/verification/constitutive_4ba3802d5f40.py"
+      }
+    }
+  },
+  "formal_execution_lock_sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54",
+  "original_stage_spec_sha256": "90b558ad6d8d9bd1c6f3d97e4b701360d3d9468d08ad95105d22303fac3a64a6",
+  "authorization_note": "operator-authorized window after rebar seed17 actual exit0; seed41 held; no solver or optimizer",
+  "native_reference_tolerance": 2e-05,
+  "native_records": [
+    {
+      "id": "full27_all_axial12_free4",
+      "split": "train",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 5.765302120507447e-07,
+      "concrete_relative_Frobenius_L2": 1.3851079687215945e-07,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0009879768524569954,
+        "concrete": 4.995360198378762e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.004295794945250009,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9977034971090633,
+      "input_label_sha256": "2550ff3e0049c807c391a3d19b1a44331f80ff629ff138d062dabc309c84b929"
+    },
+    {
+      "id": "rebar_train_01",
+      "split": "train",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 8.877470905304453e-07,
+      "concrete_relative_Frobenius_L2": 8.328550892663182e-08,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0009525532650513924,
+        "concrete": 4.927890213224373e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.00466804986476177,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9976345182535017,
+      "input_label_sha256": "3ae52868a06e7e0b5cd538066f1c75e6cc5a2c42ea5591b29ada0cb473b81297"
+    },
+    {
+      "id": "rebar_train_02",
+      "split": "train",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 3.5043704762820266e-07,
+      "concrete_relative_Frobenius_L2": 1.714130742449419e-07,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0010199548706282258,
+        "concrete": 4.999177974696067e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.002627852164266642,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9979003756936964,
+      "input_label_sha256": "824cbd4c743bea41aa6967ede8098422f6a942a58173cee83c3ce5a56b369ef2"
+    },
+    {
+      "id": "rebar_train_03",
+      "split": "train",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 7.97275212107766e-07,
+      "concrete_relative_Frobenius_L2": 1.1202520998369188e-07,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0009389414128122553,
+        "concrete": 4.999741593181284e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.007845817716486181,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9981797575501279,
+      "input_label_sha256": "06754e42bbfee11eb1b37544cfa5e5ee8618929d74764d9a52981cafb057e1f1"
+    },
+    {
+      "id": "rebar_train_04",
+      "split": "train",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 5.774011620435455e-07,
+      "concrete_relative_Frobenius_L2": 1.4295395553374666e-07,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0009378350810038683,
+        "concrete": 4.995726849088555e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.007762483485919347,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9974530259301816,
+      "input_label_sha256": "a7c2fa9fa1992b1169d2cbbbe9dadda3e45b0e14a1ed79446047b4c478c5a843"
+    },
+    {
+      "id": "rebar_train_05",
+      "split": "train",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 3.652139362975857e-07,
+      "concrete_relative_Frobenius_L2": 1.1746945657156471e-07,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0005668443922104416,
+        "concrete": 4.9838891253983775e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.0025823654083296788,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9981885587468731,
+      "input_label_sha256": "98b685033479afc1d3dadc1ab401b2b09937747bd7787334f8a8e208882c3fdd"
+    },
+    {
+      "id": "rebar_train_06",
+      "split": "train",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 7.630494364807641e-07,
+      "concrete_relative_Frobenius_L2": 1.3898456957634064e-07,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0009808080572497602,
+        "concrete": 4.998431494485089e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.005924076856558713,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9977788070372222,
+      "input_label_sha256": "426ef57835b31ea1053f6be879dc4f212a855512c446b08e8dc8a4e8b7dee0db"
+    },
+    {
+      "id": "rebar_train_07",
+      "split": "train",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 5.549475893855111e-07,
+      "concrete_relative_Frobenius_L2": 9.39295326785963e-08,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0009767261838646846,
+        "concrete": 4.978019557455582e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.0037855028480748842,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9982411452392754,
+      "input_label_sha256": "dc402673c440a2bd4f010b47f2deb65ce840d267938ff437b2b4686a35237720"
+    },
+    {
+      "id": "rebar_validation_08",
+      "split": "validation",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 2.795958876474218e-07,
+      "concrete_relative_Frobenius_L2": 1.5472686542559434e-07,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0005155247806385432,
+        "concrete": 4.999891030976755e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.0051312429130234705,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9981725055455337,
+      "input_label_sha256": "19b576d1b20da7024c7acb4cdbea4187da83b6db7281a0d336c7c1585a4200a6"
+    },
+    {
+      "id": "rebar_validation_09",
+      "split": "validation",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 1.0344083448273352e-06,
+      "concrete_relative_Frobenius_L2": 9.563015027362612e-08,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0009757456783461294,
+        "concrete": 4.9902221572750705e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.005604076438146421,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9979917496397198,
+      "input_label_sha256": "2a7a5f285a468e0218fcd0a00f2420fb97ffe4499fcdeda091814d2c85a77d0a"
+    },
+    {
+      "id": "rebar_validation_10",
+      "split": "validation",
+      "frames": 25,
+      "entities": 5232,
+      "solid_ip_per_frame": 3024,
+      "steel_relative_Frobenius_L2": 4.4709645705085897e-07,
+      "concrete_relative_Frobenius_L2": 1.3741906134517292e-07,
+      "maximum_absolute_stress_error_MPa": {
+        "steel": 0.0007395198662152325,
+        "concrete": 4.998737628270078e-06
+      },
+      "float32_input_and_emission_max_difference_MPa": 0.003978916472973992,
+      "nonstress_state_unchanged": true,
+      "minimum_det_F": 0.9980411871396205,
+      "input_label_sha256": "1bbd839cab4fa02daf6d264806b076dfa9a9b70942ba78ee1717f9ac6dadc117"
+    }
+  ],
+  "gradient_records": [
+    {
+      "group": "displacement",
+      "autodiff": 0.09161528241981118,
+      "finite_differences": [
+        {
+          "step": 0.001,
+          "finite_difference": 0.09161528241894042,
+          "relative_difference": 9.504547418313931e-12
+        },
+        {
+          "step": 0.0005,
+          "finite_difference": 0.09161528247498066,
+          "relative_difference": 6.021864322745034e-10
+        },
+        {
+          "step": 0.00025,
+          "finite_difference": 0.09161528237040806,
+          "relative_difference": 5.392454094833567e-10
+        }
+      ],
+      "raw_stress_gradient_max": 0.0
+    },
+    {
+      "group": "plastic_metric",
+      "autodiff": 0.0031842666259777955,
+      "finite_differences": [
+        {
+          "step": 0.001,
+          "finite_difference": 0.0031842666261810287,
+          "relative_difference": 6.382419797405018e-11
+        },
+        {
+          "step": 0.0005,
+          "finite_difference": 0.0031842666303148748,
+          "relative_difference": 1.3620339658477028e-09
+        },
+        {
+          "step": 0.00025,
+          "finite_difference": 0.003184266640011979,
+          "relative_difference": 4.407351872223184e-09
+        }
+      ],
+      "raw_stress_gradient_max": 0.0
+    }
+  ],
+  "model_gradient_semantics": {
+    "stored_parameters": {
+      "stored_parameter_count": 22040,
+      "structurally_unused_independent_stress_parameters": 198,
+      "potentially_emission_active_parameter_count": 21842,
+      "unused_last_head_rows": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "unused_row_gradient_expectation": "exact_zero_for_all_emission_losses;rows_are_retained_for_compatible_migration",
+      "unused_row_update_semantics": "AdamW_weight_decay_may_change_stored_values_despite_zero_emission_gradients;not_claimed_frozen",
+      "stress_feedback": "Decoded physical stress is the previous-state input at the next true time; no independent sigma head is fed back."
+    },
+    "maximum_unused_sigma_weight_gradient": 0.0,
+    "maximum_unused_sigma_bias_gradient": 0.0,
+    "active_last_head_gradient_norm": 30.793174743652344,
+    "weight_decay_note": "AdamW may still change structurally unused row values through decay; zero emission gradient does not mean frozen storage."
+  },
+  "full_cold_future_label_poison_max_difference": 0.0,
+  "runtime_seconds": 12.895587451002939,
+  "peak_rss_bytes": 699482112,
+  "new_test_or_candidate_responses_opened": false,
+  "solver_calls": 0,
+  "optimizer_updates": 0,
+  "scope": "Local stress decoder reproduces existing native fields and differentiates correctly. This is not complete adaptive J2 evolution, neural accuracy improvement, mesh convergence, or formal V2 test qualification."
+}
