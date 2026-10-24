@@ -1,0 +1,340 @@
+{
+  "design_contract_sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877",
+  "development_study_evidence": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/selection.json",
+      "sha256": "d3284c66073c1ac4b5472edfb4230b7b5b1d795231f6a7e4156259266cfefbb6"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/decomposition.json",
+      "sha256": "ef4f9d9ab1e4f2fe2450c9d0a343414c8f5d30e694439da4d98794265749c881"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/controller_verification/verification.json",
+      "sha256": "c3bcd1e6912bd7134dadf6543e3c5ee7bb8d9b571d998d0f8245a8b0e95506df"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/controller_verification/friction_native_integration/invariants.json",
+      "sha256": "d0f76db3e57b7b484997b0220d167a1aa47089e99413af514e9a840b8962e6a8"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/controller_verification/rebar_native_integration/invariants.json",
+      "sha256": "30e3fc01e6a0ca07cdcbf81c0d62948cf12fe095f260995c9d836f8293f9ea4c"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/friction_worker_verification/seed_17/stage_commit.json",
+      "sha256": "4f6b267c52cbeef070d8d9bb09e2ef59b3c5e4db84df645562304e03de2f3d9f"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/rebar_worker_verification/seed_17/stage_commit.json",
+      "sha256": "fc528ff8236794655d48fb0a25063af3c977cec2f9e85bf685cd0897854c5ef9"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_cost_independent_audit.json",
+      "sha256": "4b4aeef214430462b8e76661cde1e2597ee078f014e60b9478c5ac9f6b114a46"
+    }
+  ],
+  "final_emission": "single_validation_selected_seed",
+  "friction_cost_basis_aliases": [
+    "native_invocation_wall_including_solver_log_write",
+    "native_invocation_wall_including_log_write"
+  ],
+  "gradient_calibration_decision": {
+    "friction": {
+      "baseline": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/friction/baseline_two_epoch/selected_validation.json",
+        "sha256": "b6341f1549c4acac11dad7c0d12fcf2d755b3b858cdbcef4b9124f199be65df0"
+      },
+      "baseline_components": {
+        "mean_group_error": 0.4553637594465412,
+        "mean_maximum_constitutive_error": 8.527756301522164,
+        "mean_maximum_weak_residual": 0.07533982498004868
+      },
+      "baseline_score": 0.9005865307676617,
+      "calibrated": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/friction/calibrated_two_epoch/selected_validation.json",
+        "sha256": "a8bce12dd5c934cb4fb8a780c1a7958ced9d21d939705283a7a58b6c699f2f18"
+      },
+      "calibrated_components": {
+        "mean_group_error": 0.4727013411825389,
+        "mean_maximum_constitutive_error": 9.603177863984653,
+        "mean_maximum_weak_residual": 0.08144227394281196
+      },
+      "calibrated_score": 0.9732208028674746,
+      "calibration_claim": "Measured and compared; not a claim that gradient imbalance or accuracy was solved.",
+      "candidate_multipliers": [
+        1.0,
+        0.005870598801421401
+      ],
+      "field_tradeoff_disclosed": true,
+      "selected_multiplier": 1.0,
+      "selection_rule": "Lowest already registered joint validation score; exactly two fixed alternatives, no new test input or response used",
+      "train_only_calibration": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/friction/calibration.json",
+        "sha256": "26bb9fee8c25668ff7061ab2b611dc894ab73e291a1eedfea5220d8a4cf64c73"
+      }
+    },
+    "rebar": {
+      "baseline": {
+        "comparison_note": "Only original actual first two epochs; final-v3 one-epoch real worker reproduces epoch0 field/weak/closure exactly; later development epochs excluded from this two-option decision.",
+        "eligible_history_epochs": [
+          0,
+          1
+        ],
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/rebar_development_v2_endpoint/seed_17/history.json",
+        "sha256": "943d0e8af32f5ca8b51f2232d56251f4c9bfce51f1bf6d126b945525a746e0ab"
+      },
+      "baseline_components": {
+        "mean_group_error": 0.7243721742141878,
+        "mean_maximum_constitutive_error": 6.343260481647683,
+        "mean_maximum_weak_residual": 0.462842662261502
+      },
+      "baseline_score": 1.1572458638619474,
+      "calibrated": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/rebar/calibrated_two_epoch/selected_validation.json",
+        "sha256": "cb0c28aca06a46874020b4b90966254b1fcc6a9d96c511aed457a9258e457992"
+      },
+      "calibrated_components": {
+        "mean_group_error": 0.7014144048550852,
+        "mean_maximum_constitutive_error": 6.43930616292684,
+        "mean_maximum_weak_residual": 0.5705298327172666
+      },
+      "calibrated_score": 1.166012171180744,
+      "calibration_claim": "Measured and compared; not a claim that gradient imbalance or accuracy was solved.",
+      "candidate_multipliers": [
+        1.0,
+        0.04055541827799539
+      ],
+      "field_tradeoff_disclosed": true,
+      "selected_multiplier": 1.0,
+      "selection_rule": "Lowest already registered joint validation score; exactly two fixed alternatives, no new test input or response used",
+      "train_only_calibration": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/rebar/calibration.json",
+        "sha256": "2e8188d7c3d794c2c72345e6afb3ba8679d2ff523efc4ce4217a92f600290d3f"
+      }
+    }
+  },
+  "history_implication_scope": "Log zero-increment/plateau activation counts; zero-point masks are NOT_APPLICABLE_VACUOUS, not proof of plastic evolution",
+  "hyperparameter_selection_uses_only_registered_initial_train_and_validation": true,
+  "network_emission": "Original full graph absolute-state recurrent network plus declared input BC/MPC/normal/bond-slip head and raw-SDV-compatible SPD/monotone-PEEQ parameterization; no equilibrium correction, no response basis, no spatial coarsening",
+  "new_test_response_fields_generated": false,
+  "optimizer": {
+    "gradient_clip_norm": 1.0,
+    "learning_rate": 0.0001,
+    "name": "AdamW",
+    "reset_optimizer_at_each_stage": true,
+    "torch_threads": 1,
+    "weight_decay": 1e-05
+  },
+  "physics_loss_weights": {
+    "friction": {
+      "bulk_equilibrium": 0.1,
+      "jacobian_barrier": 10.0,
+      "volume_constitutive": 0.02
+    },
+    "rebar": {
+      "Cp_spd": 1.0,
+      "J_positive": 10.0,
+      "auxiliary_mpc": 1.0,
+      "bond_law": 0.1,
+      "bond_slip": 1.0,
+      "concrete_stress_closure": 0.1,
+      "elastic_backstress_constancy": 0.01,
+      "elastic_metric_constancy": 0.01,
+      "normal_compatibility": 1.0,
+      "peeq_monotone": 1.0,
+      "peeq_nonnegative": 1.0,
+      "plateau_backstress_constancy": 0.01,
+      "prescribed_displacement": 1.0,
+      "steel_stress_closure": 0.1,
+      "weak_equilibrium": 0.1
+    }
+  },
+  "physics_reference_prerequisite": "Apply identical callback and all registered gates to qualified native reference first; adapter/native failure is REFERENCE_OR_ADAPTER_HOLD, never a neural negative or neural-physics PASS",
+  "physics_verification_evidence": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/friction/physics_verification.json",
+      "sha256": "04c4a5992bee8254149e0b76bdb2f9360423b686733619b863567ed3d0ca46de"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics_v3_checks.json",
+      "sha256": "40035e7fdc275e17b5cbd83c18de42527fd6f34b9d0edbef270002631bd637d2"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/controller_verification/all_development_native_gate_integration.json",
+      "sha256": "40312419fb901cdcfc89564ecd4559abefc0f44460ae7d9b99c4f50d257c27af"
+    }
+  ],
+  "primary_emission": "Single seed with lowest registered joint validation score within each strategy; tie seed17; both seeds retained for candidate disagreement only",
+  "rebar_endpoint_constitutive_research_gates": {
+    "full_J2_macro_increment_equivalence": "NOT_ESTABLISHED",
+    "sqrt_concrete_stress_closure_max_over_noninitial_frames": 0.001,
+    "sqrt_steel_stress_closure_max_over_noninitial_frames": 0.001
+  },
+  "resume": "Exact completed stage commits reused; exact closed-epoch event trace can resume; any missing/partial unmatched event tail retains failed attempt and requires explicit new original-initialization retry with all observed work/cost reported",
+  "rounds": 2,
+  "schema": "bridge.v2.execution.lock.v1",
+  "scope": "Fixed-discretization research only; V1 local continuum stress fidelity HOLD remains; thermoplastic excluded pending its separate qualification and contract",
+  "seeds": [
+    17,
+    41
+  ],
+  "selection_rule": "mean physical-group error + .25*mean(max fixed-scale weak residual) + .05*mean(max fixed-scale constitutive error) +1000*invalid geometry histories; retain incoming function if no epoch improves; no test selection",
+  "source_files": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_experiment_contract.py",
+      "sha256": "f470e45473d5383b71c4254934eb265e934c935e350d6b7478714b2495c2fb05"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_release_completion_audit.py",
+      "sha256": "bd3b8762904589da46bc40f1535f6768c4bec86af7a352ad9216ffcd9978dfb2"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release_guard.py",
+      "sha256": "f412ed62357201daaa137d4b78451255dda4993b93b17289ad2b47c7b2963b76"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_native.py",
+      "sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_physics.py",
+      "sha256": "b091a5663bd6b51e6604549f203c7352563834d2e0dd38ec9be381b9a57cbf5a"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller.py",
+      "sha256": "95c1209149c04b90297047b9874049e806dd471f26235e8ad02afb373eb9c477"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+      "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_finalize.py",
+      "sha256": "2e7103a6958d43628168e62deaff6f6448bd518bab644cfb4f9a64b0064295da"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_invariants.py",
+      "sha256": "734332d2bc8e6642a79aef2ef5f879680540acef517b92b5dd301ba70e9de225"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_verify.py",
+      "sha256": "f3137b4cfd1cccfd15881611e06cfc841892c99391af091301af102eb869dc53"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+      "sha256": "109afa21a1428c673ead73d094ec5aca4f1ffa3a4d6fc0fbd8268ee3fb6b3d47"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_guard_v3.py",
+      "sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v4.py",
+      "sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_constitutive.py",
+      "sha256": "a012b2cd6d3ae8f9ee6212f39f6fa70d150ee99fb17c9922475bf6b159f57b38"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_constitutive_v2.py",
+      "sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics.py",
+      "sha256": "488430b5daf28714912ca46448c9cf62feaf7b0bbd3aed586a414bd827bda78b"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics_v3.py",
+      "sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_friction.py",
+      "sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_friction_checks.py",
+      "sha256": "bab185a70eccfc9b41548d85900a1f99d0d6bd964a63d8c892760424f59f2201"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_input_guard.py",
+      "sha256": "00c4de41c58c3cbb23734fb26f4b4fd2248af685c8ac56ca7b66952bdff07a6e"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_operator.py",
+      "sha256": "c6e285f103dfb4ea13a50e3e884ebc91027857db7763b78ea5fa2a8413a0ffd4"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_operator_validation.py",
+      "sha256": "45f30cfcec0187d8d9e5fcea39535e15b27dc6deca00ea328ee448a97a308023"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_quadratic.py",
+      "sha256": "0e863fec314794c9554ea23b64a93bcf19b755d9ced96eeac45095ef8ba2950e"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar.py",
+      "sha256": "73c82e378f83251e484b0c731473a590ba3fe950d8cabafd76f38aa7ce7efbde"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar_quadratic.py",
+      "sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/contact_audit.py",
+      "sha256": "0a852caf1329d99c61c5b210a1609103bf33915509f26a3d90bc1d4c69470ea9"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/contact_solver.py",
+      "sha256": "a03f43548f8ea2c80b99bc0369d62d546862a3f4b36d5a2d8ca0facc4494ae58"
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_acquisition.py",
+      "sha256": "24e94096afde654b0260551efc15647a988ecae7e5729cd58109aa38ae8af261"
+    }
+  ],
+  "teacher_forcing": false,
+  "training_budgets": {
+    "friction": {
+      "all_native_times_and_entities_retained": true,
+      "continuation_epochs": 16,
+      "continuation_successful_optimizer_steps_per_seed": {
+        "round_1": 1280,
+        "round_2": 1536
+      },
+      "extra_visit_rule": "Each available training history once, then seeded least-visited uniform replay to fixed visit budget; validation never replayed",
+      "initial_epochs": 32,
+      "initial_successful_optimizer_steps_per_seed": 2048,
+      "visits_per_epoch": {
+        "initial": 8,
+        "round_1": 10,
+        "round_2": 12
+      }
+    },
+    "rebar": {
+      "all_native_times_and_entities_retained": true,
+      "continuation_epochs": 16,
+      "continuation_successful_optimizer_steps_per_seed": {
+        "round_1": 960,
+        "round_2": 1152
+      },
+      "extra_visit_rule": "Each available training history once, then seeded least-visited uniform replay to fixed visit budget; validation never replayed",
+      "initial_epochs": 32,
+      "initial_successful_optimizer_steps_per_seed": 1536,
+      "visits_per_epoch": {
+        "initial": 8,
+        "round_1": 10,
+        "round_2": 12
+      }
+    }
+  },
+  "truncated_backprop_steps": 4,
+  "worker_parallelism": {
+    "actual_process_cost_in_persistent_attempt_ledger": true,
+    "additional_worker_reservation_bytes": 2576980378,
+    "maximum_workers": 2,
+    "minimum_cgroup_memory_reserve_bytes": 1073741824,
+    "torch_threads_each": 1
+  }
+}

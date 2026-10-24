@@ -1,0 +1,83 @@
+{
+  "status": "COMPLETE_BOUNDED_TRAIN_VALIDATION_ONLY_SELECTION",
+  "families": {
+    "friction": {
+      "candidate_multipliers": [
+        1.0,
+        0.005870598801421401
+      ],
+      "selected_multiplier": 1.0,
+      "selection_rule": "Lowest already registered joint validation score; exactly two fixed alternatives, no new test input or response used",
+      "baseline_score": 0.9005865307676617,
+      "calibrated_score": 0.9732208028674746,
+      "baseline": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/friction/baseline_two_epoch/selected_validation.json",
+        "sha256": "b6341f1549c4acac11dad7c0d12fcf2d755b3b858cdbcef4b9124f199be65df0"
+      },
+      "calibrated": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/friction/calibrated_two_epoch/selected_validation.json",
+        "sha256": "a8bce12dd5c934cb4fb8a780c1a7958ced9d21d939705283a7a58b6c699f2f18"
+      },
+      "train_only_calibration": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/friction/calibration.json",
+        "sha256": "26bb9fee8c25668ff7061ab2b611dc894ab73e291a1eedfea5220d8a4cf64c73"
+      },
+      "baseline_components": {
+        "mean_group_error": 0.4553637594465412,
+        "mean_maximum_weak_residual": 0.07533982498004868,
+        "mean_maximum_constitutive_error": 8.527756301522164
+      },
+      "calibrated_components": {
+        "mean_group_error": 0.4727013411825389,
+        "mean_maximum_weak_residual": 0.08144227394281196,
+        "mean_maximum_constitutive_error": 9.603177863984653
+      },
+      "field_tradeoff_disclosed": true,
+      "calibration_claim": "Measured and compared; not a claim that gradient imbalance or accuracy was solved."
+    },
+    "rebar": {
+      "candidate_multipliers": [
+        1.0,
+        0.04055541827799539
+      ],
+      "selected_multiplier": 1.0,
+      "selection_rule": "Lowest already registered joint validation score; exactly two fixed alternatives, no new test input or response used",
+      "baseline_score": 1.1572458638619474,
+      "calibrated_score": 1.166012171180744,
+      "baseline": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/rebar_development_v2_endpoint/seed_17/history.json",
+        "sha256": "943d0e8af32f5ca8b51f2232d56251f4c9bfce51f1bf6d126b945525a746e0ab",
+        "eligible_history_epochs": [
+          0,
+          1
+        ],
+        "comparison_note": "Only original actual first two epochs; final-v3 one-epoch real worker reproduces epoch0 field/weak/closure exactly; later development epochs excluded from this two-option decision."
+      },
+      "calibrated": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/rebar/calibrated_two_epoch/selected_validation.json",
+        "sha256": "cb0c28aca06a46874020b4b90966254b1fcc6a9d96c511aed457a9258e457992"
+      },
+      "train_only_calibration": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/gradient_calibration/rebar/calibration.json",
+        "sha256": "2e8188d7c3d794c2c72345e6afb3ba8679d2ff523efc4ce4217a92f600290d3f"
+      },
+      "baseline_components": {
+        "mean_group_error": 0.7243721742141878,
+        "mean_maximum_weak_residual": 0.462842662261502,
+        "mean_maximum_constitutive_error": 6.343260481647683
+      },
+      "calibrated_components": {
+        "mean_group_error": 0.7014144048550852,
+        "mean_maximum_weak_residual": 0.5705298327172666,
+        "mean_maximum_constitutive_error": 6.43930616292684
+      },
+      "field_tradeoff_disclosed": true,
+      "calibration_claim": "Measured and compared; not a claim that gradient imbalance or accuracy was solved."
+    }
+  },
+  "complete_group_decomposition": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/decomposition.json",
+    "sha256": "ef4f9d9ab1e4f2fe2450c9d0a343414c8f5d30e694439da4d98794265749c881"
+  },
+  "new_test_accessed": false
+}

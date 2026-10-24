@@ -1,0 +1,1319 @@
+{
+  "status": "COMPLETE_DEVELOPMENT_ONLY",
+  "trainer_source_sha256": "109afa21a1428c673ead73d094ec5aca4f1ffa3a4d6fc0fbd8268ee3fb6b3d47",
+  "diagnostic_source_sha256": "eb87922b8d3c6e9741ebbf9a92b2ea01ee353735669945ea79e654bc738e2fe1",
+  "records": [
+    {
+      "family": "friction",
+      "id": "friction_008",
+      "native_sha256": "fbe5f5e3d8ee0286afe696d68e83ef3753b201ed3385497c8e3e161dfe410b57",
+      "physics": {
+        "original_path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_physics.py",
+        "source_sha256": "b091a5663bd6b51e6604549f203c7352563834d2e0dd38ec9be381b9a57cbf5a",
+        "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/friction/physics_friction_b091a5663bd6.py",
+        "dependencies": {}
+      },
+      "models": {
+        "v1_initial": {
+          "mean_group_error": 0.48890730185368,
+          "physical_groups": [
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.6670930900354944,
+              "cosine_to_native": 0.939799485206616,
+              "relative_L2": 0.437202133540777
+            },
+            {
+              "group": "contact_gap",
+              "predicted_to_native_norm_ratio": 0.6296707473537732,
+              "cosine_to_native": 0.9521586860097954,
+              "relative_L2": 0.44428854051698224
+            },
+            {
+              "group": "contact_pressure",
+              "predicted_to_native_norm_ratio": 0.6309850435677137,
+              "cosine_to_native": 0.9521441895357394,
+              "relative_L2": 0.44335610898265676
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 1.2279340260298617,
+              "cosine_to_native": 0.9554305024451029,
+              "relative_L2": 0.40175953674257364
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.42719450706251627,
+              "cosine_to_native": 0.5424527649017292,
+              "relative_L2": 0.8479560506598205
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 1.0963791015701292,
+              "cosine_to_native": 0.9454992542846649,
+              "relative_L2": 0.35888144067926964
+            }
+          ],
+          "maximum_weak_residual": 0.07513098176891443,
+          "maximum_fixed_scale_loss_sqrt": {
+            "volume_constitutive": 9.995075881330697,
+            "bulk_equilibrium": 0.07513098176891443,
+            "jacobian_barrier": 0.0
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 0.0
+          }
+        },
+        "v2_migrated_initial": {
+          "mean_group_error": 0.48890730114520237,
+          "physical_groups": [
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.6670930902333303,
+              "cosine_to_native": 0.939799485683937,
+              "relative_L2": 0.43720213268906877
+            },
+            {
+              "group": "contact_gap",
+              "predicted_to_native_norm_ratio": 0.6296707426137522,
+              "cosine_to_native": 0.9521586849971237,
+              "relative_L2": 0.44428854539275375
+            },
+            {
+              "group": "contact_pressure",
+              "predicted_to_native_norm_ratio": 0.6309850443423796,
+              "cosine_to_native": 0.9521441904756205,
+              "relative_L2": 0.44335610708386297
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 1.2279340266699041,
+              "cosine_to_native": 0.9554305018358265,
+              "relative_L2": 0.40175953903888545
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.42719450454147595,
+              "cosine_to_native": 0.5424527669437343,
+              "relative_L2": 0.8479560499737437
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 1.0963790884323408,
+              "cosine_to_native": 0.9454992550908938,
+              "relative_L2": 0.35888143269289935
+            }
+          ],
+          "maximum_weak_residual": 0.07513098363200922,
+          "maximum_fixed_scale_loss_sqrt": {
+            "volume_constitutive": 9.995075450388276,
+            "bulk_equilibrium": 0.07513098363200922,
+            "jacobian_barrier": 0.0
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 0.0
+          }
+        },
+        "v2_four_epoch_development": {
+          "mean_group_error": 0.4447536832342618,
+          "physical_groups": [
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.5880201058768626,
+              "cosine_to_native": 0.9418913445021592,
+              "relative_L2": 0.4879196129262652
+            },
+            {
+              "group": "contact_gap",
+              "predicted_to_native_norm_ratio": 0.6164380151531134,
+              "cosine_to_native": 0.9593297689276429,
+              "relative_L2": 0.4441409114862171
+            },
+            {
+              "group": "contact_pressure",
+              "predicted_to_native_norm_ratio": 0.6179148085252121,
+              "cosine_to_native": 0.95932628530296,
+              "relative_L2": 0.44300663065284523
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 1.127634627187066,
+              "cosine_to_native": 0.9872491185285344,
+              "relative_L2": 0.21224341922883452
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.38638426027880546,
+              "cosine_to_native": 0.4409515380950698,
+              "relative_L2": 0.8991881498662389
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 1.0138244835410106,
+              "cosine_to_native": 0.9837538975802732,
+              "relative_L2": 0.18202337524516946
+            }
+          ],
+          "maximum_weak_residual": 0.09065683109716378,
+          "maximum_fixed_scale_loss_sqrt": {
+            "volume_constitutive": 5.442108246542377,
+            "bulk_equilibrium": 0.09065683109716378,
+            "jacobian_barrier": 0.0
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 0.0
+          }
+        }
+      },
+      "native_maximum_fixed_scale_loss_sqrt": {
+        "volume_constitutive": 5.970744905732835e-08,
+        "bulk_equilibrium": 1.259444663438241e-08,
+        "jacobian_barrier": 0.0
+      }
+    },
+    {
+      "family": "friction",
+      "id": "friction_009",
+      "native_sha256": "49ec58c11e3ff0fafc2b679ce47737a446ae97af7ff81e59f984f0f2cf39cf02",
+      "physics": {
+        "original_path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_physics.py",
+        "source_sha256": "b091a5663bd6b51e6604549f203c7352563834d2e0dd38ec9be381b9a57cbf5a",
+        "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/friction/physics_friction_b091a5663bd6.py",
+        "dependencies": {}
+      },
+      "models": {
+        "v1_initial": {
+          "mean_group_error": 0.39898142470176096,
+          "physical_groups": [
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.9734014525338214,
+              "cosine_to_native": 0.901756538324594,
+              "relative_L2": 0.43814168863609976
+            },
+            {
+              "group": "contact_gap",
+              "predicted_to_native_norm_ratio": 0.9879618076570195,
+              "cosine_to_native": 0.9608107715605646,
+              "relative_L2": 0.2785315781276937
+            },
+            {
+              "group": "contact_pressure",
+              "predicted_to_native_norm_ratio": 0.9910218252916128,
+              "cosine_to_native": 0.9604338470354156,
+              "relative_L2": 0.28018288649122247
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.961686360733513,
+              "cosine_to_native": 0.9573695952432987,
+              "relative_L2": 0.28889806605095153
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.4967216013883853,
+              "cosine_to_native": 0.6150368980688073,
+              "relative_L2": 0.7973256069150644
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 0.9294395786124174,
+              "cosine_to_native": 0.9507104653671191,
+              "relative_L2": 0.310808721989534
+            }
+          ],
+          "maximum_weak_residual": 0.03853578878523954,
+          "maximum_fixed_scale_loss_sqrt": {
+            "volume_constitutive": 17.54169756704674,
+            "bulk_equilibrium": 0.03853578878523954,
+            "jacobian_barrier": 0.0
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 0.0
+          }
+        },
+        "v2_migrated_initial": {
+          "mean_group_error": 0.39898142510946005,
+          "physical_groups": [
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.9734014543434467,
+              "cosine_to_native": 0.901756538470958,
+              "relative_L2": 0.4381416886068384
+            },
+            {
+              "group": "contact_gap",
+              "predicted_to_native_norm_ratio": 0.9879618082372944,
+              "cosine_to_native": 0.9608107712945119,
+              "relative_L2": 0.27853157912795606
+            },
+            {
+              "group": "contact_pressure",
+              "predicted_to_native_norm_ratio": 0.9910218282415585,
+              "cosine_to_native": 0.9604338461794253,
+              "relative_L2": 0.28018288984095663
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.9616863552342301,
+              "cosine_to_native": 0.9573695957332958,
+              "relative_L2": 0.28889806433767323
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.496721598992913,
+              "cosine_to_native": 0.6150369011203213,
+              "relative_L2": 0.7973256053694825
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 0.9294395820249604,
+              "cosine_to_native": 0.9507104648260978,
+              "relative_L2": 0.3108087233738534
+            }
+          ],
+          "maximum_weak_residual": 0.03853579193363746,
+          "maximum_fixed_scale_loss_sqrt": {
+            "volume_constitutive": 17.54169783430421,
+            "bulk_equilibrium": 0.03853579193363746,
+            "jacobian_barrier": 0.0
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 0.0
+          }
+        },
+        "v2_four_epoch_development": {
+          "mean_group_error": 0.393224982075374,
+          "physical_groups": [
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.9522462880139466,
+              "cosine_to_native": 0.8950187111698237,
+              "relative_L2": 0.44968489212709645
+            },
+            {
+              "group": "contact_gap",
+              "predicted_to_native_norm_ratio": 1.0967297786157684,
+              "cosine_to_native": 0.9670445465503146,
+              "relative_L2": 0.28573257497731536
+            },
+            {
+              "group": "contact_pressure",
+              "predicted_to_native_norm_ratio": 1.0954064044228529,
+              "cosine_to_native": 0.9683032628326136,
+              "relative_L2": 0.2802570245146818
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.903401434502322,
+              "cosine_to_native": 0.9875383156838125,
+              "relative_L2": 0.17845752948902688
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.44748425312656176,
+              "cosine_to_native": 0.5232935076908961,
+              "relative_L2": 0.8555179412999813
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 0.8791041711837495,
+              "cosine_to_native": 0.9537607442274405,
+              "relative_L2": 0.30969993004414215
+            }
+          ],
+          "maximum_weak_residual": 0.039457455176843785,
+          "maximum_fixed_scale_loss_sqrt": {
+            "volume_constitutive": 12.35799950865961,
+            "bulk_equilibrium": 0.039457455176843785,
+            "jacobian_barrier": 0.0
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 0.0
+          }
+        }
+      },
+      "native_maximum_fixed_scale_loss_sqrt": {
+        "volume_constitutive": 4.198232989331023e-08,
+        "bulk_equilibrium": 1.9527618775576035e-08,
+        "jacobian_barrier": 0.0
+      }
+    },
+    {
+      "family": "friction",
+      "id": "friction_010",
+      "native_sha256": "c04c24a66014e57d97b03c75c671ea2b1e3291771caa9f085a89a98d775e233e",
+      "physics": {
+        "original_path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_physics.py",
+        "source_sha256": "b091a5663bd6b51e6604549f203c7352563834d2e0dd38ec9be381b9a57cbf5a",
+        "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/friction/physics_friction_b091a5663bd6.py",
+        "dependencies": {}
+      },
+      "models": {
+        "v1_initial": {
+          "mean_group_error": 0.569199976028629,
+          "physical_groups": [
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 1.2511650014248212,
+              "cosine_to_native": 0.8947337289088759,
+              "relative_L2": 0.5713972404379939
+            },
+            {
+              "group": "contact_gap",
+              "predicted_to_native_norm_ratio": 1.3033481422868463,
+              "cosine_to_native": 0.9160621598470873,
+              "relative_L2": 0.5575128263014391
+            },
+            {
+              "group": "contact_pressure",
+              "predicted_to_native_norm_ratio": 1.3067531190687016,
+              "cosine_to_native": 0.9161486999348021,
+              "relative_L2": 0.5596814914348185
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.9131983541495401,
+              "cosine_to_native": 0.9183569388478593,
+              "relative_L2": 0.3957867403868892
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.17364951750437185,
+              "cosine_to_native": 0.5033774334299638,
+              "relative_L2": 0.9248414231932395
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 0.9127591208988214,
+              "cosine_to_native": 0.913882592375297,
+              "relative_L2": 0.4059801344173942
+            }
+          ],
+          "maximum_weak_residual": 0.12065939342981732,
+          "maximum_fixed_scale_loss_sqrt": {
+            "volume_constitutive": 4.486897779436496,
+            "bulk_equilibrium": 0.12065939342981732,
+            "jacobian_barrier": 0.0
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 0.0
+          }
+        },
+        "v2_migrated_initial": {
+          "mean_group_error": 0.5691999774381872,
+          "physical_groups": [
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 1.2511650023436072,
+              "cosine_to_native": 0.8947337292291541,
+              "relative_L2": 0.5713972403098219
+            },
+            {
+              "group": "contact_gap",
+              "predicted_to_native_norm_ratio": 1.3033481378272054,
+              "cosine_to_native": 0.9160621585480218,
+              "relative_L2": 0.5575128262404148
+            },
+            {
+              "group": "contact_pressure",
+              "predicted_to_native_norm_ratio": 1.3067531197079267,
+              "cosine_to_native": 0.916148699403454,
+              "relative_L2": 0.5596814931215369
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.9131983683021658,
+              "cosine_to_native": 0.9183569384673796,
+              "relative_L2": 0.3957867410803088
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.17364951932756803,
+              "cosine_to_native": 0.5033774318979335,
+              "relative_L2": 0.9248414228308829
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 0.9127591347698906,
+              "cosine_to_native": 0.9138825894098594,
+              "relative_L2": 0.40598014104615776
+            }
+          ],
+          "maximum_weak_residual": 0.12065939339513891,
+          "maximum_fixed_scale_loss_sqrt": {
+            "volume_constitutive": 4.486897261448382,
+            "bulk_equilibrium": 0.12065939339513891,
+            "jacobian_barrier": 0.0
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 0.0
+          }
+        },
+        "v2_four_epoch_development": {
+          "mean_group_error": 0.49225878419145763,
+          "physical_groups": [
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 1.0936081334418695,
+              "cosine_to_native": 0.8947801121876747,
+              "relative_L2": 0.4887751352813177
+            },
+            {
+              "group": "contact_gap",
+              "predicted_to_native_norm_ratio": 1.1951706794162476,
+              "cosine_to_native": 0.9176610508229831,
+              "relative_L2": 0.4846749320569707
+            },
+            {
+              "group": "contact_pressure",
+              "predicted_to_native_norm_ratio": 1.2012668773741857,
+              "cosine_to_native": 0.917551937295892,
+              "relative_L2": 0.48845942471016496
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.8432352313010136,
+              "cosine_to_native": 0.9741591966074842,
+              "relative_L2": 0.2610650194044217
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.17812573487145342,
+              "cosine_to_native": 0.3582106412115157,
+              "relative_L2": 0.9508499934344765
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 0.8250952933991278,
+              "cosine_to_native": 0.971120784464778,
+              "relative_L2": 0.27972820026139394
+            }
+          ],
+          "maximum_weak_residual": 0.0931413941583141,
+          "maximum_fixed_scale_loss_sqrt": {
+            "volume_constitutive": 3.5037846524080845,
+            "bulk_equilibrium": 0.0931413941583141,
+            "jacobian_barrier": 0.0
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 0.0
+          }
+        }
+      },
+      "native_maximum_fixed_scale_loss_sqrt": {
+        "volume_constitutive": 5.443923464257811e-08,
+        "bulk_equilibrium": 1.6996522893007775e-08,
+        "jacobian_barrier": 0.0
+      }
+    },
+    {
+      "family": "rebar",
+      "id": "rebar_validation_08",
+      "native_sha256": "19b576d1b20da7024c7acb4cdbea4187da83b6db7281a0d336c7c1585a4200a6",
+      "physics": {
+        "original_path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics_v3.py",
+        "source_sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a",
+        "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/rebar/physics_rebar_c2a7fb88adbc.py",
+        "dependencies": {
+          "v2_rebar_constitutive_v2.py": {
+            "source_sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c",
+            "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/rebar/constitutive_4ba3802d5f40.py"
+          }
+        }
+      },
+      "models": {
+        "v1_initial": {
+          "mean_group_error": 0.8215458715530477,
+          "physical_groups": [
+            {
+              "group": "backstress",
+              "predicted_to_native_norm_ratio": 0.6663681653600295,
+              "cosine_to_native": 0.5024182775487326,
+              "relative_L2": 0.880031499492093
+            },
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.1339335668321762,
+              "cosine_to_native": 0.10559574728846247,
+              "relative_L2": 0.9948128317282013
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.6592941328102028,
+              "cosine_to_native": 0.7937763579330287,
+              "relative_L2": 0.6229001223796338
+            },
+            {
+              "group": "equivalent_plastic_strain",
+              "predicted_to_native_norm_ratio": 1.5576980027515537,
+              "cosine_to_native": 0.718173917871999,
+              "relative_L2": 1.0904251064521744
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.9077840950174713,
+              "cosine_to_native": 0.921304270878994,
+              "relative_L2": 0.38907741596686346
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 0.6085784245417276,
+              "cosine_to_native": 0.9155245685965645,
+              "relative_L2": 0.5059947624691458
+            },
+            {
+              "group": "plastic_metric",
+              "predicted_to_native_norm_ratio": 0.9208818142462954,
+              "cosine_to_native": 0.13099719862920703,
+              "relative_L2": 1.2675793623832219
+            }
+          ],
+          "maximum_weak_residual": 0.745150092916484,
+          "maximum_fixed_scale_loss_sqrt": {
+            "weak_equilibrium": 0.745150092916484,
+            "normal_compatibility": 0.0016816481226527423,
+            "auxiliary_mpc": 0.04303633553747113,
+            "bond_slip": 0.5117640911933531,
+            "bond_law": 0.7295495394259682,
+            "peeq_nonnegative": 0.03678962106578492,
+            "peeq_monotone": 0.031130158241656276,
+            "Cp_spd": 0.0,
+            "J_positive": 0.0,
+            "prescribed_displacement": 3.239872229246964e-09,
+            "steel_stress_closure": 3.6490070763207045,
+            "plateau_backstress_constancy": 0.00029666810813028076,
+            "elastic_metric_constancy": 0.0,
+            "elastic_backstress_constancy": 0.0,
+            "concrete_stress_closure": 1.683679700826135
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 865.0
+          }
+        },
+        "v2_migrated_initial": {
+          "mean_group_error": 0.8574351506118061,
+          "physical_groups": [
+            {
+              "group": "backstress",
+              "predicted_to_native_norm_ratio": 0.661162385978858,
+              "cosine_to_native": 0.5036601399443476,
+              "relative_L2": 0.878142027770654
+            },
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.13375162189585754,
+              "cosine_to_native": 0.10635169824532752,
+              "relative_L2": 0.9947060229517007
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.6223688673762212,
+              "cosine_to_native": 0.7894817292922475,
+              "relative_L2": 0.636117369462183
+            },
+            {
+              "group": "equivalent_plastic_strain",
+              "predicted_to_native_norm_ratio": 1.4663959246902971,
+              "cosine_to_native": 0.7453540503334866,
+              "relative_L2": 0.9820125886298243
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.9170771457460203,
+              "cosine_to_native": 0.9195646469799407,
+              "relative_L2": 0.3929466219310785
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 0.23197910695211385,
+              "cosine_to_native": 0.6977735060388669,
+              "relative_L2": 0.854445174654768
+            },
+            {
+              "group": "plastic_metric",
+              "predicted_to_native_norm_ratio": 0.9139169837414154,
+              "cosine_to_native": 0.13040932350638537,
+              "relative_L2": 1.2636762488824336
+            }
+          ],
+          "maximum_weak_residual": 0.7463235852875058,
+          "maximum_fixed_scale_loss_sqrt": {
+            "weak_equilibrium": 0.7463235852875058,
+            "normal_compatibility": 0.0,
+            "auxiliary_mpc": 4.9970537756516365e-09,
+            "bond_slip": 1.0688548077182192e-08,
+            "bond_law": 0.6400675733833165,
+            "peeq_nonnegative": 0.0,
+            "peeq_monotone": 0.0,
+            "Cp_spd": 0.0,
+            "J_positive": 0.0,
+            "prescribed_displacement": 3.239872229246964e-09,
+            "steel_stress_closure": 3.6468301095798736,
+            "plateau_backstress_constancy": 0.0002987274494355119,
+            "elastic_metric_constancy": 0.0,
+            "elastic_backstress_constancy": 0.0,
+            "concrete_stress_closure": 1.6915740404489312
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 798.0
+          }
+        },
+        "v2_four_epoch_development": {
+          "mean_group_error": 0.7641793244834768,
+          "physical_groups": [
+            {
+              "group": "backstress",
+              "predicted_to_native_norm_ratio": 0.5824275211583404,
+              "cosine_to_native": 0.569340030379452,
+              "relative_L2": 0.8222063075788291
+            },
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.06671088298656266,
+              "cosine_to_native": 0.13952414263977428,
+              "relative_L2": 0.9928921313022686
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.599072669049897,
+              "cosine_to_native": 0.8394524157283982,
+              "relative_L2": 0.594223917678325
+            },
+            {
+              "group": "equivalent_plastic_strain",
+              "predicted_to_native_norm_ratio": 1.4746658789074332,
+              "cosine_to_native": 0.8180321539820495,
+              "relative_L2": 0.8729210982447799
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.8581028478479465,
+              "cosine_to_native": 0.9499506418763751,
+              "relative_L2": 0.3256221664238348
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 0.39488013482165746,
+              "cosine_to_native": 0.8390306296689298,
+              "relative_L2": 0.7023512401572565
+            },
+            {
+              "group": "plastic_metric",
+              "predicted_to_native_norm_ratio": 0.48671583596254614,
+              "cosine_to_native": 0.16158451800968662,
+              "relative_L2": 1.0390384099990435
+            }
+          ],
+          "maximum_weak_residual": 0.26573381261545376,
+          "maximum_fixed_scale_loss_sqrt": {
+            "weak_equilibrium": 0.26573381261545376,
+            "normal_compatibility": 0.0,
+            "auxiliary_mpc": 4.272254272122484e-09,
+            "bond_slip": 1.7698670176873952e-08,
+            "bond_law": 0.4827302597575607,
+            "peeq_nonnegative": 0.0,
+            "peeq_monotone": 0.0,
+            "Cp_spd": 0.0,
+            "J_positive": 0.0,
+            "prescribed_displacement": 3.239872229246964e-09,
+            "steel_stress_closure": 3.2196828972714897,
+            "plateau_backstress_constancy": 0.0003605208131844491,
+            "elastic_metric_constancy": 0.0,
+            "elastic_backstress_constancy": 0.0,
+            "concrete_stress_closure": 0.917109212015797
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 898.0
+          }
+        }
+      },
+      "native_maximum_fixed_scale_loss_sqrt": {
+        "weak_equilibrium": 2.0953050244598746e-07,
+        "normal_compatibility": 0.0,
+        "auxiliary_mpc": 3.7055856739927614e-15,
+        "bond_slip": 0.0,
+        "bond_law": 1.3515612077709463e-12,
+        "peeq_nonnegative": 0.0,
+        "peeq_monotone": 0.0,
+        "Cp_spd": 0.0,
+        "J_positive": 0.0,
+        "prescribed_displacement": 5.013469896406822e-16,
+        "steel_stress_closure": 1.0185492708419132e-07,
+        "plateau_backstress_constancy": 0.0,
+        "elastic_metric_constancy": 0.0,
+        "elastic_backstress_constancy": 0.0,
+        "concrete_stress_closure": 4.7388521797076e-08
+      }
+    },
+    {
+      "family": "rebar",
+      "id": "rebar_validation_09",
+      "native_sha256": "2a7a5f285a468e0218fcd0a00f2420fb97ffe4499fcdeda091814d2c85a77d0a",
+      "physics": {
+        "original_path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics_v3.py",
+        "source_sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a",
+        "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/rebar/physics_rebar_c2a7fb88adbc.py",
+        "dependencies": {
+          "v2_rebar_constitutive_v2.py": {
+            "source_sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c",
+            "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/rebar/constitutive_4ba3802d5f40.py"
+          }
+        }
+      },
+      "models": {
+        "v1_initial": {
+          "mean_group_error": 0.7621811263098441,
+          "physical_groups": [
+            {
+              "group": "backstress",
+              "predicted_to_native_norm_ratio": 0.23023168197687777,
+              "cosine_to_native": 0.7845583108341552,
+              "relative_L2": 0.8317128521078238
+            },
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.18467154042496733,
+              "cosine_to_native": 0.16669746582108969,
+              "relative_L2": 0.9861719029898854
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.6684873387444871,
+              "cosine_to_native": 0.7416065174083909,
+              "relative_L2": 0.6748082598974927
+            },
+            {
+              "group": "equivalent_plastic_strain",
+              "predicted_to_native_norm_ratio": 0.5125125334456105,
+              "cosine_to_native": 0.8527417540073957,
+              "relative_L2": 0.6233678075554351
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.9934555288335993,
+              "cosine_to_native": 0.9479348289632197,
+              "relative_L2": 0.32170124985016874
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 1.7757256088599755,
+              "cosine_to_native": 0.9371638670595087,
+              "relative_L2": 0.9082453859445143
+            },
+            {
+              "group": "plastic_metric",
+              "predicted_to_native_norm_ratio": 0.21230017632675158,
+              "cosine_to_native": 0.15646518980146515,
+              "relative_L2": 0.9892604258235899
+            }
+          ],
+          "maximum_weak_residual": 0.9358071437485664,
+          "maximum_fixed_scale_loss_sqrt": {
+            "weak_equilibrium": 0.9358071437485664,
+            "normal_compatibility": 0.0005631938575127053,
+            "auxiliary_mpc": 0.012865934705865173,
+            "bond_slip": 0.8912275620265747,
+            "bond_law": 0.4600065023359697,
+            "peeq_nonnegative": 0.050723807734604894,
+            "peeq_monotone": 0.05623456659385613,
+            "Cp_spd": 0.0,
+            "J_positive": 0.0,
+            "prescribed_displacement": 2.6015333499764775e-09,
+            "steel_stress_closure": 11.55862460208134,
+            "plateau_backstress_constancy": 0.0007221771008465592,
+            "elastic_metric_constancy": 0.0,
+            "elastic_backstress_constancy": 0.0,
+            "concrete_stress_closure": 1.9364093624568441
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 870.0
+          }
+        },
+        "v2_migrated_initial": {
+          "mean_group_error": 0.7146043248338795,
+          "physical_groups": [
+            {
+              "group": "backstress",
+              "predicted_to_native_norm_ratio": 0.2293292534893017,
+              "cosine_to_native": 0.7809469256115955,
+              "relative_L2": 0.8333090396578064
+            },
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.1845574926958653,
+              "cosine_to_native": 0.16739794670000435,
+              "relative_L2": 0.9860387302025243
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.6762745961572422,
+              "cosine_to_native": 0.7397718338155513,
+              "relative_L2": 0.6758472705304152
+            },
+            {
+              "group": "equivalent_plastic_strain",
+              "predicted_to_native_norm_ratio": 0.5232285436625425,
+              "cosine_to_native": 0.8540112787589864,
+              "relative_L2": 0.6165078698527091
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 1.0028209828963939,
+              "cosine_to_native": 0.9491664824959598,
+              "relative_L2": 0.3193145689120169
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 1.135171981277911,
+              "cosine_to_native": 0.8590721915372511,
+              "relative_L2": 0.5815720622779441
+            },
+            {
+              "group": "plastic_metric",
+              "predicted_to_native_norm_ratio": 0.21170534101552577,
+              "cosine_to_native": 0.15453169926659727,
+              "relative_L2": 0.9896407324037408
+            }
+          ],
+          "maximum_weak_residual": 0.9377810095706648,
+          "maximum_fixed_scale_loss_sqrt": {
+            "weak_equilibrium": 0.9377810095706648,
+            "normal_compatibility": 0.0,
+            "auxiliary_mpc": 2.057302600368024e-09,
+            "bond_slip": 3.420248194440379e-08,
+            "bond_law": 0.325666004205094,
+            "peeq_nonnegative": 0.0,
+            "peeq_monotone": 0.0,
+            "Cp_spd": 0.0,
+            "J_positive": 0.0,
+            "prescribed_displacement": 2.6015333499764775e-09,
+            "steel_stress_closure": 11.560072648486255,
+            "plateau_backstress_constancy": 0.0007185621674430773,
+            "elastic_metric_constancy": 0.0,
+            "elastic_backstress_constancy": 0.0,
+            "concrete_stress_closure": 1.9391237920706665
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 911.0
+          }
+        },
+        "v2_four_epoch_development": {
+          "mean_group_error": 0.7272930937905366,
+          "physical_groups": [
+            {
+              "group": "backstress",
+              "predicted_to_native_norm_ratio": 0.21589672468869667,
+              "cosine_to_native": 0.8428046099806485,
+              "relative_L2": 0.8262529189277299
+            },
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.1071662464107827,
+              "cosine_to_native": 0.1896239962744575,
+              "relative_L2": 0.9853131586198799
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.7087978010571698,
+              "cosine_to_native": 0.7778569350804208,
+              "relative_L2": 0.6322244479133464
+            },
+            {
+              "group": "equivalent_plastic_strain",
+              "predicted_to_native_norm_ratio": 0.6013533725078901,
+              "cosine_to_native": 0.8978618285635797,
+              "relative_L2": 0.5308120207012966
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 0.8837224745554677,
+              "cosine_to_native": 0.9599191115903999,
+              "relative_L2": 0.29045004165764987
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 1.574878535427698,
+              "cosine_to_native": 0.879590919674087,
+              "relative_L2": 0.8424634607193564
+            },
+            {
+              "group": "plastic_metric",
+              "predicted_to_native_norm_ratio": 0.12075534577737158,
+              "cosine_to_native": 0.19560029014284405,
+              "relative_L2": 0.9835356079944976
+            }
+          ],
+          "maximum_weak_residual": 0.54902790336457,
+          "maximum_fixed_scale_loss_sqrt": {
+            "weak_equilibrium": 0.54902790336457,
+            "normal_compatibility": 0.0,
+            "auxiliary_mpc": 1.889381470209731e-09,
+            "bond_slip": 4.323542039613068e-08,
+            "bond_law": 0.3210666618396136,
+            "peeq_nonnegative": 0.0,
+            "peeq_monotone": 0.0,
+            "Cp_spd": 0.0,
+            "J_positive": 0.0,
+            "prescribed_displacement": 2.6015333499764775e-09,
+            "steel_stress_closure": 10.589939586493674,
+            "plateau_backstress_constancy": 0.0010497803713006128,
+            "elastic_metric_constancy": 0.0005061252397540238,
+            "elastic_backstress_constancy": 0.0016740791430994903,
+            "concrete_stress_closure": 0.642588114455854
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 54.0,
+            "plateau_history_constraint_points": 1106.0
+          }
+        }
+      },
+      "native_maximum_fixed_scale_loss_sqrt": {
+        "weak_equilibrium": 2.033171854575983e-07,
+        "normal_compatibility": 0.0,
+        "auxiliary_mpc": 9.789950286787109e-16,
+        "bond_slip": 0.0,
+        "bond_law": 4.5408605897802704e-12,
+        "peeq_nonnegative": 0.0,
+        "peeq_monotone": 0.0,
+        "Cp_spd": 0.0,
+        "J_positive": 0.0,
+        "prescribed_displacement": 2.59613840989945e-15,
+        "steel_stress_closure": 3.2812273724192683e-07,
+        "plateau_backstress_constancy": 0.0,
+        "elastic_metric_constancy": 0.0,
+        "elastic_backstress_constancy": 0.0,
+        "concrete_stress_closure": 4.34432940249396e-08
+      }
+    },
+    {
+      "family": "rebar",
+      "id": "rebar_validation_10",
+      "native_sha256": "1bbd839cab4fa02daf6d264806b076dfa9a9b70942ba78ee1717f9ac6dadc117",
+      "physics": {
+        "original_path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_rebar_physics_v3.py",
+        "source_sha256": "c2a7fb88adbcbca2ec9cc6fb84e48b54c7c72e4ea87177a762e4088877b0c83a",
+        "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/rebar/physics_rebar_c2a7fb88adbc.py",
+        "dependencies": {
+          "v2_rebar_constitutive_v2.py": {
+            "source_sha256": "4ba3802d5f4089f1d2d04631f0df01efcf2433f51175a097127196b8aaf6e29c",
+            "snapshot": "/dev/shm/bridge_complex_v2_20261025/operator/development_diagnostics/rebar/constitutive_4ba3802d5f40.py"
+          }
+        }
+      },
+      "models": {
+        "v1_initial": {
+          "mean_group_error": 0.6656261000133963,
+          "physical_groups": [
+            {
+              "group": "backstress",
+              "predicted_to_native_norm_ratio": 0.46772054470553515,
+              "cosine_to_native": 0.6126276348183098,
+              "relative_L2": 0.8035455468247431
+            },
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.16461625615844494,
+              "cosine_to_native": 0.11793094565463363,
+              "relative_L2": 0.9941186097613509
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.8144691821260214,
+              "cosine_to_native": 0.8846631958602211,
+              "relative_L2": 0.4714851317427697
+            },
+            {
+              "group": "equivalent_plastic_strain",
+              "predicted_to_native_norm_ratio": 1.28058875571078,
+              "cosine_to_native": 0.8154579601764638,
+              "relative_L2": 0.742546276092761
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 1.1279995745304199,
+              "cosine_to_native": 0.9708699930014599,
+              "relative_L2": 0.28653300347571026
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 1.124763730718461,
+              "cosine_to_native": 0.9586842666691341,
+              "relative_L2": 0.32940380267989633
+            },
+            {
+              "group": "plastic_metric",
+              "predicted_to_native_norm_ratio": 0.7586155817692908,
+              "cosine_to_native": 0.3367903788990894,
+              "relative_L2": 1.0317503295165427
+            }
+          ],
+          "maximum_weak_residual": 0.8874691376473391,
+          "maximum_fixed_scale_loss_sqrt": {
+            "weak_equilibrium": 0.8874691376473391,
+            "normal_compatibility": 0.0014329499359412479,
+            "auxiliary_mpc": 0.026042399299573183,
+            "bond_slip": 0.8633075184338883,
+            "bond_law": 0.7406254881489814,
+            "peeq_nonnegative": 0.042909403939732416,
+            "peeq_monotone": 0.06268859240147688,
+            "Cp_spd": 0.0,
+            "J_positive": 0.0,
+            "prescribed_displacement": 2.378649340360547e-09,
+            "steel_stress_closure": 5.008826744879068,
+            "plateau_backstress_constancy": 0.0002856842561085053,
+            "elastic_metric_constancy": 0.0,
+            "elastic_backstress_constancy": 0.0,
+            "concrete_stress_closure": 1.8266563888684242
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 933.0
+          }
+        },
+        "v2_migrated_initial": {
+          "mean_group_error": 0.6875890938255395,
+          "physical_groups": [
+            {
+              "group": "backstress",
+              "predicted_to_native_norm_ratio": 0.4623045449467166,
+              "cosine_to_native": 0.6166268788214002,
+              "relative_L2": 0.8022385399913841
+            },
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.16431725799133054,
+              "cosine_to_native": 0.11897463367885991,
+              "relative_L2": 0.9939320852656498
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.8081232098635727,
+              "cosine_to_native": 0.8950276742048701,
+              "relative_L2": 0.454398336627533
+            },
+            {
+              "group": "equivalent_plastic_strain",
+              "predicted_to_native_norm_ratio": 1.2070452418250546,
+              "cosine_to_native": 0.8296501792873432,
+              "relative_L2": 0.6738750724253887
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 1.1472731936890912,
+              "cosine_to_native": 0.9680539323784345,
+              "relative_L2": 0.30820630692993145
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 0.6756983491334313,
+              "cosine_to_native": 0.8511493031456615,
+              "relative_L2": 0.5534689702399375
+            },
+            {
+              "group": "plastic_metric",
+              "predicted_to_native_norm_ratio": 0.7496839364516965,
+              "cosine_to_native": 0.33833463320009827,
+              "relative_L2": 1.0270043452989526
+            }
+          ],
+          "maximum_weak_residual": 0.8877489707287071,
+          "maximum_fixed_scale_loss_sqrt": {
+            "weak_equilibrium": 0.8877489707287071,
+            "normal_compatibility": 0.0,
+            "auxiliary_mpc": 3.8725761186194095e-09,
+            "bond_slip": 3.0924148791454523e-08,
+            "bond_law": 0.5918142562751447,
+            "peeq_nonnegative": 0.0,
+            "peeq_monotone": 0.0,
+            "Cp_spd": 0.0,
+            "J_positive": 0.0,
+            "prescribed_displacement": 2.378649340360547e-09,
+            "steel_stress_closure": 5.008902484931513,
+            "plateau_backstress_constancy": 0.00029490508974992704,
+            "elastic_metric_constancy": 0.0,
+            "elastic_backstress_constancy": 0.0,
+            "concrete_stress_closure": 1.8281928682038364
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 756.0
+          }
+        },
+        "v2_four_epoch_development": {
+          "mean_group_error": 0.623264767781777,
+          "physical_groups": [
+            {
+              "group": "backstress",
+              "predicted_to_native_norm_ratio": 0.4197850507074876,
+              "cosine_to_native": 0.7001107291332748,
+              "relative_L2": 0.7670902508423323
+            },
+            {
+              "group": "cauchy_stress",
+              "predicted_to_native_norm_ratio": 0.08505746936468439,
+              "cosine_to_native": 0.19442418849322365,
+              "relative_L2": 0.9869955998796005
+            },
+            {
+              "group": "displacement",
+              "predicted_to_native_norm_ratio": 0.8604643009780092,
+              "cosine_to_native": 0.9253331624038299,
+              "relative_L2": 0.3846641492762355
+            },
+            {
+              "group": "equivalent_plastic_strain",
+              "predicted_to_native_norm_ratio": 1.2730419703710705,
+              "cosine_to_native": 0.8833855802857696,
+              "relative_L2": 0.6094768403126429
+            },
+            {
+              "group": "interface_shear_traction",
+              "predicted_to_native_norm_ratio": 1.054500352060606,
+              "cosine_to_native": 0.9708200670887386,
+              "relative_L2": 0.2539897388297215
+            },
+            {
+              "group": "interface_slip",
+              "predicted_to_native_norm_ratio": 1.0213098979714337,
+              "cosine_to_native": 0.8925497693412853,
+              "relative_L2": 0.46897129973343876
+            },
+            {
+              "group": "plastic_metric",
+              "predicted_to_native_norm_ratio": 0.4149685083188205,
+              "cosine_to_native": 0.4544097917012727,
+              "relative_L2": 0.8916654955984676
+            }
+          ],
+          "maximum_weak_residual": 0.34792573633633916,
+          "maximum_fixed_scale_loss_sqrt": {
+            "weak_equilibrium": 0.34792573633633916,
+            "normal_compatibility": 0.0,
+            "auxiliary_mpc": 4.047976316704926e-09,
+            "bond_slip": 3.5859127548211014e-08,
+            "bond_law": 0.3735510332571807,
+            "peeq_nonnegative": 0.0,
+            "peeq_monotone": 0.0,
+            "Cp_spd": 0.0,
+            "J_positive": 0.0,
+            "prescribed_displacement": 2.378649340360547e-09,
+            "steel_stress_closure": 4.067438787895321,
+            "plateau_backstress_constancy": 0.0006452787601331511,
+            "elastic_metric_constancy": 0.0,
+            "elastic_backstress_constancy": 0.0,
+            "concrete_stress_closure": 0.6984101607677622
+          },
+          "history_constraint_activation": {
+            "zero_plastic_increment_constraint_points": 0.0,
+            "plateau_history_constraint_points": 782.0
+          }
+        }
+      },
+      "native_maximum_fixed_scale_loss_sqrt": {
+        "weak_equilibrium": 2.0562878125232147e-07,
+        "normal_compatibility": 0.0,
+        "auxiliary_mpc": 2.12056289261098e-15,
+        "bond_slip": 0.0,
+        "bond_law": 3.0745201882611574e-12,
+        "peeq_nonnegative": 0.0,
+        "peeq_monotone": 0.0,
+        "Cp_spd": 0.0,
+        "J_positive": 0.0,
+        "prescribed_displacement": 3.9975154784623673e-16,
+        "steel_stress_closure": 1.6399419578248938e-07,
+        "plateau_backstress_constancy": 0.0,
+        "elastic_metric_constancy": 0.0,
+        "elastic_backstress_constancy": 0.0,
+        "concrete_stress_closure": 4.784867071631402e-08
+      }
+    }
+  ],
+  "actual_head_gradient_decomposition": {
+    "friction": {
+      "cauchy_stress": {
+        "supervised": 0.0010195535903203725,
+        "weighted_physics": 0.011648341084912334,
+        "physics_to_supervised": 11.42494244098743
+      },
+      "contact_gap": {
+        "supervised": 0.008522112853825092,
+        "weighted_physics": 0.0,
+        "physics_to_supervised": 0.0
+      },
+      "contact_pressure": {
+        "supervised": 0.008607541210949421,
+        "weighted_physics": 0.0,
+        "physics_to_supervised": 0.0
+      },
+      "displacement": {
+        "supervised": 0.005280263294420446,
+        "weighted_physics": 2.4097354250542184,
+        "physics_to_supervised": 456.3665277071581
+      },
+      "interface_shear_traction": {
+        "supervised": 0.0016147765614116134,
+        "weighted_physics": 0.0,
+        "physics_to_supervised": 0.0
+      },
+      "interface_slip": {
+        "supervised": 0.003044320355374698,
+        "weighted_physics": 0.0,
+        "physics_to_supervised": 0.0
+      }
+    },
+    "rebar": {
+      "backstress": {
+        "supervised": 0.0007080935401136741,
+        "weighted_physics": 0.0,
+        "physics_to_supervised": 0.0
+      },
+      "cauchy_stress": {
+        "supervised": 0.003640959498757106,
+        "weighted_physics": 0.5973201592017252,
+        "physics_to_supervised": 164.0556999894201
+      },
+      "displacement": {
+        "supervised": 0.051307460315373546,
+        "weighted_physics": 0.8244172760967816,
+        "physics_to_supervised": 16.0681754861633
+      },
+      "equivalent_plastic_strain": {
+        "supervised": 0.001655064057558775,
+        "weighted_physics": 0.0,
+        "physics_to_supervised": 0.0
+      },
+      "interface_shear_traction": {
+        "supervised": 0.012572763487696648,
+        "weighted_physics": 0.056635644286870956,
+        "physics_to_supervised": 4.504629737312167
+      },
+      "interface_slip": {
+        "supervised": 0.0,
+        "weighted_physics": 0.0,
+        "physics_to_supervised": 0.0
+      },
+      "plastic_metric": {
+        "supervised": 0.0007808624952280539,
+        "weighted_physics": 0.0076117430113681805,
+        "physics_to_supervised": 9.747866055655729
+      }
+    }
+  },
+  "new_test_accessed": false,
+  "interpretation": "Necessary physics residuals improve during bounded development but all field and material failures remain explicit; no full J2 evolution claim, no stress readout replacement, no reference projection."
+}

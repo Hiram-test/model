@@ -1,0 +1,98 @@
+{
+  "schema": "bridge.v2.controller.config.v1",
+  "design_contract": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+    "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+  },
+  "execution_lock": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+  "trainer": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_operator_training.py",
+    "sha256": "109afa21a1428c673ead73d094ec5aca4f1ffa3a4d6fc0fbd8268ee3fb6b3d47"
+  },
+  "acquisition": {
+    "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_acquisition.py",
+    "sha256": "24e94096afde654b0260551efc15647a988ecae7e5729cd58109aa38ae8af261"
+  },
+  "native_adapters": {
+    "friction": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_native.py",
+      "sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736"
+    },
+    "rebar": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v4.py",
+      "sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d"
+    }
+  },
+  "cost_contracts": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/acquisition/initial_cost_contracts.json",
+    "sha256": "96d249a710928c889782642ce49c0835161c8de852f92c4124384509cf4dd235"
+  },
+  "output_directory": "/dev/shm/bridge_complex_v2_20261025/operator/formal",
+  "worker_memory_reservation_bytes": 2576980378,
+  "families": {
+    "friction": {
+      "initial_epochs": 32,
+      "continuation_epochs": 16,
+      "visits_per_epoch": {
+        "0": 8,
+        "1": 10,
+        "2": 12
+      },
+      "physics_multiplier": 1.0,
+      "physics_weights": {
+        "volume_constitutive": 0.02,
+        "bulk_equilibrium": 0.1,
+        "jacobian_barrier": 10.0
+      },
+      "learning_rate": 0.0001,
+      "initial_checkpoints": {
+        "17": {
+          "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/initial/seed_17/model.pt",
+          "sha256": "6893da0e6e2462a41f2801d593a15892a5144adb6ba6781d58fb69f5426f7ea1"
+        },
+        "41": {
+          "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/initial/seed_41/model.pt",
+          "sha256": "c311ec4528de3fb4c72bbf2ba1bc306f5919e3257ef5cc3c8ca686628d73f91d"
+        }
+      }
+    },
+    "rebar": {
+      "initial_epochs": 32,
+      "continuation_epochs": 16,
+      "visits_per_epoch": {
+        "0": 8,
+        "1": 10,
+        "2": 12
+      },
+      "physics_multiplier": 1.0,
+      "physics_weights": {
+        "weak_equilibrium": 0.1,
+        "steel_stress_closure": 0.1,
+        "concrete_stress_closure": 0.1,
+        "plateau_backstress_constancy": 0.01,
+        "elastic_metric_constancy": 0.01,
+        "elastic_backstress_constancy": 0.01,
+        "normal_compatibility": 1.0,
+        "auxiliary_mpc": 1.0,
+        "bond_slip": 1.0,
+        "bond_law": 0.1,
+        "peeq_nonnegative": 1.0,
+        "peeq_monotone": 1.0,
+        "Cp_spd": 1.0,
+        "J_positive": 10.0,
+        "prescribed_displacement": 1.0
+      },
+      "learning_rate": 0.0001,
+      "initial_checkpoints": {
+        "17": {
+          "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/initial/seed_17/model.pt",
+          "sha256": "ba9f5ed7f36b47505612ab9c4e27878248d29e3f823c2c40286e72aba13e3c0e"
+        },
+        "41": {
+          "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/initial/seed_41/model.pt",
+          "sha256": "e668eb0adb8aec93dc5adffafe866f17dded0937804eb186ba3fbb766dfd0c4d"
+        }
+      }
+    }
+  }
+}

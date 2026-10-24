@@ -1,0 +1,109 @@
+{
+  "auditor_source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_cost_independent_audit.py",
+    "sha256": "eb0f677a4d8693b05ff9c0158572842d30a4f49ab44525a2ccda74272d3ede29"
+  },
+  "families": {
+    "friction": {
+      "genuine_timing_count": 8,
+      "missing_timing_rows": [],
+      "p90_seconds": 4.62226358949938,
+      "per_arm_round_seconds": 18.48905435799752,
+      "per_arm_total_seconds": 36.97810871599504,
+      "registered_training_histories": 8,
+      "timing_basis": "native_invocation_wall_including_log_write"
+    },
+    "rebar": {
+      "genuine_timing_count": 7,
+      "missing_timing_rows": [
+        {
+          "available_timing_keys": [
+            "seconds"
+          ],
+          "eligible": false,
+          "id": "full27_all_axial12_free4",
+          "params": [
+            0.845301516354084,
+            406.7450509406626,
+            18.686795234680176,
+            0.8826460100710392,
+            0.49511039899662135,
+            0.05769525283016265
+          ],
+          "reason": "No measured native timing in the registered family-specific stratum",
+          "receipt": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/full27_all_axial12_free4/receipt.json",
+          "receipt_sha256": "89fb1f6121ee9efde5fdd1567d1c1092f27533ece63946aaca8293400b52bc07",
+          "seconds": null
+        }
+      ],
+      "p90_seconds": 131.4705990723993,
+      "per_arm_round_seconds": 525.8823962895972,
+      "per_arm_total_seconds": 1051.7647925791944,
+      "registered_training_histories": 8,
+      "timing_basis": "native_process_wall_seconds"
+    }
+  },
+  "formal_execution_authorized_by_this_audit": false,
+  "friction_basis_alias": {
+    "design": "native_invocation_wall_including_solver_log_write",
+    "implementation": "native_invocation_wall_including_log_write",
+    "same_actual_timer_scope": true
+  },
+  "historical_integration_ledgers": [
+    {
+      "actual_new_native_seconds": 0.0,
+      "independently_summed_cold_seconds": 4.404750869000054,
+      "ledger": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/budget_interface_verification/run_1792864935970730806/direct_real_cached_reference.json",
+        "sha256": "b9139f9ba6fb1d82ef9ed368198a031d47237e747e292a3871b1a2a352bfb1d3"
+      },
+      "original_receipt_count": 1
+    },
+    {
+      "actual_new_native_seconds": 0.0,
+      "independently_summed_cold_seconds": 8.721452750998651,
+      "ledger": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/budget_interface_verification/run_1792864935970730806/aggregate_real_cached_reference.json",
+        "sha256": "18be36738a36028d12b9bd2c0004691525293410882c20852b34e1c111aa40e9"
+      },
+      "original_receipt_count": 2
+    },
+    {
+      "actual_new_native_seconds": 0.0,
+      "independently_summed_cold_seconds": 82.96629421499892,
+      "ledger": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/cost_api_verification_only/cached_train_01_ledger.json",
+        "sha256": "d31b6c6b11ab938013dece37a217ca19e32142d2bb27a2015853e8a44960c489"
+      },
+      "original_receipt_count": 1
+    }
+  ],
+  "native_solver_calls": 0,
+  "new_heldout_response_arrays_read": false,
+  "old_scientific_files_modified": false,
+  "producer_fixture_checks": 26,
+  "producer_fixture_evidence": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/acquisition/verification.json",
+    "sha256": "124940919c0777552aba5e36e5355481d792193e838f55019e592b8e98e926f0"
+  },
+  "producer_fixture_reexecution_claimed": false,
+  "public_contract": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+    "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+  },
+  "source": {
+    "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/v2_acquisition.py",
+    "sha256": "24e94096afde654b0260551efc15647a988ecae7e5729cd58109aa38ae8af261"
+  },
+  "source_review_findings": {
+    "actual_fresh_time_independently_separated": true,
+    "any_reservation_overshoot_closes_current_round": true,
+    "complete_canonical_chain_used_by_cost_fitter": true,
+    "finish_checks_original_identity_timing_and_nonvacuous_qualification": true,
+    "native_start_bound_to_actual_input_deck": true,
+    "same_cold_chain_charged_to_each_arm": true,
+    "unresolved_started_attempt_blocks_new_native_call": true
+  },
+  "status": "PASS_COST_CODE_AND_ORIGINAL_RECEIPT_REVIEW",
+  "training_calls": 0
+}

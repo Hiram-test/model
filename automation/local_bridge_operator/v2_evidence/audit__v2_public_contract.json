@@ -1,0 +1,914 @@
+{
+  "candidate_inputs": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_candidate_inputs.json",
+    "sha256": "8299126d2c0a0e9659ddd856d850b7098e5969805c0998868cad6d28bdaddc54"
+  },
+  "comparison": {
+    "admission": "start only a candidate whose frozen pre-solve estimate is <= min(round cap minus round charged cost,total budget minus total charged cost)",
+    "arms": [
+      "active",
+      "random"
+    ],
+    "cache_policy": "each arm charged the original measured cold cost; actual callback/cache wall and globally unique native computations reported separately",
+    "cost_fit_scope": "only registered initial/accepted training native timing observations; no future candidate or held-out response cost leakage",
+    "failure_policy": "charge actual elapsed native cost including failed/timeout attempts; never admit failed reference labels",
+    "fallback": "if no candidate estimate fits remaining budget, stop that arm/round without padding labels or spending extra budget",
+    "label_count_matching_claim_allowed_only_if_actual_counts_equal": true,
+    "maximum_accepted_histories_per_round": 2,
+    "maximum_native_attempts_per_round": 4,
+    "overshoot": "one last running job may exceed its estimate; charge its actual cost, stop that round, reduce global remaining for the next round; never replenish budget; only one final job can overrun the total budget",
+    "primary_fairness_claim": "same registered measured cold-oracle time budget, attempt caps, initialization and training/validation policy; realized cost and accepted counts may differ",
+    "random_seed": 2904302,
+    "rounds": 2,
+    "score_denominator": "strictly positive development-calibrated measured cold cost estimate in the family timing stratum; no unit fallback",
+    "seeds": [
+      17,
+      41
+    ],
+    "selection_numerator_weights": {
+      "development_error_regressor": 0.25,
+      "ensemble_disagreement": 0.5,
+      "input_coverage": 0.25
+    },
+    "shared_initial_training_histories": 8,
+    "shared_validation_histories": 3,
+    "unused_round_budget_carry_forward": false
+  },
+  "event_integrity": {
+    "completed_stage_rules": [
+      "checkpoint/history/data/source identities exact",
+      "observed step count equals card successful optimizer steps",
+      "observed loss-time count equals card loss calls",
+      "each actual cold history starts at0 and covers every1..T-1 without teacher forcing",
+      "exactly one observed stage_complete event",
+      "no missing, duplicated or reordered event sequence"
+    ],
+    "logging_failure": "preserve original bytes and stop the stage; recover only exact independently retained original event bytes or rerun the full stage from its original frozen initialization in a new attempt; never synthesize lost events from a work card",
+    "required": "complete original observed loss-time and successful optimizer-step sequence with monotonically increasing IDs and hash-linked chunks; each stage must close, fsync and independently read back before being marked COMPLETE",
+    "stage_commit_required_fields": [
+      "checkpoint_path",
+      "checkpoint_sha256",
+      "events_path",
+      "events_sha256",
+      "card_path",
+      "card_sha256"
+    ],
+    "work_accounting": "count all attempts including failed/repeated work; stage/card totals and independently observed event counts remain separate"
+  },
+  "exposed_input_exclusions": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_exposed_input_exclusions.json",
+    "sha256": "116f678ddade4d2435f593828ccdbdcb0dc3ed2b6c4fb1ac69ba0671647d3fd2"
+  },
+  "families": {
+    "friction": {
+      "candidate_count": 16,
+      "cold_cost_budget": {
+        "calibration": [
+          {
+            "id": "friction_000_replay1",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/cases/friction_000_replay1/receipt.json",
+              "sha256": "9a1fb54a9a533978c0914ee4e2f796d3c4848665bd1067b2b194caac8c5156d9"
+            },
+            "receipt_field": "seconds",
+            "seconds": 4.404750869000054
+          },
+          {
+            "id": "friction_001",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/cases/friction_001/receipt.json",
+              "sha256": "9dfb41970de17d69ae769c02c242347cc87634704a0cc178a7e59d6ba6b59168"
+            },
+            "receipt_field": "seconds",
+            "seconds": 3.6018037169997115
+          },
+          {
+            "id": "friction_002",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/cases/friction_002/receipt.json",
+              "sha256": "dd18f835b5436d026e86684461d1074bf38cb7b2fda1239436de78f055528394"
+            },
+            "receipt_field": "seconds",
+            "seconds": 4.554342597999494
+          },
+          {
+            "id": "friction_003",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/cases/friction_003/receipt.json",
+              "sha256": "e86b5e0a61427c6acfd71626e74e5c7019ade4c06a7aad97246e6dec4372840f"
+            },
+            "receipt_field": "seconds",
+            "seconds": 3.886778152998886
+          },
+          {
+            "id": "friction_004",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/cases/friction_004/receipt.json",
+              "sha256": "8792fa187417902a32d4ef00fe06cf64181f1c047fe440edd5249f85eb6fd2c6"
+            },
+            "receipt_field": "seconds",
+            "seconds": 4.780745902999115
+          },
+          {
+            "id": "friction_005",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/cases/friction_005/receipt.json",
+              "sha256": "3cd3bb97048be4771694176d916e8963083b49c9901f593eff1b7ada79f6471a"
+            },
+            "receipt_field": "seconds",
+            "seconds": 3.8928960199991707
+          },
+          {
+            "id": "friction_006",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/cases/friction_006/receipt.json",
+              "sha256": "6cc0193bfa35de75f6ea8984427d4f82521bd0bef9a692a67b734f573d5b9da8"
+            },
+            "receipt_field": "seconds",
+            "seconds": 4.485304677000386
+          },
+          {
+            "id": "friction_007",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/cases/friction_007/receipt.json",
+              "sha256": "bf49f88e094ac8a2d3bdd41455976d601231d5f86e1d84e54b8f7c570b1bc1c8"
+            },
+            "receipt_field": "seconds",
+            "seconds": 3.931277672998476
+          }
+        ],
+        "cross_family_cost_pooling": false,
+        "missing": [],
+        "normalization_and_supervision_still_use_all_initial_8": true,
+        "p90_seconds": 4.62226358949938,
+        "per_arm_round_cap_seconds": 18.48905435799752,
+        "per_arm_total_budget_seconds": 36.97810871599504,
+        "quantile_method": "numpy.quantile(q=.9,method=linear)",
+        "stratum": "native_invocation_wall_including_solver_log_write",
+        "unit_cost_fallback_allowed": false
+      },
+      "initial_training_ids": [
+        "friction_000_replay1",
+        "friction_001",
+        "friction_002",
+        "friction_003",
+        "friction_004",
+        "friction_005",
+        "friction_006",
+        "friction_007"
+      ],
+      "input_design_seed": 2026102501,
+      "normalization": {
+        "control_mean": [
+          4.0,
+          0.24242424964904785,
+          1.7041475075529888e-05,
+          0.0010203379206359386,
+          8.75634765625,
+          -2.1871969513309608e-10,
+          -6.501127245428506e-06,
+          0.3029877543449402
+        ],
+        "control_scale": [
+          2.3804759979248047,
+          0.042855020612478256,
+          0.06140217185020447,
+          0.003924484830349684,
+          9.773573875427246,
+          0.039880067110061646,
+          0.0017788424156606197,
+          1.9432953596115112
+        ],
+        "feature_mean": [
+          49.92176818847656,
+          24.804704666137695,
+          4.2809224128723145,
+          0.2195121943950653,
+          0.7804877758026123,
+          0.07173600792884827,
+          0.06456241011619568,
+          0.06456241011619568,
+          199997.609375,
+          0.3000136613845825,
+          0.3504123389720917,
+          999948.375,
+          10000.0,
+          99.8456802368164,
+          49.61069107055664,
+          9.996298789978027,
+          0.5
+        ],
+        "feature_scale": [
+          30.667953491210938,
+          15.881219863891602,
+          4.172116756439209,
+          0.413899689912796,
+          0.413899689912796,
+          0.2580554783344269,
+          0.24575448036193848,
+          0.2457548975944519,
+          2.390580415725708,
+          1.3649903849000111e-05,
+          0.11124234646558762,
+          51.62415313720703,
+          9.999999974752427e-07,
+          6.025038242340088,
+          2.7999656200408936,
+          1.0403841733932495,
+          0.5
+        ],
+        "field_groups": [
+          "displacement",
+          "displacement",
+          "displacement",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "contact_gap",
+          "interface_slip",
+          "interface_slip",
+          "contact_pressure",
+          "interface_shear_traction",
+          "interface_shear_traction"
+        ],
+        "fields": [
+          "ux_mm",
+          "uy_mm",
+          "uz_mm",
+          "IP_sxx_MPa",
+          "IP_syy_MPa",
+          "IP_szz_MPa",
+          "IP_sxy_MPa",
+          "IP_sxz_MPa",
+          "IP_syz_MPa",
+          "nodal_COPEN_mm",
+          "nodal_CSLIP1_mm",
+          "nodal_CSLIP2_mm",
+          "nodal_CPRESS_MPa",
+          "nodal_CSHEAR1_MPa",
+          "nodal_CSHEAR2_MPa"
+        ],
+        "fit_ids": [
+          "friction_000_replay1",
+          "friction_001",
+          "friction_002",
+          "friction_003",
+          "friction_004",
+          "friction_005",
+          "friction_006",
+          "friction_007"
+        ],
+        "floor_fraction": 0.01,
+        "group_scales": {
+          "cauchy_stress": 14.563368653875385,
+          "contact_gap": 1.4924684090662464e-05,
+          "contact_pressure": 14.92468399944482,
+          "displacement": 0.05761575806656381,
+          "interface_shear_traction": 4.899401348690626,
+          "interface_slip": 0.05847948257989112
+        },
+        "primary_negative_gate": "commensurate physical vector/tensor groups, unknown entries only",
+        "state_offset": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "state_scale": [
+          0.05761575806656381,
+          0.05761575806656381,
+          0.05761575806656381,
+          14.563368653875385,
+          14.563368653875385,
+          14.563368653875385,
+          14.563368653875385,
+          14.563368653875385,
+          14.563368653875385,
+          1.4924684090662464e-05,
+          0.05847948257989112,
+          0.05847948257989112,
+          14.92468399944482,
+          4.899401348690626,
+          4.899401348690626
+        ],
+        "temperature_reference": "initial native temperature subtracted before thermal-response normalization",
+        "xyz_mean": [
+          49.92176818847656,
+          24.804704666137695,
+          4.2809224128723145
+        ],
+        "xyz_scale": [
+          130.59405517578125,
+          75.29417419433594,
+          23.145105361938477
+        ]
+      },
+      "normalization_scope": "exact original initial8 train-only scales; frozen across both arms and all rounds",
+      "original_contract": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/friction_dynamic_fullfield/experiment_contract.json",
+        "sha256": "eb739e669c0e226279e9f1b9b8e9c535b0371d417af3d04c6abf4467a6bfad57"
+      },
+      "original_index": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/friction/index.json",
+        "sha256": "f48f3de2d1ab3963d78c9168cd356ea1e68504f2c9d0c5dee2827db664d9c01e"
+      },
+      "reference_scope": "declared full native discretization only; V1 local stress/peak continuum convergence HOLD is retained",
+      "registered_test_ids": [
+        "v2_friction_test_00",
+        "v2_friction_test_01",
+        "v2_friction_test_02",
+        "v2_friction_test_03",
+        "v2_friction_ood_00",
+        "v2_friction_ood_01",
+        "v2_friction_ood_02",
+        "v2_friction_ood_03"
+      ],
+      "test_commitments": [
+        {
+          "canonical_input_sha256": "b645650e5449f4dfbcd55422e5747e6bcdac3f8c739e3b6a7ccf375280d07d7b",
+          "controls_sha256": "ffb03745663800c846086244398256a9a8e713210425085d08ed6aab46906f25",
+          "group_id": "v2_friction_b645650e5449f4dfbcd5",
+          "id": "v2_friction_test_00",
+          "split": "test"
+        },
+        {
+          "canonical_input_sha256": "a894e9f0ae8c6d2b80e209c17ace45f43e4ae0c52f2127dd2e048e689a0cfacf",
+          "controls_sha256": "936c9e2a426acc70224c83a70c736abd1669548ff4cc3a960f729cf7ce145dda",
+          "group_id": "v2_friction_a894e9f0ae8c6d2b80e2",
+          "id": "v2_friction_test_01",
+          "split": "test"
+        },
+        {
+          "canonical_input_sha256": "f215add9653373b90ce8fb82f04e5ff8d48db83cbc06e21e833fc86af012b166",
+          "controls_sha256": "c41d68d27fd7f2124cbbd6096c6d03363c46fe679e101c1a3ae3f0019aaa7758",
+          "group_id": "v2_friction_f215add9653373b90ce8",
+          "id": "v2_friction_test_02",
+          "split": "test"
+        },
+        {
+          "canonical_input_sha256": "bbbd1720ffb0bd7f01ca3ee52a2610e6783a0f7109caf24f4d7bdedaea1f58a3",
+          "controls_sha256": "93420527d9834a130b4f2663de19453c86cdf5f8ff2d8b2c34bbb615796355e0",
+          "group_id": "v2_friction_bbbd1720ffb0bd7f01ca",
+          "id": "v2_friction_test_03",
+          "split": "test"
+        },
+        {
+          "canonical_input_sha256": "98a463a7ab3e5d8575dd0aaf8a1ca76d993e55c4034d0714393d46a6380c3842",
+          "controls_sha256": "8e38a2a695a5bdc3c0518a8410955d2359503dd22e3b5dfde402aaf482a32238",
+          "group_id": "v2_friction_98a463a7ab3e5d8575dd",
+          "id": "v2_friction_ood_00",
+          "split": "ood"
+        },
+        {
+          "canonical_input_sha256": "79c11922582759a6b533afaae315fe99f7efe8cc19643952a8c5d7dccc358425",
+          "controls_sha256": "169bc9dec757c7ceec6a59871f29cf191102e59baac3e6875bec2941a126933f",
+          "group_id": "v2_friction_79c11922582759a6b533",
+          "id": "v2_friction_ood_01",
+          "split": "ood"
+        },
+        {
+          "canonical_input_sha256": "59c53f13021ed146996a2549ff6d0abed3922135275d5203d56aab59dad7ef58",
+          "controls_sha256": "2150848bc70753d75659568de05e3ef5dd180277e6375f8281a75bbf060877c4",
+          "group_id": "v2_friction_59c53f13021ed146996a",
+          "id": "v2_friction_ood_02",
+          "split": "ood"
+        },
+        {
+          "canonical_input_sha256": "32bffb1018dfb93af9d51bbccd02846bdb6e881f5a48128f1861f45f27f27ac3",
+          "controls_sha256": "f05946c47d9e4abd0e3c1ec87e6c65d903f4da9094a905bfcaaab4c75b858472",
+          "group_id": "v2_friction_32bffb1018dfb93af9d5",
+          "id": "v2_friction_ood_03",
+          "split": "ood"
+        }
+      ],
+      "validation_ids": [
+        "friction_008",
+        "friction_009",
+        "friction_010"
+      ],
+      "whole_history_split": true
+    },
+    "rebar": {
+      "candidate_count": 16,
+      "cold_cost_budget": {
+        "calibration": [
+          {
+            "id": "rebar_train_01",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_01/receipt.json",
+              "sha256": "88c0ae55c2353bbf42e6530eaf553095e649b8e943f51a04c0be18becf7af5cf"
+            },
+            "receipt_field": "native_process_wall_seconds",
+            "seconds": 82.96629421499892
+          },
+          {
+            "id": "rebar_train_02",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_02/receipt.json",
+              "sha256": "f02afd8fbe36bfb51ad188e41caf18434b962f3dc5e4a6e6ea2fd7254f04a718"
+            },
+            "receipt_field": "native_process_wall_seconds",
+            "seconds": 121.01071971999954
+          },
+          {
+            "id": "rebar_train_03",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_03/receipt.json",
+              "sha256": "cf344484b440592dd0a8bcda3c5dff48c177eda428aec11f54f14cdb85e4ec73"
+            },
+            "receipt_field": "native_process_wall_seconds",
+            "seconds": 61.01962074199946
+          },
+          {
+            "id": "rebar_train_04",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_04/receipt.json",
+              "sha256": "d1b052dfce3ec7ac7f727333c1f33811e4d08747b4d8570e4db5515b9915511b"
+            },
+            "receipt_field": "native_process_wall_seconds",
+            "seconds": 112.99571742999979
+          },
+          {
+            "id": "rebar_train_05",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_05/receipt.json",
+              "sha256": "a8c8c9a2017a62976efb5fcc18982f8439a97d8ebbb98ea463b30afd7081cbf5"
+            },
+            "receipt_field": "native_process_wall_seconds",
+            "seconds": 43.851626309000494
+          },
+          {
+            "id": "rebar_train_06",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_06/receipt.json",
+              "sha256": "2fe77d0206956a6f4d3c83d6322edd8afd24371a256f03fa0e88311044bc06df"
+            },
+            "receipt_field": "native_process_wall_seconds",
+            "seconds": 147.16041810099887
+          },
+          {
+            "id": "rebar_train_07",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/rebar_train_07/receipt.json",
+              "sha256": "a208d4e5bb72c61eb406fb84247c7fbe523936b5555f3799fcbd3c51f0b4585a"
+            },
+            "receipt_field": "native_process_wall_seconds",
+            "seconds": 36.6783226890002
+          }
+        ],
+        "cross_family_cost_pooling": false,
+        "missing": [
+          {
+            "excluded_only_from_cost_fit_and_percentile": true,
+            "id": "full27_all_axial12_free4",
+            "missing_field": "native_process_wall_seconds",
+            "receipt": {
+              "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/cases/full27_all_axial12_free4/receipt.json",
+              "sha256": "89fb1f6121ee9efde5fdd1567d1c1092f27533ece63946aaca8293400b52bc07"
+            }
+          }
+        ],
+        "normalization_and_supervision_still_use_all_initial_8": true,
+        "p90_seconds": 131.4705990723993,
+        "per_arm_round_cap_seconds": 525.8823962895972,
+        "per_arm_total_budget_seconds": 1051.7647925791944,
+        "quantile_method": "numpy.quantile(q=.9,method=linear)",
+        "stratum": "native_process_wall_seconds",
+        "unit_cost_fallback_allowed": false
+      },
+      "initial_training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07"
+      ],
+      "input_design_seed": 2026102502,
+      "normalization": {
+        "control_mean": [
+          0.5,
+          0.21010206639766693,
+          0.02767013944685459
+        ],
+        "control_scale": [
+          0.30046260356903076,
+          0.4141570031642914,
+          0.24702009558677673
+        ],
+        "feature_mean": [
+          0.3902451992034912,
+          2.194802561916731e-09,
+          -1.266328153448626e-09,
+          0.17431192100048065,
+          0.4954128563404083,
+          0.08256880939006805,
+          0.08256880939006805,
+          0.1651376187801361,
+          1.000311017036438,
+          375.10931396484375,
+          15.991718292236328,
+          0.8940340876579285,
+          0.580354630947113,
+          0.05741353705525398,
+          0.00917431153357029,
+          0.17431192100048065,
+          0.17431192100048065
+        ],
+        "feature_scale": [
+          0.23777858912944794,
+          0.23536613583564758,
+          0.23536616563796997,
+          0.37927213311195374,
+          0.49998044967651367,
+          0.2752559185028076,
+          0.27525559067726135,
+          0.3713493049144745,
+          0.1112392246723175,
+          43.49885177612305,
+          2.312227964401245,
+          0.24100543558597565,
+          0.140011727809906,
+          0.01690610498189926,
+          0.09537065774202347,
+          0.37927499413490295,
+          0.37927499413490295
+        ],
+        "field_groups": [
+          "displacement",
+          "displacement",
+          "displacement",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "cauchy_stress",
+          "equivalent_plastic_strain",
+          "plastic_metric",
+          "plastic_metric",
+          "plastic_metric",
+          "plastic_metric",
+          "plastic_metric",
+          "plastic_metric",
+          "backstress",
+          "backstress",
+          "backstress",
+          "backstress",
+          "backstress",
+          "backstress",
+          "interface_slip",
+          "interface_shear_traction"
+        ],
+        "fields": [
+          "ux",
+          "uy",
+          "uz",
+          "sxx",
+          "syy",
+          "szz",
+          "sxy",
+          "sxz",
+          "syz",
+          "peeq",
+          "plastic_metric_xx",
+          "plastic_metric_yy",
+          "plastic_metric_zz",
+          "plastic_metric_xy",
+          "plastic_metric_xz",
+          "plastic_metric_yz",
+          "backstress_xx",
+          "backstress_yy",
+          "backstress_zz",
+          "backstress_xy",
+          "backstress_xz",
+          "backstress_yz",
+          "bond_slip",
+          "bond_traction"
+        ],
+        "fit_ids": [
+          "full27_all_axial12_free4",
+          "rebar_train_01",
+          "rebar_train_02",
+          "rebar_train_03",
+          "rebar_train_04",
+          "rebar_train_05",
+          "rebar_train_06",
+          "rebar_train_07"
+        ],
+        "floor_fraction": 0.01,
+        "group_scales": {
+          "backstress": 4.530428465238783,
+          "cauchy_stress": 82.08172140059631,
+          "displacement": 0.06380498557948724,
+          "equivalent_plastic_strain": 0.032656659685147735,
+          "interface_shear_traction": 7.795360701398806,
+          "interface_slip": 0.031286095299014764,
+          "plastic_metric": 0.007104641771425653
+        },
+        "primary_negative_gate": "commensurate physical vector/tensor groups, unknown entries only",
+        "state_offset": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "state_scale": [
+          0.06380498557948724,
+          0.06380498557948724,
+          0.06380498557948724,
+          82.08172140059631,
+          82.08172140059631,
+          82.08172140059631,
+          82.08172140059631,
+          82.08172140059631,
+          82.08172140059631,
+          0.032656659685147735,
+          0.007104641771425653,
+          0.007104641771425653,
+          0.007104641771425653,
+          0.007104641771425653,
+          0.007104641771425653,
+          0.007104641771425653,
+          4.530428465238783,
+          4.530428465238783,
+          4.530428465238783,
+          4.530428465238783,
+          4.530428465238783,
+          4.530428465238783,
+          0.031286095299014764,
+          7.795360701398806
+        ],
+        "temperature_reference": "initial native temperature subtracted before thermal-response normalization",
+        "xyz_mean": [
+          62.442623138427734,
+          -4.556930111032642e-10,
+          -9.113860360843162e-11
+        ],
+        "xyz_scale": [
+          181.128662109375,
+          60.0,
+          60.0
+        ]
+      },
+      "normalization_scope": "exact original initial8 train-only scales; frozen across both arms and all rounds",
+      "original_contract": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/learning/rebar_full27_dynamic32/experiment_contract.json",
+        "sha256": "8c776c687b834e087adf336cf1592a6f5a408b17525ae1988452b754558b5837"
+      },
+      "original_index": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/rebar/full27/index.json",
+        "sha256": "2c62e87b89bb1d81975da7179f6ae05f8134e4a56a591f2c31f1763021722db3"
+      },
+      "reference_scope": "declared full native discretization only; V1 local stress/peak continuum convergence HOLD is retained",
+      "registered_test_ids": [
+        "v2_rebar_test_00",
+        "v2_rebar_test_01",
+        "v2_rebar_test_02",
+        "v2_rebar_test_03",
+        "v2_rebar_ood_00",
+        "v2_rebar_ood_01",
+        "v2_rebar_ood_02",
+        "v2_rebar_ood_03"
+      ],
+      "test_commitments": [
+        {
+          "canonical_input_sha256": "de6148ec7d045e158190d5915c8e2ebb89f9deff2a8cf52b5a6897d2f0aa8a2a",
+          "controls_sha256": "a4c68b27f5aeb54b0a3b115d955674a9b7afa4899a7dbda15ab6a2f1a632ca35",
+          "group_id": "v2_rebar_de6148ec7d045e158190",
+          "id": "v2_rebar_test_00",
+          "split": "test"
+        },
+        {
+          "canonical_input_sha256": "c61e03cef715f09b7c5d289289c122a5f153bef036589491c8460aaa490a5b1d",
+          "controls_sha256": "97910664e3a153bd7484121b6472c6071c11befc5459574e45677555e6ee164d",
+          "group_id": "v2_rebar_c61e03cef715f09b7c5d",
+          "id": "v2_rebar_test_01",
+          "split": "test"
+        },
+        {
+          "canonical_input_sha256": "ad43d2c5288653d2905079dfbc880cd24f331bdcd09860f938ef845ed266d91c",
+          "controls_sha256": "49a0377a676c1dfb3322112aa358509d23f370a60f999db87bc19f106ae1af09",
+          "group_id": "v2_rebar_ad43d2c5288653d29050",
+          "id": "v2_rebar_test_02",
+          "split": "test"
+        },
+        {
+          "canonical_input_sha256": "7bd3bf4d6735c96af14aad3adadfcc598c7a7b054b2c5b1dec5291123e1992cb",
+          "controls_sha256": "5dfbe7d57b359711ad00244ab7644aab53af073c5b4dbeac1d3f8350d62ec365",
+          "group_id": "v2_rebar_7bd3bf4d6735c96af14a",
+          "id": "v2_rebar_test_03",
+          "split": "test"
+        },
+        {
+          "canonical_input_sha256": "d78fccce15e082e2b1ecc59c96facc48ed3074863b528f58900e4f67df2afe46",
+          "controls_sha256": "37a2385d7bc321c9bee5d633cab1da76d38f9d3f16f3a2ce8839a00c642f9442",
+          "group_id": "v2_rebar_d78fccce15e082e2b1ec",
+          "id": "v2_rebar_ood_00",
+          "split": "ood"
+        },
+        {
+          "canonical_input_sha256": "70a8aa91b812a32e46b7f6f6f15e28084241203c853512b4a12ba39722a06745",
+          "controls_sha256": "4f0c0e20c6f8d2e4b4bff299f6047d127e1485c20f7879e4d22ec897d55efa37",
+          "group_id": "v2_rebar_70a8aa91b812a32e46b7",
+          "id": "v2_rebar_ood_01",
+          "split": "ood"
+        },
+        {
+          "canonical_input_sha256": "1cf1f2b75957e94fdd3761ab60fbb2b77141522a4247c6440029e271ae45ffb0",
+          "controls_sha256": "5deab5cebdadfb85a6ede164ab7edd81a5ee039257ec021776b6ce6b8e42253e",
+          "group_id": "v2_rebar_1cf1f2b75957e94fdd37",
+          "id": "v2_rebar_ood_02",
+          "split": "ood"
+        },
+        {
+          "canonical_input_sha256": "318702d748473f2b96eeb23fb6add189e46c0b7fff0f8083ccd30bb07f58c3a0",
+          "controls_sha256": "ddc6ff785496569b8f43bdeff160d64b55b5cd433eab6e4ad496f9ed8ab38378",
+          "group_id": "v2_rebar_318702d748473f2b96ee",
+          "id": "v2_rebar_ood_03",
+          "split": "ood"
+        }
+      ],
+      "validation_ids": [
+        "rebar_validation_08",
+        "rebar_validation_09",
+        "rebar_validation_10"
+      ],
+      "whole_history_split": true
+    }
+  },
+  "negative_examples": {
+    "all4test_and4OOD_remain_registered_even_if_native_qualification_fails": true,
+    "definition": "A qualified independent native history whose uncorrected registered model-emission field exceeds at least one frozen physical-group error threshold",
+    "denominator": "max(reference response norm, .01*initial_train_group_RMS*sqrt(weighted_unknown_count),1e-12)",
+    "diagnostics": [
+      "every scalar channel",
+      "worst10percent error RMS",
+      "maximum absolute error and native location",
+      "every physical group and every history",
+      "test and OOD counts separately"
+    ],
+    "initial_frame_excluded": true,
+    "native_failure_is_neural_negative": false,
+    "no_replacement_based_on_test_errors_or_solver_ease": true,
+    "norm": "complete unknown entity/time entries; Euclidean vector norm or symmetric-tensor Frobenius with off-diagonal weight2",
+    "prescribed_entries_excluded_from_primary_gate": true,
+    "thresholds": {
+      "backstress": 0.1,
+      "cauchy_stress": 0.1,
+      "contact_gap": 0.15,
+      "contact_pressure": 0.1,
+      "displacement": 0.05,
+      "equivalent_plastic_strain": 0.15,
+      "interface_shear_traction": 0.1,
+      "interface_slip": 0.15,
+      "plastic_metric": 0.15
+    }
+  },
+  "physics": {
+    "friction": {
+      "FRD_projected_contact": "soft diagnostics only; native projected values need not satisfy pointwise Gauss contact laws; no full contact-equilibrium claim",
+      "Jacobian_barrier_at_.2": "training safeguard only; not a statement that native constitutive validity requires this particular threshold",
+      "bulk_reduction": "sum_free_bulk_DOF(force_residual^2)/(input_pressure*upper_reference_area)^2, per frame",
+      "constitutive_reduction": "sum_IP(volume_weight*sum_ij((J*sigma-F*S(F)*Ftranspose)_ij^2))/(9*sum_IP(volume_weight)*fixed_stress_scale^2), per frame",
+      "constitutive_scale": "frozen initial_train cauchy_stress group RMS in MPa",
+      "exact_scope": [
+        "full native C3D8 volume SVK constitutive residual",
+        "free bulk force equilibrium excluding both contact surfaces and prescribed DOFs"
+      ],
+      "full_history_gate": "maximum over all noninitial native frames, not a history average",
+      "research_gates_per_frame": {
+        "minimum_det_F_strictly_greater_than": 0.0,
+        "sqrt_bulk_equilibrium": 0.001,
+        "sqrt_volume_constitutive": 0.001
+      }
+    },
+    "loss_scaling": "Every residual is nondimensionalized by fixed input-defined or initial-training-only physical scales; no predicted-state norms or vanishing instantaneous loads in denominators",
+    "model_emission": "One registered inference path including any predeclared differentiable BC/MPC or internal-state head; no test-time finite-element solve, optimization correction, projection or reference fitting",
+    "rebar": {
+      "admissibility": "Cp_inverse SPD and nonnegative monotone PEEQ are necessary conditions, not complete J2 return-mapping consistency",
+      "det_Cp_equal_1": "not imposed: original native additive integration has documented finite drift",
+      "exact_scope": [
+        "full native C3D20 27IP weak force balance with correct auxiliary-node MPC transpose",
+        "kinematic BC/MPC compatibility",
+        "declared memoryless bond traction-slip relation"
+      ],
+      "full_constitutive_release": "not established unless an independently verified full native-equivalent constitutive update is explicitly registered in the execution lock before test exposure",
+      "hardening_scope": "native two-point kinematic table has terminal plateau afterPEEQ.05",
+      "native_state_semantics": "raw SDV2:7=(I-Cp_inverse)/2, initially zero; reconstruct Cp_inverse=I-2M",
+      "research_gates_per_frame": {
+        "BC_and_MPC_max_absolute_mm": 1e-06,
+        "PEEQ_negative_or_decrement_tolerance": 1e-08,
+        "bond_law_consistency_normalized_by_tau0": 0.001,
+        "bond_slip_consistency_normalized_by_s0": 0.001,
+        "minimum_Cp_inverse_eigenvalue_strictly_greater_than": 0.0,
+        "minimum_det_F_strictly_greater_than": 0.0,
+        "yield_force_normalized_weak_residual": 0.001
+      }
+    }
+  },
+  "protocol_sources": {
+    "friction": {
+      "function": "path_values",
+      "function_source_sha256": "2a8b7232f7be22122ad8e0eb196c8471cc88a44db5b1cec3b81b765b67ec6460",
+      "source": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_friction.py",
+        "sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551"
+      }
+    },
+    "rebar": {
+      "function": "protocol",
+      "function_source_sha256": "f8e075acfb7995f3a41b56e7c2fa62e383fa8cce76c06b2c11144e570a402d66",
+      "source": {
+        "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar.py",
+        "sha256": "73c82e378f83251e484b0c731473a590ba3fe950d8cabafd76f38aa7ce7efbde"
+      }
+    }
+  },
+  "schema": "bridge.v2.experiment.contract.v1",
+  "scope": "Full-field nonlinear discrete-reference research; no engineering release or continuum local-stress claim",
+  "sealed_evaluation_inputs": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_sealed_evaluation_inputs.json",
+    "sha256": "1de2915a75ed04a38fc1295f4f154d9bd60178236b0802db2f169b5506602679"
+  },
+  "success": {
+    "active_vs_random_claim": "report all paired histories and realized budget/accepted counts; do not claim superiority from improvement over initial alone",
+    "engineering_release": "NOT_ESTABLISHED",
+    "execution_pass": "all sealed input/model/source identities, full observed stage traces, exact native reference qualification and final evidence integrity pass",
+    "physical_research_pass": "all explicitly supported per-frame physical gates pass on raw registered model emission; unsupported constitutive/contact claims stay NOT_ESTABLISHED",
+    "reference_failure": "REFERENCE_HOLD with missing neural metric, not an invented zero error or neural negative",
+    "surrogate_accuracy_pass": "every registered required physical group passes for each of4test+4OOD; all per-history failures remain visible"
+  },
+  "test_isolation": {
+    "acquisition_inputs": "candidate descriptors and zero future-state input graphs only; held-out IDs, fields and validation results never enter acquisition fit except fixed development validation as declared",
+    "final_cold_rollout_checks": [
+      "exact frozen checkpoint replay",
+      "delete reference array and poison all future native states with zero prediction effect",
+      "full native entity permutation equivariance",
+      "complete native prediction/target coverage"
+    ],
+    "new_test_and_OOD_response_generation": "only after an auditor-issued test-release receipt verifies execution lock, all formal stage completion/event traces and every frozen model hash",
+    "no_tuning_after_new_test_exposure": true,
+    "old_exposed_tests": "development/retrospective diagnostics only; never called independent V2 tests",
+    "test_parameters_not_supplied_to_trainer": true
+  },
+  "training": {
+    "POD": false,
+    "all_native_nodes_and_IPs_retained": true,
+    "development_before_lock": "Only old8train+3val may be used for the bounded timing/gradient/loss study; new evaluation fields may not exist",
+    "epoch_optimizer_lr_loss_weight_budget": "must be pinned in a separate immutable execution lock after train/val-only development, before formal comparisons and new test generation",
+    "final_models": [
+      "initial",
+      "active",
+      "random"
+    ],
+    "fixed_response_basis": false,
+    "formal_execution_lock_required": true,
+    "full_cold_history_from_first_epoch": true,
+    "hidden_and_predicted_state_continue_between_backprop_windows": true,
+    "initialization": "old train/val-only initial weights may be explicitly migrated; active/random must clone the exact same resulting V2 initial checkpoints; altered heads are not claimed function-equivalent without proof",
+    "modal_truncation": false,
+    "spatial_subsampling": false,
+    "teacher_forcing": false,
+    "truncated_backprop_steps": 4
+  },
+  "untrained_families": {
+    "thermoplastic": "V1 CLOSED_REFERENCE_HOLD remains; no V2 thermoplastic accuracy or training is implied by this two-family contract"
+  }
+}
