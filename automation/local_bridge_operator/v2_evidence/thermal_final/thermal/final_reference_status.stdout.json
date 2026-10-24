@@ -1,0 +1,257 @@
+{
+  "status": "CLOSED_REFERENCE_HOLD",
+  "reference_fidelity_pass": false,
+  "learning_status": "NOT_RUN_REFERENCE_UNQUALIFIED",
+  "reason_cn": "6\u6b21\u539f\u751f\u4f5c\u4e1a\u5168\u90e8\u5b8c\u6210\uff1b\u6700\u540e\u4e24\u7f51\u683c\u53cc\u5411\u5168\u5e94\u529b\u5dee7.701%\u548c9.636%\u5747\u8d85\u8fc7\u56fa\u5b9a5%\u95e8\u9650\uff0c\u56e0\u6b64\u672a\u51c6\u5165\u8bad\u7ec3\u3002\u65f6\u95f4\u7ec6\u5316\u672a\u6267\u884c\uff1b\u8fd9\u4e0d\u662f\u539f\u751f\u6c42\u89e3\u5931\u8d25\u3002",
+  "reason": "6\u6b21\u539f\u751f\u4f5c\u4e1a\u5168\u90e8\u5b8c\u6210\uff1b\u6700\u540e\u4e24\u7f51\u683c\u53cc\u5411\u5168\u5e94\u529b\u5dee7.701%\u548c9.636%\u5747\u8d85\u8fc7\u56fa\u5b9a5%\u95e8\u9650\uff0c\u56e0\u6b64\u672a\u51c6\u5165\u8bad\u7ec3\u3002\u65f6\u95f4\u7ec6\u5316\u672a\u6267\u884c\uff1b\u8fd9\u4e0d\u662f\u539f\u751f\u6c42\u89e3\u5931\u8d25\u3002",
+  "bounded_repairs": [
+    "Exact single-token C3D10toC3D10T whole-history A/B on unchanged original mesh",
+    "Same analyticCAD and materials with full20node C3D20R native8IP discretization",
+    "Exactly three spatial levels and unchanged bidirectional all-IP five-percent gates; no further spatial retries after the final bounded level"
+  ],
+  "native_case_directories": [
+    "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l0",
+    "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1",
+    "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2"
+  ],
+  "created_utc": "2026-10-24T19:00:42.273937+00:00",
+  "mesh_comparisons": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l0_l1_comparison.json",
+      "sha256": "6936476ac56f14e951978fafd06aa4782a13e9e97667db5ff148c256b7f48c23"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l1_l2_comparison.json",
+      "sha256": "0b23eab6e954a2cc6482e5092e1696952ef722e717ab31292ccb12a57cd00109"
+    }
+  ],
+  "time_comparison": null,
+  "final_spatial_metrics": {
+    "kind": "same_CAD_curved20node_eight_native_IP_mesh_refinement",
+    "coarse": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1",
+    "fine": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2",
+    "source_sha256": "caad44b43dd546eb2ab555077decb7f96834dfc6175afa1d0d854700d9b6b806",
+    "all_coarse_points": 6912,
+    "common_points": 6912,
+    "common_volume_fraction": 1.0,
+    "common_volume_minimum": 0.99,
+    "metrics": {
+      "full_field_common_points_u_relative": 0.02063134202565472,
+      "full_field_common_points_temperature_relative": 0.0002887197267255527,
+      "full_field_common_points_stress_relative": 0.07700968573411693,
+      "full_field_common_points_peeq_relative": 0.02997038731293221,
+      "reaction_path_relative": 0.0009233341756551806,
+      "peak_peeq_relative": 0.04654195353301395,
+      "peak_stress_relative": 0.02575466938751438
+    },
+    "limits": {
+      "full_field_common_points_u_relative": 0.05,
+      "full_field_common_points_temperature_relative": 0.02,
+      "full_field_common_points_stress_relative": 0.05,
+      "full_field_common_points_peeq_relative": 0.05,
+      "reaction_path_relative": 0.05,
+      "peak_peeq_relative": 0.1,
+      "peak_stress_relative": 0.1
+    },
+    "reverse_all_fine_IP_metrics": {
+      "full_field_common_points_u_relative": 0.020619300984611597,
+      "full_field_common_points_temperature_relative": 0.00027149951161243354,
+      "full_field_common_points_stress_relative": 0.09636232569984834,
+      "full_field_common_points_peeq_relative": 0.04244888219027958
+    },
+    "reverse_common_volume_fraction": 1.0,
+    "reverse_all_fine_IP_count": 18432,
+    "reverse_common_points": 18432,
+    "diagnostics": {
+      "hydrostatic_relative": 0.11744310308597622,
+      "deviatoric_relative": 0.038141644752765706,
+      "native_energy_integral_path_relative": 0.0001824722368571324,
+      "coarse_max_strain27_over8": 1.0019693828996907,
+      "fine_max_strain27_over8": 1.0008249871861103,
+      "self_native_IP_interpolation_max": 3.410605131648481e-13,
+      "maximum_physical_inverse_residual_mm": 1.2814417116311057e-13
+    },
+    "native_peaks": {
+      "coarse_peeq": 0.19388330169306833,
+      "fine_peeq": 0.20334749117855563,
+      "coarse_mises_MPa": 716.5096314639447,
+      "fine_mises_MPa": 735.4509269379732
+    },
+    "sampling": "All actual coarse8IP points; full20node curved isoparametric Newton containment and interpolation; trilinear reconstruction through all8native IP values only for comparisons; no target smoothing or spatial reduction.",
+    "status": "HOLD_MESH_REFINEMENT",
+    "native_seconds": 2528.7147817629993
+  },
+  "time_metrics": null,
+  "native_counts": {
+    "unique_physical_histories": 1,
+    "discretization_runs": 3,
+    "native_jobs": 6,
+    "completed_native_jobs": 6,
+    "reported_frames_including_known_initial": 69,
+    "solved_endpoint_frames": 66,
+    "native_seconds": 2664.530827855
+  },
+  "separate_temperature_interpolation_AB": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/thermal/cases/tv2_c3d10t_mesh07",
+    "native_seconds": 384.0706295179989,
+    "frames": 23,
+    "new_numerical_runs": 1,
+    "same_physical_history_as_hex": true
+  },
+  "cases": [
+    {
+      "id": "tv2_hex_l0",
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l0",
+      "receipt_sha256": "dc6fa796533b180fd4bfd7db162b3abcdd98ba1eb20bd8d4c709b2b6da62af2f",
+      "quality": "VALID_CONVERGED",
+      "frames": 23,
+      "nodes": 1755,
+      "native_IPs": 2304,
+      "entities": 4059,
+      "all_native_nodes_and_ips": true,
+      "maximum_peeq": 0.1811140942745397,
+      "seconds": 135.81604609200076
+    },
+    {
+      "id": "tv2_hex_l1",
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1",
+      "receipt_sha256": "af4905b4ef50d333f9a70cf6cd2119b13c73fb6c5429a7c76201dad2dea8245c",
+      "quality": "VALID_CONVERGED",
+      "frames": 23,
+      "nodes": 4701,
+      "native_IPs": 6912,
+      "entities": 11613,
+      "all_native_nodes_and_ips": true,
+      "maximum_peeq": 0.19388330169306833,
+      "seconds": 509.494152416999
+    },
+    {
+      "id": "tv2_hex_l2",
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2",
+      "receipt_sha256": "6e6cf680bc6caee53b30b754c6f4a65f78d6cce788b21e3f5bb6a04557f892be",
+      "quality": "VALID_CONVERGED",
+      "frames": 23,
+      "nodes": 11501,
+      "native_IPs": 18432,
+      "entities": 29933,
+      "all_native_nodes_and_ips": true,
+      "maximum_peeq": 0.20334749117855563,
+      "seconds": 2019.2206293460004
+    }
+  ],
+  "native_jobs": [
+    {
+      "case": "tv2_hex_l0",
+      "job": "heat",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 4.211005864999606,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l0/heat_receipt.json",
+      "sha256": "f96ca412699d2a36307ddd667a4abf7434e2d05a2f3570d18d5863312f1e6757"
+    },
+    {
+      "case": "tv2_hex_l0",
+      "job": "mechanical",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 131.60504022700115,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l0/mechanical_receipt.json",
+      "sha256": "4b73b9ed0d3c8d43e46176ef51e9729ed9c640f4ae6dcedc47ed178f5e71236a"
+    },
+    {
+      "case": "tv2_hex_l1",
+      "job": "heat",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 20.5684520169998,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1/heat_receipt.json",
+      "sha256": "32dac8e89e0b5a423b1e012df8ce1070738aa98b51d1b9623a09a04884be10fe"
+    },
+    {
+      "case": "tv2_hex_l1",
+      "job": "mechanical",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 488.9257003999992,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1/mechanical_receipt.json",
+      "sha256": "945d16483d72a77cc7ce7c483e7f70796e8719aba76b2ccdef7c2f2b2f3ed942"
+    },
+    {
+      "case": "tv2_hex_l2",
+      "job": "heat",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 71.6897147430027,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2/heat_receipt.json",
+      "sha256": "927624fdfb5ea279faccf9df796279b43eb5a4626dc9a9d87ccc719f231973db"
+    },
+    {
+      "case": "tv2_hex_l2",
+      "job": "mechanical",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 1947.5309146029977,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2/mechanical_receipt.json",
+      "sha256": "63fe344323ea46c1fc0ff59da42f168cd992947256ad79a51fc32274459d34fa"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/bounded_third_level_specification_v3.json",
+      "sha256": "20566caac25f7ff3cafc2280571d370349786ff0a679ece56df7f280e09cd3ea"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/final_probe_execution_identity_attempt2.json",
+      "sha256": "61c71e9269d5f48f16206f7c873cceb64f2ff6449065e9bfb24a8cc02157e504"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/final_probe_complete_worker_resources_attempt2.json",
+      "sha256": "4198304f161f79610ae6a198a891d428e10495f7e3ba8c91348822a754c67e28"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/resource_monitor_selfcheck.json",
+      "sha256": "d36c40b6fb56fa2021ebef6345d6f426626ca7a4ea39b7d1f391a0dd7b81aa53"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l0_l1_error_localization_v2.json",
+      "sha256": "55dec7b9ce2cd2144fb5f10faac6b6934a027b1d887ee9da0aebcdb23e6d521e"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/same_CAD_physics_identity.json",
+      "sha256": "5cb7eb2004218a8bfb26cd710b9be62716529cfcc6ccddaa8851c82a8d17a52f"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/native_energy_semantics.json",
+      "sha256": "ce1da870cfc94890a6082c6c55177013b1164a881d3c90d0b0955a3a96f2f1ac"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/inherited_constitutive_benchmark_reference.json",
+      "sha256": "afd3d17705f6f2dd20a5ad7b72539ee8c3c2b092f6b6870cdbd76ac376e434f6"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/bidirectional_comparison_specification.json",
+      "sha256": "95e40c27f7ffeb2ea437e792b9005ffbb698a55317d6f5c81d2d6403f3c402b0"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l0_l1_comparison.json",
+      "sha256": "6936476ac56f14e951978fafd06aa4782a13e9e97667db5ff148c256b7f48c23"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l1_l2_comparison.json",
+      "sha256": "0b23eab6e954a2cc6482e5092e1696952ef722e717ab31292ccb12a57cd00109"
+    }
+  ],
+  "production_mesh_level": null,
+  "production_coupling_refinement": null,
+  "independent_dataset_histories_produced": 0,
+  "neural_training_runs": 0,
+  "neural_test_histories": 0,
+  "source_sha256": "4802f773839b456a2f788178bc16828e3260b28b8f61b5c481e14ca1867a7b70",
+  "limitations_cn": [
+    "\u8fd9\u662f\u660e\u786e\u5c3a\u5bf8\u548c\u5047\u8bbe\u6750\u6027\u7684\u5c40\u90e8\u7814\u7a76\u8fde\u63a5\u4ef6\uff0c\u4e0d\u662f\u624e\u9752\u540a\u6865\u5b9e\u6865\u6784\u9020\u8ba4\u8bc1\u3002",
+    "\u6c42\u89e3\u5b9e\u9645\u4e09\u7ef4\u77ac\u6001\u5bfc\u70ed\u540e\u5355\u5411\u4f20\u7ed9\u6e29\u5ea6\u4f9d\u8d56\u6709\u9650\u5e94\u53d8J2\u5851\u6027\uff1b\u6ca1\u6709\u5851\u6027\u8017\u6563\u751f\u70ed\u53cd\u9988\uff0c\u4e5f\u6ca1\u6709\u60ef\u6027\u52a8\u529b\u5b66\u3002",
+    "\u6bcf\u4e2a\u539f\u751fFE\u8282\u70b9\u53ca8\u4e2a\u771f\u5b9e\u5355\u5143IP\u5168\u90e8\u4fdd\u7559\uff0c\u542b\u5168\u90e813\u4e2a\u5851\u6027\u5185\u90e8\u53d8\u91cf\uff1b\u6ca1\u6709POD\u3001\u56fa\u5b9a\u54cd\u5e94\u57fa\u6216\u7a7a\u95f4\u62bd\u6837\u3002",
+    "\u539f\u751f\u5851\u6027\u5ea6\u91cf\u7684\u4f53\u79ef\u6f02\u79fb\u5355\u72ec\u4fdd\u7559\u4e14\u672a\u6295\u5f71\u4fee\u6b63\uff1bENER\u662f\u539f\u751f\u7d2f\u8ba1\u673a\u68b0\u529f\u5bc6\u5ea6\uff0c\u4e0d\u662f\u72ec\u7acb\u70ed\u529b\u5b66\u5b88\u6052\u8bc1\u660e\u3002",
+    "\u540c\u4e00\u53c2\u6570\u5386\u53f2\u7684\u7f51\u683c\u4e0e\u65f6\u95f4\u5bf9\u7167\u4e0d\u4f1a\u91cd\u590d\u8ba1\u4f5c\u4e0d\u540c\u5de5\u51b5\uff0c\u4e14\u672a\u628a\u5df2\u66dd\u5149\u8d44\u683c\u8def\u5f84\u5f53\u4f5c\u72ec\u7acb\u795e\u7ecf\u6d4b\u8bd5\u3002"
+  ]
+}

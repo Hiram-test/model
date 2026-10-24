@@ -1,0 +1,257 @@
+{
+  "status": "CLOSED_REFERENCE_HOLD",
+  "reference_fidelity_pass": false,
+  "learning_status": "NOT_RUN_REFERENCE_UNQUALIFIED",
+  "reason_cn": "有界第三层后，原生完成或双向完整IP的固定5%空间资格仍未通过；不生成伪热神经训练/测试结果。",
+  "reason": "有界第三层后，原生完成或双向完整IP的固定5%空间资格仍未通过；不生成伪热神经训练/测试结果。",
+  "bounded_repairs": [
+    "Exact single-token C3D10toC3D10T whole-history A/B on unchanged original mesh",
+    "Same analyticCAD and materials with full20node C3D20R native8IP discretization",
+    "Exactly three spatial levels and unchanged bidirectional all-IP five-percent gates; no further spatial retries after the final bounded level"
+  ],
+  "native_case_directories": [
+    "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l0",
+    "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1",
+    "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2"
+  ],
+  "created_utc": "2026-10-24T18:57:53.866063+00:00",
+  "mesh_comparisons": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l0_l1_comparison.json",
+      "sha256": "6936476ac56f14e951978fafd06aa4782a13e9e97667db5ff148c256b7f48c23"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l1_l2_comparison.json",
+      "sha256": "0b23eab6e954a2cc6482e5092e1696952ef722e717ab31292ccb12a57cd00109"
+    }
+  ],
+  "time_comparison": null,
+  "final_spatial_metrics": {
+    "kind": "same_CAD_curved20node_eight_native_IP_mesh_refinement",
+    "coarse": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1",
+    "fine": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2",
+    "source_sha256": "caad44b43dd546eb2ab555077decb7f96834dfc6175afa1d0d854700d9b6b806",
+    "all_coarse_points": 6912,
+    "common_points": 6912,
+    "common_volume_fraction": 1.0,
+    "common_volume_minimum": 0.99,
+    "metrics": {
+      "full_field_common_points_u_relative": 0.02063134202565472,
+      "full_field_common_points_temperature_relative": 0.0002887197267255527,
+      "full_field_common_points_stress_relative": 0.07700968573411693,
+      "full_field_common_points_peeq_relative": 0.02997038731293221,
+      "reaction_path_relative": 0.0009233341756551806,
+      "peak_peeq_relative": 0.04654195353301395,
+      "peak_stress_relative": 0.02575466938751438
+    },
+    "limits": {
+      "full_field_common_points_u_relative": 0.05,
+      "full_field_common_points_temperature_relative": 0.02,
+      "full_field_common_points_stress_relative": 0.05,
+      "full_field_common_points_peeq_relative": 0.05,
+      "reaction_path_relative": 0.05,
+      "peak_peeq_relative": 0.1,
+      "peak_stress_relative": 0.1
+    },
+    "reverse_all_fine_IP_metrics": {
+      "full_field_common_points_u_relative": 0.020619300984611597,
+      "full_field_common_points_temperature_relative": 0.00027149951161243354,
+      "full_field_common_points_stress_relative": 0.09636232569984834,
+      "full_field_common_points_peeq_relative": 0.04244888219027958
+    },
+    "reverse_common_volume_fraction": 1.0,
+    "reverse_all_fine_IP_count": 18432,
+    "reverse_common_points": 18432,
+    "diagnostics": {
+      "hydrostatic_relative": 0.11744310308597622,
+      "deviatoric_relative": 0.038141644752765706,
+      "native_energy_integral_path_relative": 0.0001824722368571324,
+      "coarse_max_strain27_over8": 1.0019693828996907,
+      "fine_max_strain27_over8": 1.0008249871861103,
+      "self_native_IP_interpolation_max": 3.410605131648481e-13,
+      "maximum_physical_inverse_residual_mm": 1.2814417116311057e-13
+    },
+    "native_peaks": {
+      "coarse_peeq": 0.19388330169306833,
+      "fine_peeq": 0.20334749117855563,
+      "coarse_mises_MPa": 716.5096314639447,
+      "fine_mises_MPa": 735.4509269379732
+    },
+    "sampling": "All actual coarse8IP points; full20node curved isoparametric Newton containment and interpolation; trilinear reconstruction through all8native IP values only for comparisons; no target smoothing or spatial reduction.",
+    "status": "HOLD_MESH_REFINEMENT",
+    "native_seconds": 2528.7147817629993
+  },
+  "time_metrics": null,
+  "native_counts": {
+    "unique_physical_histories": 1,
+    "discretization_runs": 3,
+    "native_jobs": 6,
+    "completed_native_jobs": 6,
+    "reported_frames_including_known_initial": 69,
+    "solved_endpoint_frames": 66,
+    "native_seconds": 2664.530827855
+  },
+  "separate_temperature_interpolation_AB": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/thermal/cases/tv2_c3d10t_mesh07",
+    "native_seconds": 384.0706295179989,
+    "frames": 23,
+    "new_numerical_runs": 1,
+    "same_physical_history_as_hex": true
+  },
+  "cases": [
+    {
+      "id": "tv2_hex_l0",
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l0",
+      "receipt_sha256": "dc6fa796533b180fd4bfd7db162b3abcdd98ba1eb20bd8d4c709b2b6da62af2f",
+      "quality": "VALID_CONVERGED",
+      "frames": 23,
+      "nodes": 1755,
+      "native_IPs": 2304,
+      "entities": 4059,
+      "all_native_nodes_and_ips": true,
+      "maximum_peeq": 0.1811140942745397,
+      "seconds": 135.81604609200076
+    },
+    {
+      "id": "tv2_hex_l1",
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1",
+      "receipt_sha256": "af4905b4ef50d333f9a70cf6cd2119b13c73fb6c5429a7c76201dad2dea8245c",
+      "quality": "VALID_CONVERGED",
+      "frames": 23,
+      "nodes": 4701,
+      "native_IPs": 6912,
+      "entities": 11613,
+      "all_native_nodes_and_ips": true,
+      "maximum_peeq": 0.19388330169306833,
+      "seconds": 509.494152416999
+    },
+    {
+      "id": "tv2_hex_l2",
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2",
+      "receipt_sha256": "6e6cf680bc6caee53b30b754c6f4a65f78d6cce788b21e3f5bb6a04557f892be",
+      "quality": "VALID_CONVERGED",
+      "frames": 23,
+      "nodes": 11501,
+      "native_IPs": 18432,
+      "entities": 29933,
+      "all_native_nodes_and_ips": true,
+      "maximum_peeq": 0.20334749117855563,
+      "seconds": 2019.2206293460004
+    }
+  ],
+  "native_jobs": [
+    {
+      "case": "tv2_hex_l0",
+      "job": "heat",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 4.211005864999606,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l0/heat_receipt.json",
+      "sha256": "f96ca412699d2a36307ddd667a4abf7434e2d05a2f3570d18d5863312f1e6757"
+    },
+    {
+      "case": "tv2_hex_l0",
+      "job": "mechanical",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 131.60504022700115,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l0/mechanical_receipt.json",
+      "sha256": "4b73b9ed0d3c8d43e46176ef51e9729ed9c640f4ae6dcedc47ed178f5e71236a"
+    },
+    {
+      "case": "tv2_hex_l1",
+      "job": "heat",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 20.5684520169998,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1/heat_receipt.json",
+      "sha256": "32dac8e89e0b5a423b1e012df8ce1070738aa98b51d1b9623a09a04884be10fe"
+    },
+    {
+      "case": "tv2_hex_l1",
+      "job": "mechanical",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 488.9257003999992,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1/mechanical_receipt.json",
+      "sha256": "945d16483d72a77cc7ce7c483e7f70796e8719aba76b2ccdef7c2f2b2f3ed942"
+    },
+    {
+      "case": "tv2_hex_l2",
+      "job": "heat",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 71.6897147430027,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2/heat_receipt.json",
+      "sha256": "927624fdfb5ea279faccf9df796279b43eb5a4626dc9a9d87ccc719f231973db"
+    },
+    {
+      "case": "tv2_hex_l2",
+      "job": "mechanical",
+      "finished": true,
+      "returncode": 0,
+      "seconds": 1947.5309146029977,
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2/mechanical_receipt.json",
+      "sha256": "63fe344323ea46c1fc0ff59da42f168cd992947256ad79a51fc32274459d34fa"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/bounded_third_level_specification_v3.json",
+      "sha256": "20566caac25f7ff3cafc2280571d370349786ff0a679ece56df7f280e09cd3ea"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/final_probe_execution_identity_attempt2.json",
+      "sha256": "61c71e9269d5f48f16206f7c873cceb64f2ff6449065e9bfb24a8cc02157e504"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/final_probe_complete_worker_resources_attempt2.json",
+      "sha256": "4198304f161f79610ae6a198a891d428e10495f7e3ba8c91348822a754c67e28"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/resource_monitor_selfcheck.json",
+      "sha256": "d36c40b6fb56fa2021ebef6345d6f426626ca7a4ea39b7d1f391a0dd7b81aa53"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l0_l1_error_localization_v2.json",
+      "sha256": "55dec7b9ce2cd2144fb5f10faac6b6934a027b1d887ee9da0aebcdb23e6d521e"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/same_CAD_physics_identity.json",
+      "sha256": "5cb7eb2004218a8bfb26cd710b9be62716529cfcc6ccddaa8851c82a8d17a52f"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/native_energy_semantics.json",
+      "sha256": "ce1da870cfc94890a6082c6c55177013b1164a881d3c90d0b0955a3a96f2f1ac"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/inherited_constitutive_benchmark_reference.json",
+      "sha256": "afd3d17705f6f2dd20a5ad7b72539ee8c3c2b092f6b6870cdbd76ac376e434f6"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/bidirectional_comparison_specification.json",
+      "sha256": "95e40c27f7ffeb2ea437e792b9005ffbb698a55317d6f5c81d2d6403f3c402b0"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l0_l1_comparison.json",
+      "sha256": "6936476ac56f14e951978fafd06aa4782a13e9e97667db5ff148c256b7f48c23"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l1_l2_comparison.json",
+      "sha256": "0b23eab6e954a2cc6482e5092e1696952ef722e717ab31292ccb12a57cd00109"
+    }
+  ],
+  "production_mesh_level": null,
+  "production_coupling_refinement": null,
+  "independent_dataset_histories_produced": 0,
+  "neural_training_runs": 0,
+  "neural_test_histories": 0,
+  "source_sha256": "c88a821b65fea413c8bf8c95d81158d07f9c85baae2b0771fe3435c41d9b7c24",
+  "limitations_cn": [
+    "这是明确尺寸和假设材性的局部研究连接件，不是扎青吊桥实桥构造认证。",
+    "求解实际三维瞬态导热后单向传给温度依赖有限应变J2塑性；没有塑性耗散生热反馈，也没有惯性动力学。",
+    "每个原生FE节点及8个真实单元IP全部保留，含全部13个塑性内部变量；没有POD、固定响应基或空间抽样。",
+    "原生塑性度量的体积漂移单独保留且未投影修正；ENER是原生累计机械功密度，不是独立热力学守恒证明。",
+    "同一参数历史的网格与时间对照不会重复计作不同工况，且未把已曝光资格路径当作独立神经测试。"
+  ]
+}

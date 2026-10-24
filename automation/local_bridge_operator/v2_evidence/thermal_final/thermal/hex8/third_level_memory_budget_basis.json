@@ -1,0 +1,21 @@
+{
+  "status": "PRE_NATIVE_CONSERVATIVE_CAPACITY_BASIS_NOT_MEASURED_PEAK",
+  "fine_true_native_bytes": 176528490,
+  "fine_mechanical_bytes": 148642358,
+  "fine_native_IPs": 6912,
+  "final_native_IPs": 18432,
+  "conservative_size_multiplier": 2.6666666666666665,
+  "estimated_maximum_private_plus_case_raw_bytes": 867122261.3333333,
+  "reserved_additional_tmpfs_bytes": 934155386,
+  "basis": "Both jobs actual native source totals plus a simultaneous private/mechanical destination copy; final NPZ/archive creation occurs after private raw removal. The0.87GiBreservation exceeds this conservative8/3-scaled raw-copy estimate.",
+  "peak_RSS_basis": "Two full worker reservations at2.4GiB each, rather than their low initial RSS; actual full-treeRSS is separately sampled through final parsing/comparison.",
+  "launch_identity_sha256": "61c71e9269d5f48f16206f7c873cceb64f2ff6449065e9bfb24a8cc02157e504",
+  "actual_launch_budget": {
+    "actual_background_anon_shmem_kernel_bytes": 1267027968,
+    "rebar_reserved_peak_bytes": 2576980377,
+    "thermal_reserved_peak_bytes": 2576980377,
+    "additional_thermal_tmpfs_peak_bytes": 934155386,
+    "required_free_reserve_bytes": 1073741824,
+    "predicted_peak_bytes_excluding_clean_reclaimable_filecache": 7355144108
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "physical_CAD_changed": false,
+  "material_BC_and_history_changed": false,
+  "native_element": "C3D20R",
+  "native_IPs_per_element": 8,
+  "fields": [
+    "ux",
+    "uy",
+    "uz",
+    "temp",
+    "sxx",
+    "syy",
+    "szz",
+    "sxy",
+    "sxz",
+    "syz",
+    "peeq",
+    "plastic_metric_xx",
+    "plastic_metric_yy",
+    "plastic_metric_zz",
+    "plastic_metric_xy",
+    "plastic_metric_xz",
+    "plastic_metric_yz",
+    "backstress_xx",
+    "backstress_yy",
+    "backstress_zz",
+    "backstress_xy",
+    "backstress_xz",
+    "backstress_yz",
+    "heatflux_x",
+    "heatflux_y",
+    "heatflux_z",
+    "internal_energy_density"
+  ],
+  "fullfield_mesh_time_limits": {
+    "u": 0.05,
+    "stress": 0.05,
+    "PEEQ": 0.05,
+    "temperature_rise": 0.02,
+    "reaction": 0.05,
+    "native_peak_stress_and_PEEQ": 0.1,
+    "common_volume_min": 0.99
+  },
+  "additional_native_strain_sampling_screen": {
+    "rule": "Full quadratic displacement-derived GreenstrainRMS at27points divided by8pointvalue",
+    "limit": 2.0,
+    "scope": "Screen abnormal poorly sampled deformation; does not substitute for mesh refinement or certify absence of allhourglass modes."
+  },
+  "native_energy": "ActualENER atall8nativeIPs; no fictitious plastic-heat feedback or unproved global energy-balance claim",
+  "source_quad_adapter": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_quadratic.py",
+  "source_quad_adapter_sha256": "0e863fec314794c9554ea23b64a93bcf19b755d9ced96eeac45095ef8ba2950e",
+  "response_reduction": "NONE"
+}

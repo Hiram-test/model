@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "old_case": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector_transient_hardening_v4/cases/th4_000",
+  "new_case": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l0",
+  "physical_parameters_identical": true,
+  "controls_all_columns_identical": true,
+  "thermal_material_text_identical": true,
+  "mechanical_material_text_identical": true,
+  "numerical_changes": [
+    "Mapped curved full20node C3D20R discretization, eight true IPs per cell",
+    "Additional native ENER output from first mechanical step; no altered heat source or constitutive law"
+  ],
+  "same_analytic_CAD": "100x30x20mm reference body minus two through semi-circular R6mm side-notches; both scaled by the identical physical parameter vector",
+  "same_physical_BC": "Left x-min clamp u=0 and T=20; right x-max axial driving; top z-max heater 20+(controlT-20)*sin(pi*x/(2*L))^2"
+}

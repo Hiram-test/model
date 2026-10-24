@@ -1,0 +1,114 @@
+{
+  "params": [
+    1.0427636886015534,
+    1.0652354350313544,
+    221.7893805820495,
+    1.1666521768085658,
+    0.9352956115268171,
+    0.8545999690890312,
+    0,
+    54.183692056685686
+  ],
+  "mesh": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/thermoplastic/notched_connector/meshes/notched_0.7.npz",
+  "coupling_refinement": 2,
+  "plastic_strain_table_end": 1.0,
+  "require_plastic_table_coverage": true,
+  "solver_binary": "/workspace/scratch/500ec816102b/solver-runtime/ccx-complex-precision-v3",
+  "geometry_source": "Explicit100x30x20 mm3Dresearchconnectorwithtwo6mmradiusnotches; all dimensions declared assumptions; no bridge-as-built claim.",
+  "id": "tv2_c3d10t_mesh07",
+  "group_id": "tv2_representative_path",
+  "split": "verification",
+  "family": "thermoplastic_notched_connector_compatible_thermal_strain_v2",
+  "native_timeout_seconds": 2400,
+  "quality": "VALID_CONVERGED",
+  "status": "VALID_CONVERGED",
+  "thermal": {
+    "job": "heat",
+    "seconds": 22.34322616999998,
+    "returncode": 0,
+    "finished": true,
+    "error": false,
+    "timeout": false,
+    "wall_time_limit_seconds": 2400,
+    "native_numeric_input_guard": {
+      "status": "PASS",
+      "numeric_fields_checked": 167305,
+      "maximum_allowed_characters": 20
+    },
+    "solver_wrapper_path": "/workspace/scratch/500ec816102b/solver-runtime/ccx-complex-precision-v3",
+    "solver_wrapper_sha256": "6b031062eeb158721cb662d12921a46435adc9910396d82e712b56de65f4997d",
+    "resolved_executable_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/bin/ccx-complex-precision-v3",
+    "resolved_executable_sha256": "645c3039c14f3f3f96f7ee8c5fe32e48a70cacd1bb5b5a5315742c24a9348d47",
+    "files": {
+      "heat.log": "6d82391d69ce522fd6535dc9203fec52e0082ceaac5049858a8ba17d81b42d90",
+      "heat.inp": "d39ecc1bc6a5e77a64f4773851155f2d18121d1a918c72d2dcf3e5140233fe71",
+      "heat.dat": "fc1a7a1ddbfd71a06803c6f11791efde15387fe0b07125327e585aebe8d120d1",
+      "heat.sta": "bddd932be28c22fbffde69b86c077066d6a2313889491429a77fccecf33c9b55",
+      "heat.cvg": "55db91dffb9afc5ec14f7a4062b19afd98ded22cd77ad3bc18ee6aea5e91997a",
+      "heat.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "heat.frd": "e105760c6316546cf2b6ad78469c4d970859c30d5aecebb8a6b462db3cba1b34"
+    },
+    "geometry_identity": {
+      "max_coordinate_difference_mm": 0.0004303962690954677,
+      "max_native_print_rounding_ratio": 0.9688524188473127,
+      "rounding_budget": "Native FRD single-precision coordinate conversion plus six-significant-digit exponential printing.",
+      "status": "PASS"
+    }
+  },
+  "mechanical": {
+    "job": "mechanical",
+    "seconds": 361.7274033479989,
+    "returncode": 0,
+    "finished": true,
+    "error": false,
+    "timeout": false,
+    "wall_time_limit_seconds": 2400,
+    "native_numeric_input_guard": {
+      "status": "PASS",
+      "numeric_fields_checked": 275196,
+      "maximum_allowed_characters": 20
+    },
+    "solver_wrapper_path": "/workspace/scratch/500ec816102b/solver-runtime/ccx-complex-precision-v3",
+    "solver_wrapper_sha256": "6b031062eeb158721cb662d12921a46435adc9910396d82e712b56de65f4997d",
+    "resolved_executable_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/bin/ccx-complex-precision-v3",
+    "resolved_executable_sha256": "645c3039c14f3f3f96f7ee8c5fe32e48a70cacd1bb5b5a5315742c24a9348d47",
+    "files": {
+      "mechanical.log": "1d6bc297eed7d17419805563b74756df0444db16549dbe1f80637e70d51aca3a",
+      "mechanical.inp": "62bfad3961b146cde202a673273a5a60edb1f18a63cdc6736f1fa0fbb7646430",
+      "mechanical.dat": "202039ec87049acef826524f3f14d0dbc653cc0580c015ce35ea8a73b6f262aa",
+      "mechanical.sta": "14a66b98f84cecea0607f50d7be0e081bbc63295722bd8aa49ec1b853ebeb468",
+      "mechanical.cvg": "99a7d9d4985edbcec73d071788d82fe1b26383b23651a041827d0e3c9638c446",
+      "mechanical.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mechanical.frd": "afc7ee3efce3ea8dd096ab46d8e4d00f8b418c0f33e219b72810a6a31a3c7efb"
+    },
+    "geometry_identity": {
+      "max_coordinate_difference_mm": 0.0004303962690954677,
+      "max_native_print_rounding_ratio": 0.9688524188473127,
+      "rounding_budget": "Native FRD single-precision coordinate conversion plus six-significant-digit exponential printing.",
+      "status": "PASS"
+    }
+  },
+  "all_native_nodes_and_ips": true,
+  "frames": 23,
+  "finite": true,
+  "temperature_bounds_C": [
+    20.0,
+    241.789380582049
+  ],
+  "maximum_reaction_imbalance_relative": 4.590712644982026e-16,
+  "maximum_prescribed_error": 5.115907697472721e-13,
+  "minimum_peeq_increment": 0.0,
+  "maximum_peeq": 0.2322698352139239,
+  "native_sdv_components": 13,
+  "npz_sha256": "d7c01c9129ac7da4e9e85ebe0d1f06392b5cd1523eb1c33bbf3d33f58b373099",
+  "metadata_sha256": "5d9b0655ac761595148aa7501d6c94f6bc19b205dc3f935198eb539b020a5524",
+  "seconds": 384.0706295179989,
+  "independent_physics": {
+    "max_full_mechanical_residual": 1.0901850838388651e-09,
+    "min_J": 0.995987984483098,
+    "max_heat_flux_constitutive_relative": 1.2875889616710146e-11,
+    "max_plastic_isochoric_error": 0.006554987540337676,
+    "scope": "Unreduced Cauchy-stress force reconstruction and Fourier flux consistency; these do not independently validate the entire constitutive time-update algorithm."
+  },
+  "physics_gates_scope": "Native completed nonlinear/thermal solves, complete source coverage, exact imposed boundaries, global force balance, PEEQ irreversibility, unreduced free-DOF Cauchy-stress equilibrium and Fourier heat-flux consistency. Mesh/time refinement and independent constitutive/heat benchmarks reported separately."
+}

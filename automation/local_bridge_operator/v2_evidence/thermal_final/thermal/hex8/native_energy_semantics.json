@@ -1,0 +1,37 @@
+{
+  "status": "SOURCE_VERIFIED_NATIVE_DIAGNOSTIC_ONLY",
+  "sources": [
+    {
+      "archive_member": "./CalculiX/ccx_2.21/src/resultsmech.f",
+      "sha256": "7aadd7376c5d6176dcfe61b9fa8b0d472e7cc3ca6627bd9a617f571f2461080c",
+      "bytes": 41520
+    },
+    {
+      "archive_member": "./CalculiX/ccx_2.21/src/printoutint.f",
+      "sha256": "09e10433befe43b334ecac6a7ead6ac753eea64da6caa0669848f179d1fd05ea",
+      "bytes": 20605
+    },
+    {
+      "archive_member": "./CalculiX/ccx_2.21/src/calcmechstrain.f",
+      "sha256": "fd37340f3ee538bf5befd814ac708d34836757d94349ac0e9ea0c7e65f5389d4",
+      "bytes": 5407
+    }
+  ],
+  "archive": "/workspace/scratch/500ec816102b/model-repo/build/completion-audit-20261024/source/ccx_2.21.src.tar.bz2",
+  "archive_sha256": "52a20ef7216c6e2de75eae460539915640e3140ec4a2f631a9301e01eda605ad",
+  "manual": "https://www.dhondt.de/ccx_2.21.pdf",
+  "manual_printed_pages": [
+    483,
+    485
+  ],
+  "native_update": "resultsmech.f1043–1080 accumulates trapezoidal stre:delta(emec) over actual accepted increments, including intervals omitted by output FREQUENCY. It updates mechanical strain after removing the thermal strain through calcmechstrain.",
+  "stress_measure": "The stre/skl stress used in this update is the material/reference (second Piola-Kirchhoff) stress, before the explicit Cauchy push-forward at resultsmech.f1199–1242.",
+  "volume_measure": "Reference-volume density for this material-conjugate mechanical work; integration uses undeformed isoparametric determinant weights. Units Nmm/mm3, numerically MPa, and integral Nmm.",
+  "elastic_plastic_scope": "Cumulative native mechanical work includes the elastic and irreversible plastic contributions of the path; no separate elastic stored-energy/plastic-dissipation decomposition is exported or inferred.",
+  "not_claimed": [
+    "Total thermodynamic internal energy with caloric temperature energy",
+    "Plastic dissipation returned as heat",
+    "Independent first-law or hourglass-certification PASS"
+  ],
+  "trigger": "ENER requested in the first mechanical step and retained in every subsequent step; complete eight true IP values exported through EL PRINT."
+}

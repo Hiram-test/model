@@ -1,0 +1,16 @@
+{
+  "status": "FROZEN_BEFORE_COMPLETED_FINE_RESPONSE_COMPARISON",
+  "primary_gates_unchanged": true,
+  "additional_check": "All actual fine integration points are also compared to the coarse physical field using exact curved-cell containment; error uses the actual fine reference denominator and actual fine positive volume weights.",
+  "limits": {
+    "u": 0.05,
+    "stress_six_component_L2": 0.05,
+    "PEEQ": 0.05,
+    "temperature_rise": 0.02,
+    "common_volume_minimum": 0.99
+  },
+  "purpose": "Avoid a coarser8IP comparison quadrature omitting a local fine-grid discrepancy. All raw native labels and independent actual native peak checks stay intact.",
+  "source_sha256": "caad44b43dd546eb2ab555077decb7f96834dfc6175afa1d0d854700d9b6b806",
+  "fine_native_receipt_not_yet_present": true,
+  "frozen_utc": "2026-10-24T18:07:04.076266+00:00"
+}

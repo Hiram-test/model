@@ -1,0 +1,48 @@
+{
+  "version": "V2_C3D10T_compatible_mechanical_temperature_interpolation",
+  "geometry_changed": false,
+  "physical_boundary_or_material_or_loading_changed": false,
+  "old_v4_modified": false,
+  "heat_discretization": "Original full quadratic C3D10 transient PDE, identical original input bytes",
+  "mechanical_discretization": "C3D10T: identical displacement interpolation and four actual integration points; native linear corner-temperature interpolation used for initial and current mechanical integration-point temperature",
+  "material_temperature_semantics": "Native e_c3d.f sets both t0l and t1l via linscal10 for type10T. Thus the compatible mechanical integration-point temperature is also used for the temperature-dependent constitutive calculation; all original nodal temperatures remain retained.",
+  "native_temperature_formula": "T_IP=sum_{a=1..4} L_a*T_corner_a, equivalent to the actual linscal10.f expression; no altered or synthesized heat solution",
+  "coupling": "One-way true transient heat to quasistatic finite-strain J2 mechanics; no plastic-heat feedback or inertia claim",
+  "reduction": "No POD, modal truncation, spatial field sampling or scalar surrogate; all FE nodes, four IPs per native element and13SDVs retained",
+  "official_source": {
+    "url": "https://www.dhondt.de/ccx_2.21.pdf",
+    "section": "6.2.8",
+    "printed_page": 101,
+    "short_quote": "This discrepancy may lead to a checkerboard pattern in the stresses",
+    "interpretation": "The manual explains the incompatible quadratic temperature and linear strain spaces and the C3D10T remedy; applicability here is a testable hypothesis, not a completed result."
+  },
+  "pinned_source_archive": "/workspace/scratch/500ec816102b/model-repo/build/completion-audit-20261024/source/ccx_2.21.src.tar.bz2",
+  "pinned_source_members": {
+    "./CalculiX/ccx_2.21/src/e_c3d.f": {
+      "bytes": 66770,
+      "sha256": "74652da7eb31a1df3c8b0c65c9304819d24f52cafd088288e9865e83dc584d61"
+    },
+    "./CalculiX/ccx_2.21/src/linscal10.f": {
+      "bytes": 1646,
+      "sha256": "a53a19df429b0540bba92e56777b90b2622b20923974a5a83b743ae5075b68d9"
+    }
+  },
+  "prior_actual_diagnosis": {
+    "all_common_ips": 16748,
+    "self_interpolation_error_max": 2.2737367544323206e-13,
+    "full_stress_mesh_relative": 0.15551001256628633,
+    "peeq_mesh_relative": 0.06467490305542836,
+    "hydrostatic_share_error_energy": 0.9234961426269973,
+    "notch_band_share_error_energy": 0.8069572689559764,
+    "clamp_bands_share_error_energy": 0.013668895916219044,
+    "conclusion": "Localized hydrostatic mismatch dominates. This does not yet prove thermal checkerboarding, volumetric locking or a geometric singularity; the controlled native A/B solve isolates the thermal interpolation hypothesis."
+  },
+  "frozen_refinement_limits": {
+    "full_displacement_stress_peeq_relative": 0.05,
+    "temperature_rise_relative": 0.02,
+    "reaction_relative": 0.05,
+    "peak_stress_peeq_relative": 0.1,
+    "common_volume_fraction_min": 0.99
+  },
+  "qualification": "PENDING_ACTUAL_A_B_AND_SAME_VERSION_MESH_TIME_RUNS"
+}

@@ -1,0 +1,31 @@
+{
+  "status": "CONTROLLED_AB_DIAGNOSTIC_NOT_MESH_QUALIFICATION",
+  "old_native_quality": "VALID_CONVERGED",
+  "new_native_quality": "VALID_CONVERGED",
+  "temperature_fields_exactly_identical": true,
+  "temperature_max_abs_difference": 0.0,
+  "stress_ab_relative": 0.003088288022853688,
+  "hydrostatic_ab_relative": 0.0045298782147722184,
+  "deviatoric_ab_relative": 0.001742626611115362,
+  "peeq_ab_relative": 0.0007772168998166291,
+  "old_pressure_jump": {
+    "internal_faces": 4980,
+    "area_weighted_pressure_jump_relative": 0.27481688075799243,
+    "scope": "Diagnostic only: discontinuous FE stress recovery need not be exactly continuous, and this metric never replaces native equilibrium or the frozen whole-field mesh gate."
+  },
+  "new_pressure_jump": {
+    "internal_faces": 4980,
+    "area_weighted_pressure_jump_relative": 0.27454614205261585,
+    "scope": "Diagnostic only: discontinuous FE stress recovery need not be exactly continuous, and this metric never replaces native equilibrium or the frozen whole-field mesh gate."
+  },
+  "old_maximum_peeq": 0.23228793035095524,
+  "new_maximum_peeq": 0.2322698352139239,
+  "new_independent_physics": {
+    "max_full_mechanical_residual": 1.0901850838388651e-09,
+    "min_J": 0.995987984483098,
+    "max_heat_flux_constitutive_relative": 1.2875889616710146e-11,
+    "max_plastic_isochoric_error": 0.006554987540337676,
+    "scope": "Unreduced Cauchy-stress force reconstruction and Fourier flux consistency; these do not independently validate the entire constitutive time-update algorithm."
+  },
+  "required_next_gate": "Same C3D10T version spatial and temporal refinement under unchanged5percent fullstress/PEEQ thresholds; originalC3D10v4 remainsHOLD."
+}

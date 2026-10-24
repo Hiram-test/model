@@ -1,0 +1,60 @@
+{
+  "status": "AUTHORIZED_BOUNDED_THIRD_SPATIAL_LEVEL",
+  "created_utc": "2026-10-24T18:15:14.914912+00:00",
+  "descriptor": {
+    "params": [
+      1.0427636886015534,
+      1.0652354350313544,
+      221.7893805820495,
+      1.1666521768085658,
+      0.9352956115268171,
+      0.8545999690890312,
+      0,
+      54.183692056685686
+    ],
+    "coupling_refinement": 2,
+    "plastic_strain_table_end": 1.0,
+    "require_plastic_table_coverage": true,
+    "solver_binary": "/workspace/scratch/500ec816102b/solver-runtime/ccx-complex-precision-v3",
+    "id": "tv2_hex_l2",
+    "group_id": "tv2_representative_path",
+    "family": "thermoplastic_same_CAD_C3D20R_v2",
+    "split": "verification",
+    "mesh": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/meshes/hex_level2.npz",
+    "native_timeout_seconds": 2400
+  },
+  "reason": "The actual mismatch is81.19percent hydrostatic error energy; the middle16.17percent of volume contains79.42percent of stress error. Only74.07percent of pressure discrepancy is depth-coherent, so keep full three-axis refinement rather than thinning or ignoring depth.",
+  "hypotheses": "One further existing mesh level distinguishes a falling full-field spatial discrepancy from persistent pressure error; no asymptotic rate or passing outcome is assumed from two meshes.",
+  "geometry_nodes": 11501,
+  "native_elements": 2304,
+  "native_integration_points": 18432,
+  "native_maximum_seconds_per_job": 2400,
+  "expected_native_seconds_range": [
+    1200,
+    2100
+  ],
+  "estimated_worker_peak_RSS_bytes": 2400000000,
+  "minimum_starting_cgroup_headroom_bytes": 3000000000,
+  "minimum_tmpfs_free_bytes": 1500000000,
+  "native_workers": 1,
+  "same_CAD_material_BC_history": true,
+  "no_target_filtering_clipping_or_gate_relaxation": true,
+  "final_spatial_attempt_for_this_bounded_campaign": true,
+  "evidence": [
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l0_l1_comparison.json",
+      "sha256": "6936476ac56f14e951978fafd06aa4782a13e9e97667db5ff148c256b7f48c23"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/mesh_l0_l1_error_localization_v2.json",
+      "sha256": "55dec7b9ce2cd2144fb5f10faac6b6934a027b1d887ee9da0aebcdb23e6d521e"
+    },
+    {
+      "path": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/bidirectional_comparison_specification.json",
+      "sha256": "95e40c27f7ffeb2ea437e792b9005ffbb698a55317d6f5c81d2d6403f3c402b0"
+    }
+  ],
+  "producer_source_sha256": "d4f4bd3d0f46b82f142e86881f0909e7bb860b50054aeb9cfb5c23a9e5409313",
+  "comparison_source_sha256": "caad44b43dd546eb2ab555077decb7f96834dfc6175afa1d0d854700d9b6b806",
+  "driver_source_sha256": "b614702a200daf5187dcbfe7b9adcabcc31b9f7377ef1a380514abf695f07095"
+}

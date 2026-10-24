@@ -1,0 +1,55 @@
+{
+  "kind": "same_CAD_curved20node_eight_native_IP_mesh_refinement",
+  "coarse": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1",
+  "fine": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l2",
+  "source_sha256": "caad44b43dd546eb2ab555077decb7f96834dfc6175afa1d0d854700d9b6b806",
+  "all_coarse_points": 6912,
+  "common_points": 6912,
+  "common_volume_fraction": 1.0,
+  "common_volume_minimum": 0.99,
+  "metrics": {
+    "full_field_common_points_u_relative": 0.02063134202565472,
+    "full_field_common_points_temperature_relative": 0.0002887197267255527,
+    "full_field_common_points_stress_relative": 0.07700968573411693,
+    "full_field_common_points_peeq_relative": 0.02997038731293221,
+    "reaction_path_relative": 0.0009233341756551806,
+    "peak_peeq_relative": 0.04654195353301395,
+    "peak_stress_relative": 0.02575466938751438
+  },
+  "limits": {
+    "full_field_common_points_u_relative": 0.05,
+    "full_field_common_points_temperature_relative": 0.02,
+    "full_field_common_points_stress_relative": 0.05,
+    "full_field_common_points_peeq_relative": 0.05,
+    "reaction_path_relative": 0.05,
+    "peak_peeq_relative": 0.1,
+    "peak_stress_relative": 0.1
+  },
+  "reverse_all_fine_IP_metrics": {
+    "full_field_common_points_u_relative": 0.020619300984611597,
+    "full_field_common_points_temperature_relative": 0.00027149951161243354,
+    "full_field_common_points_stress_relative": 0.09636232569984834,
+    "full_field_common_points_peeq_relative": 0.04244888219027958
+  },
+  "reverse_common_volume_fraction": 1.0,
+  "reverse_all_fine_IP_count": 18432,
+  "reverse_common_points": 18432,
+  "diagnostics": {
+    "hydrostatic_relative": 0.11744310308597622,
+    "deviatoric_relative": 0.038141644752765706,
+    "native_energy_integral_path_relative": 0.0001824722368571324,
+    "coarse_max_strain27_over8": 1.0019693828996907,
+    "fine_max_strain27_over8": 1.0008249871861103,
+    "self_native_IP_interpolation_max": 3.410605131648481e-13,
+    "maximum_physical_inverse_residual_mm": 1.2814417116311057e-13
+  },
+  "native_peaks": {
+    "coarse_peeq": 0.19388330169306833,
+    "fine_peeq": 0.20334749117855563,
+    "coarse_mises_MPa": 716.5096314639447,
+    "fine_mises_MPa": 735.4509269379732
+  },
+  "sampling": "All actual coarse8IP points; full20node curved isoparametric Newton containment and interpolation; trilinear reconstruction through all8native IP values only for comparisons; no target smoothing or spatial reduction.",
+  "status": "HOLD_MESH_REFINEMENT",
+  "native_seconds": 2528.7147817629993
+}

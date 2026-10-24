@@ -1,0 +1,374 @@
+{
+  "status": "DIAGNOSTIC_ONLY_REFERENCE_REMAINS_HOLD",
+  "source_sha256": "a68516272e4d0ebcdf7a376fa1fa3a11380768a6fa166804ca45edea1a032b9c",
+  "coarse": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l0",
+  "fine": "/dev/shm/bridge_complex_v2_20261025/thermal/hex8/cases/tv2_hex_l1",
+  "fine_points": 6912,
+  "common_volume_fraction": 1.0,
+  "stress_norm": "Native six-component ordinary L2, not a tensor Frobenius norm",
+  "hydrostatic_fraction_of_stress_squared_error": 0.8118881844789728,
+  "deviatoric_fraction_of_stress_squared_error": 0.18811181552102704,
+  "through_thickness_coherent_pressure_error_fraction": 0.7406747035102511,
+  "physical_xy_columns": 864,
+  "regions": {
+    "left_grip_x_lt10": {
+      "points": 480,
+      "volume_share": 0.09525631915613768,
+      "stress_squared_error_share": 0.02174207037018182,
+      "hydrostatic_squared_error_share": 0.015258902409219371,
+      "peeq_squared_error_share": 0.0001899972942928161
+    },
+    "right_grip_x_gt90": {
+      "points": 480,
+      "volume_share": 0.09525631915613769,
+      "stress_squared_error_share": 0.0009821483041208587,
+      "hydrostatic_squared_error_share": 0.00029738527573988047,
+      "peeq_squared_error_share": 0.00032124649415092013
+    },
+    "notch_x44_to56": {
+      "points": 2304,
+      "volume_share": 0.08553933610107815,
+      "stress_squared_error_share": 0.6533776075928202,
+      "hydrostatic_squared_error_share": 0.5996476194762098,
+      "peeq_squared_error_share": 0.6659996900960349
+    },
+    "near_notch_x40_to60": {
+      "points": 2688,
+      "volume_share": 0.16174439142598837,
+      "stress_squared_error_share": 0.794178449329635,
+      "hydrostatic_squared_error_share": 0.6758352642900487,
+      "peeq_squared_error_share": 0.8845332107686016
+    },
+    "outer_body_x_lt40_or_gt60": {
+      "points": 4224,
+      "volume_share": 0.8382556085740116,
+      "stress_squared_error_share": 0.20582155067036506,
+      "hydrostatic_squared_error_share": 0.13605292018892431,
+      "peeq_squared_error_share": 0.11546678923139855
+    }
+  },
+  "free_side_distance_bins": [
+    {
+      "range_mm": [
+        0.0,
+        0.5
+      ],
+      "points": 0,
+      "volume_share": 0.0,
+      "stress_squared_error_share": 0.0,
+      "hydrostatic_squared_error_share": 0.0,
+      "peeq_squared_error_share": 0.0
+    },
+    {
+      "range_mm": [
+        0.5,
+        1.0
+      ],
+      "points": 352,
+      "volume_share": 0.013936517889638173,
+      "stress_squared_error_share": 0.06880833671668629,
+      "hydrostatic_squared_error_share": 0.05119026472537543,
+      "peeq_squared_error_share": 0.07278860341012114
+    },
+    {
+      "range_mm": [
+        1.0,
+        2.0
+      ],
+      "points": 800,
+      "volume_share": 0.15273014877702834,
+      "stress_squared_error_share": 0.10169882344744836,
+      "hydrostatic_squared_error_share": 0.036902593832871804,
+      "peeq_squared_error_share": 0.08406861632451681
+    },
+    {
+      "range_mm": [
+        2.0,
+        4.0
+      ],
+      "points": 480,
+      "volume_share": 0.01906118208233224,
+      "stress_squared_error_share": 0.09628614265288818,
+      "hydrostatic_squared_error_share": 0.08006605930657097,
+      "peeq_squared_error_share": 0.33267220055619673
+    },
+    {
+      "range_mm": [
+        4.0,
+        8.0
+      ],
+      "points": 2272,
+      "volume_share": 0.33480873746020573,
+      "stress_squared_error_share": 0.5189395221399651,
+      "hydrostatic_squared_error_share": 0.4500441737061358,
+      "peeq_squared_error_share": 0.3635069540924094
+    },
+    {
+      "range_mm": [
+        8.0,
+        100.0
+      ],
+      "points": 3008,
+      "volume_share": 0.4794634137907953,
+      "stress_squared_error_share": 0.2142671750430122,
+      "hydrostatic_squared_error_share": 0.193685092908019,
+      "peeq_squared_error_share": 0.14696362561675602
+    }
+  ],
+  "thickness_bins": [
+    {
+      "reference_z_mm": [
+        0.0,
+        5.0
+      ],
+      "points": 1728,
+      "volume_share": 0.24999999999999997,
+      "stress_squared_error_share": 0.2255464922915441,
+      "hydrostatic_squared_error_share": 0.17698656445538982,
+      "peeq_squared_error_share": 0.2655055424276897
+    },
+    {
+      "reference_z_mm": [
+        5.0,
+        10.0
+      ],
+      "points": 1728,
+      "volume_share": 0.25,
+      "stress_squared_error_share": 0.2602243988344238,
+      "hydrostatic_squared_error_share": 0.21476663620644867,
+      "peeq_squared_error_share": 0.22457477843375326
+    },
+    {
+      "reference_z_mm": [
+        10.0,
+        15.0
+      ],
+      "points": 1728,
+      "volume_share": 0.2500000000000003,
+      "stress_squared_error_share": 0.2690548848603585,
+      "hydrostatic_squared_error_share": 0.2231459594023277,
+      "peeq_squared_error_share": 0.23149302862127924
+    },
+    {
+      "reference_z_mm": [
+        15.0,
+        20.00001
+      ],
+      "points": 1728,
+      "volume_share": 0.24999999999999964,
+      "stress_squared_error_share": 0.24517422401367367,
+      "hydrostatic_squared_error_share": 0.19698902441480676,
+      "peeq_squared_error_share": 0.2784266505172779
+    }
+  ],
+  "phases": [
+    {
+      "step": 0,
+      "time_s": 0.0,
+      "drive_mm": 0.0,
+      "heater_C": 20.0,
+      "stress_squared_error_share": 0.0,
+      "hydrostatic_fraction_of_step_stress_error": 0.0,
+      "peeq_squared_error_share": 0.0
+    },
+    {
+      "step": 1,
+      "time_s": 27.091846028342843,
+      "drive_mm": 0.23333043536171316,
+      "heater_C": 47.723672572756186,
+      "stress_squared_error_share": 0.007560991350563983,
+      "hydrostatic_fraction_of_step_stress_error": 0.6535414211649974,
+      "peeq_squared_error_share": 0.000383393774833658
+    },
+    {
+      "step": 2,
+      "time_s": 54.183692056685686,
+      "drive_mm": 0.4666608707234263,
+      "heater_C": 75.44734514551237,
+      "stress_squared_error_share": 0.027592668130279916,
+      "hydrostatic_fraction_of_step_stress_error": 0.7363947945481044,
+      "peeq_squared_error_share": 0.002509104383984649
+    },
+    {
+      "step": 3,
+      "time_s": 81.27553808502853,
+      "drive_mm": 0.8166565237659961,
+      "heater_C": 125.34995577647351,
+      "stress_squared_error_share": 0.059845467258974355,
+      "hydrostatic_fraction_of_step_stress_error": 0.83761310774637,
+      "peeq_squared_error_share": 0.007719932867636567
+    },
+    {
+      "step": 4,
+      "time_s": 108.36738411337137,
+      "drive_mm": 1.1666521768085658,
+      "heater_C": 175.25256640743464,
+      "stress_squared_error_share": 0.09473803717940252,
+      "hydrostatic_fraction_of_step_stress_error": 0.8791052944828526,
+      "peeq_squared_error_share": 0.01537524452919172
+    },
+    {
+      "step": 5,
+      "time_s": 135.45923014171422,
+      "drive_mm": 0.8749891326064243,
+      "heater_C": 208.52097349474207,
+      "stress_squared_error_share": 0.0749455589829409,
+      "hydrostatic_fraction_of_step_stress_error": 0.8653797587051202,
+      "peeq_squared_error_share": 0.01605643944547713
+    },
+    {
+      "step": 6,
+      "time_s": 162.55107617005706,
+      "drive_mm": 0.5833260884042829,
+      "heater_C": 241.7893805820495,
+      "stress_squared_error_share": 0.02863649782995852,
+      "hydrostatic_fraction_of_step_stress_error": 0.6881555183911299,
+      "peeq_squared_error_share": 0.026641912312903093
+    },
+    {
+      "step": 7,
+      "time_s": 189.6429221983999,
+      "drive_mm": 0.29166304420214145,
+      "heater_C": 197.4315044656396,
+      "stress_squared_error_share": 0.03323443864876169,
+      "hydrostatic_fraction_of_step_stress_error": 0.733393900709872,
+      "peeq_squared_error_share": 0.03690331291186559
+    },
+    {
+      "step": 8,
+      "time_s": 216.73476822674274,
+      "drive_mm": 0.0,
+      "heater_C": 153.0736283492297,
+      "stress_squared_error_share": 0.051022744776716485,
+      "hydrostatic_fraction_of_step_stress_error": 0.8081174325574206,
+      "peeq_squared_error_share": 0.04521782723711049
+    },
+    {
+      "step": 9,
+      "time_s": 243.8266142550856,
+      "drive_mm": -0.05249934795638546,
+      "heater_C": 108.7157522328198,
+      "stress_squared_error_share": 0.055272740901708924,
+      "hydrostatic_fraction_of_step_stress_error": 0.815795329257497,
+      "peeq_squared_error_share": 0.04622995163346092
+    },
+    {
+      "step": 10,
+      "time_s": 270.91846028342843,
+      "drive_mm": -0.10499869591277092,
+      "heater_C": 64.3578761164099,
+      "stress_squared_error_share": 0.059931040838258696,
+      "hydrostatic_fraction_of_step_stress_error": 0.8231100685991923,
+      "peeq_squared_error_share": 0.04721464843890178
+    },
+    {
+      "step": 11,
+      "time_s": 298.0103063117713,
+      "drive_mm": -0.13999826121702788,
+      "heater_C": 42.17893805820495,
+      "stress_squared_error_share": 0.06324541337468215,
+      "hydrostatic_fraction_of_step_stress_error": 0.8275505839018413,
+      "peeq_squared_error_share": 0.04784529375576178
+    },
+    {
+      "step": 12,
+      "time_s": 325.1021523401141,
+      "drive_mm": -0.17499782652128487,
+      "heater_C": 20.0,
+      "stress_squared_error_share": 0.06703321135107475,
+      "hydrostatic_fraction_of_step_stress_error": 0.8327310237950979,
+      "peeq_squared_error_share": 0.04865802697275105
+    },
+    {
+      "step": 13,
+      "time_s": 352.19399836845696,
+      "drive_mm": -0.11374858723883517,
+      "heater_C": 64.3578761164099,
+      "stress_squared_error_share": 0.061187806824235164,
+      "hydrostatic_fraction_of_step_stress_error": 0.840734122576039,
+      "peeq_squared_error_share": 0.04865802697275105
+    },
+    {
+      "step": 14,
+      "time_s": 379.2858443967998,
+      "drive_mm": -0.05249934795638546,
+      "heater_C": 108.7157522328198,
+      "stress_squared_error_share": 0.056664748888973854,
+      "hydrostatic_fraction_of_step_stress_error": 0.8437384809750922,
+      "peeq_squared_error_share": 0.04865802697275105
+    },
+    {
+      "step": 15,
+      "time_s": 406.37769042514265,
+      "drive_mm": -0.02624967397819273,
+      "heater_C": 164.16309737833217,
+      "stress_squared_error_share": 0.055565407772047735,
+      "hydrostatic_fraction_of_step_stress_error": 0.8433721293191465,
+      "peeq_squared_error_share": 0.04865802697275105
+    },
+    {
+      "step": 16,
+      "time_s": 433.4695364534855,
+      "drive_mm": 0.0,
+      "heater_C": 219.61044252384454,
+      "stress_squared_error_share": 0.05455653972969756,
+      "hydrostatic_fraction_of_step_stress_error": 0.8428331105244248,
+      "peeq_squared_error_share": 0.04865802697275105
+    },
+    {
+      "step": 17,
+      "time_s": 460.56138248182833,
+      "drive_mm": 0.40832826188299803,
+      "heater_C": 191.88676995108835,
+      "stress_squared_error_share": 0.024990134963274617,
+      "hydrostatic_fraction_of_step_stress_error": 0.6980432260161847,
+      "peeq_squared_error_share": 0.05733804541922718
+    },
+    {
+      "step": 18,
+      "time_s": 487.6532285101712,
+      "drive_mm": 0.8166565237659961,
+      "heater_C": 164.16309737833217,
+      "stress_squared_error_share": 0.021040974924586422,
+      "hydrostatic_fraction_of_step_stress_error": 0.6755867968604796,
+      "peeq_squared_error_share": 0.07288050815986372
+    },
+    {
+      "step": 19,
+      "time_s": 514.745074538514,
+      "drive_mm": 0.5541597839840687,
+      "heater_C": 114.26048674737105,
+      "stress_squared_error_share": 0.014447477044530461,
+      "hydrostatic_fraction_of_step_stress_error": 0.6583131686292114,
+      "peeq_squared_error_share": 0.07288050815986372
+    },
+    {
+      "step": 20,
+      "time_s": 541.8369205668569,
+      "drive_mm": 0.29166304420214145,
+      "heater_C": 64.3578761164099,
+      "stress_squared_error_share": 0.01866112538260031,
+      "hydrostatic_fraction_of_step_stress_error": 0.7023031076579545,
+      "peeq_squared_error_share": 0.0820986415786526
+    },
+    {
+      "step": 21,
+      "time_s": 568.9287665951997,
+      "drive_mm": 0.14583152210107073,
+      "heater_C": 42.17893805820495,
+      "stress_squared_error_share": 0.029671289197327342,
+      "hydrostatic_fraction_of_step_stress_error": 0.7552470778898059,
+      "peeq_squared_error_share": 0.08780385757686963
+    },
+    {
+      "step": 22,
+      "time_s": 596.0206126235425,
+      "drive_mm": 0.0,
+      "heater_C": 20.0,
+      "stress_squared_error_share": 0.04015568464940369,
+      "hydrostatic_fraction_of_step_stress_error": 0.789021659999206,
+      "peeq_squared_error_share": 0.09161124295064052
+    }
+  ],
+  "interpretation_limit": "Localization and quadrature differences identify where the discrete error occurs; they do not independently prove volumetric locking, a geometric singularity, or the asymptotic convergence rate."
+}
