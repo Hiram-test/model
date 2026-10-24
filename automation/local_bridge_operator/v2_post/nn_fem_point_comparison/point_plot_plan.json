@@ -1,0 +1,123 @@
+{
+  "schema": "bridge.v2.nn_fem_native_point_plots.plan.v1",
+  "status": "PRETEST_SOURCE_ONLY_NOT_RENDERED",
+  "public_contract": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+    "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+  },
+  "controller_config": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+  "release_verification": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release_verification.json",
+  "required_final_fullfield_audit": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.json",
+  "required_selected_native_audit": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.json",
+  "selected_cases": [
+    {
+      "family": "friction",
+      "split": "test",
+      "id": "v2_friction_test_00",
+      "group_id": "v2_friction_b645650e5449f4dfbcd5",
+      "strategy": "active",
+      "frame_selection": "last registered noninitial output frame",
+      "expected_frame_index": 32
+    },
+    {
+      "family": "friction",
+      "split": "ood",
+      "id": "v2_friction_ood_00",
+      "group_id": "v2_friction_98a463a7ab3e5d8575dd",
+      "strategy": "active",
+      "frame_selection": "last registered noninitial output frame",
+      "expected_frame_index": 32
+    },
+    {
+      "family": "rebar",
+      "split": "test",
+      "id": "v2_rebar_test_00",
+      "group_id": "v2_rebar_de6148ec7d045e158190",
+      "strategy": "active",
+      "frame_selection": "last registered noninitial output frame",
+      "expected_frame_index": 24
+    },
+    {
+      "family": "rebar",
+      "split": "ood",
+      "id": "v2_rebar_ood_00",
+      "group_id": "v2_rebar_d78fccce15e082e2b1ec",
+      "strategy": "active",
+      "frame_selection": "last registered noninitial output frame",
+      "expected_frame_index": 24
+    }
+  ],
+  "case_selection": "First registered test and first registered OOD for each family, active pretest-frozen single-seed emission, no replacement for held reference.",
+  "reference_hold_rule": "Do not render a registered native quality hold or native-reference physics/adapter hold; retain NOT_RENDERED record without replacement. Neural error/physics HOLD does not suppress a qualified-reference comparison.",
+  "frame_selection": "Last actual complete original native output frame; never select by response magnitude or error.",
+  "panels": [
+    "native displacement Euclidean norm",
+    "NN displacement Euclidean norm",
+    "NN minus native displacement vector Euclidean norm",
+    "native Cauchy stress Frobenius norm",
+    "NN Cauchy stress Frobenius norm",
+    "NN minus native full Cauchy stress tensor Frobenius norm"
+  ],
+  "stress_component_order": [
+    "xx",
+    "yy",
+    "zz",
+    "xy",
+    "xz",
+    "yz"
+  ],
+  "stress_squared_norm_weights": [
+    1,
+    1,
+    1,
+    2,
+    2,
+    2
+  ],
+  "displacement_units": "mm",
+  "stress_units": "MPa",
+  "coordinate_units": "mm",
+  "position_rule": "Original native float64 coordinates; verified float32-cast identity against official full-field export. No deformation, smoothing, interpolation, cell averaging, subsampling or point merging.",
+  "support_rule": "All valid displacement nodes including prescribed and auxiliary nodes; every actual valid volume stress IP. Whole-history primary metrics exclude prescribed entries as defined by the separate audit.",
+  "expected_counts": {
+    "friction": {
+      "nodes": 153,
+      "stress_IPs": 544,
+      "entities": 697,
+      "frames": 33,
+      "channels": 15
+    },
+    "rebar": {
+      "nodes": 1776,
+      "stress_IPs": 3024,
+      "entities": 5232,
+      "frames": 25,
+      "channels": 24
+    }
+  },
+  "rendering": "Orthographic 3-D scatter of genuine point values, not a continuous field contour. Coincident and occluded points remain in the submitted arrays and inventory.",
+  "camera": {
+    "elevation_degrees": 23.0,
+    "azimuth_degrees": -62.0,
+    "roll_degrees": 0.0,
+    "projection": "ortho",
+    "geometry_scale": 1.0,
+    "deformation_applied": false
+  },
+  "range_policy": "Zero to full global maximum over both fixed cases in each family. Native and NN share the same range per quantity. Vector/tensor difference uses a separately shared full-range scale. No percentile clipping. An exactly all-zero field is labelled explicitly and displayed on a 0..1 unit span; actual min/max stay zero.",
+  "palette": "viridis",
+  "depth_shading": false,
+  "point_marker_area_pt2": 8.0,
+  "image_pixels": [
+    2400,
+    1600
+  ],
+  "renderer": "Matplotlib Agg, pinned installed numpy 2.3.5 and matplotlib 3.10.8; imported only after final audits and explicit execute flag",
+  "process_peak_rss_limit_bytes": 262144000,
+  "primary_metric_rule": "The displayed final-frame norms do not replace independently audited whole-history physical-group errors.",
+  "created_utc": "2026-10-24T19:51:08.705051+00:00",
+  "new_test_parameters_or_fields_read": false,
+  "neural_inference_or_training": false,
+  "new_native_solves": false,
+  "derived_scalar_precision": "float64; raw NN components are cast exactly from saved emission before vector/tensor invariant evaluation"
+}

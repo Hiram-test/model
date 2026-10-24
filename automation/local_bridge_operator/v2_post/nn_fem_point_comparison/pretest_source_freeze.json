@@ -1,0 +1,72 @@
+{
+  "schema": "bridge.v2.nn_fem_native_point_plots.pretest_source_freeze.v1",
+  "status": "FROZEN_PRETEST_SOURCE_ONLY_NOT_RENDERED",
+  "renderer": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison.py",
+    "bytes": 30740,
+    "sha256": "c67776efcd2a35db72c9fb2a2efd4426ea3d44682631908b630ab363b44a2e10"
+  },
+  "plan": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/point_plot_plan.json",
+    "bytes": 5158,
+    "sha256": "c64186a60dee4e8dd32987f8adcd4641beeba04789c0b70aa3627f7eb9791a6c"
+  },
+  "dependencies": {
+    "finalizer": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_finalize.py",
+      "bytes": 18931,
+      "sha256": "2e7103a6958d43628168e62deaff6f6448bd518bab644cfb4f9a64b0064295da"
+    },
+    "field_auditor": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.py",
+      "bytes": 17093,
+      "sha256": "27764e270af732fadfa315f944a4b3d7de7d10fe4c7ac8d98bf4ef19f399b7d8"
+    },
+    "native_auditor": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.py",
+      "bytes": 10257,
+      "sha256": "66d5632a4abc0a85b77e0e56debdfb51b1ceabc0e403feb01d32865fcd6aac67"
+    },
+    "controller_config": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+      "bytes": 3791,
+      "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+    },
+    "public_contract": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+      "bytes": 37737,
+      "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+    },
+    "friction_native_schema_source": {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_friction.py",
+      "bytes": 31423,
+      "sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551"
+    },
+    "rebar_native_schema_source": {
+      "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar_quadratic.py",
+      "bytes": 37374,
+      "sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae"
+    }
+  },
+  "static_checks": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/static_source_checks.json",
+    "bytes": 2452,
+    "sha256": "9f4c78686460806b369a52532f3339d911961d355417c7c6ad439a539d20bbd0"
+  },
+  "independent_static_review": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/static_review.json",
+    "bytes": 15532,
+    "sha256": "2b0784bee8e523126fe97e850390718bee9fc1fcf12946483a3e310e8144c3d5"
+  },
+  "README": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/README.md",
+    "bytes": 5065,
+    "sha256": "d2da9e7123eaf1a1c6fb122963962874d13fa759407e02502a8c65e22581f8b1"
+  },
+  "test_release_present_at_freeze": false,
+  "new_heldout_parameters_or_fields_read": false,
+  "numpy_matplotlib_torch_or_vtk_imported": false,
+  "images_rendered": 0,
+  "runtime_array_integration_or_memory_or_visual_validation_completed": false,
+  "created_utc": "2026-10-24T19:57:07.086262+00:00"
+}

@@ -1,0 +1,367 @@
+{
+  "AST_parse_pass": true,
+  "actions_performed": {
+    "formal_files_modified": false,
+    "matplotlib_imported": false,
+    "model_checkpoint_loaded": false,
+    "native_solver_invocations": 0,
+    "neural_forward_calls": 0,
+    "new_heldout_parameters_or_fields_read": false,
+    "numpy_imported": false,
+    "public_registration_JSON_reads": true,
+    "renderer_module_imported": false,
+    "rendering_calls": 0,
+    "response_NPZ_opened": false,
+    "source_AST_and_text_reads": true,
+    "source_files_modified_by_reviewer": false,
+    "torch_imported": false
+  },
+  "all_nonblank_renderer_Python_lines_have_COMMENT_token": true,
+  "blocking_findings": [],
+  "checks": [
+    {
+      "detail": "Exactly four cases: first public test and first public OOD per family, active pretest-frozen single-seed emission, terminal frame 32/24. Hold slots are retained with no replacement.",
+      "id": "fixed_selection",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Explicit execution flag, pretest renderer/plan/dependency hashes, intended fullfield/native audit paths and PASS statuses, audit-source SHA, release proof, frozen model manifest, registered released index, selected model bytes, export/native/metadata receipts, and finalizer SHA are checked before field reads. NumPy and Matplotlib imports occur only inside main after guard.",
+      "id": "audit_and_source_gates",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Finalizer prediction/reference/difference/state_mask/xyz/fields/checkpoint/native-source keys and both native producer ID/control/geometry keys agree with this consumer. Full array shapes are checked before terminal extraction.",
+      "id": "producer_schema",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "All 153/1776 displacement nodes, including prescribed and auxiliary nodes, plus all 544/3024 actual volume stress IPs are retained. Rebar 432 bond entities remain in complete source exports but are not mislabeled as displacement or stress support. Native node IDs and element/IP pairs must remain unique.",
+      "id": "native_support",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Producer float64 native xyz is used directly. The float32 cast is only compared to official evaluator-export geometry. No coordinate merging, nodal stress extrapolation, averaging, deformation, interpolation or subsampling is performed; coincident/occluded points stay in the submitted arrays.",
+      "id": "geometry",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Saved difference must exactly equal prediction minus native reference. Displacement and stress components are then cast to float64 and their complete difference norms are computed. Symmetric Cauchy tensor order xx,yy,zz,xy,xz,yz uses squared weights 1,1,1,2,2,2; this is neither a difference of scalar norms, von Mises stress nor contact pressure.",
+      "id": "difference_and_stress",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Coordinates/displacement are mm and Cauchy stress is MPa. The first original control name/value is retained as a quasistatic path coordinate, not inertial seconds. Producer endpoint semantics are friction frame 32 with time=8 and rebar frame 24 with pseudo_time_over_24=1.",
+      "id": "units_and_loading_coordinate",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Both fixed cases in each family share native/NN full-range scales for each physical norm; vector/tensor error uses its own family-shared range. No percentile clipping. Exactly zero fields are explicitly labeled and keep actual min/max zero despite a 0..1 display span.",
+      "id": "shared_ranges",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Case-level native quality or native research-physics/adapter HOLD prevents rendering and retains the slot. Neural error/physics HOLD does not suppress a qualified-reference comparison. The inherited V1 continuum stress/peak mesh-convergence HOLD is separately disclosed in each figure/footer and receipt, and does not masquerade as case-level native failure or engineering approval.",
+      "id": "reference_scope_and_holds",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "Resolved output must be a new dedicated child of this post-processing source directory, not the directory itself and not the configured formal tree. Existing partial or complete output paths are refused before writing, preventing a same-name plot receipt from overwriting a formal finalizer receipt.",
+      "id": "output_isolation",
+      "status": "PASS_STATIC"
+    },
+    {
+      "detail": "History arrays are read one at a time; a copied terminal frame survives after deleting the full array. Only four small terminal point sets persist. Observed peak-RSS rejection checks cover data preparation, backend probe, each scientific figure and final index including all-reference-HOLD runs. This is not an OS preventive cap.",
+      "id": "memory_plan",
+      "status": "PASS_STATIC_PLAN_RUNTIME_UNVERIFIED"
+    },
+    {
+      "detail": "Successful execution still produces PENDING_VISUAL_QA, retains whole-history official errors and NOT_CERTIFIED, and makes no learned-accuracy, continuum-fidelity or engineering-release PASS claim. Actual image inspection must bind exact output SHA before delivery.",
+      "id": "visual_and_scientific_claims",
+      "status": "PASS_STATIC"
+    }
+  ],
+  "execution_prerequisites_not_claimed_complete": [
+    "Freeze this exact renderer, plan and dependency identities before any new test response access.",
+    "Require actual completed release/model freeze, fullfield independent audit and selected-native identity audit; this review did not read those future result JSONs.",
+    "Require separate root authorization to execute rendering with ordinary Python and assertions enabled, in a new isolated output directory.",
+    "Measure the real process peak and inspect actual images after execution; static PASS does not establish either."
+  ],
+  "field_mapping": [
+    {
+      "displacement_columns": [
+        0,
+        1,
+        2
+      ],
+      "family": "friction",
+      "native_fields": [
+        "ux_mm",
+        "uy_mm",
+        "uz_mm",
+        "IP_sxx_MPa",
+        "IP_syy_MPa",
+        "IP_szz_MPa",
+        "IP_sxy_MPa",
+        "IP_sxz_MPa",
+        "IP_syz_MPa",
+        "nodal_COPEN_mm",
+        "nodal_CSLIP1_mm",
+        "nodal_CSLIP2_mm",
+        "nodal_CPRESS_MPa",
+        "nodal_CSHEAR1_MPa",
+        "nodal_CSHEAR2_MPa"
+      ],
+      "reference_scope": "declared full native discretization only; V1 local stress/peak continuum convergence HOLD is retained",
+      "stress_columns": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "displacement_columns": [
+        0,
+        1,
+        2
+      ],
+      "family": "rebar",
+      "native_fields": [
+        "ux",
+        "uy",
+        "uz",
+        "sxx",
+        "syy",
+        "szz",
+        "sxy",
+        "sxz",
+        "syz",
+        "peeq",
+        "plastic_metric_xx",
+        "plastic_metric_yy",
+        "plastic_metric_zz",
+        "plastic_metric_xy",
+        "plastic_metric_xz",
+        "plastic_metric_yz",
+        "backstress_xx",
+        "backstress_yy",
+        "backstress_zz",
+        "backstress_xy",
+        "backstress_xz",
+        "backstress_yz",
+        "bond_slip",
+        "bond_traction"
+      ],
+      "reference_scope": "declared full native discretization only; V1 local stress/peak continuum convergence HOLD is retained",
+      "stress_columns": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    }
+  ],
+  "memory_static_arithmetic": {
+    "actual_peak_RSS_observed_in_this_review": null,
+    "largest_float64_rebar_history_bytes": 25113600,
+    "largest_float64_rebar_history_shape": [
+      25,
+      5232,
+      24
+    ],
+    "note": "These are individual-array/raster sizes, not a summed or guaranteed process RSS estimate; library/backend allocations still require the later authorized measured run.",
+    "observed_peak_threshold_MiB": 250,
+    "observed_peak_threshold_bytes": 262144000,
+    "one_2400_by_1600_RGBA_buffer_bytes": 15360000,
+    "one_float64_friction_history_bytes": 2760120,
+    "one_float64_friction_terminal_frame_bytes": 83640,
+    "one_float64_rebar_terminal_frame_bytes": 1004544
+  },
+  "module_level_imports": [
+    "Path",
+    "argparse",
+    "json",
+    "hashlib",
+    "zipfile",
+    "os",
+    "sys",
+    "io",
+    "ast",
+    "tokenize",
+    "resource",
+    "math",
+    "gc"
+  ],
+  "plan": {
+    "bytes": 5158,
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/point_plot_plan.json",
+    "sha256": "c64186a60dee4e8dd32987f8adcd4641beeba04789c0b70aa3627f7eb9791a6c"
+  },
+  "producer_source_review": {
+    "method": "Independent delegated source-only key/unit/support inspection; some older adapters were read as matching excerpts only. No imports or response reads.",
+    "sources": [
+      {
+        "bytes": 22978,
+        "path": "/dev/shm/bridge_complex_v2_20261025/friction/v2_friction_native.py",
+        "sha256": "79c44e4d23e1b393a8f1ba93d1c0dd3cd080f58559c979307b85f01e7f542736"
+      },
+      {
+        "bytes": 9312,
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v4.py",
+        "sha256": "feba95d59c3b21710f4bb5eddbe15c87b570321512a72dcc79114ed1f1706f4d"
+      },
+      {
+        "bytes": 8041,
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_guard_v3.py",
+        "sha256": "f7e669764fdd64be72de859e20eb60df98def00f06785c99a321ebff366ac87f"
+      },
+      {
+        "bytes": 9306,
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v3.py",
+        "sha256": "0204996e60cfd583f40f2ccd46c125ac37be88ab7bd95181c2aaec55be65a617"
+      },
+      {
+        "bytes": 8042,
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar_v2.py",
+        "sha256": "4abfe7e1753d757dd585c1977c493c1d6c80f48aa310ec56a0edc6612fa34f83"
+      },
+      {
+        "bytes": 7735,
+        "path": "/dev/shm/bridge_complex_v2_20261025/rebar/v2_native_rebar.py",
+        "sha256": "9556f488a32140fa7736b1d4157786ff5180f62b9373b20e8bd3f64d68741ee5"
+      },
+      {
+        "bytes": 31423,
+        "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_friction.py",
+        "sha256": "287361c7a9b39e79199fcad8824ff7d58d21555ca10d3acf3091cb48d5063551"
+      },
+      {
+        "bytes": 32278,
+        "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar.py",
+        "sha256": "73c82e378f83251e484b0c731473a590ba3fe950d8cabafd76f38aa7ce7efbde"
+      },
+      {
+        "bytes": 37374,
+        "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar_quadratic.py",
+        "sha256": "ea2d52c8f3510d364430d56fdb1895900564bcad78f6b9fbaa3b5e536dd22bae"
+      },
+      {
+        "bytes": 7444,
+        "path": "/workspace/scratch/500ec816102b/model-repo/automation/local_bridge_operator/complex_rebar_full27.py",
+        "sha256": "c1e5daff987dce9306fe2490eceb54154102cd94c9d3f6811a6284e04a1f54dc"
+      }
+    ]
+  },
+  "readme": {
+    "bytes": 5065,
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/README.md",
+    "sha256": "d2da9e7123eaf1a1c6fb122963962874d13fa759407e02502a8c65e22581f8b1"
+  },
+  "renderer": {
+    "bytes": 30740,
+    "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison.py",
+    "sha256": "c67776efcd2a35db72c9fb2a2efd4426ea3d44682631908b630ab363b44a2e10"
+  },
+  "resolved_before_final_source_review": [
+    {
+      "id": "output_directory_formal_receipt_overwrite_risk",
+      "resolution": "Final main now enforces a resolved new dedicated child directory outside formal output and refuses all preexisting output paths."
+    },
+    {
+      "id": "all_reference_hold_memory_check_gap",
+      "resolution": "Final main now checks observed peak RSS before the final render index even when no scientific figure renders; data and backend stages are also checked."
+    }
+  ],
+  "reviewed_sources_and_public_metadata": [
+    {
+      "bytes": 30740,
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/render_native_nn_point_comparison.py",
+      "sha256": "c67776efcd2a35db72c9fb2a2efd4426ea3d44682631908b630ab363b44a2e10"
+    },
+    {
+      "bytes": 5158,
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/point_plot_plan.json",
+      "sha256": "c64186a60dee4e8dd32987f8adcd4641beeba04789c0b70aa3627f7eb9791a6c"
+    },
+    {
+      "bytes": 5065,
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/nn_fem_point_comparison/README.md",
+      "sha256": "d2da9e7123eaf1a1c6fb122963962874d13fa759407e02502a8c65e22581f8b1"
+    },
+    {
+      "bytes": 37737,
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_public_contract.json",
+      "sha256": "d852227d9abe7a5891856ba1ba7d70488a3d316ff8fa33ed5b1ebbe445e68877"
+    },
+    {
+      "bytes": 3791,
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+      "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+    },
+    {
+      "bytes": 18931,
+      "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_finalize.py",
+      "sha256": "2e7103a6958d43628168e62deaff6f6448bd518bab644cfb4f9a64b0064295da"
+    },
+    {
+      "bytes": 17093,
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.py",
+      "sha256": "27764e270af732fadfa315f944a4b3d7de7d10fe4c7ac8d98bf4ef19f399b7d8"
+    },
+    {
+      "bytes": 10257,
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.py",
+      "sha256": "66d5632a4abc0a85b77e0e56debdfb51b1ceabc0e403feb01d32865fcd6aac67"
+    }
+  ],
+  "reviewed_utc": "2026-10-24T19:56:46.670560+00:00",
+  "schema": "bridge_v2_native_nn_point_plot_static_review_v1",
+  "scientific_accuracy_or_engineering_pass_claimed": false,
+  "selected_cases": [
+    {
+      "expected_frame_index": 32,
+      "family": "friction",
+      "frame_selection": "last registered noninitial output frame",
+      "group_id": "v2_friction_b645650e5449f4dfbcd5",
+      "id": "v2_friction_test_00",
+      "matches_first_public_registered_commitment": true,
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "expected_frame_index": 32,
+      "family": "friction",
+      "frame_selection": "last registered noninitial output frame",
+      "group_id": "v2_friction_98a463a7ab3e5d8575dd",
+      "id": "v2_friction_ood_00",
+      "matches_first_public_registered_commitment": true,
+      "split": "ood",
+      "strategy": "active"
+    },
+    {
+      "expected_frame_index": 24,
+      "family": "rebar",
+      "frame_selection": "last registered noninitial output frame",
+      "group_id": "v2_rebar_de6148ec7d045e158190",
+      "id": "v2_rebar_test_00",
+      "matches_first_public_registered_commitment": true,
+      "split": "test",
+      "strategy": "active"
+    },
+    {
+      "expected_frame_index": 24,
+      "family": "rebar",
+      "frame_selection": "last registered noninitial output frame",
+      "group_id": "v2_rebar_d78fccce15e082e2b1ec",
+      "id": "v2_rebar_ood_00",
+      "matches_first_public_registered_commitment": true,
+      "split": "ood",
+      "strategy": "active"
+    }
+  ],
+  "status": "PASS_STATIC_INTERFACE_REVIEW_NOT_EXECUTED"
+}
