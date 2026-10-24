@@ -1,0 +1,198 @@
+{
+  "present": true,
+  "manifest_sha256": "14b0bcddb1feb0e8ef873373a0c8d539076146ef8a0743b3fa0afa9192654459",
+  "original_binary_sha256": "6adaabf5bf0382fc2bfd692b984320ed375dba777f7dc8297562f818043faa1b",
+  "patched_binary_sha256": "645c3039c14f3f3f96f7ee8c5fe32e48a70cacd1bb5b5a5315742c24a9348d47",
+  "changes": [
+    {
+      "offset": 4773554,
+      "same_byte_length": true,
+      "original_format_exact": true,
+      "entirely_inside_readonly_data": true,
+      "passed": true
+    },
+    {
+      "offset": 4778595,
+      "same_byte_length": true,
+      "original_format_exact": true,
+      "entirely_inside_readonly_data": true,
+      "passed": true
+    },
+    {
+      "offset": 4773575,
+      "same_byte_length": true,
+      "original_format_exact": true,
+      "entirely_inside_readonly_data": true,
+      "passed": true
+    },
+    {
+      "offset": 4774847,
+      "same_byte_length": true,
+      "original_format_exact": true,
+      "entirely_inside_readonly_data": true,
+      "passed": true
+    },
+    {
+      "offset": 4774820,
+      "same_byte_length": true,
+      "original_format_exact": true,
+      "entirely_inside_readonly_data": true,
+      "passed": true
+    },
+    {
+      "offset": 4777724,
+      "same_byte_length": true,
+      "original_format_exact": true,
+      "entirely_inside_readonly_data": true,
+      "passed": true
+    }
+  ],
+  "executable_sections": [
+    {
+      "name": ".init",
+      "bytes": 27,
+      "identical": true
+    },
+    {
+      "name": ".plt",
+      "bytes": 2640,
+      "identical": true
+    },
+    {
+      "name": ".plt.got",
+      "bytes": 16,
+      "identical": true
+    },
+    {
+      "name": ".plt.sec",
+      "bytes": 2624,
+      "identical": true
+    },
+    {
+      "name": ".text",
+      "bytes": 4734489,
+      "identical": true
+    },
+    {
+      "name": ".fini",
+      "bytes": 13,
+      "identical": true
+    }
+  ],
+  "native_equivalence_checks": [
+    {
+      "case": "heat",
+      "native_file_hash_checks": [
+        {
+          "version": "v2",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/heat_v2/heat.inp",
+          "expected": "4c8fb5d863ddccd2c6012813e9e42fa9ddb88bb3cdb943acaa2e5d89c786f321",
+          "actual": "4c8fb5d863ddccd2c6012813e9e42fa9ddb88bb3cdb943acaa2e5d89c786f321"
+        },
+        {
+          "version": "v2",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/heat_v2/heat.dat",
+          "expected": "d4bb59fb4d5a1effb1a569a7d876b515d8a182fe99e2495d33db069daf114a14",
+          "actual": "d4bb59fb4d5a1effb1a569a7d876b515d8a182fe99e2495d33db069daf114a14"
+        },
+        {
+          "version": "v2",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/heat_v2/heat.frd",
+          "expected": "522e3339118d7081d76b4c689b3c1aed8b85841105873f6c6b2c59c995dfb57c",
+          "actual": "522e3339118d7081d76b4c689b3c1aed8b85841105873f6c6b2c59c995dfb57c"
+        },
+        {
+          "version": "v3",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/heat_v3/heat.inp",
+          "expected": "4c8fb5d863ddccd2c6012813e9e42fa9ddb88bb3cdb943acaa2e5d89c786f321",
+          "actual": "4c8fb5d863ddccd2c6012813e9e42fa9ddb88bb3cdb943acaa2e5d89c786f321"
+        },
+        {
+          "version": "v3",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/heat_v3/heat.dat",
+          "expected": "35098800f7266ad0b4e0150fe84d82c870b86d2e5d29aa8546696db130913c00",
+          "actual": "35098800f7266ad0b4e0150fe84d82c870b86d2e5d29aa8546696db130913c00"
+        },
+        {
+          "version": "v3",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/heat_v3/heat.frd",
+          "expected": "69c30d30155d60a3c591c01cec3690aa2a8924d31efff374a2ac598aa76c178a",
+          "actual": "69c30d30155d60a3c591c01cec3690aa2a8924d31efff374a2ac598aa76c178a"
+        }
+      ],
+      "checks": {
+        "original_native_hashes_unchanged": true,
+        "same_complete_numeric_rows": true,
+        "exact_integer_ids_and_column_counts": true,
+        "same_input_bytes": true,
+        "exact_frd_bytes_except_date_time": true,
+        "all_dat_scalars_inside_original_print_interval": true
+      },
+      "maximum_rounding_interval_ratio": 0.9989075223949588,
+      "passed": true
+    },
+    {
+      "case": "patch",
+      "native_file_hash_checks": [
+        {
+          "version": "v2",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/patch_v2/patch.inp",
+          "expected": "c5afe890f66d22c7f4ff3729a038de2b037f37a1fd3372ccc5d737bc3cd7dc00",
+          "actual": "c5afe890f66d22c7f4ff3729a038de2b037f37a1fd3372ccc5d737bc3cd7dc00"
+        },
+        {
+          "version": "v2",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/patch_v2/patch.dat",
+          "expected": "e9b12afb3642152b48b741dbf897fa61d269f197b7c307301c8cd35bb0f73e5e",
+          "actual": "e9b12afb3642152b48b741dbf897fa61d269f197b7c307301c8cd35bb0f73e5e"
+        },
+        {
+          "version": "v2",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/patch_v2/patch.frd",
+          "expected": "e558c683cfe870d36c4b9f854fae9b14b1172f77555c63f8a94f940905e1664a",
+          "actual": "e558c683cfe870d36c4b9f854fae9b14b1172f77555c63f8a94f940905e1664a"
+        },
+        {
+          "version": "v3",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/patch_v3/patch.inp",
+          "expected": "c5afe890f66d22c7f4ff3729a038de2b037f37a1fd3372ccc5d737bc3cd7dc00",
+          "actual": "c5afe890f66d22c7f4ff3729a038de2b037f37a1fd3372ccc5d737bc3cd7dc00"
+        },
+        {
+          "version": "v3",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/patch_v3/patch.dat",
+          "expected": "e49a93e6f3353b613084c5254dfaa975f96763e8b9fb9bfcf6d3297b1edd74a3",
+          "actual": "e49a93e6f3353b613084c5254dfaa975f96763e8b9fb9bfcf6d3297b1edd74a3"
+        },
+        {
+          "version": "v3",
+          "file": "/workspace/scratch/500ec816102b/model-repo/build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/patch_v3/patch.frd",
+          "expected": "e558c683cfe870d36c4b9f854fae9b14b1172f77555c63f8a94f940905e1664a",
+          "actual": "e558c683cfe870d36c4b9f854fae9b14b1172f77555c63f8a94f940905e1664a"
+        }
+      ],
+      "checks": {
+        "original_native_hashes_unchanged": true,
+        "same_complete_numeric_rows": true,
+        "exact_integer_ids_and_column_counts": true,
+        "same_input_bytes": true,
+        "exact_frd_bytes_except_date_time": true,
+        "all_dat_scalars_inside_original_print_interval": true
+      },
+      "maximum_rounding_interval_ratio": 0.9988550328696794,
+      "passed": true
+    }
+  ],
+  "checks": {
+    "original_binary_matches_recorded_identity": true,
+    "patched_binary_matches_recorded_identity": true,
+    "same_total_byte_length": true,
+    "every_declared_format_edit_exact": true,
+    "no_other_byte_changes": true,
+    "all_executable_sections_identical": true,
+    "original_source_archive_unchanged": true,
+    "native_precision_equivalence_evidence_reproduces": true
+  },
+  "passed": true,
+  "scope": "Exact whole-binary comparison proves only declared fixed-width read-only Fortran output strings changed; native heat/mechanical paired observations independently agree within original printing precision, with all FRD bytes identical except DATE/TIME metadata."
+}

@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "scope": "same input, unchanged native arithmetic and FRD fields; improved DAT precision",
+  "cases": [
+    {
+      "case": "heat",
+      "native_frd_whole_file_identical": false,
+      "native_frd_payload_bitwise_identical": true,
+      "excluded_frd_metadata": [
+        "1UDATE",
+        "1UTIME"
+      ],
+      "payload_sha256": "e5e97f48a07cf2213bd56dc58edd9eeefa33cec1a12efeef6b1fef9088bbad6a",
+      "all_dat_values_inside_original_rounding": true,
+      "maximum_rounding_interval_ratio": 0.9989075223949588,
+      "observed_numeric_rows": 124,
+      "runs": {
+        "v2": {
+          "elapsed_seconds": 1.5156887769990135,
+          "input_sha256": "4c8fb5d863ddccd2c6012813e9e42fa9ddb88bb3cdb943acaa2e5d89c786f321",
+          "dat_sha256": "d4bb59fb4d5a1effb1a569a7d876b515d8a182fe99e2495d33db069daf114a14",
+          "frd_sha256": "522e3339118d7081d76b4c689b3c1aed8b85841105873f6c6b2c59c995dfb57c",
+          "folder": "build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/heat_v2"
+        },
+        "v3": {
+          "elapsed_seconds": 1.7755797689987958,
+          "input_sha256": "4c8fb5d863ddccd2c6012813e9e42fa9ddb88bb3cdb943acaa2e5d89c786f321",
+          "dat_sha256": "35098800f7266ad0b4e0150fe84d82c870b86d2e5d29aa8546696db130913c00",
+          "frd_sha256": "69c30d30155d60a3c591c01cec3690aa2a8924d31efff374a2ac598aa76c178a",
+          "folder": "build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/heat_v3"
+        }
+      }
+    },
+    {
+      "case": "patch",
+      "native_frd_whole_file_identical": true,
+      "native_frd_payload_bitwise_identical": true,
+      "excluded_frd_metadata": [
+        "1UDATE",
+        "1UTIME"
+      ],
+      "payload_sha256": "a61e737bed3cc9710f9c8b5751614d62ca03c2eb68ab12c1c204a2fdf4bb2736",
+      "all_dat_values_inside_original_rounding": true,
+      "maximum_rounding_interval_ratio": 0.9988550328696794,
+      "observed_numeric_rows": 192,
+      "runs": {
+        "v2": {
+          "elapsed_seconds": 0.015004102999228053,
+          "input_sha256": "c5afe890f66d22c7f4ff3729a038de2b037f37a1fd3372ccc5d737bc3cd7dc00",
+          "dat_sha256": "e9b12afb3642152b48b741dbf897fa61d269f197b7c307301c8cd35bb0f73e5e",
+          "frd_sha256": "e558c683cfe870d36c4b9f854fae9b14b1172f77555c63f8a94f940905e1664a",
+          "folder": "build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/patch_v2"
+        },
+        "v3": {
+          "elapsed_seconds": 0.019138327999826288,
+          "input_sha256": "c5afe890f66d22c7f4ff3729a038de2b037f37a1fd3372ccc5d737bc3cd7dc00",
+          "dat_sha256": "e49a93e6f3353b613084c5254dfaa975f96763e8b9fb9bfcf6d3297b1edd74a3",
+          "frd_sha256": "e558c683cfe870d36c4b9f854fae9b14b1172f77555c63f8a94f940905e1664a",
+          "folder": "build/complex-nonlinear-20261024/audit/precision_v3/native_equivalence_v2/patch_v3"
+        }
+      }
+    }
+  ]
+}
