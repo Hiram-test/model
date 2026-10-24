@@ -1,0 +1,640 @@
+{
+  "family": "bearing",
+  "training_ids": [
+    "bearing_g00_l0",
+    "bearing_g00_l1",
+    "bearing_g01_l0",
+    "bearing_g01_l1",
+    "bearing_g02_l0",
+    "bearing_g02_l1",
+    "bearing_g03_l0",
+    "bearing_g03_l1",
+    "bearing_g04_l0",
+    "bearing_g04_l1",
+    "bearing_g05_l0",
+    "bearing_g05_l1",
+    "bearing_g06_l0",
+    "bearing_g06_l1",
+    "bearing_g07_l0",
+    "bearing_g07_l1",
+    "bearing_g08_l0",
+    "bearing_g08_l1",
+    "bearing_g09_l0",
+    "bearing_g09_l1",
+    "bearing_g10_l0",
+    "bearing_g10_l1",
+    "bearing_g11_l0",
+    "bearing_g11_l1",
+    "bearing_g12_l0",
+    "bearing_g12_l1",
+    "bearing_g13_l0",
+    "bearing_g13_l1",
+    "bearing_g14_l0",
+    "bearing_g14_l1",
+    "bearing_g15_l0",
+    "bearing_g15_l1",
+    "bearing_active_r1_c127",
+    "bearing_active_r1_c192",
+    "bearing_active_r2_c096",
+    "bearing_active_r2_c151"
+  ],
+  "offline_and_evaluation_seconds": 25.23848247528076,
+  "method": "training-only operator-induced basis enrichment plus online reduced least-squares full residual minimization; not a standalone neural prediction",
+  "online_full_factorization": false,
+  "levels": [
+    {
+      "level": 0,
+      "rank": 36,
+      "cases": [
+        {
+          "id": "bearing_g16_l0",
+          "split": "validation",
+          "residual": 0.3389611881009438,
+          "relative_error": 0.1721320700862126,
+          "online_seconds": 0.008388042449951172,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g16_l1",
+          "split": "validation",
+          "residual": 0.20296015243516374,
+          "relative_error": 0.08012412952189304,
+          "online_seconds": 0.008328437805175781,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g17_l0",
+          "split": "validation",
+          "residual": 0.558922974828477,
+          "relative_error": 0.2911420837427562,
+          "online_seconds": 0.008815288543701172,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g17_l1",
+          "split": "validation",
+          "residual": 0.6731490637364956,
+          "relative_error": 0.5064537712510198,
+          "online_seconds": 0.008466005325317383,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g18_l0",
+          "split": "validation",
+          "residual": 0.21998469020184377,
+          "relative_error": 0.05582300093848026,
+          "online_seconds": 0.008475780487060547,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g18_l1",
+          "split": "validation",
+          "residual": 0.2911892623920978,
+          "relative_error": 0.1705529990302534,
+          "online_seconds": 0.008393526077270508,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g19_l0",
+          "split": "validation",
+          "residual": 0.28003416638947737,
+          "relative_error": 0.10045627833627326,
+          "online_seconds": 0.008513689041137695,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g19_l1",
+          "split": "validation",
+          "residual": 0.2687117538083461,
+          "relative_error": 0.059534971763174224,
+          "online_seconds": 0.008852243423461914,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g20_l0",
+          "split": "test",
+          "residual": 0.15937814452161722,
+          "relative_error": 0.0736496796197879,
+          "online_seconds": 0.00853729248046875,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g20_l1",
+          "split": "test",
+          "residual": 0.07369985727620763,
+          "relative_error": 0.032523996254638136,
+          "online_seconds": 0.008315324783325195,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g21_l0",
+          "split": "test",
+          "residual": 0.08520244239604881,
+          "relative_error": 0.015436980660569678,
+          "online_seconds": 0.008452177047729492,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g21_l1",
+          "split": "test",
+          "residual": 0.09963745488660208,
+          "relative_error": 0.05113069152692165,
+          "online_seconds": 0.008763313293457031,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g22_l0",
+          "split": "test",
+          "residual": 0.5012629949310103,
+          "relative_error": 0.23665450533103244,
+          "online_seconds": 0.009685993194580078,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g22_l1",
+          "split": "test",
+          "residual": 0.6576548589311034,
+          "relative_error": 0.5189333802287074,
+          "online_seconds": 0.008871793746948242,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g23_l0",
+          "split": "test",
+          "residual": 0.32506093747098463,
+          "relative_error": 0.1666252153526796,
+          "online_seconds": 0.008433341979980469,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g23_l1",
+          "split": "test",
+          "residual": 0.3112415394633181,
+          "relative_error": 0.12802223128332244,
+          "online_seconds": 0.008941173553466797,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g24_l0",
+          "split": "ood",
+          "residual": 0.6199297879888184,
+          "relative_error": 0.4299932198681405,
+          "online_seconds": 0.008513689041137695,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g24_l1",
+          "split": "ood",
+          "residual": 0.554869310091908,
+          "relative_error": 0.30165098071881696,
+          "online_seconds": 0.008831024169921875,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g25_l0",
+          "split": "ood",
+          "residual": 0.7952424640787927,
+          "relative_error": 0.6042996996825503,
+          "online_seconds": 0.008484363555908203,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g25_l1",
+          "split": "ood",
+          "residual": 0.8331128414669583,
+          "relative_error": 0.6700028122960486,
+          "online_seconds": 0.009464263916015625,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g26_l0",
+          "split": "ood",
+          "residual": 0.5410481990543687,
+          "relative_error": 0.28239299318928424,
+          "online_seconds": 0.008437156677246094,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g26_l1",
+          "split": "ood",
+          "residual": 0.6454780366835532,
+          "relative_error": 0.418429493861399,
+          "online_seconds": 0.008655786514282227,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g27_l0",
+          "split": "ood",
+          "residual": 0.8627174338368575,
+          "relative_error": 0.7212609629947088,
+          "online_seconds": 0.00866079330444336,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g27_l1",
+          "split": "ood",
+          "residual": 0.7975245701370582,
+          "relative_error": 0.608868460927594,
+          "online_seconds": 0.008517265319824219,
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "level": 1,
+      "rank": 251,
+      "cases": [
+        {
+          "id": "bearing_g16_l0",
+          "split": "validation",
+          "residual": 0.004455298103230993,
+          "relative_error": 0.001716040339465153,
+          "online_seconds": 0.10059809684753418,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g16_l1",
+          "split": "validation",
+          "residual": 0.0018044867053094724,
+          "relative_error": 0.0008568964635896302,
+          "online_seconds": 0.10252833366394043,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g17_l0",
+          "split": "validation",
+          "residual": 0.032969154333799856,
+          "relative_error": 0.00859365309640288,
+          "online_seconds": 0.10445070266723633,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g17_l1",
+          "split": "validation",
+          "residual": 0.03625511888315418,
+          "relative_error": 0.017205499997863763,
+          "online_seconds": 0.10730481147766113,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g18_l0",
+          "split": "validation",
+          "residual": 0.002961469578566991,
+          "relative_error": 0.0010100243279651865,
+          "online_seconds": 0.12973356246948242,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g18_l1",
+          "split": "validation",
+          "residual": 0.003434678388150867,
+          "relative_error": 0.0011958068792302051,
+          "online_seconds": 0.10909843444824219,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g19_l0",
+          "split": "validation",
+          "residual": 0.00837694374796267,
+          "relative_error": 0.001985915329944174,
+          "online_seconds": 0.10369658470153809,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g19_l1",
+          "split": "validation",
+          "residual": 0.008290147822266537,
+          "relative_error": 0.00187306522946423,
+          "online_seconds": 0.10311412811279297,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g20_l0",
+          "split": "test",
+          "residual": 0.004634778450147694,
+          "relative_error": 0.0020381149097708773,
+          "online_seconds": 0.10151886940002441,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g20_l1",
+          "split": "test",
+          "residual": 0.0016115342497966564,
+          "relative_error": 0.0006382089509248319,
+          "online_seconds": 0.10874414443969727,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g21_l0",
+          "split": "test",
+          "residual": 0.0009531938706942749,
+          "relative_error": 0.0004851426134793287,
+          "online_seconds": 0.10374331474304199,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g21_l1",
+          "split": "test",
+          "residual": 0.002343436463491847,
+          "relative_error": 0.0005598782559771705,
+          "online_seconds": 0.10448002815246582,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g22_l0",
+          "split": "test",
+          "residual": 0.03630332230095509,
+          "relative_error": 0.015661199308490328,
+          "online_seconds": 0.10233163833618164,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g22_l1",
+          "split": "test",
+          "residual": 0.0688253054088005,
+          "relative_error": 0.039104193855278926,
+          "online_seconds": 0.10597872734069824,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g23_l0",
+          "split": "test",
+          "residual": 0.005942463207698113,
+          "relative_error": 0.0027806378441332137,
+          "online_seconds": 0.10580277442932129,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g23_l1",
+          "split": "test",
+          "residual": 0.005878485382914493,
+          "relative_error": 0.002077975130280343,
+          "online_seconds": 0.10808038711547852,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g24_l0",
+          "split": "ood",
+          "residual": 0.027747332437714125,
+          "relative_error": 0.01196667438962162,
+          "online_seconds": 0.10621833801269531,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g24_l1",
+          "split": "ood",
+          "residual": 0.02449512627817834,
+          "relative_error": 0.009166390659480708,
+          "online_seconds": 0.1303086280822754,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g25_l0",
+          "split": "ood",
+          "residual": 0.028364719957619494,
+          "relative_error": 0.012534480240316137,
+          "online_seconds": 0.11294412612915039,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g25_l1",
+          "split": "ood",
+          "residual": 0.0459105761770968,
+          "relative_error": 0.015544620040887058,
+          "online_seconds": 0.1150209903717041,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g26_l0",
+          "split": "ood",
+          "residual": 0.010030990619197079,
+          "relative_error": 0.0038348516273364994,
+          "online_seconds": 0.11367487907409668,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g26_l1",
+          "split": "ood",
+          "residual": 0.016080275853825942,
+          "relative_error": 0.003993533860116244,
+          "online_seconds": 0.11972284317016602,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g27_l0",
+          "split": "ood",
+          "residual": 0.08454867327319465,
+          "relative_error": 0.04821322917219863,
+          "online_seconds": 0.1153411865234375,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g27_l1",
+          "split": "ood",
+          "residual": 0.060513138663703434,
+          "relative_error": 0.025942594737602336,
+          "online_seconds": 0.11449885368347168,
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "rank": 384,
+      "cases": [
+        {
+          "id": "bearing_g16_l0",
+          "split": "validation",
+          "residual": 0.002768826108590336,
+          "relative_error": 0.0008955359571813841,
+          "online_seconds": 0.17579007148742676,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g16_l1",
+          "split": "validation",
+          "residual": 0.0014878072223385853,
+          "relative_error": 0.0006917155675340035,
+          "online_seconds": 0.17418789863586426,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g17_l0",
+          "split": "validation",
+          "residual": 0.02032867776240907,
+          "relative_error": 0.0068686707871368005,
+          "online_seconds": 0.1696171760559082,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g17_l1",
+          "split": "validation",
+          "residual": 0.023719438241645827,
+          "relative_error": 0.008782960256140638,
+          "online_seconds": 0.18934369087219238,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g18_l0",
+          "split": "validation",
+          "residual": 0.002003947415495889,
+          "relative_error": 0.0006619429121154885,
+          "online_seconds": 0.18475079536437988,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g18_l1",
+          "split": "validation",
+          "residual": 0.0025031268959539586,
+          "relative_error": 0.0008292151985664556,
+          "online_seconds": 0.1837000846862793,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g19_l0",
+          "split": "validation",
+          "residual": 0.005125368641659369,
+          "relative_error": 0.0015804401906106239,
+          "online_seconds": 0.1848278045654297,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g19_l1",
+          "split": "validation",
+          "residual": 0.004991952674820669,
+          "relative_error": 0.0016824953944518035,
+          "online_seconds": 0.18033647537231445,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g20_l0",
+          "split": "test",
+          "residual": 0.0028123498600221824,
+          "relative_error": 0.0011613637397151794,
+          "online_seconds": 0.1736464500427246,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g20_l1",
+          "split": "test",
+          "residual": 0.0010279639864459234,
+          "relative_error": 0.00033019844702820024,
+          "online_seconds": 0.18938326835632324,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g21_l0",
+          "split": "test",
+          "residual": 0.0006232187410104749,
+          "relative_error": 0.0003484722270310295,
+          "online_seconds": 0.17230486869812012,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g21_l1",
+          "split": "test",
+          "residual": 0.0013438208899042218,
+          "relative_error": 0.0003754670120109505,
+          "online_seconds": 0.18529176712036133,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g22_l0",
+          "split": "test",
+          "residual": 0.021198367424115693,
+          "relative_error": 0.007978509053189337,
+          "online_seconds": 0.1751105785369873,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g22_l1",
+          "split": "test",
+          "residual": 0.04451366849614222,
+          "relative_error": 0.01845267149638601,
+          "online_seconds": 0.17424726486206055,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g23_l0",
+          "split": "test",
+          "residual": 0.004984581904797463,
+          "relative_error": 0.002552787102397883,
+          "online_seconds": 0.1717517375946045,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g23_l1",
+          "split": "test",
+          "residual": 0.004882556631071417,
+          "relative_error": 0.001497449551358454,
+          "online_seconds": 0.17170262336730957,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g24_l0",
+          "split": "ood",
+          "residual": 0.020358561755672615,
+          "relative_error": 0.008310950389369888,
+          "online_seconds": 0.17029142379760742,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g24_l1",
+          "split": "ood",
+          "residual": 0.018875842664071992,
+          "relative_error": 0.00659677920228834,
+          "online_seconds": 0.1732332706451416,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g25_l0",
+          "split": "ood",
+          "residual": 0.018897958215383186,
+          "relative_error": 0.006388602498469745,
+          "online_seconds": 0.17158913612365723,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g25_l1",
+          "split": "ood",
+          "residual": 0.032234354676488663,
+          "relative_error": 0.011198575975943236,
+          "online_seconds": 0.17415571212768555,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g26_l0",
+          "split": "ood",
+          "residual": 0.007740592955306226,
+          "relative_error": 0.0028722269652437034,
+          "online_seconds": 0.16956043243408203,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g26_l1",
+          "split": "ood",
+          "residual": 0.011829476886715325,
+          "relative_error": 0.0034118225460479505,
+          "online_seconds": 0.17605280876159668,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g27_l0",
+          "split": "ood",
+          "residual": 0.062049933998387465,
+          "relative_error": 0.02841445137565397,
+          "online_seconds": 0.17264604568481445,
+          "accepted": false
+        },
+        {
+          "id": "bearing_g27_l1",
+          "split": "ood",
+          "residual": 0.04591323465243885,
+          "relative_error": 0.018210996132376922,
+          "online_seconds": 0.17877531051635742,
+          "accepted": false
+        }
+      ]
+    }
+  ]
+}

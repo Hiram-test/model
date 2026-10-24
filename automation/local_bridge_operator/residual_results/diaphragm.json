@@ -1,0 +1,640 @@
+{
+  "family": "diaphragm",
+  "training_ids": [
+    "diaphragm_g00_l0",
+    "diaphragm_g00_l1",
+    "diaphragm_g01_l0",
+    "diaphragm_g01_l1",
+    "diaphragm_g02_l0",
+    "diaphragm_g02_l1",
+    "diaphragm_g03_l0",
+    "diaphragm_g03_l1",
+    "diaphragm_g04_l0",
+    "diaphragm_g04_l1",
+    "diaphragm_g05_l0",
+    "diaphragm_g05_l1",
+    "diaphragm_g06_l0",
+    "diaphragm_g06_l1",
+    "diaphragm_g07_l0",
+    "diaphragm_g07_l1",
+    "diaphragm_g08_l0",
+    "diaphragm_g08_l1",
+    "diaphragm_g09_l0",
+    "diaphragm_g09_l1",
+    "diaphragm_g10_l0",
+    "diaphragm_g10_l1",
+    "diaphragm_g11_l0",
+    "diaphragm_g11_l1",
+    "diaphragm_g12_l0",
+    "diaphragm_g12_l1",
+    "diaphragm_g13_l0",
+    "diaphragm_g13_l1",
+    "diaphragm_g14_l0",
+    "diaphragm_g14_l1",
+    "diaphragm_g15_l0",
+    "diaphragm_g15_l1",
+    "diaphragm_active_r1_c181",
+    "diaphragm_active_r1_c217",
+    "diaphragm_active_r2_c227",
+    "diaphragm_active_r2_c091"
+  ],
+  "offline_and_evaluation_seconds": 6.383077383041382,
+  "method": "training-only operator-induced basis enrichment plus online reduced least-squares full residual minimization; not a standalone neural prediction",
+  "online_full_factorization": false,
+  "levels": [
+    {
+      "level": 0,
+      "rank": 36,
+      "cases": [
+        {
+          "id": "diaphragm_g16_l0",
+          "split": "validation",
+          "residual": 0.0020008472771954437,
+          "relative_error": 2.4815850695933553e-05,
+          "online_seconds": 0.003223896026611328,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g16_l1",
+          "split": "validation",
+          "residual": 0.0026489409750250323,
+          "relative_error": 6.0999027081892064e-05,
+          "online_seconds": 0.003584623336791992,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g17_l0",
+          "split": "validation",
+          "residual": 0.003391447749594621,
+          "relative_error": 0.00033924180141689997,
+          "online_seconds": 0.003439664840698242,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g17_l1",
+          "split": "validation",
+          "residual": 0.008697547049747964,
+          "relative_error": 0.0005725099400212887,
+          "online_seconds": 0.003429889678955078,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g18_l0",
+          "split": "validation",
+          "residual": 0.0026081411855347764,
+          "relative_error": 0.00018621018467690804,
+          "online_seconds": 0.0031664371490478516,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g18_l1",
+          "split": "validation",
+          "residual": 0.007223042332958117,
+          "relative_error": 0.0001622240919772017,
+          "online_seconds": 0.0034286975860595703,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g19_l0",
+          "split": "validation",
+          "residual": 0.0045999143397871,
+          "relative_error": 4.339075135432726e-05,
+          "online_seconds": 0.0029790401458740234,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g19_l1",
+          "split": "validation",
+          "residual": 0.004285500553003377,
+          "relative_error": 0.00015528438367966857,
+          "online_seconds": 0.002961397171020508,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g20_l0",
+          "split": "test",
+          "residual": 0.0037043371592093395,
+          "relative_error": 2.2648054492403114e-05,
+          "online_seconds": 0.003169536590576172,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g20_l1",
+          "split": "test",
+          "residual": 0.0029953047233162895,
+          "relative_error": 0.00018162866020893004,
+          "online_seconds": 0.0035130977630615234,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g21_l0",
+          "split": "test",
+          "residual": 0.003333272275091063,
+          "relative_error": 0.000274162731824149,
+          "online_seconds": 0.0029115676879882812,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g21_l1",
+          "split": "test",
+          "residual": 0.004911281174676199,
+          "relative_error": 0.00031240980619477786,
+          "online_seconds": 0.003011941909790039,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g22_l0",
+          "split": "test",
+          "residual": 0.022436993057826142,
+          "relative_error": 0.0013358461918579275,
+          "online_seconds": 0.0028352737426757812,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g22_l1",
+          "split": "test",
+          "residual": 0.022179645683479816,
+          "relative_error": 0.0013546756127073136,
+          "online_seconds": 0.002804994583129883,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g23_l0",
+          "split": "test",
+          "residual": 0.0069306880039938625,
+          "relative_error": 0.00031247321801166695,
+          "online_seconds": 0.002869844436645508,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g23_l1",
+          "split": "test",
+          "residual": 0.003108112736401241,
+          "relative_error": 0.00019320956315668615,
+          "online_seconds": 0.003901243209838867,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g24_l0",
+          "split": "ood",
+          "residual": 0.15944382634581844,
+          "relative_error": 0.02099821018362584,
+          "online_seconds": 0.0033478736877441406,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g24_l1",
+          "split": "ood",
+          "residual": 0.1756188471370621,
+          "relative_error": 0.017892114089117454,
+          "online_seconds": 0.003653287887573242,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g25_l0",
+          "split": "ood",
+          "residual": 0.14161628472850238,
+          "relative_error": 0.016878561166166206,
+          "online_seconds": 0.004332542419433594,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g25_l1",
+          "split": "ood",
+          "residual": 0.16433943350658112,
+          "relative_error": 0.03194994129064762,
+          "online_seconds": 0.004237174987792969,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g26_l0",
+          "split": "ood",
+          "residual": 0.5052576078649123,
+          "relative_error": 0.2695951070332656,
+          "online_seconds": 0.0032296180725097656,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g26_l1",
+          "split": "ood",
+          "residual": 0.4901576684965827,
+          "relative_error": 0.3002772506759146,
+          "online_seconds": 0.0034558773040771484,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g27_l0",
+          "split": "ood",
+          "residual": 0.04134842228682659,
+          "relative_error": 0.0037916427266959925,
+          "online_seconds": 0.004350900650024414,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g27_l1",
+          "split": "ood",
+          "residual": 0.043677498931716296,
+          "relative_error": 0.006990840787133874,
+          "online_seconds": 0.0031118392944335938,
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "level": 1,
+      "rank": 225,
+      "cases": [
+        {
+          "id": "diaphragm_g16_l0",
+          "split": "validation",
+          "residual": 3.563395323584894e-05,
+          "relative_error": 1.2911864616859687e-06,
+          "online_seconds": 0.03242826461791992,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g16_l1",
+          "split": "validation",
+          "residual": 3.774455521572252e-05,
+          "relative_error": 2.0066409713253962e-06,
+          "online_seconds": 0.033353328704833984,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g17_l0",
+          "split": "validation",
+          "residual": 4.220300305373398e-05,
+          "relative_error": 5.695498408577422e-06,
+          "online_seconds": 0.030239105224609375,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g17_l1",
+          "split": "validation",
+          "residual": 0.00010661398082881375,
+          "relative_error": 8.338171421145554e-06,
+          "online_seconds": 0.03197622299194336,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g18_l0",
+          "split": "validation",
+          "residual": 4.0428743525083096e-05,
+          "relative_error": 3.6521008426265223e-06,
+          "online_seconds": 0.03149056434631348,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g18_l1",
+          "split": "validation",
+          "residual": 9.189749015622178e-05,
+          "relative_error": 6.6639540327366546e-06,
+          "online_seconds": 0.031755924224853516,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g19_l0",
+          "split": "validation",
+          "residual": 0.0001628183951824848,
+          "relative_error": 2.8180969370116723e-05,
+          "online_seconds": 0.030612945556640625,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g19_l1",
+          "split": "validation",
+          "residual": 0.0002005885939312933,
+          "relative_error": 6.551445666692861e-06,
+          "online_seconds": 0.030228137969970703,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g20_l0",
+          "split": "test",
+          "residual": 7.782839965163015e-05,
+          "relative_error": 8.366447432514471e-06,
+          "online_seconds": 0.030571699142456055,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g20_l1",
+          "split": "test",
+          "residual": 7.476236127771472e-05,
+          "relative_error": 4.348416934394046e-06,
+          "online_seconds": 0.03238654136657715,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g21_l0",
+          "split": "test",
+          "residual": 5.137107869188213e-05,
+          "relative_error": 4.1103691076574055e-06,
+          "online_seconds": 0.03092193603515625,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g21_l1",
+          "split": "test",
+          "residual": 6.0189777243250754e-05,
+          "relative_error": 4.910283053796165e-06,
+          "online_seconds": 0.03171133995056152,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g22_l0",
+          "split": "test",
+          "residual": 0.0010991982227115242,
+          "relative_error": 4.307346383743702e-05,
+          "online_seconds": 0.02906966209411621,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g22_l1",
+          "split": "test",
+          "residual": 0.0009560461954274128,
+          "relative_error": 4.2030111745828684e-05,
+          "online_seconds": 0.030924081802368164,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g23_l0",
+          "split": "test",
+          "residual": 0.00016072155589542264,
+          "relative_error": 1.288836164883627e-05,
+          "online_seconds": 0.03238797187805176,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g23_l1",
+          "split": "test",
+          "residual": 6.794586281626383e-05,
+          "relative_error": 3.71392945825416e-06,
+          "online_seconds": 0.03091263771057129,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g24_l0",
+          "split": "ood",
+          "residual": 0.011838561441542926,
+          "relative_error": 0.0011255391440484024,
+          "online_seconds": 0.028744220733642578,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g24_l1",
+          "split": "ood",
+          "residual": 0.011474566035292129,
+          "relative_error": 0.001043657062605141,
+          "online_seconds": 0.03166055679321289,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g25_l0",
+          "split": "ood",
+          "residual": 0.012139755488858345,
+          "relative_error": 0.0010234192991081248,
+          "online_seconds": 0.03027653694152832,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g25_l1",
+          "split": "ood",
+          "residual": 0.014132946487589703,
+          "relative_error": 0.0010782955192424819,
+          "online_seconds": 0.029988765716552734,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g26_l0",
+          "split": "ood",
+          "residual": 0.052995113040569065,
+          "relative_error": 0.0017220343041044416,
+          "online_seconds": 0.03126931190490723,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g26_l1",
+          "split": "ood",
+          "residual": 0.051680301279242474,
+          "relative_error": 0.0017885493294858674,
+          "online_seconds": 0.030163288116455078,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g27_l0",
+          "split": "ood",
+          "residual": 0.0019916542657897746,
+          "relative_error": 0.00014033544717907264,
+          "online_seconds": 0.03113532066345215,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g27_l1",
+          "split": "ood",
+          "residual": 0.0026825678325542806,
+          "relative_error": 0.00011405404118512579,
+          "online_seconds": 0.03328704833984375,
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "rank": 384,
+      "cases": [
+        {
+          "id": "diaphragm_g16_l0",
+          "split": "validation",
+          "residual": 1.873874519378419e-05,
+          "relative_error": 3.7917218645003595e-06,
+          "online_seconds": 0.06482982635498047,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g16_l1",
+          "split": "validation",
+          "residual": 2.2017485223714042e-05,
+          "relative_error": 3.6625592221470525e-06,
+          "online_seconds": 0.06289386749267578,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g17_l0",
+          "split": "validation",
+          "residual": 2.6124914252374662e-05,
+          "relative_error": 3.3215904555333003e-06,
+          "online_seconds": 0.06833839416503906,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g17_l1",
+          "split": "validation",
+          "residual": 7.128134273350478e-05,
+          "relative_error": 1.9438055242851783e-05,
+          "online_seconds": 0.06881117820739746,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g18_l0",
+          "split": "validation",
+          "residual": 1.9455099324508693e-05,
+          "relative_error": 3.1283656766573e-06,
+          "online_seconds": 0.0644679069519043,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g18_l1",
+          "split": "validation",
+          "residual": 4.693888827964371e-05,
+          "relative_error": 8.315642921044228e-06,
+          "online_seconds": 0.06430220603942871,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g19_l0",
+          "split": "validation",
+          "residual": 5.351929107800809e-05,
+          "relative_error": 1.9425601518805293e-05,
+          "online_seconds": 0.06658411026000977,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g19_l1",
+          "split": "validation",
+          "residual": 7.776266595523743e-05,
+          "relative_error": 1.0970154890438359e-05,
+          "online_seconds": 0.06879878044128418,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g20_l0",
+          "split": "test",
+          "residual": 2.6417401564777732e-05,
+          "relative_error": 8.800201980415753e-06,
+          "online_seconds": 0.07729196548461914,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g20_l1",
+          "split": "test",
+          "residual": 3.401493597905176e-05,
+          "relative_error": 7.2480941162395735e-06,
+          "online_seconds": 0.06926822662353516,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g21_l0",
+          "split": "test",
+          "residual": 3.184031938882019e-05,
+          "relative_error": 2.140995198640719e-06,
+          "online_seconds": 0.07660889625549316,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g21_l1",
+          "split": "test",
+          "residual": 3.986030978320864e-05,
+          "relative_error": 8.653718530465538e-06,
+          "online_seconds": 0.07579183578491211,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g22_l0",
+          "split": "test",
+          "residual": 0.0004938483257630959,
+          "relative_error": 0.00010560851750841024,
+          "online_seconds": 0.08419561386108398,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g22_l1",
+          "split": "test",
+          "residual": 0.0004412062119975506,
+          "relative_error": 0.00010136987786799039,
+          "online_seconds": 0.07160830497741699,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g23_l0",
+          "split": "test",
+          "residual": 6.627168613096697e-05,
+          "relative_error": 8.342379561747759e-06,
+          "online_seconds": 0.07456564903259277,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g23_l1",
+          "split": "test",
+          "residual": 2.722662830770454e-05,
+          "relative_error": 4.51639457460534e-06,
+          "online_seconds": 0.08591866493225098,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g24_l0",
+          "split": "ood",
+          "residual": 0.004212161096412186,
+          "relative_error": 0.000270123689677268,
+          "online_seconds": 0.0731196403503418,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g24_l1",
+          "split": "ood",
+          "residual": 0.003759880827782354,
+          "relative_error": 0.0002254749203375141,
+          "online_seconds": 0.07514452934265137,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g25_l0",
+          "split": "ood",
+          "residual": 0.006737164134021648,
+          "relative_error": 0.00017387075501249427,
+          "online_seconds": 0.07090926170349121,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g25_l1",
+          "split": "ood",
+          "residual": 0.007211156021347168,
+          "relative_error": 0.00028341844267633186,
+          "online_seconds": 0.07644033432006836,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g26_l0",
+          "split": "ood",
+          "residual": 0.022667178729428413,
+          "relative_error": 0.00024522582551266177,
+          "online_seconds": 0.07318258285522461,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g26_l1",
+          "split": "ood",
+          "residual": 0.02258253169633066,
+          "relative_error": 0.00026619616125199994,
+          "online_seconds": 0.07939481735229492,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g27_l0",
+          "split": "ood",
+          "residual": 0.0010041435871322182,
+          "relative_error": 9.523728715552181e-05,
+          "online_seconds": 0.07809329032897949,
+          "accepted": false
+        },
+        {
+          "id": "diaphragm_g27_l1",
+          "split": "ood",
+          "residual": 0.0014266267409363557,
+          "relative_error": 0.00010122580821607353,
+          "online_seconds": 0.07582473754882812,
+          "accepted": false
+        }
+      ]
+    }
+  ]
+}
