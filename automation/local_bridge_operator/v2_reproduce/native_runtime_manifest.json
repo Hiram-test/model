@@ -1,0 +1,775 @@
+{
+  "schema": "bridge.v2.native_runtime.bundle.v1",
+  "scope": "Byte-preserved formal-v2 wrapper, binary and observed ldd startup dependency closure; source provenance and local notices; no solver execution.",
+  "original_runtime_prefix": "/workspace/scratch/500ec816102b/solver-runtime",
+  "ldd_dependency_count": 18,
+  "dependencies": [
+    {
+      "path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libspooles.so.2.2",
+      "resolved": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libspooles.so.2.2",
+      "bytes": 1464144,
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libspooles.so.2.2",
+      "sha256": "4c5b6238fa4cbe2ad10a9226f328a4277a58ebc506f2cdad904a9b9f9a5b2283",
+      "private_prefix": true
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libarpack.so.2",
+      "resolved": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libarpack.so.2.1.0",
+      "bytes": 298168,
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libarpack.so.2.1.0",
+      "sha256": "98ac6135ac6cabe79f79dec26c675f9c41a0bd09e1b27da917140e36ece8414c",
+      "private_prefix": true
+    },
+    {
+      "path": "/lib/x86_64-linux-gnu/liblapack.so.3",
+      "resolved": "/usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.12.0",
+      "bytes": 7268368,
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.12.0",
+      "sha256": "851bb1fc5833ede9ed704b4417a251a899976d5e0915de40452615187a65278f",
+      "private_prefix": false
+    },
+    {
+      "path": "/lib/x86_64-linux-gnu/libblas.so.3",
+      "resolved": "/usr/lib/x86_64-linux-gnu/blas/libblas.so.3.12.0",
+      "bytes": 677880,
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/blas/libblas.so.3.12.0",
+      "sha256": "e748efcae5753fe4a652877fccdb5895ac6f7605668a2db878b19c914e78e3a8",
+      "private_prefix": false
+    },
+    {
+      "path": "/lib/x86_64-linux-gnu/libgfortran.so.5",
+      "resolved": "/usr/lib/x86_64-linux-gnu/libgfortran.so.5.0.0",
+      "bytes": 3263912,
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libgfortran.so.5.0.0",
+      "sha256": "342618ccfebe840446e4ef2b7893f4161b2084845e570f42d68a70bfde58a58d",
+      "private_prefix": false
+    },
+    {
+      "path": "/lib/x86_64-linux-gnu/libc.so.6",
+      "resolved": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "bytes": 2125328,
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "sha256": "511f825ee075610ac9c0f7f91e2c13de2000d0f7b859f6461137e809a0a009d0",
+      "private_prefix": false
+    },
+    {
+      "path": "/lib/x86_64-linux-gnu/libm.so.6",
+      "resolved": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+      "bytes": 952616,
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libm.so.6",
+      "sha256": "f06f2ce1f1833df5f41cf13b6447ff07bea993ad9b27297d3428c2f70ab3f0e7",
+      "private_prefix": false
+    },
+    {
+      "path": "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "resolved": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "bytes": 183024,
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "sha256": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+      "private_prefix": false
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libmpi.so.40",
+      "resolved": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libmpi.so.40.30.6",
+      "bytes": 1182056,
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libmpi.so.40.30.6",
+      "sha256": "9055018b12757e830591aa0283e485e471f1f2a06d3bc0dd5fb35ab00386c172",
+      "private_prefix": true
+    },
+    {
+      "path": "/lib64/ld-linux-x86-64.so.2",
+      "resolved": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "bytes": 236616,
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "sha256": "6222a16be7f2d458d6870efe6e715fc0c8d45766fb79cf7dcc3125538d703e28",
+      "private_prefix": false
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-rte.so.40",
+      "resolved": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.3",
+      "bytes": 757352,
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.3",
+      "sha256": "26467e1da428d31dab924ddbc50bc6ade75da47dbb82c77498a5f127a5466ba7",
+      "private_prefix": true
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-pal.so.40",
+      "resolved": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.3",
+      "bytes": 704192,
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.3",
+      "sha256": "59c4d9b111cd3ec326a4df475a338daae050496087c67e86956187056fdc3051",
+      "private_prefix": true
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libhwloc.so.15",
+      "resolved": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libhwloc.so.15.7.0",
+      "bytes": 392576,
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libhwloc.so.15.7.0",
+      "sha256": "86dff44a023254d997cea910b9a51f35afefe6780f4b5530f974a2009ba47487",
+      "private_prefix": true
+    },
+    {
+      "path": "/lib/x86_64-linux-gnu/libz.so.1",
+      "resolved": "/usr/lib/x86_64-linux-gnu/libz.so.1.3",
+      "bytes": 113000,
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libz.so.1.3",
+      "sha256": "9b64150b28505a33d6bc3ecf709c279f6de97a1c184dbda65d06ee4537f6d286",
+      "private_prefix": false
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7",
+      "resolved": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7.0.1",
+      "bytes": 215216,
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7.0.1",
+      "sha256": "07bc5c896da3469064935f60595b5a3e44f5cc5bad9b8d7d71adc4ea1cd628aa",
+      "private_prefix": true
+    },
+    {
+      "path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7",
+      "resolved": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7.0.1",
+      "bytes": 14256,
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7.0.1",
+      "sha256": "9d1cbb4b2598f7e1e02f161547a61dcb527beb6fb9afec2109e40cb5fc82a263",
+      "private_prefix": true
+    },
+    {
+      "path": "/lib/x86_64-linux-gnu/libudev.so.1",
+      "resolved": "/usr/lib/x86_64-linux-gnu/libudev.so.1.7.8",
+      "bytes": 207288,
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libudev.so.1.7.8",
+      "sha256": "4298228175fa62a36af88b1afd4406cdd8b1bf166621f957d0dbbde45a698fe5",
+      "private_prefix": false
+    },
+    {
+      "path": "/lib/x86_64-linux-gnu/libcap.so.2",
+      "resolved": "/usr/lib/x86_64-linux-gnu/libcap.so.2.66",
+      "bytes": 51536,
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libcap.so.2.66",
+      "sha256": "0e62ac3921a103914968b82c8c8514f34a056f4c9ac3d1ab927ca35de383ae02",
+      "private_prefix": false
+    }
+  ],
+  "private_prefix_symlinks": [
+    {
+      "original_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libarpack.so.2",
+      "relative_path": "root/usr/lib/x86_64-linux-gnu/libarpack.so.2",
+      "link_target": "libarpack.so.2.1.0",
+      "resolved_target": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libarpack.so.2.1.0",
+      "target_sha256": "98ac6135ac6cabe79f79dec26c675f9c41a0bd09e1b27da917140e36ece8414c"
+    },
+    {
+      "original_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libmpi.so.40",
+      "relative_path": "root/usr/lib/x86_64-linux-gnu/libmpi.so.40",
+      "link_target": "libmpi.so.40.30.6",
+      "resolved_target": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libmpi.so.40.30.6",
+      "target_sha256": "9055018b12757e830591aa0283e485e471f1f2a06d3bc0dd5fb35ab00386c172"
+    },
+    {
+      "original_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-rte.so.40",
+      "relative_path": "root/usr/lib/x86_64-linux-gnu/libopen-rte.so.40",
+      "link_target": "libopen-rte.so.40.30.3",
+      "resolved_target": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.3",
+      "target_sha256": "26467e1da428d31dab924ddbc50bc6ade75da47dbb82c77498a5f127a5466ba7"
+    },
+    {
+      "original_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-pal.so.40",
+      "relative_path": "root/usr/lib/x86_64-linux-gnu/libopen-pal.so.40",
+      "link_target": "libopen-pal.so.40.30.3",
+      "resolved_target": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.3",
+      "target_sha256": "59c4d9b111cd3ec326a4df475a338daae050496087c67e86956187056fdc3051"
+    },
+    {
+      "original_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libhwloc.so.15",
+      "relative_path": "root/usr/lib/x86_64-linux-gnu/libhwloc.so.15",
+      "link_target": "libhwloc.so.15.7.0",
+      "resolved_target": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libhwloc.so.15.7.0",
+      "target_sha256": "86dff44a023254d997cea910b9a51f35afefe6780f4b5530f974a2009ba47487"
+    },
+    {
+      "original_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7",
+      "relative_path": "root/usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7",
+      "link_target": "libevent_core-2.1.so.7.0.1",
+      "resolved_target": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7.0.1",
+      "target_sha256": "07bc5c896da3469064935f60595b5a3e44f5cc5bad9b8d7d71adc4ea1cd628aa"
+    },
+    {
+      "original_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7",
+      "relative_path": "root/usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7",
+      "link_target": "libevent_pthreads-2.1.so.7.0.1",
+      "resolved_target": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7.0.1",
+      "target_sha256": "9d1cbb4b2598f7e1e02f161547a61dcb527beb6fb9afec2109e40cb5fc82a263"
+    }
+  ],
+  "files": [
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/ccx-precision-v2",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/ccx-precision-v2",
+      "archive_path": "runtime_prefix/ccx-precision-v2",
+      "kind": "unchanged_solver_wrapper",
+      "bytes": 340,
+      "sha256": "a8a30eb4b03293a783bc27bd8d14d9a9f6fcbc9cc59bdb9574e0456f8cd6af60",
+      "mode": 493
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/bin/ccx-precision-v2",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/bin/ccx-precision-v2",
+      "archive_path": "runtime_prefix/root/usr/bin/ccx-precision-v2",
+      "kind": "unchanged_solver_binary",
+      "bytes": 5125424,
+      "sha256": "bc6714fcb1cfc10827115c166f04c47b7f9ebda6521786c8a5d42c3f751a786d",
+      "mode": 493
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libspooles.so.2.2",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libspooles.so.2.2",
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libspooles.so.2.2",
+      "kind": "private_runtime_dependency",
+      "bytes": 1464144,
+      "sha256": "4c5b6238fa4cbe2ad10a9226f328a4277a58ebc506f2cdad904a9b9f9a5b2283",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libarpack.so.2.1.0",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libarpack.so.2.1.0",
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libarpack.so.2.1.0",
+      "kind": "private_runtime_dependency",
+      "bytes": 298168,
+      "sha256": "98ac6135ac6cabe79f79dec26c675f9c41a0bd09e1b27da917140e36ece8414c",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.12.0",
+      "resolved_source_path": "/usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.12.0",
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.12.0",
+      "kind": "system_ABI_dependency_snapshot",
+      "bytes": 7268368,
+      "sha256": "851bb1fc5833ede9ed704b4417a251a899976d5e0915de40452615187a65278f",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/lib/x86_64-linux-gnu/blas/libblas.so.3.12.0",
+      "resolved_source_path": "/usr/lib/x86_64-linux-gnu/blas/libblas.so.3.12.0",
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/blas/libblas.so.3.12.0",
+      "kind": "system_ABI_dependency_snapshot",
+      "bytes": 677880,
+      "sha256": "e748efcae5753fe4a652877fccdb5895ac6f7605668a2db878b19c914e78e3a8",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/lib/x86_64-linux-gnu/libgfortran.so.5.0.0",
+      "resolved_source_path": "/usr/lib/x86_64-linux-gnu/libgfortran.so.5.0.0",
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libgfortran.so.5.0.0",
+      "kind": "system_ABI_dependency_snapshot",
+      "bytes": 3263912,
+      "sha256": "342618ccfebe840446e4ef2b7893f4161b2084845e570f42d68a70bfde58a58d",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "resolved_source_path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "kind": "system_ABI_dependency_snapshot",
+      "bytes": 2125328,
+      "sha256": "511f825ee075610ac9c0f7f91e2c13de2000d0f7b859f6461137e809a0a009d0",
+      "mode": 493
+    },
+    {
+      "source_path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+      "resolved_source_path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libm.so.6",
+      "kind": "system_ABI_dependency_snapshot",
+      "bytes": 952616,
+      "sha256": "f06f2ce1f1833df5f41cf13b6447ff07bea993ad9b27297d3428c2f70ab3f0e7",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "resolved_source_path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "kind": "system_ABI_dependency_snapshot",
+      "bytes": 183024,
+      "sha256": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libmpi.so.40.30.6",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libmpi.so.40.30.6",
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libmpi.so.40.30.6",
+      "kind": "private_runtime_dependency",
+      "bytes": 1182056,
+      "sha256": "9055018b12757e830591aa0283e485e471f1f2a06d3bc0dd5fb35ab00386c172",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "resolved_source_path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "kind": "system_ABI_dependency_snapshot",
+      "bytes": 236616,
+      "sha256": "6222a16be7f2d458d6870efe6e715fc0c8d45766fb79cf7dcc3125538d703e28",
+      "mode": 493
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.3",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.3",
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.3",
+      "kind": "private_runtime_dependency",
+      "bytes": 757352,
+      "sha256": "26467e1da428d31dab924ddbc50bc6ade75da47dbb82c77498a5f127a5466ba7",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.3",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.3",
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.3",
+      "kind": "private_runtime_dependency",
+      "bytes": 704192,
+      "sha256": "59c4d9b111cd3ec326a4df475a338daae050496087c67e86956187056fdc3051",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libhwloc.so.15.7.0",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libhwloc.so.15.7.0",
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libhwloc.so.15.7.0",
+      "kind": "private_runtime_dependency",
+      "bytes": 392576,
+      "sha256": "86dff44a023254d997cea910b9a51f35afefe6780f4b5530f974a2009ba47487",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/lib/x86_64-linux-gnu/libz.so.1.3",
+      "resolved_source_path": "/usr/lib/x86_64-linux-gnu/libz.so.1.3",
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libz.so.1.3",
+      "kind": "system_ABI_dependency_snapshot",
+      "bytes": 113000,
+      "sha256": "9b64150b28505a33d6bc3ecf709c279f6de97a1c184dbda65d06ee4537f6d286",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7.0.1",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7.0.1",
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7.0.1",
+      "kind": "private_runtime_dependency",
+      "bytes": 215216,
+      "sha256": "07bc5c896da3469064935f60595b5a3e44f5cc5bad9b8d7d71adc4ea1cd628aa",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7.0.1",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7.0.1",
+      "archive_path": "runtime_prefix/root/usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7.0.1",
+      "kind": "private_runtime_dependency",
+      "bytes": 14256,
+      "sha256": "9d1cbb4b2598f7e1e02f161547a61dcb527beb6fb9afec2109e40cb5fc82a263",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/lib/x86_64-linux-gnu/libudev.so.1.7.8",
+      "resolved_source_path": "/usr/lib/x86_64-linux-gnu/libudev.so.1.7.8",
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libudev.so.1.7.8",
+      "kind": "system_ABI_dependency_snapshot",
+      "bytes": 207288,
+      "sha256": "4298228175fa62a36af88b1afd4406cdd8b1bf166621f957d0dbbde45a698fe5",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/lib/x86_64-linux-gnu/libcap.so.2.66",
+      "resolved_source_path": "/usr/lib/x86_64-linux-gnu/libcap.so.2.66",
+      "archive_path": "system_dependency_snapshots/usr/lib/x86_64-linux-gnu/libcap.so.2.66",
+      "kind": "system_ABI_dependency_snapshot",
+      "bytes": 51536,
+      "sha256": "0e62ac3921a103914968b82c8c8514f34a056f4c9ac3d1ab927ca35de383ae02",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/model-repo/build/completion-audit-20261024/source/ccx_2.21.src.tar.bz2",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/model-repo/build/completion-audit-20261024/source/ccx_2.21.src.tar.bz2",
+      "archive_path": "source_provenance/ccx_2.21.src.tar.bz2",
+      "kind": "local_upstream_source_archive",
+      "bytes": 1549216,
+      "sha256": "52a20ef7216c6e2de75eae460539915640e3140ec4a2f631a9301e01eda605ad",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/model-repo/build/completion-audit-20261024/source/source_receipt.json",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/model-repo/build/completion-audit-20261024/source/source_receipt.json",
+      "archive_path": "source_provenance/source_receipt.json",
+      "kind": "local_upstream_download_receipt",
+      "bytes": 603,
+      "sha256": "7be76431f0d78efceb29ecb0f1578fa7183c44a4b76480052558e57f9c8f2530",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/apt-cache/calculix-ccx_2.21-1_amd64.deb",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/apt-cache/calculix-ccx_2.21-1_amd64.deb",
+      "archive_path": "source_provenance/calculix-ccx_2.21-1_amd64.deb",
+      "kind": "original_local_binary_package",
+      "bytes": 1962180,
+      "sha256": "796f7e0c518817651c4b82d3fb14e38ceebc2b8d2cd503db9e5c2fec21ae2fd3",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/precision-repair-v2.json",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/precision-repair-v2.json",
+      "archive_path": "source_provenance/precision-repair-v2.json",
+      "kind": "formal_v2_precision_patch_receipt",
+      "bytes": 474,
+      "sha256": "264cdefe8559848ae54f249f7a949b7c0d7998c6d0d3a367997626dbeeb4908c",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/calculix-ccx/copyright",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/calculix-ccx/copyright",
+      "archive_path": "notices/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/calculix-ccx/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 3999,
+      "sha256": "072119319d0365bb4d8cc966a4f7fb666c38ff64f56a071afada56cde36005a8",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libspooles2.2t64/copyright",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libspooles2.2t64/copyright",
+      "archive_path": "notices/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libspooles2.2t64/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 378,
+      "sha256": "d5afa91ef9a3017dd98c873a34c74edee3c912958ad7e4b1fa5454490a114b9b",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libarpack2t64/copyright",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libarpack2t64/copyright",
+      "archive_path": "notices/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libarpack2t64/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 2125,
+      "sha256": "ad019136ed1cb4a3f626b103473303a86570401629c9eb5feb10bd3b43a74e1c",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libopenmpi3t64/copyright",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libopenmpi3t64/copyright",
+      "archive_path": "notices/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libopenmpi3t64/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 8354,
+      "sha256": "e20e62bd0d1f2fc3a5706f6909251b7b5983503f7bc41cd85e10da462bf38c45",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libhwloc15/copyright",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libhwloc15/copyright",
+      "archive_path": "notices/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libhwloc15/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 2338,
+      "sha256": "ef9d59c01a1296041369997b7c684867fe58473d02ae575aca6454c9db2297fc",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libevent-core-2.1-7t64/copyright",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libevent-core-2.1-7t64/copyright",
+      "archive_path": "notices/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libevent-core-2.1-7t64/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 13148,
+      "sha256": "d32d223a2f96bb222faa1f6d2b4573b512465b2b234f56e040a4d7daab060d69",
+      "mode": 420
+    },
+    {
+      "source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libevent-pthreads-2.1-7t64/copyright",
+      "resolved_source_path": "/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libevent-pthreads-2.1-7t64/copyright",
+      "archive_path": "notices/workspace/scratch/500ec816102b/solver-runtime/root/usr/share/doc/libevent-pthreads-2.1-7t64/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 13148,
+      "sha256": "d32d223a2f96bb222faa1f6d2b4573b512465b2b234f56e040a4d7daab060d69",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/doc/libc6/copyright",
+      "resolved_source_path": "/usr/share/doc/libc6/copyright",
+      "archive_path": "notices/usr/share/doc/libc6/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 26462,
+      "sha256": "d3c95b56fa33e28b57860580f0baf4e4f4de2a268a2b80f1d031a5191bade265",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/doc/gcc-14-base/copyright",
+      "resolved_source_path": "/usr/share/doc/gcc-14-base/copyright",
+      "archive_path": "notices/usr/share/doc/gcc-14-base/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 69004,
+      "sha256": "20390f8a6f3b1e4d7cb45dd8652dabb259bbef688cbad839bcdb0b9ba7252f79",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/doc/libblas3/copyright",
+      "resolved_source_path": "/usr/share/doc/libblas3/copyright",
+      "archive_path": "notices/usr/share/doc/libblas3/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 4906,
+      "sha256": "e7381ebec88ee34b83d4f33e7e32b24a438fef8915489a48c94557a17ac745f3",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/doc/liblapack3/copyright",
+      "resolved_source_path": "/usr/share/doc/liblapack3/copyright",
+      "archive_path": "notices/usr/share/doc/liblapack3/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 4906,
+      "sha256": "e7381ebec88ee34b83d4f33e7e32b24a438fef8915489a48c94557a17ac745f3",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/doc/zlib1g/copyright",
+      "resolved_source_path": "/usr/share/doc/zlib1g/copyright",
+      "archive_path": "notices/usr/share/doc/zlib1g/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 2927,
+      "sha256": "9e5b96d63773a5d177ba264254390f792be07e41748ebd94730981c6cac31cc6",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/doc/libudev1/copyright",
+      "resolved_source_path": "/usr/share/doc/libudev1/copyright",
+      "archive_path": "notices/usr/share/doc/libudev1/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 12776,
+      "sha256": "a7d06854714a1ca99f6dbd1a1641dde5bcf28635be149f6554449618f8f427f3",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/doc/libcap2/copyright",
+      "resolved_source_path": "/usr/share/doc/libcap2/copyright",
+      "archive_path": "notices/usr/share/doc/libcap2/copyright",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 4631,
+      "sha256": "e60a5642e12e340060e4e519a65b2eb0330be2917854841c644e36268f607d54",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/common-licenses/GPL-2",
+      "resolved_source_path": "/usr/share/common-licenses/GPL-2",
+      "archive_path": "notices/usr/share/common-licenses/GPL-2",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 18092,
+      "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/common-licenses/GPL-3",
+      "resolved_source_path": "/usr/share/common-licenses/GPL-3",
+      "archive_path": "notices/usr/share/common-licenses/GPL-3",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/common-licenses/LGPL-2",
+      "resolved_source_path": "/usr/share/common-licenses/LGPL-2",
+      "archive_path": "notices/usr/share/common-licenses/LGPL-2",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 25381,
+      "sha256": "681e386e44a19d7d0674b4320272c90e66b6610b741e7e6305f8219c42e85366",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/common-licenses/LGPL-2.1",
+      "resolved_source_path": "/usr/share/common-licenses/LGPL-2.1",
+      "archive_path": "notices/usr/share/common-licenses/LGPL-2.1",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 26530,
+      "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/common-licenses/LGPL-3",
+      "resolved_source_path": "/usr/share/common-licenses/LGPL-3",
+      "archive_path": "notices/usr/share/common-licenses/LGPL-3",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 7652,
+      "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/common-licenses/CC0-1.0",
+      "resolved_source_path": "/usr/share/common-licenses/CC0-1.0",
+      "archive_path": "notices/usr/share/common-licenses/CC0-1.0",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/common-licenses/GFDL-1.2",
+      "resolved_source_path": "/usr/share/common-licenses/GFDL-1.2",
+      "archive_path": "notices/usr/share/common-licenses/GFDL-1.2",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 20432,
+      "sha256": "d8e94ae5fdb5433fcae2961aeb1a8cf17174d6f4a0465d24bf37dd8a038bd439",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/common-licenses/GFDL-1.3",
+      "resolved_source_path": "/usr/share/common-licenses/GFDL-1.3",
+      "archive_path": "notices/usr/share/common-licenses/GFDL-1.3",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 22955,
+      "sha256": "110535522396708cea37c72a802c5e7e81391139f5f7985631c93ef242b206a4",
+      "mode": 420
+    },
+    {
+      "source_path": "/usr/share/common-licenses/Artistic",
+      "resolved_source_path": "/usr/share/common-licenses/Artistic",
+      "archive_path": "notices/usr/share/common-licenses/Artistic",
+      "kind": "local_copyright_or_license_text",
+      "bytes": 6111,
+      "sha256": "b7fd9b73ea99602016a326e0b62e6646060d18febdd065ceca8bb482208c3d88",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/README.md",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/README.md",
+      "archive_path": "README.md",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 2871,
+      "sha256": "d4335ec4fd4a2a2624a8519b84816f1dc308d6d9b5fda8715ad62f777ebb2ee4",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/binary_abi_notes.txt",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/binary_abi_notes.txt",
+      "archive_path": "binary_abi_notes.txt",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 632,
+      "sha256": "208a1b600b55f3f3e4202557b9530bc7606bf7c1ae7125451f4b05bb21b56cee",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/binary_dynamic.txt",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/binary_dynamic.txt",
+      "archive_path": "binary_dynamic.txt",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 1971,
+      "sha256": "65d9462b8035609b85757b3be19a3ab895cbfaf922f41f31a3b7b31aec6dffc1",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/binary_elf_header.txt",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/binary_elf_header.txt",
+      "archive_path": "binary_elf_header.txt",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 982,
+      "sha256": "fbbe7fb3f835563ac682230de3c958fedb1778b88d918831ef527c797643fd05",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/binary_program_headers.txt",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/binary_program_headers.txt",
+      "archive_path": "binary_program_headers.txt",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 2815,
+      "sha256": "1f08acb6754b735df06e8812b1e9c0bd3b420568f4098f29f8cdcf8d0bcdcbd8",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/binary_version_requirements.txt",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/binary_version_requirements.txt",
+      "archive_path": "binary_version_requirements.txt",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 5026,
+      "sha256": "52506f24ba055d0d3f71a9eb24fc2817d742cb7c35253fb4174889406cdb8709",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/environment_observation.json",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/environment_observation.json",
+      "archive_path": "environment_observation.json",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 3035,
+      "sha256": "9d56bccad5edcfb061d35e1b0c5f75b764c469aa2102c3e92e48cdf22e42915a",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/ldd.stdout.txt",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/ldd.stdout.txt",
+      "archive_path": "ldd.stdout.txt",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 1849,
+      "sha256": "fe15d33eda40d550f9b08987063a769c40603a809ea8a151f0cc73c3dc1632dc",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/ldd_paths.json",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/ldd_paths.json",
+      "archive_path": "ldd_paths.json",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 3467,
+      "sha256": "5b7d36a03a38217c6f4afe46eab3d9864a78a80714cc6ba8f8dc9aea2f16232e",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/ldd_version.txt",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/ldd_version.txt",
+      "archive_path": "ldd_version.txt",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 287,
+      "sha256": "325afef188ab2d338c3d01353ff30bbb593c709e20027198fc9840230ae2936a",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/loader_abi_notes.txt",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/loader_abi_notes.txt",
+      "archive_path": "loader_abi_notes.txt",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 3622,
+      "sha256": "2562f9ce90944c58e203ad5408ba0da54cc0324be37b5e42415bee9a6a0cbd99",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/provenance_filelist.json",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/provenance_filelist.json",
+      "archive_path": "provenance_filelist.json",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 6877,
+      "sha256": "7458901a835372467dea7e7d6ae8302fb3c1c2e14e0aa6552fa628a5e9db0ac7",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/restore_runtime_prefix.py",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/restore_runtime_prefix.py",
+      "archive_path": "restore_runtime_prefix.py",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 3069,
+      "sha256": "0cf27f46aef47b90c6ae21dba36a0b4b1181f6caa132bd873b53cffc32d55eb2",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/source_license_headers.txt",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/source_license_headers.txt",
+      "archive_path": "source_license_headers.txt",
+      "kind": "bundle_metadata_or_restore_utility",
+      "bytes": 2472,
+      "sha256": "4fe21e0ccbd43f29df419e772cc7c93d4a4bba37bf0ae27789d253949281b85e",
+      "mode": 420
+    },
+    {
+      "source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/package_native_runtime.py",
+      "resolved_source_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/package_native_runtime.py",
+      "archive_path": "package_native_runtime.py",
+      "kind": "packaging_source",
+      "bytes": 8257,
+      "sha256": "acaeecdc646c20f9e77ec8a7ff402c3a2c59261ddc12ee2c124db5a9afc00e7d",
+      "mode": 420
+    }
+  ],
+  "source_bytes": 29131449,
+  "limitations": [
+    "Original binary package, upstream source and precision-patch receipt are preserved. The matching Debian .dsc, .debian.tar/.diff and full source-build toolchain have not been recovered; bit-identical rebuilding from source is not established.",
+    "The observed ldd startup dependency closure does not cover conditional dlopen loads, MPI or hwloc provider plugins, or every possible future solver option.",
+    "System-library and loader bytes are isolated snapshots for ABI inspection, not instructions to overwrite host /lib or /usr/lib. The restore utility installs only the private runtime prefix.",
+    "Python/NumPy/SciPy/Torch versions are current installed-metadata observations, not a complete installable environment lock.",
+    "No native solver, neural model or held-out response was executed or loaded while building this package. Byte and archive integrity do not certify numerical replay on a different system."
+  ],
+  "system_dependency_policy": "Snapshots for isolated ABI inspection only; restore utility never writes /lib, /usr/lib or system loader paths.",
+  "python_environment_status": "Observed versions only; not a complete installable lock.",
+  "native_solver_calls": 0,
+  "torch_imports": 0
+}

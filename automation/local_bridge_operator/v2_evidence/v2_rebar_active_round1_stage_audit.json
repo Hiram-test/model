@@ -1,0 +1,192 @@
+{
+  "acquisition": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/acquisition_complete.json",
+    "sha256": "7e513ea57de58b1fcd10536bf6f4cf8a3514b7d1d4fc33d4a300c8dbe8a1958a"
+  },
+  "all_twenty_stages_complete": false,
+  "available_training_ids": [
+    "full27_all_axial12_free4",
+    "rebar_train_01",
+    "rebar_train_02",
+    "rebar_train_03",
+    "rebar_train_04",
+    "rebar_train_05",
+    "rebar_train_06",
+    "rebar_train_07",
+    "v2_rebar_candidate_05",
+    "v2_rebar_candidate_00"
+  ],
+  "budget_snapshot": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_rebar_active_round1_budget_snapshot.json",
+    "sha256": "6bf2fdeacb2a666a6dd2a7382869cdab57c758f2177b80f6b84c69f604ff5527"
+  },
+  "config": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller_config.json",
+    "sha256": "61e78dd599dba5e2cd1c9fab2ade51b250f4092b05697582c3b2128ed7b34eb3"
+  },
+  "execution_lock": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_execution_lock.json",
+    "sha256": "aa695be955e0037b6ac37b2a407c39c846b555349e29b3a5c7320cb4e017fe54"
+  },
+  "maximum_auditor_RSS_KiB": 100068,
+  "new_native_solves": 0,
+  "new_test_fields_read": false,
+  "new_training_updates": 0,
+  "observed_complete_cold_histories": 320,
+  "observed_loss_calls": 7680,
+  "observed_optimizer_steps": 1920,
+  "prior_initial_and_cost_audit": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_rebar_initial_and_first_acquisition_audit.json",
+    "sha256": "5bd0e1eec8dd4f8496f7d266b037d3b58109a5c3f6c05d161b6b102b8d81ac27"
+  },
+  "running_round2_trace_read": false,
+  "source": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_rebar_active_round1_stage_audit.py",
+    "sha256": "84897f4fc049c91266a342c05aa700a5d543b26f54461eab9d10343339d4e36b"
+  },
+  "stages": [
+    {
+      "available_training_history_count": 10,
+      "commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/stage_commit.json",
+        "sha256": "faf919df89156c63d00e84a4044517148978f085a59f907c25151084ee9082b3"
+      },
+      "event_count": 5138,
+      "files": [
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/model.pt",
+          "sha256": "2dc094b8dc56599f537d623bfd66fd9cc0ef5fc28ec3a1d4ffc2db47165e6bb0"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/stage_contract.json",
+          "sha256": "7af096ad04b67dcfeedd4bb6ad59a17377b53da7e6b75b4bbdedf9471313265b"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/actual_work.json",
+          "sha256": "82e8ea6bb5e76ff7f81bd03aa4174772aece91330035ba37707ade891c3d38b0"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/actual_work_events.jsonl",
+          "sha256": "627fe159be7289e82478f6b868032cd9010cf8b5735bfc162a176504436015b9"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/history.json",
+          "sha256": "2c132a9eb979c1d700933027ae5337af46036bdafae8c608193573fad4ae02e4"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_17/selected_validation.json",
+          "sha256": "453f0d6dbcccac779bb36b1311b6a7c4f518d62a294fc243c4737a5dd87c9345"
+        }
+      ],
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_17/model.pt",
+        "sha256": "0847d7a72171f53a0c8700ff92ac6b00951d1e748e4059857d9279a2d783876f"
+      },
+      "last_event_sha256": "44fe7f6afd08b7c7477dd41a20f77d45eba60a808907d2f902fe328d6cd472a9",
+      "observed_complete_cold_histories": 160,
+      "observed_loss_calls": 3840,
+      "observed_optimizer_steps": 960,
+      "original_observed_trace_complete": true,
+      "selected_epoch": 15,
+      "selected_validation_score": 0.818602496132985,
+      "selected_weights_effective_support_status": "DEFERRED_TO_FINAL_TENSOR_SUPPORT_AUDIT",
+      "stage_identity": [
+        "rebar",
+        "active",
+        1,
+        17
+      ],
+      "training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00"
+      ],
+      "training_source_sha256": "109afa21a1428c673ead73d094ec5aca4f1ffa3a4d6fc0fbd8268ee3fb6b3d47",
+      "validation_ids": [
+        "rebar_validation_08",
+        "rebar_validation_09",
+        "rebar_validation_10"
+      ]
+    },
+    {
+      "available_training_history_count": 10,
+      "commit": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_41/stage_commit.json",
+        "sha256": "2faba33b7e8b211bdd384fed189c29e62b47f1e342479fe05811ee7aeecd1154"
+      },
+      "event_count": 5138,
+      "files": [
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_41/model.pt",
+          "sha256": "e85e60353bee9f542e941f805ffed1e264609e8d2c8a4c982f6d96a7d762905a"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_41/stage_contract.json",
+          "sha256": "c6945b87d57210526000e1ff3064fde8f5f9b60bf90e6401211261b56a8e820e"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_41/actual_work.json",
+          "sha256": "ec1cc25affdb181915b1dba152daf2f5f8117bd7958d4de20680280360eef791"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_41/actual_work_events.jsonl",
+          "sha256": "d15aef21be6b29eab6174b2ca9916156b567f91bbca5079da98853691a311fea"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_41/history.json",
+          "sha256": "4b9c1f6053867058aac6612d19da4b52511f5c31e34fcb7c1d0b546318b94b8f"
+        },
+        {
+          "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/active/round_1/seed_41/selected_validation.json",
+          "sha256": "58c12e8d86b1c1298aa96c456a96b2cca1b7aeb7a38e308caeb6d774943ca80a"
+        }
+      ],
+      "incoming_checkpoint": {
+        "path": "/dev/shm/bridge_complex_v2_20261025/operator/formal/rebar/initial/seed_41/model.pt",
+        "sha256": "2a3c40e2dc6a5b1b128b02fbe8ba156ec6028748923213b9fbe8fb6c20f1aad8"
+      },
+      "last_event_sha256": "5e297858c3bcbe5011fdbc8ad5de7d90eb05789cf7e76e2fbc4cd22b9c935655",
+      "observed_complete_cold_histories": 160,
+      "observed_loss_calls": 3840,
+      "observed_optimizer_steps": 960,
+      "original_observed_trace_complete": true,
+      "selected_epoch": 15,
+      "selected_validation_score": 0.8350166245974415,
+      "selected_weights_effective_support_status": "DEFERRED_TO_FINAL_TENSOR_SUPPORT_AUDIT",
+      "stage_identity": [
+        "rebar",
+        "active",
+        1,
+        41
+      ],
+      "training_ids": [
+        "full27_all_axial12_free4",
+        "rebar_train_01",
+        "rebar_train_02",
+        "rebar_train_03",
+        "rebar_train_04",
+        "rebar_train_05",
+        "rebar_train_06",
+        "rebar_train_07",
+        "v2_rebar_candidate_05",
+        "v2_rebar_candidate_00"
+      ],
+      "training_source_sha256": "109afa21a1428c673ead73d094ec5aca4f1ffa3a4d6fc0fbd8268ee3fb6b3d47",
+      "validation_ids": [
+        "rebar_validation_08",
+        "rebar_validation_09",
+        "rebar_validation_10"
+      ]
+    }
+  ],
+  "status": "PASS_CLOSED_REBAR_ACTIVE_ROUND1_ORIGINAL_TRACES_INPUTS_AND_VALIDATION_SELECTION",
+  "test_release_issued": false,
+  "torch_imported": false
+}

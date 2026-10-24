@@ -1,0 +1,17 @@
+{
+  "schema": "bridge.v2.reproduce_document_review.v2",
+  "scope": "Only clarify completion -> freeze -> independent selected-support/completion audits -> issue_release; no package, receipt or numerical source changes.",
+  "prior_document_sha256": "18c136f54bd32f15a12785af60d59ba4277e93f825d801d9a51ba553226f3768",
+  "document_sha256": "fac6192ce427df5bd873e207895551cb87f6c24391eb9f2ec8ca645a12d60206",
+  "bash_blocks_syntax_pass": 5,
+  "python_blocks_AST_true_comment_pass": 2,
+  "source_order_checked": {
+    "controller": "/dev/shm/bridge_complex_v2_20261025/operator/v2_controller.py:137",
+    "selected_support_audit": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_weight_support_audit.py:8",
+    "completion_audit": "/dev/shm/bridge_complex_v2_20261025/audit/v2_release_completion_audit.py:9",
+    "release_guard": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release_guard.py:44"
+  },
+  "observed_behavior": "freeze verifies the 20 stage commits and 8 acquisition records, writes frozen_models/completion and returns AWAITING_INDEPENDENT_AUDIT_RELEASE; final support audit requires frozen_models; independent completion audit consumes both files without issuing permit; issue_release is separate.",
+  "numerical_or_restore_commands_executed": 0,
+  "packages_or_receipts_modified": false
+}

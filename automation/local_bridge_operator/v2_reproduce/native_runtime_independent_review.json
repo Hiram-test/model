@@ -1,0 +1,19 @@
+{
+  "schema": "bridge.v2.native_runtime.independent_review.v1",
+  "status": "PASS_ARCHIVE_BYTES_AND_DEPENDENCY_COVERAGE_WITH_EXTRACTION_PERMISSION_NOTE",
+  "reviewer": "/root/constitutive_decoder_probe/decoder_static_review",
+  "archive_sha256": "9c04452746330b8d03e3f59af90750d44bdd6dc10c44ddf3608a63169a4ba584",
+  "full_member_crc_sha_verified": 63,
+  "dependencies": 18,
+  "private_dependencies": 8,
+  "system_snapshots": 10,
+  "private_symlinks": 7,
+  "wrapper_sha256": "a8a30eb4b03293a783bc27bd8d14d9a9f6fcbc9cc59bdb9574e0456f8cd6af60",
+  "binary_sha256": "bc6714fcb1cfc10827115c166f04c47b7f9ebda6521786c8a5d42c3f751a786d",
+  "restore_script_scope": "Ordinary Python in already verified isolated staging; fixed original private prefix; refuses existing destination; no system-library installation.",
+  "extraction_permission_note": "Use an extractor preserving Unix modes such as unzip, or restore the 0755 wrapper/binary modes from the manifest before copying. Python zipfile.extractall alone may discard execute bits; the bundled restore script does not reset them.",
+  "solver_calls": 0,
+  "torch_imports": 0,
+  "actual_restore_performed": false,
+  "original_bundle_modified": false
+}

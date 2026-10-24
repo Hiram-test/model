@@ -1,0 +1,23 @@
+{
+  "schema": "bridge.v2.native_runtime.receipt.v1",
+  "status": "PASS_SOURCE_STABILITY_FULL_MEMBER_CRC_AND_SHA",
+  "archive_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/bridge_v2_native_runtime.zip",
+  "archive_bytes": 14802529,
+  "archive_sha256": "9c04452746330b8d03e3f59af90750d44bdd6dc10c44ddf3608a63169a4ba584",
+  "manifest_path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/runtime_manifest.json",
+  "manifest_sha256": "d14c55ea02664d6600551a77ed8972ffc82a5ba9cc7b411fe30370f986fd73a6",
+  "member_count": 63,
+  "source_bytes": 29131449,
+  "peak_rss_bytes": 19050496,
+  "ldd_dependency_count": 18,
+  "native_solver_calls": 0,
+  "torch_imports": 0,
+  "system_libraries_modified": false,
+  "limitations": [
+    "Original binary package, upstream source and precision-patch receipt are preserved. The matching Debian .dsc, .debian.tar/.diff and full source-build toolchain have not been recovered; bit-identical rebuilding from source is not established.",
+    "The observed ldd startup dependency closure does not cover conditional dlopen loads, MPI or hwloc provider plugins, or every possible future solver option.",
+    "System-library and loader bytes are isolated snapshots for ABI inspection, not instructions to overwrite host /lib or /usr/lib. The restore utility installs only the private runtime prefix.",
+    "Python/NumPy/SciPy/Torch versions are current installed-metadata observations, not a complete installable environment lock.",
+    "No native solver, neural model or held-out response was executed or loaded while building this package. Byte and archive integrity do not certify numerical replay on a different system."
+  ]
+}

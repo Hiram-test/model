@@ -1,0 +1,991 @@
+{
+  "archive_sets": [
+    {
+      "artifact_ids": [
+        "bridge_v2_friction_training_acquisition_checkpoint_zip"
+      ],
+      "id": "friction_final",
+      "kind": "single",
+      "role": "formal_training_friction"
+    },
+    {
+      "artifact_ids": [],
+      "id": "rebar_final",
+      "kind": "parts",
+      "plan": {
+        "path": null,
+        "sha256": null
+      },
+      "profile": "rebar-training",
+      "reassembly": {
+        "path": null,
+        "sha256": null
+      },
+      "role": "formal_training_rebar"
+    },
+    {
+      "artifact_ids": [],
+      "id": "heldout_final",
+      "kind": "parts",
+      "plan": {
+        "path": null,
+        "sha256": null
+      },
+      "profile": "new-tests",
+      "reassembly": {
+        "path": null,
+        "sha256": null
+      },
+      "role": "new_test_fields"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact": {
+        "bytes": 162216447,
+        "library_file_id": "libfile_12e586ca42748191ae4ae96f3755e911",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_development_evidence_checkpoint.zip",
+        "sha256": "fe22d8be01821cccc364acb9402e172f62ea6ea2a08955420e374963b124faf7"
+      },
+      "group": "physical_development",
+      "id": "bridge_v2_development_evidence_checkpoint_zip",
+      "intermediate": false,
+      "label": "bridge_v2_development_evidence_checkpoint.zip",
+      "package_manifest": {
+        "bytes": 632121,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/development_evidence_checkpoint_manifest.json",
+        "sha256": "dcfb6ab5e134b5879b3c579e2b53aab46360cb10cb3a6a8ba9bae6d1d0219ec3"
+      },
+      "package_receipt": {
+        "bytes": 1105,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/development_evidence_checkpoint_receipt.json",
+        "sha256": "5d3e833cf0831e836c60c8d7191130d13167ddb14e87c56257fd6c380cf4e07e"
+      },
+      "role": "physical_archive",
+      "save_receipt": {
+        "bytes": 1014,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_checkpoint_saved.json",
+        "sha256": "3c30a1e6216c73d2b09242dc888fb1eb5e823ce3635d34a80dfc04de83e34206"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 632121,
+        "library_file_id": "libfile_80d98927357c8191b5de1f3f86abd716",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/development_evidence_checkpoint_manifest.json",
+        "sha256": "dcfb6ab5e134b5879b3c579e2b53aab46360cb10cb3a6a8ba9bae6d1d0219ec3"
+      },
+      "group": "physical_development",
+      "id": "development_evidence_checkpoint_manifest_json",
+      "intermediate": false,
+      "label": "development_evidence_checkpoint_manifest.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 1014,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_checkpoint_saved.json",
+        "sha256": "3c30a1e6216c73d2b09242dc888fb1eb5e823ce3635d34a80dfc04de83e34206"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 1105,
+        "library_file_id": "libfile_505f737f0f648191a3dc6628e71716ba",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/development_evidence_checkpoint_receipt.json",
+        "sha256": "5d3e833cf0831e836c60c8d7191130d13167ddb14e87c56257fd6c380cf4e07e"
+      },
+      "group": "physical_development",
+      "id": "development_evidence_checkpoint_receipt_json",
+      "intermediate": false,
+      "label": "development_evidence_checkpoint_receipt.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 1014,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_checkpoint_saved.json",
+        "sha256": "3c30a1e6216c73d2b09242dc888fb1eb5e823ce3635d34a80dfc04de83e34206"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 63355252,
+        "library_file_id": "libfile_3b982c8645e8819183978de4f528a57a",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_thermal_fine_checkpoint.zip",
+        "sha256": "b0c06e0b073133ffc373df2c5eb887f507860f9bd374d1b139625edd86f3ff40"
+      },
+      "group": "physical_development",
+      "id": "bridge_v2_thermal_fine_checkpoint_zip",
+      "intermediate": true,
+      "label": "bridge_v2_thermal_fine_checkpoint.zip",
+      "package_receipt": {
+        "bytes": 7204,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/thermal_fine_checkpoint_receipt.json",
+        "sha256": "088f32f3e2bf201ee41df8ecbefaffb66a1234837b7aad05207774c51fbb501f"
+      },
+      "role": "physical_archive",
+      "save_receipt": {
+        "bytes": 673,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_thermal_fine_saved.json",
+        "sha256": "2b0785a4603d67edf20714b73df0f584cf40f8056a4981c173ae4f5a4e2d4b0f"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 7204,
+        "library_file_id": "libfile_69d3b9427c6c81919ec70e635c07972d",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/thermal_fine_checkpoint_receipt.json",
+        "sha256": "088f32f3e2bf201ee41df8ecbefaffb66a1234837b7aad05207774c51fbb501f"
+      },
+      "group": "physical_development",
+      "id": "thermal_fine_checkpoint_receipt_json",
+      "intermediate": false,
+      "label": "thermal_fine_checkpoint_receipt.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 673,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_thermal_fine_saved.json",
+        "sha256": "2b0785a4603d67edf20714b73df0f584cf40f8056a4981c173ae4f5a4e2d4b0f"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 338778,
+        "library_file_id": "libfile_54dbd675dde48191917525f96c2ef3b7",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/figures/rebar_native_dimension_drawing.png",
+        "sha256": "7ed87867df708581c1fa1d8ff224959b4e3f9a4737c91702c5235e2588d5ea40"
+      },
+      "group": "drawings",
+      "id": "rebar_native_dimension_drawing_png",
+      "intermediate": false,
+      "label": "rebar_native_dimension_drawing.png",
+      "role": "drawing",
+      "save_receipt": {
+        "bytes": 2255,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/library_drawings_saved.json",
+        "sha256": "9ec882e1df24c1d5e519eef98e3f4b6f9de3da14f092b476cb3c81ff143914f8"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 640863,
+        "library_file_id": "libfile_0b096e6ca114819185d4c8944f0e6412",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/figures/rebar_increment_material_geometry.png",
+        "sha256": "d1505f5a71ffff5b6250ed26cca9f775cfd2ac3565086f368e9654b75b5f258a"
+      },
+      "group": "drawings",
+      "id": "rebar_increment_material_geometry_png",
+      "intermediate": false,
+      "label": "rebar_increment_material_geometry.png",
+      "role": "drawing",
+      "save_receipt": {
+        "bytes": 2255,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/library_drawings_saved.json",
+        "sha256": "9ec882e1df24c1d5e519eef98e3f4b6f9de3da14f092b476cb3c81ff143914f8"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 636495,
+        "library_file_id": "libfile_6deba4b9fad8819192728f5980da1d16",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/figures/rebar_increment_displacement_stage15.png",
+        "sha256": "664e4d5842496582178d48e79b427324e2092e0cf9da647a49e2a6c8db21927f"
+      },
+      "group": "drawings",
+      "id": "rebar_increment_displacement_stage15_png",
+      "intermediate": false,
+      "label": "rebar_increment_displacement_stage15.png",
+      "role": "drawing",
+      "save_receipt": {
+        "bytes": 2255,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/library_drawings_saved.json",
+        "sha256": "9ec882e1df24c1d5e519eef98e3f4b6f9de3da14f092b476cb3c81ff143914f8"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 723207,
+        "library_file_id": "libfile_82f914a61c748191b0f0e810be19d50e",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/figures/thermal_hex_l0_temperature_stage06.png",
+        "sha256": "ce99dae445a0eeb958bae7da88fc9075fb6b17f74750cad1758ede9b7d2506c2"
+      },
+      "group": "drawings",
+      "id": "thermal_hex_l0_temperature_stage06_png",
+      "intermediate": false,
+      "label": "thermal_hex_l0_temperature_stage06.png",
+      "role": "drawing",
+      "save_receipt": {
+        "bytes": 2255,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/library_drawings_saved.json",
+        "sha256": "9ec882e1df24c1d5e519eef98e3f4b6f9de3da14f092b476cb3c81ff143914f8"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 733534,
+        "library_file_id": "libfile_6e4bb2b9d95081918ac27273b058f6d5",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/figures/thermal_hex_l0_stress_stage22.png",
+        "sha256": "f0b2eef01df9b2f4e63b5b09da01f520354f1b67e9d025372cb3f314b40239d2"
+      },
+      "group": "drawings",
+      "id": "thermal_hex_l0_stress_stage22_png",
+      "intermediate": false,
+      "label": "thermal_hex_l0_stress_stage22.png",
+      "role": "drawing",
+      "save_receipt": {
+        "bytes": 2255,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/library_drawings_saved.json",
+        "sha256": "9ec882e1df24c1d5e519eef98e3f4b6f9de3da14f092b476cb3c81ff143914f8"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 11168,
+        "library_file_id": "libfile_712d862400e08191b4c3264ac4c80e6f",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/figures/rebar_native_dimension_drawing.svg",
+        "sha256": "f53550763953bf71f147d171071c2deda717c3212a83c5aed324fb9c649cb70e"
+      },
+      "group": "drawings",
+      "id": "rebar_native_dimension_drawing_svg",
+      "intermediate": false,
+      "label": "rebar_native_dimension_drawing.svg",
+      "role": "drawing",
+      "save_receipt": {
+        "bytes": 2255,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/library_drawings_saved.json",
+        "sha256": "9ec882e1df24c1d5e519eef98e3f4b6f9de3da14f092b476cb3c81ff143914f8"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 61922992,
+        "library_file_id": "libfile_f9e10dfd0410819198b644ea30ca0b85",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_friction_training_acquisition_checkpoint.zip",
+        "sha256": "1b2b2dff58f24c692c98750525ac87653263ca5925815f84b1eb07ab3abf0104"
+      },
+      "group": "formal_training",
+      "id": "bridge_v2_friction_training_acquisition_checkpoint_zip",
+      "intermediate": false,
+      "label": "bridge_v2_friction_training_acquisition_checkpoint.zip",
+      "package_manifest": {
+        "bytes": 688087,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/friction_training_checkpoint_manifest.json",
+        "sha256": "b9e6fcb9f5dde000719cfcc887c87d43d935a667181ea9712a10be38faec4504"
+      },
+      "package_receipt": {
+        "bytes": 967,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/friction_training_checkpoint_receipt.json",
+        "sha256": "9dbd6d782737a6a899201dd1358d5c7b322bd1dbf5fed5f60969e5865abe71c0"
+      },
+      "role": "formal_training_friction",
+      "save_receipt": {
+        "bytes": 1017,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_friction_training_saved.json",
+        "sha256": "09b89f021bfbf292df9e8192b8b3fb5d6382772f35dffe179866775cb4686143"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 967,
+        "library_file_id": "libfile_00c9175a83a88191a10ae3b346d94e16",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/friction_training_checkpoint_receipt.json",
+        "sha256": "9dbd6d782737a6a899201dd1358d5c7b322bd1dbf5fed5f60969e5865abe71c0"
+      },
+      "group": "formal_training",
+      "id": "friction_training_checkpoint_receipt_json",
+      "intermediate": false,
+      "label": "friction_training_checkpoint_receipt.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 1017,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_friction_training_saved.json",
+        "sha256": "09b89f021bfbf292df9e8192b8b3fb5d6382772f35dffe179866775cb4686143"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 688087,
+        "library_file_id": "libfile_58be6c8e22d481919aed79e9b42354d9",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/friction_training_checkpoint_manifest.json",
+        "sha256": "b9e6fcb9f5dde000719cfcc887c87d43d935a667181ea9712a10be38faec4504"
+      },
+      "group": "formal_training",
+      "id": "friction_training_checkpoint_manifest_json",
+      "intermediate": false,
+      "label": "friction_training_checkpoint_manifest.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 1017,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_friction_training_saved.json",
+        "sha256": "09b89f021bfbf292df9e8192b8b3fb5d6382772f35dffe179866775cb4686143"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 2563865,
+        "library_file_id": "libfile_07fa221d8a1c81918d5bb06abf06f4bc",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_initial17_checkpoint.zip",
+        "sha256": "a68c7e9a21c0b3b2db00a48c7f6882b81ff0f1e01fffe9ac04dbaef0f2dc3da3"
+      },
+      "group": "formal_training",
+      "id": "bridge_v2_rebar_initial17_checkpoint_zip",
+      "intermediate": true,
+      "label": "bridge_v2_rebar_initial17_checkpoint.zip",
+      "package_receipt": {
+        "bytes": 7143,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_initial17_checkpoint.receipt.json",
+        "sha256": "ee00ce62249fac390b888a406bc333a23082e1b3b1483c2eff990597f5690a7c"
+      },
+      "role": "early_stage",
+      "save_receipt": {
+        "bytes": 689,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_rebar_initial17_saved.json",
+        "sha256": "48626bbc186d8f6749e911e1d4706f3e96f8c4c65b4b3492a889430c98b09eba"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": [
+        "rebar_final"
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 7143,
+        "library_file_id": "libfile_3510898bd60c8191b3ebd9279dfd67bd",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_initial17_checkpoint.receipt.json",
+        "sha256": "ee00ce62249fac390b888a406bc333a23082e1b3b1483c2eff990597f5690a7c"
+      },
+      "group": "formal_training",
+      "id": "bridge_v2_rebar_initial17_checkpoint_receipt_json",
+      "intermediate": false,
+      "label": "bridge_v2_rebar_initial17_checkpoint.receipt.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 689,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_rebar_initial17_saved.json",
+        "sha256": "48626bbc186d8f6749e911e1d4706f3e96f8c4c65b4b3492a889430c98b09eba"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 2554472,
+        "library_file_id": "libfile_b48f243e7cbc819186fc7f5e785f9435",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_initial41_checkpoint.zip",
+        "sha256": "f790b5914a929875a04605d8e833e8b713a25962a7d509188151fad687694a26"
+      },
+      "group": "formal_training",
+      "id": "bridge_v2_rebar_initial41_checkpoint_zip",
+      "intermediate": true,
+      "label": "bridge_v2_rebar_initial41_checkpoint.zip",
+      "package_receipt": {
+        "bytes": 7143,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_initial41_checkpoint.receipt.json",
+        "sha256": "34a1e5d8cec065d3256f5b834d79a97a152cd15b4853f13a9c94218cc1aafb99"
+      },
+      "role": "early_stage",
+      "save_receipt": {
+        "bytes": 618,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_rebar_initial41_saved.json",
+        "sha256": "3f47d88357868380744e6a6f6ccf54f7b1d7c2a85168d6ba28ac7bd2d039a099"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": [
+        "rebar_final"
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 7143,
+        "library_file_id": "libfile_bb62da4da5f08191ac74ab7463da3bbf",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_initial41_checkpoint.receipt.json",
+        "sha256": "34a1e5d8cec065d3256f5b834d79a97a152cd15b4853f13a9c94218cc1aafb99"
+      },
+      "group": "formal_training",
+      "id": "bridge_v2_rebar_initial41_checkpoint_receipt_json",
+      "intermediate": false,
+      "label": "bridge_v2_rebar_initial41_checkpoint.receipt.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 618,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_rebar_initial41_saved.json",
+        "sha256": "3f47d88357868380744e6a6f6ccf54f7b1d7c2a85168d6ba28ac7bd2d039a099"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 169550462,
+        "library_file_id": "libfile_7c61caef23ec8191a5e83cb4e06f5b8d",
+        "path": "/dev/shm/bridge_complex_v2_20261025/thermal/final_delivery/bridge_v2_thermal_final_reference.zip",
+        "sha256": "7f39546cb57ef4bc65eb66b8c465bae9c2f7563b6a56df564d448607de95f911"
+      },
+      "group": "physical_development",
+      "id": "bridge_v2_thermal_final_reference_zip",
+      "intermediate": false,
+      "label": "bridge_v2_thermal_final_reference.zip",
+      "package_manifest": {
+        "bytes": 51489,
+        "path": "/dev/shm/bridge_complex_v2_20261025/thermal/final_delivery/thermal_final_manifest.json",
+        "sha256": "c205d3069c945497316dc567439678d7ea500d6bd08e2a9fe423e80a201c316d"
+      },
+      "package_receipt": {
+        "bytes": 2875,
+        "path": "/dev/shm/bridge_complex_v2_20261025/thermal/final_delivery/thermal_final_package_receipt.json",
+        "sha256": "cacb8517c1513a5286dfd820cac2130d10298d63c90df6f34334b7afaa589738"
+      },
+      "role": "physical_archive",
+      "save_receipt": {
+        "bytes": 1011,
+        "path": "/dev/shm/bridge_complex_v2_20261025/thermal/final_delivery/library_thermal_final_saved.json",
+        "sha256": "ba08f908941c47325e329ef9d67a306ccc4d192fb4ce9ae8ed22231e4b852cd5"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 2875,
+        "library_file_id": "libfile_c60d54c72c9c819193e490b5c738961d",
+        "path": "/dev/shm/bridge_complex_v2_20261025/thermal/final_delivery/thermal_final_package_receipt.json",
+        "sha256": "cacb8517c1513a5286dfd820cac2130d10298d63c90df6f34334b7afaa589738"
+      },
+      "group": "physical_development",
+      "id": "thermal_final_package_receipt_json",
+      "intermediate": false,
+      "label": "thermal_final_package_receipt.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 1011,
+        "path": "/dev/shm/bridge_complex_v2_20261025/thermal/final_delivery/library_thermal_final_saved.json",
+        "sha256": "ba08f908941c47325e329ef9d67a306ccc4d192fb4ce9ae8ed22231e4b852cd5"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 51489,
+        "library_file_id": "libfile_3b8500fd265081918b4e727e3ad7c16b",
+        "path": "/dev/shm/bridge_complex_v2_20261025/thermal/final_delivery/thermal_final_manifest.json",
+        "sha256": "c205d3069c945497316dc567439678d7ea500d6bd08e2a9fe423e80a201c316d"
+      },
+      "group": "physical_development",
+      "id": "thermal_final_manifest_json",
+      "intermediate": false,
+      "label": "thermal_final_manifest.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 1011,
+        "path": "/dev/shm/bridge_complex_v2_20261025/thermal/final_delivery/library_thermal_final_saved.json",
+        "sha256": "ba08f908941c47325e329ef9d67a306ccc4d192fb4ce9ae8ed22231e4b852cd5"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 843817,
+        "library_file_id": "libfile_8c98987ce0548191b272da4c7c38f30c",
+        "path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/constitutive_decoder_probe_complete.zip",
+        "sha256": "62fd2cadb3e8877fffdad9e7982c253e14d7c0a2c70c1b9942045f24a2c264f2"
+      },
+      "group": "physical_development",
+      "id": "constitutive_decoder_probe_complete_zip",
+      "intermediate": false,
+      "label": "constitutive_decoder_probe_complete.zip",
+      "package_manifest": {
+        "bytes": 9095,
+        "path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/final_result_manifest.json",
+        "sha256": "f00b104db135915c15c222dc639bcea4c26c78f745ac1dc1988304ce61d6d227"
+      },
+      "package_receipt": {
+        "bytes": 871,
+        "path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/bundle_receipt.json",
+        "sha256": "73b7c9a2fe2c7c8718ebd1923c196e9b5a4cba5b2ce0e4e77a3f83a9e601b31c"
+      },
+      "role": "physical_archive",
+      "save_receipt": {
+        "bytes": 371,
+        "path": "/dev/shm/bridge_complex_v2_20261025/constitutive_decoder_probe/library_probe_saved.json",
+        "sha256": "d3aa343ea1d8aae53dfae2495854faff346830ced12d1adba4506d024897c7cd"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 14802529,
+        "library_file_id": "libfile_a742c1abb2188191892934b5059b8922",
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/bridge_v2_native_runtime.zip",
+        "sha256": "9c04452746330b8d03e3f59af90750d44bdd6dc10c44ddf3608a63169a4ba584"
+      },
+      "group": "runtime_reproduction",
+      "id": "bridge_v2_native_runtime_zip",
+      "intermediate": false,
+      "label": "bridge_v2_native_runtime.zip",
+      "package_manifest": {
+        "bytes": 40442,
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/runtime_manifest.json",
+        "sha256": "d14c55ea02664d6600551a77ed8972ffc82a5ba9cc7b411fe30370f986fd73a6"
+      },
+      "package_receipt": {
+        "bytes": 1676,
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/runtime_bundle_receipt.json",
+        "sha256": "4a0eae9e85bffa0ed7663652dd1702a4feb1165ee8824b310860263efb7283d1"
+      },
+      "role": "runtime_archive",
+      "save_receipt": {
+        "bytes": 616,
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/library_runtime_saved.json",
+        "sha256": "eb096254c486eff87919002581aca0d47e5e32a68bd9397042da5cca6f4ca84a"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 1676,
+        "library_file_id": "libfile_0720fdb6609c8191a40a1a25ef89a300",
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/native_runtime/runtime_bundle_receipt.json",
+        "sha256": "4a0eae9e85bffa0ed7663652dd1702a4feb1165ee8824b310860263efb7283d1"
+      },
+      "group": "runtime_reproduction",
+      "id": "runtime_bundle_receipt_json",
+      "intermediate": false,
+      "label": "runtime_bundle_receipt.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 616,
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/library_runtime_saved.json",
+        "sha256": "eb096254c486eff87919002581aca0d47e5e32a68bd9397042da5cca6f4ca84a"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 398063,
+        "library_file_id": "libfile_d2cb240f13d08191b0df54fc2b374d18",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/friction_native_plan_section.png",
+        "sha256": "2082961fc2a86b27984441736557845cd045b4cc31335c6f0df83ba4dc9f5739"
+      },
+      "group": "drawings",
+      "id": "friction_native_plan_section_png",
+      "intermediate": false,
+      "label": "friction_native_plan_section.png",
+      "role": "drawing",
+      "save_receipt": {
+        "bytes": 1529,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/library_saved.json",
+        "sha256": "e6692030fadb07ce452782129387b89a3d8136f7d0ccf7eab52c4dc9c54759b5"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 394658,
+        "library_file_id": "libfile_4d804ba6a4648191aafbc2456fff67cd",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/thermal_native_plan_section.png",
+        "sha256": "73e4ab97fe25112ebe8288dcbaecce01c91a44f649b6ec72bad3f16cb406ff28"
+      },
+      "group": "drawings",
+      "id": "thermal_native_plan_section_png",
+      "intermediate": false,
+      "label": "thermal_native_plan_section.png",
+      "role": "drawing",
+      "save_receipt": {
+        "bytes": 1529,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/library_saved.json",
+        "sha256": "e6692030fadb07ce452782129387b89a3d8136f7d0ccf7eab52c4dc9c54759b5"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 11549,
+        "library_file_id": "libfile_c0d4e46ef8648191b6ec8fd83b3d0c49",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/friction_native_plan_section.svg",
+        "sha256": "a7c16b294aa6a816127baace3d6b6652235e257614b924b8697b5216523dce4d"
+      },
+      "group": "drawings",
+      "id": "friction_native_plan_section_svg",
+      "intermediate": false,
+      "label": "friction_native_plan_section.svg",
+      "role": "drawing",
+      "save_receipt": {
+        "bytes": 1529,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/library_saved.json",
+        "sha256": "e6692030fadb07ce452782129387b89a3d8136f7d0ccf7eab52c4dc9c54759b5"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 18053,
+        "library_file_id": "libfile_c63aa10ae9588191be1d7b10b15987ed",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/thermal_native_plan_section.svg",
+        "sha256": "bb22a2480515dcd6b67f19e420812ac0957254a037275ec394d58d5c3db4faa9"
+      },
+      "group": "drawings",
+      "id": "thermal_native_plan_section_svg",
+      "intermediate": false,
+      "label": "thermal_native_plan_section.svg",
+      "role": "drawing",
+      "save_receipt": {
+        "bytes": 1529,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/library_saved.json",
+        "sha256": "e6692030fadb07ce452782129387b89a3d8136f7d0ccf7eab52c4dc9c54759b5"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 1217788,
+        "library_file_id": "libfile_5e6ff818c7588191b3a26fe5dc320cfb",
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/v2_additional_native_drawings.zip",
+        "sha256": "845e7a5a042351e08cdc6a155f3c5abd2efdcae03b20799855c9b5141c1beed3"
+      },
+      "group": "drawings",
+      "id": "v2_additional_native_drawings_zip",
+      "intermediate": false,
+      "label": "v2_additional_native_drawings.zip",
+      "package_manifest": {
+        "bytes": 3386,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/drawing_manifest.json",
+        "sha256": "cecff4fbc923a63fa4b868f13fb4c7ce202b894b55baf666f510677768c382ce"
+      },
+      "package_receipt": {
+        "bytes": 3471,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/bundle_receipt.json",
+        "sha256": "9b688a2437f67a7aaf5e9b4e0a6c1638b094565f0c98ba8371e9a80eda97e9aa"
+      },
+      "role": "drawing_archive",
+      "save_receipt": {
+        "bytes": 1529,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/additional_native_drawings/library_saved.json",
+        "sha256": "e6692030fadb07ce452782129387b89a3d8136f7d0ccf7eab52c4dc9c54759b5"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 3496900,
+        "library_file_id": "libfile_b811dff0e21481918148efd3a497860f",
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/closed_development_dependency_supplement.zip",
+        "sha256": "3befbf953ed6b5a9a629222893dad8739bf291ff65bd76af68e00c66b16625b9"
+      },
+      "group": "runtime_reproduction",
+      "id": "closed_development_dependency_supplement_zip",
+      "intermediate": false,
+      "label": "closed_development_dependency_supplement.zip",
+      "package_manifest": {
+        "bytes": 458210,
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/closed_development_supplement/supplement_manifest.json",
+        "sha256": "5d5c08d56e1acb847727b0c0dc2427265baf8ebe413160b3d6b7420d95983a53"
+      },
+      "package_receipt": {
+        "bytes": 1010,
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/closed_development_supplement/supplement_receipt.json",
+        "sha256": "41910f7ee54d16f3124638550a44dc399b7620a3c8407c8c305d364ef2ef9afe"
+      },
+      "role": "development_dependency_archive",
+      "save_receipt": {
+        "bytes": 1582,
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/library_development_supplement_saved.json",
+        "sha256": "71ee5dc4e7b440dfe4577d4d72f7dd16d2c1b437629cdc24c0d61b0a3a8dafe1"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 1010,
+        "library_file_id": "libfile_f0368473c3ac8191b2a92fabd96ac2bc",
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/closed_development_supplement/supplement_receipt.json",
+        "sha256": "41910f7ee54d16f3124638550a44dc399b7620a3c8407c8c305d364ef2ef9afe"
+      },
+      "group": "runtime_reproduction",
+      "id": "supplement_receipt_json",
+      "intermediate": false,
+      "label": "supplement_receipt.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 1582,
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/library_development_supplement_saved.json",
+        "sha256": "71ee5dc4e7b440dfe4577d4d72f7dd16d2c1b437629cdc24c0d61b0a3a8dafe1"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 458210,
+        "library_file_id": "libfile_930f4f1c67088191940f4de4ac853929",
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/closed_development_supplement/supplement_manifest.json",
+        "sha256": "5d5c08d56e1acb847727b0c0dc2427265baf8ebe413160b3d6b7420d95983a53"
+      },
+      "group": "runtime_reproduction",
+      "id": "supplement_manifest_json",
+      "intermediate": false,
+      "label": "supplement_manifest.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 1582,
+        "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/library_development_supplement_saved.json",
+        "sha256": "71ee5dc4e7b440dfe4577d4d72f7dd16d2c1b437629cdc24c0d61b0a3a8dafe1"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 1690779,
+        "library_file_id": "libfile_da71b27d01888191892c151bfa02a5c5",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_active_r1_seed17_checkpoint.zip",
+        "sha256": "8148d71fbe5ce4c2fbd3d30771d0c9fd1bd75837df0e5ce26aae569fdd48e25d"
+      },
+      "group": "formal_training",
+      "id": "bridge_v2_rebar_active_r1_seed17_checkpoint_zip",
+      "intermediate": true,
+      "label": "bridge_v2_rebar_active_r1_seed17_checkpoint.zip",
+      "package_receipt": {
+        "bytes": 7408,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_active_r1_seed17_checkpoint.receipt.json",
+        "sha256": "854d343478a9aca56f3872e41861073c4f80c3f86376540d9dff5c3372723631"
+      },
+      "role": "early_stage",
+      "save_receipt": {
+        "bytes": 2268,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_rebar_active_r1_saved.json",
+        "sha256": "066df1b76b1f30dad2a9d6cf127b2ae96ac728bb03ef212db69a39093546fdfb"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": [
+        "rebar_final"
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 7408,
+        "library_file_id": "libfile_8ddc232efbc881918ca5dfe3e2e07fa2",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_active_r1_seed17_checkpoint.receipt.json",
+        "sha256": "854d343478a9aca56f3872e41861073c4f80c3f86376540d9dff5c3372723631"
+      },
+      "group": "physical_development",
+      "id": "bridge_v2_rebar_active_r1_seed17_checkpoint_receipt_json",
+      "intermediate": false,
+      "label": "bridge_v2_rebar_active_r1_seed17_checkpoint.receipt.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 2268,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_rebar_active_r1_saved.json",
+        "sha256": "066df1b76b1f30dad2a9d6cf127b2ae96ac728bb03ef212db69a39093546fdfb"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    },
+    {
+      "artifact": {
+        "bytes": 1683975,
+        "library_file_id": "libfile_18f8a877a5ac8191aa91ace3d880537f",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_active_r1_seed41_checkpoint.zip",
+        "sha256": "2c722329e3a9078e778547c36e07a29e65b7945adabdcfcd6488fd1b1de96201"
+      },
+      "group": "formal_training",
+      "id": "bridge_v2_rebar_active_r1_seed41_checkpoint_zip",
+      "intermediate": true,
+      "label": "bridge_v2_rebar_active_r1_seed41_checkpoint.zip",
+      "package_receipt": {
+        "bytes": 7408,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_active_r1_seed41_checkpoint.receipt.json",
+        "sha256": "46ce6423e79fbd70a9581faba8ce4822764aa07447263323b27bf0c5cef18235"
+      },
+      "role": "early_stage",
+      "save_receipt": {
+        "bytes": 2268,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_rebar_active_r1_saved.json",
+        "sha256": "066df1b76b1f30dad2a9d6cf127b2ae96ac728bb03ef212db69a39093546fdfb"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": [
+        "rebar_final"
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 7408,
+        "library_file_id": "libfile_7d5a15623ac881918b8e8c573e3d0fd9",
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/bridge_v2_rebar_active_r1_seed41_checkpoint.receipt.json",
+        "sha256": "46ce6423e79fbd70a9581faba8ce4822764aa07447263323b27bf0c5cef18235"
+      },
+      "group": "physical_development",
+      "id": "bridge_v2_rebar_active_r1_seed41_checkpoint_receipt_json",
+      "intermediate": false,
+      "label": "bridge_v2_rebar_active_r1_seed41_checkpoint.receipt.json",
+      "role": "supporting_metadata",
+      "save_receipt": {
+        "bytes": 2268,
+        "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/library_rebar_active_r1_saved.json",
+        "sha256": "066df1b76b1f30dad2a9d6cf127b2ae96ac728bb03ef212db69a39093546fdfb"
+      },
+      "scope_cn": "已真实保存的闭合文件；最终包是否齐全由最终输入门检查。",
+      "status": "CLOSED_SAVED",
+      "superseded_by_sets": []
+    }
+  ],
+  "audits": {
+    "completion": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_release_completion_audit.json",
+      "sha256": null
+    },
+    "fields": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_final_fields_independent_audit.json",
+      "sha256": null
+    },
+    "historical": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_historical_baseline_independent_audit.json",
+      "sha256": null
+    },
+    "native": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_native_identity_audit.json",
+      "sha256": null
+    },
+    "release_verification": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_test_release_verification.json",
+      "sha256": null
+    },
+    "support": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_selected_weight_support_audit.json",
+      "sha256": null
+    },
+    "thermal": {
+      "path": "/dev/shm/bridge_complex_v2_20261025/audit/v2_thermal_final_qualification_audit.json",
+      "sha256": null
+    }
+  },
+  "github": {
+    "commit": null,
+    "index_generator_repository_path": "automation/local_bridge_operator/v2_delivery/download_index/v2_download_index.py",
+    "report_generator_repository_path": "automation/local_bridge_operator/v2_report/v2_report.py",
+    "repository": "Hiram-test/model",
+    "verification_receipt": {
+      "path": null,
+      "sha256": null
+    }
+  },
+  "optional_saved_observations_not_claimed_final": [
+    {
+      "library_file_id": "libfile_92fcf24eb6108191905450ebb3f78fa8",
+      "path": "/dev/shm/bridge_complex_v2_20261025/post/v2_local_model_drawings_and_receipts.zip",
+      "reason": "Optional existing saved container omitted from primary template because no supported independent package receipt is assigned; its individually saved native figures remain available.",
+      "save_receipt": {
+        "bytes": 2255,
+        "path": "/dev/shm/bridge_complex_v2_20261025/post/library_drawings_saved.json",
+        "sha256": "9ec882e1df24c1d5e519eef98e3f4b6f9de3da14f092b476cb3c81ff143914f8"
+      }
+    }
+  ],
+  "pending": [
+    "Complete formal rebar archives and confirmed part/receipt/plan/reassembly saves",
+    "All new test/OOD native/V2/V1 original-field archives and confirmed saves",
+    "Final independent audits and their exact SHA identities",
+    "Final verified report HTML/summary/receipt and actual returned save identities",
+    "Fixed GitHub commit including this generator and independent blob verification receipt"
+  ],
+  "preparation_no_final_index_created": true,
+  "ready_for_final": false,
+  "report_receipt": {
+    "path": "/dev/shm/bridge_complex_v2_20261025/report/final/report_receipt.json",
+    "sha256": null
+  },
+  "schema": "bridge.v2.download.inputs.v1",
+  "template_identity_scope": "Actual early saves are examples only. Missing final references remain null and ready_for_final remains false; no final scientific result was read.",
+  "v1_archive_index": {
+    "dependency_inventory": {
+      "bytes": 46292,
+      "path": "/dev/shm/bridge_complex_v2_20261025/reproduce/v1_dependency_archive_inventory.json",
+      "sha256": "36cd35f713d4d14b8ce7b1ab6918e4762546760abb6e983356a933486e00995d"
+    },
+    "id_key_path": [
+      "prior_V1_archive_index_library_file_id"
+    ],
+    "identity_evidence": {
+      "bytes": 10169,
+      "path": "/dev/shm/bridge_complex_v2_20261025/delivery/download_index/confirmed_library_artifacts_working.snapshot.json",
+      "sha256": "5226db05a5fa2483c2378554c1c235213a9f1c8cbe60e7912e8b1b3f4edb91ba"
+    },
+    "library_file_id": "libfile_8419d7a50080819190b4c06ae6b63585",
+    "original_observation": {
+      "bytes": 10169,
+      "path": "/dev/shm/bridge_complex_v2_20261025/checkpoints/confirmed_library_artifacts_working.json",
+      "sha256": "5226db05a5fa2483c2378554c1c235213a9f1c8cbe60e7912e8b1b3f4edb91ba"
+    }
+  }
+}

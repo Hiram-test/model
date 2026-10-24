@@ -1,0 +1,427 @@
+{
+  "schema": "bridge.v2.closed_development.supplement.publication_summary.v1",
+  "scope": "Closed original-development evidence only; twelve missing lock references plus associated weights, histories, traces and synthetic verification fixtures. No formal/live or heldout fields.",
+  "full_manifest_sha256": "5d5c08d56e1acb847727b0c0dc2427265baf8ebe413160b3d6b7420d95983a53",
+  "full_inventory_review_sha256": "f7e9ea84a21b13cb8a6040786466b840732b474990f6882b5184b0bc35871a3e",
+  "logical_file_count": 482,
+  "new_unique_payload_count": 217,
+  "external_persisted_reference_count": 42,
+  "internal_alias_count": 223,
+  "closed_training_runs": 8,
+  "legacy_trace_policy": "Three historical development runs never emitted modern actual_work/event/stage-commit files. Preserve available complete/history/model artifacts; do not fabricate missing original traces.",
+  "synthetic_fixture_count": 5,
+  "newly_preserved_locked_files": [
+    {
+      "relative_path": "operator/controller_verification/all_development_native_gate_integration.json",
+      "sha256": "40312419fb901cdcfc89564ecd4559abefc0f44460ae7d9b99c4f50d257c27af",
+      "archive_member": "payload/operator/controller_verification/all_development_native_gate_integration.json"
+    },
+    {
+      "relative_path": "operator/controller_verification/friction_native_integration/invariants.json",
+      "sha256": "d0f76db3e57b7b484997b0220d167a1aa47089e99413af514e9a840b8962e6a8",
+      "archive_member": "payload/operator/controller_verification/friction_native_integration/invariants.json"
+    },
+    {
+      "relative_path": "operator/controller_verification/rebar_native_integration/invariants.json",
+      "sha256": "30e3fc01e6a0ca07cdcbf81c0d62948cf12fe095f260995c9d836f8293f9ea4c",
+      "archive_member": "payload/operator/controller_verification/rebar_native_integration/invariants.json"
+    },
+    {
+      "relative_path": "operator/controller_verification/verification.json",
+      "sha256": "c3bcd1e6912bd7134dadf6543e3c5ee7bb8d9b571d998d0f8245a8b0e95506df",
+      "archive_member": "payload/operator/controller_verification/run_h28z0np3/verification.json"
+    },
+    {
+      "relative_path": "operator/friction_worker_verification/seed_17/stage_commit.json",
+      "sha256": "4f6b267c52cbeef070d8d9bb09e2ef59b3c5e4db84df645562304e03de2f3d9f",
+      "archive_member": "payload/operator/friction_worker_verification/seed_17/stage_commit.json"
+    },
+    {
+      "relative_path": "operator/gradient_calibration/friction/baseline_two_epoch/selected_validation.json",
+      "sha256": "b6341f1549c4acac11dad7c0d12fcf2d755b3b858cdbcef4b9124f199be65df0",
+      "archive_member": "payload/operator/gradient_calibration/friction/baseline_two_epoch/selected_validation.json"
+    },
+    {
+      "relative_path": "operator/gradient_calibration/friction/calibrated_two_epoch/selected_validation.json",
+      "sha256": "a8bce12dd5c934cb4fb8a780c1a7958ced9d21d939705283a7a58b6c699f2f18",
+      "archive_member": "payload/operator/gradient_calibration/friction/calibrated_two_epoch/selected_validation.json"
+    },
+    {
+      "relative_path": "operator/gradient_calibration/friction/calibration.json",
+      "sha256": "26bb9fee8c25668ff7061ab2b611dc894ab73e291a1eedfea5220d8a4cf64c73",
+      "archive_member": "payload/operator/gradient_calibration/friction/calibration.json"
+    },
+    {
+      "relative_path": "operator/gradient_calibration/rebar/calibrated_two_epoch/selected_validation.json",
+      "sha256": "cb0c28aca06a46874020b4b90966254b1fcc6a9d96c511aed457a9258e457992",
+      "archive_member": "payload/operator/gradient_calibration/rebar/calibrated_two_epoch/selected_validation.json"
+    },
+    {
+      "relative_path": "operator/gradient_calibration/rebar/calibration.json",
+      "sha256": "2e8188d7c3d794c2c72345e6afb3ba8679d2ff523efc4ce4217a92f600290d3f",
+      "archive_member": "payload/operator/gradient_calibration/rebar/calibration.json"
+    },
+    {
+      "relative_path": "operator/rebar_development_v2_endpoint/seed_17/history.json",
+      "sha256": "943d0e8af32f5ca8b51f2232d56251f4c9bfce51f1bf6d126b945525a746e0ab",
+      "archive_member": "payload/operator/rebar_development_v2_endpoint/seed_17/history.json"
+    },
+    {
+      "relative_path": "operator/rebar_worker_verification/seed_17/stage_commit.json",
+      "sha256": "fc528ff8236794655d48fb0a25063af3c977cec2f9e85bf685cd0897854c5ef9",
+      "archive_member": "payload/operator/rebar_worker_verification/seed_17/stage_commit.json"
+    }
+  ],
+  "already_persisted_locked_files": [
+    {
+      "relative_path": "operator/development_diagnostics/decomposition.json",
+      "sha256": "ef4f9d9ab1e4f2fe2450c9d0a343414c8f5d30e694439da4d98794265749c881",
+      "external_reference": {
+        "bytes": null,
+        "manifest_path": "/dev/shm/bridge_complex_v2_20261025/v2_locked_source_manifest.json",
+        "member": "automation/local_bridge_operator/v2_evidence/operator__development_diagnostics__decomposition.json",
+        "scope": "GITHUB_PUBLISHED_MANIFEST",
+        "sha256": "ef4f9d9ab1e4f2fe2450c9d0a343414c8f5d30e694439da4d98794265749c881"
+      }
+    },
+    {
+      "relative_path": "operator/gradient_calibration/selection.json",
+      "sha256": "d3284c66073c1ac4b5472edfb4230b7b5b1d795231f6a7e4156259266cfefbb6",
+      "external_reference": {
+        "bytes": null,
+        "manifest_path": "/dev/shm/bridge_complex_v2_20261025/v2_locked_source_manifest.json",
+        "member": "automation/local_bridge_operator/v2_evidence/operator__gradient_calibration__selection.json",
+        "scope": "GITHUB_PUBLISHED_MANIFEST",
+        "sha256": "d3284c66073c1ac4b5472edfb4230b7b5b1d795231f6a7e4156259266cfefbb6"
+      }
+    }
+  ],
+  "checkpoint_files": [
+    {
+      "bytes": 99001,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/friction_development_v2/seed_17/model.pt",
+      "sha256": "e996d92530ca0045570d324515bb488e232d864469532b7a7be1b3fde262572a"
+    },
+    {
+      "bytes": 100025,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/friction_worker_verification/seed_17/model.pt",
+      "sha256": "7bcf35c0e08eb13fad23c94fc479204d106086d15062fa8998f65a15594150fe"
+    },
+    {
+      "bytes": 559484,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/friction_worker_verification/seed_17/progress.pt",
+      "sha256": "109e0a8bf4595241b63efb83e00f3d90687bdcff0f9f26fbb195c342c8143d6e"
+    },
+    {
+      "bytes": 100089,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/gradient_calibration/friction/baseline_two_epoch/model.pt",
+      "sha256": "51b42c5bdcc895eb0d00beb0db4fee96986748a23973af172b941b00fd2fb855"
+    },
+    {
+      "bytes": 724220,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/gradient_calibration/friction/baseline_two_epoch/progress.pt",
+      "sha256": "0e4db6fcf4efe95c7708392170ed62ff0294467da0632225f5358aed93270f40"
+    },
+    {
+      "bytes": 100089,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/gradient_calibration/friction/calibrated_two_epoch/model.pt",
+      "sha256": "2ca4a5c91be4d089d22826838b1e3af0d3636a0ae1731683bd4ebebed078efc9"
+    },
+    {
+      "bytes": 724220,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/gradient_calibration/friction/calibrated_two_epoch/progress.pt",
+      "sha256": "b31d7c7eed8b93e84870e4abe62992c945f040647258dfe936e6f8592bbb33fa"
+    },
+    {
+      "bytes": 104697,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/gradient_calibration/rebar/calibrated_two_epoch/model.pt",
+      "sha256": "5280f5efbd2025c209a7d224dd15f61c95dde73a8cb5753b84c7627183a64391"
+    },
+    {
+      "bytes": 718908,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/gradient_calibration/rebar/calibrated_two_epoch/progress.pt",
+      "sha256": "e1bdf631f2f102de1c98aba69a436a1eabba8144f4d65172294ba995366a4354"
+    },
+    {
+      "bytes": 101177,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/rebar_development_v1/seed_17/model.pt",
+      "sha256": "1c38dc983f84eebd26937106a2aa1cfbc7cb5f47f840f04ad023a731e48a985c"
+    },
+    {
+      "bytes": 103417,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/rebar_development_v2_endpoint/seed_17/model.pt",
+      "sha256": "c15c59f8639d9be6ed68eea05e6a60179f41072d29302a88e75b449b09c0a773"
+    },
+    {
+      "bytes": 104633,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/rebar_worker_verification/seed_17/model.pt",
+      "sha256": "dc75c6fd576bc12e579c2611e873bf6f58f286a5b73e6a998978a19ceea3324e"
+    },
+    {
+      "bytes": 554940,
+      "disposition": "NEW_UNIQUE_CONTENT",
+      "interpretation": "Opaque checkpoint bytes only; no Torch/unpickle/numerical rollout.",
+      "relative_path": "operator/rebar_worker_verification/seed_17/progress.pt",
+      "sha256": "e85b115b7cb7822cc440b72818979dd437d89eccd8f59131df2522183c29656a"
+    }
+  ],
+  "closed_directories": [
+    {
+      "classification": "CLOSED_SYNTHETIC_AND_ORIGINAL_TRAIN_NATIVE_VERIFICATION",
+      "evidence": [
+        "verification.json",
+        "all_development_native_gate_integration.json",
+        "finalizer_native_gate_integration.json",
+        "friction_native_integration/invariants.json",
+        "rebar_native_integration/invariants.json"
+      ],
+      "inventory_counts": {
+        "bytes": 559754,
+        "files": 363,
+        "new_unique_bytes": 421206,
+        "new_unique_files": 133,
+        "persisted_content_bytes": 106137,
+        "persisted_content_files": 11,
+        "stat_only_bytes": 2840,
+        "stat_only_files": 5,
+        "within_supplement_duplicate_bytes": 29571,
+        "within_supplement_duplicate_files": 214
+      },
+      "note": "Five run_*/verification.json are PASS. Intentional unresolved/overrun/worker-failure fixtures are closed verification artifacts. Five synthetic_export.npz files are synthetic fixtures; their contents were not inspected.",
+      "relative_path": "operator/controller_verification",
+      "status": "PASS"
+    },
+    {
+      "classification": "CLOSED_DEVELOPMENT_ONLY_DIAGNOSTICS",
+      "evidence": [
+        "decomposition.json"
+      ],
+      "inventory_counts": {
+        "bytes": 88630,
+        "files": 4,
+        "persisted_content_bytes": 88630,
+        "persisted_content_files": 4
+      },
+      "relative_path": "operator/development_diagnostics",
+      "status": "COMPLETE_DEVELOPMENT_ONLY"
+    },
+    {
+      "classification": "CLOSED_LEGACY_DEVELOPMENT_TRAINING",
+      "cold_histories": 32,
+      "epochs": 4,
+      "evidence": [
+        "complete.json",
+        "seed_17/history.json",
+        "seed_17/model.pt"
+      ],
+      "inventory_counts": {
+        "bytes": 745363,
+        "files": 10,
+        "new_unique_bytes": 734856,
+        "new_unique_files": 9,
+        "persisted_content_bytes": 10507,
+        "persisted_content_files": 1
+      },
+      "loss_calls": 1024,
+      "note": "Historical format has no actual_work.json, actual_work_events.jsonl or stage_commit.json; do not fabricate them.",
+      "optimizer_steps": 256,
+      "relative_path": "operator/friction_development_v2",
+      "status": "DEVELOPMENT_COMPLETE"
+    },
+    {
+      "classification": "CLOSED_COMMITTED_DEVELOPMENT_WORKER",
+      "cold_histories": 8,
+      "epochs": 1,
+      "evidence": [
+        "seed_17/worker_completion.json",
+        "seed_17/stage_commit.json",
+        "seed_17/history.json"
+      ],
+      "inventory_counts": {
+        "bytes": 1199062,
+        "files": 15,
+        "new_unique_bytes": 1108346,
+        "new_unique_files": 12,
+        "persisted_content_bytes": 11822,
+        "persisted_content_files": 2,
+        "within_supplement_duplicate_bytes": 78894,
+        "within_supplement_duplicate_files": 1
+      },
+      "loss_calls": 256,
+      "optimizer_steps": 64,
+      "relative_path": "operator/friction_worker_verification",
+      "status": "COMPLETE_COMMITTED_STAGE"
+    },
+    {
+      "classification": "CLOSED_BOUNDED_TRAIN_VALIDATION_SELECTION",
+      "evidence": [
+        "selection.json",
+        "friction/baseline_two_epoch/stage_commit.json",
+        "friction/calibrated_two_epoch/stage_commit.json",
+        "rebar/calibrated_two_epoch/stage_commit.json"
+      ],
+      "inventory_counts": {
+        "bytes": 5330778,
+        "files": 46,
+        "new_unique_bytes": 4775576,
+        "new_unique_files": 31,
+        "persisted_content_bytes": 555202,
+        "persisted_content_files": 15
+      },
+      "relative_path": "operator/gradient_calibration",
+      "runs": [
+        {
+          "cold_histories": 16,
+          "epochs": 2,
+          "loss_calls": 512,
+          "optimizer_steps": 128,
+          "path": "friction/baseline_two_epoch"
+        },
+        {
+          "cold_histories": 16,
+          "epochs": 2,
+          "loss_calls": 512,
+          "optimizer_steps": 128,
+          "path": "friction/calibrated_two_epoch"
+        },
+        {
+          "cold_histories": 16,
+          "epochs": 2,
+          "loss_calls": 384,
+          "optimizer_steps": 96,
+          "path": "rebar/calibrated_two_epoch"
+        }
+      ],
+      "status": "COMPLETE_BOUNDED_TRAIN_VALIDATION_ONLY_SELECTION"
+    },
+    {
+      "classification": "CLOSED_HISTORICAL_TRAIN_ONLY_EVALUATOR_VERIFICATION",
+      "evidence": [
+        "verification.json"
+      ],
+      "inventory_counts": {
+        "bytes": 38076,
+        "files": 4,
+        "new_unique_bytes": 2697,
+        "new_unique_files": 1,
+        "persisted_content_bytes": 35379,
+        "persisted_content_files": 3
+      },
+      "relative_path": "operator/historical_baseline_verification",
+      "status": "PASS_OLD_TRAIN_ONLY_HISTORICAL_EVALUATOR_INTEGRATION"
+    },
+    {
+      "classification": "CLOSED_LEGACY_DEVELOPMENT_TRAINING",
+      "cold_histories": 16,
+      "epochs": 2,
+      "evidence": [
+        "complete.json",
+        "seed_17/history.json",
+        "seed_17/model.pt"
+      ],
+      "inventory_counts": {
+        "bytes": 554910,
+        "files": 9,
+        "new_unique_bytes": 539714,
+        "new_unique_files": 8,
+        "persisted_content_bytes": 15196,
+        "persisted_content_files": 1
+      },
+      "loss_calls": 384,
+      "note": "V1 in this V2 operator directory name denotes the earlier V2 development implementation, not a duplicate of the preserved V1 campaign. Historical format has no actual_work/trace/stage_commit.",
+      "optimizer_steps": 96,
+      "relative_path": "operator/rebar_development_v1",
+      "status": "DEVELOPMENT_COMPLETE"
+    },
+    {
+      "classification": "CLOSED_LEGACY_DEVELOPMENT_TRAINING",
+      "cold_histories": 32,
+      "epochs": 4,
+      "evidence": [
+        "complete.json",
+        "seed_17/history.json",
+        "seed_17/model.pt"
+      ],
+      "inventory_counts": {
+        "bytes": 824424,
+        "files": 11,
+        "new_unique_bytes": 775011,
+        "new_unique_files": 7,
+        "persisted_content_bytes": 24868,
+        "persisted_content_files": 2,
+        "within_supplement_duplicate_bytes": 24545,
+        "within_supplement_duplicate_files": 2
+      },
+      "loss_calls": 768,
+      "note": "All four historical epochs are archival evidence; locked two-option calibration decision was restricted to eligible epochs 0 and 1. Historical format has no actual_work/trace/stage_commit.",
+      "optimizer_steps": 192,
+      "relative_path": "operator/rebar_development_v2_endpoint",
+      "status": "DEVELOPMENT_COMPLETE"
+    },
+    {
+      "classification": "CLOSED_COMMITTED_DEVELOPMENT_WORKER",
+      "cold_histories": 8,
+      "epochs": 1,
+      "evidence": [
+        "seed_17/worker_completion.json",
+        "seed_17/stage_commit.json",
+        "seed_17/history.json"
+      ],
+      "inventory_counts": {
+        "bytes": 1218109,
+        "files": 16,
+        "new_unique_bytes": 1104473,
+        "new_unique_files": 12,
+        "persisted_content_bytes": 26792,
+        "persisted_content_files": 3,
+        "within_supplement_duplicate_bytes": 86844,
+        "within_supplement_duplicate_files": 1
+      },
+      "loss_calls": 192,
+      "optimizer_steps": 48,
+      "relative_path": "operator/rebar_worker_verification",
+      "status": "COMPLETE_COMMITTED_STAGE"
+    },
+    {
+      "classification": "HISTORICAL_SOURCE_AND_PROPOSAL_SNAPSHOTS_NOT_A_TRAINING_RUN",
+      "evidence": [],
+      "inventory_counts": {
+        "bytes": 68365,
+        "files": 4,
+        "new_unique_bytes": 47143,
+        "new_unique_files": 3,
+        "within_supplement_duplicate_bytes": 21222,
+        "within_supplement_duplicate_files": 1
+      },
+      "note": "Preserve unchanged; no training completion claim and do not execute historical proposals.",
+      "relative_path": "operator/source_history",
+      "status": "HISTORICAL_SNAPSHOT_ONLY"
+    }
+  ],
+  "formal_reference_scope": "No formal payload or destination. Some external content identities point to already-saved formal-stage ZIP small metadata/source; no live formal files were read.",
+  "new_solver_or_optimizer_steps": 0
+}
