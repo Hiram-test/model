@@ -1,0 +1,10 @@
+read native/mesh10x_validation_008.frd new # Read native solver mesh and all result datasets.
+rot u 60 # Expose the contact blocks in three dimensions.
+rot r 30 # Set an isometric azimuth.
+ds 156 e 4 # Select final-frame displacement magnitude in millimetres.
+plot fv all # Display native nodal results on the native surfaces.
+hcpy png displacement # Save the native CGX frame without Python.
+ds 157 e 7 # Select final-frame extrapolated nodal von Mises stress in MPa.
+plot fv all # Retain the same geometry and camera.
+hcpy png stress # Save the native CGX stress frame.
+quit # End the reproducible native renderer.
