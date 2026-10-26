@@ -262,7 +262,7 @@ if __name__=='__main__':  # Run one whole-history experiment from a frozen exter
     p.add_argument('--detailed-model',dest='detailed_model',action='store_true',default=True)  # Default explicitly to actual source-dimensional panels, stiffeners, and corrected cable planes.
     p.add_argument('--shell-element',choices=['ShellNLDKGQ','ASDShellQ4'],default='ShellNLDKGQ')  # Freeze the nonlinear shell family without changing geometry, mesh, or material inputs.
     p.add_argument('--initial-displacement-tolerance',type=float,default=1e-9)  # Control native predictor stopping only; final static and dynamic force acceptance thresholds remain unchanged.
-    p.add_argument('--native-force-tolerance',type=float,default=.01)  # Permit explicitly recorded stricter dynamic Newton solves while preserving the original .02N independent acceptance gate.
+    p.add_argument('--native-force-tolerance',type=float,default=.0001)  # Use the strict native stopping value by default so the independent .02N componentwise gate is not defeated by the looser mixed-norm stopping value.
     p.add_argument('--legacy-model',dest='detailed_model',action='store_false')  # Require an explicit diagnostic override before using the historical equivalent-deck model.
     args=p.parse_args()  # Parse the complete native experiment contract.
     execute(args)  # Compute actual full-field dynamic FEM labels.
