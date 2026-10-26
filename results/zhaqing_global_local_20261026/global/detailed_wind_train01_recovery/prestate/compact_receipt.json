@@ -1,0 +1,38 @@
+{
+  "status": "VALID_CONVERGED",
+  "solver": "OpenSees 3.8.0",
+  "source_sha256": "1a6578cacf02fa2f32b6922f3385aa55220b0f0bd4025c9d334ab80e21f4a50d",
+  "state_sha256": "0889896518aa78f794f1925d8c0f5e7c312d62b90751d93c2621f25cc1e22be3",
+  "subdivision": 1,
+  "node_count": 30555,
+  "element_count": 26674,
+  "native_exit": 0,
+  "free_residual_max_equivalent_N": 0.0009215400350512937,
+  "force_tolerance_N": 0.001,
+  "moment_scale_mm": 5500.0,
+  "displacement_correction_tolerance_mm": 1e-09,
+  "minimum_cable_force_N": 10486.789513270793,
+  "maximum_translation_mm": 261.4570036348408,
+  "mass_tonne": 312.9604744668149,
+  "elapsed_s": 1030.4884228979972,
+  "scope": "Full-order geometric nonlinear ShellNLDKGQ+corotational beam+corotTruss; no modal or response reduction",
+  "midspan_monitor_u_mm": [
+    -0.19344195888901167,
+    -2.0181612410675783e-13,
+    3.0791284109311072
+  ],
+  "physical_limitations": [
+    "towercolumns5500mmspacing;saddle/hangerplanes5100mmspacing;anchorplanes4700mmspacing;200mmsaddleeccentricitywithassumedrigidseat",
+    "N3drawn1560mmendplatesconflictwithbill2690mm;N4actualfilletprofile295mmannotationfitmodeledwithpiecewisebeamsections;N5rectangle312mm;verifiedtablemassretained",
+    "real100/63x10N5ledgesmodeled;boltedchannelbottomsupportstied,noopening/slip;linearizedrigidweldarmsnotcalibrated",
+    "crossbeamactual420x300x10TWO-WEBclosedbox;416webmaterialtableconflictretained",
+    "endbearingsat2m/80massumed;actualbearingdrawingrequired",
+    "F3cableforceusedonlyasnewgeometryinitialguess;fabricationL0notclaimed",
+    "windanchorscandidateand10kNpretensionunverified",
+    "elasticmaterials;globalgeometricnonlinearityactive"
+  ],
+  "summary_sha256": "a2af2435aba1642a44c2f28b5bde7410259ffeace9615aa38fd56fde337099a9",
+  "final_cleanup_displacement_tolerance_verified": false,
+  "dynamic_history_complete": false,
+  "new_operator_training_epochs_completed": 0
+}
