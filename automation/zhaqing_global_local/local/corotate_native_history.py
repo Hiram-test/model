@@ -6,6 +6,7 @@ import json # Metadata.
 from pathlib import Path # Paths.
 import numpy as np # Tensor algebra, no visualization.
 from fatigue_indicators import tensor_from_six # Explicit public shear convention.
+from quadratic_solid import gauss_shape # Exact native C3D20R kinematics when quadratic nodes are present.
 
 def six(tensor: np.ndarray) -> np.ndarray: # Return XX YY ZZ XY YZ ZX tensor components.
     return np.stack([tensor[..., 0, 0], tensor[..., 1, 1], tensor[..., 2, 2], tensor[..., 0, 1], tensor[..., 1, 2], tensor[..., 2, 0]], axis=-1) # Preserve public order.
@@ -49,10 +50,12 @@ def main() -> None: # Native finite-kinematics conversion.
     displacement = read_displacements(a.folder / f"{a.job}.frd", times, len(nodes)) # No inferred nodal kinematics.
     signs = np.array([[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]], float) # Native C3D8 reference ordering.
     gradients = [] # Natural derivatives for all8 integration points.
-    for q in signs / np.sqrt(3.0): # Exact two-point Gaussian coordinates.
+    for q in signs[[0,1,3,2,4,5,7,6]] / np.sqrt(3.0): # Exact CalculiX gauss3d2 point order, not the corner-node order.
         g = np.empty((8, 3)) # Shape derivative matrix.
         for k in range(3): axes = [j for j in range(3) if j != k]; g[:, k] = signs[:, k] / 8.0 * np.prod(1.0 + signs[:, axes] * q[axes], axis=1) # Tensor-product derivatives.
         gradients.append(g) # Preserve native IP order.
+    if cells.shape[1] == 20: _, gradients = gauss_shape() # Replace corner-only kinematics with all twenty actual quadratic nodes.
+    elif cells.shape[1] != 8: raise ValueError('Only validated C3D8 and C3D20R kinematics are supported') # Refuse unknown element interpolation.
     conn = cells[points[:, 0] - 1]; grad_nat = np.asarray(gradients)[points[:, 1] - 1] # All actual integration-point geometry.
     jac = np.einsum("eni,enj->eij", nodes[conn], grad_nat) # Reference geometric Jacobians.
     grad = grad_nat @ np.linalg.inv(jac) # Physical reference shape gradients.
@@ -61,7 +64,7 @@ def main() -> None: # Native finite-kinematics conversion.
         f = np.eye(3) + np.einsum("eni,enj->eij", displacement[float(time)][conn], grad) # F=I+Grad(u), no small-rotation approximation.
         s, e = corotate(d["stress"][k], f); all_stress.append(s); all_strain.append(e); max_j.append([float(np.min(np.linalg.det(f))), float(np.max(np.linalg.det(f)))]) # Store compatible fields and kinematic check.
     output = a.folder / "cycle_corotated.npz"; np.savez_compressed(output, stress=np.asarray(all_stress), strain=np.asarray(all_strain), times=times, element_ip_ids=points) # Preserve all IP/time fields.
-    meta.update({"tensor_frame": "material_corotated", "stress_measure": "Cauchy", "strain_measure": "Hencky_log_U", "kinematics": "F from full native nodal displacements and C3D8 reference shape gradients; polar decomposition", "native_frd_sha256": hashlib.sha256((a.folder / f"{a.job}.frd").read_bytes()).hexdigest(), "jacobian_determinant_range_by_frame": max_j, "cycle_stabilized": False, "cycle_scope": "first complete prescribed load cycle; no repeated-cycle stabilization claim"}) # Explicit finite-rotation semantics.
+    meta.update({"tensor_frame": "material_corotated", "stress_measure": "Cauchy", "strain_measure": "Hencky_log_U", "kinematics": f"F from all native nodal displacements and {'C3D20R' if cells.shape[1] == 20 else 'C3D8'} reference shape gradients; polar decomposition", "native_frd_sha256": hashlib.sha256((a.folder / f"{a.job}.frd").read_bytes()).hexdigest(), "jacobian_determinant_range_by_frame": max_j, "cycle_stabilized": False, "cycle_scope": "first complete prescribed load cycle; no repeated-cycle stabilization claim"}) # Explicit finite-rotation semantics.
     output.with_suffix(".json").write_text(json.dumps(meta, indent=2) + "\n") # Save corrected field contract.
     print(json.dumps({"frames": len(times), "integration_points": len(points), "output": str(output)})) # Summarize actual conversion.
 

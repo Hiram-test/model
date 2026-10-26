@@ -10,6 +10,18 @@ def build(source,statepath,subdivision=1):  # Construct all physical deck panels
     old,groups,sets,cload,accessory,materials=base.parse(source)  # Decode authenticated original topology for towers, cables and anchors.
     state=json.loads(statepath.read_text())  # Recover nominal cable pretension as an explicit initial guess.
     old.update({int(k):np.array(v) for k,v in state['nodeCoordinatesMm'].items()})  # Apply source-evidenced main cable coordinates.
+    cable_nodes={n for eid,conn in groups['MAIN_CABLES'] for n in conn}  # Identify the physical cable points independently of tower-column axes.
+    tower_tops=set(sets['TOWER_TOPS'])  # Preserve the authentic column-center coordinates at transverse plus/minus2750mm.
+    anchor_left=min(old[n][0] for n in sets['MAIN_CABLE_ANCHORS'])  # Recover the actual historical left anchor station.
+    anchor_right=max(old[n][0] for n in sets['MAIN_CABLE_ANCHORS'])  # Recover the actual historical right anchor station.
+    def cable_plane(x,sign):  # Apply the reviewed5100mm saddle spacing and4700mm anchor spacing without moving tower columns.
+        width=2550. if 0.<=x<=82000. else 2350.+200.*((x-anchor_left)/(-anchor_left) if x<0. else (anchor_right-x)/(anchor_right-82000.))  # Retain straight transverse side-span interpolation between actual interfaces.
+        return sign*width  # Return the appropriate actual bridge side.
+    for n in cable_nodes-tower_tops:  # Correct only cable coordinates that do not also define source concrete columns.
+        old[n][1]=cable_plane(old[n][0],math.copysign(1.,old[n][1]))  # Preserve longitudinal/elevation evidence while correcting transverse geometry.
+    for eid,conn in groups['HANGERS']:  # Move physical hanger planes to the reviewed saddle/main-cable plane.
+        for n in conn:  # Correct both hanger top and bottom source coordinates consistently.
+            old[n][1]=math.copysign(2550.,old[n][1])  # Preserve actual5100mm hanger-line spacing.
     keepgroups=('MAIN_CABLES','TOWER_COLUMNS','TOWER_TOP_BEAMS')  # Preserve only directly compatible original native geometric groups.
     keep={n for g in keepgroups for e,c in groups[g] for n in c}  # Derive the exact original retained geometric node population.
     keep.update(sets['WIND_ANCHORS'])  # Preserve source actual candidate anchorage coordinates explicitly.
@@ -42,6 +54,12 @@ def build(source,statepath,subdivision=1):  # Construct all physical deck panels
         return dict(A=b*h,Iy=b*h**3/12,Iz=h*b**3/12,J=a*c**3*(1/3-.21*c/a*(1-c**4/(12*a**4))))  # Preserve both bending axes and Saint-Venant torsion.
     def hsection(b,h,tw,tf):  # Derive a source-dimensional openIsection.
         return dict(A=2*b*tf+(h-2*tf)*tw,Iy=(b*h**3-(b-tw)*(h-2*tf)**3)/12,Iz=(2*tf*b**3+(h-2*tf)*tw**3)/12,J=(2*b*tf**3+(h-2*tf)*tw**3)/3)  # Use thin-wall open-section torsion and explicit flange/web geometry.
+    saddle_map={}  # Keep separate physical saddle and concrete tower-column identities.
+    for tower in sorted(tower_tops):  # Create all four real200mm-inboard saddle interfaces.
+        point=old[tower].copy()  # Preserve reviewed saddle longitudinal station and source elevation.
+        point[1]=math.copysign(2550.,point[1])  # Locate the actual transverse saddle seat independently of the column center.
+        saddle_map[tower]=node(point)  # Allocate one actual support point without displacing the concrete column.
+        rigids.append((tower,saddle_map[tower],'reviewed200mm inward saddle seat; assumed rigid seat-to-tower connection'))  # Make the physical eccentricity and connection-law assumption explicit.
     for g in keepgroups:  # Restore original source tower and main-cable geometry.
         for eid,conn in groups[g]:  # Keep exact old stable source connectivity.
             if g=='MAIN_CABLES':  # Use actual283wire total area as a true axial cable section.
@@ -49,7 +67,7 @@ def build(source,statepath,subdivision=1):  # Construct all physical deck panels
             else:  # Preserve source concrete tower dimensions pending local tower reinforcement detailing.
                 prop=rect(1000.,1500.) if g=='TOWER_COLUMNS' else rect(1500.,500.)  # Retain complete tower cross sections.
                 prop.update(E=30000.,nu=.2,rho=2.5e-9)  # Preserve concrete screening material properties.
-            element(g,conn,prop,eid)  # Register all source members explicitly.
+            element(g,[saddle_map.get(n,n) for n in conn] if g=='MAIN_CABLES' else conn,prop,eid)  # Connect the physical cable to its separate real saddle seat while preserving tower-column topology.
     stations=[2000.+3000.*i for i in range(27)]  # Use source-bound27crossbeam stations rather than the old0/82m substitutions.
     channel_y=[-2340.+1560.*panel+312.*k for panel in range(3) for k in range(6)]  # Place six16b channels in each of the three1560mm panels.
     ys=sorted(set([-2750.,-2550.,2550.,2750.]+channel_y+[-2340.+1560.*p+156.*j for p in range(3) for j in range(11)]))  # Resolve all real plate/channel support positions across the crossbeam.
@@ -252,7 +270,7 @@ def build(source,statepath,subdivision=1):  # Construct all physical deck panels
         else:  # Markdependentdegreesforequilibrium-auditexclusiononly.
             fixities[n]=[1]*6  # Do notincorrectlyinterpretconstraintforcesasfreeDOFresiduals.
         ops.mass(n,nodalmass[n],nodalmass[n],nodalmass[n],0.,0.,0.)  # Preserveallphysicalinertialmassunderconstrainttransformation.
-    return dict(nodes=nodes,elements=elements,source_ids=parents,sets={**sets,'DECK_BEARINGS':supportnodes},mass=nodalmass,gravity=gravity,state=state,source_nodes={n:old[n] for n in keep},fixities=fixities,rigid_connections=[dict(master=a,slave=b,assumption=c) for a,b,c in rigids],panel_count=78,channel_count=468,physical_limitations=['N3drawn1560mmendplatesconflictwithbill2690mm;N4actualfilletprofile295mmannotationfitmodeledwithpiecewisebeamsections;N5rectangle312mm;verifiedtablemassretained','real100/63x10N5ledgesmodeled;boltedchannelbottomsupportstied,noopening/slip;linearizedrigidweldarmsnotcalibrated','crossbeamactual420x300x10TWO-WEBclosedbox;416webmaterialtableconflictretained','endbearingsat2m/80massumed;actualbearingdrawingrequired','F3cableforceusedonlyasnewgeometryinitialguess;fabricationL0notclaimed','windanchorscandidateand10kNpretensionunverified','elasticmaterials;globalgeometricnonlinearityactive'])  # Returnfullactualgeometryandallunresolvedphysicalassumptionsexplicitly.
+    return dict(nodes=nodes,elements=elements,source_ids=parents,sets={**sets,'DECK_BEARINGS':supportnodes,'SADDLE_INTERFACES':list(saddle_map.values())},mass=nodalmass,gravity=gravity,state=state,source_nodes={n:old[n] for n in keep},fixities=fixities,rigid_connections=[dict(master=a,slave=b,assumption=c) for a,b,c in rigids],panel_count=78,channel_count=468,physical_limitations=['towercolumns5500mmspacing;saddle/hangerplanes5100mmspacing;anchorplanes4700mmspacing;200mmsaddleeccentricitywithassumedrigidseat','N3drawn1560mmendplatesconflictwithbill2690mm;N4actualfilletprofile295mmannotationfitmodeledwithpiecewisebeamsections;N5rectangle312mm;verifiedtablemassretained','real100/63x10N5ledgesmodeled;boltedchannelbottomsupportstied,noopening/slip;linearizedrigidweldarmsnotcalibrated','crossbeamactual420x300x10TWO-WEBclosedbox;416webmaterialtableconflictretained','endbearingsat2m/80massumed;actualbearingdrawingrequired','F3cableforceusedonlyasnewgeometryinitialguess;fabricationL0notclaimed','windanchorscandidateand10kNpretensionunverified','elasticmaterials;globalgeometricnonlinearityactive'])  # Returnfullactualgeometryandallunresolvedphysicalassumptionsexplicitly.
 if __name__=='__main__':  # Runtherealdiscrete-panelwhole-bridgemodelwithindependentnumericgates.
     p=argparse.ArgumentParser()  # Requireexplicitinheritedsourceandresultpaths.
     p.add_argument('--source',type=Path,required=True)  # Bindauthenticoldsourceforcompatibletower/cablemembers.

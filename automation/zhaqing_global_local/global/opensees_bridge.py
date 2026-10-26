@@ -1,6 +1,7 @@
 #!/usr/bin/env python3  # Solve every physical bridge degree with OpenSees native nonlinear elements.
 import argparse  # Expose reproducible source, mesh, and time-integration settings.
 import hashlib  # Preserve exact identity of source FEM and prestress state.
+import inspect  # Preserve the exact dynamically selected physical model implementation before execution.
 import json  # Save auditable model and convergence receipts.
 import math  # Compute geometric section and tributary measures.
 import time  # Measure actual native solve wall time.
@@ -184,6 +185,12 @@ def write_vtk(path,m,displacement=None):  # Export exact native mesh/results as 
                 stream.write(' '.join(f'{v:.12g}' for v in row[:3])+'\n')  # Preservecomputedcomponentswithoutplottingorsmoothing.
 def run(args):  # Execute the requested full-order bridge model and archive only observed results.
     args.output.mkdir(parents=True,exist_ok=True)  # Create isolated native result namespace.
+    snapshots={}  # Bind every physical run to immutable model and solver implementation bytes.
+    for label,path in [('model_source_snapshot.py',Path(inspect.getsourcefile(model))),('solver_source_snapshot.py',Path(__file__))]:  # Freeze both selected geometry and shared native solution logic.
+        content=path.read_bytes()  # Read the exact source at launch before subsequent edits can occur.
+        (args.output/label).write_bytes(content)  # Retain the executed source alongside its real numerical results.
+        snapshots[label]=hashlib.sha256(content).hexdigest()  # Preserve exact execution identity for audit and resume policies.
+    (args.output/'source_snapshots.json').write_text(json.dumps(snapshots,indent=2)+'\n')  # Save source hashes before a potentially interrupted long native solve.
     start=time.perf_counter()  # Begin real elapsed-time accounting.
     m=model(args.source,args.state,args.subdivision)  # Construct all source-backed physical degrees.
     write_vtk(args.output/'native_mesh.vtk',m)  # Preserveactualphysicalgeometryevenifthenonlinearsolvefails.
@@ -197,11 +204,20 @@ def run(args):  # Execute the requested full-order bridge model and archive only
     if code==0:  # Refine the accepted native state using independent physical force and moment residuals.
         ops.integrator('LoadControl',0.)  # Hold all actual forces and fabrication prestress unchanged.
         ops.test('FixedNumIter',2,0)  # Execute exactly two genuine Newton updates before external dimensional acceptance checks.
+        ordered_nodes=list(m['nodes'])  # Freeze the full native ordering for residual-hotspot and correction evidence.
+        previous_displacement=np.asarray([ops.nodeDisp(n) for n in ordered_nodes])  # Retain the preceding committed full state solely for convergence diagnostics.
+        load_reference=max(1.,sum(float(np.linalg.norm(load[:3])) for load in m['gravity'].values()))  # Report a physical total external-force reference without using it to relax the fixed acceptance tolerance.
         for cleanup in range(120):  # Bound residual cleanup without accepting unconverged state automatically.
             update=ops.analyze(1)  # Solve native tangent corrections at unchanged load, never project predicted fields.
             ops.reactions()  # Reassemble physical internal forces after the native updates.
-            error=max(abs(row[d])/(1. if d<3 else 5500.) for n,row in zip(m['nodes'],physical_reactions(m,list(m['nodes']))) for d in range(6) if not m['fixities'][n][d])  # Audit force and moment/width in identicalN units.
-            print(json.dumps({'equilibrium_cleanup':cleanup,'equivalent_residual_N':error,'native_update':update}),flush=True)  # Preserve the real residual path.
+            residual=physical_reactions(m,ordered_nodes)  # Preserve actual assembled free-equation force and moment residuals after native commits.
+            candidates=[(abs(row[d])/(1. if d<3 else 5500.),n,d,float(row[d])) for n,row in zip(ordered_nodes,residual) for d in range(6) if not m['fixities'][n][d]]  # Record physical hotspot identity rather than only an unexplained scalar norm.
+            hotspot=max(candidates)  # Locate the largest independent equivalent-force residual.
+            error=hotspot[0]  # Apply exactly the original declared absolute equilibrium tolerance.
+            current_displacement=np.asarray([ops.nodeDisp(n) for n in ordered_nodes])  # Read the actual complete committed state for correction evidence.
+            change=current_displacement-previous_displacement  # Distinguish decreasing force residual from continued significant motion.
+            previous_displacement=current_displacement  # Preserve the current full native state for the next diagnostic comparison.
+            print(json.dumps({'equilibrium_cleanup':cleanup,'equivalent_residual_N':error,'native_update':update,'hotspot_native_node':hotspot[1],'hotspot_dof_1based':hotspot[2]+1,'hotspot_residual_N_or_Nmm':hotspot[3],'relative_to_total_gravity_force':error/load_reference,'total_gravity_force_N':load_reference,'maximum_committed_translation_change_mm':float(np.max(np.abs(change[:,:3]))),'maximum_committed_rotation_change_rad':float(np.max(np.abs(change[:,3:])))}),flush=True)  # Preserve force, moment, scale, location, and actual correction evidence without weakening acceptance.
             if update==0 and error<1e-3:  # Require independent physical equilibrium with the original declared tolerance.
                 break  # Stop only after all free physical degrees satisfy the audit.
         else:  # Reject exhaustion even if the native fixed-iteration test committed each trial.

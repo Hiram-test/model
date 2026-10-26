@@ -124,7 +124,7 @@ def build(out: Path, nx: int, nc: int, count: int, load_n: float, mu: float, smo
     if elastic_forming: # Optional compatible elastic bending import, not a fabricated plastic history.
         lines.append("*INITIAL CONDITIONS,TYPE=STRESS") # Native integration-point initial stresses.
         signs = np.array([[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]], dtype=float) # C3D8 natural node ordering.
-        gauss = signs / math.sqrt(3.0) # All8 integration points retained.
+        gauss = signs[[0,1,3,2,4,5,7,6]] / math.sqrt(3.0) # Preserve native CalculiX gauss3d2 order, which differs from corner-node order.
         shapes = np.prod(1.0 + gauss[:, None, :] * signs[None, :, :], axis=2) / 8.0 # Trilinear shape values.
         for e, cell in enumerate(conn[:wire_elements], 1): # Every actual wire solid receives a physical stress tensor.
             gp = shapes @ xyz[cell - 1] # Native element integration-point coordinates.

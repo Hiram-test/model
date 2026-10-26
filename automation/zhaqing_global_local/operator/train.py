@@ -3,7 +3,7 @@ import argparse, copy, csv, hashlib, json, os, time # Record complete execution 
 from pathlib import Path # Store durable repository-backed results rather than volatile shared memory.
 import numpy as np # Export numeric predictions for independent native or Gnuplot rendering.
 import torch # Train the explicit quadrature integral operator.
-from data import load_split, sha256 # Enforce geometry, convergence, provenance and complete-history partition gates.
+from data import AffineHistory, load_split, sha256 # Enforce provenance while normalizing complete histories one frame at a time.
 from gno import FullFieldGNO, OperatorConfig # Instantiate only the new matrix-kernel architecture.
 
 def write_json(path, value): # Publish complete evidence only after successful serialization.
@@ -30,13 +30,14 @@ def fit_normalization(cases, manifest): # Derive scales solely from the declared
     control_den = weights.new_tensor(0.) # Accumulate actual physical sample measures.
     initial_num, initial_den = torch.zeros_like(numerator), torch.zeros_like(numerator) # Scale the known permanent initial state separately from the learned transient response.
     for case in cases: # Only training labels participate in this loop.
-        temporal = time_weights(case['times'])[:, None, None] # Weight adaptive native time samples by physical elapsed time.
-        measure = case['quadrature'][None, :, None] * case['output_mask'][None] * temporal # Account for actual duration and entity-specific field availability.
-        numerator += ((case['targets'] - case['initial_state']).square() * measure).sum((0, 1)) # Normalize the actual transient change so large permanent-load deformation cannot hide wind-response errors.
-        denominator += measure.sum((0, 1)) # Count exactly the observed physical measure through physical time.
+        temporal = time_weights(case['times']) # Weight every native sample by physical time without a full-history broadcast.
+        measure = case['quadrature'][:, None] * case['output_mask'] # Keep only one complete native spatial integration measure.
+        for index in range(len(temporal)): # Read each complete physical frame exactly once during training-only normalization.
+            numerator += ((case['targets'][index] - case['initial_state']).square() * measure).sum(0) * temporal[index] # Accumulate the actual transient response without loading the complete history.
+            denominator += measure.sum(0) * temporal[index] # Count the observed physical measure through actual elapsed time.
+            control_num += (case['controls'][index].square() * case['quadrature'][:, None]).sum(0) * temporal[index] # Read prescribed input fields through the same bounded temporal interface.
         initial_num += (case['initial_state'].square() * case['quadrature'][:, None] * case['output_mask']).sum(0) # Preserve the known prestressed initial response as a separate input function.
         initial_den += (case['quadrature'][:, None] * case['output_mask']).sum(0) # Count only physically observed native initial fields.
-        control_num += (case['controls'].square() * case['quadrature'][None, :, None] * temporal).sum((0, 1)) # Use a duration-weighted origin-preserving RMS for prescribed controls.
         control_den += case['quadrature'].sum() * temporal.sum() # Preserve the actual duration under adaptive time refinement.
     if torch.any(denominator == 0): # Missing physical channels must be removed explicitly from the declared output contract.
         raise ValueError('A declared output has no training observations') # Do not learn unavailable contact pressure from all-zero placeholders.
@@ -54,15 +55,15 @@ def time_weights(times): # Integrate sampled histories with trapezoidal physical
 
 def normalize(case, norm): # Apply one frozen training normalization to any complete history.
     result = dict(case) # Preserve physical labels and provenance in the caller's original tensors.
-    tensor = lambda key: case['targets'].new_tensor(norm[key]) # Construct device- and dtype-compatible normalization constants.
+    tensor = lambda key: case['initial_state'].new_tensor(norm[key]) # Use a materialized single spatial field to allocate compatible normalization constants.
     if norm['coordinate_scale'] <= 0 or norm['time_scale'] <= 0: # A physical scale is positive and independent of mesh density.
         raise ValueError('Coordinate and time scales must be positive') # Fail before corrupting the kernel's physical metric.
     result['coordinates'] = case['coordinates'] / norm['coordinate_scale'] # Use the same physical length normalization on every mesh.
     centroid = (case['coordinates'] * case['quadrature'][:, None]).sum(0) / case['quadrature'].sum() # Locate each entity relative to the physical mass/volume centroid without a mesh-degree bias.
     position = (case['coordinates'] - centroid) / norm['coordinate_scale'] # Supply native longitudinal/transverse/vertical geometry while preserving common-translation independence.
     result['static_features'] = torch.cat(((case['static_features'] - tensor('static_mean')) / tensor('static_scale'), position, case['initial_state'] / tensor('initial_condition_scale')), dim=-1) # Preserve physical semantic, centered geometry and complete known-initial-state input functions.
-    result['controls'] = case['controls'] / tensor('control_scale') # Normalize the complete nodal loading history.
-    result['targets'] = (case['targets'] - case['initial_state']) / tensor('output_scale') # Learn every native response change relative to the known solved prestate, retaining every physical degree.
+    result['controls'] = AffineHistory(case['controls'], tensor('control_scale')) # Normalize each requested complete nodal input frame lazily.
+    result['targets'] = AffineHistory(case['targets'], tensor('output_scale'), case['initial_state']) # Shift and scale every native response frame without a full-history allocation.
     result['initial_state'] = torch.zeros_like(case['initial_state']) # The known initial response change is exactly zero; its physical state remains an explicit static input above.
     result['times'] = case['times'] / norm['time_scale'] # Expose actual normalized elapsed time to the causal operator.
     return result # Quadrature measures and edge topology are unchanged by normalization.
@@ -71,26 +72,57 @@ def field_loss(prediction, target, case): # Balance channels in their training-d
     measure = case['quadrature'][:, None] * case['output_mask'] # Retain the complete native domain of every observed output field.
     return (((prediction - target).square() * measure).sum(0) / measure.sum(0).clamp_min(1.e-12)).mean() # Equal normalized channel weighting cannot erase unobserved-field masks.
 
-def rollout(model, case): # Generate a full cold history without teacher forcing.
+def iter_rollout(model, case): # Yield each full native frame in causal order without retaining the complete trajectory in RAM.
     case = model.prepare_mesh(case) # Compute exact geometry-only kernels once for this unchanged inference function.
     previous, hidden = case['initial_state'], None # Reset physical and learned memory at the known initial condition.
-    states = [previous] # Preserve the native initial frame as part of the complete output history.
+    yield previous # Preserve the actual initial frame as part of the complete output history.
     for index in range(1, len(case['times'])): # Visit every native time sample exactly once.
         previous, hidden = model(case, case['controls'][index], previous, hidden, case['times'][index] - case['times'][index - 1]) # Feed only previously predicted response into the next operator step.
-        states.append(previous) # Keep all native spatial outputs at every step.
-    return torch.stack(states) # Return time-by-entity-by-field output without a response basis.
+        yield previous # Retain all native outputs while releasing older inference frames when their consumer advances.
+
+def rollout(model, case): # Materialize small diagnostic histories explicitly while production uses the streaming iterator.
+    return torch.stack(list(iter_rollout(model, case))) # Preserve the existing analytic-test API without using it for production evaluation.
 
 def metrics(predicted, case, output_scale, field_names): # Report physical error and robust relative error separately.
-    duration = (case['times'][1:] - case['times'][:-1])[:, None, None] # Use right-endpoint interval integration over predicted frames, excluding the supplied initial state.
-    measure = case['quadrature'][None, :, None] * case['output_mask'][None] * duration # Respect physical elapsed time and entity-specific observations.
-    error = ((predicted[1:] - case['targets'][1:]).square() * measure).sum((0, 1)).sqrt() # Score every predicted interval with its actual duration.
-    reference = (case['targets'][1:].square() * measure).sum((0, 1)).sqrt() # Preserve each complete duration-weighted reference norm.
-    scale = error.new_tensor(output_scale) # Use only train-derived fixed scales for small-response stabilization.
-    floor = scale * measure.sum((0, 1)).sqrt() # Normalize by the physical domain and actual predicted duration.
-    dynamic = ((case['targets'][1:] - case['initial_state']).square() * measure).sum((0, 1)).sqrt() # Separate the wind-induced change from a potentially dominant permanent-load initial shape.
-    normalized = error / torch.maximum(dynamic, floor).clamp_min(1.e-12) # Select on actual transient-change accuracy instead of the potentially dominant permanent response.
-    rows = {name: {'weighted_L2_absolute': float(error[i]), 'reference_weighted_L2': float(reference[i]), 'relative_L2': float(error[i] / reference[i]) if reference[i] > 0 else None, 'scale_normalized_L2': float(normalized[i]), 'dynamic_reference_weighted_L2': float(dynamic[i]), 'dynamic_relative_L2': float(error[i] / dynamic[i]) if dynamic[i] > 0 else None, 'beats_hold_initial_baseline': bool(error[i] < dynamic[i])} for i, name in enumerate(field_names)} # Expose dynamic error and the constant-prestate baseline instead of hiding poor dynamics behind large static responses.
-    return {'id': case['id'], 'mean_scale_normalized_L2': float(normalized.mean()), 'fields': rows, 'native_entities': len(case['coordinates']), 'predicted_time_steps': len(case['times']) - 1, 'physical_equilibrium_residual_evaluated': False} # Field accuracy alone is not an equilibrium certificate.
+    accumulator = MetricAccumulator(case, output_scale, field_names) # Use the same bounded-memory metric as production inference.
+    for index, frame in enumerate(predicted): # Score every complete physical prediction frame in its original order.
+        accumulator.append(index, frame) # Read only the matching reference slice.
+    return accumulator.finish() # Return full-history metrics only after exact frame-count validation.
+
+class MetricAccumulator: # Integrate complete field errors in O(native mesh) memory.
+    def __init__(self, case, output_scale, field_names): # Freeze physical metrics and the expected complete native time grid.
+        self.case, self.output_scale, self.field_names = case, output_scale, field_names # Keep only one history reference, scales, and physical channel labels.
+        self.measure = case['quadrature'][:, None] * case['output_mask'] # Form actual spatial observation measures once.
+        self.error2 = case['initial_state'].new_zeros(len(field_names), dtype=torch.float64) # Accumulate long-horizon squared error in double precision.
+        self.reference2, self.dynamic2 = torch.zeros_like(self.error2), torch.zeros_like(self.error2) # Preserve complete response and transient-change reference norms independently.
+        self.maximum = torch.zeros_like(self.error2) # Retain worst pointwise errors instead of reporting only averaged performance.
+        self.frames = 0 # Require every original physical frame before reporting a completed evaluation.
+    def append(self, index, predicted): # Add exactly one physical native prediction in chronological order.
+        if index != self.frames or predicted.shape != self.case['initial_state'].shape or not bool(torch.isfinite(predicted).all()): # Reject reordered, reduced, malformed, or unstable output fields.
+            raise ValueError('Prediction frame is incomplete, nonfinite, or out of order') # Never silently skip a failed response frame.
+        self.frames += 1 # Count the actual complete evaluated frame.
+        if index == 0: # The known initial condition is supplied to all methods and is not a predicted interval.
+            return # Exclude the prescribed frame from performance scores.
+        target = self.case['targets'][index] # Read only the matching full physical reference frame.
+        duration = self.case['times'][index] - self.case['times'][index - 1] # Respect each actual accepted solver interval.
+        weighted = self.measure.double() * duration.double() # Integrate right-endpoint errors over physical elapsed time.
+        difference = predicted.double() - target.double() # Avoid float32 cancellation in accumulated error statistics.
+        self.error2 += (difference.square() * weighted).sum(0) # Accumulate every observed native field discrepancy.
+        self.reference2 += (target.double().square() * weighted).sum(0) # Preserve the complete physical response norm.
+        self.dynamic2 += ((target.double() - self.case['initial_state'].double()).square() * weighted).sum(0) # Compare against the known-initial-state baseline.
+        self.maximum = torch.maximum(self.maximum, (difference.abs() * self.case['output_mask']).amax(0)) # Preserve the worst observed entity and time error magnitude for each channel.
+    def finish(self): # Publish completed metrics only after every requested original frame was evaluated.
+        if self.frames != len(self.case['times']): # A partial rollout must not be reported as an independent test of the full history.
+            raise ValueError('Incomplete prediction history') # Keep interrupted evaluation visibly incomplete.
+        case, output_scale, field_names = self.case, self.output_scale, self.field_names # Preserve the original metric vocabulary below.
+        error, reference, dynamic = self.error2.sqrt(), self.reference2.sqrt(), self.dynamic2.sqrt() # Recover physical weighted norms after complete integration.
+        duration = case['times'][-1] - case['times'][0] # The complete time quadrature covers the actual native horizon.
+        measure = self.measure.sum(0) * duration # Derive complete observed physical measure without a time-by-node allocation.
+        scale = error.new_tensor(output_scale) # Use only frozen train-derived scales for near-zero response stabilization.
+        floor = scale * measure.sqrt() # Preserve unit-aware physical-domain normalization over the complete duration.
+        normalized = error / torch.maximum(dynamic, floor).clamp_min(1.e-12) # Prevent permanent preloading from hiding transient-response errors.
+        rows = {name: {'weighted_L2_absolute': float(error[i]), 'reference_weighted_L2': float(reference[i]), 'relative_L2': float(error[i] / reference[i]) if reference[i] > 0 else None, 'scale_normalized_L2': float(normalized[i]), 'dynamic_reference_weighted_L2': float(dynamic[i]), 'dynamic_relative_L2': float(error[i] / dynamic[i]) if dynamic[i] > 0 else None, 'beats_hold_initial_baseline': bool(error[i] < dynamic[i]), 'maximum_absolute_error': float(self.maximum[i])} for i, name in enumerate(field_names)} # Retain per-field transient accuracy and worst pointwise discrepancy.
+        return {'id': case['id'], 'mean_scale_normalized_L2': float(normalized.mean()), 'fields': rows, 'native_entities': len(case['coordinates']), 'predicted_time_steps': len(case['times']) - 1, 'physical_equilibrium_residual_evaluated': False} # Statistical accuracy is distinct from satisfying native equilibrium.
 
 @torch.no_grad() # Validation cannot change model weights or read future states during rollout.
 def evaluate(model, physical_cases, norm, manifest, destination=None): # Evaluate complete histories independently of training state.
@@ -98,11 +130,35 @@ def evaluate(model, physical_cases, norm, manifest, destination=None): # Evaluat
     records = [] # Keep individual difficult cases instead of reporting only a convenient average.
     for physical in physical_cases: # Visit every case in the explicitly selected partition.
         case = normalize(physical, norm) # Reuse training-only scales without refitting to validation or test labels.
-        prediction = rollout(model, case) * physical['targets'].new_tensor(norm['output_scale']) + physical['initial_state'] # Restore the complete physical response by adding the known full native initial state.
-        records.append(metrics(prediction, physical, norm['output_scale'], manifest['field_names'])) # Record the entire retained field error.
+        accumulator = MetricAccumulator(physical, norm['output_scale'], manifest['field_names']) # Preserve exact complete-history scores using one spatial frame of temporary memory.
+        output, partial = None, None # Own any optional streamed prediction output until complete successful evaluation.
         if destination is not None: # Write exact numeric arrays for separate native scientific rendering.
-            np.savez_compressed(Path(destination) / (physical['id'] + '_prediction.npz'), prediction=prediction.cpu().numpy(), times=physical['times'].cpu().numpy(), coordinates=physical['coordinates'].cpu().numpy()) # Do not make any Python data plot.
-    return {'mean_scale_normalized_L2': float(np.mean([row['mean_scale_normalized_L2'] for row in records])), 'records': records, 'teacher_forcing': False, 'spatial_reduction': False} # Expose the exact metric and inference policy.
+            import h5py # Use native scientific storage without Python plotting or complete-history RAM copies.
+            target = Path(destination) / (physical['id'] + '_prediction.h5') # Keep one exact numerical prediction artifact per independent history.
+            partial = target.with_suffix('.partial.h5') # Interrupted predictions remain visibly incomplete.
+            output = h5py.File(partial, 'w') # Create an isolated prediction stream without altering the native reference store.
+            output.attrs.update(status='RUNNING', case_id=physical['id'], teacher_forcing=False, spatial_reduction=False) # State the actual independent inference policy in the field artifact.
+            output.create_dataset('prediction', shape=physical['targets'].shape, dtype='f4', chunks=(1, min(len(physical['coordinates']), 2048), len(manifest['field_names'])), compression='gzip', compression_opts=1, shuffle=True) # Preserve all prediction samples with lossless chunk compression.
+            output.create_dataset('times', data=physical['times'].cpu().numpy()) # Preserve the actual native time grid for external rendering.
+            output.create_dataset('coordinates', data=physical['coordinates'].cpu().numpy()) # Preserve every full native evaluation coordinate.
+        try: # Mark failed numerical trajectories truthfully instead of exposing a completed prediction artifact.
+            for index, normalized_prediction in enumerate(iter_rollout(model, case)): # Predict every original frame with no future target feedback.
+                prediction = normalized_prediction * physical['initial_state'].new_tensor(norm['output_scale']) + physical['initial_state'] # Restore complete physical units and the known native initial state.
+                accumulator.append(index, prediction) # Read only the matching native reference frame for independent scoring.
+                if output is not None: # Stream all requested numeric predictions without a full-history allocation.
+                    output['prediction'][index] = prediction.cpu().numpy() # Retain every physical node and output channel at this native time.
+                    output.attrs['written_frames'] = index + 1 # Expose actual complete frame progress within the partial artifact.
+            records.append(accumulator.finish()) # Accept metrics only after the complete expected history was evaluated.
+            if output is not None: # Publish only a complete finite prediction field history.
+                output.attrs['status'] = 'COMPLETE' # Bind the completion marker to the exact frame-count gate.
+                output.close() # Finish all HDF5 writes before making the final filename visible.
+                output = None # Release the file handle before the atomic publication step.
+                os.replace(partial, target) # Commit complete prediction fields without modifying solver references.
+        finally: # Preserve interrupted output evidence and release native file handles on every exception path.
+            if output is not None: # A remaining open writer means inference did not complete successfully.
+                output.attrs['status'] = 'FAILED' # Never expose a partial prediction as a completed independent test.
+                output.close() # Preserve existing partial numerical evidence while avoiding resource leaks.
+    return {'mean_scale_normalized_L2': float(np.mean([row['mean_scale_normalized_L2'] for row in records])), 'worst_case_scale_normalized_L2': float(max(row['mean_scale_normalized_L2'] for row in records)), 'records': records, 'teacher_forcing': False, 'spatial_reduction': False, 'streamed_every_native_frame': True} # Report individual and worst-case performance with the exact inference policy.
 
 def train_epoch(model, optimizer, cases, window): # Train each full loading history once in a seeded random order.
     model.train() # Enable ordinary training behavior without mesh sampling.
@@ -129,6 +185,17 @@ def train_epoch(model, optimizer, cases, window): # Train each full loading hist
             updates += 1 # Expose work beyond the ambiguous term epoch.
     return float(np.mean(losses)), updates # Return actual optimization work and its training objective.
 
+def executable_sources(): # Freeze every executed operator component independently of its checkout path.
+    return {name: sha256(Path(__file__).with_name(name)) for name in ['gno.py', 'data.py', 'train.py', 'relations.py', 'acquisition.py']} # Resumption and evaluation require the same deployed mathematical implementation.
+
+def verify_checkpoint_contract(checkpoint, manifest_path, family): # Prevent independent evaluation from silently substituting data, problem family, or code.
+    if checkpoint['contract']['manifest_sha256'] != sha256(manifest_path): # Freeze the original complete-history partition and artifact identities.
+        raise ValueError('Test manifest differs from training contract') # Reject reassigned or mutated independent cases.
+    if checkpoint['contract']['sources'] != executable_sources(): # A changed inference implementation defines a different scientific experiment.
+        raise ValueError('Checkpoint executable source hashes differ') # Do not silently evaluate old weights through new code.
+    if checkpoint['config']['family'] != family: # Whole-bridge and local response functions remain distinct prediction contracts.
+        raise ValueError('Checkpoint family differs from requested test family') # Reject cross-family checkpoint misuse.
+
 def main(args): # Dispatch explicit training or independent test evaluation.
     torch.set_num_threads(args.threads) # Avoid uncontrolled CPU oversubscription during full-field integration.
     torch.manual_seed(args.seed) # Reproduce initialization and whole-history shuffling.
@@ -137,8 +204,7 @@ def main(args): # Dispatch explicit training or independent test evaluation.
     if args.command == 'evaluate': # Test is deliberately separate from checkpoint selection.
         checkpoint = torch.load(args.checkpoint, map_location=args.device, weights_only=False) # Load only a trusted locally produced checkpoint.
         manifest, cases = load_split(args.manifest, args.family, 'test', args.device) # Open held-out response arrays only in this explicit command.
-        if checkpoint['contract']['manifest_sha256'] != sha256(args.manifest): # Prevent post-training reassignment of cases to easier test partitions.
-            raise ValueError('Test manifest differs from training contract') # Require a single frozen experiment definition.
+        verify_checkpoint_contract(checkpoint, args.manifest, args.family) # Enforce exact data, physical family, and executable identity for held-out inference.
         model = FullFieldGNO(OperatorConfig(**checkpoint['config'])).to(args.device) # Reconstruct the exact full-field prediction function.
         model.load_state_dict(checkpoint['best_model']) # Evaluate the validation-selected checkpoint rather than selecting on test outcomes.
         result = evaluate(model, cases, checkpoint['normalization'], manifest, directory) # Export independent full-field error and predictions.
@@ -147,10 +213,10 @@ def main(args): # Dispatch explicit training or independent test evaluation.
     manifest, training = load_split(args.manifest, args.family, 'train', args.device) # Validate native FEM evidence before opening training fields.
     _, validation = load_split(args.manifest, args.family, 'validation', args.device) # Keep complete independent development histories for model selection.
     normalization = fit_normalization(training, manifest) # Freeze input and output scales using training data only.
-    config = OperatorConfig(args.family, training[0]['static_features'].shape[-1] + 3 + len(manifest['field_names']), training[0]['controls'].shape[-1], len(manifest['field_names']), len(manifest['relation_names']), args.width, args.depth, args.edge_chunk) # Include centered native geometry and every known initial response channel as causal physical inputs.
+    config = OperatorConfig(args.family, training[0]['static_features'].shape[-1] + 3 + len(manifest['field_names']), training[0]['controls'].shape[-1], len(manifest['field_names']), len(manifest['relation_names']), args.width, args.depth, args.edge_chunk, args.kernel_mode, args.kernel_rank) # Record the disclosed integral kernel and every full native physical input channel.
     model = FullFieldGNO(config).to(args.device) # Allocate a genuine matrix-kernel neural operator from scratch.
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=1.e-5) # Use a recorded optimizer and no historical incompatible weight migration.
-    contract = {'manifest_sha256': sha256(args.manifest), 'sources': {name: sha256(Path(__file__).with_name(name)) for name in ['gno.py', 'data.py', 'train.py', 'relations.py', 'acquisition.py']}, 'specification': model.specification(), 'seed': args.seed, 'epochs': args.epochs, 'window': args.window, 'learning_rate': args.learning_rate, 'train_ids': [case['id'] for case in training], 'validation_ids': [case['id'] for case in validation], 'normalization': normalization, 'torch_version': torch.__version__, 'test_fields_opened': False, 'selection_metric': 'mean_scale_normalized_L2'} # Freeze exact executable, data identities and requested work.
+    contract = {'manifest_sha256': sha256(args.manifest), 'sources': executable_sources(), 'specification': model.specification(), 'seed': args.seed, 'epochs': args.epochs, 'window': args.window, 'learning_rate': args.learning_rate, 'train_ids': [case['id'] for case in training], 'validation_ids': [case['id'] for case in validation], 'normalization': normalization, 'torch_version': torch.__version__, 'test_fields_opened': False, 'selection_metric': 'mean_scale_normalized_L2'} # Freeze exact executable, data identities and the total budget while allowing a process to stop after a completed epoch.
     histories, start, steps, best_score, best = [], 0, 0, float('inf'), None # Retain selection and execution state for exact interruption recovery.
     if args.resume: # Resume only an exactly matching training contract.
         saved = torch.load(args.resume, map_location=args.device, weights_only=False) # Restore a complete closed-epoch state, not only selected weights.
@@ -165,7 +231,10 @@ def main(args): # Dispatch explicit training or independent test evaluation.
     normalized = [normalize(case, normalization) for case in training] # Cache complete normalized inputs without copying or opening any test fields.
     write_json(directory / 'training_contract.json', contract) # Make the exact requested experiment inspectable before the first update.
     started = time.monotonic() # Record elapsed execution for each completed epoch.
-    for epoch in range(start, args.epochs): # Run the full explicitly requested budget without an implicit two-epoch shortcut.
+    stop = min(args.epochs, args.stop_after_epoch) if args.stop_after_epoch is not None else args.epochs # Limit this process segment without changing the frozen total experiment budget.
+    if stop < start: # A continuation cannot rewind optimizer state or relabel a completed epoch.
+        raise ValueError('stop-after-epoch precedes the resumed progress') # Require monotonically increasing completed-epoch milestones.
+    for epoch in range(start, stop): # Visit every complete history in each requested epoch of this resumable segment.
         loss, updates = train_epoch(model, optimizer, normalized, args.window) # Train on every complete history and every original spatial entity.
         steps += updates # Retain cumulative actual optimizer updates.
         validation_result = evaluate(model, validation, normalization, manifest) # Select using complete cold validation trajectories only.
@@ -181,7 +250,7 @@ def main(args): # Dispatch explicit training or independent test evaluation.
             writer.writeheader() # Include units/ratio semantics in readable headers.
             writer.writerows(histories) # Reproduce the complete actual optimization trajectory.
         print(json.dumps(histories[-1]), flush=True) # Report real progress while the full requested training executes.
-    write_json(directory / 'completion.json', {'status': 'TRAIN_VALIDATION_COMPLETE_TEST_NOT_RUN', 'epochs': args.epochs, 'optimizer_updates': steps, 'selected_validation_error_ratio': best_score, 'checkpoint_sha256': sha256(directory / 'progress.pt')}) # Training completion never implies an independent test or physical safety pass.
+    write_json(directory / 'completion.json', {'status': 'TRAIN_VALIDATION_COMPLETE_TEST_NOT_RUN' if stop == args.epochs else 'CHECKPOINTED_SEGMENT_TOTAL_BUDGET_INCOMPLETE', 'completed_epochs': len(histories), 'requested_epochs': args.epochs, 'optimizer_updates': steps, 'selected_validation_error_ratio': best_score, 'checkpoint_sha256': sha256(directory / 'progress.pt')}) # A bounded execution segment never masquerades as completing the frozen total training budget.
 
 if __name__ == '__main__': # Keep dataset loading and optimization explicit when imported by tests.
     parser = argparse.ArgumentParser() # Expose a reproducible command rather than hidden notebook state.
@@ -191,7 +260,10 @@ if __name__ == '__main__': # Keep dataset loading and optimization explicit when
     parser.add_argument('--output', required=True) # Persist every result in a visible chosen directory.
     parser.add_argument('--checkpoint') # Test evaluation requires an actual selected trained checkpoint.
     parser.add_argument('--resume') # Resume a complete exact closed-epoch payload when present.
-    parser.add_argument('--epochs', type=int, default=500) # Provide a sustained configurable budget without claiming convergence from epoch count.
+    parser.add_argument('--epochs', type=int, default=300) # Freeze a sustained complete-history training budget without equating epoch count with accuracy.
+    parser.add_argument('--stop-after-epoch', type=int) # Stop this process at a completed absolute epoch while preserving the total frozen budget for exact continuation.
+    parser.add_argument('--kernel-mode', choices=['matrix', 'separable'], default='matrix') # Preserve the full learned matrix kernel as the default and identify the accelerated alternative explicitly.
+    parser.add_argument('--kernel-rank', type=int, default=4) # Disclose the finite channel rank of the optional separable learned kernel.
     parser.add_argument('--width', type=int, default=24) # Set latent channel capacity independently of mesh resolution.
     parser.add_argument('--depth', type=int, default=3) # Set the number of composed integral layers.
     parser.add_argument('--edge-chunk', type=int, default=4096) # Bound temporary matrix-kernel allocation without sampling edges.
@@ -201,7 +273,7 @@ if __name__ == '__main__': # Keep dataset loading and optimization explicit when
     parser.add_argument('--threads', type=int, default=2) # Avoid contention with native FEM solvers.
     parser.add_argument('--device', default='cpu') # Permit a documented CPU or accelerator execution target.
     arguments = parser.parse_args() # Parse the exact requested scientific run once.
-    if arguments.epochs < 1 or arguments.window < 1 or arguments.edge_chunk < 1: # Prevent zero-work completion claims or invalid memory chunking.
+    if arguments.epochs < 1 or arguments.window < 1 or arguments.edge_chunk < 1 or arguments.kernel_rank < 1 or (arguments.stop_after_epoch is not None and arguments.stop_after_epoch < 1): # Reject zero-work budgets and invalid integral approximations explicitly.
         parser.error('epochs, window and edge-chunk must be positive') # Reject a malformed execution budget explicitly.
     if arguments.command == 'evaluate' and not arguments.checkpoint: # Independent inference requires actual weights.
         parser.error('--checkpoint is required for evaluate') # Do not evaluate a randomly initialized operator as a trained result.
