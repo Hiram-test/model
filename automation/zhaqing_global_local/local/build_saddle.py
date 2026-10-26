@@ -8,8 +8,10 @@ import math # Geometry operations.
 from pathlib import Path # Filesystem paths.
 import numpy as np # Numeric arrays, never plotting.
 
-def packing(count: int, diameter: float) -> np.ndarray: # Candidate parallel-wire hexagonal packing.
-    points = [(diameter * (q + 0.5 * r), diameter * math.sqrt(3) * 0.5 * r) for q in range(-20, 21) for r in range(-20, 21)] # Explicit wire centers.
+def packing(count: int, diameter: float, clearance: float = 0.0) -> np.ndarray: # Candidate parallel-wire hexagonal packing with an explicit research gap.
+    if not np.isfinite(clearance) or clearance < 0: raise ValueError('Packing clearance must be finite and nonnegative') # Reject hidden overlaps or invalid geometry.
+    pitch = diameter + clearance # Preserve actual wire diameter while changing only the declared candidate packing gap.
+    points = [(pitch * (q + 0.5 * r), pitch * math.sqrt(3) * 0.5 * r) for q in range(-20, 21) for r in range(-20, 21)] # Explicit physical wire centers.
     points.sort(key=lambda p: (round(p[0] ** 2 + p[1] ** 2, 7), math.atan2(p[1], p[0]))) # Compact deterministic radial ordering.
     chosen = np.asarray(points[:count], dtype=float) # Preserve exact requested wire count.
     chosen[:, 1] -= np.min(chosen[:, 1]) - diameter * 0.5 # Place lowest wire tangent to base bearing plate.
@@ -26,7 +28,7 @@ def disk_grid(n: int, radius: float) -> np.ndarray: # Square-to-disk quadrilater
             pts.append((radius * r * math.cos(angle), radius * r * math.sin(angle))) # Circle boundary stays circular at nodes.
     return np.asarray(pts) # Return actual disk nodes.
 
-def build(out: Path, nx: int, nc: int, count: int, load_n: float, mu: float, smoke: bool, elastic_forming: bool = False, planar_right: bool = True, wire_material: dict | None = None, prestressed_equilibrium: bool = False) -> dict: # Generate complete native mesh plus transfer interfaces.
+def build(out: Path, nx: int, nc: int, count: int, load_n: float, mu: float, smoke: bool, elastic_forming: bool = False, planar_right: bool = True, wire_material: dict | None = None, prestressed_equilibrium: bool = False, load_factors: tuple[float,...] | None = None, packing_clearance: float = 0.0) -> dict: # Generate complete native mesh plus explicitly declared transfer and seating paths.
     out.mkdir(parents=True, exist_ok=True) # Preserve generated model.
     radius, diameter = 1500.0, 5.0 # Drawing ARC4D8B and cable TEXT16B5.
     material = wire_material or {"young_mpa": 200000.0, "poisson": 0.3, "source": "Assumed elastic research material; no plastic calibration"} # Explicit material provenance.
@@ -37,7 +39,7 @@ def build(out: Path, nx: int, nc: int, count: int, load_n: float, mu: float, smo
         curve = np.asarray(plastic, dtype=float) # Native true stress/equivalent plastic strain pairs.
         if curve.ndim != 2 or curve.shape[1] != 2 or len(curve) < 2 or not np.isfinite(curve).all() or np.any(curve[:, 0] <= 0) or curve[0, 1] != 0 or np.any(np.diff(curve[:, 1]) <= 0) or np.any(np.diff(curve[:, 0]) < 0): raise ValueError("Require calibrated positive monotone true-stress/plastic-strain curve starting atzero plastic strain") # Reject bogus constitutive inputs.
     theta = np.linspace(math.radians(90.0 - 127.8890430192378), math.radians(90.0 - 63.23495198354442), nx + 1) # Source longitudinal ARC endpoints, left to right.
-    centers = packing(count, diameter) # Explicit wire identities; internal packing remains an assumption.
+    centers = packing(count, diameter, packing_clearance) # Explicit wire identities and optional research clearance; internal packing remains unmeasured.
     cross = disk_grid(nc, diameter / 2.0) # Structured solid cross-section.
     cap_area = np.zeros(len(cross)) # Consistent nodal cut-surface area weights.
     for j in range(nc): # Integrate actual disk quadrilateral areas.
@@ -88,7 +90,7 @@ def build(out: Path, nx: int, nc: int, count: int, load_n: float, mu: float, smo
                 elements.append(conn); wire_id.append(0) # Rail belongs to saddle material.
                 saddle_faces.append((len(elements), 4 if side == 0 else 6)) # Actual inner channel walls.
     surfaces["SADDLE"] = saddle_faces # Real contact geometry.
-    pairs = [(i + 1, j + 1) for i in range(count) for j in range(i + 1, count) if np.linalg.norm(centers[i] - centers[j]) < diameter * 1.01] # Only initially neighboring wires can contact.
+    pairs = [(i + 1, j + 1) for i in range(count) for j in range(i + 1, count) if np.linalg.norm(centers[i] - centers[j]) < (diameter + packing_clearance) * 1.01] # Preserve every nearest-neighbor contact relationship when a candidate gap is explicitly selected.
     xyz, conn = np.asarray(nodes), np.asarray(elements, dtype=np.int64) # Full physical mesh arrays.
     vtkpath = out / "saddle_mesh.vtk" # Native VTK geometry for ParaView/CGX, no synthetic result field.
     with vtkpath.open("w") as f: # Export topology directly from actual solver mesh.
@@ -137,6 +139,8 @@ def build(out: Path, nx: int, nc: int, count: int, load_n: float, mu: float, smo
                 lines.append(f"{e},{ip},{sigma*co*co:.12g},0.,{sigma*si*si:.12g},0.,{-sigma*co*si:.12g},0.") # Native order XX YY ZZ XY XZ YZ.
     if prestressed_equilibrium: lines.extend(["*AMPLITUDE,NAME=INITIAL_TENSION", "0.,1.,1.,1."]) # Matching end resultant acts fully during imported-prestress equilibration, not ramped from zero.
     factors = ([1.0] if smoke else [1.0, 1.1, 0.9, 1.0]) if prestressed_equilibrium else (([0.0, 0.1] if smoke else [0.0, 1.0, 1.1, 0.9, 1.0]) if elastic_forming else ([0.1] if smoke else [1.0, 1.1, 0.9, 1.0])) # Clearly distinguish prestressed equilibrium from unloaded forming diagnostic.
+    if load_factors is not None: factors=list(load_factors) # A controlled seating branch must preserve its complete actual loading sequence.
+    if not factors or not np.isfinite(factors).all() or min(factors)<0 or (prestressed_equilibrium and factors[0]!=1.): raise ValueError('Invalid or inconsistent native load factors') # Do not stage an imported full prestress against a mismatched initial resultant.
     for step, factor in enumerate(factors): # Prestress then cyclic force modulation.
         lines += ["*STEP,NLGEOM,INC=1000", "*STATIC", "0.05,1.,1.e-7,0.1", "*CLOAD,OP=NEW,AMPLITUDE=INITIAL_TENSION" if prestressed_equilibrium and step == 0 else "*CLOAD,OP=NEW"] # Native nonlinear contact equilibrium path.
         for w in range(count): # Every wire receives its explicit share of end force.
@@ -151,6 +155,7 @@ def build(out: Path, nx: int, nc: int, count: int, load_n: float, mu: float, smo
     (out / "boundary_interface.json").write_text(json.dumps(interface, indent=2)) # Export true cut nodes.
     np.savez_compressed(out / "geometry.npz", coordinates=xyz, connectivity=conn - 1, wire_id=np.asarray(wire_id), wire_centers=centers, wire_neighbor_pairs=np.asarray(pairs)) # Actual full mesh for operator topology.
     meta = {"status": "GEOMETRY_AND_CONTACT_DECK_GENERATED", "wire_count": count, "wire_diameter_mm": diameter, "physical_nodes": len(nodes), "physical_hexahedra": len(elements), "wire_hexahedra": wire_elements, "wire_wire_contact_pairs": len(pairs), "wire_saddle_contact_pairs": count, "native_grouped_contact_definitions": count, "longitudinal_segments": nx, "cross_section_quads_per_wire": nc * nc, "wire_nodes": wire_nodes, "nominal_total_tension_n": load_n, "tension_provenance": "Explicit assumed research tension; default comes from old horizontal-force control and is NOT latest global saddle axial force", "friction_mu_assumed": mu, "wire_material": material, "plasticity_enabled": plastic is not None, "native_input_sha256": interface["source_input_sha256"], "drawing_evidence": {"wire": "03-缆索布置.dwg TEXT16B5:283根^5,1670MPa ultimate", "longitudinal_arc": "29-索鞍构造.dwg ARC4D8B radius150CADunit x10=1500mm", "bearing_plate": "29 TEXT20BB:400x30x1600", "rails": "29 TEXT2097:110x20x1600; cross-section LINE4EC5/4ED9 innergap110mm"}, "unverified_assumptions": ["283-wire cross-section packing order/compaction is an explicit hexagonal candidate, not measured", "Conformal plate-rail joins approximate welded assembly; weld toe geometry not modeled", "Saddle base fully fixed represents prescribed concrete support; concrete/anchors not resolved", "E,Poisson,friction,penalty and applied tension require calibrated inputs", "Source ARC span and nominal1600 plate length differ slightly; preserve ARC geometry without silent rescaling", "C3D8 discretization requires axial/cross-section/contact mesh convergence; coarse smoke is not fatigue-qualified", "No plasticity curve, fretting wear law, corrosion or calibrated strain-life data supplied", ("Elastic E*z/R imported bending is an approximation; actual forming/plastic residual stresses require validation" if elastic_forming else "Wires start curved and stress-free; wrapping residual bending stress is absent and must be resolved before fatigue qualification"), "Circumferential facet gaps and actual closed-contact counts require independent contact/mesh convergence"], "elastic_wrapping_initial_stress_requested": elastic_forming, "right_cut_planar": planar_right, "prestressed_equilibrium": prestressed_equilibrium, "equilibrium_boundary_note": "Initial axial T/A plus bending, matched full end resultant at first increment" if prestressed_equilibrium else "No imported axial prestress", "forming_method": "Imported elastic E*z/R bending stress followed by zero-load equilibration" if elastic_forming else "stress-free curved reference", "complete_cycle_requested": not smoke, "real_bridge_training_eligible": False, "fatigue_life_cycles": None} # Never promote an unvalidated mesh to bridge truth.
+    meta['requested_load_factors']=factors; meta['load_path_coordinate']='Dimensionless static step parameter, not physical dynamic time'; meta['candidate_wire_clearance_mm']=packing_clearance # Preserve the complete path and any deliberately changed packing assumption.
     (out / "metadata.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n") # Persist source and scope.
     return meta # Return machine-readable counts.
 

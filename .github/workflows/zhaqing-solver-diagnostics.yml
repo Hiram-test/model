@@ -1,0 +1,57 @@
+name: Zhaqing full-mesh solver diagnostics # Execute real bounded finite-element diagnoses independently of chat lifetime.
+on: # Trigger only the authorized numerical development branch or a deliberate rerun.
+  push: # Keep numerical execution alive after the interactive session ends.
+    branches: [codex/complex-fullfield-v2-20261025] # Use the existing authorized development branch.
+    paths: # Do not rerun expensive solves when only result files or reports are uploaded.
+      - '.github/workflows/zhaqing-solver-diagnostics.yml' # Rerun when this concrete numerical job changes.
+      - 'automation/zhaqing_global_local/campaign/diagnostics.py' # Rerun when the bounded diagnostic contract changes.
+      - 'automation/zhaqing_global_local/campaign/run.py' # Rerun when native execution or authenticated restoration changes.
+      - 'automation/zhaqing_global_local/global/*.py' # Rerun on changes to the actual whole-bridge numerical source.
+      - 'automation/zhaqing_global_local/aero/*.py' # Rerun when the applied wind calculation changes.
+      - 'automation/zhaqing_global_local/assets/global_baseline_inputs.zip' # Authenticate and rerun a deliberate source-input change.
+  workflow_dispatch: # Permit an explicit repeated observation of the same committed source.
+permissions: # Native diagnostics require repository reads only.
+  contents: read # Fetch source without allowing the solver to push repository changes.
+concurrency: # Preserve active expensive computations when another source revision is published.
+  group: zhaqing-solver-diagnostics-${{ github.ref }} # Serialize paired diagnostic campaigns on the same branch.
+  cancel-in-progress: false # Keep running native histories and their failure evidence intact.
+jobs: # Compare one native convergence setting while keeping all physical inputs identical.
+  whole-bridge: # Run the complete detailed mesh under two explicit native stopping tolerances.
+    runs-on: ubuntu-24.04 # Use a durable public hosted CPU worker with independent process lifetime.
+    timeout-minutes: 90 # Reserve installation and artifact-upload time outside the 60-minute native budget.
+    strategy: # Keep baseline failure from cancelling the stricter independent comparison.
+      fail-fast: false # Preserve both actual diagnoses even when one fails its physical gate.
+      max-parallel: 2 # Run only the two declared controlled comparisons.
+      matrix: # Vary native stopping without changing the independent 0.02 N acceptance gate.
+        include: # Give each artifact a stable descriptive identity.
+          - case: original # Observe the original native stopping behavior with the new detailed audit.
+            native-tolerance: '0.01' # Preserve the originally used mixed force/moment native norm threshold.
+          - case: strict # Determine whether stricter native iteration changes the actual postcommit residual.
+            native-tolerance: '0.0001' # Tighten native stopping by 100 while retaining the identical full model.
+    env: # Keep native linear algebra, output flushing, and MPI interface choices reproducible.
+      OMP_NUM_THREADS: '2' # Avoid oversubscribing the hosted worker's native teams.
+      OPENBLAS_NUM_THREADS: '2' # Bound dense numerical-library threads.
+      MKL_NUM_THREADS: '2' # Preserve the common CPU numerical resource contract.
+      MPIR_CVAR_CH3_NETWORK_IFACE: lo # Provide OpenSees an available local MPI interface.
+      MPICH_INTERFACE_HOSTNAME: 127.0.0.1 # Avoid external-network interface selection by the native backend.
+      PYTHONUNBUFFERED: '1' # Flush real native heartbeat and completion logs immediately.
+    steps: # Run actual native equations and preserve all numerical evidence.
+      - uses: actions/checkout@v4 # Fetch the immutable triggering source revision.
+        with: # Keep credentials away from the native subprocess.
+          persist-credentials: false # Do not permit repository writes from a solver job.
+      - uses: actions/setup-python@v5 # Use the locally exercised numerical Python ABI.
+        with: # Keep installed package compatibility explicit.
+          python-version: '3.12' # Match the tested OpenSees and HDF5 runtime family.
+      - name: Install pinned native runtime # Preserve both wrapper and native binary versions explicitly.
+        run: python -m pip install --no-cache-dir numpy==2.3.5 scipy==1.17.0 h5py==3.16.0 openseespy==3.8.0.0 openseespylinux==3.8.0.0 # Do not allow a different native backend through the wrapper's loose dependency.
+      - name: Solve full detailed bridge and 32 wind steps # This computes 0.2 seconds for solver diagnosis, with no neural training.
+        run: python automation/zhaqing_global_local/campaign/diagnostics.py --native-force-tolerance ${{ matrix.native-tolerance }} --steps 32 # Retain all 30555 nodes, every requested frame, and the unchanged independent equilibrium gate.
+      - name: Preserve actual native fields and failure evidence # Keep completed and interrupted numerical work outside the temporary worker.
+        if: always() # Upload model snapshots and diagnostics even when the solver or gate rejects the run.
+        uses: actions/upload-artifact@v4 # Persist the real source, mesh, fields, convergence logs, and final status.
+        with: # Keep each native stopping experiment independently inspectable.
+          name: whole-bridge-${{ matrix.case }}-solver-diagnostic # Use a diagnostic artifact identity rather than a trained-weight label.
+          path: results/扎青吊桥求解诊断/${{ matrix.case }}/ # Upload only this actual numerical experiment's output directory.
+          if-no-files-found: error # Missing launch or solver evidence is an actual workflow failure.
+          compression-level: 1 # Compress textual logs while retaining lossless numerical field data.
+          retention-days: 30 # Preserve the expensive native result after the conversational session ends.

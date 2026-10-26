@@ -6,6 +6,7 @@ from pathlib import Path  # Keep all archived identities explicit.
 import numpy as np  # Assemble native mesh coordinates and physical masses without plotting.
 import openseespy.opensees as ops  # Use the compiled OpenSees nonlinear finite-element engine.
 import opensees_bridge as base  # Reuse source decoding and independently audited equilibrium orchestration.
+SHELL_ELEMENT='ShellNLDKGQ'  # Freeze the default updated-Lagrangian shell family; any alternative is an explicitly identified experiment.
 def build(source,statepath,subdivision=1):  # Construct all physical deck panels, stiffeners, cables and towers without a response basis.
     old,groups,sets,cload,accessory,materials=base.parse(source)  # Decode authenticated original topology for towers, cables and anchors.
     state=json.loads(statepath.read_text())  # Recover nominal cable pretension as an explicit initial guess.
@@ -210,7 +211,12 @@ def build(source,statepath,subdivision=1):  # Construct all physical deck panels
         p=properties[tag]  # Recoveritsactualmaterialandcrosssection.
         pts=[nodes[n] for n in conn]  # Readactualmeshcoordinates.
         if group=='DECK_PLATES':  # Useeachphysicaldiscreteplate'snonlinearshellkinematics.
-            ops.element('ShellNLDKGQ',tag,*conn,1)  # Keepfullgeometricnonlinearityandindividualpaneljoints.
+            if SHELL_ELEMENT=='ASDShellQ4':  # Permit an explicit independently identified geometrically nonlinear shell comparison.
+                ops.element('ASDShellQ4',tag,*conn,1,'-corotational')  # Preserve large displacement and finite rotations on the identical full physical mesh.
+            elif SHELL_ELEMENT=='ShellNLDKGQ':  # Preserve the original complete updated-Lagrangian formulation as its own experiment.
+                ops.element('ShellNLDKGQ',tag,*conn,1)  # Keep full geometric nonlinearity and individual panel joints.
+            else:  # Reject misspelled or implicit linear-shell substitutions.
+                raise ValueError('Unsupported detailed nonlinear shell formulation')  # Require an explicit documented nonlinear element family.
             mass=np.linalg.norm(np.cross(pts[1]-pts[0],pts[3]-pts[0]))*10*7.85e-9  # Integrateonlytheactualplatefootprint.
             structural.update(conn)  # Shellnodescarryphysicalrotations.
         elif group in ('MAIN_CABLES','HANGERS','WIND_CABLES'):  # Usephysicalaxialmembersratherthanbendingregularization.
@@ -270,14 +276,17 @@ def build(source,statepath,subdivision=1):  # Construct all physical deck panels
         else:  # Markdependentdegreesforequilibrium-auditexclusiononly.
             fixities[n]=[1]*6  # Do notincorrectlyinterpretconstraintforcesasfreeDOFresiduals.
         ops.mass(n,nodalmass[n],nodalmass[n],nodalmass[n],0.,0.,0.)  # Preserveallphysicalinertialmassunderconstrainttransformation.
-    return dict(nodes=nodes,elements=elements,source_ids=parents,sets={**sets,'DECK_BEARINGS':supportnodes,'SADDLE_INTERFACES':list(saddle_map.values())},mass=nodalmass,gravity=gravity,state=state,source_nodes={n:old[n] for n in keep},fixities=fixities,rigid_connections=[dict(master=a,slave=b,assumption=c) for a,b,c in rigids],panel_count=78,channel_count=468,physical_limitations=['towercolumns5500mmspacing;saddle/hangerplanes5100mmspacing;anchorplanes4700mmspacing;200mmsaddleeccentricitywithassumedrigidseat','N3drawn1560mmendplatesconflictwithbill2690mm;N4actualfilletprofile295mmannotationfitmodeledwithpiecewisebeamsections;N5rectangle312mm;verifiedtablemassretained','real100/63x10N5ledgesmodeled;boltedchannelbottomsupportstied,noopening/slip;linearizedrigidweldarmsnotcalibrated','crossbeamactual420x300x10TWO-WEBclosedbox;416webmaterialtableconflictretained','endbearingsat2m/80massumed;actualbearingdrawingrequired','F3cableforceusedonlyasnewgeometryinitialguess;fabricationL0notclaimed','windanchorscandidateand10kNpretensionunverified','elasticmaterials;globalgeometricnonlinearityactive'])  # Returnfullactualgeometryandallunresolvedphysicalassumptionsexplicitly.
+    return dict(shell_element=SHELL_ELEMENT,nodes=nodes,elements=elements,source_ids=parents,sets={**sets,'DECK_BEARINGS':supportnodes,'SADDLE_INTERFACES':list(saddle_map.values())},mass=nodalmass,gravity=gravity,state=state,source_nodes={n:old[n] for n in keep},fixities=fixities,rigid_connections=[dict(master=a,slave=b,assumption=c) for a,b,c in rigids],panel_count=78,channel_count=468,physical_limitations=['towercolumns5500mmspacing;saddle/hangerplanes5100mmspacing;anchorplanes4700mmspacing;200mmsaddleeccentricitywithassumedrigidseat','N3drawn1560mmendplatesconflictwithbill2690mm;N4actualfilletprofile295mmannotationfitmodeledwithpiecewisebeamsections;N5rectangle312mm;verifiedtablemassretained','real100/63x10N5ledgesmodeled;boltedchannelbottomsupportstied,noopening/slip;linearizedrigidweldarmsnotcalibrated','crossbeamactual420x300x10TWO-WEBclosedbox;416webmaterialtableconflictretained','endbearingsat2m/80massumed;actualbearingdrawingrequired','F3cableforceusedonlyasnewgeometryinitialguess;fabricationL0notclaimed','windanchorscandidateand10kNpretensionunverified','elasticmaterials;globalgeometricnonlinearityactive'])  # Returnfullactualgeometryandallunresolvedphysicalassumptionsexplicitly.
 if __name__=='__main__':  # Runtherealdiscrete-panelwhole-bridgemodelwithindependentnumericgates.
     p=argparse.ArgumentParser()  # Requireexplicitinheritedsourceandresultpaths.
     p.add_argument('--source',type=Path,required=True)  # Bindauthenticoldsourceforcompatibletower/cablemembers.
     p.add_argument('--state',type=Path,required=True)  # Bindnominalcablestressinitialguess.
     p.add_argument('--output',type=Path,required=True)  # Isolatedetailedphysicalgeometryresultsfromoldscreeningbenchmark.
+    p.add_argument('--shell-element',choices=['ShellNLDKGQ','ASDShellQ4'],default='ShellNLDKGQ')  # Keep nonlinear finite-element alternatives explicitly distinguishable.
+    p.add_argument('--initial-displacement-tolerance',type=float,default=1e-9)  # Declare the native predictor increment tolerance while retaining the unchanged final physical force gate.
     args=p.parse_args()  # Parsethereproducibledetailedmodelrequest.
     args.subdivision=1  # Detailedgeometryusesitsownsource-dimensionalmeshspacing.
+    SHELL_ELEMENT=args.shell_element  # Bind the selected nonlinear shell family before constructing actual elements.
     base.model=build  # Selectthenewfullphysicalgeneratorwithoutchangingauditedsolverimplementation.
     m,result=base.run(args)  # Executeactualnativeglobalnonlinearequilibriumandfullfieldexport.
     result.update(physical_limitations=m['physical_limitations'],deck_panel_count=78,explicit_channel_count=468,geometry_status='DRAWING_DIMENSIONAL_PARTIAL_STIFFENER_AND_CONNECTION_ASSUMPTIONS',rigid_connections=m['rigid_connections'])  # Distinguishsource-supportedgeometryfromremaininglocaldetailuncertainty.

@@ -11,12 +11,18 @@ import numpy as np # Numeric extraction, no plots.
 def extract(dat: Path, inp: Path, log: Path, output: Path, cycle_start: float, cycle_end: float, wire_count: int) -> dict: # Native history admission boundary.
     text = log.read_text(errors="replace") # Final solver receipt.
     if "Job finished" not in text or "*ERROR" in text: raise ValueError("Native solver has not completed successfully; partial fields cannot be fatigue/training labels") # Reject failed or running solver.
+    completion=json.loads((dat.parent/'native_completion.json').read_text()); identity=hashlib.sha256(inp.read_bytes()).hexdigest() # Require the actual process exit and terminal-increment audit.
+    if not completion.get('field_export_admitted') or completion.get('input_sha256')!=identity: raise ValueError('Complete native process receipt does not match this input') # Prevent stale result admission.
+    mesh=np.load(dat.parent/'geometry.npz',allow_pickle=False); physical_wire_ids=mesh['wire_id']; native_wire_elements=np.flatnonzero(physical_wire_ids>0)+1 # Recover every declared wire element from the exact physical mesh.
+    if len(np.unique(physical_wire_ids[physical_wire_ids>0]))!=wire_count or mesh['connectivity'].shape[1] not in (8,20): raise ValueError('Wire count or solid interpolation does not match the physical mesh') # Do not let a caller rename a one-wire diagnostic as283wires.
+    expected_ids=np.column_stack((np.repeat(native_wire_elements,8),np.tile(np.arange(1,9),len(native_wire_elements)))) # C3D8 and C3D20R both report eight native integration points per element.
     fields = {"stress": {}, "strain": {}} # Separate physical integration-point tensors.
     ids = None; current = None; time = None; rows = []; keys = [] # Streaming parser state.
     def flush() -> None: # Save only complete native tensor blocks.
         nonlocal ids, rows, keys # Maintain reference integration-point ordering.
         if current is not None and rows and time is not None and cycle_start - 1e-8 <= time <= cycle_end + 1e-8: # Limit to declared complete cycle.
             now = np.asarray(keys, dtype=int) # Native element/IP coordinates.
+            if not np.array_equal(now,expected_ids): raise ValueError('Missing, duplicated, reordered or unexpected native wire integration points') # Require the complete physical mesh, not merely mutually consistent truncated frames.
             if ids is None: ids = now # Freeze full physical point identity.
             elif not np.array_equal(ids, now): raise ValueError("Native integration-point identity changed or output block truncated") # No silent missing-point zeros.
             fields[current][time] = np.asarray(rows, dtype=float)[:, [0, 1, 2, 3, 5, 4]] # Reorder nativeXXYYZZXYXZYZ to publicXXYYZZXYYZZX.
@@ -37,7 +43,7 @@ def extract(dat: Path, inp: Path, log: Path, output: Path, cycle_start: float, c
     if not np.isfinite(stress).all() or not np.isfinite(strain).all(): raise ValueError("Nonfinite native fields") # Reject corrupted history.
     output.parent.mkdir(parents=True, exist_ok=True) # Output location.
     np.savez_compressed(output, stress=stress, strain=strain, times=np.asarray(times), element_ip_ids=ids) # All complete physical tensors.
-    meta = {"solver_status": "CONVERGED", "complete_cycle": True, "cycle_time_bounds": [cycle_start, cycle_end], "strain_shear_convention": "tensor", "tensor_component_order": ["XX", "YY", "ZZ", "XY", "YZ", "ZX"], "native_component_order": ["XX", "YY", "ZZ", "XY", "XZ", "YZ"], "source_input_sha256": hashlib.sha256(inp.read_bytes()).hexdigest(), "source_result_sha256": hashlib.sha256(dat.read_bytes()).hexdigest(), "frame_count": len(times), "integration_point_count": int(stress.shape[1]), "wire_count": wire_count, "scope": "native complete-cycle elastic/contact research history; physical fidelity requires independent source/material/mesh validation", "contact_dissipation": "Not inferred from CDIS; requires irreversible slip and local contact-frame area quadrature"} # Explicit field contract.
+    meta = {"solver_status": "CONVERGED", "complete_cycle": True, "cycle_time_bounds": [cycle_start, cycle_end], "strain_shear_convention": "tensor", "tensor_component_order": ["XX", "YY", "ZZ", "XY", "YZ", "ZX"], "native_component_order": ["XX", "YY", "ZZ", "XY", "XZ", "YZ"], "source_input_sha256": identity, "source_result_sha256": hashlib.sha256(dat.read_bytes()).hexdigest(), "frame_count": len(times), "integration_point_count": int(stress.shape[1]), "wire_count": wire_count, "native_element_type": 'C3D20R' if mesh['connectivity'].shape[1]==20 else 'C3D8', "integration_point_order": 'CalculiX2.21gauss.f:gauss3d2:x-fast-then-y-then-z', "all_native_wire_integration_points_verified": True, "scope": "native complete-cycle elastic/contact research history; physical fidelity requires independent source/material/mesh validation", "contact_dissipation": "Not inferred from CDIS; requires irreversible slip and local contact-frame area quadrature"} # Explicit field contract.
     output.with_suffix(".json").write_text(json.dumps(meta, indent=2) + "\n") # Save provenance.
     return meta # Report actual counts.
 

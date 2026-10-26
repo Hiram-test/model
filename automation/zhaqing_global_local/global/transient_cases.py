@@ -80,7 +80,12 @@ def dynamic_balance(m,nodes,index,applied,alpha):  # Independently assemble the 
         raise RuntimeError(f'Independent/native dynamic balance mismatch {disagreement} equivalent N')  # Do not publish labels under an unidentified force law.
     force_max=float(np.max(np.abs(residual[:,:3])[free[:,:3]]))  # Report physical force residuals separately from moments.
     moment_max=float(np.max(np.abs(residual[:,3:])[free[:,3:]]))  # Report physical moment residuals in Nmm.
-    return max(force_max,moment_max/5500.),{'independent_assembly_difference_equivalent_N':disagreement,'free_force_max_N':force_max,'free_moment_max_Nmm':moment_max,'moment_reference_mm':5500.}  # Return independently verified dimensional equilibrium evidence.
+    scaled=np.where(free,np.abs(residual)/scales,-1.)  # Exclude support and dependent reactions before identifying the actual free-equation hotspot.
+    hotspot=np.unravel_index(int(np.argmax(scaled)),scaled.shape)  # Preserve the exact physical node and degree that governs acceptance.
+    native_norms=ops.testNorm()  # Read the solver's actual last nonlinear convergence-test history rather than infer it from its exit code.
+    iterations=int(ops.testIter())  # Preserve the count needed to interpret the fixed-size native norm buffer.
+    last_norm=float(native_norms[iterations-1]) if 0<iterations<=len(native_norms) else None  # Select only an actually executed nonlinear iteration.
+    return max(force_max,moment_max/5500.),{'independent_assembly_difference_equivalent_N':disagreement,'free_force_max_N':force_max,'free_moment_max_Nmm':moment_max,'moment_reference_mm':5500.,'hotspot_native_node':int(nodes[hotspot[0]]),'hotspot_dof_1based':int(hotspot[1])+1,'hotspot_residual_N_or_Nmm':float(residual[hotspot]),'native_test_iterations':iterations,'native_last_test_norm_mixed_N_Nmm':last_norm}  # Preserve independent postcommit balance alongside actual native stopping evidence.
 def execute(args):  # Execute one independent whole-history case with a frozen split.
     args.output.mkdir(parents=True,exist_ok=True)  # Save source identity before any potentially long native calculation.
     storage=getattr(args,'storage','hdf5')  # Default to lossless bounded-memory complete-history storage.
@@ -90,6 +95,7 @@ def execute(args):  # Execute one independent whole-history case with a frozen s
         raise FileExistsError('Use a new output directory for each native case')  # Preserve immutable complete-case identities.
     if getattr(args,'detailed_model',True):  # Default to actual separate steel panels, channels, stiffeners, and corrected cable planes.
         import detailed_bridge  # Load the source-dimensional full-order model builder.
+        detailed_bridge.SHELL_ELEMENT=getattr(args,'shell_element','ShellNLDKGQ')  # Bind an explicitly named nonlinear shell experiment before native model construction.
         bridge_module.model=detailed_bridge.build  # Preserve the same independently audited native solver for detailed geometry.
     stream=None  # Retain ownership of a partial field stream for truthful failure finalization.
     try:  # Preserve accepted frames and a failed receipt if any native solve or persistence step fails.
@@ -99,7 +105,7 @@ def execute(args):  # Execute one independent whole-history case with a frozen s
             content=path.read_bytes()  # Read one immutable byte image at case start.
             (args.output/path.name).write_bytes(content)  # Preserve the actual source snapshot with case evidence.
             snapshots[path.name]=hashlib.sha256(content).hexdigest()  # Bind the receipt to that saved code revision.
-        m,eq=run(SimpleNamespace(source=args.source,state=args.state,subdivision=args.subdivision,output=args.output/'prestate'))  # Solve genuine complete permanent equilibrium.
+        m,eq=run(SimpleNamespace(source=args.source,state=args.state,subdivision=args.subdivision,output=args.output/'prestate',initial_displacement_tolerance=getattr(args,'initial_displacement_tolerance',1e-9)))  # Solve genuine complete permanent equilibrium with a separately declared native predictor threshold.
         if eq['status']!='VALID_CONVERGED':  # Never generate training labels from an invalid permanent state.
             raise RuntimeError('Permanent equilibrium rejected; transient labels not produced')  # Preserve the decisive numerical blocker.
         nodes=sorted(m['nodes'])  # Freeze full mesh output order.
@@ -151,7 +157,10 @@ def execute(args):  # Execute one independent whole-history case with a frozen s
         ops.constraints('Transformation')  # Preserve exact source constraints.
         ops.numberer('RCM')  # Reorder complete sparse equations without truncating modes.
         ops.system('UmfPack')  # Factor every physical free degree at each nonlinear iteration.
-        ops.test('NormUnbalance',.01,40,0)  # Require small raw dynamic force/moment residual before independent audit.
+        native_force_tolerance=float(getattr(args,'native_force_tolerance',.01))  # Freeze a positive explicitly declared native stopping threshold without changing the independent physical acceptance gate.
+        if not 0<native_force_tolerance<=.01:  # Permit only stricter native solve experiments than the original algorithm.
+            raise ValueError('Native force tolerance must be positive and no greater than 0.01')  # Refuse a hidden convergence-threshold relaxation.
+        ops.test('NormUnbalance',native_force_tolerance,60,0)  # Tighten native Newton convergence when explicitly requested while retaining the same complete physical equations.
         ops.algorithm('NewtonLineSearch',.8)  # Use native Newton line search under motion-dependent wind forcing.
         alpha=.02  # Declare an uncalibrated research mass-damping coefficient in inverse seconds.
         ops.rayleigh(alpha,0.,0.,0.)  # Use directly auditable C=alpha*M damping; no ambiguous postcommit stiffness-damping update enters the force law.
@@ -201,6 +210,7 @@ def execute(args):  # Execute one independent whole-history case with a frozen s
             residual,balance=dynamic_balance(m,nodes,index,applied,alpha)  # Independently sum all native resisting, inertial, damping, and external actions.
             tension=min(float(ops.eleResponse(tag,'axialForce')[0]) for tag,(g,c) in m['elements'].items() if g in ('MAIN_CABLES','HANGERS','WIND_CABLES'))  # Require tension-only physical cable applicability.
             if residual>.02 or tension<=0:  # Screen numerical equilibrium and invalid compressed cables independently.
+                atomic_json(args.output/'rejected_step.json',{'step':step,'time_s':t,'native_exit_code':code,'free_residual_equivalent_N':residual,'acceptance_tolerance_N':.02,'native_force_tolerance_mixed_N_Nmm':native_force_tolerance,'minimum_cable_force_N':tension,**balance})  # Preserve the precise failed physical equation and native stopping result before rejecting the whole history.
                 raise RuntimeError(f'Dynamic physical gate failed residual{residual},minimumtension{tension}')  # Do not relabel invalid mechanics as training references.
             frame=np.array([ops.nodeDisp(n)+ops.nodeVel(n) for n in nodes],dtype=float)  # Read every actual native displacement, rotation, velocity, and angular velocity.
             acceleration=np.asarray([ops.nodeAccel(n) for n in nodes],dtype=float)  # Preserve actual native acceleration independently from learned outputs.
@@ -250,6 +260,9 @@ if __name__=='__main__':  # Run one whole-history experiment from a frozen exter
     p.add_argument('--seed',type=int,default=0)  # Set deterministic whole-history phase.
     p.add_argument('--storage',choices=['hdf5','npz'],default='hdf5')  # Default to lossless full-mesh streaming for long physical histories.
     p.add_argument('--detailed-model',dest='detailed_model',action='store_true',default=True)  # Default explicitly to actual source-dimensional panels, stiffeners, and corrected cable planes.
+    p.add_argument('--shell-element',choices=['ShellNLDKGQ','ASDShellQ4'],default='ShellNLDKGQ')  # Freeze the nonlinear shell family without changing geometry, mesh, or material inputs.
+    p.add_argument('--initial-displacement-tolerance',type=float,default=1e-9)  # Control native predictor stopping only; final static and dynamic force acceptance thresholds remain unchanged.
+    p.add_argument('--native-force-tolerance',type=float,default=.01)  # Permit explicitly recorded stricter dynamic Newton solves while preserving the original .02N independent acceptance gate.
     p.add_argument('--legacy-model',dest='detailed_model',action='store_false')  # Require an explicit diagnostic override before using the historical equivalent-deck model.
     args=p.parse_args()  # Parse the complete native experiment contract.
     execute(args)  # Compute actual full-field dynamic FEM labels.

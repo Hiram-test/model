@@ -1,0 +1,810 @@
+name: Zhaqing validation and gated full training # Distinguish implementation checks from native references and optimization.
+on: # Trigger only authorized repository work.
+  push: # Start on committed changes rather than an ephemeral chat process.
+    branches: [codex/complex-fullfield-v2-20261025] # Preserve the existing development branch.
+    paths: # Avoid launching expensive jobs for unrelated repository edits.
+      - 'automation/zhaqing_global_local/**' # Include source, frozen configuration and input assets.
+      - '.github/workflows/zhaqing-global-local-training.yml' # Include changes to this actual execution pipeline.
+      - '.github/workflows/zhaqing-train-segment.yml' # Include the concrete full-history continuation runner.
+  workflow_dispatch: # Permit a deliberate rerun of the same published experiment.
+permissions: # Keep the numerical workflow read-only with respect to the repository.
+  contents: read # Checkout source without authorizing commits or releases.
+  actions: read # Download this run's immutable intermediate artifacts.
+concurrency: # Preserve active long jobs when another source revision is pushed.
+  group: zhaqing-full-training-${{ github.ref }} # Serialize complete campaigns on the same branch.
+  cancel-in-progress: false # Do not discard previously completed finite-element work.
+env: # Bound native and neural runtime resource use consistently.
+  OMP_NUM_THREADS: '2' # Limit OpenMP teams inside each hosted runner.
+  OPENBLAS_NUM_THREADS: '2' # Avoid nested dense-library oversubscription.
+  MKL_NUM_THREADS: '2' # Keep CPU neural operations within their documented budget.
+  MPIR_CVAR_CH3_NETWORK_IFACE: lo # Give OpenSees an available local MPI interface.
+  MPICH_INTERFACE_HOSTNAME: 127.0.0.1 # Avoid hosted network-interface ambiguity.
+  PYTHONUNBUFFERED: '1' # Flush actual progress records immediately.
+jobs: # Keep native reference generation, data admission and learning as separate gates.
+  prepare: # Read execution routing without changing the scientific experiment.
+    runs-on: ubuntu-24.04 # Use a lightweight read-only routing job.
+    outputs: # Expose only validated local experiment routing values.
+      mode: ${{ steps.route.outputs.mode }} # Separate native reference preparation from later full training.
+      reference_run_id: ${{ steps.route.outputs.reference_run_id }} # Reuse one concrete native workflow instead of regenerating its histories.
+    steps: # Read the checked-in launch configuration at the triggering revision.
+      - uses: actions/checkout@v4 # Fetch the immutable experiment source.
+        with: # Keep all jobs read-only.
+          persist-credentials: false # No repository write credentials are needed.
+      - id: route # Publish validated run-selection data.
+        run: python3 automation/zhaqing_global_local/campaign/run.py launch # Validate software-only routing and reject training without a concrete reference workflow ID.
+  validation: # Run bounded source and interface checks while physical references remain unqualified.
+    needs: prepare # Require the explicitly selected software-validation mode.
+    if: needs.prepare.outputs.mode == 'validation' # Do not start native FEM or real-bridge optimization in this mode.
+    runs-on: ubuntu-24.04 # Measure the actual hosted environment without assuming its resources.
+    timeout-minutes: 30 # Bound dependency installation and eight inexpensive implementation suites.
+    steps: # Preserve test logs and the dated unresolved physical blockers separately.
+      - uses: actions/checkout@v4 # Fetch the exact triggering source and authenticated baseline input asset.
+        with: # Keep implementation checks read-only on GitHub.
+          persist-credentials: false # No repository writes are performed by these tests.
+      - uses: actions/setup-python@v5 # Select the same interpreter ABI used by native and learning stages.
+        with: # Keep numerical interface compatibility explicit.
+          python-version: '3.12' # Match the locally exercised implementation.
+      - run: python -m pip install --no-cache-dir numpy==2.3.5 scipy==1.17.0 h5py==3.16.0 PyYAML==6.0.3 # Install mathematical, exact-storage and workflow-parser dependencies.
+      - run: python -m pip install --no-cache-dir torch==2.14.1+cpu --index-url https://download.pytorch.org/whl/cpu # Exercise the actual CPU integral-operator implementation on analytic unit fixtures only.
+      - name: Verify implementation and report physical blockers # Passing this job does not mean bridge training or reference qualification.
+        run: python automation/zhaqing_global_local/campaign/run.py validate # Run the actual bounded suites and write source identities, resources and dated blockers.
+      - uses: actions/upload-artifact@v4 # Preserve every actual suite log and the explicit no-training report.
+        if: always() # Keep failing assertions and partial validation evidence visible.
+        with: # Use a name that cannot be mistaken for trained weights or native field data.
+          name: implementation-validation-not-bridge-training # State the exact limited scientific scope.
+          path: "results/full_training_20261026/implementation_validation/\nresults/full_training_20261026/stage_failures/" # Include completed reports and orchestration failures without unrelated native fields.
+          if-no-files-found: error # Missing validation evidence is a publication failure.
+          retention-days: 30 # Retain reproducible test and unresolved-blocker evidence.
+  global-reference: # Generate each complete independent detailed bridge history.
+    needs: prepare # Require a valid published launch contract.
+    if: needs.prepare.outputs.mode == 'references' # Do not repeat expensive FEM when continuing an existing training campaign.
+    runs-on: ubuntu-24.04 # Public repository standard runners provide 16 GB RAM.
+    timeout-minutes: 360 # Leave artifact publication outside the bounded native subprocess.
+    strategy: # Preserve every failed case without cancelling independent cases.
+      fail-fast: false # One nonconverged history does not erase other native evidence.
+      max-parallel: 10 # Run all predefined independent histories concurrently when capacity permits.
+      matrix: # Freeze six training, two validation and two test realizations.
+        case-id: [train_wind_01, train_wind_02, train_wind_03, train_wind_04, train_wind_05, train_wind_06, validation_wind_01, validation_wind_02, test_wind_01, test_wind_02] # Never split windows from one realization across partitions.
+    steps: # Execute genuine model solving before any learned approximation.
+      - uses: actions/checkout@v4 # Fetch the exact triggering source revision.
+        with: # Keep workflow credentials out of solver subprocesses.
+          persist-credentials: false # Numerical jobs cannot push changes to the repository.
+      - uses: actions/setup-python@v5 # Select one explicit interpreter family.
+        with: # Preserve ABI consistency across native producer and training jobs.
+          python-version: '3.12' # Match the locally verified numerical runtime.
+      - run: bash automation/zhaqing_global_local/campaign/runner_space.sh # Free only unrelated tools on ephemeral hosted runners.
+      - run: python -m pip install --no-cache-dir numpy==2.3.5 scipy==1.17.0 h5py==3.16.0 openseespy==3.8.0.0 # Install declared native and exact-field storage dependencies.
+      - name: Solve all 3200 physical steps on the detailed full mesh # This is actual nonlinear FEM label generation.
+        run: python automation/zhaqing_global_local/campaign/run.py global-case --case-id ${{ matrix.case-id }} # Reject incomplete, nonconverged or old-equivalent-deck histories.
+      - name: Preserve complete native fields and failures # Keep every result even when later adaptation fails.
+        if: always() # Native failures remain available instead of disappearing with the runner.
+        uses: actions/upload-artifact@v4 # Store actual raw mesh, fields, inputs and numerical logs.
+        with: # Isolate each independent native realization.
+          name: global-native-${{ matrix.case-id }} # Match the provenance name in each standalone training case.
+          path: results/full_training_20261026/global/${{ matrix.case-id }}/ # Preserve the complete native case directory.
+          if-no-files-found: error # Missing evidence is a failed publication.
+          compression-level: 0 # HDF5 is already losslessly compressed.
+          retention-days: 30 # Keep the expensive native histories inspectable after this conversation.
+      - run: python -m pip install --no-cache-dir torch==2.14.1+cpu --index-url https://download.pytorch.org/whl/cpu # Install only the CPU tensor dependency needed by the checked data adapter.
+      - name: Export complete portable supervised fields # Keep all target nodes and time steps while storing audit channels separately.
+        run: python automation/zhaqing_global_local/campaign/run.py adapt-case --case-id ${{ matrix.case-id }} # Require actual complete native hashes and frozen partitions.
+      - uses: actions/upload-artifact@v4 # Publish only the independently portable per-history learning contract.
+        with: # Preserve exact full-field values and source evidence.
+          name: global-dataset-${{ matrix.case-id }} # Keep the case identity visible across hosted jobs.
+          path: results/full_training_20261026/datasets/${{ matrix.case-id }}/ # Include targets, controls, geometry, graph and small numerical proof.
+          if-no-files-found: error # Do not declare a prepared case without actual arrays.
+          compression-level: 0 # Avoid recompressing already compressed HDF5 data.
+          retention-days: 30 # Keep complete supervised histories available for repeat training.
+  local-reference: # Attempt the actual all-wire nonlinear cycle independently of global learning.
+    needs: prepare # Require a valid published launch contract.
+    if: needs.prepare.outputs.mode == 'references' # Keep local reference attempts separate from later global learning.
+    runs-on: ubuntu-24.04 # Retain the full nx16 mesh on a 16 GB public hosted runner.
+    timeout-minutes: 360 # Preserve time for complete native evidence publication.
+    steps: # No surrogate local labels are manufactured when the native cycle fails.
+      - uses: actions/checkout@v4 # Fetch the same source revision as the global cases.
+        with: # Keep repository credentials out of native process environments.
+          persist-credentials: false # Do not grant native jobs write access.
+      - uses: actions/setup-python@v5 # Select the explicit numerical interpreter.
+        with: # Preserve package compatibility.
+          python-version: '3.12' # Match the source model's validated Python ABI.
+      - run: bash automation/zhaqing_global_local/campaign/runner_space.sh # Free unrelated hosted tooling without touching source or result data.
+      - run: sudo apt-get update && sudo apt-get install -y calculix-ccx # Record the actual Ubuntu native solver rather than claiming the old precision-patched identity.
+      - run: python -m pip install --no-cache-dir numpy==2.3.5 # Install only the quadratic geometry construction dependency.
+      - name: Solve the complete 283-wire four-stage cycle # Single-wire success cannot satisfy this stage.
+        run: python automation/zhaqing_global_local/campaign/run.py local-case # Require genuine native terminal increments and preserve unqualified local-training status.
+      - uses: actions/upload-artifact@v4 # Preserve full native input, mesh, completion audit and failure evidence.
+        if: always() # A resource or convergence failure remains a result to inspect.
+        with: # Keep local fatigue qualification separate from whole-bridge training.
+          name: local-explicit-283-reference # This artifact is a reference attempt, not trained local weights.
+          path: results/full_training_20261026/local/explicit_283_wires/ # Include all native fields actually produced.
+          if-no-files-found: error # Report absence of native evidence explicitly.
+          compression-level: 1 # Compress textual native solver files without changing their contents.
+          retention-days: 30 # Preserve the expensive explicit-wire attempt.
+  assemble: # Admit the complete frozen global reference population.
+    needs: [prepare, global-reference] # Require the current native population or an explicitly selected prior run.
+    if: always() && needs.prepare.result == 'success' && (needs.prepare.outputs.mode == 'training' || needs.global-reference.result == 'success') # A training launch may reuse existing complete references without rerunning FEM.
+    runs-on: ubuntu-24.04 # Use the same public runner memory and ABI.
+    timeout-minutes: 120 # Bound artifact transport and exact hash verification.
+    steps: # Merge only manifests while preserving all full-field files unchanged.
+      - uses: actions/checkout@v4 # Fetch the same immutable source revision.
+        with: # Keep this data-only job read-only.
+          persist-credentials: false # No external write privileges are needed.
+      - uses: actions/setup-python@v5 # Use the same lightweight orchestration runtime.
+        with: # Preserve deterministic JSON behavior.
+          python-version: '3.12' # Match all native and training stages.
+      - run: bash automation/zhaqing_global_local/campaign/runner_space.sh # Prepare enough space for the whole supervised population.
+      - uses: actions/download-artifact@v4 # Download only supervised fields, not duplicate native audit histories.
+        with: # Preserve one deterministic directory per named artifact.
+          github-token: ${{ github.token }} # Read only artifacts from the explicitly selected reference workflow.
+          run-id: ${{ needs.prepare.outputs.reference_run_id || github.run_id }} # Default to current native results in reference mode.
+          pattern: global-dataset-* # Select the ten producer-generated portable learning cases.
+          path: results/full_training_20261026/datasets/ # Keep their relative evidence links valid.
+          merge-multiple: false # Preserve all independent case namespaces.
+      - run: python automation/zhaqing_global_local/campaign/run.py assemble # Enforce all 6/2/2 identities, hashes, duration and detailed geometry before learning.
+      - uses: actions/upload-artifact@v4 # Publish only the merged portable manifest and its exact completion receipt.
+        with: # Avoid storing a second copy of all multi-gigabyte arrays.
+          name: global-dataset-contract # This is the immutable training experiment data contract.
+          path: "results/full_training_20261026/datasets/dataset_manifest.json\nresults/full_training_20261026/datasets/dataset_ready.json" # Include only the common manifest and admission receipt.
+          if-no-files-found: error # Missing admission evidence blocks all training.
+          retention-days: 30 # Preserve the exact population contract with its field archives.
+  train-4: # Complete true epochs 1 through 4 of the same 300-epoch experiment.
+    needs: [prepare, assemble] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Reference preparation alone does not start optimization.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 4 # Require this actual completed-epoch boundary.
+      previous-epoch: 0 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-8: # Complete true epochs 5 through 8 of the same 300-epoch experiment.
+    needs: [prepare, train-4] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 8 # Require this actual completed-epoch boundary.
+      previous-epoch: 4 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-12: # Complete true epochs 9 through 12 of the same 300-epoch experiment.
+    needs: [prepare, train-8] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 12 # Require this actual completed-epoch boundary.
+      previous-epoch: 8 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-16: # Complete true epochs 13 through 16 of the same 300-epoch experiment.
+    needs: [prepare, train-12] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 16 # Require this actual completed-epoch boundary.
+      previous-epoch: 12 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-20: # Complete true epochs 17 through 20 of the same 300-epoch experiment.
+    needs: [prepare, train-16] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 20 # Require this actual completed-epoch boundary.
+      previous-epoch: 16 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-24: # Complete true epochs 21 through 24 of the same 300-epoch experiment.
+    needs: [prepare, train-20] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 24 # Require this actual completed-epoch boundary.
+      previous-epoch: 20 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-28: # Complete true epochs 25 through 28 of the same 300-epoch experiment.
+    needs: [prepare, train-24] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 28 # Require this actual completed-epoch boundary.
+      previous-epoch: 24 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-32: # Complete true epochs 29 through 32 of the same 300-epoch experiment.
+    needs: [prepare, train-28] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 32 # Require this actual completed-epoch boundary.
+      previous-epoch: 28 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-36: # Complete true epochs 33 through 36 of the same 300-epoch experiment.
+    needs: [prepare, train-32] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 36 # Require this actual completed-epoch boundary.
+      previous-epoch: 32 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-40: # Complete true epochs 37 through 40 of the same 300-epoch experiment.
+    needs: [prepare, train-36] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 40 # Require this actual completed-epoch boundary.
+      previous-epoch: 36 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-44: # Complete true epochs 41 through 44 of the same 300-epoch experiment.
+    needs: [prepare, train-40] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 44 # Require this actual completed-epoch boundary.
+      previous-epoch: 40 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-48: # Complete true epochs 45 through 48 of the same 300-epoch experiment.
+    needs: [prepare, train-44] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 48 # Require this actual completed-epoch boundary.
+      previous-epoch: 44 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-52: # Complete true epochs 49 through 52 of the same 300-epoch experiment.
+    needs: [prepare, train-48] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 52 # Require this actual completed-epoch boundary.
+      previous-epoch: 48 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-56: # Complete true epochs 53 through 56 of the same 300-epoch experiment.
+    needs: [prepare, train-52] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 56 # Require this actual completed-epoch boundary.
+      previous-epoch: 52 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-60: # Complete true epochs 57 through 60 of the same 300-epoch experiment.
+    needs: [prepare, train-56] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 60 # Require this actual completed-epoch boundary.
+      previous-epoch: 56 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-64: # Complete true epochs 61 through 64 of the same 300-epoch experiment.
+    needs: [prepare, train-60] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 64 # Require this actual completed-epoch boundary.
+      previous-epoch: 60 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-68: # Complete true epochs 65 through 68 of the same 300-epoch experiment.
+    needs: [prepare, train-64] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 68 # Require this actual completed-epoch boundary.
+      previous-epoch: 64 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-72: # Complete true epochs 69 through 72 of the same 300-epoch experiment.
+    needs: [prepare, train-68] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 72 # Require this actual completed-epoch boundary.
+      previous-epoch: 68 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-76: # Complete true epochs 73 through 76 of the same 300-epoch experiment.
+    needs: [prepare, train-72] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 76 # Require this actual completed-epoch boundary.
+      previous-epoch: 72 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-80: # Complete true epochs 77 through 80 of the same 300-epoch experiment.
+    needs: [prepare, train-76] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 80 # Require this actual completed-epoch boundary.
+      previous-epoch: 76 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-84: # Complete true epochs 81 through 84 of the same 300-epoch experiment.
+    needs: [prepare, train-80] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 84 # Require this actual completed-epoch boundary.
+      previous-epoch: 80 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-88: # Complete true epochs 85 through 88 of the same 300-epoch experiment.
+    needs: [prepare, train-84] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 88 # Require this actual completed-epoch boundary.
+      previous-epoch: 84 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-92: # Complete true epochs 89 through 92 of the same 300-epoch experiment.
+    needs: [prepare, train-88] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 92 # Require this actual completed-epoch boundary.
+      previous-epoch: 88 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-96: # Complete true epochs 93 through 96 of the same 300-epoch experiment.
+    needs: [prepare, train-92] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 96 # Require this actual completed-epoch boundary.
+      previous-epoch: 92 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-100: # Complete true epochs 97 through 100 of the same 300-epoch experiment.
+    needs: [prepare, train-96] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 100 # Require this actual completed-epoch boundary.
+      previous-epoch: 96 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-104: # Complete true epochs 101 through 104 of the same 300-epoch experiment.
+    needs: [prepare, train-100] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 104 # Require this actual completed-epoch boundary.
+      previous-epoch: 100 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-108: # Complete true epochs 105 through 108 of the same 300-epoch experiment.
+    needs: [prepare, train-104] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 108 # Require this actual completed-epoch boundary.
+      previous-epoch: 104 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-112: # Complete true epochs 109 through 112 of the same 300-epoch experiment.
+    needs: [prepare, train-108] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 112 # Require this actual completed-epoch boundary.
+      previous-epoch: 108 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-116: # Complete true epochs 113 through 116 of the same 300-epoch experiment.
+    needs: [prepare, train-112] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 116 # Require this actual completed-epoch boundary.
+      previous-epoch: 112 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-120: # Complete true epochs 117 through 120 of the same 300-epoch experiment.
+    needs: [prepare, train-116] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 120 # Require this actual completed-epoch boundary.
+      previous-epoch: 116 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-124: # Complete true epochs 121 through 124 of the same 300-epoch experiment.
+    needs: [prepare, train-120] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 124 # Require this actual completed-epoch boundary.
+      previous-epoch: 120 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-128: # Complete true epochs 125 through 128 of the same 300-epoch experiment.
+    needs: [prepare, train-124] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 128 # Require this actual completed-epoch boundary.
+      previous-epoch: 124 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-132: # Complete true epochs 129 through 132 of the same 300-epoch experiment.
+    needs: [prepare, train-128] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 132 # Require this actual completed-epoch boundary.
+      previous-epoch: 128 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-136: # Complete true epochs 133 through 136 of the same 300-epoch experiment.
+    needs: [prepare, train-132] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 136 # Require this actual completed-epoch boundary.
+      previous-epoch: 132 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-140: # Complete true epochs 137 through 140 of the same 300-epoch experiment.
+    needs: [prepare, train-136] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 140 # Require this actual completed-epoch boundary.
+      previous-epoch: 136 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-144: # Complete true epochs 141 through 144 of the same 300-epoch experiment.
+    needs: [prepare, train-140] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 144 # Require this actual completed-epoch boundary.
+      previous-epoch: 140 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-148: # Complete true epochs 145 through 148 of the same 300-epoch experiment.
+    needs: [prepare, train-144] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 148 # Require this actual completed-epoch boundary.
+      previous-epoch: 144 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-152: # Complete true epochs 149 through 152 of the same 300-epoch experiment.
+    needs: [prepare, train-148] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 152 # Require this actual completed-epoch boundary.
+      previous-epoch: 148 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-156: # Complete true epochs 153 through 156 of the same 300-epoch experiment.
+    needs: [prepare, train-152] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 156 # Require this actual completed-epoch boundary.
+      previous-epoch: 152 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-160: # Complete true epochs 157 through 160 of the same 300-epoch experiment.
+    needs: [prepare, train-156] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 160 # Require this actual completed-epoch boundary.
+      previous-epoch: 156 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-164: # Complete true epochs 161 through 164 of the same 300-epoch experiment.
+    needs: [prepare, train-160] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 164 # Require this actual completed-epoch boundary.
+      previous-epoch: 160 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-168: # Complete true epochs 165 through 168 of the same 300-epoch experiment.
+    needs: [prepare, train-164] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 168 # Require this actual completed-epoch boundary.
+      previous-epoch: 164 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-172: # Complete true epochs 169 through 172 of the same 300-epoch experiment.
+    needs: [prepare, train-168] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 172 # Require this actual completed-epoch boundary.
+      previous-epoch: 168 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-176: # Complete true epochs 173 through 176 of the same 300-epoch experiment.
+    needs: [prepare, train-172] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 176 # Require this actual completed-epoch boundary.
+      previous-epoch: 172 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-180: # Complete true epochs 177 through 180 of the same 300-epoch experiment.
+    needs: [prepare, train-176] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 180 # Require this actual completed-epoch boundary.
+      previous-epoch: 176 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-184: # Complete true epochs 181 through 184 of the same 300-epoch experiment.
+    needs: [prepare, train-180] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 184 # Require this actual completed-epoch boundary.
+      previous-epoch: 180 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-188: # Complete true epochs 185 through 188 of the same 300-epoch experiment.
+    needs: [prepare, train-184] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 188 # Require this actual completed-epoch boundary.
+      previous-epoch: 184 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-192: # Complete true epochs 189 through 192 of the same 300-epoch experiment.
+    needs: [prepare, train-188] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 192 # Require this actual completed-epoch boundary.
+      previous-epoch: 188 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-196: # Complete true epochs 193 through 196 of the same 300-epoch experiment.
+    needs: [prepare, train-192] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 196 # Require this actual completed-epoch boundary.
+      previous-epoch: 192 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-200: # Complete true epochs 197 through 200 of the same 300-epoch experiment.
+    needs: [prepare, train-196] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 200 # Require this actual completed-epoch boundary.
+      previous-epoch: 196 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-204: # Complete true epochs 201 through 204 of the same 300-epoch experiment.
+    needs: [prepare, train-200] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 204 # Require this actual completed-epoch boundary.
+      previous-epoch: 200 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-208: # Complete true epochs 205 through 208 of the same 300-epoch experiment.
+    needs: [prepare, train-204] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 208 # Require this actual completed-epoch boundary.
+      previous-epoch: 204 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-212: # Complete true epochs 209 through 212 of the same 300-epoch experiment.
+    needs: [prepare, train-208] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 212 # Require this actual completed-epoch boundary.
+      previous-epoch: 208 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-216: # Complete true epochs 213 through 216 of the same 300-epoch experiment.
+    needs: [prepare, train-212] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 216 # Require this actual completed-epoch boundary.
+      previous-epoch: 212 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-220: # Complete true epochs 217 through 220 of the same 300-epoch experiment.
+    needs: [prepare, train-216] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 220 # Require this actual completed-epoch boundary.
+      previous-epoch: 216 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-224: # Complete true epochs 221 through 224 of the same 300-epoch experiment.
+    needs: [prepare, train-220] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 224 # Require this actual completed-epoch boundary.
+      previous-epoch: 220 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-228: # Complete true epochs 225 through 228 of the same 300-epoch experiment.
+    needs: [prepare, train-224] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 228 # Require this actual completed-epoch boundary.
+      previous-epoch: 224 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-232: # Complete true epochs 229 through 232 of the same 300-epoch experiment.
+    needs: [prepare, train-228] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 232 # Require this actual completed-epoch boundary.
+      previous-epoch: 228 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-236: # Complete true epochs 233 through 236 of the same 300-epoch experiment.
+    needs: [prepare, train-232] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 236 # Require this actual completed-epoch boundary.
+      previous-epoch: 232 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-240: # Complete true epochs 237 through 240 of the same 300-epoch experiment.
+    needs: [prepare, train-236] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 240 # Require this actual completed-epoch boundary.
+      previous-epoch: 236 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-244: # Complete true epochs 241 through 244 of the same 300-epoch experiment.
+    needs: [prepare, train-240] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 244 # Require this actual completed-epoch boundary.
+      previous-epoch: 240 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-248: # Complete true epochs 245 through 248 of the same 300-epoch experiment.
+    needs: [prepare, train-244] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 248 # Require this actual completed-epoch boundary.
+      previous-epoch: 244 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-252: # Complete true epochs 249 through 252 of the same 300-epoch experiment.
+    needs: [prepare, train-248] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 252 # Require this actual completed-epoch boundary.
+      previous-epoch: 248 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-256: # Complete true epochs 253 through 256 of the same 300-epoch experiment.
+    needs: [prepare, train-252] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 256 # Require this actual completed-epoch boundary.
+      previous-epoch: 252 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-260: # Complete true epochs 257 through 260 of the same 300-epoch experiment.
+    needs: [prepare, train-256] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 260 # Require this actual completed-epoch boundary.
+      previous-epoch: 256 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-264: # Complete true epochs 261 through 264 of the same 300-epoch experiment.
+    needs: [prepare, train-260] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 264 # Require this actual completed-epoch boundary.
+      previous-epoch: 260 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-268: # Complete true epochs 265 through 268 of the same 300-epoch experiment.
+    needs: [prepare, train-264] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 268 # Require this actual completed-epoch boundary.
+      previous-epoch: 264 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-272: # Complete true epochs 269 through 272 of the same 300-epoch experiment.
+    needs: [prepare, train-268] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 272 # Require this actual completed-epoch boundary.
+      previous-epoch: 268 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-276: # Complete true epochs 273 through 276 of the same 300-epoch experiment.
+    needs: [prepare, train-272] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 276 # Require this actual completed-epoch boundary.
+      previous-epoch: 272 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-280: # Complete true epochs 277 through 280 of the same 300-epoch experiment.
+    needs: [prepare, train-276] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 280 # Require this actual completed-epoch boundary.
+      previous-epoch: 276 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-284: # Complete true epochs 281 through 284 of the same 300-epoch experiment.
+    needs: [prepare, train-280] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 284 # Require this actual completed-epoch boundary.
+      previous-epoch: 280 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-288: # Complete true epochs 285 through 288 of the same 300-epoch experiment.
+    needs: [prepare, train-284] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 288 # Require this actual completed-epoch boundary.
+      previous-epoch: 284 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-292: # Complete true epochs 289 through 292 of the same 300-epoch experiment.
+    needs: [prepare, train-288] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 292 # Require this actual completed-epoch boundary.
+      previous-epoch: 288 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-296: # Complete true epochs 293 through 296 of the same 300-epoch experiment.
+    needs: [prepare, train-292] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 296 # Require this actual completed-epoch boundary.
+      previous-epoch: 292 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  train-300: # Complete true epochs 297 through 300 of the same 300-epoch experiment.
+    needs: [prepare, train-296] # Require the previous genuine data or checkpoint gate.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    uses: ./.github/workflows/zhaqing-train-segment.yml # Reuse the exact full-history continuation implementation.
+    with: # Preserve concrete counters and immutable data routing.
+      target-epoch: 300 # Require this actual completed-epoch boundary.
+      previous-epoch: 296 # Restore the immediate predecessor's exact optimizer and RNG.
+      reference-run-id: ${{ needs.prepare.outputs.reference_run_id }} # Reuse all native-derived fields without a new FEM solve.
+  independent-test: # Evaluate unseen complete histories after all 300 epochs are actually completed.
+    needs: [prepare, train-300] # Reject partial final-stage checkpoints and preserve original reference-run identity.
+    if: needs.prepare.outputs.mode == 'training' # Keep optimization and held-out evaluation disabled in validation and reference modes.
+    runs-on: ubuntu-24.04 # Preserve the same runtime and full-node inference scope.
+    timeout-minutes: 360 # Bound genuine cold-rollout testing and numeric output storage.
+    steps: # Recover the frozen test population and validation-selected weights.
+      - uses: actions/checkout@v4 # Keep inference source identical to the training contract.
+        with: # Prevent test processes from modifying the repository.
+          persist-credentials: false # Read-only code access is sufficient.
+      - uses: actions/setup-python@v5 # Match checkpoint and numerical library ABI.
+        with: # Preserve the tested interpreter version.
+          python-version: '3.12' # Use the same version as all train stages.
+      - run: bash automation/zhaqing_global_local/campaign/runner_space.sh # Prepare room for complete held-out prediction fields.
+      - run: python -m pip install --no-cache-dir numpy==2.3.5 scipy==1.17.0 h5py==3.16.0 # Preserve the exact field interpretation and graph runtime.
+      - run: python -m pip install --no-cache-dir torch==2.14.1+cpu --index-url https://download.pytorch.org/whl/cpu # Restore the declared CPU inference engine.
+      - uses: actions/download-artifact@v4 # Recover every portable case so the frozen manifest remains unchanged.
+        with: # Keep independent test labels separate from model selection.
+          github-token: ${{ github.token }} # Read only artifacts from the explicitly selected reference workflow.
+          run-id: ${{ needs.prepare.outputs.reference_run_id || github.run_id }} # Default to current native results in reference mode.
+          pattern: global-dataset-* # Restore the same complete-history population.
+          path: results/full_training_20261026/datasets/ # Preserve case-relative field and proof links.
+          merge-multiple: false # Keep independent case artifact directories.
+      - uses: actions/download-artifact@v4 # Place the exact common manifest without rewriting it.
+        with: # Preserve the training manifest hash required by evaluation.
+          name: global-dataset-contract # Use the original assembled experiment contract.
+          path: results/full_training_20261026/datasets/ # Match all relative artifact references.
+      - uses: actions/download-artifact@v4 # Restore the genuine final completed-epoch state.
+        with: # Let evaluation choose the saved validation-best weights.
+          name: global-training-300 # Require the final recorded 300-epoch checkpoint.
+          path: results/full_training_20261026/training/ # Preserve its source and data identities.
+      - run: python automation/zhaqing_global_local/campaign/run.py evaluate # Report all channel errors, worst histories and constant-initial-state comparisons.
+      - uses: actions/upload-artifact@v4 # Publish complete numerical predictions and actual independent error tables.
+        if: always() # Preserve test failures rather than declaring training alone sufficient.
+        with: # Keep held-out evaluation artifacts independent from optimization.
+          name: global-independent-test # This is a test execution result, not automatic engineering acceptance.
+          path: results/full_training_20261026/independent_test/ # Retain complete cold-rollout outputs and scope.
+          if-no-files-found: error # Missing test evidence is a failed publication.
+          compression-level: 0 # Do not recompress numeric HDF5 output.
+          retention-days: 30 # Preserve results for review and scientific comparison.
+  status: # Publish a concise truthful summary even when a native or training job fails.
+    needs: [prepare, validation, global-reference, local-reference, assemble, train-4, train-8, train-12, train-16, train-20, train-24, train-28, train-32, train-36, train-40, train-44, train-48, train-52, train-56, train-60, train-64, train-68, train-72, train-76, train-80, train-84, train-88, train-92, train-96, train-100, train-104, train-108, train-112, train-116, train-120, train-124, train-128, train-132, train-136, train-140, train-144, train-148, train-152, train-156, train-160, train-164, train-168, train-172, train-176, train-180, train-184, train-188, train-192, train-196, train-200, train-204, train-208, train-212, train-216, train-220, train-224, train-228, train-232, train-236, train-240, train-244, train-248, train-252, train-256, train-260, train-264, train-268, train-272, train-276, train-280, train-284, train-288, train-292, train-296, train-300, independent-test] # Observe every required stage explicitly.
+    if: always() # Failed native references must remain visible at workflow level.
+    runs-on: ubuntu-24.04 # This final job only writes the workflow's own status summary.
+    steps: # Never turn a missing local training pipeline into a complete result.
+      - name: Record actual stage outcomes # Keep numerical completion distinct from prediction accuracy.
+        env: # Pass validated GitHub job outcomes as data rather than executable expressions.
+          MODE: ${{ needs.prepare.outputs.mode }} # Report whether this run prepares references or executes learning.
+          VALIDATION: ${{ needs.validation.result }} # Report implementation checks separately from bridge reference generation.
+          GLOBAL_NATIVE: ${{ needs.global-reference.result }} # State whether all ten detailed native histories completed.
+          LOCAL_NATIVE: ${{ needs.local-reference.result }} # State the all-wire native attempt's actual job result.
+          TRAINING: ${{ needs.train-300.result }} # A successful final stage enforces actual 300 completed epochs.
+          TEST: ${{ needs.independent-test.result }} # Record independent test execution separately.
+        run: | # Append only this workflow's own inspectable status, never a person-directed message.
+          printf 'Execution mode: %s\n\n' "$MODE" >> "$GITHUB_STEP_SUMMARY" # State whether optimization was requested in this run.
+          printf 'Implementation/interface validation: %s\n\n' "$VALIDATION" >> "$GITHUB_STEP_SUMMARY" # Report actual software assertions without implying any training progress.
+          printf 'Global native histories: %s\n\n' "$GLOBAL_NATIVE" >> "$GITHUB_STEP_SUMMARY" # Report actual global reference status.
+          printf 'Explicit 283-wire native attempt: %s\n\n' "$LOCAL_NATIVE" >> "$GITHUB_STEP_SUMMARY" # Report actual local reference status.
+          printf 'Global 300-epoch training: %s\n\n' "$TRAINING" >> "$GITHUB_STEP_SUMMARY" # Do not infer optimization progress from queued jobs.
+          printf 'Independent global test execution: %s\n\n' "$TEST" >> "$GITHUB_STEP_SUMMARY" # Testing execution does not certify engineering accuracy.
+          printf 'Local operator training remains blocked until complete contact-cycle qualification and independent local histories exist.\n' >> "$GITHUB_STEP_SUMMARY" # Preserve the genuine unfinished local-learning requirement.
+

@@ -1,0 +1,29 @@
+{
+  "schema": "zhaqing_detailed_global_and_explicit_saddle_campaign_v1",
+  "scientific_scope": "drawing_derived_detailed_bridge_motion_research_assumed_aerodynamics_not_as_built_validation",
+  "baseline_asset_sha256": "0e79f306c651cb10f1f90dd945b35f78881a572ce08177bfea073d3e3d0edc9a",
+  "epochs": 300,
+  "steps": 3200,
+  "dt_s": 0.00625,
+  "width": 8,
+  "depth": 2,
+  "window": 32,
+  "kernel_mode": "separable",
+  "kernel_rank": 4,
+  "training_seed": 26026,
+  "native_job_seconds": 15000,
+  "training_job_seconds": 18000,
+  "model_note": "Explicitly named finite-rank integral-kernel GNO candidate; all physical FE nodes and time steps retained. Full matrix-kernel GNO remains a separate implementation baseline.",
+  "cases": [
+    {"id": "train_wind_01", "split": "train", "speed_m_s": 8.0, "seed": 11},
+    {"id": "train_wind_02", "split": "train", "speed_m_s": 10.0, "seed": 23},
+    {"id": "train_wind_03", "split": "train", "speed_m_s": 12.0, "seed": 37},
+    {"id": "train_wind_04", "split": "train", "speed_m_s": 14.0, "seed": 41},
+    {"id": "train_wind_05", "split": "train", "speed_m_s": 16.0, "seed": 53},
+    {"id": "train_wind_06", "split": "train", "speed_m_s": 18.0, "seed": 67},
+    {"id": "validation_wind_01", "split": "validation", "speed_m_s": 11.0, "seed": 79},
+    {"id": "validation_wind_02", "split": "validation", "speed_m_s": 15.0, "seed": 83},
+    {"id": "test_wind_01", "split": "test", "speed_m_s": 13.0, "seed": 97},
+    {"id": "test_wind_02", "split": "test", "speed_m_s": 17.0, "seed": 101}
+  ]
+}

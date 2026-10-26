@@ -1,0 +1,62 @@
+name: Zhaqing four-epoch full-history continuation # Reusable exact checkpoint continuation.
+on: # Run only when explicitly called by the durable parent campaign.
+  workflow_call: # Keep every segment on the same source revision.
+    inputs: # Require concrete routing and actual epoch boundaries.
+      target-epoch: # Complete this total number of actual trained-and-validated epochs.
+        required: true # Do not invent an implicit training budget.
+        type: number # Validate the four-epoch integer boundary in the runner.
+      previous-epoch: # Restore the immediate predecessor checkpoint artifact.
+        required: true # Preserve exact continuation rather than restarting.
+        type: number # Zero denotes the first segment only.
+      reference-run-id: # Reuse one concrete complete native reference campaign.
+        required: true # Do not regenerate or guess training data.
+        type: string # Preserve the full workflow run identity.
+permissions: # Numerical execution needs only read access.
+  contents: read # Checkout immutable source.
+  actions: read # Recover the explicitly selected scientific artifacts.
+jobs: # Execute one bounded continuation segment per invocation.
+  train: # Continue four complete-history epochs of the same 300-epoch experiment.
+    runs-on: ubuntu-24.04 # Use a public hosted CPU runner with the declared fixed resources.
+    timeout-minutes: 360 # Bound training before losing checkpoint-upload time.
+    env: # Preserve the resource configuration used in the actual throughput measurements.
+      OMP_NUM_THREADS: '2' # Bound OpenMP worker teams.
+      OPENBLAS_NUM_THREADS: '2' # Avoid nested dense-library oversubscription.
+      MKL_NUM_THREADS: '2' # Keep CPU neural operations reproducible.
+      PYTHONUNBUFFERED: '1' # Publish real progress promptly.
+    steps: # Restore every full-field case and the actual previous completed epoch.
+      - uses: actions/checkout@v4 # Use the same source revision across all continuation stages.
+        with: # Keep numerical jobs read-only.
+          persist-credentials: false # Do not propagate Git credentials into Python.
+      - uses: actions/setup-python@v5 # Preserve the training interpreter version.
+        with: # Keep checkpoint serialization ABI consistent.
+          python-version: '3.12' # Match all earlier native and adaptation jobs.
+      - run: bash automation/zhaqing_global_local/campaign/runner_space.sh # Prepare space without deleting any numerical history.
+      - run: python -m pip install --no-cache-dir numpy==2.3.5 scipy==1.17.0 h5py==3.16.0 # Install the exact field and graph runtime.
+      - run: python -m pip install --no-cache-dir torch==2.14.1+cpu --index-url https://download.pytorch.org/whl/cpu # Use the explicit CPU neural operator runtime.
+      - run: sudo apt-get update && sudo apt-get install -y gnuplot-nox # Render actual training curves using native Gnuplot only.
+      - uses: actions/download-artifact@v4 # Recover the ten complete supervised histories.
+        with: # Preserve standalone case-local evidence references.
+          github-token: ${{ github.token }} # Read only artifacts from the explicitly selected reference workflow.
+          run-id: ${{ inputs.reference-run-id }} # Default to current native results in reference mode.
+          pattern: global-dataset-* # Select individual datasets plus the tiny common contract artifact.
+          path: results/full_training_20261026/datasets/ # Keep each dataset in its named portable directory.
+          merge-multiple: false # Prevent similarly named evidence files colliding.
+      - uses: actions/download-artifact@v4 # Place the exact merged manifest at its declared parent directory.
+        with: # Preserve the same manifest bytes and hash across all segments.
+          name: global-dataset-contract # Restore the frozen complete-history experiment contract.
+          path: results/full_training_20261026/datasets/ # Match relative case paths without rewriting any file.
+      - uses: actions/download-artifact@v4 # Restore the previous actual complete-epoch checkpoint.
+        if: inputs.previous-epoch > 0 # Initialize a fresh model only in the first segment.
+        with: # Continue exact optimizer and RNG state from this same parent workflow.
+          name: global-training-${{ inputs.previous-epoch }} # Never substitute unrelated old weights.
+          path: results/full_training_20261026/training/ # Preserve the checkpoint and cumulative history.
+      - name: Execute four complete-history epochs # The frozen total budget remains 300 epochs.
+        run: python automation/zhaqing_global_local/campaign/run.py train-stage --target-epoch ${{ inputs.target-epoch }} # Actual completed epochs are read from the checkpoint rather than inferred from this job label.
+      - uses: actions/upload-artifact@v4 # Preserve every resumable complete epoch and actual numerical curve.
+        if: always() # Failed later work must not erase earlier completed optimization.
+        with: # Keep the exact complete continuation state separately for each stage.
+          name: global-training-${{ inputs.target-epoch }} # Expose partial or completed status in the contained stage JSON.
+          path: results/full_training_20261026/training/ # Include weights, optimizer, RNG, logs, contract and Gnuplot output.
+          if-no-files-found: error # Do not claim a resumable run without actual files.
+          compression-level: 1 # Preserve exact tensor checkpoint bytes.
+          retention-days: 30 # Keep the long-run continuation state after the ephemeral runner exits.
