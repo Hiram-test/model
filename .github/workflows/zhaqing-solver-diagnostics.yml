@@ -27,7 +27,7 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
           - case: original # Observe the original native stopping behavior with the new detailed audit.
             native-tolerance: '0.01' # Preserve the originally used mixed force/moment native norm threshold.
           - case: default # Verify the production default native stopping value against the independent physical gate.
-            native-tolerance: '0.002' # Tighten native stopping by five relative to the original while allowing the first wind increment to converge.
+            native-tolerance: '0.005' # Tighten native stopping by two relative to the original while allowing the full short history to finish.
     env: # Keep native linear algebra, output flushing, and MPI interface choices reproducible.
       OMP_NUM_THREADS: '2' # Avoid oversubscribing the hosted worker's native teams.
       OPENBLAS_NUM_THREADS: '2' # Bound dense numerical-library threads.
