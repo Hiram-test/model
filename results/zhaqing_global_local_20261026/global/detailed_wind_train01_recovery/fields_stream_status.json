@@ -1,0 +1,24 @@
+{
+  "status": "FAILED",
+  "expected_frames": 3201,
+  "written_frames": 14,
+  "last_time_s": 0.08125,
+  "dataset": "results/zhaqing_global_local_20261026/global/detailed_wind_train01_recovery/fields.h5",
+  "partial_dataset": "results/zhaqing_global_local_20261026/global/detailed_wind_train01_recovery/fields.partial.h5",
+  "step_audits": "results/zhaqing_global_local_20261026/global/detailed_wind_train01_recovery/step_audits.jsonl",
+  "saddle_motion": "results/zhaqing_global_local_20261026/global/detailed_wind_train01_recovery/saddle_motion.jsonl",
+  "metadata": {
+    "case_id": "detailed_wind_train01",
+    "split": "train",
+    "dt_s": 0.00625,
+    "source_input_sha256": "1a6578cacf02fa2f32b6922f3385aa55220b0f0bd4025c9d334ab80e21f4a50d",
+    "source_snapshots_sha256": {
+      "field_stream.py": "ae6813eda6481407c42b436215150ec04937696d3b2e6522bbe43f0361d7c30d",
+      "opensees_bridge.py": "ecbd35bf7a6e9ff3170878531a6b9fe4075f25191577d8a44ceb87fdc94469b7",
+      "aero_loads.py": "a8fcdee3f0025f55cc1850029ab6f91d0471bf91a97e29223a8c7793c7f21f2f",
+      "transient_cases.py": "e239a1652d826193d4d2d521867558de0dc6d6f836c3c05a2ccf0783a4030e55",
+      "detailed_bridge.py": "d70a679cf509a62087ad065d763fbbe98ab7ba6376abe86450624ad79f8b99a6"
+    }
+  },
+  "error": "Dynamic physical gate failed residual0.022187525350091164,minimumtension10484.72762776946"
+}

@@ -7,7 +7,13 @@ from scipy.sparse.csgraph import connected_components # Prevent metric neighborh
 from data import sha256 # Reuse the trainer's exact content identity function.
 from relations import radius_relation # Build mesh-independent physical integration supports on every native entity.
 
-def adapt(case_paths, destination, source_input, scope_label): # Convert all explicitly supplied whole histories without opening arbitrary test cases during fitting.
+def adapt(case_paths, destination, source_input, scope_label, storage_mode='external'): # Convert explicitly supplied whole histories with an explicit portable numerical storage policy.
+    formats = [json.loads(Path(path).read_text()).get('storage_format', 'npz') for path in case_paths] # Inspect only native receipt metadata before choosing a complete-field reader.
+    if 'hdf5' in formats: # Long native histories require bounded-memory lossless conversion.
+        if any(value != 'hdf5' for value in formats): # One frozen experiment must not silently mix incompatible historical export contracts.
+            raise ValueError('Mixed native storage formats require separate datasets') # Keep each conversion scientific contract unambiguous.
+        from adapt_stream import adapt_stream # Import the portable full-native HDF5 path only when required.
+        return adapt_stream(case_paths, destination, source_input, scope_label, storage_mode) # Preserve all native nodes, frames, and float64 reference values.
     destination = Path(destination).resolve() # Resolve one persistent dataset location for all relative artifact paths.
     destination.mkdir(parents=True, exist_ok=True) # Preserve complete adapted arrays and conversion evidence.
     rows, relation_names, field_names, cached_graph, graph_key = [], None, None, None, None # Reuse topology only when original coordinate and feature arrays are identical.
@@ -82,5 +88,6 @@ if __name__ == '__main__': # Keep conversion explicit and independently reproduc
     parser.add_argument('--source-input', required=True) # Identify the original drawing-derived bridge FEM input.
     parser.add_argument('--output', required=True) # Select a persistent adapted dataset directory.
     parser.add_argument('--scope-label', required=True) # Distinguish old-equivalent-deck diagnostics from corrected actual-deck research runs.
+    parser.add_argument('--storage-mode', choices=['external', 'standalone'], default='external') # Select relative zero-copy links or independently portable lossless supervision arrays.
     args = parser.parse_args() # Parse exact conversion inputs once.
-    print(adapt(args.case_manifests, args.output, args.source_input, args.scope_label)) # Report the actual frozen dataset manifest path.
+    print(adapt(args.case_manifests, args.output, args.source_input, args.scope_label, args.storage_mode)) # Report the actual frozen dataset manifest path and explicit numerical storage policy.

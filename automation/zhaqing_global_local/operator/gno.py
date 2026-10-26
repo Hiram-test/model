@@ -25,22 +25,30 @@ class SeparableQuadratureKernel(nn.Module): # Approximate K_r(x,y)=A_r(x)B_r(y) 
         self.source_factor = nn.Sequential(nn.Linear(features + 3 + 8, width), nn.SiLU(), nn.Linear(width, rank * width)) # Map each physical source location to a complete rank-by-channel matrix.
         self.target_factor = nn.Sequential(nn.Linear(features + 3 + 8, width), nn.SiLU(), nn.Linear(width, width * rank)) # Map every actual target location to a channel-by-rank matrix.
         self.pointwise = nn.Linear(width, width) # Preserve one independent full latent state at every native entity.
-    def kernel_chunks(self, coordinates, features, edges, edge_types, edge_measure): # Prepare sparse exact relation quadrature and current-iterate learned factors.
-        centered = coordinates - coordinates.mean(0) # Remove a common rigid coordinate translation from the factor descriptors.
-        chunks = [] # Retain every nonempty physical relation without allocating one width-by-width matrix per edge.
+    def integration_domains(self, coordinates, features, edges, edge_types, edge_measure): # Build only parameter-independent original topology, physical quadrature, and input descriptors.
+        centered = coordinates # The model supplies coordinates centered by physical quadrature, never a node-count mean.
+        domains = [] # Share immutable sparse relation structure across layers and optimizer updates.
         for relation in range(self.relations): # Different physical relation domains retain independent learned semantic embeddings.
             selected = edge_types == relation # Preserve the entire declared physical support for this relation.
             if not bool(selected.any()): # Some meshes legitimately lack one vocabulary member.
                 continue # Do not fabricate a relation or an artificial sample for an absent physical domain.
             source, source_inverse = torch.unique(edges[0, selected], sorted=True, return_inverse=True) # Retain every source entity while mapping its repeated edge appearances to a sparse integral index.
             target, target_inverse = torch.unique(edges[1, selected], sorted=True, return_inverse=True) # Keep every actual evaluation entity and all its incoming quadrature terms.
-            semantic = self.relation.weight[relation] # Use the same learned relation code for source and target factors.
-            source_descriptor = torch.cat((centered[source], features[source], semantic.expand(len(source), -1)), -1) # Supply only known geometry and static physical features to the source factor.
-            target_descriptor = torch.cat((centered[target], features[target], semantic.expand(len(target), -1)), -1) # No reference response or future loading enters the target factor.
-            left = self.target_factor(target_descriptor).reshape(-1, self.width, self.rank) # Evaluate A_r at every original physical target.
-            right = self.source_factor(source_descriptor).reshape(-1, self.rank, self.width) # Evaluate B_r at every original physical source.
-            adjacency = torch.sparse_coo_tensor(torch.stack((target_inverse, source_inverse)), edge_measure[selected], (len(target), len(source)), device=coordinates.device).coalesce() # Preserve every exact physical edge weight, summing duplicate quadrature contributions only.
-            chunks.append((source, target, left, right, adjacency)) # Store O(NWr+E) factors and quadrature instead of O(EW²) matrices.
+            source_base = torch.cat((centered[source], features[source]), -1) # Preserve immutable physical source descriptors without learned relation embeddings.
+            target_base = torch.cat((centered[target], features[target]), -1) # Preserve immutable physical target descriptors without any reference-response input.
+            adjacency = torch.sparse_coo_tensor(torch.stack((target_inverse, source_inverse)), edge_measure[selected], (len(target), len(source)), device=coordinates.device, check_invariants=True).coalesce() # Validate and retain every exact physical edge weight once, summing duplicate quadrature contributions only.
+            domains.append((relation, source, target, source_base, target_base, adjacency)) # Cache only parameter-independent O(E+NF) geometry and sparse quadrature structure.
+        return domains # No model parameter or predicted state is stored in this persistent mesh cache.
+    def kernel_chunks(self, coordinates, features, edges, edge_types, edge_measure, domains=None): # Recompute learned factors at the current parameter iterate while reusing immutable physical topology.
+        domains = self.integration_domains(coordinates, features, edges, edge_types, edge_measure) if domains is None else domains # Direct callers retain the same exact physical integral semantics.
+        chunks = [] # Store only current-iterate learned source and target factors for this temporal update window.
+        for relation, source, target, source_base, target_base, adjacency in domains: # Every actual original relation and quadrature edge remains present.
+            semantic = self.relation.weight[relation] # Refresh the actual learned relation embedding after each optimizer update.
+            source_descriptor = torch.cat((source_base, semantic.expand(len(source), -1)), -1) # Append only current learned semantics to immutable physical source descriptors.
+            target_descriptor = torch.cat((target_base, semantic.expand(len(target), -1)), -1) # Preserve actual complete target coordinates and known static fields.
+            left = self.target_factor(target_descriptor).reshape(-1, self.width, self.rank) # Refresh every current-iterate learned target factor.
+            right = self.source_factor(source_descriptor).reshape(-1, self.rank, self.width) # Refresh every current-iterate learned source factor.
+            chunks.append((source, target, left, right, adjacency)) # Retain O(NWr+E) exact current factors without recomputing fixed native topology.
         return chunks # All original nodes, relations, time steps and response channels remain present.
     def integral(self, h, coordinates, features, edges, edge_types, edge_measure, cached=None): # Evaluate the separable Nyström integral on every physical relation edge.
         chunks = self.kernel_chunks(coordinates, features, edges, edge_types, edge_measure) if cached is None else cached # Reuse only factors formed at the current parameter iterate.
@@ -108,6 +116,8 @@ class FullFieldGNO(nn.Module): # A causal recurrent GNO with an explicit spatial
         self.channel_norms = nn.ModuleList([nn.LayerNorm(config.width) for _ in range(config.depth)]) # Stabilize long causal memory in latent channels without spatial averaging or field correction.
         self.readout = nn.Sequential(nn.Linear(config.width, config.width), nn.SiLU(), nn.Linear(config.width, config.outputs)) # Decode every native output channel at every original entity.
     def forward(self, mesh, controls, previous, hidden, dt): # Advance from known inputs and predicted history only.
+        if self.config.kernel_mode == 'separable' and 'kernel_cache' not in mesh: # Direct inference must use the same physical-centroid factor descriptors as prepared production integration.
+            mesh = self.prepare_mesh(mesh) # Prepare current-iterate compact factors without relying on node-count-dependent coordinate centering.
         elapsed = previous.new_full((previous.shape[0], 1), float(dt)) # Supply the actual sampling interval rather than assuming a fixed time grid.
         lifted = self.lift(torch.cat((mesh['static_features'], controls, previous, elapsed), dim=-1)) # No future reference state enters this input function.
         hidden = torch.zeros_like(lifted) if hidden is None else hidden # Start every independent history from empty learned memory.
@@ -121,7 +131,17 @@ class FullFieldGNO(nn.Module): # A causal recurrent GNO with an explicit spatial
         return self.readout(state) * mesh['output_mask'], state # Keep structurally nonexistent entity channels zero while emitting every declared observable field and causal latent memory.
     def prepare_mesh(self, mesh): # Refresh cached kernels after every parameter update while retaining all native graph entities.
         prepared = dict(mesh) # Keep the caller's immutable mesh and provenance fields intact.
-        prepared['kernel_cache'] = [layer.kernel_chunks(mesh['coordinates'], mesh['static_features'], mesh['edges'], mesh['edge_types'], mesh['edge_measure']) if self.config.kernel_mode == 'separable' else None for layer in self.layers] # Cache compact separable factors only; full-matrix kernels use checkpointed chunks without an O(EW²) persistent cache.
+        if self.config.kernel_mode == 'separable': # Separable factors need a common mesh-independent physical coordinate origin.
+            centroid = (mesh['coordinates'] * mesh['quadrature'][:, None]).sum(0) / mesh['quadrature'].sum() # Use the declared physical quadrature rather than giving dense mesh regions extra influence.
+            prepared['coordinates'] = mesh['coordinates'] - centroid # Preserve common-translation invariance under consistent physical measure refinement.
+            signature = tuple((name, mesh[name].data_ptr(), mesh[name]._version, tuple(mesh[name].shape)) for name in ('coordinates', 'quadrature', 'static_features', 'edges', 'edge_types', 'edge_measure')) # Invalidate static domains on tensor replacement, renumbering, device transfer, or in-place physical input changes.
+            cached = mesh.get('_separable_domain_cache') # Reuse only immutable geometry and quadrature metadata from this exact native input function.
+            if cached is None or cached[0] != signature: # Every changed physical mesh must rebuild its exact native topology and physical-centroid descriptors.
+                domains = self.layers[0].integration_domains(prepared['coordinates'], mesh['static_features'], mesh['edges'], mesh['edge_types'], mesh['edge_measure']) # Compute fixed native sparse supports once for all integral layers and future optimizer windows.
+                mesh['_separable_domain_cache'] = (signature, domains) # Cache no learned parameter, target field, or future response value.
+            prepared['kernel_cache'] = [layer.kernel_chunks(prepared['coordinates'], mesh['static_features'], mesh['edges'], mesh['edge_types'], mesh['edge_measure'], mesh['_separable_domain_cache'][1]) for layer in self.layers] # Refresh all differentiable factors after every parameter update while sharing exact unchanged geometry.
+        else: # The matrix-kernel baseline retains complete channel matrices computed in bounded edge chunks.
+            prepared['kernel_cache'] = [None] * self.config.depth # Avoid a persistent O(EW²) cache in the full learned matrix baseline.
         return prepared # Never reuse these matrices after changing learned parameters.
     def specification(self): # Export enough metadata to instantiate exactly this prediction function.
         return {'architecture': self.architecture, 'config': asdict(self.config), 'spatial_reduction': False, 'quadrature_degree_normalization': False} # State the actual operator rather than an unverified marketing name.

@@ -212,14 +212,16 @@ def main(args): # Dispatch explicit training or independent test evaluation.
         return # Do not perform updates or change the selected checkpoint during testing.
     manifest, training = load_split(args.manifest, args.family, 'train', args.device) # Validate native FEM evidence before opening training fields.
     _, validation = load_split(args.manifest, args.family, 'validation', args.device) # Keep complete independent development histories for model selection.
-    normalization = fit_normalization(training, manifest) # Freeze input and output scales using training data only.
+    saved = torch.load(args.resume, map_location=args.device, weights_only=False) if args.resume else None # Read an explicitly selected trusted closed-epoch checkpoint only once.
+    if saved is not None: # A resumed run must reuse its frozen original training statistics across machines.
+        verify_checkpoint_contract(saved, args.manifest, args.family) # Verify exact source and dataset identities before reusing any saved normalization.
+    normalization = saved['normalization'] if saved is not None else fit_normalization(training, manifest) # Avoid repeated full-history scans and host-dependent floating reduction changes during exact resumption.
     config = OperatorConfig(args.family, training[0]['static_features'].shape[-1] + 3 + len(manifest['field_names']), training[0]['controls'].shape[-1], len(manifest['field_names']), len(manifest['relation_names']), args.width, args.depth, args.edge_chunk, args.kernel_mode, args.kernel_rank) # Record the disclosed integral kernel and every full native physical input channel.
     model = FullFieldGNO(config).to(args.device) # Allocate a genuine matrix-kernel neural operator from scratch.
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=1.e-5) # Use a recorded optimizer and no historical incompatible weight migration.
     contract = {'manifest_sha256': sha256(args.manifest), 'sources': executable_sources(), 'specification': model.specification(), 'seed': args.seed, 'epochs': args.epochs, 'window': args.window, 'learning_rate': args.learning_rate, 'train_ids': [case['id'] for case in training], 'validation_ids': [case['id'] for case in validation], 'normalization': normalization, 'torch_version': torch.__version__, 'test_fields_opened': False, 'selection_metric': 'mean_scale_normalized_L2'} # Freeze exact executable, data identities and the total budget while allowing a process to stop after a completed epoch.
     histories, start, steps, best_score, best = [], 0, 0, float('inf'), None # Retain selection and execution state for exact interruption recovery.
     if args.resume: # Resume only an exactly matching training contract.
-        saved = torch.load(args.resume, map_location=args.device, weights_only=False) # Restore a complete closed-epoch state, not only selected weights.
         if saved['contract'] != contract: # A changed graph, dataset, normalization or budget is a different experiment.
             raise ValueError('Resume contract mismatch') # Preserve the original evidence instead of silently continuing an altered run.
         model.load_state_dict(saved['model']) # Resume the last actual training iterate.
