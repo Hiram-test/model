@@ -1,0 +1,16 @@
+wsize 2400 1600 # Set native CGX window dimensions before any other command.
+read results/zhaqing_global_local_20261026/local/source_mesh/saddle.inp inp # Read the actual generated all-wire solid mesh.
+view fill # Display native exterior element faces without inventing result fields.
+comp WIRES f # Select the actual exterior faces associated with the explicit wire elements.
+comp PLATES f # Select the actual exterior saddle faces without drawing interior element faces.
+plot f WIRES n # Show the explicit steel-wire exterior in metallic grey.
+plus f PLATES t # Show the actual saddle plate and rails in turquoise.
+rot -z # Look down onto the wire bundle instead of showing the underside of the saddle.
+rot u 25 # Choose an oblique view that exposes individual wires and the saddle.
+rot r 25 # Keep the longitudinal cable direction visible.
+zoom 1.3 # Fit the actual long saddle more tightly without clipping ends.
+hcpy png results/zhaqing_global_local_20261026/local/explicit_wires_mesh # Save geometry only, not a computed contour.
+plot f WIRES n # Isolate the wires for an explicitly separate topology view.
+view edge off # Remove inherited outlines of saddle components from the wire-only view.
+hcpy png results/zhaqing_global_local_20261026/local/wires_only_mesh # Save all283 wire solids without implying removed saddle components.
+quit # Close CGX after the reproducible native image export.

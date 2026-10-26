@@ -1,0 +1,457 @@
+{
+  "schema": "zhaqing-detailed-steel-deck-source-contract-v1",
+  "status": "DRAWN_GEOMETRY_BRANCH_WITH_EXPLICIT_SOURCE_CONFLICTS",
+  "historical_contract_modified": false,
+  "units": "mm",
+  "source_dxf_sha256": {
+    "deck": "7f3feb8166c407d237474ca5e68513d52b79594fac20c06445ebcf83f1894591",
+    "crossbeams": "c7859f8802243db40a954efa8f814eb73545f978faeb9ed224913356ffa2cac2",
+    "general": "1396f53f5d3ca8a594f6ed4a6d2585220878d7ca9525de573484adf279e25880",
+    "girder": "f048b6f67f5975992bcccb71ad78c2ae73f7f43bfa978db75cd5e0f8d1320b51"
+  },
+  "deprecated_historical_fact": {
+    "name": "DECK_PANEL_DISPLAY_THICKNESS_MM",
+    "old_value": 50,
+    "source": "04-05-桥面板构造.dwg:DIMENSION:3D10",
+    "source_dimension_orientation": "horizontal fixing/cleat detail, between x349.857944 and x364.857944 at equal drawing y",
+    "correction": "This 50 mm dimension does not measure panel thickness.",
+    "replacement": "10 mm steel plate from TEXT762F, independently annotated by DIMENSION4307/432D.",
+    "mechanical_consequence": "Remove the homogeneous 50 mm equivalent deck from the detailed branch; use 10 mm steel plate, real channels, diaphragms and connections. Old equivalent density and deck modulus are not carried into this branch."
+  },
+  "assembly": {
+    "crossbeam_count": 27,
+    "crossbeam_stations_mm": [
+      2000,
+      5000,
+      8000,
+      11000,
+      14000,
+      17000,
+      20000,
+      23000,
+      26000,
+      29000,
+      32000,
+      35000,
+      38000,
+      41000,
+      44000,
+      47000,
+      50000,
+      53000,
+      56000,
+      59000,
+      62000,
+      65000,
+      68000,
+      71000,
+      74000,
+      77000,
+      80000
+    ],
+    "station_status": "Derived from general-arrangement end faces1850/80150, actual300 mm crossbeam width, SGT12pitch3000 and source0..26labels; preserve derivation as an interpretation.",
+    "source_end_faces_mm": [
+      1850.0000000030354,
+      80149.99999998503
+    ],
+    "bay_count": 26,
+    "panels_per_bay": 3,
+    "panel_count": 78,
+    "panel_transverse_bands_mm": [
+      [
+        -2340,
+        -780
+      ],
+      [
+        -780,
+        780
+      ],
+      [
+        780,
+        2340
+      ]
+    ],
+    "panel_joint_condition": "Nominal geometry meets at y±780; no field fit-up gap or rigid bond is assumed from this closure alone.",
+    "girder_centers_y_mm": [
+      -2550,
+      2550
+    ],
+    "girder_flange_width_mm": 400,
+    "girder_inner_faces_y_mm": [
+      -2350,
+      2350
+    ],
+    "plate_to_inner_girder_face_nominal_gap_mm": 10,
+    "source_handles": {
+      "pitch": "12-纵梁构造.dwg:TEXT:4D1A",
+      "girder_spacing": "06-11-横梁构造.dwg:TEXT:55EF",
+      "inner_clear_width": "06-11-横梁构造.dwg:TEXT:55EB",
+      "panel_field": "06-11-横梁构造.dwg:TEXT:55BB",
+      "general_end_faces": [
+        "44EF",
+        "456F"
+      ]
+    }
+  },
+  "panel": {
+    "plate_length_mm": 2690,
+    "plate_width_mm": 1560,
+    "plate_thickness_mm": 10,
+    "plate_top_z_mm": 0,
+    "plate_start_from_crossbeam_center_mm": 155,
+    "plate_end_clearance_from_box_face_mm": 5,
+    "channel_count": 6,
+    "channel_length_mm": 2666,
+    "channel_end_inset_from_plate_mm": 12,
+    "channel_start_from_crossbeam_center_mm": 167,
+    "channel_source_section": "16, with explicit160/65/8.5/10 dimension set and19.752kg/m source mass (16b geometry)",
+    "channel_depth_mm": 160,
+    "channel_flange_width_mm": 65,
+    "channel_web_thickness_mm": 8.5,
+    "channel_nominal_flange_thickness_mm": 10,
+    "channel_web_outer_faces_from_panel_edge_mm": [
+      0,
+      312,
+      624,
+      936,
+      1248,
+      1560
+    ],
+    "channel_opening_direction": [
+      1,
+      -1,
+      1,
+      -1,
+      1,
+      -1
+    ],
+    "channel_web_midplanes_from_panel_edge_mm": [
+      4.25,
+      307.75,
+      628.25,
+      931.75,
+      1252.25,
+      1555.75
+    ],
+    "channel_bottom_z_mm": -170,
+    "notes": [
+      "Web face positions are not section centroid positions.",
+      "The rolled-channel native profile has tapered flanges and fillets; constant-thickness rectangular decomposition is a separately declared approximation.",
+      "12 mm channel inset is derived from the2666/2690length closure; weld/root-gap details are not fixed by that derivation."
+    ],
+    "source_handles": [
+      "762A",
+      "762B",
+      "762C",
+      "762F",
+      "2BA8",
+      "2BAF",
+      "5D0D",
+      "5CDD",
+      "3036",
+      "307D",
+      "2E30",
+      "2E32",
+      "2E38",
+      "2E39"
+    ]
+  },
+  "crossbeam_drawn_section": {
+    "type": "closed two-web box",
+    "outside_width_x_mm": 300,
+    "outside_depth_z_mm": 420,
+    "web_count": 2,
+    "web_thickness_mm": 10,
+    "flange_thickness_mm": 10,
+    "clear_web_height_mm": 400,
+    "box_top_z_mm": 0,
+    "box_centroid_z_mm": -210,
+    "box_bottom_z_mm": -420,
+    "web_outer_faces_x_relative_to_station_mm": [
+      -150,
+      150
+    ],
+    "geometric_evidence": {
+      "4936": {
+        "handle": "4936",
+        "start": [
+          10623.16532361368,
+          4986.633995387131,
+          0.0
+        ],
+        "end": [
+          10623.16532361368,
+          5386.633995387131,
+          0.0
+        ]
+      },
+      "4937": {
+        "handle": "4937",
+        "start": [
+          10633.16532361368,
+          4986.633995387131,
+          0.0
+        ],
+        "end": [
+          10633.16532361368,
+          5386.633995387131,
+          0.0
+        ]
+      },
+      "493C": {
+        "handle": "493C",
+        "start": [
+          10343.16532361368,
+          4986.633995387131,
+          0.0
+        ],
+        "end": [
+          10343.16532361368,
+          5386.633995387131,
+          0.0
+        ]
+      },
+      "493D": {
+        "handle": "493D",
+        "start": [
+          10333.16532361368,
+          4986.633995387131,
+          0.0
+        ],
+        "end": [
+          10333.16532361368,
+          5386.633995387131,
+          0.0
+        ]
+      },
+      "493E": {
+        "handle": "493E",
+        "start": [
+          10333.16532361368,
+          4986.633995387128,
+          0.0
+        ],
+        "end": [
+          10633.16532361368,
+          4986.633995387131,
+          0.0
+        ]
+      },
+      "493F": {
+        "handle": "493F",
+        "start": [
+          10333.16532361368,
+          4976.633995387128,
+          0.0
+        ],
+        "end": [
+          10633.16532361368,
+          4976.633995387131,
+          0.0
+        ]
+      },
+      "49A6": {
+        "handle": "49A6",
+        "start": [
+          10333.16532361368,
+          5386.633995387131,
+          0.0
+        ],
+        "end": [
+          10633.16532361368,
+          5386.633995387131,
+          0.0
+        ]
+      },
+      "49A7": {
+        "handle": "49A7",
+        "start": [
+          10333.16532361368,
+          5396.633995387131,
+          0.0
+        ],
+        "end": [
+          10633.16532361368,
+          5396.633995387131,
+          0.0
+        ]
+      },
+      "5408": {
+        "handle": "5408",
+        "start": [
+          10233.16532361368,
+          5226.633995387131,
+          0.0
+        ],
+        "end": [
+          10233.16532361368,
+          5163.633995387132,
+          0.0
+        ]
+      },
+      "540C": {
+        "handle": "540C",
+        "start": [
+          10333.16532361368,
+          5216.633995387131,
+          0.0
+        ],
+        "end": [
+          10253.16532361368,
+          5216.633995387131,
+          0.0
+        ]
+      },
+      "540D": {
+        "handle": "540D",
+        "start": [
+          10333.16532361368,
+          5226.633995387131,
+          0.0
+        ],
+        "end": [
+          10233.16532361368,
+          5226.633995387131,
+          0.0
+        ]
+      },
+      "5413": {
+        "handle": "5413",
+        "start": [
+          10233.16532361368,
+          5226.633995387131,
+          0.0
+        ],
+        "end": [
+          10233.16532361368,
+          5216.633995387131,
+          0.0
+        ]
+      }
+    },
+    "conflict": {
+      "source_table": "TEXT56A8=5500*10*416",
+      "drawn_web_clear_height_mm": 400,
+      "table_web_height_mm": 416,
+      "unresolved_difference_mm": 16,
+      "treatment": "Use the explicitly named420mm drawn-section branch, retain the416mm cut-web table as unresolved. Do not insert fictitious2mm flanges to force agreement."
+    },
+    "scope": "Central section; end flange splice regions and attachment variants must follow their individual source profiles."
+  },
+  "panel_support_angles": {
+    "component": "crossbeam N5",
+    "count_per_crossbeam": 2,
+    "length_y_mm": 4680,
+    "horizontal_leg_mm": 100,
+    "vertical_leg_mm": 63,
+    "thickness_mm": 10,
+    "ledge_top_z_mm": -170,
+    "x_ranges_relative_to_station_mm": [
+      [
+        -250,
+        -150
+      ],
+      [
+        150,
+        250
+      ]
+    ],
+    "vertical_leg_position": "Outboard free edge, directed downward",
+    "load_path": "Channel bottom flanges bear or bolt onto actual angle ledges; gusset plates reinforce the angles into both side webs of the box.",
+    "source_text": "角钢10/6.3 denotes the100/63leg sizes;10mmthickness is measured from source lines, not6.3mm.",
+    "source_handles": [
+      "5408",
+      "540C",
+      "540D",
+      "5413",
+      "5662",
+      "6F4D"
+    ],
+    "connection_law": "Bolt pretension, slip resistance, bearing contact, and weld stiffness are not calibrated by these geometric facts."
+  },
+  "panel_cross_stiffeners": {
+    "stations_from_plate_start_mm": [
+      672.5,
+      1345,
+      2017.5
+    ],
+    "cross_gap_sequence": [
+      "N4",
+      "N5",
+      "N4",
+      "N5",
+      "N4"
+    ],
+    "N4": {
+      "quantity": 9,
+      "nominal_specification": "10*160*295",
+      "notch_dimensions_mm": [
+        22,
+        116,
+        22
+      ]
+    },
+    "N5": {
+      "quantity": 6,
+      "nominal_specification": "10*160*312"
+    },
+    "source_handles": [
+      "30CA",
+      "30D6",
+      "30E2",
+      "30EE",
+      "7639",
+      "763A",
+      "763E",
+      "763F",
+      "5E5E",
+      "5E48",
+      "5E95"
+    ]
+  },
+  "panel_N3_endplates": {
+    "drawn_quantity": 2,
+    "drawn_thickness_mm": 10,
+    "drawn_height_mm": 160,
+    "drawn_length_across_panel_mm": 1560,
+    "plan_evidence": [
+      {
+        "handle": "2A03",
+        "start": [
+          112.6625456169196,
+          -1353.551787371753,
+          0.0
+        ],
+        "end": [
+          112.6625456169196,
+          -1470.551787371753,
+          0.0
+        ]
+      },
+      {
+        "handle": "2A04",
+        "start": [
+          111.9125456169196,
+          -1353.551787371753,
+          0.0
+        ],
+        "end": [
+          111.9125456169196,
+          -1470.551787371753,
+          0.0
+        ]
+      }
+    ],
+    "callout_handles": [
+      "3C0B",
+      "3C10",
+      "3C3C",
+      "3C44"
+    ],
+    "table_text": "10*160*2690",
+    "table_quantity": 2,
+    "status": "DRAWN_ENDPLATE_INTERPRETATION_WITH_TABLE_LENGTH_CONFLICT",
+    "conflict": "The plan shows plates at both longitudinal panel ends across1560mm; table7634says10*160*2690. Keep both source statements; do not relabel the plan endplates as known long-edge members."
+  },
+  "engineering_release": "BLOCKED: geometry corrections and reproducible interpretations do not constitute a validated connection, material or fatigue model."
+}
