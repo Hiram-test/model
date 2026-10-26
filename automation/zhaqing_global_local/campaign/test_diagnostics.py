@@ -3,7 +3,7 @@ import copy, unittest  # Isolate deliberate receipt corruption and assert the ac
 import diagnostics  # Exercise the concrete hosted diagnostic runner's integrity checks.
 class DiagnosticCompletionTests(unittest.TestCase):  # Protect against incomplete or incorrectly scoped native results being called complete.
     def setUp(self):  # Create a clearly isolated completion-contract fixture.
-        self.receipt = {'quality': 'VALID_CONVERGED', 'case_id': 'diagnostic_strict', 'split': 'validation', 'training_eligible': False, 'node_count': 30555, 'time_steps': 32, 'dt_s': .00625}  # Use metadata only, without inventing any finite-element response arrays.
+        self.receipt = {'quality': 'VALID_CONVERGED', 'case_id': 'diagnostic_strict', 'split': 'validation', 'training_eligible': False, 'node_count': 30555, 'time_steps': 32, 'dt_s': .00625, 'internal_substeps': 2}  # Use metadata only, without inventing any finite-element response arrays.
         self.stream = {'status': 'COMPLETE', 'written_frames': 33, 'last_time_s': .2}  # Describe the exact required frame/time contract for an isolated unit test.
     def test_complete_diagnostic_contract(self):  # Accept only the declared complete short diagnostic schema.
         diagnostics.verify_completion(self.receipt, self.stream, 'diagnostic_strict', 32)  # Exercise the real metadata admission gate.
