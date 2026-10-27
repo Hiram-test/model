@@ -158,7 +158,7 @@ def execute(args):  # Execute one independent whole-history case with a frozen s
         ops.constraints('Transformation')  # Preserve exact source constraints.
         ops.numberer('RCM')  # Reorder complete sparse equations without truncating modes.
         ops.system('UmfPack')  # Factor every physical free degree at each nonlinear iteration.
-        native_force_tolerance=float(getattr(args,'native_force_tolerance',.005))  # Freeze a positive explicitly declared native stopping threshold without changing the independent physical acceptance gate.
+        native_force_tolerance=float(getattr(args,'native_force_tolerance',.002))  # Freeze a positive explicitly declared native stopping threshold without changing the independent physical acceptance gate.
         internal_substeps=int(getattr(args,'internal_substeps',2))  # Use bounded true Newmark substeps inside each exported frame interval to reduce temporal integration residual without changing the output time grid.
         if internal_substeps<1:  # Reject a zero or negative internal time grid before native analysis starts.
             raise ValueError('Internal substeps must be positive')  # Preserve an explicit physical integration contract.
