@@ -164,7 +164,7 @@ def execute(args):  # Execute one independent whole-history case with a frozen s
             raise ValueError('Internal substeps must be positive')  # Preserve an explicit physical integration contract.
         if not 0<native_force_tolerance<=.01:  # Permit only stricter native solve experiments than the original algorithm.
             raise ValueError('Native force tolerance must be positive and no greater than 0.01')  # Refuse a hidden convergence-threshold relaxation.
-        ops.test('NormUnbalance',native_force_tolerance,60,0)  # Keep the production solve bounded while retaining a stricter mixed-force stop than the original .01 setting.
+        ops.test('NormUnbalance',native_force_tolerance,120,0)  # Permit difficult native increments to reach the stricter mixed-force stop without weakening the independent .02N gate.
         ops.algorithm('NewtonLineSearch',.8)  # Use native Newton line search under motion-dependent wind forcing.
         alpha=.02  # Declare an uncalibrated research mass-damping coefficient in inverse seconds.
         ops.rayleigh(alpha,0.,0.,0.)  # Use directly auditable C=alpha*M damping; no ambiguous postcommit stiffness-damping update enters the force law.
@@ -283,7 +283,7 @@ if __name__=='__main__':  # Run one whole-history experiment from a frozen exter
     p.add_argument('--detailed-model',dest='detailed_model',action='store_true',default=True)  # Default explicitly to actual source-dimensional panels, stiffeners, and corrected cable planes.
     p.add_argument('--shell-element',choices=['ShellNLDKGQ','ASDShellQ4'],default='ShellNLDKGQ')  # Freeze the nonlinear shell family without changing geometry, mesh, or material inputs.
     p.add_argument('--initial-displacement-tolerance',type=float,default=1e-9)  # Control native predictor stopping only; final static and dynamic force acceptance thresholds remain unchanged.
-    p.add_argument('--native-force-tolerance',type=float,default=.005)  # Use a stricter native stopping value by default while leaving the independent .02N componentwise gate unchanged.
+    p.add_argument('--native-force-tolerance',type=float,default=.002)  # Match the smallest tested native stopping value that kept the independent .02N componentwise gate below threshold in the bounded diagnostic frames.
     p.add_argument('--internal-substeps',type=int,default=2)  # Integrate each exported frame interval with two real Newmark substeps while preserving the declared output dt.
     p.add_argument('--legacy-model',dest='detailed_model',action='store_false')  # Require an explicit diagnostic override before using the historical equivalent-deck model.
     args=p.parse_args()  # Parse the complete native experiment contract.
