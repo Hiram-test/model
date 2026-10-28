@@ -5,6 +5,7 @@ from types import SimpleNamespace  # 提供仅包含审计所需接口的可控�
 import unittest  # 使用标准库报告每个独立物理契约的通过或失败。
 from unittest.mock import Mock  # 记录原生接口调用并返回人工可核对的物理量。
 import numpy as np  # 构造双精度N、Nmm、mm/s和tonne数组。
+from kinematic_audit import rigid_kinematic_audit  # 测试生产函数实际使用的运动相容性检查。
 
 
 class DynamicBalanceTests(unittest.TestCase):  # 测试实际审计代码，不复写其残差算法。
@@ -14,7 +15,7 @@ class DynamicBalanceTests(unittest.TestCase):  # 测试实际审计代码，不�
         names={'assemble_constraint_actions','dynamic_balance'}  # 只提取此次审计及其唯一生产辅助函数。
         selected=ast.Module(body=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in names],type_ignores=[])  # 排除启动全桥及外部依赖的代码。
         self.ops=SimpleNamespace()  # 替身所有返回值均由各测试的解析物理状态提供。
-        namespace={'np':np,'ops':self.ops}  # 注入生产函数需要的数组库与原生接口。
+        namespace={'np':np,'ops':self.ops,'rigid_kinematic_audit':rigid_kinematic_audit}  # 注入真实相容性检查和可控原生接口。
         exec(compile(selected,str(source),'exec'),namespace)  # 编译执行真实函数体，避免镜像实现造成自证。
         self.balance=namespace['dynamic_balance']  # 保存实际被测函数供每个断言调用。
         self.nodes=[101]  # 非零节点号用于发现将节点号误当数组位置的错误。
@@ -29,6 +30,7 @@ class DynamicBalanceTests(unittest.TestCase):  # 测试实际审计代码，不�
         self.equations={101:[5,4,3,2,1,0]}  # 故意逆序模拟RCM方程重排。
         self.ops.eleForce=Mock(side_effect=lambda tag:self.internal.reshape(-1).tolist())  # 返回单个解析单元的完整N/Nmm抵抗力。
         self.ops.nodeVel=Mock(side_effect=lambda node:self.velocity[self.index[node]].tolist())  # 返回指定真实节点的速度。
+        self.ops.nodeDisp=Mock(side_effect=lambda node:np.zeros(6).tolist())  # 默认解析模型没有刚臂位移差；专门的相容性测试覆盖非零运动。
         self.ops.nodeAccel=Mock(side_effect=lambda node:self.acceleration[self.index[node]].tolist())  # 返回指定真实节点的加速度。
         self.ops.reactions=Mock()  # 仅记录要求包含动力作用的重组装调用。
         self.ops.nodeReaction=Mock(side_effect=lambda node:self.native[self.index[node]].tolist())  # 返回手算节点残差，不调用被测算法。

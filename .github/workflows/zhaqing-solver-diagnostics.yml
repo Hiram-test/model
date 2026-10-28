@@ -82,8 +82,10 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
         run: | # 任一回归失败都会使步骤失败，原生小模型证据保留到工件目录。
           mkdir -p results/扎青吊桥求解诊断 # 只创建本作业结果目录，供始终执行的工件上传读取。
           python automation/zhaqing_global_local/global/test_dynamic_balance.py # 检查生产审计中的单位、方程映射、约束及失败保留。
+          python automation/zhaqing_global_local/global/test_kinematic_audit.py # 检查真实刚臂运动相容性以及非有限值拒绝路径。
           python -m unittest discover -s automation/zhaqing_global_local/campaign -p 'test_*.py' -v # 确认完整时程契约和训练准入守卫仍有效。
           python automation/zhaqing_global_local/global/probes/dynamic_commit_probe.py > results/扎青吊桥求解诊断/native-shell-probe.json # 运行真实小壳对照，输出范围明确的数值证据。
+          python automation/zhaqing_global_local/global/probes/rigid_support_probe.py > results/扎青吊桥求解诊断/native-rigid-support-probe.json # 复现部分受约束主节点在零增量清理及动力阶段的错误，并保留精确乘子微型对照。
       - name: Solve full detailed bridge and declared wind history # 实际完成预先声明的全部输出帧，不启动训练。
         run: python automation/zhaqing_global_local/campaign/diagnostics.py --native-force-tolerance ${{ matrix.native-tolerance }} --steps "$DIAGNOSTIC_STEPS" --internal-substeps "$DIAGNOSTIC_SUBSTEPS" --shell-element "$DIAGNOSTIC_SHELL" --native-budget-seconds "$DIAGNOSTIC_BUDGET" --native-convergence-test "$DIAGNOSTIC_TEST" # 所有子步仍使用相同0.02N独立物理门槛，内部准则不能单独证明成功。
       - name: Preserve actual native fields and failure evidence # Keep completed and interrupted numerical work outside the temporary worker.

@@ -12,12 +12,14 @@ import openseespy.opensees as ops  # Drive actual full-order nonlinear finite el
 import opensees_bridge as bridge_module  # Preserve the executed bridge implementation alongside each complete case.
 from opensees_bridge import run  # Establish the source-backed nonlinear preloaded state before dynamics.
 import field_stream  # Bind streaming source identity to every numerical case.
+import kinematic_audit  # 冻结本次执行的运动相容性检查源码。
+from kinematic_audit import rigid_kinematic_audit  # 每个真实子步同时核对刚臂位移、速度和加速度。
 from field_stream import FieldStream,atomic_json,file_sha256  # Persist complete native histories without accumulating them in memory.
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'aero'))  # Resolve the common physical aerodynamic API.
 from aero_loads import CoefficientTable,quasi_steady_loads  # Use dimensional, motion-relative three-force loading.
-DEFAULT_SHELL_ELEMENT='ASDShellQ4'  # 候选修正默认采用提交前后力一致的共回转壳；原ShellNLDKGQ仍可显式复现。
-DEFAULT_NATIVE_CONVERGENCE_TEST='NormDispIncr'  # 内部只判定位移修正停止，所有物理接受仍由逐子步0.02N独立力门槛决定。
-DEFAULT_INITIAL_DISPLACEMENT_TOLERANCE=1e-8  # 初始预测用可达到的1e-8mm增量阈值，随后仍须通过0.001N静力门槛。
+DEFAULT_SHELL_ELEMENT='ShellNLDKGQ'  # 保留历史生产公式，尚未通过完整约束验证的ASD候选只能显式试验。
+DEFAULT_NATIVE_CONVERGENCE_TEST='NormUnbalance'  # 保留历史生产停止准则，不将候选位移模式未经验证升级为默认。
+DEFAULT_INITIAL_DISPLACEMENT_TOLERANCE=1e-9  # 保留历史初始预测阈值，候选ASD试验可显式设置1e-8。
 def assemble_constraint_actions(m,nodes,values):  # Apply the exact transpose of declared rigid-arm kinematics to nodal actions without discarding physical response fields.
     result=np.asarray(values,dtype=float).copy()  # Keep the independent unassembled force field unchanged.
     lookup={node:index for index,node in enumerate(nodes)}  # Preserve actual native node identities.
@@ -73,6 +75,7 @@ def dynamic_balance(m,nodes,index,applied,alpha,native_test_type='NormUnbalance'
     mass=np.asarray([m['mass'][node] for node in nodes])[:,None]  # 节点集中质量单位为tonne；单元质量为零，列形状便于逐平动分量相乘。
     velocity=np.asarray([ops.nodeVel(node) for node in nodes])  # 读取提交后速度，前3列mm/s，后3列rad/s。
     acceleration=np.asarray([ops.nodeAccel(node) for node in nodes])  # 读取提交后加速度，前3列mm/s²，后3列rad/s²。
+    kinematics=rigid_kinematic_audit(m,nodes,np.asarray([ops.nodeDisp(node) for node in nodes]),velocity,acceleration)  # 独立核对全部刚臂的三类原生运动场，防止只看力平衡接受错误状态。
     gravity=np.asarray([m['gravity'][node] for node in nodes])  # 保持预平衡恒载N/Nmm原值，避免与风载混合或重复施加。
     inertia=np.zeros_like(internal)  # 采用与内力相同的6分量形状；未设置旋转质量，旋转惯性项保持零。
     inertia[:,:3]=mass*acceleration[:,:3]  # tonne乘mm/s²直接得到N，无需额外1000倍换算。
@@ -118,6 +121,7 @@ def dynamic_balance(m,nodes,index,applied,alpha,native_test_type='NormUnbalance'
     hotspot_terms={name:float(assemble_constraint_actions(hotspot_model,hotspot_nodes,values[hotspot_rows])[0,hotspot[1]]) for name,values in terms.items()}  # 只计算所需分量，结果与全模型逐项装配一致，减少纯审计开销。
     report={'independent_assembly_difference_equivalent_N':disagreement,'free_force_max_N':force_max,'free_moment_max_Nmm':moment_max,'moment_reference_mm':5500.,'hotspot_native_node':int(nodes[hotspot[0]]),'hotspot_dof_1based':int(hotspot[1])+1,'hotspot_residual_N_or_Nmm':float(residual[hotspot]),'native_test_iterations':iterations,'native_last_test_norm_mixed_N_Nmm':last_norm if native_test_type=='NormUnbalance' else None}  # 旧力范数字段仅在确实使用力判据时给值，防止把位移范数误标成N/Nmm。
     report.update(native_test_type=native_test_type,native_test_tolerance=native_test_tolerance,native_last_test_norm=last_norm,native_test_norm_units='mixed_N_Nmm' if native_test_type=='NormUnbalance' else 'mixed_mm_rad')  # 单独记录实际判据和原始单位；独立0.02N力门槛始终负责物理验收。
+    report['rigid_kinematics']=kinematics  # 与每个子步残差一起保留完整相容性检查结果。
     report.update(postcommit_rhs_l2_mixed_N_Nmm=float(np.linalg.norm(rhs)),postcommit_rhs_max_mixed_N_Nmm=float(np.max(np.abs(rhs),initial=0.)),postcommit_rhs_agreement_equivalent_N=rhs_disagreement,hotspot_terms_N_or_Nmm=hotspot_terms)  # 新增提交后原生方程范数、组装误差和控制分量证据；混合范数不替代独立门槛。
     return max(force_max,moment_max/5500.),report  # 返回既有等效N最大残差；接受/拒绝仍由原0.02N及正索力门槛决定。
 def execute(args):  # Execute one independent whole-history case with a frozen split.
@@ -135,7 +139,7 @@ def execute(args):  # Execute one independent whole-history case with a frozen s
     substep_audit_file=None  # Retain an incremental physical audit for every internal native state, including failed histories.
     try:  # Preserve accepted frames and a failed receipt if any native solve or persistence step fails.
         snapshots={}  # Retain exact case-start implementation snapshots rather than hashing mutable files after the solve.
-        source_paths={Path(__file__),Path(field_stream.__file__),Path(bridge_module.__file__),Path(__file__).resolve().parents[1]/'aero'/'aero_loads.py',Path(inspect.getsourcefile(bridge_module.model))}  # Include the actual dynamically selected detailed model generator as well as common mechanics.
+        source_paths={Path(__file__),Path(field_stream.__file__),Path(bridge_module.__file__),Path(kinematic_audit.__file__),Path(__file__).resolve().parents[1]/'aero'/'aero_loads.py',Path(inspect.getsourcefile(bridge_module.model))}  # 冻结真实模型、平衡和运动相容性审计的全部执行源码。
         for path in source_paths:  # Freeze every executed source dependency known at case start.
             content=path.read_bytes()  # Read one immutable byte image at case start.
             (args.output/path.name).write_bytes(content)  # Preserve the actual source snapshot with case evidence.
@@ -259,7 +263,7 @@ def execute(args):  # Execute one independent whole-history case with a frozen s
                 substep_tension=min(float(ops.eleResponse(tag,'axialForce')[0]) for tag,(g,c) in m['elements'].items() if g in ('MAIN_CABLES','HANGERS','WIND_CABLES'))  # Require tension-only physical cable applicability at every internal state.
                 substep_audit_file.write(json.dumps({'step':step,'substep':substep+1,'time_s':(step-1+(substep+1)/internal_substeps)*args.dt,'free_residual_equivalent_N':substep_residual,'minimum_cable_force_N':substep_tension,**substep_balance},separators=(',',':'))+'\n')  # Preserve the exact internal native balance and convergence-test evidence before any gate decision.
                 substep_audit_file.flush()  # Make every accepted or rejected internal state durable during long native runs.
-                if substep_residual>.02 or substep_tension<=0:  # Reject an invalid internal state before it can advance to a later output frame.
+                if substep_residual>.02 or substep_tension<=0 or not substep_balance['rigid_kinematics']['passed']:  # 原力门槛和索力符号保持不变；额外拒绝与声明刚臂约束不相容的状态。
                     atomic_json(args.output/'rejected_step.json',{'step':step,'substep':substep+1,'time_s':(step-1+(substep+1)/internal_substeps)*args.dt,'native_exit_code':code,'free_residual_equivalent_N':substep_residual,'acceptance_tolerance_N':.02,'native_force_tolerance_mixed_N_Nmm':native_force_tolerance,'minimum_cable_force_N':substep_tension,**substep_balance})  # Preserve the exact failing internal physical equation.
                     raise RuntimeError(f'Internal dynamic physical gate failed step{step} substep{substep+1} residual{substep_residual},minimumtension{substep_tension}')  # Do not hide an invalid intermediate state behind an accepted endpoint.
             if code!=0:  # Reject the whole case when an implicit time increment fails.
@@ -322,10 +326,10 @@ if __name__=='__main__':  # Run one whole-history experiment from a frozen exter
     p.add_argument('--seed',type=int,default=0)  # Set deterministic whole-history phase.
     p.add_argument('--storage',choices=['hdf5','npz'],default='hdf5')  # Default to lossless full-mesh streaming for long physical histories.
     p.add_argument('--detailed-model',dest='detailed_model',action='store_true',default=True)  # Default explicitly to actual source-dimensional panels, stiffeners, and corrected cable planes.
-    p.add_argument('--shell-element',choices=['ShellNLDKGQ','ASDShellQ4'],default=DEFAULT_SHELL_ELEMENT)  # 默认共回转非线性壳；几何、网格、材料和外载均不因默认公式改变而删减。
+    p.add_argument('--shell-element',choices=['ShellNLDKGQ','ASDShellQ4'],default=DEFAULT_SHELL_ELEMENT)  # 默认保留原壳；替代共回转公式必须显式选择，且不能绕过相容性检查。
     p.add_argument('--initial-displacement-tolerance',type=float,default=DEFAULT_INITIAL_DISPLACEMENT_TOLERANCE)  # 与程序接口使用同一个初始预测阈值，最终静力和动力力门槛不变。
     p.add_argument('--native-force-tolerance',type=float,default=.002)  # 保留显式NormUnbalance实验原有默认数值；位移模式不把此值误作位移阈值。
-    p.add_argument('--native-convergence-test',choices=['NormUnbalance','NormDispIncr'],default=DEFAULT_NATIVE_CONVERGENCE_TEST)  # 默认位移停止只负责内部迭代，所有真实子步仍须独立力验收。
+    p.add_argument('--native-convergence-test',choices=['NormUnbalance','NormDispIncr'],default=DEFAULT_NATIVE_CONVERGENCE_TEST)  # 默认保留原力范数；显式位移停止同样需要完整独立物理验收。
     p.add_argument('--native-displacement-tolerance',type=float,default=1e-8)  # 位移准则使用原生mm/rad增量阈值，允许更严值但禁止超过1e-8。
     p.add_argument('--internal-substeps',type=int,default=2)  # Integrate each exported frame interval with two real Newmark substeps while preserving the declared output dt.
     p.add_argument('--legacy-model',dest='detailed_model',action='store_false')  # Require an explicit diagnostic override before using the historical equivalent-deck model.

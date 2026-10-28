@@ -8,6 +8,7 @@ import time  # Measure actual native solve wall time.
 from pathlib import Path  # Keep result paths explicit.
 import numpy as np  # Store numerical fields without generating plots.
 import openseespy.opensees as ops  # Drive the compiled native finite-element engine, not a learned surrogate.
+from kinematic_audit import rigid_kinematic_audit  # 独立检查刚臂运动相容性，防止力平衡掩盖约束错误。
 def parse(path):  # Decode the frozen source model definitions needed for explicit engine translation.
     blocks, current = [], None  # Preserve keyword scope and order.
     for raw in path.read_text().splitlines():  # Scan original CalculiX records.
@@ -186,7 +187,7 @@ def write_vtk(path,m,displacement=None):  # Export exact native mesh/results as 
 def run(args):  # Execute the requested full-order bridge model and archive only observed results.
     args.output.mkdir(parents=True,exist_ok=True)  # Create isolated native result namespace.
     snapshots={}  # Bind every physical run to immutable model and solver implementation bytes.
-    for label,path in [('model_source_snapshot.py',Path(inspect.getsourcefile(model))),('solver_source_snapshot.py',Path(__file__))]:  # Freeze both selected geometry and shared native solution logic.
+    for label,path in [('model_source_snapshot.py',Path(inspect.getsourcefile(model))),('solver_source_snapshot.py',Path(__file__)),('kinematic_audit.py',Path(inspect.getsourcefile(rigid_kinematic_audit)))]:  # 冻结真实几何、原生求解流程和新增相容性审计，防止回执与源码脱节。
         content=path.read_bytes()  # Read the exact source at launch before subsequent edits can occur.
         (args.output/label).write_bytes(content)  # Retain the executed source alongside its real numerical results.
         snapshots[label]=hashlib.sha256(content).hexdigest()  # Preserve exact execution identity for audit and resume policies.
@@ -230,7 +231,9 @@ def run(args):  # Execute the requested full-order bridge model and archive only
     free_res=max(abs(reaction[i,d])/(1. if d<3 else 5500.) for i,n in enumerate(nodes) for d in range(6) if not m['fixities'][n][d])  # Audit translations inN and rotations as moment/5500mm equivalent force without mixing dimensions.
     axial={str(tag):float(ops.eleResponse(tag,'axialForce')[0]) for tag,(group,conn) in m['elements'].items() if group in ('MAIN_CABLES','HANGERS','WIND_CABLES')}  # Check actual cable force sign after solution.
     minimum=min(axial.values())  # Reject physically compressed cable solutions from valid labels.
-    status='VALID_CONVERGED' if code==0 and free_res<1e-3 and minimum>0 else 'REJECTED'  # Require both native convergence and physical tension/equilibrium checks.
+    kinematics=rigid_kinematic_audit(m,nodes,disp)  # 使用所有原生位移核对全部真实刚臂，不投影或修正任何节点。
+    (args.output/'rigid_kinematic_audit.json').write_text(json.dumps(kinematics,indent=2)+'\n')  # 在拒绝之前保存带单位和节点号的独立相容性证据。
+    status='VALID_CONVERGED' if code==0 and free_res<1e-3 and minimum>0 and kinematics['passed'] else 'REJECTED'  # 保留既有力和索力门槛，同时拒绝不满足模型声明约束的解。
     write_vtk(args.output/'native_equilibrium.vtk',m,disp)  # Exportactualnativefull-fieldsolutionwithoutclaimingarejectedstateisvalid.
     np.savez_compressed(args.output/'equilibrium_fields.npz',node_ids=nodes,coordinates=np.array([m['nodes'][n] for n in nodes]),displacement=disp,reaction=reaction)  # Persist actual full-field arrays without plotting or smoothing.
     receipt={'status':status,'solver':'OpenSees '+ops.version(),'source_sha256':hashlib.sha256(args.source.read_bytes()).hexdigest(),'state_sha256':hashlib.sha256(args.state.read_bytes()).hexdigest(),'subdivision':args.subdivision,'node_count':len(nodes),'element_count':len(m['elements']),'native_exit':code,'free_residual_max_equivalent_N':free_res,'force_tolerance_N':1e-3,'moment_scale_mm':5500.,'initial_native_displacement_test_tolerance_mm':native_displacement_tolerance,'postcommit_displacement_correction_gate_enforced':False,'minimum_cable_force_N':minimum,'maximum_translation_mm':float(np.linalg.norm(disp[:,:3],axis=1).max()),'midspan_monitor_u_mm':disp[min(range(len(nodes)),key=lambda i:np.linalg.norm(m['nodes'][nodes[i]]-np.array([41000.,0.,-5.]))),:3].tolist(),'mass_tonne':sum(m['mass'].values()),'elapsed_s':time.perf_counter()-start,'scope':'Full-order geometric nonlinear '+m.get('shell_element','ShellNLDKGQ')+'+corotational beam+corotTruss; no modal or response reduction','shell_element':m.get('shell_element','ShellNLDKGQ'),'physical_limitations':m.get('physical_limitations',['continuous50mm deck and crossbeam equivalent section remain uncalibrated','10kN wind-cable prestress provisional','F3 nominal prestress from earlier frictionless saddle model; new whole-model equilibrium solved','longitudinal girder actual HW400x400x13x21; thin-wall J approximation','elastic material; no material plasticity','source shell offset-0.5 changed to centered common shell surface']),'elements':{str(k):{'group':g,'nodes':c,'source_element_id':m['source_ids'][k]} for k,(g,c) in m['elements'].items()},'cable_axial_force_N':axial}  # Publish mechanics, actual residuals, and honest modeling limits.

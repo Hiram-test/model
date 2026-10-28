@@ -6,7 +6,7 @@
 
 ## 非线性壳分支
 
-默认采用 `ASDShellQ4` 并显式启用 `-corotational`，保留完全相同几何、网格、材料、质量和荷载。原 `ShellNLDKGQ` 的提交后重组内力可偏离迭代内平衡，仍保留为显式诊断对照。OpenSees 官方将共回转选项定义为大位移/有限转动运动学：
+生产入口保留 `ShellNLDKGQ` 历史默认值。`ASDShellQ4 -corotational` 仅作为显式候选诊断，保留相同几何、网格、材料、质量和荷载。原壳提交后重组内力可偏离迭代内平衡；替代壳虽完成一次32步力平衡检查，完整场复核又发现刚臂运动不相容，因此不能宣布替代方案已合格。OpenSees 官方共回转选项说明：
 
 https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/ASDShellQ4.html
 
@@ -14,9 +14,11 @@ https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/ASDS
 
 ## 收敛与时间历程
 
-首先进行完整恒载和初始索力的几何非线性平衡。默认原生位移预测阈值为 `1e-8 mm`；提交后继续以真实节点力检查，最终静力阈值仍为 `1e-3 N`。固定荷载 Newton 精化使用独立最大自由度残差：力以 N、力矩除以 5500 mm 后以等效 N 计量。记录热点、实际位移变化和索力；预测停止本身不能替代最终力验收。
+首先进行完整恒载和初始索力的几何非线性平衡。生产入口保留 `1e-9 mm` 原生预测阈值；ASD诊断显式使用 `1e-8`。最终静力阈值仍为 `1e-3 N`。固定荷载 Newton 精化使用独立最大自由度残差：力以 N、力矩除以 5500 mm 后以等效 N 计量。预测停止不能替代最终力验收。
 
-动力默认采用 `NormDispIncr 1e-8` 作为内部迭代停止条件，避免将 N 与 Nmm 直接混排的全局范数底噪误当成物理力不平衡。**每个真实 Newmark 子步仍必须通过原有 `0.02 N` 独立力门槛和全部索力为正的检查**。回执分别记录停止准则、单位、提交后原生RHS和热点力项；位移停止范数不再标作N/Nmm。
+生产入口保留 `NormUnbalance`。诊断可显式使用 `NormDispIncr 1e-8`，将内部位移停止与外部物理力验收分开。**每个真实 Newmark 子步仍必须通过原有 `0.02 N` 独立力门槛和全部索力为正的检查**。回执分别记录停止准则、单位、提交后原生RHS和热点力项；位移停止范数不得标作N/Nmm。
+
+新增 `kinematic_audit.py` 检查全部声明刚臂的 `u从=u主+θ×r`、转角相等，以及速度和加速度的相同变换。静力及每个动力子步一旦不相容即拒绝发布；不改写原生场、不放宽既有门槛。当前OpenSees 3.8.0的部分受约束主节点路径存在可复现的不一致，三节点探针包含Transformation失败和Lagrange成功对照。Lagrange尚未完成全桥验证，不能据此替换生产求解器。
 
 复现原诊断时显式使用 `--shell-element ShellNLDKGQ --native-convergence-test NormUnbalance --initial-displacement-tolerance 1e-9 --native-force-tolerance 0.01`（或0.005），保留所有原失败记录。切换公式必须生成新的完整历史，不能把两种公式的数据混入同一训练案例。
 

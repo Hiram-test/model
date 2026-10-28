@@ -45,7 +45,7 @@ class DiagnosticCompletionTests(unittest.TestCase):  # Protect against incomplet
         self.assertIn('_disp1e-08',command[command.index('--case-id')+1])  # 位移模式不得冒充原力范数实验。
         receipt=copy.deepcopy(self.receipt); receipt['native_convergence_test']='NormUnbalance'  # 故意将不同停止准则标在默认配置回执中。
         with self.assertRaisesRegex(ValueError,'convergence test'): diagnostics.verify_completion(receipt,self.stream,'diagnostic_strict',32)  # 默认位移停止请求必须拒绝其他模式结果。
-    def test_default_command_uses_corrected_solver_path(self):  # 默认命令必须与完整动力入口的候选修正一致。
+    def test_default_command_uses_candidate_diagnostic_path(self):  # 诊断默认命令显式测试候选配置，不代表生产默认变更或候选已合格。
         command=diagnostics.make_command(.005,'isolated-default')  # 不覆盖任何壳公式或停止准则参数。
         self.assertEqual(command[command.index('--shell-element')+1],'ASDShellQ4')  # 默认保留完整共回转非线性。
         self.assertEqual(command[command.index('--native-convergence-test')+1],'NormDispIncr')  # 默认内部停止与独立物理力判定分开。

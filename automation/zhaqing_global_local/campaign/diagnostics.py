@@ -4,9 +4,9 @@ from pathlib import Path  # Keep every source and result path inside the checked
 import run as campaign  # Reuse authenticated baseline restoration and bounded subprocess execution.
 ROOT = campaign.ROOT  # Bind the same repository identity used by the full experiment.
 OUT = ROOT / 'results/扎青吊桥求解诊断'  # Give the user-facing diagnostic result a natural descriptive directory name.
-DEFAULT_SHELL='ASDShellQ4'  # 与完整动力入口一致的候选共回转非线性壳默认值。
-DEFAULT_NATIVE_TEST='NormDispIncr'  # 默认以内位移停止和外部独立力验收组合求解。
-def make_command(tolerance, folder, steps=32, internal_substeps=2, shell_element=DEFAULT_SHELL, native_test=DEFAULT_NATIVE_TEST, displacement_tolerance=1e-8):  # 默认与完整动力入口一致；原公式和判据必须明确指定。
+DEFAULT_SHELL='ASDShellQ4'  # 仅诊断入口默认检查未合格的共回转候选，不改变生产默认公式。
+DEFAULT_NATIVE_TEST='NormDispIncr'  # 仅诊断采用位移停止试验，最终必须通过独立力和运动相容性验收。
+def make_command(tolerance, folder, steps=32, internal_substeps=2, shell_element=DEFAULT_SHELL, native_test=DEFAULT_NATIVE_TEST, displacement_tolerance=1e-8):  # 构造候选诊断命令；生产默认保持原设置，原诊断可显式复现。
     if tolerance not in (.01, .005, .002, .0001) or steps not in (32, 160) or internal_substeps not in (2, 4, 8) or shell_element not in ('ShellNLDKGQ', 'ASDShellQ4'): raise ValueError('Unsupported paired diagnostic contract')  # 仅允许预先声明的时间网格和两种非线性公式，禁止缩小模型或偷偷换线性壳。
     name = 'original' if tolerance == .01 else ('default' if tolerance == .005 else ('tight' if tolerance == .002 else 'strict'))  # Keep independent baseline, production default, and tightened native solves identifiable.
     name += '' if shell_element == 'ShellNLDKGQ' else '_asdshellq4'  # 用不同算例身份区分壳公式，禁止把替代公式结果冒充原公式。
