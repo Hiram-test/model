@@ -14,20 +14,21 @@ def verify_completion(receipt, stream, case_id, steps, internal_substeps=2, shel
     if receipt.get('node_count') != 30555 or receipt.get('time_steps') != steps or receipt.get('dt_s') != .00625 or receipt.get('internal_substeps') != internal_substeps: raise ValueError('Native mesh or requested history/integration grid changed')  # 仍要求完整30555节点、原输出间隔及实际子步数与运行前声明严格一致；不得缩短时程。
     if stream.get('status') != 'COMPLETE' or stream.get('written_frames') != steps + 1 or abs(stream.get('last_time_s', -1) - steps * .00625) > 1e-12: raise ValueError('Native diagnostic field stream is incomplete')  # Require every expected frame and the true terminal physical time.
     if receipt.get('shell_element', 'ShellNLDKGQ') != shell_element: raise ValueError('Native shell formulation changed')  # 旧原壳回执保留兼容，但替代公式必须明确记录并匹配预先请求。
-def execute(tolerance, steps=32, internal_substeps=2, shell_element='ShellNLDKGQ'):  # 执行明确容差、帧数、子步数和非线性壳公式的真实全桥对照。
+def execute(tolerance, steps=32, internal_substeps=2, shell_element='ShellNLDKGQ', native_budget_seconds=3600):  # 执行明确公式和完整时程；原生预算只允许原3600s或生产已声明的15000s上限。
+    if native_budget_seconds not in (3600, 15000): raise ValueError('Unsupported diagnostic native budget')  # 禁止无限或隐式延长；此参数不改生产预算与训练准入。
     campaign.restore_inputs(); name = 'original' if tolerance == .01 else ('default' if tolerance == .005 else ('tight' if tolerance == .002 else 'strict'))  # Authenticate the original model inputs before starting the selected native case.
     name += '' if shell_element == 'ShellNLDKGQ' else '_asdshellq4'  # 替代壳采用独立身份和目录，不覆盖历史原壳失败证据。
     folder = OUT / (name if internal_substeps == 2 else f'{name}-substeps{internal_substeps}'); folder.mkdir(parents=True, exist_ok=True)  # 保留原2子步路径；不同公式和网格均隔离。
     command = make_command(tolerance, folder, steps, internal_substeps, shell_element); started = time.time()  # 启动前固定实际公式、时间网格和墙钟计时。
     sources = {str(path.relative_to(ROOT)): campaign.digest(path) for path in sorted(campaign.SOURCE.rglob('*.py'))}  # Bind the diagnostic to every checked-in numerical source file used by this checkout.
     versions = {package: importlib.metadata.version(package) for package in ('numpy', 'scipy', 'h5py', 'openseespy', 'openseespylinux')}  # Record actual installed native and data-runtime versions instead of assuming the dependency resolver chose the requested backend.
-    report = {'status': 'RUNNING', 'native_force_tolerance_mixed_N_Nmm': tolerance, 'independent_acceptance_gate_N': .02, 'requested_steps': steps, 'dt_s': .00625, 'internal_substeps': internal_substeps, 'requested_duration_s': steps * .00625, 'expected_nodes': 30555, 'command': [str(item) for item in command], 'git_commit': os.environ.get('GITHUB_SHA'), 'workflow_run_id': os.environ.get('GITHUB_RUN_ID'), 'sources_sha256': sources, 'runtime_versions': versions, 'native_budget_seconds': 3600, 'diagnostic_only': True, 'training_eligible': False, 'actual_new_bridge_training_epochs_completed': 0}  # 记录精确离散设置；独立0.02N门槛、完整诊断时程、3600s预算及零训练轮次均不变。
+    report = {'status': 'RUNNING', 'native_force_tolerance_mixed_N_Nmm': tolerance, 'independent_acceptance_gate_N': .02, 'requested_steps': steps, 'dt_s': .00625, 'internal_substeps': internal_substeps, 'requested_duration_s': steps * .00625, 'expected_nodes': 30555, 'command': [str(item) for item in command], 'git_commit': os.environ.get('GITHUB_SHA'), 'workflow_run_id': os.environ.get('GITHUB_RUN_ID'), 'sources_sha256': sources, 'runtime_versions': versions, 'native_budget_seconds': native_budget_seconds, 'diagnostic_only': True, 'training_eligible': False, 'actual_new_bridge_training_epochs_completed': 0}  # 完整记录运行前声明的有限预算、固定0.02N门槛及零训练轮次。
     report['shell_element'] = shell_element  # 在启动回执明确标记原壳或替代非线性壳，避免后处理混用。
     campaign.write(folder / '计算状态.json', report)  # Publish inspectable launch evidence before the expensive native subprocess.
     source_folder = folder / '执行程序'; source_folder.mkdir(exist_ok=True)  # Preserve orchestration source beside the solver's own model snapshots.
     for path in (Path(__file__), Path(campaign.__file__)): shutil.copy2(path, source_folder / path.name)  # Keep the exact runner and authenticated-input helper used by this execution.
     try:  # Always finalize diagnostic status even when the native solve fails or reaches its budget.
-        code = campaign.invoke(command, folder, '原生求解.log', 3600); report['exit_code'] = code  # Retain a full native stdout/stderr log and the real subprocess outcome.
+        code = campaign.invoke(command, folder, '原生求解.log', native_budget_seconds); report['exit_code'] = code  # 执行声明的有限原生预算并保留完整日志及真实返回码。
         if code != 0: raise RuntimeError(f'Native diagnostic exited with {code}')  # A failed solver cannot be promoted to a completed history.
         receipt = json.loads((folder / 'case_manifest.json').read_text()); stream = json.loads((folder / 'fields_stream_status.json').read_text())  # Read the native producer's actual completion evidence.
         verify_completion(receipt, stream, 'diagnostic_' + name, steps, internal_substeps, shell_element)  # 必须完成请求的全部帧并使用已声明的壳公式。
@@ -47,4 +48,5 @@ if __name__ == '__main__':  # Keep diagnostics explicit and separate from the fu
     parser = argparse.ArgumentParser(); parser.add_argument('--native-force-tolerance', type=float, choices=(.01, .005, .002, .0001), required=True); parser.add_argument('--steps', type=int, choices=(32, 160), default=32)  # Expose the original, production-default, and strict stopping thresholds plus two bounded diagnostic lengths.
     parser.add_argument('--internal-substeps', type=int, choices=(2, 4, 8), default=2)  # 默认保留原2子步；4/8用于检验提交后残差对内部dt减半/减为四分之一的敏感性。
     parser.add_argument('--shell-element', choices=('ShellNLDKGQ', 'ASDShellQ4'), default='ShellNLDKGQ')  # 原公式仍为默认；替代壳必须显式选择并启用既有共回转实现。
-    args = parser.parse_args(); execute(args.native_force_tolerance, args.steps, args.internal_substeps, args.shell_element)  # 执行完整诊断，不启用参考数据或训练模式。
+    parser.add_argument('--native-budget-seconds', type=int, choices=(3600, 15000), default=3600)  # 3600s保持原短诊断；15000s用于160帧延长诊断，不超过生产已声明单次预算。
+    args = parser.parse_args(); execute(args.native_force_tolerance, args.steps, args.internal_substeps, args.shell_element, args.native_budget_seconds)  # 运行完整且有明确资源上限的诊断，不启用训练。

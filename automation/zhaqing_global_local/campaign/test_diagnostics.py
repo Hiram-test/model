@@ -35,4 +35,7 @@ class DiagnosticCompletionTests(unittest.TestCase):  # Protect against incomplet
         receipt = copy.deepcopy(self.receipt); receipt['shell_element'] = 'ASDShellQ4'  # 元数据夹具模拟替代公式结果。
         with self.assertRaisesRegex(ValueError, 'shell formulation'): diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32)  # 原壳请求不能接收替代壳回执。
         diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32, 2, 'ASDShellQ4')  # 明确请求且公式一致时，完整性契约可通过。
+    def test_unbounded_diagnostic_budget_is_rejected_before_launch(self):  # 预算必须来自两种预先声明的有限边界。
+        with self.assertRaisesRegex(ValueError, 'native budget'): diagnostics.execute(.005, native_budget_seconds=0)  # 零预算在输入恢复和原生启动前立即拒绝。
+        with self.assertRaisesRegex(ValueError, 'native budget'): diagnostics.execute(.005, native_budget_seconds=15001)  # 不能超过生产已声明的15000s上限。
 if __name__ == '__main__': unittest.main()  # Execute integrity assertions only, with zero trained epochs and no artificial solver fields.

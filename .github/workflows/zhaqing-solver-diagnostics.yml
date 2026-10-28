@@ -27,6 +27,16 @@ on: # Trigger only the authorized numerical development branch or a deliberate r
         type: choice # 限制为既有诊断支持的两个完整时程。
         options: ['32', '160'] # 先复现短诊断，再延长验证提交一致性。
         default: '32' # 保持原始诊断默认时程。
+      tolerance_set: # 长时对照可明确只运行一组，避免重复昂贵原生求解。
+        description: 'Paired or one explicitly selected native tolerance' # paired仍执行原始两组，单组选择仅控制作业数量。
+        type: choice # 限定为已有容差矩阵的成员。
+        options: ['paired', 'original', 'default'] # original为0.01，default为0.005；不新增宽松阈值。
+        default: 'paired' # 原工作流默认仍完整运行两组比较。
+      native_budget_seconds: # 明确声明本次原生诊断的资源边界。
+        description: 'Bounded native runtime in seconds' # 长诊断上限与生产已有15000s预算一致。
+        type: choice # 不允许无限预算。
+        options: ['3600', '15000'] # 默认短诊断一小时，延长诊断不超过已声明生产预算。
+        default: '3600' # 保持原短诊断默认资源范围。
 permissions: # Native diagnostics require repository reads only.
   contents: read # Fetch source without allowing the solver to push repository changes.
 concurrency: # Preserve active expensive computations when another source revision is published.
@@ -35,16 +45,12 @@ concurrency: # Preserve active expensive computations when another source revisi
 jobs: # Compare one native convergence setting while keeping all physical inputs identical.
   whole-bridge: # Run the complete detailed mesh under two explicit native stopping tolerances.
     runs-on: ubuntu-24.04 # Use a durable public hosted CPU worker with independent process lifetime.
-    timeout-minutes: 90 # Reserve installation and artifact-upload time outside the 60-minute native budget.
+    timeout-minutes: 270 # 为显式15000s原生预算预留安装和工件上传时间；原生子进程仍执行所选硬上限。
     strategy: # Keep baseline failure from cancelling the stricter independent comparison.
       fail-fast: false # Preserve both actual diagnoses even when one fails its physical gate.
       max-parallel: 2 # Run only the two declared controlled comparisons.
       matrix: # Vary native stopping without changing the independent 0.02 N acceptance gate.
-        include: # Give each artifact a stable descriptive identity.
-          - case: original # Observe the original native stopping behavior with the new detailed audit.
-            native-tolerance: '0.01' # Preserve the originally used mixed force/moment native norm threshold.
-          - case: default # Verify the production default native stopping value against the independent physical gate.
-            native-tolerance: '0.005' # Tighten native stopping by two relative to the original while allowing the full short history to finish.
+        include: ${{ fromJSON(inputs.tolerance_set == 'original' && '[{"case":"original","native-tolerance":"0.01"}]' || inputs.tolerance_set == 'default' && '[{"case":"default","native-tolerance":"0.005"}]' || '[{"case":"original","native-tolerance":"0.01"},{"case":"default","native-tolerance":"0.005"}]') }} # 默认保留两组；显式单组只节省重复求解，不改容差。
     env: # Keep native linear algebra, output flushing, and MPI interface choices reproducible.
       OMP_NUM_THREADS: '2' # Avoid oversubscribing the hosted worker's native teams.
       OPENBLAS_NUM_THREADS: '2' # Bound dense numerical-library threads.
@@ -55,6 +61,7 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
       DIAGNOSTIC_SUBSTEPS: ${{ inputs.internal_substeps || '2' }} # 推送仍用原2子步；只有显式手动选择才运行4/8子步对照。
       DIAGNOSTIC_SHELL: ${{ inputs.shell_element || 'ShellNLDKGQ' }} # 将实际请求公式传入求解器和回执。
       DIAGNOSTIC_STEPS: ${{ inputs.steps || '32' }} # 将完整时程帧数显式传入，不改变帧间隔。
+      DIAGNOSTIC_BUDGET: ${{ inputs.native_budget_seconds || '3600' }} # 使用预先声明的有限原生预算，不从结果反推所需时间。
     steps: # Run actual native equations and preserve all numerical evidence.
       - uses: actions/checkout@v4 # Fetch the immutable triggering source revision.
         with: # Keep credentials away from the native subprocess.
@@ -71,7 +78,7 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
           python -m unittest discover -s automation/zhaqing_global_local/campaign -p 'test_*.py' -v # 确认完整时程契约和训练准入守卫仍有效。
           python automation/zhaqing_global_local/global/probes/dynamic_commit_probe.py > results/扎青吊桥求解诊断/native-shell-probe.json # 运行真实小壳对照，输出范围明确的数值证据。
       - name: Solve full detailed bridge and declared wind history # 实际完成预先声明的全部输出帧，不启动训练。
-        run: python automation/zhaqing_global_local/campaign/diagnostics.py --native-force-tolerance ${{ matrix.native-tolerance }} --steps "$DIAGNOSTIC_STEPS" --internal-substeps "$DIAGNOSTIC_SUBSTEPS" --shell-element "$DIAGNOSTIC_SHELL" # 两组容差使用相同公式、30555节点、完整时程及0.02N门槛。
+        run: python automation/zhaqing_global_local/campaign/diagnostics.py --native-force-tolerance ${{ matrix.native-tolerance }} --steps "$DIAGNOSTIC_STEPS" --internal-substeps "$DIAGNOSTIC_SUBSTEPS" --shell-element "$DIAGNOSTIC_SHELL" --native-budget-seconds "$DIAGNOSTIC_BUDGET" # 完整时程、30555节点和0.02N门槛不变，长诊断资源边界显式记录。
       - name: Preserve actual native fields and failure evidence # Keep completed and interrupted numerical work outside the temporary worker.
         if: always() # Upload model snapshots and diagnostics even when the solver or gate rejects the run.
         uses: actions/upload-artifact@v4 # Persist the real source, mesh, fields, convergence logs, and final status.
