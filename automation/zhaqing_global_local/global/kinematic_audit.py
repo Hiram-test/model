@@ -5,7 +5,7 @@ import sys  # 用非零退出码明确传播相容性拒绝。
 import numpy as np  # 用双精度数组核对原始节点运动，不投影或修改求解状态。
 
 
-def rigid_kinematic_audit(model, nodes, displacement, velocity=None, acceleration=None):  # 输入完整模型、节点序列及原生运动场；返回全部声明刚臂的相容性证据。
+def rigid_kinematic_audit(model, nodes, displacement, velocity=None, acceleration=None):  # 输入完整模型、节点序列和六列原生位移；速度及加速度为None时不检查该场，返回全部声明刚臂的相容性证据且不改输入。
     lookup = {node: row for row, node in enumerate(nodes)}  # 将实际节点号映射到输入场行号。
     connections = model.get('rigid_connections', [])  # 没有声明刚臂的模型返回零条受检约束。
     fields = [('displacement', displacement, 'mm', 'rad')]  # 位移前后三列分别使用毫米和弧度。

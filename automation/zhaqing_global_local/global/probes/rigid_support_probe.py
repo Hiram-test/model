@@ -16,7 +16,7 @@ def run(handler):  # 输入约束处理方法；返回部分受约束主节点�
     ops.fix(1, 1, 1, 1, 1, 1, 1)  # 梁根部完全固定。
     ops.fix(2, 0, 1, 1, 0, 0, 0)  # 保留节点仅约束y/z平动，模拟全桥滚动支座与刚臂并存。
     ops.geomTransf('Linear', 1, 0., 0., 1.)  # 梁局部轴采用全局z参考向量。
-    ops.element('elasticBeamColumn', 1, 1, 2, 1000., 206000., 79230., 100000., 100000., 100000., 1)  # 使用明确的弹性梁和毫米制截面，排除壳公式影响。
+    ops.element('elasticBeamColumn', 1, 1, 2, 1000., 206000., 79230., 100000., 100000., 100000., 1)  # 单元1连节点1/2；A=1000mm²，E=206000、G=79230N/mm²，J=Iy=Iz=100000mm⁴，采用变换1；这些是排除壳影响的弹性对照参数。
     ops.rigidLink('beam', 2, 3)  # 从节点遵循保留节点的六自由度刚臂关系。
     for node in (2, 3):  # 两端均保留真实平动质量以进行动力对照。
         ops.mass(node, .1, .1, .1, 0., 0., 0.)  # 每节点0.1吨，旋转质量为零。
@@ -29,7 +29,7 @@ def run(handler):  # 输入约束处理方法；返回部分受约束主节点�
         ops.constraints(handler)  # 不改变原生处理方法的实现。
     ops.numberer('RCM')  # 真实方程重排，避免依赖节点编号次序。
     ops.system('UmfPack')  # 使用支持不定矩阵的通用稀疏直接解法。
-    ops.test('NormUnbalance', 1.e-8, 40, 0)  # 微型线性模型采用严格原生残差停止。
+    ops.test('NormUnbalance', 1.e-8, 40, 0)  # 微型模型采用1e-8混合N/Nmm残差阈值、最多40次迭代、打印级别0；不改变全桥0.02N门槛。
     ops.algorithm('Newton')  # 使用标准Newton，排除线搜索影响。
     ops.integrator('LoadControl', 1.)  # 一步施加完整静力荷载。
     ops.analysis('Static')  # 执行真实静力分析。
@@ -51,7 +51,7 @@ def run(handler):  # 输入约束处理方法；返回部分受约束主节点�
         ops.constraints(handler)  # 不对节点状态施加后处理投影。
     ops.numberer('RCM')  # 动力方程同样使用原生重排。
     ops.system('UmfPack')  # 对照继续使用同一稀疏解法。
-    ops.test('NormUnbalance', 1.e-8, 40, 0)  # 保持相同的小模型收敛要求。
+    ops.test('NormUnbalance', 1.e-8, 40, 0)  # 动力对照仍采用1e-8混合N/Nmm阈值、最多40次迭代、打印级别0，与静力要求相同。
     ops.algorithm('Newton')  # 排除额外算法差异。
     ops.integrator('Newmark', .5, .25)  # 与全桥相同的平均加速度积分。
     ops.analysis('Transient')  # 从真实静力状态开始动力分析。
