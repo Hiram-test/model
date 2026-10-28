@@ -7,9 +7,16 @@ on: # Trigger only the authorized numerical development branch or a deliberate r
       - 'automation/zhaqing_global_local/campaign/diagnostics.py' # Rerun when the bounded diagnostic contract changes.
       - 'automation/zhaqing_global_local/campaign/run.py' # Rerun when native execution or authenticated restoration changes.
       - 'automation/zhaqing_global_local/global/*.py' # Rerun on changes to the actual whole-bridge numerical source.
+      - 'automation/zhaqing_global_local/global/probes/dynamic_commit_probe.py' # 原生小模型回归脚本改变时，也必须触发同一固定版本验证。
       - 'automation/zhaqing_global_local/aero/*.py' # Rerun when the applied wind calculation changes.
       - 'automation/zhaqing_global_local/assets/global_baseline_inputs.zip' # Authenticate and rerun a deliberate source-input change.
   workflow_dispatch: # Permit an explicit repeated observation of the same committed source.
+    inputs: # 仅为诊断提供显式内部时间离散选择，生产训练设置不受影响。
+      internal_substeps: # 每个0.00625s输出帧内的真实Newmark子步数。
+        description: 'Native substeps per unchanged output frame' # 告知操作者只细化内部积分，不缩短输出时程。
+        type: choice # 限制为预先审查的离散对照值，避免任意改变实验。
+        options: ['2', '4', '8'] # 2复现原失败，4/8分别减半/减为四分之一的内部dt。
+        default: '2' # 保持现有推送及手动运行的默认实验完全相同。
 permissions: # Native diagnostics require repository reads only.
   contents: read # Fetch source without allowing the solver to push repository changes.
 concurrency: # Preserve active expensive computations when another source revision is published.
@@ -35,6 +42,7 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
       MPIR_CVAR_CH3_NETWORK_IFACE: lo # Provide OpenSees an available local MPI interface.
       MPICH_INTERFACE_HOSTNAME: 127.0.0.1 # Avoid external-network interface selection by the native backend.
       PYTHONUNBUFFERED: '1' # Flush real native heartbeat and completion logs immediately.
+      DIAGNOSTIC_SUBSTEPS: ${{ inputs.internal_substeps || '2' }} # 推送仍用原2子步；只有显式手动选择才运行4/8子步对照。
     steps: # Run actual native equations and preserve all numerical evidence.
       - uses: actions/checkout@v4 # Fetch the immutable triggering source revision.
         with: # Keep credentials away from the native subprocess.
@@ -43,15 +51,21 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
         with: # Keep installed package compatibility explicit.
           python-version: '3.12' # Match the tested OpenSees and HDF5 runtime family.
       - name: Install pinned native runtime # Preserve both wrapper and native binary versions explicitly.
-        run: python -m pip install --no-cache-dir numpy==2.3.5 scipy==1.17.0 h5py==3.16.0 openseespy==3.8.0.0 openseespylinux==3.8.0.0 # Do not allow a different native backend through the wrapper's loose dependency.
+        run: python -m pip install --no-cache-dir numpy==2.3.5 scipy==1.17.0 h5py==3.16.0 openseespy==3.8.0.0 openseespylinux==3.8.0.0 PyYAML==6.0.3 # 数值后端版本保持原样；YAML解析器复用既有验证工作流的6.0.3版以执行准入守卫测试。
+      - name: Verify residual audit and native shell probe # 先验证单位、约束、原生壳及积分证据，不将其视为全桥通过。
+        run: | # 任一回归失败都会使步骤失败，原生小模型证据保留到工件目录。
+          mkdir -p results/扎青吊桥求解诊断 # 只创建本作业结果目录，供始终执行的工件上传读取。
+          python automation/zhaqing_global_local/global/test_dynamic_balance.py # 检查生产审计中的单位、方程映射、约束及失败保留。
+          python -m unittest discover -s automation/zhaqing_global_local/campaign -p 'test_*.py' -v # 确认完整时程契约和训练准入守卫仍有效。
+          python automation/zhaqing_global_local/global/probes/dynamic_commit_probe.py > results/扎青吊桥求解诊断/native-shell-probe.json # 运行真实小壳对照，输出范围明确的数值证据。
       - name: Solve full detailed bridge and 32 wind steps # This computes 0.2 seconds for solver diagnosis, with no neural training.
-        run: python automation/zhaqing_global_local/campaign/diagnostics.py --native-force-tolerance ${{ matrix.native-tolerance }} --steps 32 # Retain all 30555 nodes, every requested frame, and the unchanged independent equilibrium gate.
+        run: python automation/zhaqing_global_local/campaign/diagnostics.py --native-force-tolerance ${{ matrix.native-tolerance }} --steps 32 --internal-substeps "$DIAGNOSTIC_SUBSTEPS" # 两组容差都运行30555节点、32帧及0.2s完整诊断，门槛保持0.02N。
       - name: Preserve actual native fields and failure evidence # Keep completed and interrupted numerical work outside the temporary worker.
         if: always() # Upload model snapshots and diagnostics even when the solver or gate rejects the run.
         uses: actions/upload-artifact@v4 # Persist the real source, mesh, fields, convergence logs, and final status.
         with: # Keep each native stopping experiment independently inspectable.
-          name: whole-bridge-${{ matrix.case }}-solver-diagnostic # Use a diagnostic artifact identity rather than a trained-weight label.
-          path: results/扎青吊桥求解诊断/${{ matrix.case }}/ # Upload only this actual numerical experiment's output directory.
+          name: whole-bridge-${{ matrix.case }}-substeps${{ env.DIAGNOSTIC_SUBSTEPS }}-solver-diagnostic # 工件名记录实际子步数，防止加密结果冒充原设置。
+          path: results/扎青吊桥求解诊断/ # 每个矩阵作业仅生成自身算例；同时兼容原目录及新增子步后缀目录。
           if-no-files-found: error # Missing launch or solver evidence is an actual workflow failure.
           compression-level: 1 # Compress textual logs while retaining lossless numerical field data.
           retention-days: 30 # Preserve the expensive native result after the conversational session ends.

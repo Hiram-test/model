@@ -16,4 +16,14 @@ class DiagnosticCompletionTests(unittest.TestCase):  # Protect against incomplet
     def test_substituted_smaller_mesh_is_rejected(self):  # Prevent the old small bridge from satisfying a full detailed-mesh diagnostic.
         receipt = copy.deepcopy(self.receipt); receipt['node_count'] = 589  # Reproduce the unrelated older static model's node count as an invalid metadata fixture.
         with self.assertRaisesRegex(ValueError, 'mesh or requested history'): diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32)  # Preserve the user-requested actual mesh population.
+    def test_refined_substeps_require_explicit_matching_request(self):  # 更细内部网格必须与运行前请求相同，不能事后改变原诊断契约。
+        receipt = copy.deepcopy(self.receipt); receipt['internal_substeps'] = 4  # 构造完整32帧但每帧4子步的独立元数据夹具，不生成物理结果。
+        with self.assertRaisesRegex(ValueError, 'mesh or requested history'): diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32)  # 默认2子步运行拒绝未经声明的4子步结果。
+        diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32, 4)  # 只有明确请求4子步且保持全32帧/0.2s时通过诊断完整性检查。
+    def test_refinement_preserves_export_horizon_and_validation_split(self):  # 防止内部加密同时缩短声明时程或把诊断结果变成训练样本。
+        command = diagnostics.make_command(.01, 'isolated-diagnostic', 32, 4)  # 原0.01容差配4子步，目录仅用于命令构造，不运行全桥。
+        for option, expected in (('--steps', '32'), ('--dt', '.00625'), ('--internal-substeps', '4'), ('--split', 'validation')):  # 固定完整帧数、输出间隔、显式加密与非训练分区。
+            self.assertEqual(command[command.index(option) + 1], expected)  # 验证送入真实求解器的参数与完整诊断契约一致。
+    def test_unplanned_internal_grid_is_rejected(self):  # 禁止任意内部离散值悄悄进入已声明的2/4/8子步对照。
+        with self.assertRaisesRegex(ValueError, 'Unsupported'): diagnostics.make_command(.01, 'isolated-diagnostic', 32, 3)  # 3子步不在预先声明的减半序列，命令构造必须失败。
 if __name__ == '__main__': unittest.main()  # Execute integrity assertions only, with zero trained epochs and no artificial solver fields.

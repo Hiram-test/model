@@ -58,34 +58,59 @@ def saddle_interfaces(m,reference=None):  # Export actual adjacent cable actions
             adjacent.append({'interface_id':key,'native_element_id':tag,'source_element_id':m['source_ids'][tag],'saddle_node_id':saddle,'adjacent_node_id':other,'adjacent_node_position_mm':endpoint.tolist(),'adjacent_node_displacement_mm_rotation_rad':ops.nodeDisp(other),'current_member_length_mm':length,'tension_N':tension,'outward_tangent_global':tangent.tolist(),'cable_force_on_saddle_N':(tension*tangent).tolist(),'local_to_global_frame':frame.tolist(),'rotation_from_initial_global':(frame@baseline.T).tolist()})  # Preserve both physical force vectors and finite orientation change.
         result[str(saddle)]={'saddle_node_id':saddle,'current_position_mm':origin.tolist(),'displacement_mm_rotation_rad':displacement.tolist(),'velocity_mm_s_rad_s':ops.nodeVel(saddle),'acceleration_mm_s2_rad_s2':ops.nodeAccel(saddle),'adjacent_main_cable_members':adjacent,'cut_location_scope':'Native adjacent-member chord; local solid cut location must be mapped explicitly and is not assumed identical to this node.'}  # Keep unresolved cut-placement interpolation explicit.
     return result  # Return actual native support and cable data, never a reused historical horizontal-force constant.
-def dynamic_balance(m,nodes,index,applied,alpha):  # Independently assemble the physical dynamic residual instead of trusting one native status flag.
-    internal=np.zeros((len(nodes),6))  # Retain every physical force and moment degree.
-    for tag,(group,conn) in m['elements'].items():  # Visit every native finite element without response reduction.
-        force=np.asarray(ops.eleForce(tag),dtype=float).reshape(len(conn),6)  # Read the actual global element resisting vector.
-        for node,value in zip(conn,force):  # Preserve original connectivity during independent force assembly.
-            internal[index[node]]+=value  # Sum each physical element contribution at its native node.
-    mass=np.asarray([m['mass'][node] for node in nodes])[:,None]  # Recover the explicit lumped physical mass.
-    velocity=np.asarray([ops.nodeVel(node) for node in nodes])  # Read actual committed translational and angular velocity.
-    acceleration=np.asarray([ops.nodeAccel(node) for node in nodes])  # Read actual committed physical acceleration.
-    residual=internal-applied-np.asarray([m['gravity'][node] for node in nodes])  # Subtract both variable and permanent external actions.
-    residual[:,:3]+=mass*(acceleration[:,:3]+alpha*velocity[:,:3])  # Add independent inertia and declared mass-proportional damping; element masses are zero by construction.
-    ops.reactions('-dynamic')  # Ask the native engine for the same full dynamic nodal balance.
-    native=np.asarray([ops.nodeReaction(node) for node in nodes])  # Retain native reactions and free residuals independently.
-    residual=assemble_constraint_actions(m,nodes,residual)  # Include physical MPC reactions in the independently assembled equation residual.
-    native=assemble_constraint_actions(m,nodes,native)  # Compare native reactions under the same exact constraint transpose.
-    scales=np.asarray([1.,1.,1.,5500.,5500.,5500.])  # Convert moments to equivalent forces using the declared bridge width.
-    free=np.asarray([[not value for value in m['fixities'][node]] for node in nodes])  # Exclude support reactions from the equilibrium-error norm.
-    disagreement=float(np.max(np.abs((residual-native)/scales)))  # Check every constrained and free degree for assembly consistency.
-    if disagreement>1.e-4:  # Require agreement much tighter than the transient acceptance threshold.
-        raise RuntimeError(f'Independent/native dynamic balance mismatch {disagreement} equivalent N')  # Do not publish labels under an unidentified force law.
-    force_max=float(np.max(np.abs(residual[:,:3])[free[:,:3]]))  # Report physical force residuals separately from moments.
-    moment_max=float(np.max(np.abs(residual[:,3:])[free[:,3:]]))  # Report physical moment residuals in Nmm.
-    scaled=np.where(free,np.abs(residual)/scales,-1.)  # Exclude support and dependent reactions before identifying the actual free-equation hotspot.
-    hotspot=np.unravel_index(int(np.argmax(scaled)),scaled.shape)  # Preserve the exact physical node and degree that governs acceptance.
-    native_norms=ops.testNorm()  # Read the solver's actual last nonlinear convergence-test history rather than infer it from its exit code.
-    iterations=int(ops.testIter())  # Preserve the count needed to interpret the fixed-size native norm buffer.
-    last_norm=float(native_norms[iterations-1]) if 0<iterations<=len(native_norms) else None  # Select only an actually executed nonlinear iteration.
-    return max(force_max,moment_max/5500.),{'independent_assembly_difference_equivalent_N':disagreement,'free_force_max_N':force_max,'free_moment_max_Nmm':moment_max,'moment_reference_mm':5500.,'hotspot_native_node':int(nodes[hotspot[0]]),'hotspot_dof_1based':int(hotspot[1])+1,'hotspot_residual_N_or_Nmm':float(residual[hotspot]),'native_test_iterations':iterations,'native_last_test_norm_mixed_N_Nmm':last_norm}  # Preserve independent postcommit balance alongside actual native stopping evidence.
+def dynamic_balance(m,nodes,index,applied,alpha):  # 输入模型m、节点序列nodes、节点行号index、已施加N/Nmm风载applied及1/s阻尼alpha；返回最大等效N残差和审计字典，不修正任何状态。
+    native_norms=ops.testNorm()  # 保存收敛测试历史；这是提交前测试的范数，不是提交后重新组装的残差。
+    iterations=int(ops.testIter())  # 记录实际迭代数，用于截取原生定长历史缓冲区中的有效项。
+    last_norm=float(native_norms[iterations-1]) if 0<iterations<=len(native_norms) else None  # 仅在迭代索引有效时读取末次范数；None表示证据不可用。
+    internal=np.zeros((len(nodes),6))  # 每节点6列分别为3个N内力和3个Nmm内力矩；零初值用于完整单元累加。
+    for tag,(group,conn) in m['elements'].items():  # tag为原生单元号，group为构件组，conn为连接节点；遍历全部真实单元。
+        force=np.asarray(ops.eleForce(tag),dtype=float).reshape(len(conn),6)  # 读取提交状态重算的全局抵抗力；每连接节点必须提供6个分量。
+        for node,value in zip(conn,force):  # node为原生节点号，value为该单元在该节点的N/Nmm贡献。
+            internal[index[node]]+=value  # 按真实连接累加内力，不归一化、不消除残差。
+    mass=np.asarray([m['mass'][node] for node in nodes])[:,None]  # 节点集中质量单位为tonne；单元质量为零，列形状便于逐平动分量相乘。
+    velocity=np.asarray([ops.nodeVel(node) for node in nodes])  # 读取提交后速度，前3列mm/s，后3列rad/s。
+    acceleration=np.asarray([ops.nodeAccel(node) for node in nodes])  # 读取提交后加速度，前3列mm/s²，后3列rad/s²。
+    gravity=np.asarray([m['gravity'][node] for node in nodes])  # 保持预平衡恒载N/Nmm原值，避免与风载混合或重复施加。
+    inertia=np.zeros_like(internal)  # 采用与内力相同的6分量形状；未设置旋转质量，旋转惯性项保持零。
+    inertia[:,:3]=mass*acceleration[:,:3]  # tonne乘mm/s²直接得到N，无需额外1000倍换算。
+    damping=np.zeros_like(internal)  # 单独保留阻尼力，以便审计每个物理项的符号和量纲。
+    damping[:,:3]=mass*alpha*velocity[:,:3]  # C=alpha*M，alpha单位1/s，所得平动阻尼力单位N。
+    residual=internal-applied-gravity+inertia+damping  # 按R=Fint-Pwind-Pgravity+Ma+Cv形成独立提交后平衡残差。
+    ops.reactions('-dynamic')  # 原生引擎在相同提交状态重新计算包含惯性与阻尼的节点反力/残差。
+    native=np.asarray([ops.nodeReaction(node) for node in nodes])  # 保存未约束及受约束节点的全部N/Nmm分量。
+    residual=assemble_constraint_actions(m,nodes,residual)  # 通过真实刚臂T转置，将从节点力及r叉乘F力矩传递到主节点。
+    native=assemble_constraint_actions(m,nodes,native)  # 对原生节点量执行同一个约束变换以保证比较对象一致。
+    scales=np.asarray([1.,1.,1.,5500.,5500.,5500.])  # 前3列保持N，后3列除以既有桥宽5500mm得到等效N；不改变原验收定义。
+    free=np.asarray([[not value for value in m['fixities'][node]] for node in nodes])  # 排除物理支座及模型标记的依赖自由度，保留独立方程。
+    if not np.all(np.isfinite(residual)) or not np.all(np.isfinite(native)):  # 非有限力不能用NaN比较绕过任何物理门槛。
+        raise RuntimeError('Non-finite dynamic balance')  # 终止当前算例，保留失败状态而非发布训练数据。
+    disagreement=float(np.max(np.abs((residual-native)/scales)))  # 比较全部受约束及自由分量的两套提交后节点组装。
+    if disagreement>1.e-4:  # 延用既有1e-4等效N组装一致性门槛，远严于0.02N物理门槛。
+        raise RuntimeError(f'Independent/native dynamic balance mismatch {disagreement} equivalent N')  # 不接受力学方程尚未一致的结果。
+    rhs=np.asarray(ops.printB('-ret'),dtype=float)  # 注意：printB会调用formUnbalance重新组装提交后RHS，并非读取提交前缓存；RHS符号与R相反。
+    if not np.all(np.isfinite(rhs)):  # 检查原生重新组装的方程量，禁止无效数值被写为合格证据。
+        raise RuntimeError('Non-finite postcommit dynamic RHS')  # 将失败交由现有算例拒绝流程处理。
+    rhs_disagreement=0.  # 初始化独立平衡与原生方程RHS的最大等效N差异。
+    for row,node in enumerate(nodes):  # row是物理数组行号，node是原生节点号；只映射实际独立方程。
+        if not np.any(free[row]):  # 全约束支座和依赖节点没有需要独立比较的物理方程。
+            continue  # 从节点贡献已由T转置计入主节点，避免重复计数。
+        equations=ops.nodeDOFs(node)  # 原生RCM重排后的方程编号；不把节点号或物理行号当作方程号。
+        for dof in np.flatnonzero(free[row]):  # dof取0到5的自由分量，依次检查力和力矩方程。
+            equation=int(equations[dof])  # 读取该独立物理分量对应的原生方程编号。
+            if not 0<=equation<len(rhs):  # 自由分量必须映射到合法原生方程，负编号或越界表明模型契约失配。
+                raise RuntimeError('Free dynamic DOF has no native equation')  # 禁止用缺失方程制造一致结果。
+            rhs_disagreement=max(rhs_disagreement,abs(float(residual[row,dof]+rhs[equation]))/scales[dof])  # 按R+RHS=0比较并将Nmm转为等效N。
+    if rhs_disagreement>1.e-4:  # 沿用现有组装一致性精度要求，不改变0.02N独立物理验收值。
+        raise RuntimeError(f'Independent/postcommit RHS mismatch {rhs_disagreement} equivalent N')  # 暴露方程映射或重复查询导致的不一致。
+    force_max=float(np.max(np.abs(residual[:,:3])[free[:,:3]],initial=0.))  # 提取自由平动力最大N残差；无自由平动时以零表示空集合。
+    moment_max=float(np.max(np.abs(residual[:,3:])[free[:,3:]],initial=0.))  # 提取自由旋转力矩最大Nmm残差；无自由旋转时以零表示空集合。
+    scaled=np.where(free,np.abs(residual)/scales,-1.)  # 负哨兵只排除受约束量，保持既有分量最大值判据。
+    hotspot=np.unravel_index(int(np.argmax(scaled)),scaled.shape)  # 定位全场独立方程的控制节点与0基分量索引。
+    terms={'internal':internal,'negative_wind':-applied,'negative_gravity':-gravity,'inertia':inertia,'damping':damping}  # 保存有符号物理项；其和必须等于热点原始N/Nmm残差。
+    hotspot_terms={name:float(assemble_constraint_actions(m,nodes,values)[hotspot]) for name,values in terms.items()}  # 对每项采用同一T转置，避免带刚臂节点的分量证据失真。
+    report={'independent_assembly_difference_equivalent_N':disagreement,'free_force_max_N':force_max,'free_moment_max_Nmm':moment_max,'moment_reference_mm':5500.,'hotspot_native_node':int(nodes[hotspot[0]]),'hotspot_dof_1based':int(hotspot[1])+1,'hotspot_residual_N_or_Nmm':float(residual[hotspot]),'native_test_iterations':iterations,'native_last_test_norm_mixed_N_Nmm':last_norm}  # 延用全部原审计字段及其单位，兼容既有结果读取。
+    report.update(postcommit_rhs_l2_mixed_N_Nmm=float(np.linalg.norm(rhs)),postcommit_rhs_max_mixed_N_Nmm=float(np.max(np.abs(rhs),initial=0.)),postcommit_rhs_agreement_equivalent_N=rhs_disagreement,hotspot_terms_N_or_Nmm=hotspot_terms)  # 新增提交后原生方程范数、组装误差和控制分量证据；混合范数不替代独立门槛。
+    return max(force_max,moment_max/5500.),report  # 返回既有等效N最大残差；接受/拒绝仍由原0.02N及正索力门槛决定。
 def execute(args):  # Execute one independent whole-history case with a frozen split.
     args.output.mkdir(parents=True,exist_ok=True)  # Save source identity before any potentially long native calculation.
     storage=getattr(args,'storage','hdf5')  # Default to lossless bounded-memory complete-history storage.
