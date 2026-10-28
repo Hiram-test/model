@@ -21,7 +21,7 @@ on: # Trigger only the authorized numerical development branch or a deliberate r
         description: 'Explicit nonlinear shell formulation' # 对照公式仍使用相同几何、质量、荷载和全场网格。
         type: choice # 禁止传入未经实现的壳公式。
         options: ['ShellNLDKGQ', 'ASDShellQ4'] # 两者均为既有建模器支持的非线性壳。
-        default: 'ShellNLDKGQ' # 自动运行继续保留原公式，不静默更换数据来源。
+        default: 'ASDShellQ4' # 自动运行采用明确记录的候选修正公式，原壳仍可手动选择复现。
       steps: # 完整输出帧数，所有内部子步都必须通过原独立门槛。
         description: 'Complete diagnostic output frames' # 32帧为0.2s，160帧为1s，均不冒充3200帧生产时程。
         type: choice # 限制为既有诊断支持的两个完整时程。
@@ -31,7 +31,7 @@ on: # Trigger only the authorized numerical development branch or a deliberate r
         description: 'Paired or one explicitly selected native tolerance' # paired仍执行原始两组，单组选择仅控制作业数量。
         type: choice # 限定为已有容差矩阵的成员。
         options: ['paired', 'original', 'default'] # original为0.01，default为0.005；不新增宽松阈值。
-        default: 'paired' # 原工作流默认仍完整运行两组比较。
+        default: 'default' # 位移停止模式只需一组；原力范数配对通过paired显式复现。
       native_budget_seconds: # 明确声明本次原生诊断的资源边界。
         description: 'Bounded native runtime in seconds' # 长诊断上限与生产已有15000s预算一致。
         type: choice # 不允许无限预算。
@@ -41,7 +41,7 @@ on: # Trigger only the authorized numerical development branch or a deliberate r
         description: 'Native iteration test; independent force gate stays 0.02 N' # 位移模式不免除任何子步物理检查。
         type: choice # 仅允许两个已实现并有单位记录的判据。
         options: ['NormUnbalance', 'NormDispIncr'] # 前者为原N/Nmm混合力范数，后者为严格位移修正范数。
-        default: 'NormUnbalance' # 原始对照继续使用原力准则，修正实验必须显式选择。
+        default: 'NormDispIncr' # 默认内部位移停止与独立0.02N物理验收组合，原力准则可显式复现。
 permissions: # Native diagnostics require repository reads only.
   contents: read # Fetch source without allowing the solver to push repository changes.
 concurrency: # Preserve active expensive computations when another source revision is published.
@@ -49,13 +49,14 @@ concurrency: # Preserve active expensive computations when another source revisi
   cancel-in-progress: false # Keep running native histories and their failure evidence intact.
 jobs: # Compare one native convergence setting while keeping all physical inputs identical.
   whole-bridge: # Run the complete detailed mesh under two explicit native stopping tolerances.
+    name: Full bridge / ${{ matrix.case }} / ${{ inputs.native_convergence_test || 'NormDispIncr' }} # 作业名称展示实际内部判据，避免把未启用的力阈值误当当前收敛条件。
     runs-on: ubuntu-24.04 # Use a durable public hosted CPU worker with independent process lifetime.
     timeout-minutes: 270 # 为显式15000s原生预算预留安装和工件上传时间；原生子进程仍执行所选硬上限。
     strategy: # Keep baseline failure from cancelling the stricter independent comparison.
       fail-fast: false # Preserve both actual diagnoses even when one fails its physical gate.
       max-parallel: 2 # Run only the two declared controlled comparisons.
       matrix: # Vary native stopping without changing the independent 0.02 N acceptance gate.
-        include: ${{ fromJSON(inputs.tolerance_set == 'original' && '[{"case":"original","native-tolerance":"0.01"}]' || inputs.tolerance_set == 'default' && '[{"case":"default","native-tolerance":"0.005"}]' || '[{"case":"original","native-tolerance":"0.01"},{"case":"default","native-tolerance":"0.005"}]') }} # 默认保留两组；显式单组只节省重复求解，不改容差。
+        include: ${{ fromJSON(inputs.tolerance_set == 'paired' && '[{"case":"original","native-tolerance":"0.01"},{"case":"default","native-tolerance":"0.005"}]' || inputs.tolerance_set == 'original' && '[{"case":"original","native-tolerance":"0.01"}]' || '[{"case":"default","native-tolerance":"0.005"}]') }} # 默认只运行明确修正配置；原力范数两组仍通过paired保留。
     env: # Keep native linear algebra, output flushing, and MPI interface choices reproducible.
       OMP_NUM_THREADS: '2' # Avoid oversubscribing the hosted worker's native teams.
       OPENBLAS_NUM_THREADS: '2' # Bound dense numerical-library threads.
@@ -64,10 +65,10 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
       MPICH_INTERFACE_HOSTNAME: 127.0.0.1 # Avoid external-network interface selection by the native backend.
       PYTHONUNBUFFERED: '1' # Flush real native heartbeat and completion logs immediately.
       DIAGNOSTIC_SUBSTEPS: ${{ inputs.internal_substeps || '2' }} # 推送仍用原2子步；只有显式手动选择才运行4/8子步对照。
-      DIAGNOSTIC_SHELL: ${{ inputs.shell_element || 'ShellNLDKGQ' }} # 将实际请求公式传入求解器和回执。
+      DIAGNOSTIC_SHELL: ${{ inputs.shell_element || 'ASDShellQ4' }} # 推送和手动默认使用同一候选共回转公式，实际设置写入回执。
       DIAGNOSTIC_STEPS: ${{ inputs.steps || '32' }} # 将完整时程帧数显式传入，不改变帧间隔。
       DIAGNOSTIC_BUDGET: ${{ inputs.native_budget_seconds || '3600' }} # 使用预先声明的有限原生预算，不从结果反推所需时间。
-      DIAGNOSTIC_TEST: ${{ inputs.native_convergence_test || 'NormUnbalance' }} # 将实际停止准则传入原生求解和回执。
+      DIAGNOSTIC_TEST: ${{ inputs.native_convergence_test || 'NormDispIncr' }} # 推送和手动默认均采用位移停止，物理力验收仍独立。
     steps: # Run actual native equations and preserve all numerical evidence.
       - uses: actions/checkout@v4 # Fetch the immutable triggering source revision.
         with: # Keep credentials away from the native subprocess.

@@ -3,7 +3,7 @@ import copy, unittest  # Isolate deliberate receipt corruption and assert the ac
 import diagnostics  # Exercise the concrete hosted diagnostic runner's integrity checks.
 class DiagnosticCompletionTests(unittest.TestCase):  # Protect against incomplete or incorrectly scoped native results being called complete.
     def setUp(self):  # Create a clearly isolated completion-contract fixture.
-        self.receipt = {'quality': 'VALID_CONVERGED', 'case_id': 'diagnostic_strict', 'split': 'validation', 'training_eligible': False, 'node_count': 30555, 'time_steps': 32, 'dt_s': .00625, 'internal_substeps': 2}  # Use metadata only, without inventing any finite-element response arrays.
+        self.receipt = {'quality': 'VALID_CONVERGED', 'case_id': 'diagnostic_strict', 'split': 'validation', 'training_eligible': False, 'node_count': 30555, 'time_steps': 32, 'dt_s': .00625, 'internal_substeps': 2, 'shell_element':'ASDShellQ4', 'native_convergence_test':'NormDispIncr'}  # 仅为完整性测试构造候选默认配置的元数据，不生成虚假有限元场。
         self.stream = {'status': 'COMPLETE', 'written_frames': 33, 'last_time_s': .2}  # Describe the exact required frame/time contract for an isolated unit test.
     def test_complete_diagnostic_contract(self):  # Accept only the declared complete short diagnostic schema.
         diagnostics.verify_completion(self.receipt, self.stream, 'diagnostic_strict', 32)  # Exercise the real metadata admission gate.
@@ -27,15 +27,15 @@ class DiagnosticCompletionTests(unittest.TestCase):  # Protect against incomplet
     def test_unplanned_internal_grid_is_rejected(self):  # 禁止任意内部离散值悄悄进入已声明的2/4/8子步对照。
         with self.assertRaisesRegex(ValueError, 'Unsupported'): diagnostics.make_command(.01, 'isolated-diagnostic', 32, 3)  # 3子步不在预先声明的减半序列，命令构造必须失败。
     def test_alternative_shell_has_explicit_identity(self):  # 替代非线性公式必须明确标记，不得伪装成原壳的数据。
-        command = diagnostics.make_command(.005, 'isolated-asd-diagnostic', 32, 2, 'ASDShellQ4')  # 保持原32帧和2子步，仅选择既有共回转壳。
+        command = diagnostics.make_command(.005, 'isolated-asd-diagnostic', 32, 2, 'ASDShellQ4', 'NormUnbalance')  # 保持完整32帧，明确检查原力范数对照下的壳公式身份。
         self.assertEqual(command[command.index('--shell-element') + 1], 'ASDShellQ4')  # 实际求解器接收到明确的替代公式。
         self.assertEqual(command[command.index('--case-id') + 1], 'diagnostic_default_asdshellq4')  # 算例身份必须与原公式不同。
         self.assertEqual(command[command.index('--steps') + 1], '32')  # 公式对照不允许减少时程。
         self.assertEqual(command[command.index('--initial-displacement-tolerance') + 1], '1e-8')  # ASD仅使用可达到的预测阈值，后续独立力门槛不变。
     def test_mismatched_shell_receipt_is_rejected(self):  # 即使场文件完整，错误公式来源也必须被拒绝。
-        receipt = copy.deepcopy(self.receipt); receipt['shell_element'] = 'ASDShellQ4'  # 元数据夹具模拟替代公式结果。
-        with self.assertRaisesRegex(ValueError, 'shell formulation'): diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32)  # 原壳请求不能接收替代壳回执。
-        diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32, 2, 'ASDShellQ4')  # 明确请求且公式一致时，完整性契约可通过。
+        receipt = copy.deepcopy(self.receipt); receipt['shell_element'] = 'ShellNLDKGQ'  # 元数据夹具故意使用不同于候选默认的原壳公式。
+        with self.assertRaisesRegex(ValueError, 'shell formulation'): diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32)  # 默认共回转壳请求不得接收原壳结果。
+        diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32, 2, 'ShellNLDKGQ')  # 只有明确请求同一公式时才接受完整性契约。
     def test_unbounded_diagnostic_budget_is_rejected_before_launch(self):  # 预算必须来自两种预先声明的有限边界。
         with self.assertRaisesRegex(ValueError, 'native budget'): diagnostics.execute(.005, native_budget_seconds=0)  # 零预算在输入恢复和原生启动前立即拒绝。
         with self.assertRaisesRegex(ValueError, 'native budget'): diagnostics.execute(.005, native_budget_seconds=15001)  # 不能超过生产已声明的15000s上限。
@@ -43,6 +43,10 @@ class DiagnosticCompletionTests(unittest.TestCase):  # Protect against incomplet
         command=diagnostics.make_command(.005,'isolated-displacement-stop',32,2,'ASDShellQ4','NormDispIncr',1e-8)  # 保持全时程，只改变明确声明的内部停止判据。
         self.assertEqual(command[command.index('--native-convergence-test')+1],'NormDispIncr')  # 原生调用使用实际请求的判据。
         self.assertIn('_disp1e-08',command[command.index('--case-id')+1])  # 位移模式不得冒充原力范数实验。
-        receipt=copy.deepcopy(self.receipt); receipt['native_convergence_test']='NormDispIncr'  # 构造不同停止准则来源的回执夹具。
-        with self.assertRaisesRegex(ValueError,'convergence test'): diagnostics.verify_completion(receipt,self.stream,'diagnostic_strict',32)  # 原力判据请求必须拒绝其他模式结果。
+        receipt=copy.deepcopy(self.receipt); receipt['native_convergence_test']='NormUnbalance'  # 故意将不同停止准则标在默认配置回执中。
+        with self.assertRaisesRegex(ValueError,'convergence test'): diagnostics.verify_completion(receipt,self.stream,'diagnostic_strict',32)  # 默认位移停止请求必须拒绝其他模式结果。
+    def test_default_command_uses_corrected_solver_path(self):  # 默认命令必须与完整动力入口的候选修正一致。
+        command=diagnostics.make_command(.005,'isolated-default')  # 不覆盖任何壳公式或停止准则参数。
+        self.assertEqual(command[command.index('--shell-element')+1],'ASDShellQ4')  # 默认保留完整共回转非线性。
+        self.assertEqual(command[command.index('--native-convergence-test')+1],'NormDispIncr')  # 默认内部停止与独立物理力判定分开。
 if __name__ == '__main__': unittest.main()  # Execute integrity assertions only, with zero trained epochs and no artificial solver fields.
