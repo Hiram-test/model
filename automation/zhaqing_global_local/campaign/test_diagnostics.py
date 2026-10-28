@@ -31,6 +31,7 @@ class DiagnosticCompletionTests(unittest.TestCase):  # Protect against incomplet
         self.assertEqual(command[command.index('--shell-element') + 1], 'ASDShellQ4')  # 实际求解器接收到明确的替代公式。
         self.assertEqual(command[command.index('--case-id') + 1], 'diagnostic_default_asdshellq4')  # 算例身份必须与原公式不同。
         self.assertEqual(command[command.index('--steps') + 1], '32')  # 公式对照不允许减少时程。
+        self.assertEqual(command[command.index('--initial-displacement-tolerance') + 1], '1e-8')  # ASD仅使用可达到的预测阈值，后续独立力门槛不变。
     def test_mismatched_shell_receipt_is_rejected(self):  # 即使场文件完整，错误公式来源也必须被拒绝。
         receipt = copy.deepcopy(self.receipt); receipt['shell_element'] = 'ASDShellQ4'  # 元数据夹具模拟替代公式结果。
         with self.assertRaisesRegex(ValueError, 'shell formulation'): diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32)  # 原壳请求不能接收替代壳回执。
