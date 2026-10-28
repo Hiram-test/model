@@ -68,6 +68,15 @@ class DynamicBalanceTests(unittest.TestCase):  # 测试实际审计代码，不�
         self.assertEqual(report['hotspot_dof_1based'],2)  # 热点按物理自由度报告而非原生方程号。
         self.assertAlmostEqual(sum(report['hotspot_terms_N_or_Nmm'].values()),residual)  # 有符号物理项必须闭合至热点残差。
 
+    def test_displacement_stop_keeps_force_gate_and_correct_units(self):  # 位移停止条件不能替代物理力验收或被错标成力范数。
+        self.internal[0,1]=.020801885; self.native[0,1]=.020801885; self.rhs[4]=-.020801885  # 保留原失败量级的力残差夹具。
+        self.ops.testNorm.return_value=[5e-10]  # 模拟远低于1e-8位移停止阈值的迭代修正。
+        residual,report=self.balance(self.model,self.nodes,self.index,self.applied,.02,'NormDispIncr',1e-8)  # 真实生产审计使用明确的位移判据元数据。
+        self.assertGreater(residual,.02)  # 即使位移已收敛，超限力残差仍供上层拒绝。
+        self.assertIsNone(report['native_last_test_norm_mixed_N_Nmm'])  # 禁止把位移范数标成力范数。
+        self.assertEqual(report['native_test_norm_units'],'mixed_mm_rad')  # 原生单位必须明确。
+        self.assertEqual(report['native_last_test_norm'],5e-10)  # 保留真实内部停止证据。
+
     def test_rigid_arm_transfers_force_and_moment(self):  # 明确检查r叉乘F及从节点方程排除。
         self.nodes.append(202)  # 增加刚臂从节点，仍保留非连续原生编号。
         self.index[202]=1  # 从节点是物理数组第二行。

@@ -37,6 +37,11 @@ on: # Trigger only the authorized numerical development branch or a deliberate r
         type: choice # 不允许无限预算。
         options: ['3600', '15000'] # 默认短诊断一小时，延长诊断不超过已声明生产预算。
         default: '3600' # 保持原短诊断默认资源范围。
+      native_convergence_test: # 明确区分内部迭代结束条件和独立物理力验收。
+        description: 'Native iteration test; independent force gate stays 0.02 N' # 位移模式不免除任何子步物理检查。
+        type: choice # 仅允许两个已实现并有单位记录的判据。
+        options: ['NormUnbalance', 'NormDispIncr'] # 前者为原N/Nmm混合力范数，后者为严格位移修正范数。
+        default: 'NormUnbalance' # 原始对照继续使用原力准则，修正实验必须显式选择。
 permissions: # Native diagnostics require repository reads only.
   contents: read # Fetch source without allowing the solver to push repository changes.
 concurrency: # Preserve active expensive computations when another source revision is published.
@@ -62,6 +67,7 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
       DIAGNOSTIC_SHELL: ${{ inputs.shell_element || 'ShellNLDKGQ' }} # 将实际请求公式传入求解器和回执。
       DIAGNOSTIC_STEPS: ${{ inputs.steps || '32' }} # 将完整时程帧数显式传入，不改变帧间隔。
       DIAGNOSTIC_BUDGET: ${{ inputs.native_budget_seconds || '3600' }} # 使用预先声明的有限原生预算，不从结果反推所需时间。
+      DIAGNOSTIC_TEST: ${{ inputs.native_convergence_test || 'NormUnbalance' }} # 将实际停止准则传入原生求解和回执。
     steps: # Run actual native equations and preserve all numerical evidence.
       - uses: actions/checkout@v4 # Fetch the immutable triggering source revision.
         with: # Keep credentials away from the native subprocess.
@@ -78,12 +84,12 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
           python -m unittest discover -s automation/zhaqing_global_local/campaign -p 'test_*.py' -v # 确认完整时程契约和训练准入守卫仍有效。
           python automation/zhaqing_global_local/global/probes/dynamic_commit_probe.py > results/扎青吊桥求解诊断/native-shell-probe.json # 运行真实小壳对照，输出范围明确的数值证据。
       - name: Solve full detailed bridge and declared wind history # 实际完成预先声明的全部输出帧，不启动训练。
-        run: python automation/zhaqing_global_local/campaign/diagnostics.py --native-force-tolerance ${{ matrix.native-tolerance }} --steps "$DIAGNOSTIC_STEPS" --internal-substeps "$DIAGNOSTIC_SUBSTEPS" --shell-element "$DIAGNOSTIC_SHELL" --native-budget-seconds "$DIAGNOSTIC_BUDGET" # 完整时程、30555节点和0.02N门槛不变，长诊断资源边界显式记录。
+        run: python automation/zhaqing_global_local/campaign/diagnostics.py --native-force-tolerance ${{ matrix.native-tolerance }} --steps "$DIAGNOSTIC_STEPS" --internal-substeps "$DIAGNOSTIC_SUBSTEPS" --shell-element "$DIAGNOSTIC_SHELL" --native-budget-seconds "$DIAGNOSTIC_BUDGET" --native-convergence-test "$DIAGNOSTIC_TEST" # 所有子步仍使用相同0.02N独立物理门槛，内部准则不能单独证明成功。
       - name: Preserve actual native fields and failure evidence # Keep completed and interrupted numerical work outside the temporary worker.
         if: always() # Upload model snapshots and diagnostics even when the solver or gate rejects the run.
         uses: actions/upload-artifact@v4 # Persist the real source, mesh, fields, convergence logs, and final status.
         with: # Keep each native stopping experiment independently inspectable.
-          name: whole-bridge-${{ matrix.case }}-${{ env.DIAGNOSTIC_SHELL }}-steps${{ env.DIAGNOSTIC_STEPS }}-substeps${{ env.DIAGNOSTIC_SUBSTEPS }} # 工件名称完整标识公式、时程和内部网格，避免混用数据。
+          name: whole-bridge-${{ matrix.case }}-${{ env.DIAGNOSTIC_SHELL }}-${{ env.DIAGNOSTIC_TEST }}-steps${{ env.DIAGNOSTIC_STEPS }}-substeps${{ env.DIAGNOSTIC_SUBSTEPS }} # 工件名称完整标识实际内部准则及模型时程，禁止冒充原力范数实验。
           path: results/扎青吊桥求解诊断/ # 每个矩阵作业仅生成自身算例；同时兼容原目录及新增子步后缀目录。
           if-no-files-found: error # Missing launch or solver evidence is an actual workflow failure.
           compression-level: 1 # Compress textual logs while retaining lossless numerical field data.

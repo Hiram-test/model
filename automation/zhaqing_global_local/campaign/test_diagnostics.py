@@ -39,4 +39,10 @@ class DiagnosticCompletionTests(unittest.TestCase):  # Protect against incomplet
     def test_unbounded_diagnostic_budget_is_rejected_before_launch(self):  # 预算必须来自两种预先声明的有限边界。
         with self.assertRaisesRegex(ValueError, 'native budget'): diagnostics.execute(.005, native_budget_seconds=0)  # 零预算在输入恢复和原生启动前立即拒绝。
         with self.assertRaisesRegex(ValueError, 'native budget'): diagnostics.execute(.005, native_budget_seconds=15001)  # 不能超过生产已声明的15000s上限。
+    def test_displacement_convergence_is_explicit_and_not_force_labeled(self):  # 内部位移停止模式必须在命令及算例身份中明确。
+        command=diagnostics.make_command(.005,'isolated-displacement-stop',32,2,'ASDShellQ4','NormDispIncr',1e-8)  # 保持全时程，只改变明确声明的内部停止判据。
+        self.assertEqual(command[command.index('--native-convergence-test')+1],'NormDispIncr')  # 原生调用使用实际请求的判据。
+        self.assertIn('_disp1e-08',command[command.index('--case-id')+1])  # 位移模式不得冒充原力范数实验。
+        receipt=copy.deepcopy(self.receipt); receipt['native_convergence_test']='NormDispIncr'  # 构造不同停止准则来源的回执夹具。
+        with self.assertRaisesRegex(ValueError,'convergence test'): diagnostics.verify_completion(receipt,self.stream,'diagnostic_strict',32)  # 原力判据请求必须拒绝其他模式结果。
 if __name__ == '__main__': unittest.main()  # Execute integrity assertions only, with zero trained epochs and no artificial solver fields.

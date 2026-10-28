@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # 将global目录�
 from transient_cases import dynamic_balance  # 直接回归生产独立审计函数，避免仅测试另一个同名实现。
 
 
-def probe(element, dt):  # 输入为壳单元名称与秒制步长，输出固定零点二秒时程的原生残差记录。
+def probe(element, dt, native_test='NormUnbalance'):  # 输入壳公式、秒制步长和明确的内部判据；返回完整0.2s原生记录。
     ops.wipe()  # 清除上一个单元试验的状态，避免两个对照互相影响。
     ops.model('basic', '-ndm', 3, '-ndf', 6)  # 建立三维、每节点六自由度的毫米牛顿秒模型。
     coordinates = [(0., 0., 0.), (1000., 0., 0.), (1000., 1000., 0.), (0., 1000., 0.)]  # 定义边长一千毫米的逆时针正方形壳。
@@ -31,7 +31,8 @@ def probe(element, dt):  # 输入为壳单元名称与秒制步长，输出固�
     ops.constraints('Transformation')  # 消去固定自由度，保留原生独立方程。
     ops.numberer('RCM')  # 使用确定性的反向带宽排序。
     ops.system('BandGeneral')  # 小型模型采用通用带状求解器，无需额外并行依赖。
-    ops.test('NormUnbalance', 1.e-5, 120, 0)  # 微型对照采用一乘十负五次方混合力范数，避开共旋壳浮点底噪；不改变全桥阈值。
+    native_tolerance=1e-5 if native_test=='NormUnbalance' else 1e-8  # 力模式用1e-5混合N/Nmm，位移模式用1e-8混合mm/rad，仅用于内部迭代停止。
+    ops.test(native_test, native_tolerance, 120, 0)  # 最多120次迭代，结束后仍须通过独立物理审计。
     ops.algorithm('NewtonLineSearch', .8)  # 与全桥一致地使用八成线搜索参数。
     ops.integrator('Newmark', .5, .25)  # 使用平均加速度格式，参数分别为 gamma 和 beta。
     ops.rayleigh(.02, 0., 0., 0.)  # 仅设置每秒零点零二的质量比例阻尼。
@@ -47,7 +48,7 @@ def probe(element, dt):  # 输入为壳单元名称与秒制步长，输出固�
             records.append({'step': step, 'exit_code': code, 'dt_s': dt})  # 记录失败的真实步号及时间步长，避免查询异常覆盖失败证据。
             break  # 停止当前单元算例，不读取未被接受的力学状态。
         iterations = ops.testIter()  # 记录实际执行迭代次数，定位有效范数条目。
-        last_norm = ops.testNorm()[iterations - 1]  # 选取末次真实牛顿迭代的混合力范数。
+        last_norm = ops.testNorm()[iterations - 1]  # 选取末次真实迭代的原始范数，单位由native_test确定。
         first = np.asarray(ops.eleForce(1), dtype=float).reshape(4, 6)  # 获取提交后第一次全局抵抗力，单位为牛顿及牛顿毫米。
         second = np.asarray(ops.eleForce(1), dtype=float).reshape(4, 6)  # 重复调用用于检测抵抗力查询是否带有副作用。
         rhs = np.asarray(ops.printB('-ret'), dtype=float)  # 此命令调用formUnbalance重组提交后右端项，不能解释为提交前缓存。
@@ -68,10 +69,11 @@ def probe(element, dt):  # 输入为壳单元名称与秒制步长，输出固�
         velocity_error = velocity - previous_velocity - .5 * dt * (previous_acceleration + acceleration)  # 核验gamma等于二分之一的Newmark速度恒等式。
         applied = np.zeros((4, 6))  # 创建实际外力数组，未施加的方向保持零牛顿或零牛顿毫米。
         applied[2:, 2] = -10000. * ops.getTime()  # 两个自由端节点的实际竖向荷载与原生时间函数完全一致。
-        production_residual, production_audit = dynamic_balance(model, [1, 2, 3, 4], {node: node - 1 for node in range(1, 5)}, applied, .02)  # 调用真实生产审计，并由其核验原生反力和RHS组装一致性。
+        production_residual, production_audit = dynamic_balance(model, [1, 2, 3, 4], {node: node - 1 for node in range(1, 5)}, applied, .02, native_test, native_tolerance)  # 真实生产审计记录实际内部判据，并独立核验力与RHS。
         records.append({'step': step, 'exit_code': code, 'dt_s': dt, 'native_last_norm_mixed': last_norm, 'postcommit_reassembled_rhs_norm_mixed': float(np.linalg.norm(rhs)), 'postcommit_free_force_N': float(np.max(np.abs(residual[2:, :3]))), 'postcommit_free_moment_Nmm': float(np.max(np.abs(residual[2:, 3:]))), 'postcommit_plus_rhs_max_mixed': float(np.max(np.abs((residual + mapped)[2:]))), 'repeat_eleForce_change_mixed': float(np.max(np.abs(first - second))), 'printB_eleForce_change_mixed': float(np.max(np.abs(first - after_rhs))), 'independent_native_difference_mixed': float(np.max(np.abs(residual - reactions)))})  # 保存收敛前范数与提交后残差、查询副作用及组装一致性，混合单位不能代替物理门槛。
         records[-1].update(newmark_translation_identity_max_mm=float(np.max(np.abs(displacement_error[:, :3]))), newmark_rotation_identity_max_rad=float(np.max(np.abs(displacement_error[:, 3:]))), newmark_velocity_identity_max_mm_s=float(np.max(np.abs(velocity_error[:, :3]))), newmark_angular_velocity_identity_max_rad_s=float(np.max(np.abs(velocity_error[:, 3:]))))  # 将平动、转动及对应速度分开记录，保留明确物理单位且不改变验收门槛。
         records[-1].update(production_residual_equivalent_N=production_residual, production_rhs_agreement_equivalent_N=production_audit['postcommit_rhs_agreement_equivalent_N'])  # 保留真实生产函数给出的等效牛顿残差与方程交叉校核差。
+        records[-1].update(native_test_type=native_test,native_test_norm_units='mixed_N_Nmm' if native_test=='NormUnbalance' else 'mixed_mm_rad')  # 明确区分力和位移停止证据，禁止混用单位。
         direct_equivalent = max(float(np.max(np.abs(residual[2:, :3]))), float(np.max(np.abs(residual[2:, 3:]))) / 5500.)  # 使用与生产相同的五千五百毫米参考长度，将直接力矩转换为等效牛顿。
         records[-1]['production_direct_difference_equivalent_N'] = abs(production_residual - direct_equivalent)  # 保存生产审计与独立直接计算之间的量纲一致差值。
         for key in ('newmark_translation_identity_max_mm', 'newmark_rotation_identity_max_rad', 'newmark_velocity_identity_max_mm_s', 'newmark_angular_velocity_identity_max_rad_s'):  # 分别核验四种明确单位的Newmark恒等式。
@@ -119,7 +121,8 @@ def rigid_arm_probe():  # 用真实Transformation验证偏心刚臂从节点质�
 
 if __name__ == '__main__':  # 仅在显式执行此文件时运行微型原生试验。
     result = {element + '_dt_' + str(dt): probe(element, dt) for element in ('ShellNLDKGQ', 'ASDShellQ4') for dt in (.003125, .0015625, .00078125)}  # 对应全桥输出间隔零点零零六二五秒内的二、四、八子步，均完成零点二秒。
-    summaries = {name: {key: max(row[key] for row in rows if key in row) for key in rows[0] if key not in ('step', 'exit_code', 'dt_s')} for name, rows in result.items()}  # 汇总已完成步的全过程最大值，失败步缺失的力学字段不会覆盖真实退出码。
+    result.update({f'ASDShellQ4_NormDispIncr_dt_{dt}':probe('ASDShellQ4',dt,'NormDispIncr') for dt in (.003125,.0015625)})  # 补充位移停止模式下两个真实步长的完整原生回归。
+    summaries = {name: {key: max(row[key] for row in rows if key in row) for key in rows[0] if key not in ('step', 'exit_code', 'dt_s','native_test_type','native_test_norm_units')} for name, rows in result.items()}  # 只汇总数值指标，判据名称和单位保留在逐步原始记录中。
     failures = [name for name, rows in result.items() if any(row['exit_code'] != 0 for row in rows)]  # 任何原生步骤失败均判定该微型回归执行失败。
     versions = {package: importlib.metadata.version(package) for package in ('numpy', 'scipy', 'h5py', 'openseespy', 'openseespylinux')}  # 记录实际依赖版本以核实Actions复现环境。
     source_hashes = {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in (Path(__file__), Path(__file__).resolve().parents[1] / 'transient_cases.py')}  # 保存本脚本和实际生产审计文件的SHA256；用于核实证据与交付代码完全对应。
