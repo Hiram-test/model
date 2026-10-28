@@ -26,4 +26,13 @@ class DiagnosticCompletionTests(unittest.TestCase):  # Protect against incomplet
             self.assertEqual(command[command.index(option) + 1], expected)  # 验证送入真实求解器的参数与完整诊断契约一致。
     def test_unplanned_internal_grid_is_rejected(self):  # 禁止任意内部离散值悄悄进入已声明的2/4/8子步对照。
         with self.assertRaisesRegex(ValueError, 'Unsupported'): diagnostics.make_command(.01, 'isolated-diagnostic', 32, 3)  # 3子步不在预先声明的减半序列，命令构造必须失败。
+    def test_alternative_shell_has_explicit_identity(self):  # 替代非线性公式必须明确标记，不得伪装成原壳的数据。
+        command = diagnostics.make_command(.005, 'isolated-asd-diagnostic', 32, 2, 'ASDShellQ4')  # 保持原32帧和2子步，仅选择既有共回转壳。
+        self.assertEqual(command[command.index('--shell-element') + 1], 'ASDShellQ4')  # 实际求解器接收到明确的替代公式。
+        self.assertEqual(command[command.index('--case-id') + 1], 'diagnostic_default_asdshellq4')  # 算例身份必须与原公式不同。
+        self.assertEqual(command[command.index('--steps') + 1], '32')  # 公式对照不允许减少时程。
+    def test_mismatched_shell_receipt_is_rejected(self):  # 即使场文件完整，错误公式来源也必须被拒绝。
+        receipt = copy.deepcopy(self.receipt); receipt['shell_element'] = 'ASDShellQ4'  # 元数据夹具模拟替代公式结果。
+        with self.assertRaisesRegex(ValueError, 'shell formulation'): diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32)  # 原壳请求不能接收替代壳回执。
+        diagnostics.verify_completion(receipt, self.stream, 'diagnostic_strict', 32, 2, 'ASDShellQ4')  # 明确请求且公式一致时，完整性契约可通过。
 if __name__ == '__main__': unittest.main()  # Execute integrity assertions only, with zero trained epochs and no artificial solver fields.
