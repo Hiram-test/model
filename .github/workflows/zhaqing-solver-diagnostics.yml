@@ -7,9 +7,41 @@ on: # Trigger only the authorized numerical development branch or a deliberate r
       - 'automation/zhaqing_global_local/campaign/diagnostics.py' # Rerun when the bounded diagnostic contract changes.
       - 'automation/zhaqing_global_local/campaign/run.py' # Rerun when native execution or authenticated restoration changes.
       - 'automation/zhaqing_global_local/global/*.py' # Rerun on changes to the actual whole-bridge numerical source.
+      - 'automation/zhaqing_global_local/global/probes/dynamic_commit_probe.py' # 原生小模型回归脚本改变时，也必须触发同一固定版本验证。
       - 'automation/zhaqing_global_local/aero/*.py' # Rerun when the applied wind calculation changes.
       - 'automation/zhaqing_global_local/assets/global_baseline_inputs.zip' # Authenticate and rerun a deliberate source-input change.
   workflow_dispatch: # Permit an explicit repeated observation of the same committed source.
+    inputs: # 仅为诊断提供显式内部时间离散选择，生产训练设置不受影响。
+      internal_substeps: # 每个0.00625s输出帧内的真实Newmark子步数。
+        description: 'Native substeps per unchanged output frame' # 告知操作者只细化内部积分，不缩短输出时程。
+        type: choice # 限制为预先审查的离散对照值，避免任意改变实验。
+        options: ['2', '4', '8'] # 2复现原失败，4/8分别减半/减为四分之一的内部dt。
+        default: '2' # 保持现有推送及手动运行的默认实验完全相同。
+      shell_element: # 选择显式标识的原壳或替代共回转非线性壳。
+        description: 'Explicit nonlinear shell formulation' # 对照公式仍使用相同几何、质量、荷载和全场网格。
+        type: choice # 禁止传入未经实现的壳公式。
+        options: ['ShellNLDKGQ', 'ASDShellQ4'] # 两者均为既有建模器支持的非线性壳。
+        default: 'ASDShellQ4' # 自动运行采用明确记录的候选修正公式，原壳仍可手动选择复现。
+      steps: # 完整输出帧数，所有内部子步都必须通过原独立门槛。
+        description: 'Complete diagnostic output frames' # 32帧为0.2s，160帧为1s，均不冒充3200帧生产时程。
+        type: choice # 限制为既有诊断支持的两个完整时程。
+        options: ['32', '160'] # 先复现短诊断，再延长验证提交一致性。
+        default: '32' # 保持原始诊断默认时程。
+      tolerance_set: # 长时对照可明确只运行一组，避免重复昂贵原生求解。
+        description: 'Paired or one explicitly selected native tolerance' # paired仍执行原始两组，单组选择仅控制作业数量。
+        type: choice # 限定为已有容差矩阵的成员。
+        options: ['paired', 'original', 'default'] # original为0.01，default为0.005；不新增宽松阈值。
+        default: 'default' # 位移停止模式只需一组；原力范数配对通过paired显式复现。
+      native_budget_seconds: # 明确声明本次原生诊断的资源边界。
+        description: 'Bounded native runtime in seconds' # 长诊断上限与生产已有15000s预算一致。
+        type: choice # 不允许无限预算。
+        options: ['3600', '15000'] # 默认短诊断一小时，延长诊断不超过已声明生产预算。
+        default: '3600' # 保持原短诊断默认资源范围。
+      native_convergence_test: # 明确区分内部迭代结束条件和独立物理力验收。
+        description: 'Native iteration test; independent force gate stays 0.02 N' # 位移模式不免除任何子步物理检查。
+        type: choice # 仅允许两个已实现并有单位记录的判据。
+        options: ['NormUnbalance', 'NormDispIncr'] # 前者为原N/Nmm混合力范数，后者为严格位移修正范数。
+        default: 'NormDispIncr' # 默认内部位移停止与独立0.02N物理验收组合，原力准则可显式复现。
 permissions: # Native diagnostics require repository reads only.
   contents: read # Fetch source without allowing the solver to push repository changes.
 concurrency: # Preserve active expensive computations when another source revision is published.
@@ -17,17 +49,14 @@ concurrency: # Preserve active expensive computations when another source revisi
   cancel-in-progress: false # Keep running native histories and their failure evidence intact.
 jobs: # Compare one native convergence setting while keeping all physical inputs identical.
   whole-bridge: # Run the complete detailed mesh under two explicit native stopping tolerances.
+    name: Full bridge / ${{ matrix.case }} / ${{ inputs.native_convergence_test || 'NormDispIncr' }} # 作业名称展示实际内部判据，避免把未启用的力阈值误当当前收敛条件。
     runs-on: ubuntu-24.04 # Use a durable public hosted CPU worker with independent process lifetime.
-    timeout-minutes: 90 # Reserve installation and artifact-upload time outside the 60-minute native budget.
+    timeout-minutes: 270 # 为显式15000s原生预算预留安装和工件上传时间；原生子进程仍执行所选硬上限。
     strategy: # Keep baseline failure from cancelling the stricter independent comparison.
       fail-fast: false # Preserve both actual diagnoses even when one fails its physical gate.
       max-parallel: 2 # Run only the two declared controlled comparisons.
       matrix: # Vary native stopping without changing the independent 0.02 N acceptance gate.
-        include: # Give each artifact a stable descriptive identity.
-          - case: original # Observe the original native stopping behavior with the new detailed audit.
-            native-tolerance: '0.01' # Preserve the originally used mixed force/moment native norm threshold.
-          - case: default # Verify the production default native stopping value against the independent physical gate.
-            native-tolerance: '0.005' # Tighten native stopping by two relative to the original while allowing the full short history to finish.
+        include: ${{ fromJSON(inputs.tolerance_set == 'paired' && '[{"case":"original","native-tolerance":"0.01"},{"case":"default","native-tolerance":"0.005"}]' || inputs.tolerance_set == 'original' && '[{"case":"original","native-tolerance":"0.01"}]' || '[{"case":"default","native-tolerance":"0.005"}]') }} # 默认只运行明确修正配置；原力范数两组仍通过paired保留。
     env: # Keep native linear algebra, output flushing, and MPI interface choices reproducible.
       OMP_NUM_THREADS: '2' # Avoid oversubscribing the hosted worker's native teams.
       OPENBLAS_NUM_THREADS: '2' # Bound dense numerical-library threads.
@@ -35,6 +64,11 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
       MPIR_CVAR_CH3_NETWORK_IFACE: lo # Provide OpenSees an available local MPI interface.
       MPICH_INTERFACE_HOSTNAME: 127.0.0.1 # Avoid external-network interface selection by the native backend.
       PYTHONUNBUFFERED: '1' # Flush real native heartbeat and completion logs immediately.
+      DIAGNOSTIC_SUBSTEPS: ${{ inputs.internal_substeps || '2' }} # 推送仍用原2子步；只有显式手动选择才运行4/8子步对照。
+      DIAGNOSTIC_SHELL: ${{ inputs.shell_element || 'ASDShellQ4' }} # 推送和手动默认使用同一候选共回转公式，实际设置写入回执。
+      DIAGNOSTIC_STEPS: ${{ inputs.steps || '32' }} # 将完整时程帧数显式传入，不改变帧间隔。
+      DIAGNOSTIC_BUDGET: ${{ inputs.native_budget_seconds || '3600' }} # 使用预先声明的有限原生预算，不从结果反推所需时间。
+      DIAGNOSTIC_TEST: ${{ inputs.native_convergence_test || 'NormDispIncr' }} # 推送和手动默认均采用位移停止，物理力验收仍独立。
     steps: # Run actual native equations and preserve all numerical evidence.
       - uses: actions/checkout@v4 # Fetch the immutable triggering source revision.
         with: # Keep credentials away from the native subprocess.
@@ -43,15 +77,23 @@ jobs: # Compare one native convergence setting while keeping all physical inputs
         with: # Keep installed package compatibility explicit.
           python-version: '3.12' # Match the tested OpenSees and HDF5 runtime family.
       - name: Install pinned native runtime # Preserve both wrapper and native binary versions explicitly.
-        run: python -m pip install --no-cache-dir numpy==2.3.5 scipy==1.17.0 h5py==3.16.0 openseespy==3.8.0.0 openseespylinux==3.8.0.0 # Do not allow a different native backend through the wrapper's loose dependency.
-      - name: Solve full detailed bridge and 32 wind steps # This computes 0.2 seconds for solver diagnosis, with no neural training.
-        run: python automation/zhaqing_global_local/campaign/diagnostics.py --native-force-tolerance ${{ matrix.native-tolerance }} --steps 32 # Retain all 30555 nodes, every requested frame, and the unchanged independent equilibrium gate.
+        run: python -m pip install --no-cache-dir numpy==2.3.5 scipy==1.17.0 h5py==3.16.0 openseespy==3.8.0.0 openseespylinux==3.8.0.0 PyYAML==6.0.3 # 数值后端版本保持原样；YAML解析器复用既有验证工作流的6.0.3版以执行准入守卫测试。
+      - name: Verify residual audit and native shell probe # 先验证单位、约束、原生壳及积分证据，不将其视为全桥通过。
+        run: | # 任一回归失败都会使步骤失败，原生小模型证据保留到工件目录。
+          mkdir -p results/扎青吊桥求解诊断 # 只创建本作业结果目录，供始终执行的工件上传读取。
+          python automation/zhaqing_global_local/global/test_dynamic_balance.py # 检查生产审计中的单位、方程映射、约束及失败保留。
+          python automation/zhaqing_global_local/global/test_kinematic_audit.py # 检查真实刚臂运动相容性以及非有限值拒绝路径。
+          python -m unittest discover -s automation/zhaqing_global_local/campaign -p 'test_*.py' -v # 确认完整时程契约和训练准入守卫仍有效。
+          python automation/zhaqing_global_local/global/probes/dynamic_commit_probe.py > results/扎青吊桥求解诊断/native-shell-probe.json # 运行真实小壳对照，输出范围明确的数值证据。
+          python automation/zhaqing_global_local/global/probes/rigid_support_probe.py > results/扎青吊桥求解诊断/native-rigid-support-probe.json # 复现部分受约束主节点在零增量清理及动力阶段的错误，并保留精确乘子微型对照。
+      - name: Solve full detailed bridge and declared wind history # 实际完成预先声明的全部输出帧，不启动训练。
+        run: python automation/zhaqing_global_local/campaign/diagnostics.py --native-force-tolerance ${{ matrix.native-tolerance }} --steps "$DIAGNOSTIC_STEPS" --internal-substeps "$DIAGNOSTIC_SUBSTEPS" --shell-element "$DIAGNOSTIC_SHELL" --native-budget-seconds "$DIAGNOSTIC_BUDGET" --native-convergence-test "$DIAGNOSTIC_TEST" # 所有子步仍使用相同0.02N独立物理门槛，内部准则不能单独证明成功。
       - name: Preserve actual native fields and failure evidence # Keep completed and interrupted numerical work outside the temporary worker.
         if: always() # Upload model snapshots and diagnostics even when the solver or gate rejects the run.
         uses: actions/upload-artifact@v4 # Persist the real source, mesh, fields, convergence logs, and final status.
         with: # Keep each native stopping experiment independently inspectable.
-          name: whole-bridge-${{ matrix.case }}-solver-diagnostic # Use a diagnostic artifact identity rather than a trained-weight label.
-          path: results/扎青吊桥求解诊断/${{ matrix.case }}/ # Upload only this actual numerical experiment's output directory.
+          name: whole-bridge-${{ matrix.case }}-${{ env.DIAGNOSTIC_SHELL }}-${{ env.DIAGNOSTIC_TEST }}-steps${{ env.DIAGNOSTIC_STEPS }}-substeps${{ env.DIAGNOSTIC_SUBSTEPS }} # 工件名称完整标识实际内部准则及模型时程，禁止冒充原力范数实验。
+          path: results/扎青吊桥求解诊断/ # 每个矩阵作业仅生成自身算例；同时兼容原目录及新增子步后缀目录。
           if-no-files-found: error # Missing launch or solver evidence is an actual workflow failure.
           compression-level: 1 # Compress textual logs while retaining lossless numerical field data.
           retention-days: 30 # Preserve the expensive native result after the conversational session ends.
